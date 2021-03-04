@@ -1,0 +1,15 @@
+﻿<Window x:Class="UDM.Insurance.Interface.Screens.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UDM.Insurance.Interface.Screens"
+        mc:Ignorable="d"
+        Title="Window1" Height="800" Width="800" Loaded="Window_Loaded">
+    <Grid x:Name="grid1">
+        <!--<StackPanel>
+            <Button x:Name="button1" Content="Go" Click="button1_Click"></Button>
+            <WindowsFormsHost x:Name="windowsFormsHost1"></WindowsFormsHost>
+        </StackPanel>-->
+    </Grid>
+</Window>

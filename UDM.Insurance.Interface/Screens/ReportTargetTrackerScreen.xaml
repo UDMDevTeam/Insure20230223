@@ -1,0 +1,431 @@
+﻿<src:BaseControl x:Class="UDM.Insurance.Interface.Screens.ReportTargetTrackerScreen"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+                 Name="ctrlReportSalesScreen"
+                 mc:Ignorable="d">
+
+    <src:BaseControl.Resources>
+        <converters:DateCompareConverter x:Key="DateCompareConverter" />
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
+        <Style x:Key="ReportButton"
+               BasedOn="{StaticResource INFlatButton}"
+               TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedDate, ElementName=Cal1}"
+                             Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedDate, ElementName=Cal2}"
+                             Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsReportRunning}"
+                             Value="True">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=grdAgents, Path=IsEnabled}"
+                                   Value="True" />
+                        <Condition Binding="{Binding ElementName=ctrlReportSalesScreen, Path=AllRecordsChecked}"
+                                   Value="False" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                </MultiDataTrigger>
+                <DataTrigger Value="False">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource DateCompareConverter}"
+                                      ConverterParameter="&lt;=">
+                            <MultiBinding.Bindings>
+                                <Binding ElementName="Cal1"
+                                         Path="SelectedDate" />
+                                <Binding ElementName="Cal2"
+                                         Path="SelectedDate" />
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </src:BaseControl.Resources>
+
+    <Border x:Name="DimBorder"
+            Width="1200"
+            Height="750"
+            BorderBrush="Transparent"
+            BorderThickness="0"
+            CornerRadius="12"
+            Opacity="1">
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Background" Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger Property="Border.IsEnabled" Value="False">
+                        <Setter Property="Border.Background" Value="Gray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border x:Name="MainBorder"
+                Width="1200"
+                Height="750"
+                Background="Black"
+                BorderBrush="{DynamicResource BrandedBrushIN}"
+                BorderThickness="2"
+                CornerRadius="12">
+            <Border.Style>
+                <Style>
+                    <Setter Property="Border.Opacity" Value="1" />
+                    <Style.Triggers>
+                        <Trigger Property="Border.IsEnabled" Value="False">
+                            <Setter Property="Border.Opacity" Value="0.7" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Viewbox>
+                <Grid x:Name="LayoutRoot"
+                      Width="1200"
+                      Height="750">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="btnClose"
+                            Grid.Column="27"
+                            Click="btnClose_Click"
+                            IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                            IsTabStop="True"
+                            Style="{DynamicResource INCloseButton}" />
+
+                    <TextBlock x:Name="hdrReport"
+                               Grid.Row="1"
+                               Grid.Column="2"
+                               Grid.ColumnSpan="7"
+                               Margin="0"
+                               VerticalAlignment="Top"
+                               Style="{DynamicResource INPageHeadingText1}"
+                               Text="Target Tracker Report" />
+                    <Path x:Name="hdrLine"
+                          Grid.Row="1"
+                          Grid.Column="2"
+                          Grid.ColumnSpan="5"
+                          Width="213"
+                          Margin="0,0,0,14"
+                          HorizontalAlignment="Left"
+                          Style="{DynamicResource INUnderlineText1}" Stretch="Fill" />
+
+                    <TextBlock x:Name="lblCal1"
+                               Grid.Row="2"
+                               Grid.Column="2"
+                               Grid.ColumnSpan="4"
+                               Margin="0,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{DynamicResource INLabelText2}"
+                               Text="Select Start Date"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />
+                    <Viewbox Grid.Row="3"
+                             Grid.RowSpan="6"
+                             Grid.Column="2"
+                             Grid.ColumnSpan="6"
+                             Width="250"
+                             Height="250"
+                             Margin="0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Stretch="Fill">
+                        <igWPF:XamMonthCalendar x:Name="Cal1"
+                                                Margin="0"
+                                                FontSize="16"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                                SelectedDatesChanged="Cal1_SelectedDatesChanged"
+                                                Style="{DynamicResource INXamMonthCalendarStyle2}"
+                                                TabIndex="0"
+                                                Visibility="Visible" />
+                    </Viewbox>
+
+
+                    <TextBlock x:Name="lblCal2"
+                               Grid.Row="2"
+                               Grid.Column="10"
+                               Grid.ColumnSpan="6"
+                               Margin="0,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{DynamicResource INLabelText2}"
+                               Text="Select End Date"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />
+                    <Viewbox Grid.Row="3"
+                             Grid.RowSpan="6"
+                             Grid.Column="10"
+                             Grid.ColumnSpan="6"
+                             Width="250"
+                             Height="250"
+                             Margin="0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Stretch="Fill">
+                        <igWPF:XamMonthCalendar x:Name="Cal2"
+                                                Margin="0"
+                                                FontSize="16"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                                SelectedDatesChanged="Cal2_SelectedDatesChanged"
+                                                Style="{DynamicResource INXamMonthCalendarStyle2}"
+                                                TabIndex="0"
+                                                Visibility="Visible" />
+                    </Viewbox>
+
+                    <Grid x:Name="grdAgents"
+                          Grid.Row="2"
+                          Grid.RowSpan="13"
+                          Grid.Column="18"
+                          Grid.ColumnSpan="8">
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=ctrlReportSalesScreen, Path=ScreenData.UserData.UserType}"
+                                                       Value="SalesAgent" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=ctrlReportSalesScreen, Path=ScreenData.UserData.UserType}"
+                                                       Value="ConfirmationAgent" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=ctrlReportSalesScreen, Path=ScreenData.UserData.UserType}"
+                                                       Value="DataCapturer" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=ctrlReportSalesScreen, Path=ScreenData.UserData.UserType}"
+                                                       Value="StatusLoader" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=ctrlReportSalesScreen, Path=IsReportRunning}"
+                                                       Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="lblAgents"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="4"
+                                   Margin="0,0,0,6"
+                                   VerticalAlignment="Bottom"
+                                   Style="{DynamicResource INLabelText2}"
+                                   Text="Select Agent(s)"
+                                   TextWrapping="NoWrap"
+                                   Visibility="Visible" />
+                        <igWPF:XamDataGrid x:Name="xdgAgents"
+                                           Grid.Row="1"
+                                           Grid.RowSpan="11"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="8"
+                                           HorizontalContentAlignment="Stretch"
+                                           VerticalContentAlignment="Stretch"
+                                           AutoFit="False"
+                                           GroupByAreaLocation="None"
+                                           IsEnabled="{Binding ElementName=ctrlReportPremiumBreakdownAgentScreen, Path=IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                           Style="{DynamicResource INXamDataGridStyle1}"
+                                           TabIndex="0">
+                            <igWPF:XamDataGrid.Resources>
+                                <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                                <CheckBox x:Name="HeaderPrefixAreaCheckbox"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Checked="HeaderPrefixAreaCheckbox_Checked"
+                                                          IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=AllRecordsChecked}"
+                                                          Style="{DynamicResource INCheckboxStyle}"
+                                                          Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                                <Style TargetType="{x:Type igWPF:RecordSelector}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                                <CheckBox x:Name="RecordSelectorCheckbox"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Click="RecordSelectorCheckbox_Click"
+                                                          Focusable="False"
+                                                          IsChecked="{Binding Path=DataItem.IsChecked, Mode=TwoWay}"
+                                                          Style="{DynamicResource INCheckboxStyle}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </igWPF:XamDataGrid.Resources>
+                            <igWPF:XamDataGrid.FieldLayouts>
+                                <igWPF:FieldLayout>
+                                    <igWPF:Field Name="ID"
+                                                 Label="AgentID"
+                                                 Visibility="Collapsed" />
+                                    <igWPF:Field Name="Description"
+                                                 Width="280"
+                                                 Label="Agent"
+                                                 Visibility="Visible" />
+                                    <igWPF:Field Name="IsChecked"
+                                                 Label="IsChecked"
+                                                 Visibility="Collapsed" />
+                                </igWPF:FieldLayout>
+                            </igWPF:XamDataGrid.FieldLayouts>
+                        </igWPF:XamDataGrid>
+                        <TextBlock x:Name="lblCurrentAgent"
+                                   Grid.Row="12"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="8"
+                                   Margin="0,6,0,0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Style="{DynamicResource INLabelText2}"
+                                   Text=""
+                                   TextWrapping="NoWrap"
+                                   Visibility="Visible" />
+                    </Grid>
+
+                    <Button x:Name="btnReport"
+                            Grid.Row="15"
+                            Grid.Column="22"
+                            Grid.ColumnSpan="4"
+                            Margin="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Click="btnReport_Click"
+                            Content="Report"
+                            Style="{StaticResource ReportButton}"
+                            TabIndex="0" />
+                    <ProgressBar Name="ProgressBar1" Grid.ColumnSpan="20" Grid.Column="2" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" Grid.Row="16" VerticalAlignment="Top" Width="840"/>
+                    <TextBlock x:Name="lblProgress"
+                    	Grid.Row="15"
+                    	Grid.ColumnSpan="12"
+                    	Margin="21,0,0,0"
+                    	VerticalAlignment="Bottom"
+                    	Style="{DynamicResource INLabelText2}"
+                    	Text="....."
+                    	TextWrapping="NoWrap"
+                    	Visibility="Visible" Grid.Column="2" Width="495" />
+                    <Button x:Name="btnCancel"
+                    	Grid.Row="16"
+                    	Grid.Column="22"
+                    	Grid.ColumnSpan="4"
+                    	Margin="0,0,0,38"
+                    	HorizontalAlignment="Right"
+                    	VerticalAlignment="Bottom"
+                    	IsEnabled="False"
+                        Click="btnCancel_Click"
+                    	Content="Cancel"
+                    	Style="{StaticResource ReportButton}"
+                    	TabIndex="0" Grid.RowSpan="2" />
+
+                </Grid>
+            </Viewbox>
+        </Border>
+    </Border>
+
+</src:BaseControl>

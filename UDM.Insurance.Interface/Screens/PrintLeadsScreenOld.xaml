@@ -1,0 +1,70 @@
+﻿<src:BaseControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF" 
+    xmlns:igEditors="http://infragistics.com/Editors"
+	x:Class="UDM.Insurance.Interface.Screens.PrintLeadsScreen"
+	mc:Ignorable="d" x:Name="InPrintLeadsControl" Height="500" Width="800" >
+    
+	<Grid x:Name="LayoutRoot" Background="{x:Null}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+		</Grid.RowDefinitions>
+        
+		<Rectangle x:Name="BGRectangle" Fill="Black" Margin="0" RadiusY="12" RadiusX="12" Grid.ColumnSpan="18" StrokeThickness="2" Grid.RowSpan="12" >
+			<Rectangle.Stroke>
+				<SolidColorBrush Color="{DynamicResource BrandedColourIN}"/>
+			</Rectangle.Stroke>
+		</Rectangle>
+
+        <Button x:Name="btnClose" Content="X" Style="{DynamicResource INCloseButton}" TabIndex="0" Margin="0,12,12,0" VerticalAlignment="Top" Height="24" Width="24" Grid.Column="17" HorizontalAlignment="Right" Click="buttonClose_Click" IsCancel="True" Grid.ColumnSpan="2" />
+
+        <TextBlock x:Name="headerPrintLeads" Style="{DynamicResource INPageHeadingText1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Text="Print Leads" Grid.ColumnSpan="5" Grid.Column="1" Grid.Row="1" />
+		<Path x:Name="headerLine" Style="{DynamicResource INUnderlineText1}" Margin="0,0,0,15" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" d:LayoutOverrides="VerticalAlignment, GridBox" Width="108" />
+        
+        <TextBlock x:Name="lblCampaign" Style="{DynamicResource INLabelText2}" Text="Campaign" Margin="0" Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3" d:LayoutOverrides="GridBox" />
+        <TextBlock x:Name="tbCampaign" Style="{DynamicResource INLabelText3}" Text="Campaign" Margin="0" Grid.Row="2" Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.ColumnSpan="9" TextWrapping="NoWrap" d:LayoutOverrides="GridBox" />
+        
+        <TextBlock x:Name="lblBatch" Style="{DynamicResource INLabelText2}" Text="Batch" Margin="0" Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" d:LayoutOverrides="GridBox" Grid.ColumnSpan="3" />
+        <TextBlock x:Name="tbBatch" Style="{DynamicResource INLabelText3}" Text="Batch" Margin="0" Grid.Row="3" Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextWrapping="NoWrap" d:LayoutOverrides="GridBox" Grid.ColumnSpan="9" />
+        
+        <TextBlock x:Name="lblAgent" Style="{DynamicResource INLabelText2}" Text="Agent" Margin="0" Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" d:LayoutOverrides="GridBox" Grid.ColumnSpan="3" />
+        <TextBlock x:Name="tbAgent" Style="{DynamicResource INLabelText3}" Text="Agent" Margin="0" Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextWrapping="NoWrap" d:LayoutOverrides="GridBox" Grid.ColumnSpan="9" />
+        
+        <TextBlock x:Name="lblLeadsAllocated" Style="{DynamicResource INLabelText2}" Text="Leads Allocated" Margin="0" Grid.Row="5" Grid.Column="1" VerticalAlignment="Bottom" d:LayoutOverrides="GridBox" Grid.ColumnSpan="3" />
+        <TextBlock x:Name="tbLeadsAllocated" Style="{DynamicResource INLabelText3}" Text="0" Margin="0" Grid.Row="5" Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextWrapping="NoWrap" d:LayoutOverrides="GridBox" Grid.ColumnSpan="3" />
+        
+        <TextBlock x:Name="lblLeadsPrinted" Style="{DynamicResource INLabelText2}" Text="Leads Printed" Margin="0" Grid.Row="6" Grid.Column="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3" d:LayoutOverrides="GridBox" />
+        <TextBlock x:Name="tbLeadsPrinted" Style="{DynamicResource INLabelText3}" Text="0" Margin="0" Grid.Row="6" Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextWrapping="NoWrap" Grid.ColumnSpan="3" d:LayoutOverrides="GridBox" />
+        
+        <TextBlock x:Name="lblPrintFrom" Style="{DynamicResource INLabelText2}" Text="Print From" Margin="0" Grid.Row="8" Grid.Column="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3" d:LayoutOverrides="GridBox" />
+        <igEditors:XamDateTimeEditor x:Name="dtePrintFrom" Style="{DynamicResource INXamDateTimeEditorStyle1}" TabIndex="0" Grid.Column="5" Grid.ColumnSpan="7" Grid.Row="8" Margin="0" Loaded="dtePrintFrom_Loaded" GotFocus="xamEditor_GotFocus" ValueChanged="dtePrintFrom_ValueChanged" />
+       
+        <TextBlock x:Name="lblPrintTo" Style="{DynamicResource INLabelText2}" Text="Print To" Margin="0" Grid.Row="9" Grid.Column="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3" d:LayoutOverrides="GridBox" />
+        <igEditors:XamDateTimeEditor x:Name="dtePrintTo" Style="{DynamicResource INXamDateTimeEditorStyle1}" TabIndex="0" Grid.Column="5" Grid.ColumnSpan="7" Grid.Row="9" Margin="0" GotFocus="xamEditor_GotFocus" ValueChanged="dtePrintTo_ValueChanged" />
+
+        <TextBlock x:Name="lblLeadsToPrint" Style="{DynamicResource INLabelText2}" Text="Leads to Print" Margin="0" Grid.Row="10" Grid.Column="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3" d:LayoutOverrides="GridBox" />
+        <TextBlock x:Name="tbLeadsToPrint" Style="{DynamicResource INLabelText3}" Text="0" Margin="0" Grid.Row="10" Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextWrapping="NoWrap" d:LayoutOverrides="GridBox" Grid.ColumnSpan="3" />
+        
+        <Button x:Name="btnPrint" Style="{DynamicResource INFlatButton}" Content="Print" TabIndex="0" Grid.Column="13" Grid.ColumnSpan="4" Grid.Row="10" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="False" Click="btnPrint_Click" />
+        
+    </Grid>
+</src:BaseControl>

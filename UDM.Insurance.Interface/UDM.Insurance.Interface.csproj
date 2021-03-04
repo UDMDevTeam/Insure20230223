@@ -1,0 +1,2065 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{27E3EFC3-4B30-451B-BF32-FE7F3A3CDB50}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UDM.Insurance.Interface</RootNamespace>
+    <AssemblyName>UDM.InsureTest.Interface</AssemblyName>
+    <AssemblyName>UDM.InsureDebug.Interface</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <PublishUrl>\\udmsql\software\insuredebug\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>true</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <UpdateUrl>\\udmsql\software\insuredebug\</UpdateUrl>
+    <ProductName>InsureDebug</ProductName>
+    <PublisherName>UDM</PublisherName>
+    <MinimumRequiredVersion>2.5.3.3</MinimumRequiredVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>2.5.3.3</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsLocation>Absolute</BootstrapperComponentsLocation>
+    <BootstrapperComponentsUrl>\\udmsql\Software\.NET</BootstrapperComponentsUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>UDM.Insurance.Interface.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASEBUILD</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <CodeAnalysisRuleSet>UDM.Insurance.Interface.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE;TESTBUILD</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\UDM.Insurance.Interface.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>UDM.Insurance.Interface.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>in.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F475FA3996A104AC82B187A8A57D0D222AF50650</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>UDM.Insurance.Interface_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Training|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Training\</OutputPath>
+    <DefineConstants>TRACE;TRAININGBUILD</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>UDM.Insurance.Interface.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="AxInterop.CTPhone_ActiveXControl">
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\RealConnect\AxInterop.CTPhone_ActiveXControl.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Charts.XamGauge.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Controls.Charts.XamGauge.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Editors.XamCalendar.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Controls.Editors.XamCalendar.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Interactions.XamDialogWindow.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Controls.Interactions.XamDialogWindow.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Menus.XamMenu.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Controls.Menus.XamMenu.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Schedules.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Controls.Schedules.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.DataPresenter.ExcelExporter.v13.1, Version=13.1.20131.2230, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.DataPresenter.ExcelExporter.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.DataPresenter.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.DataPresenter.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Documents.Core.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Documents.Core.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Documents.Excel.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Documents.Excel.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Editors.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.Editors.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.v13.1, Version=13.1.20131.2204, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.v13.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Visual Studio Tools for Office\PIA\Office14\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Word\14.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\Other\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Luna" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\Other\RibbonControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFNotifier">
+      <HintPath>..\..\udmcore\Embriant.DllLibrary\Other\WPFNotifier.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.8.16.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.8.16\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Commands\CustomCommands.cs" />
+    <Compile Include="Content\btnClearPersonDetails.xaml.cs">
+      <DependentUpon>btnClearPersonDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\btnPhone2.xaml.cs">
+      <DependentUpon>btnPhone2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\btnPhone.xaml.cs">
+      <DependentUpon>btnPhone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\Hamburger.xaml.cs">
+      <DependentUpon>Hamburger.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\HeaderLine.xaml.cs">
+      <DependentUpon>HeaderLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\icoPhone.xaml.cs">
+      <DependentUpon>icoPhone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\INLogo.xaml.cs">
+      <DependentUpon>INLogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\LacePopupWindow1.xaml.cs">
+      <DependentUpon>LacePopupWindow1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\LineAndLogo.xaml.cs">
+      <DependentUpon>LineAndLogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Content\AppVersion.xaml.cs">
+      <DependentUpon>AppVersion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ComboWithCheckboxes.xaml.cs">
+      <DependentUpon>ComboWithCheckboxes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DebugVersionControl.xaml.cs">
+      <DependentUpon>DebugVersionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Ghost.xaml.cs">
+      <DependentUpon>Ghost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GoldStar.xaml.cs">
+      <DependentUpon>GoldStar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LeadApplicationDisplayWindow.xaml.cs">
+      <DependentUpon>LeadApplicationDisplayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MovementLine.xaml.cs">
+      <DependentUpon>MovementLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScheduleActivityDialog.xaml.cs">
+      <DependentUpon>ScheduleActivityDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SearchControl.xaml.cs">
+      <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrainingVersionControl.xaml.cs">
+      <DependentUpon>TrainingVersionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TestVersionControl.xaml.cs">
+      <DependentUpon>TestVersionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AgentActivity.cs" />
+    <Compile Include="Data\CommonControlData.cs" />
+    <Compile Include="Data\DailySalesFigures.cs" />
+    <Compile Include="Data\CallMonitoringData.cs" />
+    <Compile Include="Data\GiftRedeemData.cs" />
+    <Compile Include="Data\GlobalConstants.cs" />
+    <Compile Include="Data\HoursRecord.cs" />
+    <Compile Include="Data\AttachedProperties.cs" />
+    <Compile Include="Data\NoteData.cs" />
+    <Compile Include="Data\LeadApplicationData.cs" />
+    <Compile Include="Data\ReportData.cs" />
+    <Compile Include="Data\SalesScreenGlobalData.cs" />
+    <Compile Include="Data\TriggerManager.cs" />
+    <Compile Include="Data\ScheduleScreenData.cs" />
+    <Compile Include="Data\ScheduleScreenVM\ActivityCategoryInfo.cs" />
+    <Compile Include="Data\ScheduleScreenVM\AppointmentInfo.cs" />
+    <Compile Include="Data\ScheduleScreenVM\BaseViewModel.cs" />
+    <Compile Include="Data\ScheduleScreenVM\ResourceCalendarInfo.cs" />
+    <Compile Include="Data\ScheduleScreenVM\ResourceInfo.cs" />
+    <Compile Include="Data\ScheduleScreenVM\ScheduleViewModel.cs" />
+    <Compile Include="PrismInfrastructure\DialogMessage.cs" />
+    <Compile Include="PrismInfrastructure\IShellService.cs" />
+    <Compile Include="PrismInfrastructure\KnownRegionNames.cs" />
+    <Compile Include="Library\IntToEnumConverter.cs" />
+    <Compile Include="Library\ScheduleActivityDialogFactory.cs" />
+    <Compile Include="Models\BlushModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlushModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlushModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlushModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlushModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlushModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlushModelExtend.cs" />
+    <Compile Include="Models\CallData.cs">
+      <DependentUpon>InsureModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CTPhone.cs">
+      <DependentUpon>InsureModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HRStaff.cs">
+      <DependentUpon>BlushModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HRStaffExtension.cs">
+      <DependentUpon>BlushModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InsureModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsureModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InsureModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsureModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InsureModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsureModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InsureModelExtend.cs" />
+    <Compile Include="Models\lkpHRExtension.cs">
+      <DependentUpon>BlushModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrismInfrastructure\Events.cs" />
+    <Compile Include="PrismViews\EditClosureScreenContentView.xaml.cs">
+      <DependentUpon>EditClosureScreenContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrismViews\EditClosureScreenToolbarView.xaml.cs">
+      <DependentUpon>EditClosureScreenToolbarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrismViews\ViewA.xaml.cs">
+      <DependentUpon>ViewA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrismViews\ViewB.xaml.cs">
+      <DependentUpon>ViewB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="Screens\AssignMiningLeadsScreen.xaml.cs">
+      <DependentUpon>AssignMiningLeadsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AssignPossibleBumpUpsScreen.xaml.cs">
+      <DependentUpon>AssignPossibleBumpUpsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AssignSalesScreen.xaml.cs">
+      <DependentUpon>AssignSalesScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\BumpUpSortSummaryScreen.xaml.cs">
+      <DependentUpon>BumpUpSortSummaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CallMonitoringSortSummaryScreen.xaml.cs">
+      <DependentUpon>CallMonitoringSortSummaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrismViews\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrismViews\ShellService.cs" />
+    <Compile Include="PrismViews\ShellViewModel.cs" />
+    <Compile Include="PrismViews\EditClosureScreen.xaml.cs">
+      <DependentUpon>EditClosureScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MySuccess.xaml.cs">
+      <DependentUpon>MySuccess.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\QADetailsScreen.xaml.cs">
+      <DependentUpon>QADetailsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBatchAnalysisScreen.xaml.cs">
+      <DependentUpon>ReportBatchAnalysisScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportCustomerCareRequestsScreen.xaml.cs">
+      <DependentUpon>ReportCustomerCareRequestsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDeclineNoContact.xaml.cs">
+      <DependentUpon>ReportDeclineNoContact.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportEMailRequestsScreen.xaml.cs">
+      <DependentUpon>ReportEMailRequestsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDateAnalysisScreen.xaml.cs">
+      <DependentUpon>ReportDateAnalysisScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBaseSalesContactTrackingScreen.xaml.cs">
+      <DependentUpon>ReportBaseSalesContactTrackingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\QADetailsScreenViewModel.cs" />
+    <Compile Include="Screens\ReportCustomerCareRequestsScreenViewModel.cs" />
+    <Compile Include="Screens\ReportEMailRequestsScreenViewModel.cs" />
+    <Compile Include="Screens\ReportDateAnalysisScreenViewModel.cs" />
+    <Compile Include="Screens\ReportQAWeightingsScreen.xaml.cs">
+      <DependentUpon>ReportQAWeightingsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportRemoveDoNotContactLeads.xaml.cs">
+      <DependentUpon>ReportRemoveDoNotContactLeads.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportUpgradeLeadPremiumScreen.xaml.cs">
+      <DependentUpon>ReportUpgradeLeadPremiumScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportConversionSalesTracking.xaml.cs">
+      <DependentUpon>ReportConversionSalesTracking.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportSalesTrackingScreen.xaml.cs">
+      <DependentUpon>ReportSalesTrackingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportPermissionQuestionScreen.xaml.cs">
+      <DependentUpon>ReportPermissionQuestionScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportCallMonitoringActivity.xaml.cs">
+      <DependentUpon>ReportCallMonitoringActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AgentActivity.xaml.cs">
+      <DependentUpon>AgentActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AllocateLeadsFromOldSystemScreen.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>AllocateLeadsFromOldSystemScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\DeleteSingleLeadScreen.xaml.cs">
+      <DependentUpon>DeleteSingleLeadScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AssignSummaryScreen.xaml.cs">
+      <DependentUpon>AssignSummaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AssignLeadsScreen.xaml.cs">
+      <DependentUpon>AssignLeadsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CaptureCampaignDefaultTargets.xaml.cs">
+      <DependentUpon>CaptureCampaignDefaultTargets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CaptureSalesAgentHoursScreen.xaml.cs">
+      <DependentUpon>CaptureSalesAgentHoursScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CaptureTSRTargetsScreen.xaml.cs">
+      <DependentUpon>CaptureTSRTargetsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\AssignSingleLeadScreen.xaml.cs">
+      <DependentUpon>AssignSingleLeadScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\DeAllocateLeadsScreen.xaml.cs">
+      <DependentUpon>DeAllocateLeadsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ImportProgressGiftClaims.xaml.cs">
+      <DependentUpon>ImportProgressGiftClaims.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ImportSchedule.xaml.cs">
+      <DependentUpon>ImportSchedule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\LiveProductivity.xaml.cs">
+      <DependentUpon>LiveProductivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CallMonitoringDetailsScreen.xaml.cs">
+      <DependentUpon>CallMonitoringDetailsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\RedeemGiftScreen.xaml.cs">
+      <DependentUpon>RedeemGiftScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBumpUpStatsScreen.xaml.cs">
+      <DependentUpon>ReportBumpUpStatsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportCarriedForwardScreen.xaml.cs">
+      <DependentUpon>ReportCarriedForwardScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDailySalesChecking.xaml.cs">
+      <DependentUpon>ReportDailySalesChecking.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportRedeemedVsPODScreen.xaml.cs">
+      <DependentUpon>ReportRedeemedVsPODScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportTurnoverScreen.xaml.cs">
+      <DependentUpon>ReportTurnoverScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportTopTenScreen.xaml.cs">
+      <DependentUpon>ReportTopTenScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportCallMonitoringScreen.xaml.cs">
+      <DependentUpon>ReportCallMonitoringScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportCallMonitoringBumpUpsScreen.xaml.cs">
+      <DependentUpon>ReportCallMonitoringBumpUpsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportConfirmedSalesPerAgentScreen.xaml.cs">
+      <DependentUpon>ReportConfirmedSalesPerAgentScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportInvalidAccounts.xaml.cs">
+      <DependentUpon>ReportInvalidAccounts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDiaryToFinalScreen.xaml.cs">
+      <DependentUpon>ReportDiaryToFinalScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportPODDiariesScreen.xaml.cs">
+      <DependentUpon>ReportPODDiariesScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDeclineScreen.xaml.cs">
+      <DependentUpon>ReportDeclineScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportRedeemedGiftsScreen.xaml.cs">
+      <DependentUpon>ReportRedeemedGiftsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportEliteConfirmationProgressScreen.xaml.cs">
+      <DependentUpon>ReportEliteConfirmationProgressScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportConfirmationStatsScreen.xaml.cs">
+      <DependentUpon>ReportConfirmationStatsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBumpUpPotentialScreen.xaml.cs">
+      <DependentUpon>ReportBumpUpPotentialScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportTrackUpgradeBasePolicies.xaml.cs">
+      <DependentUpon>ReportTrackUpgradeBasePolicies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadsAvailableScreen.xaml.cs">
+      <DependentUpon>ReportLeadsAvailableScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportSalesScreen.xaml.cs">
+      <DependentUpon>ReportSalesScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportExtensionTracking.xaml.cs">
+      <DependentUpon>ReportExtensionTracking.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportNoContactScreen.xaml.cs">
+      <DependentUpon>ReportNoContactScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportConfirmationFeedbackScreen.xaml.cs">
+      <DependentUpon>ReportConfirmationFeedbackScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CampaignsLeadCopyScreen.xaml.cs">
+      <DependentUpon>CampaignsLeadCopyScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MoveLeadsScreen.xaml.cs">
+      <DependentUpon>MoveLeadsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBatchScreen.xaml.cs">
+      <DependentUpon>ReportBatchScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportFallOffScreen.xaml.cs">
+      <DependentUpon>ReportFallOffScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportIndividualFallOffScreen.xaml.cs">
+      <DependentUpon>ReportIndividualFallOffScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadActivityScreen.xaml.cs">
+      <DependentUpon>ReportLeadActivityScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadAnalysisScreen.xaml.cs">
+      <DependentUpon>ReportLeadAnalysisScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportConfirmedSalesScreen.xaml.cs">
+      <DependentUpon>ReportConfirmedSalesScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportStatusLoadingScreen.xaml.cs">
+      <DependentUpon>ReportStatusLoadingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportStatusLoadingSummary.xaml.cs">
+      <DependentUpon>ReportStatusLoadingSummary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportSupervisorTeam.xaml.cs">
+      <DependentUpon>ReportSupervisorTeam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportTargetTrackerScreen.xaml.cs">
+      <DependentUpon>ReportTargetTrackerScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\NoteScreen.xaml.cs">
+      <DependentUpon>NoteScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\LeadContactDetailsScreen.xaml.cs">
+      <DependentUpon>LeadContactDetailsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportWebScreen.xaml.cs">
+      <DependentUpon>ReportWebScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ScriptScreen.xaml.cs">
+      <DependentUpon>ScriptScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectCallMonitoringCancellationReasonScreen.xaml.cs">
+      <DependentUpon>SelectCallMonitoringCancellationReasonScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectCallMonitoringCarriedForwardReasonScreen.xaml.cs">
+      <DependentUpon>SelectCallMonitoringCarriedForwardReasonScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SaleDetailNotesScreen.xaml.cs">
+      <DependentUpon>SaleDetailNotesScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectCMAgentToAssignTSRSavedCF.xaml.cs">
+      <DependentUpon>SelectCMAgentToAssignTSRSavedCF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectCarriedForwardReasonScreen .xaml.cs">
+      <DependentUpon>SelectCarriedForwardReasonScreen .xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectCancellationReasonScreen.xaml.cs">
+      <DependentUpon>SelectCancellationReasonScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectDiaryReasonScreen.xaml.cs">
+      <DependentUpon>SelectDiaryReasonScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UtilityImportUpdateScreen.xaml.cs">
+      <DependentUpon>UtilityImportUpdateScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDiaryScreen.xaml.cs">
+      <DependentUpon>ReportDiaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportReducedPremiumScreen.xaml.cs">
+      <DependentUpon>ReportReducedPremiumScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectDiaryMonthScreen.xaml.cs">
+      <DependentUpon>SelectDiaryMonthScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportHoursScreen.xaml.cs">
+      <DependentUpon>ReportHoursScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\HoursScreen.xaml.cs">
+      <DependentUpon>HoursScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBatchStatsScreen.xaml.cs">
+      <DependentUpon>ReportBatchStatsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBumpUpScreen.xaml.cs">
+      <DependentUpon>ReportBumpUpScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadSearchScreen.xaml.cs">
+      <DependentUpon>ReportLeadSearchScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBaseConversionScreen.xaml.cs">
+      <DependentUpon>ReportBaseConversionScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportSalaryScreen.xaml.cs">
+      <DependentUpon>ReportSalaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportSalesToLeadScreen.xaml.cs">
+      <DependentUpon>ReportSalesToLeadScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SearchLeadsScreen.xaml.cs">
+      <DependentUpon>SearchLeadsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportPremiumBreakdownScreen.xaml.cs">
+      <DependentUpon>ReportPremiumBreakdownScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadStatusScreen.xaml.cs">
+      <DependentUpon>ReportLeadStatusScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadAllocationScreen.xaml.cs">
+      <DependentUpon>ReportLeadAllocationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportBatchExportScreen.xaml.cs">
+      <DependentUpon>ReportBatchExportScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MenuReportsScreen.xaml.cs">
+      <DependentUpon>MenuReportsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectDeclineReasonScreen.xaml.cs">
+      <DependentUpon>SelectDeclineReasonScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectLeadCampaignScreen.xaml.cs">
+      <DependentUpon>SelectLeadCampaignScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\PrintSummaryScreen.xaml.cs">
+      <DependentUpon>PrintSummaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\LeadApplicationScreen.xaml.cs">
+      <DependentUpon>LeadApplicationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\PrintLeadsScreenOld.xaml.cs">
+      <DependentUpon>PrintLeadsScreenOld.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ImportAddCampaignScreen.xaml.cs">
+      <DependentUpon>ImportAddCampaignScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MenuToolsScreen.xaml.cs">
+      <DependentUpon>MenuToolsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MenuLeadScreen.xaml.cs">
+      <DependentUpon>MenuLeadScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MenuManagementScreen.xaml.cs">
+      <DependentUpon>MenuManagementScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ResetPasswordScreen.xaml.cs">
+      <DependentUpon>ResetPasswordScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SalesScreen.xaml.cs">
+      <DependentUpon>SalesScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\StartScreen.xaml.cs">
+      <DependentUpon>StartScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ImportSummaryScreen.xaml.cs">
+      <DependentUpon>ImportSummaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ImportProgressScreen.xaml.cs">
+      <DependentUpon>ImportProgressScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ScheduleScreen.xaml.cs">
+      <DependentUpon>ScheduleScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\StatusLoadingScreen.xaml.cs">
+      <DependentUpon>StatusLoadingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportPremiumBreakdownAgentScreen.xaml.cs">
+      <DependentUpon>ReportPremiumBreakdownAgentScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MercantileService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\RAMService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="PrismViews\EditClosureScreenViewModel.cs" />
+    <Compile Include="ViewModels\ReportDailySalesViewModel.cs" />
+    <Compile Include="Views\ReportDailySales.xaml.cs">
+      <DependentUpon>ReportDailySales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INWelcomeMessage.xaml.cs">
+      <DependentUpon>INWelcomeMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INBirthDayMessage.xaml.cs">
+      <DependentUpon>INBirthDayMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INMessageBoxWindow2.xaml.cs">
+      <DependentUpon>INMessageBoxWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INDialogWindow.xaml.cs">
+      <DependentUpon>INDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INMessageBoxWindow1.xaml.cs">
+      <DependentUpon>INMessageBoxWindow1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\InSureWelcomeMessage.xaml.cs">
+      <DependentUpon>InSureWelcomeMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindowViewModel.cs" />
+    <Compile Include="Windows\SplashScreenWindow.xaml.cs">
+      <DependentUpon>SplashScreenWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Content\btnClearPersonDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\btnPhone2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Content\btnPhone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\Hamburger.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\HeaderLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\icoPhone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\INLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\LacePopupWindow1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\LineAndLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Content\AppVersion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ComboWithCheckboxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DebugVersionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Ghost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\GoldStar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LeadApplicationDisplayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MovementLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ScheduleActivityDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SearchControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TrainingVersionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TestVersionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrismViews\EditClosureScreenContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrismViews\EditClosureScreenToolbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrismViews\ViewA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrismViews\ViewB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\AssignMiningLeadsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\AssignPossibleBumpUpsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\AssignSalesScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\BumpUpSortSummaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CallMonitoringSortSummaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrismViews\Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrismViews\EditClosureScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\MySuccess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\QADetailsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportBatchAnalysisScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportCustomerCareRequestsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDeclineNoContact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportEMailRequestsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDateAnalysisScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportBaseSalesContactTrackingScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportQAWeightingsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportRemoveDoNotContactLeads.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportUpgradeLeadPremiumScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportConversionSalesTracking.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportSalesTrackingScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportPermissionQuestionScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportCallMonitoringActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\AgentActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\AllocateLeadsFromOldSystemScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\DeleteSingleLeadScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\AssignSummaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\AssignLeadsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CaptureCampaignDefaultTargets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\CaptureSalesAgentHoursScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CaptureTSRTargetsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\AssignSingleLeadScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\DeAllocateLeadsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ImportProgressGiftClaims.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ImportSchedule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\LiveProductivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\CallMonitoringDetailsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\RedeemGiftScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportBumpUpStatsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportCarriedForwardScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDailySalesChecking.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportRedeemedVsPODScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportTurnoverScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportTopTenScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportCallMonitoringScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportCallMonitoringBumpUpsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportConfirmedSalesPerAgentScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportInvalidAccounts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDiaryToFinalScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportPODDiariesScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDeclineScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportRedeemedGiftsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportEliteConfirmationProgressScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportConfirmationStatsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportBumpUpPotentialScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportTrackUpgradeBasePolicies.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportLeadsAvailableScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportSalesScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportExtensionTracking.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportNoContactScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportConfirmationFeedbackScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CampaignsLeadCopyScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\MoveLeadsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportBatchScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportFallOffScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportIndividualFallOffScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportLeadActivityScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportLeadAnalysisScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportConfirmedSalesScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportStatusLoadingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportStatusLoadingSummary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportSupervisorTeam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportTargetTrackerScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\NoteScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\LeadContactDetailsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportWebScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ScriptScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\SelectCallMonitoringCancellationReasonScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectCallMonitoringCarriedForwardReasonScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SaleDetailNotesScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectCMAgentToAssignTSRSavedCF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectCarriedForwardReasonScreen .xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectCancellationReasonScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\SelectDiaryReasonScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\UtilityImportUpdateScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDiaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportReducedPremiumScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectDiaryMonthScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportHoursScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\HoursScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportBatchStatsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportBumpUpScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportLeadSearchScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportBaseConversionScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportSalaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportSalesToLeadScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SearchLeadsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportPremiumBreakdownScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportLeadStatusScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportLeadAllocationScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportBatchExportScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\MenuReportsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectDeclineReasonScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\SelectLeadCampaignScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\PrintSummaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\LeadApplicationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\PrintLeadsScreenOld.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ImportAddCampaignScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\MenuToolsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\MenuLeadScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\MenuManagementScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ResetPasswordScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SalesScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\StartScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ImportSummaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ImportProgressScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ScheduleScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\StatusLoadingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ReportPremiumBreakdownAgentScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INContextMenuStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INDocumentViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INEditableComboBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INGroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INLeadApplicationStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INPopupStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INRadioButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INScheduleDialogStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INStyleBrushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INStyleColours.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INStyleConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INStyleDimensions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INStyleFonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INStyleProperties.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INTextStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INXamCalendarStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INCheckBoxStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INScrollBarStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INEmbriantComboBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INXamContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INXamCurrencyEditorStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INXamDataGridStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\INStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\INXamDateTimeEditorStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INXamMaskedEditorStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\INXamTabControlStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportDailySales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\INWelcomeMessage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\INBirthDayMessage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\INMessageBoxWindow2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\INDialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\INMessageBoxWindow1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\InSureWelcomeMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\SplashScreenWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="Models\BlushModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BlushModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\BlushModel.edmx.diagram">
+      <DependentUpon>BlushModel.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="Models\InsureModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>InsureModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\InsureModel.edmx.diagram">
+      <DependentUpon>InsureModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
+    <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="Resources\Other\ctphoneax.msi" />
+    <None Include="Service References\MercantileService\CDV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MercantileService\CDV1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MercantileService\CDV2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MercantileService\CdvWCF.wsdl" />
+    <None Include="Service References\MercantileService\UDM.Insurance.Interface.MercantileService.cdvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RAMService\TrackingWS.wsdl" />
+    <Resource Include="Templates\ReportTemplateSTLAndBCP.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgrade5.xlsx" />
+    <Resource Include="Templates\ReportTemplateBatchReport.xlsx" />
+    <None Include="Templates\ReportTemplateQAWeightings.xlsx" />
+    <Resource Include="Templates\ReportTemplateRemoveDoNotContactLeads.xlsx" />
+    <None Include="Templates\ReportTemplateSales - Copy.xlsx" />
+    <Resource Include="Templates\ReportTemplateWebRedeem.xlsx" />
+    <Resource Include="Templates\PrintTemplateResurrection.xlsx" />
+    <Resource Include="Templates\ReportTemplateCustomerCareRequests.xlsx" />
+    <Resource Include="Templates\ReportTemplateEMailRequests.xlsx" />
+    <Resource Include="Templates\ReportTemplateDateAnalysis.xlsx" />
+    <Resource Include="Templates\ReportTemplateUpgradeLeadPremium.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgrade4.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2mWLite.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2cWLite.xlsx" />
+    <Resource Include="Templates\PrintTemplateEliteNonRedeemedGiftsWLite.xlsx" />
+    <Resource Include="Templates\PrintTemplateCancerBaseWebLNR.xlsx" />
+    <Resource Include="Templates\ReportTemplateConversionSalesTracking.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2c.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeRedeemed2.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2m.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgrade3.xlsx" />
+    <Resource Include="Templates\ReportTemplateSalesTracking.xlsx" />
+    <Resource Include="Templates\ReportTemplateRedeemedVsPOD.xlsx" />
+    <Resource Include="Templates\ReportTemplatePermissionQuestion.xlsx" />
+    <Resource Include="Templates\ReportTemplateDailySalesChecking.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeRedeemed.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed.xlsx" />
+    <Resource Include="Templates\ReportTemplateCallMonitoringActivity.xlsx" />
+    <Resource Include="Templates\ReportTemplateTurnover%282%29.xlsx" />
+    <Resource Include="Templates\ReportTemplateTurnover.xlsx" />
+    <Resource Include="Templates\ReportTemplateBumpUpStats.xlsx" />
+    <Resource Include="Templates\ReportTemplateCarriedForward.xlsx" />
+    <Resource Include="Templates\PrintTemplateMining.xlsx" />
+    <Resource Include="Templates\ReportTemplateTopTen.xlsx" />
+    <Resource Include="Templates\ReportTemplateCallMonitoring.xlsx" />
+    <Resource Include="Templates\ReportTemplateCallMonitoringBumpUps.xlsx" />
+    <Resource Include="Templates\ReportTemplateInvalidAccounts.xlsx" />
+    <Resource Include="Templates\ReportTemplateConfirmationStatsNew.xlsx" />
+    <Resource Include="Templates\ReportTemplateConfirmedSalesPerAgent.xlsx" />
+    <Resource Include="Templates\ReportTemplateDiaryToFinalStatus.xlsx" />
+    <Resource Include="Templates\ReportTemplateDeclines.xlsx" />
+    <Resource Include="Templates\ReportTemplatePODDiaries.xlsx" />
+    <Resource Include="Templates\PrintTemplateEliteNonRedeemedGifts.xlsx" />
+    <Resource Include="Templates\PrintTemplateBaseRedeemedGifts.xlsx" />
+    <Resource Include="Templates\PrintTemplateEliteRedeemedGifts.xlsx" />
+    <Resource Include="Templates\ReportTemplateRedeemedGifts.xlsx" />
+    <Resource Include="Templates\ReportTemplateEliteConfirmationProgress.xlsx" />
+    <Resource Include="Templates\ReportTemplateTrackUpgradeBasePolicies.xlsx" />
+    <Resource Include="Templates\ReportTemplateBumpUpPotential.xlsx" />
+    <Resource Include="Templates\PrintTemplateElite.xlsx" />
+    <Resource Include="Templates\ReportTemplateLeadDeAllocations.xlsx" />
+    <Resource Include="Templates\ReportTemplateBatchExport.xlsx" />
+    <Resource Include="Templates\PrintTemplateCancerBase.xlsx" />
+    <Resource Include="Templates\ReportTemplateLeadAllocation.xlsx" />
+    <Resource Include="Templates\ReportTemplateLeadStatus.xlsx" />
+    <Resource Include="Templates\ReportTemplatePremiumBreakdown.xlsx" />
+    <Resource Include="Templates\ReportTemplateLeadSearch.xlsx" />
+    <Resource Include="Templates\ReportTemplateBatchExport.xls" />
+    <Resource Include="Templates\ReportTemplateBumpUp.xlsx" />
+    <Resource Include="Templates\ReportTemplateSalary.xlsx" />
+    <Resource Include="Templates\DuplicateLeadsTemplate.xlsx" />
+    <Resource Include="Templates\ReportTemplateBatchStats.xlsx" />
+    <Resource Include="Templates\ReportTemplatePremiumBreakdownAgent.xlsx" />
+    <Resource Include="Templates\ReportTemplateHoursReport.xlsx" />
+    <Resource Include="Templates\ReportTemplateReducedPremium.xlsx" />
+    <Resource Include="Templates\ReportTemplateDiary.xlsx" />
+    <Resource Include="Templates\PrintTemplate.xlsx" />
+    <Resource Include="Templates\ReportTemplateConfirmedSales.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgrade.xlsx" />
+    <Resource Include="Templates\ReportTemplateLeadAnalysis.xlsx" />
+    <Resource Include="Templates\ReportTemplateStatusLoading.xlsx" />
+    <Resource Include="Templates\ReportTemplateIndividualFallOff.xlsx" />
+    <Resource Include="Templates\ReportTemplateFallOffReport.xlsx" />
+    <Resource Include="Templates\ReportTemplateLeadActivity.xlsx" />
+    <Resource Include="Templates\ReportTemplateBatchReportUpgrades.xlsx" />
+    <Resource Include="Templates\ReportTemplateConfirmationFeedback.xlsx" />
+    <Resource Include="Templates\ReportTemplateBatchReportExtensions.xlsx" />
+    <Resource Include="Templates\ReportTemplateNoContact.xlsx" />
+    <Resource Include="Templates\ReportTemplateExtensionTracking.xlsx" />
+    <Resource Include="Templates\ReportTemplateSales.xlsx" />
+    <Resource Include="Templates\ReportTemplateConfirmationStats.xlsx" />
+    <Resource Include="Templates\ReportTemplateTempSalaryReport.xlsx" />
+    <Resource Include="Templates\ReportTemplateActivity.xlsx" />
+    <Resource Include="Templates\UpgradeSalesFigures.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgrade2.xlsx" />
+    <Resource Include="Templates\ReportTemplateStatusLoadingSummary.xlsx" />
+    <Resource Include="Templates\ReportSupervisorTeam.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\DeleteAppointment_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgAddStaff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgLeads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgLeave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgReports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgSearch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgStaff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgTools.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Resources\imageError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Resources\imageExclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Resources\imageInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\udmcore\Embriant.Framework\Embriant.Framework.csproj">
+      <Project>{b664b2dd-49c8-4a75-92ef-629a16d2db04}</Project>
+      <Name>Embriant.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\udmcore\Embriant.WPF\Embriant.WPF.csproj">
+      <Project>{e5fd5e1a-3d7a-4e7c-8354-3c86b1e94a43}</Project>
+      <Name>Embriant.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UDM.Insurance.Business\UDM.Insurance.Business.csproj">
+      <Project>{70D827FF-B146-4ECA-8EF4-966AC302D2E0}</Project>
+      <Name>UDM.Insurance.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\udmwpf\UDM.WPF\UDM.WPF.csproj">
+      <Project>{2E4744C7-80A5-446C-BB36-E7F678AC5F79}</Project>
+      <Name>UDM.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="in.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="InfragisticsWPF4.Controls.Charts.XamGauge.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.Controls.Editors.XamCalendar.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.Controls.Interactions.XamDialogWindow.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.Controls.Schedules.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.DataPresenter.ExcelExporter.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.DataPresenter.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.Documents.Core.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.Documents.Excel.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.Editors.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="InfragisticsWPF4.v13.1">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="stdole">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\photo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgAssignLeads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgExport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgImport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imgPrintLeads.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\SaveAndCloseAppointment_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\Reminder_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\Recurrence_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\TimeZones_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\Categorize_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Schedule\Conflict_10x10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imageError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Udm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\optionWallpaper.png" />
+    <Resource Include="Resources\CancerRibbon.png" />
+    <Resource Include="Resources\carAccident.png" />
+    <Resource Include="Resources\wheelchair.png" />
+    <Resource Include="Resources\Death.png" />
+    <Resource Include="Screens\photo.jpg" />
+    <Resource Include="Resources\InsureBackground.jpg" />
+    <Resource Include="Resources\WelcomeMessage.jpg" />
+    <Resource Include="Controls\Resources\gold1.jpg" />
+    <Resource Include="InsureIcon.ico" />
+    <Content Include="Models\BlushModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlushModel.edmx</DependentUpon>
+      <LastGenOutput>BlushModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BlushModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlushModel.edmx</DependentUpon>
+      <LastGenOutput>BlushModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\InsureModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InsureModel.edmx</DependentUpon>
+      <LastGenOutput>InsureModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\InsureModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InsureModel.edmx</DependentUpon>
+      <LastGenOutput>InsureModel.cs</LastGenOutput>
+    </Content>
+    <Resource Include="PrismInfrastructure\Images\Bold16.png" />
+    <Resource Include="PrismInfrastructure\Images\Bullets16.png" />
+    <Resource Include="PrismInfrastructure\Images\CenterAlign16.png" />
+    <Resource Include="PrismInfrastructure\Images\Copy16.png" />
+    <Resource Include="PrismInfrastructure\Images\Cut16.png" />
+    <Resource Include="PrismInfrastructure\Images\Delete16.png" />
+    <Resource Include="PrismInfrastructure\Images\Italic16.png" />
+    <Resource Include="PrismInfrastructure\Images\JustifyAlign16.png" />
+    <Resource Include="PrismInfrastructure\Images\LeftAlign16.png" />
+    <Resource Include="PrismInfrastructure\Images\Numbering16.png" />
+    <Resource Include="PrismInfrastructure\Images\Paste32.png" />
+    <Resource Include="PrismInfrastructure\Images\Redo16.png" />
+    <Resource Include="PrismInfrastructure\Images\RightAlign16.png" />
+    <Resource Include="PrismInfrastructure\Images\Underline16.png" />
+    <Resource Include="PrismInfrastructure\Images\Undo16.png" />
+    <Resource Include="PrismInfrastructure\Images\ColorDialog_16x.png" />
+    <Resource Include="PrismInfrastructure\Images\ColorDialog_32x.png" />
+    <Resource Include="Resources\BirthdayWish1.jpg" />
+    <Content Include="Resources\calc.exe" />
+    <None Include="Service References\MercantileService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\MercantileService\configuration.svcinfo" />
+    <None Include="Service References\MercantileService\configuration91.svcinfo" />
+    <Resource Include="Resources\Icons\Telephone-01.png" />
+    <Resource Include="Resources\Icons\Telephone-01-WF.png" />
+    <None Include="Service References\RAMService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\RAMService\configuration.svcinfo" />
+    <None Include="Service References\RAMService\configuration91.svcinfo" />
+    <None Include="Service References\RAMService\TrackingWS.disco" />
+    <Resource Include="Resources\Icons\in.ico" />
+    <Resource Include="Resources\Icons\blog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\MercantileService\" />
+    <WCFMetadataStorage Include="Service References\RAMService\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

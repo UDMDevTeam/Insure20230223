@@ -1,0 +1,305 @@
+using System;
+using System.Text;
+
+using UDM.Insurance.Business;
+using Embriant.Framework.Configuration;
+using Embriant.Framework.Data;
+
+namespace UDM.Insurance.Business.Queries
+{
+    /// <summary>
+    /// Contains methods that return data related to ingiftredeem objects.
+    /// </summary>
+    internal abstract partial class INGiftRedeemQueries
+    {
+        #region Delete
+        /// <summary>
+        /// Creates a query that will delete a(n) ingiftredeem from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to delete.</param>
+        /// <returns>A query that can be used to delete the ingiftredeem from the database.</returns>
+        internal static string Delete(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            string query = string.Empty;
+            if (ingiftredeem != null)
+            {
+                query = "INSERT INTO [zHstINGiftRedeem] ([ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID] FROM [INGiftRedeem] WHERE [INGiftRedeem].[ID] = @ID; ";
+                query += "DELETE FROM [INGiftRedeem] WHERE [INGiftRedeem].[ID] = @ID; ";
+                parameters = new object[1];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+            }
+            return query;
+        }
+
+        /// <summary>
+        /// Creates a query that will delete the history for a(n) ingiftredeem from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to delete history of.</param>
+        /// <returns>A query that can be used to delete the history of the ingiftredeem from the database.</returns>
+        internal static string DeleteHistory(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            string query = string.Empty;
+            if (ingiftredeem != null)
+            {
+                query = "DELETE FROM [zHstINGiftRedeem] WHERE [zHstINGiftRedeem].[ID] = @ID";
+                parameters = new object[1];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+            }
+            return query;
+        }
+
+        /// <summary>
+        /// Creates a query that will undelete a(n) ingiftredeem from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to undelete.</param>
+        /// <returns>A query that can be used to undelete the ingiftredeem from the database.</returns>
+        internal static string UnDelete(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            string query = string.Empty;
+            if (ingiftredeem != null)
+            {
+                query = "INSERT INTO [INGiftRedeem] ([ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID] FROM [zHstINGiftRedeem] WHERE [zHstINGiftRedeem].[ID] = @ID AND [zHstINGiftRedeem].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINGiftRedeem] WHERE [zHstINGiftRedeem].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INGiftRedeem] WHERE [ID] = @ID) = 0; ";
+                query += "DELETE FROM [zHstINGiftRedeem] WHERE [zHstINGiftRedeem].[ID] = @ID AND [zHstINGiftRedeem].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINGiftRedeem] WHERE [zHstINGiftRedeem].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [INGiftRedeem] WHERE [ID] = @ID) = 0; ";
+                parameters = new object[1];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+            }
+            return query;
+        }
+        #endregion
+
+        #region Fill
+        /// <summary>
+        /// Creates a query that will return the data to fill an ingiftredeem object.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to fill.</param>
+        /// <returns>A query that can be used to fill the ingiftredeem object.</returns>
+        internal static string Fill(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            string query = string.Empty;
+            if (ingiftredeem != null)
+            {
+                query = "SELECT [ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID] FROM [INGiftRedeem] WHERE [INGiftRedeem].[ID] = @ID";
+                parameters = new object[1];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+            }
+            return query;
+        }
+
+        /// <summary>
+        /// Creates a query that will return the data to fill a dataset with  ingiftredeem data.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem to return data for.</param>
+        /// <returns>A query that can be used to fill a dataset with  ingiftredeem data.</returns>
+        internal static string FillData(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            StringBuilder query = new StringBuilder();
+            if (ingiftredeem != null)
+            {
+            query.Append("SELECT [INGiftRedeem].[ID], [INGiftRedeem].[FKINImportID], [INGiftRedeem].[FKlkpGiftRedeemStatusID], [INGiftRedeem].[FKGiftOptionID], [INGiftRedeem].[RedeemedDate], [INGiftRedeem].[PODDate], [INGiftRedeem].[PODSignature], [INGiftRedeem].[IsWebRedeemed], [INGiftRedeem].[FKUserID], [INGiftRedeem].[StampDate], [INGiftRedeem].[StampUserID]");
+            query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INGiftRedeem].[StampUserID]) AS 'StampUser'");
+            query.Append(" FROM [INGiftRedeem] ");
+                query.Append(" WHERE [INGiftRedeem].[ID] = @ID");
+                parameters = new object[1];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+            }
+            return query.ToString();
+        }
+
+        /// <summary>
+        /// Creates a query that will return the data to fill an ingiftredeem object from history.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to fill.</param>
+        /// <param name="stampUserID">ID of user who created the original record.</param>
+        /// <param name="stampDate">Date and time when original record was created.</param>
+        /// <returns>A query that can be used to fill the ingiftredeem object from history.</returns>
+        internal static string FillHistory(INGiftRedeem ingiftredeem, long stampUserID, DateTime stampDate, ref object[] parameters)
+        {
+            string query = string.Empty;
+            if (ingiftredeem != null)
+            {
+                query = "SELECT [ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID] FROM [zHstINGiftRedeem] WHERE [zHstINGiftRedeem].[ID] = @ID AND [zHstINGiftRedeem].[StampUserID] = @StampUserID AND [zHstINGiftRedeem].[StampDate] = @StampDate";
+                parameters = new object[3];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+                parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
+                parameters[2] = Database.GetParameter("@StampDate", stampDate);
+            }
+            return query;
+        }
+        #endregion
+
+        #region List
+        /// <summary>
+        /// Lists all the ingiftredeems in the database.
+        /// </summary>
+        /// <returns>A query that can be used to list all the ingiftredeems in the database.</returns>
+        internal static string List()
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT [INGiftRedeem].[ID], [INGiftRedeem].[FKINImportID], [INGiftRedeem].[FKlkpGiftRedeemStatusID], [INGiftRedeem].[FKGiftOptionID], [INGiftRedeem].[RedeemedDate], [INGiftRedeem].[PODDate], [INGiftRedeem].[PODSignature], [INGiftRedeem].[IsWebRedeemed], [INGiftRedeem].[FKUserID], [INGiftRedeem].[StampDate], [INGiftRedeem].[StampUserID]");
+            query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INGiftRedeem].[StampUserID]) AS 'StampUser'");
+            query.Append(" FROM [INGiftRedeem] ");
+            return query.ToString();
+        }
+
+        /// <summary>
+        /// Lists all the deleted ingiftredeems in the database.
+        /// </summary>
+        /// <returns>A query that can be used to list all the deleted ingiftredeems in the database.</returns>
+        internal static string ListDeleted()
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT [zHstINGiftRedeem].[ID], [zHstINGiftRedeem].[FKINImportID], [zHstINGiftRedeem].[FKlkpGiftRedeemStatusID], [zHstINGiftRedeem].[FKGiftOptionID], [zHstINGiftRedeem].[RedeemedDate], [zHstINGiftRedeem].[PODDate], [zHstINGiftRedeem].[PODSignature], [zHstINGiftRedeem].[IsWebRedeemed], [zHstINGiftRedeem].[FKUserID], [zHstINGiftRedeem].[StampDate], [zHstINGiftRedeem].[StampUserID]");
+            query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINGiftRedeem].[StampUserID]) AS 'StampUser'");
+            query.Append(" FROM [zHstINGiftRedeem] ");
+            query.Append("INNER JOIN (SELECT [zHstINGiftRedeem].[ID], MAX([zHstINGiftRedeem].[StampDate]) AS 'StampDate' ");
+            query.Append("FROM [zHstINGiftRedeem] ");
+            query.Append("WHERE [zHstINGiftRedeem].[ID] NOT IN (SELECT [INGiftRedeem].[ID] FROM [INGiftRedeem]) ");
+            query.Append("GROUP BY [zHstINGiftRedeem].[ID]) AS [LastHistory] ");
+            query.Append("ON [zHstINGiftRedeem].[ID] = [LastHistory].[ID] ");
+            query.Append("AND [zHstINGiftRedeem].[StampDate] = [LastHistory].[StampDate] ");
+            return query.ToString();
+        }
+
+        /// <summary>
+        /// Lists the history for a(n) ingiftredeem in the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to list history for.</param>
+        /// <returns>A query that can be used to list the history for a(n) ingiftredeem in the database.</returns>
+        public static string ListHistory(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            StringBuilder query = new StringBuilder();
+            if (ingiftredeem != null)
+            {
+            query.Append("SELECT [zHstINGiftRedeem].[ID], [zHstINGiftRedeem].[FKINImportID], [zHstINGiftRedeem].[FKlkpGiftRedeemStatusID], [zHstINGiftRedeem].[FKGiftOptionID], [zHstINGiftRedeem].[RedeemedDate], [zHstINGiftRedeem].[PODDate], [zHstINGiftRedeem].[PODSignature], [zHstINGiftRedeem].[IsWebRedeemed], [zHstINGiftRedeem].[FKUserID], [zHstINGiftRedeem].[StampDate], [zHstINGiftRedeem].[StampUserID]");
+            query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINGiftRedeem].[StampUserID]) AS 'StampUser'");
+            query.Append(" FROM [zHstINGiftRedeem] ");
+                query.Append(" WHERE [zHstINGiftRedeem].[ID] = @ID");
+                query.Append(" ORDER BY [zHstINGiftRedeem].[StampDate] DESC");
+                parameters = new object[1];
+                parameters[0] = Database.GetParameter("@ID", ingiftredeem.ID);
+            }
+            return query.ToString();
+        }
+        #endregion
+
+        #region Save
+        /// <summary>
+        /// Creates a query to save a(n) ingiftredeem to the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem to save.</param>
+        /// <returns>A query that can be used to save the ingiftredeem to the database.</returns>
+        internal static string Save(INGiftRedeem ingiftredeem, ref object[] parameters)
+        {
+            StringBuilder query = new StringBuilder();
+            if (ingiftredeem != null)
+            {
+                if (ingiftredeem.IsLoaded)
+                {
+                    query.Append("INSERT INTO [zHstINGiftRedeem] ([ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID] FROM [INGiftRedeem] WHERE [INGiftRedeem].[ID] = @ID; ");
+                    query.Append("UPDATE [INGiftRedeem]");
+                    parameters = new object[9];
+                    query.Append(" SET [FKINImportID] = @FKINImportID");
+                    parameters[0] = Database.GetParameter("@FKINImportID", ingiftredeem.FKINImportID.HasValue ? (object)ingiftredeem.FKINImportID.Value : DBNull.Value);
+                    query.Append(", [FKlkpGiftRedeemStatusID] = @FKlkpGiftRedeemStatusID");
+                    parameters[1] = Database.GetParameter("@FKlkpGiftRedeemStatusID", ingiftredeem.FKlkpGiftRedeemStatusID.HasValue ? (object)ingiftredeem.FKlkpGiftRedeemStatusID.Value : DBNull.Value);
+                    query.Append(", [FKGiftOptionID] = @FKGiftOptionID");
+                    parameters[2] = Database.GetParameter("@FKGiftOptionID", ingiftredeem.FKGiftOptionID.HasValue ? (object)ingiftredeem.FKGiftOptionID.Value : DBNull.Value);
+                    query.Append(", [RedeemedDate] = @RedeemedDate");
+                    parameters[3] = Database.GetParameter("@RedeemedDate", ingiftredeem.RedeemedDate.HasValue ? (object)ingiftredeem.RedeemedDate.Value : DBNull.Value);
+                    query.Append(", [PODDate] = @PODDate");
+                    parameters[4] = Database.GetParameter("@PODDate", ingiftredeem.PODDate.HasValue ? (object)ingiftredeem.PODDate.Value : DBNull.Value);
+                    query.Append(", [PODSignature] = @PODSignature");
+                    parameters[5] = Database.GetParameter("@PODSignature", string.IsNullOrEmpty(ingiftredeem.PODSignature) ? DBNull.Value : (object)ingiftredeem.PODSignature);
+                    query.Append(", [IsWebRedeemed] = @IsWebRedeemed");
+                    parameters[6] = Database.GetParameter("@IsWebRedeemed", ingiftredeem.IsWebRedeemed.HasValue ? (object)ingiftredeem.IsWebRedeemed.Value : DBNull.Value);
+                    query.Append(", [FKUserID] = @FKUserID");
+                    parameters[7] = Database.GetParameter("@FKUserID", ingiftredeem.FKUserID.HasValue ? (object)ingiftredeem.FKUserID.Value : DBNull.Value);
+                    query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                    query.Append(" WHERE [INGiftRedeem].[ID] = @ID"); 
+                    parameters[8] = Database.GetParameter("@ID", ingiftredeem.ID);
+                }
+                else
+                {
+                    query.Append("INSERT INTO [INGiftRedeem] ([FKINImportID], [FKlkpGiftRedeemStatusID], [FKGiftOptionID], [RedeemedDate], [PODDate], [PODSignature], [IsWebRedeemed], [FKUserID], [StampDate], [StampUserID]) VALUES(@FKINImportID, @FKlkpGiftRedeemStatusID, @FKGiftOptionID, @RedeemedDate, @PODDate, @PODSignature, @IsWebRedeemed, @FKUserID, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                    parameters = new object[8];
+                    parameters[0] = Database.GetParameter("@FKINImportID", ingiftredeem.FKINImportID.HasValue ? (object)ingiftredeem.FKINImportID.Value : DBNull.Value);
+                    parameters[1] = Database.GetParameter("@FKlkpGiftRedeemStatusID", ingiftredeem.FKlkpGiftRedeemStatusID.HasValue ? (object)ingiftredeem.FKlkpGiftRedeemStatusID.Value : DBNull.Value);
+                    parameters[2] = Database.GetParameter("@FKGiftOptionID", ingiftredeem.FKGiftOptionID.HasValue ? (object)ingiftredeem.FKGiftOptionID.Value : DBNull.Value);
+                    parameters[3] = Database.GetParameter("@RedeemedDate", ingiftredeem.RedeemedDate.HasValue ? (object)ingiftredeem.RedeemedDate.Value : DBNull.Value);
+                    parameters[4] = Database.GetParameter("@PODDate", ingiftredeem.PODDate.HasValue ? (object)ingiftredeem.PODDate.Value : DBNull.Value);
+                    parameters[5] = Database.GetParameter("@PODSignature", string.IsNullOrEmpty(ingiftredeem.PODSignature) ? DBNull.Value : (object)ingiftredeem.PODSignature);
+                    parameters[6] = Database.GetParameter("@IsWebRedeemed", ingiftredeem.IsWebRedeemed.HasValue ? (object)ingiftredeem.IsWebRedeemed.Value : DBNull.Value);
+                    parameters[7] = Database.GetParameter("@FKUserID", ingiftredeem.FKUserID.HasValue ? (object)ingiftredeem.FKUserID.Value : DBNull.Value);
+                    query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                }
+            }
+            return query.ToString();
+        }
+        #endregion
+
+        #region Search
+        /// <summary>
+        /// Searches for ingiftredeems that match the search criteria.
+        /// </summary>
+        /// <param name="fkinimportid">The fkinimportid search criteria.</param>
+        /// <param name="fklkpgiftredeemstatusid">The fklkpgiftredeemstatusid search criteria.</param>
+        /// <param name="fkgiftoptionid">The fkgiftoptionid search criteria.</param>
+        /// <param name="redeemeddate">The redeemeddate search criteria.</param>
+        /// <param name="poddate">The poddate search criteria.</param>
+        /// <param name="podsignature">The podsignature search criteria.</param>
+        /// <param name="iswebredeemed">The iswebredeemed search criteria.</param>
+        /// <param name="fkuserid">The fkuserid search criteria.</param>
+        /// <returns>A query that can be used to search for ingiftredeems based on the search criteria.</returns>
+        internal static string Search(long? fkinimportid, long? fklkpgiftredeemstatusid, long? fkgiftoptionid, DateTime? redeemeddate, DateTime? poddate, string podsignature, bool? iswebredeemed, long? fkuserid)
+        {
+            StringBuilder whereQuery = new StringBuilder();
+            StringBuilder query = new StringBuilder();
+
+            if (fkinimportid != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[FKINImportID] = " + fkinimportid + "");
+            }
+            if (fklkpgiftredeemstatusid != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[FKlkpGiftRedeemStatusID] = " + fklkpgiftredeemstatusid + "");
+            }
+            if (fkgiftoptionid != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[FKGiftOptionID] = " + fkgiftoptionid + "");
+            }
+            if (redeemeddate != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[RedeemedDate] = '" + redeemeddate.Value.ToString(Database.DateFormat) + "'");
+            }
+            if (poddate != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[PODDate] = '" + poddate.Value.ToString(Database.DateFormat) + "'");
+            }
+            if (podsignature != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[PODSignature] LIKE '" + podsignature.Replace("'", "''").Replace("*", "%") + "'");
+            }
+            if (iswebredeemed != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[IsWebRedeemed] = " + ((bool)iswebredeemed ? "1" : "0"));
+            }
+            if (fkuserid != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INGiftRedeem].[FKUserID] = " + fkuserid + "");
+            }
+            query.Append("SELECT [INGiftRedeem].[ID], [INGiftRedeem].[FKINImportID], [INGiftRedeem].[FKlkpGiftRedeemStatusID], [INGiftRedeem].[FKGiftOptionID], [INGiftRedeem].[RedeemedDate], [INGiftRedeem].[PODDate], [INGiftRedeem].[PODSignature], [INGiftRedeem].[IsWebRedeemed], [INGiftRedeem].[FKUserID], [INGiftRedeem].[StampDate], [INGiftRedeem].[StampUserID]");
+            query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INGiftRedeem].[StampUserID]) AS 'StampUser'");
+            query.Append(" FROM [INGiftRedeem] ");
+            return query.ToString() + whereQuery.ToString();
+        }
+        #endregion
+    }
+}

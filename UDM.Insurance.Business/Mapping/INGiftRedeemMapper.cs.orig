@@ -1,0 +1,408 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Text;
+using System.Collections;
+
+using UDM.Insurance.Business;
+using UDM.Insurance.Business.Queries;
+using Embriant.Framework.Configuration;
+using Embriant.Framework.Data;
+using Embriant.Framework.Exceptions;
+using Embriant.Framework;
+using Embriant.Framework.Validation;
+
+namespace UDM.Insurance.Business.Mapping
+{
+    /// <summary>
+    /// Contains methods to fill, save and delete ingiftredeem objects.
+    /// </summary>
+    public partial class INGiftRedeemMapper
+    {
+        #region Delete
+        /// <summary>
+        /// Detetes a(n) ingiftredeem object from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The id of the ingiftredeem object to delete from the database.</param>
+        /// <param name="trans">The transaction object to use to delete the ingiftredeem object.</param>
+        /// <returns>True if the ingiftredeem object was deleted successfully, else false.</returns>
+        internal static bool Delete(INGiftRedeem ingiftredeem)
+        {
+            int affectedRows = 0;
+            try
+            {
+                object[] parameters = null;
+                affectedRows = Database.ExecuteCommand(ingiftredeem.ConnectionName, INGiftRedeemQueries.Delete(ingiftredeem, ref parameters), parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to delete a INGiftRedeem object from the database", ex);
+            }
+            return affectedRows > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// Detetes the history of a(n) ingiftredeem object from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The id of the ingiftredeem object to delete history of.</param>
+        /// <param name="trans">The transaction object to use to delete the ingiftredeem history.</param>
+        /// <returns>True if the ingiftredeem history was deleted successfully, else false.</returns>
+        internal static bool DeleteHistory(INGiftRedeem ingiftredeem)
+        {
+            int affectedRows = 0;
+            try
+            {
+                object[] parameters = null;
+                affectedRows = Database.ExecuteCommand(ingiftredeem.ConnectionName, INGiftRedeemQueries.DeleteHistory(ingiftredeem, ref parameters), parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to delete INGiftRedeem history from the database", ex);
+            }
+            return affectedRows > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// Undetetes a(n) ingiftredeem object from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The id of the ingiftredeem object to undelete.</param>
+        /// <param name="trans">The transaction object to use to undelete the ingiftredeem object.</param>
+        /// <returns>True if the ingiftredeem object was undeleted successfully, else false.</returns>
+        internal static bool UnDelete(INGiftRedeem ingiftredeem)
+        {
+            int affectedRows = 0;
+            try
+            {
+                object[] parameters = null;
+                affectedRows = Database.ExecuteCommand(ingiftredeem.ConnectionName, INGiftRedeemQueries.UnDelete(ingiftredeem, ref parameters), parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to undelete a INGiftRedeem object from the database", ex);
+            }
+            return affectedRows > 0 ? true : false;
+        }
+        #endregion
+
+        #region Fill
+        /// <summary>
+        /// Populates the ingiftredeem object from the data reader.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem object to populate.</param>
+        /// <param name="reader">The data reader with the data.</param>
+        private static void Fill(INGiftRedeem ingiftredeem, IDataReader reader)
+        {
+            try
+            {
+                if (reader["ID"] != DBNull.Value)
+                {
+                    ingiftredeem.IsLoaded = true;
+                    ingiftredeem.FKINImportID = reader["FKINImportID"] != DBNull.Value ? (long)reader["FKINImportID"] : (long?)null;
+                    ingiftredeem.FKlkpGiftRedeemStatusID = reader["FKlkpGiftRedeemStatusID"] != DBNull.Value ? (long)reader["FKlkpGiftRedeemStatusID"] : (long?)null;
+                    ingiftredeem.FKGiftOptionID = reader["FKGiftOptionID"] != DBNull.Value ? (long)reader["FKGiftOptionID"] : (long?)null;
+                    ingiftredeem.RedeemedDate = reader["RedeemedDate"] != DBNull.Value ? (DateTime)reader["RedeemedDate"] : (DateTime?)null;
+                    ingiftredeem.PODDate = reader["PODDate"] != DBNull.Value ? (DateTime)reader["PODDate"] : (DateTime?)null;
+                    ingiftredeem.PODSignature = reader["PODSignature"] != DBNull.Value ? (string)reader["PODSignature"] : (string)null;
+                    ingiftredeem.IsWebRedeemed = reader["IsWebRedeemed"] != DBNull.Value ? (bool)reader["IsWebRedeemed"] : (bool?)null;
+                    ingiftredeem.StampDate = (DateTime)reader["StampDate"];
+                    ingiftredeem.HasChanged = false;
+                }
+                else
+                {
+                    throw new MapperException("INGiftRedeem does not exist in the database.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to populate a INGiftRedeem object from the database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Fills an ingiftredeem object from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem to fill.</param>
+        internal static void Fill(INGiftRedeem ingiftredeem)
+        {
+            try
+            {
+                object[] parameters = null;
+                IDataReader reader = Database.ExecuteReader(ingiftredeem.ConnectionName, INGiftRedeemQueries.Fill(ingiftredeem, ref parameters), parameters);
+                if (reader.Read())
+                {
+                    Fill(ingiftredeem, reader);
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to populate a INGiftRedeem object from the database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Returns the data for a ingiftredeem object in the database.
+        /// </summary>
+        /// <param name="connectionName">Database connection name to use for the listing.</param>
+        /// <returns>A data set containing the results of the query.</returns>
+        public static DataSet FillData(INGiftRedeem ingiftredeem)
+        {
+            try
+            {
+                object[] parameters = null;
+                return Database.ExecuteDataSet(ingiftredeem.ConnectionName, INGiftRedeemQueries.FillData(ingiftredeem, ref parameters), parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to return data for a INGiftRedeem object from the database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Fills an ingiftredeem object from the history table.
+        /// </summary>
+        /// <param name="stampUserID">ID of user who created the original record.</param>
+        /// <param name="stampDate">Date and time when original record was created.</param>
+        /// <param name="ingiftredeem">The ingiftredeem to fill from history.</param>
+        internal static void FillHistory(INGiftRedeem ingiftredeem, long stampUserID, DateTime stampDate)
+        {
+            try
+            {
+                object[] parameters = null;
+                IDataReader reader = Database.ExecuteReader(ingiftredeem.ConnectionName, INGiftRedeemQueries.FillHistory(ingiftredeem, stampUserID, stampDate, ref parameters), parameters);
+                if (reader.Read())
+                {
+                    Fill(ingiftredeem, reader);
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to populate a INGiftRedeem object from the database", ex);
+            }
+        }
+        #endregion
+
+        #region List
+        /// <summary>
+        /// Lists all the ingiftredeem objects in the database.
+        /// </summary>
+        /// <param name="showDeleted">Indicates whether active or deleted records must be listed.</param>
+        /// <param name="connectionName">Database connection name to use for the listing.</param>
+        /// <returns>A datareader containing the results of the query.</returns>
+        public static INGiftRedeemCollection List(bool showDeleted, string connectionName)
+        {
+            INGiftRedeemCollection collection = new INGiftRedeemCollection();
+            try
+            {
+                IDataReader reader = Database.ExecuteReader(connectionName, showDeleted ? INGiftRedeemQueries.ListDeleted() : INGiftRedeemQueries.List(), null);
+                while (reader.Read())
+                {
+                    INGiftRedeem ingiftredeem = new INGiftRedeem((long)reader["ID"]);
+                    ingiftredeem.ConnectionName = connectionName;
+                    collection.Add(ingiftredeem);
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to list INGiftRedeem objects in the database", ex);
+            }
+            return collection;
+        }
+
+        /// <summary>
+        /// Lists all the ingiftredeem objects in the database.
+        /// </summary>
+        /// <param name="showDeleted">Indicates whether active or deleted records must be listed.</param>
+        /// <param name="connectionName">Database connection name to use for the listing.</param>
+        /// <returns>A data set containing the results of the query.</returns>
+        public static DataSet ListData(bool showDeleted, string connectionName)
+        {
+            try
+            {
+                return Database.ExecuteDataSet(connectionName, showDeleted ? INGiftRedeemQueries.ListDeleted() : INGiftRedeemQueries.List(), null);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to list INGiftRedeem objects in the database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Lists the history for a(n) ingiftredeem object from the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The ingiftredeem to list history for.</param>
+        /// <returns>A data set containing the results of the query.</returns>
+        public static DataSet ListHistory(INGiftRedeem ingiftredeem)
+        {
+            INGiftRedeemCollection collection = new INGiftRedeemCollection();
+            try
+            {
+                object[] parameters = null;
+                return Database.ExecuteDataSet(ingiftredeem.ConnectionName, INGiftRedeemQueries.ListHistory(ingiftredeem, ref parameters), parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to list history for a(n) INGiftRedeem in the database", ex);
+            }
+        }
+        #endregion
+
+        #region Save
+        /// <summary>
+        /// Saves an ingiftredeem object to the database.
+        /// </summary>
+        /// <param name="ingiftredeem">The INGiftRedeem object to save.</param>
+        /// <param name="trans">The database object to use for the opperation.</param>
+        /// <returns>True if the ingiftredeem was saved successfull, otherwise, false.</returns>
+        internal static bool Save(INGiftRedeem ingiftredeem)
+        {
+            bool result = true;
+            try
+            {
+                object[] parameters = null;
+                if (ingiftredeem.IsLoaded)
+                {
+                    int affectedRows = Database.ExecuteCommand(ingiftredeem.ConnectionName, INGiftRedeemQueries.Save(ingiftredeem, ref parameters), parameters);
+                    result = affectedRows > 0;
+                }
+                else
+                {
+                    IDataReader reader = Database.ExecuteReader(ingiftredeem.ConnectionName, INGiftRedeemQueries.Save(ingiftredeem, ref parameters), parameters);
+                    if (reader != null)
+                    {
+                        if (reader.Read())
+                        {
+                            ingiftredeem.ID = (long)(decimal)reader["NewID"];
+                        }
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                            reader.Dispose();
+                        }
+                    }
+                    result &= ingiftredeem.ID != 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to save a INGiftRedeem object to the database", ex);
+            }
+            return result;
+        }
+        #endregion
+
+        #region Search
+        /// <summary>
+        /// Searches for ingiftredeem objects in the database.
+        /// </summary>
+        /// <param name="fkinimportid">The fkinimportid search criteria.</param>
+        /// <param name="fklkpgiftredeemstatusid">The fklkpgiftredeemstatusid search criteria.</param>
+        /// <param name="fkgiftoptionid">The fkgiftoptionid search criteria.</param>
+        /// <param name="redeemeddate">The redeemeddate search criteria.</param>
+        /// <param name="poddate">The poddate search criteria.</param>
+        /// <param name="podsignature">The podsignature search criteria.</param>
+        /// <param name="iswebredeemed">The iswebredeemed search criteria.</param>
+        /// <param name="connectionName">Database connection name to use for the search.</param>
+        /// <returns>A datareader containing the results of the search.</returns>
+        public static INGiftRedeemCollection Search(long? fkinimportid, long? fklkpgiftredeemstatusid, long? fkgiftoptionid, DateTime? redeemeddate, DateTime? poddate, string podsignature, bool? iswebredeemed, string connectionName)
+        {
+            INGiftRedeemCollection collection = new INGiftRedeemCollection();
+            try
+            {
+                IDataReader reader = Database.ExecuteReader(connectionName, INGiftRedeemQueries.Search(fkinimportid, fklkpgiftredeemstatusid, fkgiftoptionid, redeemeddate, poddate, podsignature, iswebredeemed), null);
+                while (reader.Read())
+                {
+                    INGiftRedeem ingiftredeem = new INGiftRedeem((long)reader["ID"]);
+                    ingiftredeem.ConnectionName = connectionName;
+                    collection.Add(ingiftredeem);
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to search for INGiftRedeem objects in the database", ex);
+            }
+            return collection;
+        }
+
+        /// <summary>
+        /// Searches for ingiftredeem objects in the database.
+        /// </summary>
+        /// <param name="fkinimportid">The fkinimportid search criteria.</param>
+        /// <param name="fklkpgiftredeemstatusid">The fklkpgiftredeemstatusid search criteria.</param>
+        /// <param name="fkgiftoptionid">The fkgiftoptionid search criteria.</param>
+        /// <param name="redeemeddate">The redeemeddate search criteria.</param>
+        /// <param name="poddate">The poddate search criteria.</param>
+        /// <param name="podsignature">The podsignature search criteria.</param>
+        /// <param name="iswebredeemed">The iswebredeemed search criteria.</param>
+        /// <param name="connectionName">Database connection name to use for the search.</param>
+        /// <returns>A data set containing the results of the search.</returns>
+        public static DataSet SearchData(long? fkinimportid, long? fklkpgiftredeemstatusid, long? fkgiftoptionid, DateTime? redeemeddate, DateTime? poddate, string podsignature, bool? iswebredeemed, string connectionName)
+        {
+            try
+            {
+                return Database.ExecuteDataSet(connectionName, INGiftRedeemQueries.Search(fkinimportid, fklkpgiftredeemstatusid, fkgiftoptionid, redeemeddate, poddate, podsignature, iswebredeemed), null);
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to search for INGiftRedeem objects in the database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Searches for the top 1 ingiftredeem objects in the database.
+        /// </summary>
+        /// <param name="fkinimportid">The fkinimportid search criteria.</param>
+        /// <param name="fklkpgiftredeemstatusid">The fklkpgiftredeemstatusid search criteria.</param>
+        /// <param name="fkgiftoptionid">The fkgiftoptionid search criteria.</param>
+        /// <param name="redeemeddate">The redeemeddate search criteria.</param>
+        /// <param name="poddate">The poddate search criteria.</param>
+        /// <param name="podsignature">The podsignature search criteria.</param>
+        /// <param name="iswebredeemed">The iswebredeemed search criteria.</param>
+        /// <param name="connectionName">Database connection name to use for the search.</param>
+        /// <returns>A datareader containing the results of the search.</returns>
+        public static INGiftRedeem SearchOne(long? fkinimportid, long? fklkpgiftredeemstatusid, long? fkgiftoptionid, DateTime? redeemeddate, DateTime? poddate, string podsignature, bool? iswebredeemed, string connectionName)
+        {
+            INGiftRedeem ingiftredeem = null;
+            try
+            {
+                IDataReader reader = Database.ExecuteReader(connectionName, INGiftRedeemQueries.Search(fkinimportid, fklkpgiftredeemstatusid, fkgiftoptionid, redeemeddate, poddate, podsignature, iswebredeemed), null);
+                if (reader.Read())
+                {
+                    ingiftredeem = new INGiftRedeem((long)reader["ID"]);
+                    ingiftredeem.ConnectionName = connectionName;
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to search for INGiftRedeem objects in the database", ex);
+            }
+            return ingiftredeem;
+        }
+        #endregion
+    }
+}

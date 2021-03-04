@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="UDM.Insurance.Interface.PrismViews.EditClosureScreenToolbarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid
+        Margin="1"
+        Background="Transparent"
+        FocusManager.FocusedElement="{Binding ElementName=cmbCampaign}">
+        <StackPanel Orientation="Horizontal">
+            <src:EmbriantComboBox
+                x:Name="cmbCampaign"
+                Width="330"
+                Height="30"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Campaigns}"
+                PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                SelectedItem="{Binding SelectedCampaign}"
+                Style="{StaticResource cmbINHighlightBorder}"
+                TabIndex="0" />
+            <Grid Width="12" />
+            <src:EmbriantComboBox
+                x:Name="cmbLanguage"
+                Width="150"
+                Height="30"
+                DisplayMemberPath="Description"
+                ItemsSource="{Binding Languages}"
+                PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                SelectedItem="{Binding SelectedLanguage}"
+                Style="{StaticResource cmbINHighlightBorder}"
+                TabIndex="0" />
+            <Grid Width="12" />
+            <Button
+                x:Name="btnOpenDoc"
+                Width="110"
+                Height="30"
+                Command="{Binding OpenDocCommand}"
+                Content="Open"
+                Style="{StaticResource INFlatButton}"
+                TabIndex="0" />
+            <Grid Width="12" />
+            <Button
+                x:Name="btnCloseDoc"
+                Width="110"
+                Height="30"
+                Command="{Binding CloseDocCommand}"
+                Content="Close"
+                TabIndex="0">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource INFlatButton}" TargetType="Button">
+                        <Style.Triggers>
+                            <!--<DataTrigger Binding="{Binding ClosureText}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>-->
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Grid Width="12" />
+            <Button
+                x:Name="btnSaveDoc"
+                Width="110"
+                Height="30"
+                Command="{Binding SaveDocCommand}"
+                Content="Save"
+                Style="{StaticResource INFlatButton}"
+                TabIndex="0" />
+        </StackPanel>
+    </Grid>
+</UserControl>

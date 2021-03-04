@@ -1,0 +1,151 @@
+﻿<src:BaseControl
+    x:Class="UDM.Insurance.Interface.Screens.SelectLeadCampaignScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    Width="600"
+    Height="400"
+    Loaded="SelectLeadCampaignScreen_OnLoaded"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+        </Grid.RowDefinitions>
+
+        <Rectangle
+            x:Name="BGRectangle"
+            Grid.RowSpan="12"
+            Grid.ColumnSpan="18"
+            Margin="0"
+            Fill="Black"
+            RadiusX="12"
+            RadiusY="12"
+            StrokeThickness="2">
+            <Rectangle.Stroke>
+                <SolidColorBrush Color="{DynamicResource BrandedColourIN}" />
+            </Rectangle.Stroke>
+        </Rectangle>
+
+        <Button
+            x:Name="btnClose"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="16"
+            Grid.ColumnSpan="2"
+            Click="btnClose_Click"
+            Style="{DynamicResource INCloseButton}"
+            TabIndex="0" />
+
+        <TextBlock
+            x:Name="headerSelectLeadCampaign"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="6"
+            VerticalAlignment="Top"
+            Style="{DynamicResource INPageHeadingText1}"
+            Text="Select Campaign" />
+
+        <igDP:XamDataGrid
+            x:Name="xdgSelectLeadCampaign"
+            Grid.Row="2"
+            Grid.RowSpan="8"
+            Grid.Column="1"
+            Grid.ColumnSpan="16"
+            Margin="0,0,0,15"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            AutoFit="False"
+            GroupByAreaLocation="None"
+            Style="{DynamicResource INXamDataGridStyle1}"
+            TabIndex="0">
+            <igDP:XamDataGrid.FieldLayouts>
+                <igDP:FieldLayout>
+                    <igDP:Field
+                        Name="ImportID"
+                        Label="ImportID"
+                        Visibility="Collapsed" />
+                    <igDP:Field
+                        Name="CampaignID"
+                        Label="CampaignID"
+                        Visibility="Collapsed" />
+                    <igDP:Field
+                        Name="CampaignCode"
+                        Label="CampaignCode"
+                        Visibility="Collapsed" />
+                    <igDP:Field
+                        Name="CampaignName"
+                        Width="200"
+                        Label="Campaign Name" />
+                    <igDP:Field
+                        Name="BatchID"
+                        Label="BatchID"
+                        Visibility="Collapsed" />
+                    <igDP:Field
+                        Name="BatchCode"
+                        Width="100"
+                        Label="Batch Code" />
+                    <igDP:Field
+                        Name="LeadID"
+                        Label="LeadID"
+                        Visibility="Collapsed" />
+                    <igDP:Field
+                        Name="LeadName"
+                        Width="200"
+                        Label="Lead Name" />
+                </igDP:FieldLayout>
+            </igDP:XamDataGrid.FieldLayouts>
+        </igDP:XamDataGrid>
+
+        <Button
+            x:Name="btnSelect"
+            Grid.Row="10"
+            Grid.Column="12"
+            Grid.ColumnSpan="5"
+            Margin="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="btnSelect_Click"
+            Content="Select"
+            IsDefault="True"
+            Style="{DynamicResource INFlatButton}"
+            TabIndex="0" />
+
+    </Grid>
+
+</src:BaseControl>

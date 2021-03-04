@@ -1,0 +1,2933 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HelloWorld2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="dt" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HelloWorld2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorld2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Logon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LogonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserSessionValid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserSessionValidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UserSessionValidResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentDetailsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentDetailsByShipperReference">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="shipperReference" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentDetailsByShipperReferenceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentDetailsByShipperReferenceResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentTracking">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentTrackingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentTrackingResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsTrackingStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentIDs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsTrackingStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentsTrackingStatusResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsTrackingStatusByShipperReferences">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="shipperReferences" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsTrackingStatusByShipperReferencesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentsTrackingStatusByShipperReferencesResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentTrackingByShipperReference">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="shipperReference" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentTrackingByShipperReferenceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentTrackingByShipperReferenceResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImagesList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImagesListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PODImagesListResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImageByIndex">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="imageIndex" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImageByIndexResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PODImageByIndexResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MobileImageByIndex">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="reference" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recordType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="indexNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MobileImageByIndexResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MobileImageByIndexResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MobileImagesAsPDF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="reference" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recordType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MobileImagesAsPDFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MobileImagesAsPDFResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PODImagesResult" type="tns:ArrayOfBase64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBase64Binary">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="base64Binary" nillable="true" type="s:base64Binary" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PODImage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fragmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PODImageResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImagesAsPDF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PODImagesAsPDFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PODImagesAsPDFResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsConsignedByDay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="day" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsConsignedByDayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentsConsignedByDayResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsDeliveredByDay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="day" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsDeliveredByDayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentsDeliveredByDayResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsNotDeliveredByDay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="day" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsignmentsNotDeliveredByDayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsignmentsNotDeliveredByDayResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RAMShipperUndelivered">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="startDT" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="endDT" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RAMShipperUndeliveredResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RAMShipperUndeliveredResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RAMShipperDelivered">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="startDT" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="endDT" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RAMShipperDeliveredResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RAMShipperDeliveredResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RAMShipperConsigned">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="startDT" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="endDT" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RAMShipperConsignedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RAMShipperConsignedResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetQuoteV2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="billedTo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviceTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sectorCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderZoneID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="receiverZoneID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="saturdaySurcharge" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="afterHoursSurcharge" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="insured" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="insuredValue" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="armouredVehicle" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="length" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="breadth" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="height" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetQuoteV2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetQuoteV2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetQuoteV3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="billedTo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviceTypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senderZoneID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="receiverZoneID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="saturdaySurcharge" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="afterHoursSurcharge" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="insured" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="insuredValue" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="armouredVehicle" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="faceToFaceSurcharge" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="weight" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="length" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="breadth" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="height" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="noOfCards" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetQuoteV3Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetQuoteV3Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuburbSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filter" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="maxRecords" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuburbSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SuburbSearchResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SuburbsDownload">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuburbsDownloadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SuburbsDownloadResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CacheView_Customers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CacheView_CustomersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CacheView_CustomersResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CacheView_ConsignmentsArchive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CacheView_ConsignmentsArchiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CacheView_ConsignmentsArchiveResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CacheView_ParcelsArchive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="consignmentID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CacheView_ParcelsArchiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CacheView_ParcelsArchiveResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LineHaulDepParcels">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="logonToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lineHaulDepID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LineHaulDepParcelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LineHaulDepParcelsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="base64Binary" nillable="true" type="s:base64Binary" />
+      <s:element name="ArrayOfBase64Binary" nillable="true" type="tns:ArrayOfBase64Binary" />
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorld2SoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld2" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorld2SoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorld2Response" />
+  </wsdl:message>
+  <wsdl:message name="LogonSoapIn">
+    <wsdl:part name="parameters" element="tns:Logon" />
+  </wsdl:message>
+  <wsdl:message name="LogonSoapOut">
+    <wsdl:part name="parameters" element="tns:LogonResponse" />
+  </wsdl:message>
+  <wsdl:message name="UserSessionValidSoapIn">
+    <wsdl:part name="parameters" element="tns:UserSessionValid" />
+  </wsdl:message>
+  <wsdl:message name="UserSessionValidSoapOut">
+    <wsdl:part name="parameters" element="tns:UserSessionValidResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentDetails" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsByShipperReferenceSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentDetailsByShipperReference" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsByShipperReferenceSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentDetailsByShipperReferenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentTracking" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentTrackingResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentsTrackingStatus" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentsTrackingStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusByShipperReferencesSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentsTrackingStatusByShipperReferences" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusByShipperReferencesSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentsTrackingStatusByShipperReferencesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingByShipperReferenceSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentTrackingByShipperReference" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingByShipperReferenceSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentTrackingByShipperReferenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesListSoapIn">
+    <wsdl:part name="parameters" element="tns:PODImagesList" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesListSoapOut">
+    <wsdl:part name="parameters" element="tns:PODImagesListResponse" />
+  </wsdl:message>
+  <wsdl:message name="PODImageByIndexSoapIn">
+    <wsdl:part name="parameters" element="tns:PODImageByIndex" />
+  </wsdl:message>
+  <wsdl:message name="PODImageByIndexSoapOut">
+    <wsdl:part name="parameters" element="tns:PODImageByIndexResponse" />
+  </wsdl:message>
+  <wsdl:message name="MobileImageByIndexSoapIn">
+    <wsdl:part name="parameters" element="tns:MobileImageByIndex" />
+  </wsdl:message>
+  <wsdl:message name="MobileImageByIndexSoapOut">
+    <wsdl:part name="parameters" element="tns:MobileImageByIndexResponse" />
+  </wsdl:message>
+  <wsdl:message name="MobileImagesAsPDFSoapIn">
+    <wsdl:part name="parameters" element="tns:MobileImagesAsPDF" />
+  </wsdl:message>
+  <wsdl:message name="MobileImagesAsPDFSoapOut">
+    <wsdl:part name="parameters" element="tns:MobileImagesAsPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesSoapIn">
+    <wsdl:part name="parameters" element="tns:PODImages" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesSoapOut">
+    <wsdl:part name="parameters" element="tns:PODImagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="PODImageSoapIn">
+    <wsdl:part name="parameters" element="tns:PODImage" />
+  </wsdl:message>
+  <wsdl:message name="PODImageSoapOut">
+    <wsdl:part name="parameters" element="tns:PODImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesAsPDFSoapIn">
+    <wsdl:part name="parameters" element="tns:PODImagesAsPDF" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesAsPDFSoapOut">
+    <wsdl:part name="parameters" element="tns:PODImagesAsPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsConsignedByDaySoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentsConsignedByDay" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsConsignedByDaySoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentsConsignedByDayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsDeliveredByDaySoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentsDeliveredByDay" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsDeliveredByDaySoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentsDeliveredByDayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsNotDeliveredByDaySoapIn">
+    <wsdl:part name="parameters" element="tns:ConsignmentsNotDeliveredByDay" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsNotDeliveredByDaySoapOut">
+    <wsdl:part name="parameters" element="tns:ConsignmentsNotDeliveredByDayResponse" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperUndeliveredSoapIn">
+    <wsdl:part name="parameters" element="tns:RAMShipperUndelivered" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperUndeliveredSoapOut">
+    <wsdl:part name="parameters" element="tns:RAMShipperUndeliveredResponse" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperDeliveredSoapIn">
+    <wsdl:part name="parameters" element="tns:RAMShipperDelivered" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperDeliveredSoapOut">
+    <wsdl:part name="parameters" element="tns:RAMShipperDeliveredResponse" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperConsignedSoapIn">
+    <wsdl:part name="parameters" element="tns:RAMShipperConsigned" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperConsignedSoapOut">
+    <wsdl:part name="parameters" element="tns:RAMShipperConsignedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetQuoteV2" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetQuoteV2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV3SoapIn">
+    <wsdl:part name="parameters" element="tns:GetQuoteV3" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV3SoapOut">
+    <wsdl:part name="parameters" element="tns:GetQuoteV3Response" />
+  </wsdl:message>
+  <wsdl:message name="SuburbSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:SuburbSearch" />
+  </wsdl:message>
+  <wsdl:message name="SuburbSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:SuburbSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="SuburbsDownloadSoapIn">
+    <wsdl:part name="parameters" element="tns:SuburbsDownload" />
+  </wsdl:message>
+  <wsdl:message name="SuburbsDownloadSoapOut">
+    <wsdl:part name="parameters" element="tns:SuburbsDownloadResponse" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_CustomersSoapIn">
+    <wsdl:part name="parameters" element="tns:CacheView_Customers" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_CustomersSoapOut">
+    <wsdl:part name="parameters" element="tns:CacheView_CustomersResponse" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ConsignmentsArchiveSoapIn">
+    <wsdl:part name="parameters" element="tns:CacheView_ConsignmentsArchive" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ConsignmentsArchiveSoapOut">
+    <wsdl:part name="parameters" element="tns:CacheView_ConsignmentsArchiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ParcelsArchiveSoapIn">
+    <wsdl:part name="parameters" element="tns:CacheView_ParcelsArchive" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ParcelsArchiveSoapOut">
+    <wsdl:part name="parameters" element="tns:CacheView_ParcelsArchiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="LineHaulDepParcelsSoapIn">
+    <wsdl:part name="parameters" element="tns:LineHaulDepParcels" />
+  </wsdl:message>
+  <wsdl:message name="LineHaulDepParcelsSoapOut">
+    <wsdl:part name="parameters" element="tns:LineHaulDepParcelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetIn" />
+  <wsdl:message name="HelloWorldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorld2HttpGetIn">
+    <wsdl:part name="dt" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorld2HttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="LogonHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LogonHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UserSessionValidHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UserSessionValidHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsByShipperReferenceHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="shipperReference" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsByShipperReferenceHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentIDs" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusByShipperReferencesHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="shipperReferences" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusByShipperReferencesHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingByShipperReferenceHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="shipperReference" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingByShipperReferenceHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesListHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesListHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="PODImageByIndexHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+    <wsdl:part name="imageIndex" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImageByIndexHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="MobileImageByIndexHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="reference" type="s:string" />
+    <wsdl:part name="recordType" type="s:string" />
+    <wsdl:part name="documentType" type="s:string" />
+    <wsdl:part name="indexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MobileImageByIndexHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="MobileImagesAsPDFHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="reference" type="s:string" />
+    <wsdl:part name="recordType" type="s:string" />
+    <wsdl:part name="documentType" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MobileImagesAsPDFHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBase64Binary" />
+  </wsdl:message>
+  <wsdl:message name="PODImageHttpGetIn">
+    <wsdl:part name="fragmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImageHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesAsPDFHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesAsPDFHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsConsignedByDayHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="day" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsConsignedByDayHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsDeliveredByDayHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="day" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsDeliveredByDayHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsNotDeliveredByDayHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="day" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsNotDeliveredByDayHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperUndeliveredHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="startDT" type="s:string" />
+    <wsdl:part name="endDT" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperUndeliveredHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperDeliveredHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="startDT" type="s:string" />
+    <wsdl:part name="endDT" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperDeliveredHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperConsignedHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="startDT" type="s:string" />
+    <wsdl:part name="endDT" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperConsignedHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV2HttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="billedTo" type="s:string" />
+    <wsdl:part name="serviceTypeCode" type="s:string" />
+    <wsdl:part name="sectorCode" type="s:string" />
+    <wsdl:part name="senderZoneID" type="s:string" />
+    <wsdl:part name="receiverZoneID" type="s:string" />
+    <wsdl:part name="saturdaySurcharge" type="s:string" />
+    <wsdl:part name="afterHoursSurcharge" type="s:string" />
+    <wsdl:part name="insured" type="s:string" />
+    <wsdl:part name="insuredValue" type="s:string" />
+    <wsdl:part name="armouredVehicle" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="length" type="s:string" />
+    <wsdl:part name="breadth" type="s:string" />
+    <wsdl:part name="height" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV2HttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV3HttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="billedTo" type="s:string" />
+    <wsdl:part name="serviceTypeCode" type="s:string" />
+    <wsdl:part name="senderZoneID" type="s:string" />
+    <wsdl:part name="receiverZoneID" type="s:string" />
+    <wsdl:part name="saturdaySurcharge" type="s:string" />
+    <wsdl:part name="afterHoursSurcharge" type="s:string" />
+    <wsdl:part name="insured" type="s:string" />
+    <wsdl:part name="insuredValue" type="s:string" />
+    <wsdl:part name="armouredVehicle" type="s:string" />
+    <wsdl:part name="faceToFaceSurcharge" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="length" type="s:string" />
+    <wsdl:part name="breadth" type="s:string" />
+    <wsdl:part name="height" type="s:string" />
+    <wsdl:part name="noOfCards" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV3HttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SuburbSearchHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="filter" type="s:string" />
+    <wsdl:part name="maxRecords" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SuburbSearchHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="SuburbsDownloadHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="pageNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SuburbsDownloadHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_CustomersHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="customerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_CustomersHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ConsignmentsArchiveHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ConsignmentsArchiveHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ParcelsArchiveHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ParcelsArchiveHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="LineHaulDepParcelsHttpGetIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="lineHaulDepID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LineHaulDepParcelsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostIn" />
+  <wsdl:message name="HelloWorldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorld2HttpPostIn">
+    <wsdl:part name="dt" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorld2HttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="LogonHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LogonHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UserSessionValidHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UserSessionValidHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsByShipperReferenceHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="shipperReference" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentDetailsByShipperReferenceHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentIDs" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusByShipperReferencesHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="shipperReferences" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsTrackingStatusByShipperReferencesHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingByShipperReferenceHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="shipperReference" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentTrackingByShipperReferenceHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesListHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesListHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="PODImageByIndexHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+    <wsdl:part name="imageIndex" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImageByIndexHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="MobileImageByIndexHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="reference" type="s:string" />
+    <wsdl:part name="recordType" type="s:string" />
+    <wsdl:part name="documentType" type="s:string" />
+    <wsdl:part name="indexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MobileImageByIndexHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="MobileImagesAsPDFHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="reference" type="s:string" />
+    <wsdl:part name="recordType" type="s:string" />
+    <wsdl:part name="documentType" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MobileImagesAsPDFHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfBase64Binary" />
+  </wsdl:message>
+  <wsdl:message name="PODImageHttpPostIn">
+    <wsdl:part name="fragmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImageHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesAsPDFHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PODImagesAsPDFHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsConsignedByDayHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="day" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsConsignedByDayHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsDeliveredByDayHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="day" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsDeliveredByDayHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsNotDeliveredByDayHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="day" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ConsignmentsNotDeliveredByDayHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperUndeliveredHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="startDT" type="s:string" />
+    <wsdl:part name="endDT" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperUndeliveredHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperDeliveredHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="startDT" type="s:string" />
+    <wsdl:part name="endDT" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperDeliveredHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperConsignedHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="startDT" type="s:string" />
+    <wsdl:part name="endDT" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RAMShipperConsignedHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV2HttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="billedTo" type="s:string" />
+    <wsdl:part name="serviceTypeCode" type="s:string" />
+    <wsdl:part name="sectorCode" type="s:string" />
+    <wsdl:part name="senderZoneID" type="s:string" />
+    <wsdl:part name="receiverZoneID" type="s:string" />
+    <wsdl:part name="saturdaySurcharge" type="s:string" />
+    <wsdl:part name="afterHoursSurcharge" type="s:string" />
+    <wsdl:part name="insured" type="s:string" />
+    <wsdl:part name="insuredValue" type="s:string" />
+    <wsdl:part name="armouredVehicle" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="length" type="s:string" />
+    <wsdl:part name="breadth" type="s:string" />
+    <wsdl:part name="height" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV2HttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV3HttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="billedTo" type="s:string" />
+    <wsdl:part name="serviceTypeCode" type="s:string" />
+    <wsdl:part name="senderZoneID" type="s:string" />
+    <wsdl:part name="receiverZoneID" type="s:string" />
+    <wsdl:part name="saturdaySurcharge" type="s:string" />
+    <wsdl:part name="afterHoursSurcharge" type="s:string" />
+    <wsdl:part name="insured" type="s:string" />
+    <wsdl:part name="insuredValue" type="s:string" />
+    <wsdl:part name="armouredVehicle" type="s:string" />
+    <wsdl:part name="faceToFaceSurcharge" type="s:string" />
+    <wsdl:part name="weight" type="s:string" />
+    <wsdl:part name="length" type="s:string" />
+    <wsdl:part name="breadth" type="s:string" />
+    <wsdl:part name="height" type="s:string" />
+    <wsdl:part name="noOfCards" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteV3HttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="SuburbSearchHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="filter" type="s:string" />
+    <wsdl:part name="maxRecords" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SuburbSearchHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="SuburbsDownloadHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="pageNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SuburbsDownloadHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_CustomersHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="customerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_CustomersHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ConsignmentsArchiveHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ConsignmentsArchiveHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ParcelsArchiveHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="consignmentID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CacheView_ParcelsArchiveHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="LineHaulDepParcelsHttpPostIn">
+    <wsdl:part name="userID" type="s:string" />
+    <wsdl:part name="logonToken" type="s:string" />
+    <wsdl:part name="lineHaulDepID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LineHaulDepParcelsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:portType name="TrackingWSSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <wsdl:input message="tns:HelloWorld2SoapIn" />
+      <wsdl:output message="tns:HelloWorld2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <wsdl:input message="tns:LogonSoapIn" />
+      <wsdl:output message="tns:LogonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <wsdl:input message="tns:UserSessionValidSoapIn" />
+      <wsdl:output message="tns:UserSessionValidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <wsdl:input message="tns:ConsignmentDetailsSoapIn" />
+      <wsdl:output message="tns:ConsignmentDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <wsdl:input message="tns:ConsignmentDetailsByShipperReferenceSoapIn" />
+      <wsdl:output message="tns:ConsignmentDetailsByShipperReferenceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <wsdl:input message="tns:ConsignmentTrackingSoapIn" />
+      <wsdl:output message="tns:ConsignmentTrackingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <wsdl:input message="tns:ConsignmentsTrackingStatusSoapIn" />
+      <wsdl:output message="tns:ConsignmentsTrackingStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <wsdl:input message="tns:ConsignmentsTrackingStatusByShipperReferencesSoapIn" />
+      <wsdl:output message="tns:ConsignmentsTrackingStatusByShipperReferencesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <wsdl:input message="tns:ConsignmentTrackingByShipperReferenceSoapIn" />
+      <wsdl:output message="tns:ConsignmentTrackingByShipperReferenceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <wsdl:input message="tns:PODImagesListSoapIn" />
+      <wsdl:output message="tns:PODImagesListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <wsdl:input message="tns:PODImageByIndexSoapIn" />
+      <wsdl:output message="tns:PODImageByIndexSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <wsdl:input message="tns:MobileImageByIndexSoapIn" />
+      <wsdl:output message="tns:MobileImageByIndexSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <wsdl:input message="tns:MobileImagesAsPDFSoapIn" />
+      <wsdl:output message="tns:MobileImagesAsPDFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <wsdl:input message="tns:PODImagesSoapIn" />
+      <wsdl:output message="tns:PODImagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <wsdl:input message="tns:PODImageSoapIn" />
+      <wsdl:output message="tns:PODImageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <wsdl:input message="tns:PODImagesAsPDFSoapIn" />
+      <wsdl:output message="tns:PODImagesAsPDFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <wsdl:input message="tns:ConsignmentsConsignedByDaySoapIn" />
+      <wsdl:output message="tns:ConsignmentsConsignedByDaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <wsdl:input message="tns:ConsignmentsDeliveredByDaySoapIn" />
+      <wsdl:output message="tns:ConsignmentsDeliveredByDaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <wsdl:input message="tns:ConsignmentsNotDeliveredByDaySoapIn" />
+      <wsdl:output message="tns:ConsignmentsNotDeliveredByDaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <wsdl:input message="tns:RAMShipperUndeliveredSoapIn" />
+      <wsdl:output message="tns:RAMShipperUndeliveredSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <wsdl:input message="tns:RAMShipperDeliveredSoapIn" />
+      <wsdl:output message="tns:RAMShipperDeliveredSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <wsdl:input message="tns:RAMShipperConsignedSoapIn" />
+      <wsdl:output message="tns:RAMShipperConsignedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <wsdl:input message="tns:GetQuoteV2SoapIn" />
+      <wsdl:output message="tns:GetQuoteV2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <wsdl:input message="tns:GetQuoteV3SoapIn" />
+      <wsdl:output message="tns:GetQuoteV3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <wsdl:input message="tns:SuburbSearchSoapIn" />
+      <wsdl:output message="tns:SuburbSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <wsdl:input message="tns:SuburbsDownloadSoapIn" />
+      <wsdl:output message="tns:SuburbsDownloadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <wsdl:input message="tns:CacheView_CustomersSoapIn" />
+      <wsdl:output message="tns:CacheView_CustomersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <wsdl:input message="tns:CacheView_ConsignmentsArchiveSoapIn" />
+      <wsdl:output message="tns:CacheView_ConsignmentsArchiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <wsdl:input message="tns:CacheView_ParcelsArchiveSoapIn" />
+      <wsdl:output message="tns:CacheView_ParcelsArchiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <wsdl:input message="tns:LineHaulDepParcelsSoapIn" />
+      <wsdl:output message="tns:LineHaulDepParcelsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="TrackingWSHttpGet">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpGetIn" />
+      <wsdl:output message="tns:HelloWorldHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <wsdl:input message="tns:HelloWorld2HttpGetIn" />
+      <wsdl:output message="tns:HelloWorld2HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <wsdl:input message="tns:LogonHttpGetIn" />
+      <wsdl:output message="tns:LogonHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <wsdl:input message="tns:UserSessionValidHttpGetIn" />
+      <wsdl:output message="tns:UserSessionValidHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <wsdl:input message="tns:ConsignmentDetailsHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentDetailsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <wsdl:input message="tns:ConsignmentDetailsByShipperReferenceHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentDetailsByShipperReferenceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <wsdl:input message="tns:ConsignmentTrackingHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentTrackingHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <wsdl:input message="tns:ConsignmentsTrackingStatusHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentsTrackingStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <wsdl:input message="tns:ConsignmentsTrackingStatusByShipperReferencesHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentsTrackingStatusByShipperReferencesHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <wsdl:input message="tns:ConsignmentTrackingByShipperReferenceHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentTrackingByShipperReferenceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <wsdl:input message="tns:PODImagesListHttpGetIn" />
+      <wsdl:output message="tns:PODImagesListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <wsdl:input message="tns:PODImageByIndexHttpGetIn" />
+      <wsdl:output message="tns:PODImageByIndexHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <wsdl:input message="tns:MobileImageByIndexHttpGetIn" />
+      <wsdl:output message="tns:MobileImageByIndexHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <wsdl:input message="tns:MobileImagesAsPDFHttpGetIn" />
+      <wsdl:output message="tns:MobileImagesAsPDFHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <wsdl:input message="tns:PODImagesHttpGetIn" />
+      <wsdl:output message="tns:PODImagesHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <wsdl:input message="tns:PODImageHttpGetIn" />
+      <wsdl:output message="tns:PODImageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <wsdl:input message="tns:PODImagesAsPDFHttpGetIn" />
+      <wsdl:output message="tns:PODImagesAsPDFHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <wsdl:input message="tns:ConsignmentsConsignedByDayHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentsConsignedByDayHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <wsdl:input message="tns:ConsignmentsDeliveredByDayHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentsDeliveredByDayHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <wsdl:input message="tns:ConsignmentsNotDeliveredByDayHttpGetIn" />
+      <wsdl:output message="tns:ConsignmentsNotDeliveredByDayHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <wsdl:input message="tns:RAMShipperUndeliveredHttpGetIn" />
+      <wsdl:output message="tns:RAMShipperUndeliveredHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <wsdl:input message="tns:RAMShipperDeliveredHttpGetIn" />
+      <wsdl:output message="tns:RAMShipperDeliveredHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <wsdl:input message="tns:RAMShipperConsignedHttpGetIn" />
+      <wsdl:output message="tns:RAMShipperConsignedHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <wsdl:input message="tns:GetQuoteV2HttpGetIn" />
+      <wsdl:output message="tns:GetQuoteV2HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <wsdl:input message="tns:GetQuoteV3HttpGetIn" />
+      <wsdl:output message="tns:GetQuoteV3HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <wsdl:input message="tns:SuburbSearchHttpGetIn" />
+      <wsdl:output message="tns:SuburbSearchHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <wsdl:input message="tns:SuburbsDownloadHttpGetIn" />
+      <wsdl:output message="tns:SuburbsDownloadHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <wsdl:input message="tns:CacheView_CustomersHttpGetIn" />
+      <wsdl:output message="tns:CacheView_CustomersHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <wsdl:input message="tns:CacheView_ConsignmentsArchiveHttpGetIn" />
+      <wsdl:output message="tns:CacheView_ConsignmentsArchiveHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <wsdl:input message="tns:CacheView_ParcelsArchiveHttpGetIn" />
+      <wsdl:output message="tns:CacheView_ParcelsArchiveHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <wsdl:input message="tns:LineHaulDepParcelsHttpGetIn" />
+      <wsdl:output message="tns:LineHaulDepParcelsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="TrackingWSHttpPost">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpPostIn" />
+      <wsdl:output message="tns:HelloWorldHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <wsdl:input message="tns:HelloWorld2HttpPostIn" />
+      <wsdl:output message="tns:HelloWorld2HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <wsdl:input message="tns:LogonHttpPostIn" />
+      <wsdl:output message="tns:LogonHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <wsdl:input message="tns:UserSessionValidHttpPostIn" />
+      <wsdl:output message="tns:UserSessionValidHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <wsdl:input message="tns:ConsignmentDetailsHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentDetailsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <wsdl:input message="tns:ConsignmentDetailsByShipperReferenceHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentDetailsByShipperReferenceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <wsdl:input message="tns:ConsignmentTrackingHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentTrackingHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <wsdl:input message="tns:ConsignmentsTrackingStatusHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentsTrackingStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <wsdl:input message="tns:ConsignmentsTrackingStatusByShipperReferencesHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentsTrackingStatusByShipperReferencesHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <wsdl:input message="tns:ConsignmentTrackingByShipperReferenceHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentTrackingByShipperReferenceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <wsdl:input message="tns:PODImagesListHttpPostIn" />
+      <wsdl:output message="tns:PODImagesListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <wsdl:input message="tns:PODImageByIndexHttpPostIn" />
+      <wsdl:output message="tns:PODImageByIndexHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <wsdl:input message="tns:MobileImageByIndexHttpPostIn" />
+      <wsdl:output message="tns:MobileImageByIndexHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <wsdl:input message="tns:MobileImagesAsPDFHttpPostIn" />
+      <wsdl:output message="tns:MobileImagesAsPDFHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <wsdl:input message="tns:PODImagesHttpPostIn" />
+      <wsdl:output message="tns:PODImagesHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <wsdl:input message="tns:PODImageHttpPostIn" />
+      <wsdl:output message="tns:PODImageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <wsdl:input message="tns:PODImagesAsPDFHttpPostIn" />
+      <wsdl:output message="tns:PODImagesAsPDFHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <wsdl:input message="tns:ConsignmentsConsignedByDayHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentsConsignedByDayHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <wsdl:input message="tns:ConsignmentsDeliveredByDayHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentsDeliveredByDayHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <wsdl:input message="tns:ConsignmentsNotDeliveredByDayHttpPostIn" />
+      <wsdl:output message="tns:ConsignmentsNotDeliveredByDayHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <wsdl:input message="tns:RAMShipperUndeliveredHttpPostIn" />
+      <wsdl:output message="tns:RAMShipperUndeliveredHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <wsdl:input message="tns:RAMShipperDeliveredHttpPostIn" />
+      <wsdl:output message="tns:RAMShipperDeliveredHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <wsdl:input message="tns:RAMShipperConsignedHttpPostIn" />
+      <wsdl:output message="tns:RAMShipperConsignedHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <wsdl:input message="tns:GetQuoteV2HttpPostIn" />
+      <wsdl:output message="tns:GetQuoteV2HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <wsdl:input message="tns:GetQuoteV3HttpPostIn" />
+      <wsdl:output message="tns:GetQuoteV3HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <wsdl:input message="tns:SuburbSearchHttpPostIn" />
+      <wsdl:output message="tns:SuburbSearchHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <wsdl:input message="tns:SuburbsDownloadHttpPostIn" />
+      <wsdl:output message="tns:SuburbsDownloadHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <wsdl:input message="tns:CacheView_CustomersHttpPostIn" />
+      <wsdl:output message="tns:CacheView_CustomersHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <wsdl:input message="tns:CacheView_ConsignmentsArchiveHttpPostIn" />
+      <wsdl:output message="tns:CacheView_ConsignmentsArchiveHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <wsdl:input message="tns:CacheView_ParcelsArchiveHttpPostIn" />
+      <wsdl:output message="tns:CacheView_ParcelsArchiveHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <wsdl:input message="tns:LineHaulDepParcelsHttpPostIn" />
+      <wsdl:output message="tns:LineHaulDepParcelsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TrackingWSSoap" type="tns:TrackingWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <soap:operation soapAction="http://tempuri.org/Logon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <soap:operation soapAction="http://tempuri.org/UserSessionValid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentDetailsByShipperReference" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentTracking" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentsTrackingStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentsTrackingStatusByShipperReferences" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentTrackingByShipperReference" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <soap:operation soapAction="http://tempuri.org/PODImagesList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <soap:operation soapAction="http://tempuri.org/PODImageByIndex" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <soap:operation soapAction="http://tempuri.org/MobileImageByIndex" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <soap:operation soapAction="http://tempuri.org/MobileImagesAsPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <soap:operation soapAction="http://tempuri.org/PODImages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <soap:operation soapAction="http://tempuri.org/PODImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <soap:operation soapAction="http://tempuri.org/PODImagesAsPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentsConsignedByDay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentsDeliveredByDay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <soap:operation soapAction="http://tempuri.org/ConsignmentsNotDeliveredByDay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <soap:operation soapAction="http://tempuri.org/RAMShipperUndelivered" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <soap:operation soapAction="http://tempuri.org/RAMShipperDelivered" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <soap:operation soapAction="http://tempuri.org/RAMShipperConsigned" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <soap:operation soapAction="http://tempuri.org/GetQuoteV2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <soap:operation soapAction="http://tempuri.org/GetQuoteV3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <soap:operation soapAction="http://tempuri.org/SuburbSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <soap:operation soapAction="http://tempuri.org/SuburbsDownload" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <soap:operation soapAction="http://tempuri.org/CacheView_Customers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <soap:operation soapAction="http://tempuri.org/CacheView_ConsignmentsArchive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <soap:operation soapAction="http://tempuri.org/CacheView_ParcelsArchive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <soap:operation soapAction="http://tempuri.org/LineHaulDepParcels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TrackingWSSoap12" type="tns:TrackingWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <soap12:operation soapAction="http://tempuri.org/Logon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <soap12:operation soapAction="http://tempuri.org/UserSessionValid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentDetailsByShipperReference" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentTracking" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentsTrackingStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentsTrackingStatusByShipperReferences" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentTrackingByShipperReference" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <soap12:operation soapAction="http://tempuri.org/PODImagesList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <soap12:operation soapAction="http://tempuri.org/PODImageByIndex" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <soap12:operation soapAction="http://tempuri.org/MobileImageByIndex" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <soap12:operation soapAction="http://tempuri.org/MobileImagesAsPDF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <soap12:operation soapAction="http://tempuri.org/PODImages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <soap12:operation soapAction="http://tempuri.org/PODImage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <soap12:operation soapAction="http://tempuri.org/PODImagesAsPDF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentsConsignedByDay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentsDeliveredByDay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <soap12:operation soapAction="http://tempuri.org/ConsignmentsNotDeliveredByDay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <soap12:operation soapAction="http://tempuri.org/RAMShipperUndelivered" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <soap12:operation soapAction="http://tempuri.org/RAMShipperDelivered" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <soap12:operation soapAction="http://tempuri.org/RAMShipperConsigned" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <soap12:operation soapAction="http://tempuri.org/GetQuoteV2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <soap12:operation soapAction="http://tempuri.org/GetQuoteV3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <soap12:operation soapAction="http://tempuri.org/SuburbSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <soap12:operation soapAction="http://tempuri.org/SuburbsDownload" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <soap12:operation soapAction="http://tempuri.org/CacheView_Customers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <soap12:operation soapAction="http://tempuri.org/CacheView_ConsignmentsArchive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <soap12:operation soapAction="http://tempuri.org/CacheView_ParcelsArchive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <soap12:operation soapAction="http://tempuri.org/LineHaulDepParcels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TrackingWSHttpGet" type="tns:TrackingWSHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <http:operation location="/HelloWorld2" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <http:operation location="/Logon" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <http:operation location="/UserSessionValid" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <http:operation location="/ConsignmentDetails" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <http:operation location="/ConsignmentDetailsByShipperReference" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <http:operation location="/ConsignmentTracking" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <http:operation location="/ConsignmentsTrackingStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <http:operation location="/ConsignmentsTrackingStatusByShipperReferences" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <http:operation location="/ConsignmentTrackingByShipperReference" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <http:operation location="/PODImagesList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <http:operation location="/PODImageByIndex" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <http:operation location="/MobileImageByIndex" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <http:operation location="/MobileImagesAsPDF" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <http:operation location="/PODImages" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <http:operation location="/PODImage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <http:operation location="/PODImagesAsPDF" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <http:operation location="/ConsignmentsConsignedByDay" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <http:operation location="/ConsignmentsDeliveredByDay" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <http:operation location="/ConsignmentsNotDeliveredByDay" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <http:operation location="/RAMShipperUndelivered" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <http:operation location="/RAMShipperDelivered" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <http:operation location="/RAMShipperConsigned" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <http:operation location="/GetQuoteV2" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <http:operation location="/GetQuoteV3" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <http:operation location="/SuburbSearch" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <http:operation location="/SuburbsDownload" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <http:operation location="/CacheView_Customers" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <http:operation location="/CacheView_ConsignmentsArchive" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <http:operation location="/CacheView_ParcelsArchive" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <http:operation location="/LineHaulDepParcels" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TrackingWSHttpPost" type="tns:TrackingWSHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld2">
+      <http:operation location="/HelloWorld2" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logon">
+      <http:operation location="/Logon" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserSessionValid">
+      <http:operation location="/UserSessionValid" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetails">
+      <http:operation location="/ConsignmentDetails" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentDetailsByShipperReference">
+      <http:operation location="/ConsignmentDetailsByShipperReference" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTracking">
+      <http:operation location="/ConsignmentTracking" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatus">
+      <http:operation location="/ConsignmentsTrackingStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsTrackingStatusByShipperReferences">
+      <http:operation location="/ConsignmentsTrackingStatusByShipperReferences" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentTrackingByShipperReference">
+      <http:operation location="/ConsignmentTrackingByShipperReference" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesList">
+      <http:operation location="/PODImagesList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImageByIndex">
+      <http:operation location="/PODImageByIndex" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImageByIndex">
+      <http:operation location="/MobileImageByIndex" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MobileImagesAsPDF">
+      <http:operation location="/MobileImagesAsPDF" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImages">
+      <http:operation location="/PODImages" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImage">
+      <http:operation location="/PODImage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PODImagesAsPDF">
+      <http:operation location="/PODImagesAsPDF" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsConsignedByDay">
+      <http:operation location="/ConsignmentsConsignedByDay" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsDeliveredByDay">
+      <http:operation location="/ConsignmentsDeliveredByDay" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsignmentsNotDeliveredByDay">
+      <http:operation location="/ConsignmentsNotDeliveredByDay" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperUndelivered">
+      <http:operation location="/RAMShipperUndelivered" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperDelivered">
+      <http:operation location="/RAMShipperDelivered" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RAMShipperConsigned">
+      <http:operation location="/RAMShipperConsigned" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV2">
+      <http:operation location="/GetQuoteV2" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteV3">
+      <http:operation location="/GetQuoteV3" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbSearch">
+      <http:operation location="/SuburbSearch" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuburbsDownload">
+      <http:operation location="/SuburbsDownload" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_Customers">
+      <http:operation location="/CacheView_Customers" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ConsignmentsArchive">
+      <http:operation location="/CacheView_ConsignmentsArchive" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CacheView_ParcelsArchive">
+      <http:operation location="/CacheView_ParcelsArchive" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LineHaulDepParcels">
+      <http:operation location="/LineHaulDepParcels" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TrackingWS">
+    <wsdl:port name="TrackingWSSoap" binding="tns:TrackingWSSoap">
+      <soap:address location="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TrackingWSSoap12" binding="tns:TrackingWSSoap12">
+      <soap12:address location="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TrackingWSHttpGet" binding="tns:TrackingWSHttpGet">
+      <http:address location="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TrackingWSHttpPost" binding="tns:TrackingWSHttpPost">
+      <http:address location="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,213 @@
+﻿<src:BaseControl
+    x:Class="UDM.Insurance.Interface.Screens.SearchLeadsScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:content="clr-namespace:UDM.Insurance.Interface.Content"
+    xmlns:controls="clr-namespace:UDM.Insurance.Interface.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    xmlns:interface="clr-namespace:UDM.Insurance.Interface"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    x:Name="CtrlSearchLeadsScreen"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Background="Black"
+    BorderThickness="0"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top">
+            <Viewbox>
+                <Grid Width="1920">
+                    <Grid
+                        Width="24"
+                        Height="24"
+                        Margin="0,12,12,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <Button
+                            x:Name="btnClose"
+                            Margin="0"
+                            Click="btnClose_Click"
+                            Style="{StaticResource INCloseButton}" />
+                    </Grid>
+                </Grid>
+            </Viewbox>
+            <Viewbox>
+                <Grid Width="1920" Height="8" />
+            </Viewbox>
+            <Viewbox>
+                <Grid Width="1920">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <content:INLogo />
+                        <content:HeaderLine Height="70" RenderTransformOrigin="0.5,0.5">
+                            <content:HeaderLine.RenderTransform>
+                                <ScaleTransform ScaleY="-1" />
+                            </content:HeaderLine.RenderTransform>
+                        </content:HeaderLine>
+                        <TextBlock
+                            x:Name="ScreenTitle"
+                            Margin="0,0,0,0"
+                            Style="{DynamicResource INPageHeadingText1}"
+                            Text="S e a r c h  L e a d s" />
+                    </StackPanel>
+                </Grid>
+            </Viewbox>
+        </StackPanel>
+
+        <Viewbox>
+            <Grid Width="1920" Height="1080">
+                <Grid
+                    Width="1260"
+                    Height="783"
+                    Margin="0,0,0,0">
+                    <StackPanel>
+                        <igDP:XamDataGrid
+                            x:Name="xdgLeads"
+                            Height="728"
+                            AutoFit="False"
+                            GroupByAreaLocation="None"
+                            MouseDoubleClick="xdgLeads_MouseDoubleClick"
+                            Style="{DynamicResource INXamDataGridStyle1}"
+                            TabIndex="0">
+                            <igDP:XamDataGrid.FieldLayouts>
+                                <igDP:FieldLayout Key="Lead">
+                                    <igDP:Field
+                                        Name="ImportID"
+                                        Label="Import ID"
+                                        Visibility="Collapsed" />
+                                    <igDP:Field
+                                        Name="CampaignCode"
+                                        Width="170"
+                                        Label="Campaign" />
+                                    <igDP:Field
+                                        Name="BatchCode"
+                                        Width="50"
+                                        Label="Batch" />
+                                    <igDP:Field
+                                        Name="RefNo"
+                                        Width="150"
+                                        Label="Reference Number" />
+                                    <igDP:Field
+                                        Name="Surname"
+                                        Width="150"
+                                        Label="Surname" />
+                                    <igDP:Field
+                                        Name="FirstName"
+                                        Width="100"
+                                        Label="First Name" />
+                                    <igDP:Field
+                                        Name="Initials"
+                                        Width="60"
+                                        Label="Initials" />
+                                    <igDP:Field
+                                        Name="TelWork"
+                                        Width="90"
+                                        Label="Tel Work" />
+                                    <igDP:Field
+                                        Name="TelHome"
+                                        Width="90"
+                                        Label="Tel Home" />
+                                    <igDP:Field
+                                        Name="TelCell"
+                                        Width="90"
+                                        Label="Tel Cell" />
+                                    <igDP:Field
+                                        Name="TelOther"
+                                        Width="90"
+                                        Label="Tel Other" />
+                                    <igDP:Field
+                                        Name="PostalCode"
+                                        Width="100"
+                                        Label="Postal Code" />
+                                    <igDP:Field
+                                        Name="Email"
+                                        Width="150"
+                                        Label="e-Mail" />
+                                    <igDP:Field
+                                        Name="IDNo"
+                                        Width="120"
+                                        Label="ID Number" />
+                                    <igDP:Field
+                                        Name="Address1"
+                                        Width="150"
+                                        Label="Address 1" />
+                                    <igDP:Field
+                                        Name="Address2"
+                                        Width="150"
+                                        Label="Address 2" />
+                                    <igDP:Field
+                                        Name="Address3"
+                                        Width="150"
+                                        Label="Address 3" />
+                                    <igDP:Field
+                                        Name="Address4"
+                                        Width="150"
+                                        Label="Address 4" />
+                                    <igDP:Field
+                                        Name="Address5"
+                                        Width="150"
+                                        Label="Address 5" />
+                                </igDP:FieldLayout>
+                            </igDP:XamDataGrid.FieldLayouts>
+                        </igDP:XamDataGrid>
+                        <Grid Height="22" />
+                        <Grid>
+                            <StackPanel
+                                VerticalAlignment="Bottom"
+                                FlowDirection="LeftToRight"
+                                Orientation="Horizontal">
+                                <controls:SearchControl
+                                    x:Name="SearchControl"
+                                    Width="450"
+                                    Loaded="SearchControl_Loaded"
+                                    TabIndex="0" />
+                                <TextBlock
+                                    x:Name="lblTotal"
+                                    Margin="6,0,0,0"
+                                    Style="{DynamicResource INLabelText2}"
+                                    Text="Total:" />
+                                <TextBlock
+                                    x:Name="tbTotal"
+                                    Margin="6,0,0,0"
+                                    Foreground="Silver"
+                                    Style="{DynamicResource INLabelText2}"
+                                    Text="0" />
+                            </StackPanel>
+                            <StackPanel
+                                VerticalAlignment="Bottom"
+                                FlowDirection="RightToLeft"
+                                Orientation="Horizontal">
+                                <Grid>
+                                    <TextBlock Style="{DynamicResource INLabelText1}" Text="*double-click a lead to view lead information" />
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Viewbox>
+
+        <Viewbox VerticalAlignment="Bottom">
+            <Grid Width="1920">
+                <Grid VerticalAlignment="Bottom">
+                    <content:LineAndLogo />
+                </Grid>
+                <Grid
+                    x:Name="DebugControl"
+                    VerticalAlignment="Bottom"
+                    Visibility="Hidden">
+                    <interface:DebugVersionControl />
+                </Grid>
+                <Grid
+                    x:Name="TestControl"
+                    VerticalAlignment="Bottom"
+                    Visibility="Hidden">
+                    <interface:TestVersionControl />
+                </Grid>
+            </Grid>
+        </Viewbox>
+    </Grid>
+
+</src:BaseControl>

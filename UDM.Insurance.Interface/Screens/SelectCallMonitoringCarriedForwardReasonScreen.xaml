@@ -1,0 +1,120 @@
+﻿<src:BaseControl
+    x:Class="UDM.Insurance.Interface.Screens.SelectCallMonitoringCarriedForwardReasonScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:content="clr-namespace:UDM.Insurance.Interface.Content"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    Background="{x:Null}"
+    BorderThickness="0"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d">
+
+    <src:BaseControl.Resources>
+
+        <Style
+            x:Key="StyleSelectButton"
+            BasedOn="{StaticResource INFlatButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True">
+            </Setter>
+            <Setter Property="ToolTip" Value="{x:Null}">
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger
+                    Binding="{Binding ElementName=cmbCallMonitoringCarriedForwardReason,
+                                               Path=SelectedValue}"
+                    Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ToolTip" Value="Call Monitoring Carried Forward Reason not selected" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </src:BaseControl.Resources>
+
+    <Viewbox
+        Stretch="Uniform">
+        <Grid
+            Width="1920"
+            Height="1080">
+            <Grid
+                x:Name="Size"
+                Width="515"
+                Height="318">
+                <Viewbox
+                    Stretch="Fill">
+                    <Grid
+                        x:Name="LayoutRoot"
+                        Width="515"
+                        Height="318">
+
+                        <Rectangle
+                            x:Name="BGRectangle"
+                            VerticalAlignment="Stretch"
+                            Fill="Black"
+                            RadiusX="12"
+                            RadiusY="12"
+                            Stroke="{StaticResource BrandedBrushIN}" />
+
+                        <Button
+                            x:Name="btnSelect"
+                            Margin="168,0,169,40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="buttonSelect_Click"
+                            Content="Save"
+                            IsDefault="True"
+                            Style="{StaticResource StyleSelectButton}"
+                            TabIndex="5" />
+
+                        <content:LacePopupWindow1
+                            Margin="2,6,0,0"
+                            VerticalAlignment="Top" />
+
+                        <TextBlock
+                            x:Name="headingSelectCallMonitoringCarriedForwardReason"
+                            Margin="0,49,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource INPageHeadingText1}"
+                            Text="Call Monitoring Carried Forward Reason" />
+
+                        <Path
+                            Height="1"
+                            Margin="60,73.241,60,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Data="M372,132 L512.19752,132"
+                            Stretch="Fill"
+                            Stroke="Silver" />
+
+                        <src:EmbriantComboBox
+                            x:Name="cmbCallMonitoringCarriedForwardReason"
+                            HorizontalAlignment="Center"
+                            Loaded="cmbCallMonitoringCarriedForwardReason_Loaded"
+                            Width="290"
+                            PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                            Style="{StaticResource cmbIN}"
+                            TabIndex="0" DropDownClosed="cmbCallMonitoringCarriedForwardReason_DropDownClosed" />
+
+                        <Grid
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+                            <Button
+                                x:Name="btnClose"
+                                Width="18"
+                                Height="18"
+                                Click="btnClose_Click"
+                                Style="{StaticResource INCloseButton}" />
+                        </Grid>
+
+                    </Grid>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Viewbox>
+
+</src:BaseControl>

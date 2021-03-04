@@ -1,0 +1,1026 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Image Styles  -->
+    <Style x:Key="INMenuButtonImageStyle1" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="0,3,0,0" />
+        <Setter Property="Height" Value="{DynamicResource INMenuButtonImageHeight}" />
+        <Setter Property="Width" Value="{DynamicResource INMenuButtonImageWidth}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Stretch" Value="UniformToFill" />
+    </Style>
+
+    <Color x:Key="DisabledForegroundColor">
+        #FF888888
+    </Color>
+
+    <!--  Text Styles  -->
+    <Style x:Key="INTextBlockStyle1" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="FontFamily" Value="{DynamicResource BrandedFontIN_main}" />
+        <Setter Property="Foreground" Value="{DynamicResource BrandedBrushIN}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!--  Label Text 1  -->
+    <Style
+        x:Key="INLabelText1"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!--  Label Text 2  -->
+    <Style
+        x:Key="INLabelText2"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <!--  Label Text 3  -->
+    <Style
+        x:Key="INLabelText3"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="GhostWhite" />
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
+
+    <!--  Page Heading Text  -->
+    <Style
+        x:Key="INPageHeadingText1"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="GhostWhite" />
+    </Style>
+
+    <!--  Menu Heading Text  -->
+    <Style
+        x:Key="INMenuHeadingText1"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <!--  Menu Header Text  -->
+    <Style
+        x:Key="INMenuHeaderText1"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Foreground" Value="GhostWhite" />
+    </Style>
+
+    <!--  Square Button Text  -->
+    <Style
+        x:Key="INSquareButtonText1"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <!--  Height="18" Canvas.Left="0.328" Width="80" Canvas.Top="63"  -->
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+    <!--  Activity report  -->
+    <Style
+        x:Key="INSquareButtonText2"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <!--  Height="18" Canvas.Left="0.328" Width="80" Canvas.Top="63"  -->
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0,0,0,6" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+    <!--  TextBox Style 1  -->
+    <Style x:Key="INTextBoxStyle1" TargetType="{x:Type TextBox}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border
+                        Padding="2"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="INTextBoxStyleLA" TargetType="{x:Type TextBox}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border
+                        Padding="2"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="{StaticResource FocusedEditorBackgroundBrush1}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource BrandedBrushIN_DisabledBackground}" />
+                            <Setter Property="Foreground" Value="{StaticResource BrandedBrushIN_DisabledForeground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonRoundedCorner" TargetType="Button">
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="25" Background="{TemplateBinding Background}" BorderThickness="2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+                
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Button Styles  -->
+    <Style x:Key="INButtonStyle1" TargetType="{x:Type Button}">
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    </Style>
+
+    <!--  Flat Button  -->
+    <Style
+        x:Key="INFlatButton"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Width" Value="156" />
+        <Setter Property="Height" Value="33" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="{DynamicResource BrandedBrushIN_light}"
+                        BorderBrush="{DynamicResource BrandedBrushIN}"
+                        BorderThickness="2"
+                        CornerRadius="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                CornerRadius="4,4,0,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#55FFFFFF" />
+                                        <GradientStop Offset="1" Color="{DynamicResource BrandedColourIN}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter
+                                x:Name="ButtonContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF76BFE5" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FF2178A5" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="LightGray" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LightGray" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="RoundCorner" TargetType="{x:Type Button}">
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Padding" Value="1"/>
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Button}">
+                <Grid x:Name="grid">
+                    <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2">
+                        <Border.Background>
+                                <SolidColorBrush Color="LightBlue"></SolidColorBrush>
+                        </Border.Background>
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                        </ContentPresenter>
+                    </Border>
+
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border">
+                            <Setter.Value>
+                                <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                    <RadialGradientBrush.RelativeTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                            <TranslateTransform X="0.02" Y="0.3"/>
+                                        </TransformGroup>
+                                    </RadialGradientBrush.RelativeTransform>
+                                    <GradientStop Color="#00000000" Offset="1"/>
+                                    <GradientStop Color="#FF303030" Offset="0.3"/>
+                                </RadialGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                    </Trigger>
+
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+
+    <!--  Flat Button  -->
+    <Style
+        x:Key="INFlatButton2"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="{DynamicResource BrandedBrushIN_light}"
+                        BorderBrush="{DynamicResource BrandedBrushIN}"
+                        BorderThickness="2"
+                        CornerRadius="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                CornerRadius="4,4,0,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#55FFFFFF" />
+                                        <GradientStop Offset="1" Color="{DynamicResource BrandedColourIN}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter
+                                x:Name="ButtonContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF76BFE5" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FF2178A5" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="LightGray" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LightGray" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Send SMS Button  -->
+    <Style
+        x:Key="INSendSMSButton"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Width" Value="156" />
+        <Setter Property="Height" Value="33" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="#FF429DCC"
+                        BorderThickness="2"
+                        CornerRadius="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                CornerRadius="4,4,0,0">
+                                <!--<Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#55FFFFFF" />
+                                        <GradientStop x:Name="ButtonGradient1" Offset="1" Color="{DynamicResource BrandedColourIN}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>-->
+                            </Border>
+                            <ContentPresenter
+                                x:Name="ButtonContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                        </Trigger>
+
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF76BFE5" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FF2178A5" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="LightGray" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LimeGreen" />
+                            <Setter Property="Foreground" Value="Black" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Close Button  -->
+    <Style
+        x:Key="INCloseButton"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="600" />
+        <Setter Property="Foreground" Value="{DynamicResource BrandedBrushIN}" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,12,12,0" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="IsCancel" Value="True" />
+        <Setter Property="Content" Value="X" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="Transparent"
+                        BorderBrush="#BBFFFFFF"
+                        BorderThickness="0.5"
+                        CornerRadius="20"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <ContentPresenter
+                                Margin="0,0.5,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <!--  <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#11FFFFFF" />  -->
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FFF" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <!--  <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />  -->
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Piggy Bank Button  -->
+    <Style
+        x:Key="INPiggyBankButton"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="600" />
+        <Setter Property="Foreground" Value="{DynamicResource BrandedBrushIN}" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,12,12,0" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="Transparent"
+                        BorderBrush="#BBFFFFFF"
+                        BorderThickness="0"
+                        CornerRadius="20"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <ContentPresenter
+                                Margin="0,0.5,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <!--  <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#11FFFFFF" />  -->
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FF000000" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FFF" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <!--  <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />  -->
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Square Button  -->
+    <Style
+        x:Key="INSquareButton"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="{DynamicResource BrandedBrushIN_light}"
+                        BorderBrush="{DynamicResource BrandedBrushIN}"
+                        BorderThickness="2"
+                        CornerRadius="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                CornerRadius="4,4,0,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#55FFFFFF" />
+                                        <GradientStop Offset="1" Color="{DynamicResource BrandedColourIN}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter
+                                x:Name="ButtonContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF76BFE5" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FF2178A5" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="LightGray" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LightGray" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="INSquareButton2"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="{DynamicResource BrandedBrushIN_light}"
+                        BorderBrush="{DynamicResource BrandedBrushIN}"
+                        BorderThickness="0"
+                        CornerRadius="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                CornerRadius="6,6,6,6">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="{StaticResource BrandedColourIN_light}" />
+                                        <GradientStop Offset="1" Color="{StaticResource BrandedColourIN}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter
+                                x:Name="ButtonContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF76BFE5" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FF2178A5" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_mediumlight}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="LightGray" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LightGray" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Menu Button  -->
+    <Style
+        x:Key="INMenuButton"
+        BasedOn="{StaticResource INButtonStyle1}"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="600" />
+        <!--  <Setter Property="Foreground" Value="Black" />  -->
+        <Setter Property="Width" Value="{DynamicResource INMenuButtonWidth}" />
+        <Setter Property="Height" Value="{DynamicResource INMenuButtonHeight}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="GhostWhite"
+                        BorderBrush="{DynamicResource BrandedBrushIN}"
+                        BorderThickness="2"
+                        CornerRadius="6">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.0*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.RowSpan="2" CornerRadius="6">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0.9,0" EndPoint="0.5,1">
+                                        <GradientStop Offset="0" Color="#55FFFFFF" />
+                                        <GradientStop Offset="1" Color="{DynamicResource BrandedColourIN_mediumlight}" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <!--
+                                    <Canvas>
+                                    <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.9" Data="M1315,804 L1315,795 C1315,795 1314.75,792 1310.75,792 1306.75,792 1222.25,792 1222.25,792 1222.25,792 1219,792.25 1219,796.5 1219,800.75 1219,876 1219,876 1219,876 1234.2981,845.83386 1261.75,835.25 1282.5,827.25 1314.75,830.25 1314.75,830.25 z" Fill="#FFF4F4F5" Height="70" Stretch="Fill" Width="80"/>
+                                    </Canvas>
+                                -->
+                            </Border>
+                            <ContentPresenter
+                                x:Name="ButtonContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_light}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                            </Trigger>
+                        -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN_light}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RoundedButton" TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="600" />
+        <Setter Property="Foreground" Value="{StaticResource BrandedBrushIN}" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="Transparent"
+                        BorderBrush="#99FFFFFF"
+                        BorderThickness="0.5"
+                        CornerRadius="20"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <ContentPresenter
+                                Margin="0,0.5,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FFF" />
+                        </Trigger>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FFF" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FFF" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#905564" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Path Styles  -->
+    <Style x:Key="INUnderlineText1" TargetType="Path">
+        <Setter Property="Data" Value="M372,132 L609.00475,132" />
+        <Setter Property="Stretch" Value="Fill" />
+        <Setter Property="Stroke" Value="GhostWhite" />
+        <Setter Property="Opacity" Value="0.5" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+
+    <!--  Progress Bar Brushes  -->
+    <LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Offset="0.0" Color="#BBB" />
+                <GradientStop Offset="0.1" Color="#EEE" />
+                <GradientStop Offset="0.9" Color="#EEE" />
+                <GradientStop Offset="1.0" Color="#FFF" />
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+
+    <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Offset="0.0" Color="GhostWhite" />
+                <GradientStop Offset="1.0" Color="DarkGray" />
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Offset="0.0" Color="#CCC" />
+                <GradientStop Offset="1.0" Color="#444" />
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!--  Progress Bar  -->
+    <Style x:Key="INProgressBar" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid MinWidth="200" MinHeight="14">
+                        <Border
+                            Name="PART_Track"
+                            Background="{StaticResource PressedBrush}"
+                            BorderBrush="{StaticResource SolidBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4" />
+                        <Border
+                            Name="PART_Indicator"
+                            HorizontalAlignment="Left"
+                            Background="{StaticResource DarkBrush}"
+                            BorderBrush="{StaticResource NormalBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Option Button  -->
+    <Style x:Key="INRadioButton2" TargetType="RadioButton">
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontSize" Value="12" />
+        <!--  <Setter Property="FocusVisualStyle" Value="{DynamicResource RadioButtonFocusVisual}" />  -->
+        <Setter Property="TabIndex" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!--  <Setter Property="Height" Value="40" />  -->
+        <Setter Property="Foreground" Value="{DynamicResource BrandedBrushIN}" />
+    </Style>
+
+    <ControlTemplate x:Key="INValidationToolTipTemplate">
+        <Grid
+            x:Name="Root"
+            Margin="5,0"
+            Opacity="0"
+            RenderTransformOrigin="0,0">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="xform" X="-25" />
+            </Grid.RenderTransform>
+
+            <Border
+                Margin="4,4,-4,-4"
+                Background="#052A2E31"
+                CornerRadius="5" />
+            <Border
+                Margin="3,3,-3,-3"
+                Background="#152A2E31"
+                CornerRadius="4" />
+            <Border
+                Margin="2,2,-2,-2"
+                Background="#252A2E31"
+                CornerRadius="3" />
+            <Border
+                Margin="1,1,-1,-1"
+                Background="#352A2E31"
+                CornerRadius="2" />
+
+            <Border Background="#FFDC000C" CornerRadius="2" />
+            <Border CornerRadius="2">
+                <TextBlock
+                    MaxWidth="250"
+                    Margin="8,4,8,4"
+                    Foreground="White"
+                    Text="{Binding (Validation.Errors)[0].ErrorContent}"
+                    TextWrapping="Wrap"
+                    UseLayoutRounding="false" />
+            </Border>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="OpenStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="0" />
+                        <VisualTransition GeneratedDuration="0:0:0.2" To="Open">
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="xform"
+                                    Storyboard.TargetProperty="X"
+                                    To="0"
+                                    Duration="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <BackEase Amplitude=".3" EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="Root"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="1"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </VisualTransition>
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Closed">
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetName="Root"
+                                Storyboard.TargetProperty="Opacity"
+                                To="0"
+                                Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Open">
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetName="xform"
+                                Storyboard.TargetProperty="X"
+                                To="0"
+                                Duration="0" />
+                            <DoubleAnimation
+                                Storyboard.TargetName="Root"
+                                Storyboard.TargetProperty="Opacity"
+                                To="1"
+                                Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+
+</ResourceDictionary>

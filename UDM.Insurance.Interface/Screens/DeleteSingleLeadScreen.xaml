@@ -1,0 +1,418 @@
+﻿<src:BaseControl x:Class="UDM.Insurance.Interface.Screens.DeleteSingleLeadScreen"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+                 x:Name="CtrlDeleteSingleLeadScreen"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 mc:Ignorable="d">
+
+
+
+    <!--<src:BaseControl.InputBindings>
+        <KeyBinding Command="command:CustomCommands.Allocate" Key="A" Modifiers="Alt"/>
+    </src:BaseControl.InputBindings>-->
+
+    <src:BaseControl.Resources>
+
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
+        <RoutedUICommand x:Key="cmdAllocateLead" />
+
+    </src:BaseControl.Resources>
+
+    <src:BaseControl.CommandBindings>
+        <CommandBinding CanExecute="AllocateCommand_CanExecute"
+                        Command="{StaticResource cmdAllocateLead}"
+                        Executed="AllocateCommand_Executed" />
+    </src:BaseControl.CommandBindings>
+
+    <Viewbox>
+        <Grid x:Name="grdRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="110" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="180" />
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="1">
+                <Grid x:Name="LayoutRoot"
+                      Width="1200"
+                      Height="790">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Rectangle x:Name="BGRectangle"
+                               Grid.RowSpan="35"
+                               Grid.ColumnSpan="53"
+                               Margin="0"
+                               Fill="Black"
+                               RadiusX="12"
+                               RadiusY="12"
+                               StrokeThickness="2">
+                        <Rectangle.Stroke>
+                            <SolidColorBrush Color="{StaticResource BrandedColourIN}" />
+                        </Rectangle.Stroke>
+                    </Rectangle>
+
+                    <Button x:Name="btnClose"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="51"
+                            Grid.ColumnSpan="2"
+                            Click="btnClose_Click"
+                            IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsAllocating, Converter={StaticResource InverseBooleanConverter}}"
+                            Style="{StaticResource INCloseButton}"
+                            TabIndex="0" />
+
+                    <TextBlock x:Name="headerDeleteLeads"
+                               Grid.Row="2"
+                               Grid.RowSpan="2"
+                               Grid.Column="2"
+                               Grid.ColumnSpan="10"
+                               Margin="0"
+                               VerticalAlignment="Top"
+                               Style="{StaticResource INPageHeadingText1}"
+                               Text="Delete Single Leads" />
+                    <Path x:Name="headerLine"
+                          Grid.Row="3"
+                          Grid.Column="2"
+                          Grid.ColumnSpan="9"
+                          Margin="-2,0,4,16"
+                          HorizontalAlignment="Left"
+                          Style="{StaticResource INUnderlineText1}" />
+
+                    <StackPanel Grid.Row="4"
+                                Grid.RowSpan="20"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="8">
+
+                        <TextBlock x:Name="lblCampaign"
+                                   Margin="0"
+                                   VerticalAlignment="Bottom"
+                                   FontSize="18"
+                                   Style="{StaticResource INLabelText2}"
+                                   Text="Campaign" />
+                        <Grid Height="4" />
+                        <TextBlock x:Name="tbCampaign"
+                                   Margin="0"
+                                   VerticalAlignment="Bottom"
+                                   FontSize="16"
+                                   Style="{StaticResource INLabelText3}"
+                                   Text="Campaign" />
+                        <Grid Height="15" />
+
+                        <TextBlock x:Name="lblBatch"
+                                   Margin="0"
+                                   VerticalAlignment="Bottom"
+                                   FontSize="18"
+                                   Style="{StaticResource INLabelText2}"
+                                   Text="Batch" />
+                        <Grid Height="4" />
+                        <TextBlock x:Name="tbBatch"
+                                   Margin="0"
+                                   VerticalAlignment="Bottom"
+                                   FontSize="16"
+                                   Style="{StaticResource INLabelText3}"
+                                   Text="Batch" />
+                        <Grid Height="15" />
+                    </StackPanel>
+
+                    <igWPF:XamDataGrid x:Name="xdgAssignLeads"
+                                       Grid.Row="4"
+                                       Grid.RowSpan="27"
+                                       Grid.Column="10"
+                                       Grid.ColumnSpan="41"
+                                       AutoFit="False"
+                                       DataSource="{Binding Path=Leads}"
+                                       FontSize="14"
+                                       GroupByAreaLocation="None"
+                                       IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsAllocating, Converter={StaticResource InverseBooleanConverter}}"
+                                       Loaded="xdgAssignLeads_Loaded"
+                                       PreviewKeyUp="xdgAssignLeads_PreviewKeyUp"
+                                       PreviewMouseUp="xdgAssignLeads_PreviewMouseUp"
+                                       RecordFilterChanged="xdgAssignLeads_RecordFilterChanged"
+                                       Style="{StaticResource INXamDataGridStyle1}"
+                                       TabIndex="0">
+                        <igWPF:XamDataGrid.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                             Color="{StaticResource BrandedColourIN_mediumlight}" />
+                            <Style TargetType="{x:Type igWPF:RecordSelector}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsFilterRecord}"
+                                                 Value="False">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                                        <CheckBox x:Name="rsCheckBox"
+                                                                  HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"
+                                                                  IsChecked="{Binding Path=DataItem.IsChecked}"
+                                                                  Style="{StaticResource INCheckboxStyle}"/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                            <CheckBox HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"
+                                                      IsChecked="{Binding Path=DataPresenter.DataContext.AllLeadsAreChecked}"
+                                                      Style="{StaticResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </Style>
+                        </igWPF:XamDataGrid.Resources>
+                        <igWPF:XamDataGrid.FieldSettings>
+                            <igWPF:FieldSettings AllowEdit="False"
+                                                 AllowRecordFiltering="True"
+                                                 AllowResize="False"
+                                                 CellClickAction="SelectRecord" />
+                        </igWPF:XamDataGrid.FieldSettings>
+                        <igWPF:XamDataGrid.FieldLayouts>
+                            <igWPF:FieldLayout Key="AssignLeadsLayout">
+                                <igWPF:FieldLayout.Fields>
+                                    <igWPF:Field Name="IsChecked"
+                                                 Visibility="Collapsed" />
+                                    <igWPF:Field Name="ImportID"
+                                                 Width="150"
+                                                 Label="Import ID"
+                                                 Visibility="Collapsed" />
+                                    <igWPF:Field Name="RefNumber"
+                                                 Width="170"
+                                                 Label="Reference Number" />
+                                    <igWPF:Field Name="CampaignCode"
+                                                 Width="170"
+                                                 Label="Campaign Code" />
+                                    <igWPF:Field Name="BatchCode"
+                                                 Width="170"
+                                                 Label="Batch Code" />
+                                    <igWPF:Field Name="TSRAssignedTo"
+                                                 Width="200"
+                                                 Label="TSR Assigned To" />
+                                    <igWPF:Field Name="IDNumber"
+                                                 Width="150"
+                                                 Label="ID Number" />
+                                    <igWPF:Field Name="FirstName"
+                                                 Width="150"
+                                                 Label="First Name" />
+                                    <igWPF:Field Name="Surname"
+                                                 Width="150"
+                                                 Label="Surname" />
+                                </igWPF:FieldLayout.Fields>
+
+                            </igWPF:FieldLayout>
+                        </igWPF:XamDataGrid.FieldLayouts>
+                    </igWPF:XamDataGrid>
+
+                    <src:EmbriantComboBox x:Name="cmbBatch"
+                                          Grid.Row="31"
+                                          Grid.RowSpan="2"
+                                          Grid.Column="31"
+                                          Grid.ColumnSpan="12"
+                                          Margin="0,0,-12,0"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Bottom"
+                                          IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsAllocating, Converter={StaticResource InverseBooleanConverter}}"
+                                          PreviewKeyDown="cmbBatch_PreviewKeyDown"
+                                          Style="{StaticResource cmbIN}"
+                                          
+                                          TabIndex="0" SelectionChanged="cmbBatch_SelectionChanged" />
+
+                    <src:EmbriantComboBox x:Name="cmbCampaign"
+                                          Grid.Row="31"
+                                          Grid.RowSpan="2"
+                                          Grid.Column="15"
+                                          Grid.ColumnSpan="13"
+                                          Margin="3,0,0,0"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Bottom"
+                                          IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsAllocating, Converter={StaticResource InverseBooleanConverter}}"
+                                          PreviewKeyDown="cmbAgent_PreviewKeyDown"
+                                          Style="{StaticResource cmbIN}"
+                                          
+                                          TabIndex="0" SelectionChanged="cmbCampaign_SelectionChanged" />
+
+                    <Button x:Name="btnDelete"
+                            Grid.Row="31"
+                            Grid.RowSpan="2"
+                            Grid.Column="44"
+                            Grid.ColumnSpan="7"
+                            Margin="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Command="{StaticResource cmdAllocateLead}"
+                            IsDefault="True"
+                            Style="{StaticResource INFlatButton}"
+                            TabIndex="0">
+
+                        <AccessText x:Name="acDelete"
+                                    Margin="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="_Delete"
+                                    Visibility="Visible" />
+
+                        <!--<Grid Width="{Binding ActualWidth,
+                                              RelativeSource={RelativeSource FindAncestor,
+                                                                             AncestorType={x:Type Button}}}"
+                              Height="{Binding ActualHeight,
+                                               RelativeSource={RelativeSource FindAncestor,
+                                                                              AncestorType={x:Type Button}}}">
+                            <ProgressBar x:Name="pbAllocate"
+                                         Margin="4,4,8,8"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="{StaticResource BrandedBrushIN_mediumdark}"
+                                         Maximum="100"
+                                         Minimum="0" />
+                        </Grid>-->
+                    </Button>
+
+                    <TextBlock x:Name="lblTotalSelectedLeads"
+                               Grid.Row="31"
+                               Grid.Column="2"
+                               Grid.ColumnSpan="6"
+                               Margin="0,0,0,5"
+                               VerticalAlignment="Bottom"
+                               FontSize="18"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Leads Selected" Grid.RowSpan="2" />
+                    <TextBlock x:Name="tbTotalSelectedLeads"
+                               Grid.Row="31"
+                               Grid.Column="8"
+                               Margin="0,20,0,0"
+                               VerticalAlignment="Stretch"
+                               FontSize="16"
+                               Style="{StaticResource INLabelText3}"
+                               Text="{Binding TotalChecked}" Grid.ColumnSpan="2" Width="31" Grid.RowSpan="2" />
+
+                    <TextBlock x:Name="lblBatchDropDown"
+                               Grid.Row="32"
+                               Grid.Column="28"
+                               Grid.ColumnSpan="3"
+                               Margin="0,0,12,5"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               FontSize="18"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Batch" />
+
+                    <TextBlock x:Name="lblCampaignDropDown"
+                               Grid.Row="31"
+                               Grid.Column="10"
+                               Grid.ColumnSpan="5"
+                               Margin="0,0,12,5"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               FontSize="18"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Campaign" Grid.RowSpan="2" Width="88" />
+
+                </Grid>
+            </Viewbox>
+        </Grid>
+    </Viewbox>
+
+</src:BaseControl>

@@ -1,0 +1,1564 @@
+﻿<Window
+    x:Class="UDM.Insurance.Interface.Screens.CallMonitoringDetailsScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:business="clr-namespace:UDM.Insurance.Business;assembly=UDM.Insurance.Business"
+    xmlns:controls="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:igWPF="http://infragistics.com/Editors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:usercontrols="clr-namespace:UDM.Insurance.Interface.Controls"
+    Title="Call Monitoring Details Screen"
+    Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width, Converter={converters:MathConverter}, ConverterParameter=x*0.625}"
+    Height="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height, Converter={converters:MathConverter}, ConverterParameter=x*0.769}"
+    AllowsTransparency="True"
+    Background="Transparent"
+    BorderThickness="0"
+    DataContext="{Binding RelativeSource={RelativeSource Self}, Path=ScreenData}"
+    MouseLeftButtonDown="Window_MouseLeftButtonDown"
+    ResizeMode="CanMinimize"
+    ShowInTaskbar="False"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Normal"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <Thickness x:Key="gridMargin">0,10,0,0</Thickness>
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="6" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="6" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Name="Header"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                Padding="3,1,3,0">
+                                <ContentPresenter
+                                    ContentSource="Header"
+                                    RecognizesAccessKey="true"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4" />
+                            <Border
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                                <Border.OpacityMask>
+                                    <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                        <Binding ElementName="Header" Path="ActualWidth" />
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                    </MultiBinding>
+                                </Border.OpacityMask>
+                            </Border>
+                            <ContentPresenter
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Margin="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+    <Viewbox Stretch="Uniform">
+
+        <Border
+            x:Name="BGRectangle"
+            Width="1280"
+            Height="870"
+            Margin="0"
+            Background="Black"
+            BorderBrush="{StaticResource BrandedBrushIN}"
+            BorderThickness="2"
+            CornerRadius="10">
+            <Border.Style>
+                <Style TargetType="{x:Type Border}" />
+            </Border.Style>
+
+            <Grid x:Name="grdMain">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+
+                </Grid.ColumnDefinitions>
+
+                <GroupBox
+                    x:Name="gbBankingDetails"
+                    Grid.Row="2"
+                    Grid.RowSpan="6"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="15"
+                    Margin="0,0,7,0"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource BrandedBrushIN}"
+                    Header="Banking Details">
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="Margin" Value="{StaticResource gridMargin}" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <!--<TextBlock x:Name="lblWasMoneyBackVsVoucherBenefitsExplainedCorrectly"
+                           Grid.Row="3"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="14"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Top"
+                           Style="{StaticResource INLabelText2}"
+                           Text="Was the 50% money back option versus the 100% voucher benefits explained correctly?" />
+                <CheckBox x:Name="chkWasMoneyBackVsVoucherBenefitsExplainedCorrectly"
+                          Grid.Row="3"
+                          Grid.Column="14"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Top"
+                          IsChecked="{Binding WasMoneyBackVsVoucherBenefitsExplainedCorrectly}"
+                          Style="{StaticResource INCheckboxStyle}" />-->
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasClearYesGivenInSalesQuestion"
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="14"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was a clear yes given in the sales question?" />
+                            <CheckBox
+                                x:Name="chkWasClearYesGivenInSalesQuestion"
+                                Grid.Row="3"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasClearYesGivenInSalesQuestion}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblIsBankingDetailsCapturedCorrectly"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="13"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Were the banking details captured correctly on Insure?" />
+                            <CheckBox
+                                x:Name="chkIsBankingDetailsCapturedCorrectly"
+                                Grid.Row="4"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding IsBankingDetailsCapturedCorrectly}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasAccountVerified"
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="13"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the account verified?" />
+                            <CheckBox
+                                x:Name="chkWasAccountVerified"
+                                Grid.Row="5"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasAccountVerified}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasDebitDateConfirmed"
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="13"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the debit date confirmed?" />
+                            <CheckBox
+                                x:Name="chkWasDebitDateConfirmed"
+                                Grid.Row="6"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasDebitDateConfirmed}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblIsAccountInClientsName"
+                                Grid.Row="7"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="13"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Is the account in the client's name?" />
+                            <CheckBox
+                                x:Name="chkIsAccountInClientsName"
+                                Grid.Row="7"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding IsAccountInClientsName}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblDoesClientHaveSigningPower"
+                                Grid.Row="8"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="13"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="If not, does he/she have signing power?" />
+                            <CheckBox
+                                x:Name="chkDoesClientHaveSigningPower"
+                                Grid.Row="8"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding DoesClientHaveSigningPower}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <!--  Groupbox ends here  -->
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox
+                    x:Name="gbPolicyDetailsOverview"
+                    Grid.Row="2"
+                    Grid.RowSpan="7"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="15"
+                    Margin="0"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource BrandedBrushIN}"
+                    Header="Policy Details Overview" />
+
+                <TextBlock
+                    x:Name="lblRefNo"
+                    Grid.Row="3"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="5"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Reference Number" />
+                <TextBlock
+                    x:Name="tbRefNo"
+                    Grid.Row="3"
+                    Grid.Column="22"
+                    Grid.ColumnSpan="6"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Text="{Binding RefNo}"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    x:Name="lblHasPolicyBeenBumpedUp"
+                    Grid.Row="4"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="7"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Bumped Up?" />
+                <TextBlock
+                    x:Name="tbHasPolicyBeenBumpedUp"
+                    Grid.Row="4"
+                    Grid.Column="22"
+                    Grid.ColumnSpan="1"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Text="{Binding HasPolicyBeenBumpedUp}"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    x:Name="lblIncludesLA2Cover"
+                    Grid.Row="4"
+                    Grid.Column="25"
+                    Grid.ColumnSpan="5"
+                    Margin="0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Includes LA2 Cover?" />
+                <TextBlock
+                    x:Name="tbIncludesLA2Cover"
+                    Grid.Row="4"
+                    Grid.Column="30"
+                    Grid.ColumnSpan="1"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Text="{Binding HasPolicyBeenBumpedUp}"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    x:Name="lblBank"
+                    Grid.Row="5"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="5"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Bank / Branch Code / Debit Day" />
+                <controls:EmbriantComboBox
+                    x:Name="cmbBank"
+                    Grid.Row="5"
+                    Grid.Column="22"
+                    Grid.ColumnSpan="4"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding LeadApplicationScreenData.BankDetailsData.BankID}"
+                    SelectionChanged="cmbBank_SelectionChanged"
+                    Style="{StaticResource cmbINLA}"
+                    TabIndex="0" />
+                <controls:EmbriantComboBox
+                    x:Name="cmbBankBranch"
+                    Grid.Row="5"
+                    Grid.Column="26"
+                    Grid.ColumnSpan="4"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding LeadApplicationScreenData.BankDetailsData.BankBranchCodeID}"
+                    Style="{StaticResource cmbINLA}"
+                    TabIndex="1" />
+                <igWPF:XamMaskedEditor
+                    x:Name="medDODebitDay"
+                    Grid.Row="5"
+                    Grid.Column="30"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    GotFocus="xamEditor_GotFocus"
+                    Mask="{}{number:1-30}"
+                    PromptChar=""
+                    Style="{StaticResource medINLA}"
+                    TabIndex="2"
+                    Text="{Binding LeadApplicationScreenData.BankDetailsData.DebitDay, TargetNullValue={x:Static sys:String.Empty}}">
+                    <igWPF:XamMaskedEditor.ValueConstraint>
+                        <igWPF:ValueConstraint MinInclusive="1" />
+                    </igWPF:XamMaskedEditor.ValueConstraint>
+                </igWPF:XamMaskedEditor>
+
+                <TextBlock
+                    x:Name="lblDOAccountNumber"
+                    Grid.Row="6"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="5"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Acc Type &amp; Acc Number" />
+                <igWPF:XamMaskedEditor
+                    x:Name="medAccountNumber"
+                    Grid.Row="6"
+                    Grid.Column="25"
+                    Grid.ColumnSpan="5"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    EditModeValidationError="medAccountNumber_OnEditModeValidationError"
+                    GotFocus="xamEditor_GotFocus"
+                    IsEnabled="True"
+                    Mask="{}{char:12:0-9}"
+                    PromptChar=""
+                    TabIndex="4"
+                    Text="{Binding LeadApplicationScreenData.BankDetailsData.AccountNumber}"
+                    TextChanged="medAccountNumber_TextChanged">
+                    <igWPF:XamMaskedEditor.ValueConstraint>
+                        <igWPF:ValueConstraint Nullable="False" RegexPattern="" />
+                    </igWPF:XamMaskedEditor.ValueConstraint>
+                    <igWPF:XamMaskedEditor.Style>
+                        <Style BasedOn="{StaticResource medINLA}" TargetType="{x:Type igWPF:XamMaskedEditor}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsValueValid, ElementName=medDOAccountNumber}" Value="False" />
+                                        <Condition Binding="{Binding AppData.IsLeadLoaded}" Value="True" />
+                                        <Condition Binding="{Binding AppData.CampaignGroup, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampaignGroup.Rejuvenation}}" Value="False" />
+                                        <Condition Binding="{Binding AppData.CampaignGroup, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampaignGroup.Defrosted}}" Value="False" />
+                                        <Condition Binding="{Binding AppData.CampaignGroup, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampaignGroup.ReDefrost}}" Value="False" />
+                                        <Condition Binding="{Binding AppData.CampaignGroup, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampaignGroup.Reactivation}}" Value="False" />
+                                        <Condition Binding="{Binding AppData.CampaignType, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampaignType.IGCancer}}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </igWPF:XamMaskedEditor.Style>
+                </igWPF:XamMaskedEditor>
+                <controls:EmbriantComboBox
+                    x:Name="cmbAccountType"
+                    Grid.Row="6"
+                    Grid.Column="22"
+                    Grid.ColumnSpan="3"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding LeadApplicationScreenData.BankDetailsData.AccountTypeID}"
+                    Style="{StaticResource cmbINLA}"
+                    TabIndex="3" />
+
+                <Button
+                    x:Name="btnVerifyAccNum"
+                    Grid.Row="6"
+                    Grid.RowSpan="2"
+                    Grid.Column="30"
+                    Grid.ColumnSpan="2"
+                    Width="Auto"
+                    Height="Auto"
+                    Margin="0,0,42,38"
+                    Background="Black"
+                    BorderBrush="Black"
+                    Click="btnVerifyAccNum_Click"
+                    IsTabStop="True"
+                    RenderTransformOrigin="0.5,0.5"
+                    TabIndex="5"
+                    ToolTip="Verify Branch and Account Number">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=LeadApplicationScreenData.BankDetailsData.BankBranchCodeID, Converter={StaticResource IsNullConverter}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=LeadApplicationScreenData.BankDetailsData.AccountNumber, Converter={StaticResource IsNullConverter}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.AccountNumber}" Value="" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+
+                            <Setter Property="FontSize" Value="16" />
+                            <Setter Property="FontWeight" Value="600" />
+                            <Setter Property="Foreground" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter Property="VerticalAlignment" Value="Top" />
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="Margin" Value="0,12,12,0" />
+                            <Setter Property="Height" Value="24" />
+                            <Setter Property="Width" Value="24" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border
+                                            x:Name="ButtonBorder"
+                                            Background="Transparent"
+                                            BorderBrush="#BBFFFFFF"
+                                            BorderThickness="0"
+                                            CornerRadius="20"
+                                            RenderTransformOrigin="0.5,0.5">
+                                            <Grid>
+                                                <ContentPresenter
+                                                    Margin="0,0.5,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                                <!--  <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#11FFFFFF" />  -->
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="#FF000000" />
+                                            </Trigger>
+                                            <!--
+                            <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#FFF" />
+                            </Trigger>
+                                            -->
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <!--  <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />  -->
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource BrandedBrushIN_dark}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Viewbox>
+                        <Grid>
+                            <!--<Grid Name="backgroundGrid"
+                                                              Width="256"
+                                                              Height="256"
+                                                              Visibility="Collapsed" />-->
+                            <Path
+                                Width="200"
+                                Height="200"
+                                Margin="20"
+                                Data="M12.561035,5.781943L12.561035,6.3799311C11.863037,6.3799311 11.365051,6.6789399 10.867004,7.0779244 10.468018,7.4769388 10.169006,7.9749213 10.169006,8.57294 10.169006,8.9719239 10.268005,9.2709333 10.468018,9.5699121 10.667053,9.8689204 10.867004,10.16793 11.265015,10.466909 11.564026,10.765918 12.262024,11.064927 13.158997,11.463911 13.65802,11.663922 13.957031,11.862895 14.156006,12.061899 14.356018,12.26191 14.356018,12.460914 14.356018,12.759893 14.356018,13.058902 14.256042,13.357911 13.957031,13.557891 13.65802,13.756895 13.359009,13.955898 13.059998,13.955898 12.362,13.955898 11.664001,13.557891 10.966003,12.859898L9.8699951,13.955898C10.268005,14.454888 10.767029,14.753898 11.265015,15.052876 11.664001,15.25188 12.063049,15.351885 12.561035,15.451891L12.561035,16.946876 13.65802,16.946876 13.65802,15.351885C14.256042,15.25188 14.655029,15.052876 14.954041,14.853872 15.253052,14.653892 15.452026,14.354882 15.652039,13.955898 15.851013,13.557891 15.95105,13.158907 15.95105,12.759893 15.95105,12.360909 15.851013,11.962901 15.652039,11.563916 15.452026,11.164902 15.253052,10.865923 14.854004,10.66692 14.554993,10.367911 13.957031,10.068932 13.059998,9.7689153 12.561035,9.5699121 12.262024,9.3709384 12.063049,9.1709272 11.863037,8.9719239 11.764038,8.8719188 11.764038,8.6729146 11.764038,8.473941 11.863037,8.2739307 12.063049,8.0749265 12.362,7.9749213 12.661011,7.9749213 12.960022,7.9749213 13.458008,7.9749213 13.957031,8.2739307 14.554993,8.7729198L15.751038,7.6759425C15.353027,7.2769281 15.05304,7.0779244 14.754028,6.8789507 14.455017,6.6789399 14.156006,6.5789348 13.757019,6.4799362L13.757019,5.781943z M25.122009,0L25.321045,5.0839497C26.41803,6.1809574 27.215027,7.5759374 27.71405,8.9719239 27.71405,8.9719239 28.910034,11.563916 32,11.962901L30.904053,16.348888C30.904053,16.348888 29.309021,16.149884 25.820007,18.441861 24.723022,19.737842 23.427002,20.734845 21.832031,21.532844L20.835022,24.821822C20.835022,24.821822,19.240051,25.519815,17.64502,25.021802L17.446045,22.927823C16.64801,23.027827 15.851013,23.127833 14.954041,23.127833 13.856995,23.127833 12.761047,23.027827 11.764038,22.828824L11.664001,25.021802C10.169006,25.519815,8.473999,24.821822,8.473999,24.821822L7.2780151,21.033853C4.4860229,19.339864,2.493042,16.747872,1.8950195,13.756895L1.7950439,13.756895C0.79803467,13.756895 0,12.859898 0,11.76292 0,10.66692 0.79803467,9.7689153 1.7950439,9.7689153L1.9940186,9.7689153C3.19104,4.6849657 8.5740356,0.89696646 14.954041,0.89696646 17.64502,0.89696646 20.038025,1.5949903 22.131042,2.6919676z"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stretch="Uniform">
+                                <Path.Style>
+                                    <Style TargetType="{x:Type Path}">
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=btnVerifyAccNum, Path=IsEnabled}" Value="True" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Fill" Value="#FF429DCC" />
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=btnVerifyAccNum, Path=IsEnabled}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Fill" Value="{StaticResource BrandedBrushIN_DisabledForeground}" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+
+                                </Path.Style>
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </Button>
+
+                <Viewbox
+                    x:Name="vbInvalid"
+                    Grid.Row="6"
+                    Grid.Column="31"
+                    Margin="10,10,10,8">
+                    <Viewbox.Style>
+                        <Style TargetType="{x:Type Viewbox}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="{x:Static business:lkpINAccNumCheckStatus.Invalid}" />
+                                        <Condition Binding="{Binding LeadApplicationScreenData.AppData.CampaignType}" Value="{x:Static business:lkpINCampaignType.FemaleDis}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="{x:Static business:lkpINAccNumCheckStatus.Valid}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="{x:Static business:lkpINAccNumCheckStatus.UnChecked}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="null" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Viewbox.Style>
+                    <Grid>
+                        <Grid
+                            Name="backgroundGrid"
+                            Width="256"
+                            Height="256"
+                            Visibility="Collapsed" />
+                        <Path
+                            Width="256"
+                            Height="256"
+                            Margin="0,0,0,0"
+                            Data="M29.590818,0C30.206963,0 30.823227,0.23449993 31.292229,0.70349979 32.229256,1.6405001 32.229256,3.1605005 31.292229,4.1004992L19.398003,15.998498 31.292229,27.892495C32.229256,28.829499 32.229256,30.349496 31.292229,31.294496 30.354227,32.2315 28.827164,32.2315 27.890139,31.294496L15.997988,19.399499 4.1047992,31.296502C3.1677734,32.234498 1.6397347,32.234498 0.70276969,31.296502 -0.23425656,30.352502 -0.23425656,28.832498 0.70276969,27.894502L12.596934,15.998498 0.70276969,4.1024981C-0.23425656,3.1654978 -0.23425656,1.6454973 0.70276969,0.7054987 1.6397347,-0.23150158 3.1677734,-0.23150158 4.1047992,0.7054987L15.99695,12.597497 27.890139,0.70349979C28.35865,0.23449993,28.974674,0,29.590818,0z"
+                            Fill="#FFFF0000"
+                            RenderTransformOrigin="0.5,0.5"
+                            Stretch="Uniform">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                </Viewbox>
+                <Viewbox
+                    x:Name="vbValid"
+                    Grid.Row="6"
+                    Grid.Column="31"
+                    Margin="10,10,10,8">
+                    <Viewbox.Style>
+                        <Style TargetType="{x:Type Viewbox}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="{x:Static business:lkpINAccNumCheckStatus.Invalid}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="{x:Static business:lkpINAccNumCheckStatus.Valid}" />
+                                        <Condition Binding="{Binding LeadApplicationScreenData.AppData.CampaignType}" Value="{x:Static business:lkpINCampaignType.FemaleDis}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="{x:Static business:lkpINAccNumCheckStatus.UnChecked}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus}" Value="null" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Viewbox.Style>
+                    <Grid>
+                        <Grid
+                            x:Name="backgroundGrid1"
+                            Width="256"
+                            Height="256"
+                            Visibility="Collapsed" />
+                        <Path
+                            Width="256"
+                            Height="256"
+                            Margin="0,0,0,0"
+                            Data="M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z"
+                            Fill="LawnGreen"
+                            RenderTransformOrigin="0.5,0.5"
+                            Stretch="Uniform">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="0" />
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                </Viewbox>
+
+                <TextBlock
+                    x:Name="lblLA1LA2TotalCover"
+                    Grid.Row="7"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="4"
+                    Margin="10,5,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Total Cost" />
+                <igWPF:XamCurrencyEditor
+                    x:Name="xamCELA1LA2TotalCover"
+                    Grid.Row="7"
+                    Grid.Column="22"
+                    Grid.ColumnSpan="3"
+                    Margin="0,5,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Left"
+                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                    Value="{Binding TotalCost}" />
+
+                <TextBlock
+                    x:Name="lblNextOfKinQuestion"
+                    Grid.Row="8"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the next of kin question asked?"
+                    ToolTip="{Binding NextOfKinDetails}" />
+                <CheckBox
+                    x:Name="chkNextOfKinQuestion"
+                    Grid.Row="8"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasNextOfKinQuestionAsked}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+
+                <!--  Groupbox ends  -->
+
+                <GroupBox
+                    x:Name="gbClosure"
+                    Grid.Row="8"
+                    Grid.RowSpan="11"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="15"
+                    Margin="0,0,7,0"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource BrandedBrushIN}"
+                    Header="Closure Details">
+
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="Margin" Value="{StaticResource gridMargin}" />
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasCorrectClosureQuestionAsked"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the correct closure question asked?" />
+                            <CheckBox
+                                x:Name="chkWasCorrectClosureQuestionAsked"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasCorrectClosureQuestionAsked}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasResponseClearAndPositive"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was a clear positive response received?" />
+                            <CheckBox
+                                x:Name="chkWasResponseClearAndPositive"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasResponseClearAndPositive}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasUDMAndPLMentionedAsFSPs"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was it mentioned that UDM and Platinum Life are FSPs?" />
+                            <CheckBox
+                                x:Name="chkWasUDMAndPLMentionedAsFSPs"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasUDMAndPLMentionedAsFSPs}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasDebitAmountMentionedCorrectly"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the first debit amount mentioned correctly?" />
+                            <CheckBox
+                                x:Name="chkWasDebitAmountMentionedCorrectly"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasDebitAmountMentionedCorrectly}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasFirstDebitDateExplainedCorrectly"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the first debit order date for deductions explained correctly?" />
+                            <CheckBox
+                                x:Name="chkWasFirstDebitDateExplainedCorrectly"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasFirstDebitDateExplainedCorrectly}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasCorrectCoverCommencementDateMentioned"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was it mentioned that cover commences on date of receipt of first premium?" />
+                            <CheckBox
+                                x:Name="chkWasCorrectCoverCommencementDateMentioned"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasCorrectCoverCommencementDateMentioned}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasNonPaymentProcedureExplained"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the procedure for non-payment explained?" />
+                            <CheckBox
+                                x:Name="chkWasNonPaymentProcedureExplained"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasNonPaymentProcedureExplained}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasAnnualIncreaseExplained"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the 10% annual increase explained to the client?" />
+                            <CheckBox
+                                x:Name="chkWasAnnualIncreaseExplained"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasAnnualIncreaseExplained}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblExlusionsExplained"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Were the applicable exclusions explained to the client?" />
+                            <CheckBox
+                                x:Name="chkExlusionsExplained"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding ExclusionsExplained}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblPermissionQuestion"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the IG permission question asked?" />
+                            <CheckBox
+                                x:Name="chkPermissionQuestion"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasPermissionQuestionAsked}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblPermissionGranted"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Permission granted" />
+                            <CheckBox
+                                x:Name="chkPermissionGranted"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding LeadApplicationScreenData.ClosureData.PermissionQuestionAsked}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
+                    </StackPanel>
+                    <!--  Groupbox ends  -->
+                </GroupBox>
+
+                <GroupBox
+                    x:Name="gbBumpUpDetailsOverview"
+                    Grid.Row="9"
+                    Grid.RowSpan="10"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="15"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource BrandedBrushIN}"
+                    Header="Bump-Up Details Overview" />
+
+                <TextBlock
+                    x:Name="lblWasCorrectQuestionAskedBumpUpClosure"
+                    Grid.Row="10"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the correct closure question asked?" />
+                <CheckBox
+                    x:Name="chkWasCorrectQuestionAskedBumpUpClosure"
+                    Grid.Row="10"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasCorrectQuestionAskedBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasResponseClearAndPositiveBumpUpClosure"
+                    Grid.Row="11"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was a clear positive response received?" />
+                <CheckBox
+                    x:Name="chkWasResponseClearAndPositiveBumpUpClosure"
+                    Grid.Row="11"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasResponseClearAndPositiveBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasUDMAndPLMentionedAsFSPsBumpUpClosure"
+                    Grid.Row="12"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was it mentioned that UDM and Platinum Life are FSPs?" />
+                <CheckBox
+                    x:Name="chkWasUDMAndPLMentionedAsFSPsBumpUpClosure"
+                    Grid.Row="12"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasUDMAndPLMentionedAsFSPsBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasDebitAmountMentionedCorrectlyBumpUpClosure"
+                    Grid.Row="13"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the first debit amount mentioned correctly?" />
+                <CheckBox
+                    x:Name="chkWasDebitAmountMentionedCorrectlyBumpUpClosure"
+                    Grid.Row="13"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasDebitAmountMentionedCorrectlyBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasFirstDebitDateExplainedCorrectlyBumpUpClosure"
+                    Grid.Row="14"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the first debit order date for deductions explained correctly?" />
+                <CheckBox
+                    x:Name="chkWasFirstDebitDateExplainedCorrectlyBumpUpClosure"
+                    Grid.Row="14"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasFirstDebitDateExplainedCorrectlyBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasCorrectCoverCommencementDateMentionedBumpUpClosure"
+                    Grid.Row="15"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was it mentioned that cover commences on date of receipt of first premium?" />
+                <CheckBox
+                    x:Name="chkWasCorrectCoverCommencementDateMentionedBumpUpClosure"
+                    Grid.Row="15"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasCorrectCoverCommencementDateMentionedBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasNonPaymentProcedureExplainedBumpUpClosure"
+                    Grid.Row="16"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the procedure for non-payment explained?" />
+                <CheckBox
+                    x:Name="chkWasNonPaymentProcedureExplainedBumpUpClosure"
+                    Grid.Row="16"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasNonPaymentProcedureExplainedBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblWasAnnualIncreaseExplainedBumpUpClosure"
+                    Grid.Row="17"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the 10% annual increase explained?" />
+                <CheckBox
+                    x:Name="chkWasAnnualIncreaseExplainedBumpUpClosure"
+                    Grid.Row="17"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding WasAnnualIncreaseExplainedBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblExlusionsExplainedBumpUpClosure"
+                    Grid.Row="18"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="13"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Were the applicable exclusions explained to the client?" />
+                <CheckBox
+                    x:Name="chkExlusionsExplainedBumpUpClosure"
+                    Grid.Row="18"
+                    Grid.Column="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding ExclusionsExplainedBumpUpClosure}"
+                    IsEnabled="{Binding CanModifyBumpUpCallDetails}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+
+                <GroupBox
+                    x:Name="gbAssessmentDetailsOverview"
+                    Grid.Row="19"
+                    Grid.RowSpan="5"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="31"
+                    Margin="0"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource BrandedBrushIN}"
+                    Header="Assessment Overview" />
+
+                <TextBlock
+                    x:Name="hdrCallMonitoringDetails"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Margin="0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INPageHeadingText1}"
+                    Text="Call Monitoring Details" />
+
+                <Path
+                    x:Name="hdrLine"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="6"
+                    Margin="0,0,0,8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource INUnderlineText1}" />
+
+                <Button
+                    x:Name="btnNotes"
+                    Grid.RowSpan="2"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="3"
+                    Width="Auto"
+                    Height="34"
+                    Margin="13,0,7,0"
+                    VerticalAlignment="Bottom"
+                    Click="btnNotes_Click"
+                    IsEnabled="{Binding AppData.IsLeadLoaded}"
+                    Style="{StaticResource INFlatButton}"
+                    TabIndex="98200"
+                    Visibility="{Binding AppData.NotesFeatureVisibility}">
+                    <AccessText
+                        x:Name="acNotes"
+                        Margin="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="N_otes"
+                        Visibility="Visible" />
+                </Button>
+
+                <TextBlock
+                    x:Name="lblContactNumbers"
+                    Grid.Row="1"
+                    Grid.Column="23"
+                    Grid.ColumnSpan="5"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Contact Numbers" />
+                <controls:EmbriantComboBox
+                    x:Name="cmbContactNumbers"
+                    Grid.Row="1"
+                    Grid.Column="27"
+                    Grid.ColumnSpan="5"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    SelectedValue="Cell"
+                    Style="{StaticResource INEditableComboBoxStyleWithDropDown}"
+                    TabIndex="0" />
+
+                <Button
+                    x:Name="btnClose"
+                    Grid.Column="33"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="btbClose_Click"
+                    Content="X"
+                    Style="{StaticResource RoundedButton}"
+                    TabIndex="0" />
+
+                <TextBlock
+                    x:Name="lblFKINCallMonitoringOutcomeID"
+                    Grid.Row="20"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Initial Outcome" />
+
+                <controls:EmbriantComboBox
+                    x:Name="cmbCallMonitoringOutcomeID"
+                    Grid.Row="20"
+                    Grid.Column="8"
+                    Grid.ColumnSpan="7"
+                    Margin="0,-7,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding FKINCallMonitoringOutcomeID}"
+                    Style="{StaticResource cmbINLA}" />
+                <TextBlock
+                    x:Name="lblComments"
+                    Grid.Row="20"
+                    Grid.Column="15"
+                    Grid.ColumnSpan="3"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Comments" />
+
+                <TextBox
+                    x:Name="txtComments"
+                    Grid.Row="20"
+                    Grid.RowSpan="1"
+                    Grid.Column="19"
+                    Grid.ColumnSpan="13"
+                    Margin="0,-7,8,10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Style="{StaticResource INTextBoxStyleLA}"
+                    TabIndex="0"
+                    Text="{Binding Comments}"
+                    TextWrapping="Wrap" />
+
+                <TextBlock
+                    x:Name="lblStandardComments"
+                    Grid.Row="21"
+                    Grid.Column="15"
+                    Grid.ColumnSpan="4"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="CF/Query Reason" />
+
+                <usercontrols:ComboWithCheckboxes
+                    x:Name="cmbStandardNotes"
+                    Grid.Row="21"
+                    Grid.Column="19"
+                    Grid.ColumnSpan="13"
+                    Margin="0,-7,8,10"
+                    DefaultText="Choose Standard Notes"
+                    FontFamily="Arial"
+                    FontSize="16"
+                    ItemsSource="{Binding}" />
+
+
+                <TextBlock
+                    x:Name="lblFKCallMonitoringUserID"
+                    Grid.Row="21"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Calls Listened To By" />
+                <controls:EmbriantComboBox
+                    x:Name="cmbCallMonitoringUser"
+                    Grid.Row="21"
+                    Grid.Column="8"
+                    Grid.ColumnSpan="7"
+                    Margin="0,-7,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding FKCallMonitoringUserID}"
+                    Style="{StaticResource cmbINLA}" />
+
+                <TextBlock
+                    x:Name="lblWasCallEvaluatedBySecondaryUser"
+                    Grid.Row="22"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was the call over-assessed?" />
+
+                <CheckBox
+                    x:Name="chkWasCallEvaluatedBySecondaryUser"
+                    Grid.Row="22"
+                    Grid.Column="8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Checked="chkWasCallEvaluatedBySecondaryUser_Checked"
+                    IsChecked="{Binding WasCallEvaluatedBySecondaryUser}"
+                    Style="{StaticResource INCheckboxStyle}"
+                    Unchecked="chkWasCallEvaluatedBySecondaryUser_Unchecked" />
+
+                <TextBlock
+                    x:Name="lblCallAssessmentOutcomeID"
+                    Grid.Row="23"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Outcome of Over Assessment" />
+
+                <controls:EmbriantComboBox
+                    x:Name="cmbCallAssessmentOutcome"
+                    Grid.Row="23"
+                    Grid.Column="8"
+                    Grid.ColumnSpan="7"
+                    Margin="0,-7,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    IsEnabled="False"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding FKINCallAssessmentOutcomeID}"
+                    Style="{StaticResource cmbINLA}" />
+
+                <TextBlock
+                    x:Name="lblFKSecondaryCallMonitoringUserID"
+                    Grid.Row="23"
+                    Grid.Column="16"
+                    Grid.ColumnSpan="2"
+                    Margin="0,-10,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Over Assessor" />
+
+                <controls:EmbriantComboBox
+                    x:Name="cmbSecondaryCallMonitoringUser"
+                    Grid.Row="23"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="5"
+                    Margin="0,-7,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    IsEnabled="False"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding FKSecondaryCallMonitoringUserID}"
+                    Style="{StaticResource cmbINLA}" />
+
+                <TextBlock
+                    x:Name="lblFKTertiaryCallMonitoringUserID"
+                    Grid.Row="23"
+                    Grid.Column="23"
+                    Grid.ColumnSpan="4"
+                    Margin="17.5,-10,0,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Carried Forward Over Assessor" />
+
+                <controls:EmbriantComboBox
+                    x:Name="cmbTertiaryCallMonitoringUser"
+                    Grid.Row="23"
+                    Grid.Column="27"
+                    Grid.ColumnSpan="5"
+                    Margin="0,-7,8,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedValue="{Binding FKTertiaryCallMonitoringUserID}"
+                    Style="{StaticResource cmbINLA}" />
+
+                <TextBlock
+                    x:Name="lblIsRecoveredSale"
+                    Grid.Row="24"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="14"
+                    Margin="0,0,50,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Was this policy recovered from its previous carried forward status?" />
+
+                <CheckBox
+                    x:Name="chkIsRecoveredSale"
+                    Grid.Row="24"
+                    Grid.Column="13"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    IsChecked="{Binding IsRecoveredSale}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblIsCallMonitored"
+                    Grid.Row="24"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="11"
+                    Margin="0,0,-20,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Call Monitored Status?" />
+
+                <CheckBox
+                    x:Name="chkIsCallMonitored"
+                    Grid.Row="24"
+                    Grid.Column="19"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    IsChecked="{Binding IsCallMonitored}"
+                    Style="{StaticResource INCheckboxStyle}" />
+
+                <TextBlock
+                    x:Name="lblTSRBUSavedCF"
+                    Grid.Row="24"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="11"
+                    Margin="0,0,13,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource INLabelText2}"
+                    Text="TSR/BumpUp Agent Saved Carried Forward?" />
+
+                <CheckBox
+                    x:Name="chkTSRBUSavedCF"
+                    Grid.Row="24"
+                    Grid.Column="29"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Click="chkTSRBUSavedCF_Click"
+                    IsChecked="{Binding IsTSRBUSavedCarriedForward}">
+                    <CheckBox.Style>
+                        <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <!--<Condition Binding="{Binding UserType, Converter={StaticResource InverseEnumCompareConverter}, ConverterParameter={x:Static business:lkpUserType.Administrator}}" Value="True"/>-->
+                                        <Condition Binding="{Binding LeadApplicationScreenData.UserData.UserType, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpUserType.CallMonitoringAgent}}" Value="True" />
+                                        <Condition Binding="{Binding LeadApplicationScreenData.UserData.UserID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,3388, 2810'}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+
+
+                <Button
+                    x:Name="btnSave"
+                    Grid.Row="24"
+                    Grid.Column="30"
+                    Grid.ColumnSpan="3"
+                    Width="100"
+                    Margin="0,0,0,-7"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="btnSave_Click"
+                    Content="Save"
+                    IsDefault="True"
+                    TabIndex="5">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource INFlatButton}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding SelectedValue, ElementName=cmbGiftStatus}" Value="1" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="{Binding CanEditDetails}" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding SelectedValue, ElementName=cmbGiftSelection}" Value="{x:Null}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Value, ElementName=dteDateRedeemed}" Value="{x:Null}" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="{Binding CanEditDetails}" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </Grid>
+        </Border>
+    </Viewbox>
+</Window>

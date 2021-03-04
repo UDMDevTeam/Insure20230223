@@ -1,0 +1,456 @@
+﻿<src:BaseControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
+    mc:Ignorable="d" 
+    xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+    x:Class="UDM.Insurance.Interface.Screens.CaptureTSRTargetsScreen"
+    xmlns:staticData="UDM.Insurance.Interface.Screens.CaptureTSRTargetsScreen"
+    Background="{x:Null}" Margin="0" Width="1200" Height="750" Loaded="BaseControl_Loaded">
+
+    <src:BaseControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="/UDM.Blush.Interface;component/Fonts/#Century Gothic" />
+        </Style>
+
+        <!--<staticData:StatusList x:Key="StatusList"/>-->
+
+    </src:BaseControl.Resources>
+
+
+    <Canvas x:Name="LayoutRoot" Background="{x:Null}" FocusManager.FocusedElement="{Binding ElementName=medReference}">
+        <Rectangle Fill="Black" x:Name="BGRectangle" RadiusY="15" Stroke="#FF7FBEF5"  RadiusX="15"  StrokeThickness="2" Margin="0" Canvas.Left="1" Width="1200" Height="750"/>
+        <Button x:Name="buttonClose" Content="X" Style="{DynamicResource INCloseButton}" Width="24" Click="buttonClose_Click" Canvas.Top="12" Canvas.Left="1164" TabIndex="3"/>
+        <Viewbox x:Name="Lace" Stretch="Fill" Canvas.Top="0" Canvas.Left="0" Height="142" Width="1100">
+            <Grid Height="142" Width="1100">
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 830.333,427.723C 822.831,427.814 819.238,420.459 816.335,414.035" Margin="71.218,0,0,49.549" HorizontalAlignment="Left" Width="10.585" Height="10.361" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 843.466,426.18C 847.575,424.323 852.667,420.948 853.145,416.273" Margin="16.308,0,0,34.805" HorizontalAlignment="Left" Width="7.468" Height="7.632" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 856.892,408.722C 857.554,409.707 857.02,411.02 855.825,410.953C 855.21,410.918 853.953,409.819 853.496,409.407C 852.83,408.807 852.321,407.808 851.341,407.692C 850.246,407.559 849.262,408.368 849.276,409.433C 849.305,411.421 851.399,413.719 852.936,414.451C 854.713,415.295 857.154,415.049 858.911,413.63C 862.352,410.854 856.477,406.621 859.018,404.145C 860.375,402.824 862.343,402.118 863.854,403.343C 864.951,404.232 866.504,406.858 864.625,407.83" Margin="117.79,0,0,55.678" Height="9.306" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="12.196">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-45.631"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 853.259,404.464C 856.115,405.561 856.871,401.842 857.672,399.957C 858.109,398.932 858.617,397.543 859.721,397.071C 861.521,396.298 862.707,397.931 864.141,398.569" HorizontalAlignment="Left" Margin="2.627,0,0,32.83" Width="8.336" Height="6.108" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 846.55,384.758C 844.424,385.265 841.083,380.025 840.903,378.032C 840.74,376.238 842.591,375.826 843.873,376.686C 845.371,377.688 845.694,378.952 845.649,380.608" HorizontalAlignment="Left" Margin="2.539,36.826,0,0" Width="4.566" Height="6.645" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 808.942,361.235C 806.172,355.959 817.421,357.004 813.327,361.975C 812.018,363.566 810.498,364.264 809.536,366.202C 808.586,368.113 809.041,370.019 811.096,370.852C 813.001,371.626 817.483,371.527 816.962,368.449C 816.699,366.894 813.914,363.759 812.087,364.816C 810.108,365.964 810.666,369.954 813.414,369.334" HorizontalAlignment="Left" Margin="2.539,54.259,0,0" Width="6.622" Height="10.243" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 836.053,403.658C 835.399,402.145 833.509,402.433 832.237,402.777C 829.157,403.612 829.47,405.96 830.699,408.266C 832.384,411.426 836.107,413.414 836.305,417.391C 839.411,414.343 844.169,414.369 844.852,409.444C 845.098,407.686 845.059,404.895 843.498,403.829C 841.851,402.705 839.15,403.787 837.933,404.928C 836.363,406.401 835.246,409.642 837.779,410.968C 840.152,412.21 842.705,409.345 842.549,407.231" HorizontalAlignment="Left" Margin="20.495,58.856,0,0" Width="9.635" Height="11.229" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 840.664,399.457C 839.536,397.6 842.593,397.161 843.746,397.257C 844.609,397.327 845.298,397.285 845.899,398.07C 846.439,398.776 846.582,399.726 845.682,400.119" HorizontalAlignment="Left" Height="2.556" Margin="3.743,0,0,29.439" VerticalAlignment="Bottom" Width="4.75"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 837.094,399.119C 836.081,397.147 833.723,397.963 832.097,398.802C 831.956,399.341 831.766,400.004 831.728,400.569" Height="2.409" Margin="41.885,0,0,48.496" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="4.356"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 803.987,420.916C 804.927,419.568 804.698,416.748 804.55,415.301C 804.333,413.191 803.779,411.343 801.53,410.798C 799.893,410.401 796.645,410.869 795.728,412.643C 794.692,414.652 795.852,416.99 798.253,416.51" Margin="59.449,0,0,48.496" Height="7.879" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="7.223"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 801.958,423.625C 803.903,424.649 805.63,422.256 807.35,421.914C 809.089,421.568 811.092,422.24 810.454,424.367C 810.113,425.501 809.617,426.549 809.327,427.709C 808.899,429.417 807.957,431.885 805.808,431.765C 804.253,431.679 802.03,429.975 802.866,428.192C 803.246,427.378 804.224,426.351 805.166,426.256C 806.306,426.14 807.487,427.6 806.867,428.727" HorizontalAlignment="Left" Margin="2.126,0,0,56.967" Width="5.435" Height="6.276" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 815.266,454.873C 813.796,453.277 816.911,451.017 818.557,451.794C 820.824,452.864 820.213,454.754 819.888,456.729C 819.468,459.281 821.22,460.232 822.266,462.159C 823.428,464.302 821.664,466.035 819.646,466.723C 818.364,467.159 814.746,466.884 814.613,465.047C 814.473,463.084 818.14,462.076 815.104,460.644C 813.627,459.948 811.341,459.912 810.143,458.647C 808.289,456.689 809.521,454.455 811.954,455.034C 813.18,455.327 814.287,456.64 815.529,456.55C 817.21,456.431 817.788,454.547 818.115,453.258" Margin="30.847,70.312,0,60.926" HorizontalAlignment="Left" Width="10.144"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 798.242,450.688C 797.794,449.513 798.39,448.803 798.548,447.657C 798.678,446.709 798.527,445.797 798.58,444.875C 798.699,442.854 799.166,441.377 800.475,439.875C 803.903,435.944 808.459,442.642 806.149,445.939C 804.469,448.336 804.08,444.817 803.563,443.73C 802.729,441.978 800.68,442.338 800.759,444.464C 800.844,446.722 803.453,452.73 798.753,452.897" HorizontalAlignment="Left" Margin="6.69,0,0,48.496" Width="6.76" Height="10.747" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 794.862,447.17C 793.149,443.306 796.809,440.221 794.947,436.556C 793.712,434.123 790.912,434.249 789.469,436.38C 787.742,438.933 790.799,443.191 793.404,440.346" Margin="2.323,0,0,16.94" HorizontalAlignment="Left" Width="5.191" RenderTransformOrigin="0.5,0.5" Height="9.442" VerticalAlignment="Bottom">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="46.843"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 794.485,451.735C 794.419,455.969 791.575,458.964 787.704,460.494C 785.613,461.321 783.727,460.638 782.873,458.446C 782.098,456.457 784.301,454.378 786.297,455.312C 787.059,455.668 787.719,456.337 787.699,457.242" HorizontalAlignment="Left" Height="7.049" Margin="24.266,0,0,34.805" VerticalAlignment="Bottom" Width="8.978"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 797.713,462.479C 799.055,465.45 799.729,472.924 794.629,472.136C 792.942,471.875 790.638,470.104 791.443,467.957C 792.416,465.358 795.07,466.629 795.884,468.512C 795.905,468.558 795.925,468.603 795.945,468.648" Margin="68.781,0,0,46.766" Height="7.493" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="5.822"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 807.457,476.759C 809.364,477.258 816.63,477.451 816.485,480.616C 816.446,481.45 815.479,482.367 814.552,482.308C 813.382,482.23 813.347,481.309 813.02,480.429C 812.71,479.591 812.853,478.879 811.554,478.966C 810.545,479.036 809.403,479.924 809.62,480.825" HorizontalAlignment="Left" Height="4.487" Margin="15.007,0,0,50.099" VerticalAlignment="Bottom" Width="6.999"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 508.644,457.214C 510.115,454.672 512.522,453.204 512.621,449.989C 512.708,447.077 511.459,443.72 508.919,442.074C 507.63,441.241 505.796,440.771 504.981,442.472C 503.568,445.422 508.324,445.047 509.535,446.288C 511.951,448.764 508.469,452.96 505.487,450.978C 502.664,449.103 506.493,445.872 507.207,449.474" HorizontalAlignment="Left" Height="11.952" Margin="92.045,0,0,30.484" VerticalAlignment="Bottom" Width="6.373" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="57.565"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 472.537,434.317C 467.97,431.636 462.558,438.801 461.141,442.052C 457.88,449.542 465.253,448.85 470.085,450.266C 480.984,453.462 475.992,432.31 468.287,439.095C 465.97,441.134 466.153,444.363 468.967,445.814C 469.94,446.316 471.503,446.674 472.486,445.992C 473.281,445.443 474.229,442.608 473.39,441.84C 472.062,440.623 469.955,442.628 469.941,443.842" Margin="27.598,34.475,0,0" HorizontalAlignment="Left" Width="12.067" Height="12.658" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 474.302,434.092C 475.954,431.847 480.592,431.818 482.549,433.712C 486.525,437.56 480.058,440.472 480.048,436.946" HorizontalAlignment="Left" Margin="109.574,0,0,61.5" Width="7.366" RenderTransformOrigin="0.5,0.5" Height="4.948" VerticalAlignment="Bottom">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-30.896"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 467.091,451.38C 470.804,460.968 494.251,460.769 492.492,448.363" Height="7.555" Margin="32.474,47.703,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="18.885"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 907.787,463.873C 903.341,469.728 899.438,461.116 902.64,460.14C 903.514,460.976 903.8,463.646 905.231,463.076" Margin="32.474,0,0,41.854" HorizontalAlignment="Left" Width="5.042" Height="4.638" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 460.13,426.708C 460.328,424.282 463.181,423.315 464.995,422.319C 467.198,421.11 469.777,419.921 472.523,420.455C 474.708,421.847 471.866,422.918 470.988,424.37C 470.249,425.593 471.147,426.334 469.08,426.462C 467.372,426.568 467.201,426.025 467.257,424.267C 467.572,424.037 467.892,423.903 468.289,423.873" Margin="107.748,0,0,50.099" Height="5.089" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="10.009"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 491.431,464.303C 485.233,464.73 491.268,469.832 488.218,472.952C 486.832,474.372 483.793,474.332 482.801,472.441C 481.368,469.711 486.122,467.94 486.042,471.269" Margin="43.619,56.546,0,0" Height="7.442" VerticalAlignment="Top" HorizontalAlignment="Left" Width="6.904"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 455.563,452.403C 455.763,457.098 463.479,460.406 463.166,453.91C 463.069,451.922 460.014,449.608 458.423,451.634C 455.945,454.791 461.785,456.677 461.167,454.155" HorizontalAlignment="Left" Height="5.308" Margin="24.152,46.835,0,0" VerticalAlignment="Top" Width="5.978"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 880.186,394.018C 882.014,393.933 886.33,396.912 886.087,392.816" HorizontalAlignment="Left" Height="2.046" Margin="2.174,0,0,26.784" VerticalAlignment="Bottom" Width="4.748"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 747.587,407.191C 747.397,408.922 747.111,411.935 748.033,413.58C 748.93,415.185 752.844,416.306 753.606,414.002C 754.315,411.862 743.61,404.611 752.119,405.431C 753.983,406.744 753.804,409.85 755.723,411.021C 757.815,412.295 759.045,410.267 759.513,408.331C 760.774,403.101 757.057,400.49 752.345,402.599" HorizontalAlignment="Left" Margin="32.474,0,0,48.496" Width="9.411" Height="10.186" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 746.112,416.891C 746.635,418.542 746.05,421.325 745.968,422.998C 745.585,430.734 743.898,437.258 749.143,443.908C 753.116,448.944 759.919,453.863 766.659,453.009C 769.965,452.589 774.697,450.517 777.018,448.067C 781.68,443.146 784.286,435.771 781.113,429.346C 779.451,425.98 776.795,422.665 773.057,421.591C 769.745,420.64 765.092,421.236 764.005,425.157" Margin="54.109,57.241,0,58.876" HorizontalAlignment="Left" Width="21.763"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 767.554,425.992C 766.625,428.823 762.367,430.312 760.95,427.153C 760.024,425.086 760.74,422.432 758.633,421.106C 757.359,420.303 755.541,419.403 754.022,419.989C 751.436,420.987 752.467,423.964 754.621,424.755C 756.172,425.325 758.501,425.099 759.52,426.66C 758.168,427.709 749.987,428.132 752.641,431.616C 754.685,434.298 758.011,430.89 760.21,432.534C 762.434,434.192 758.214,436.354 757.637,437.485C 755.68,441.321 762.506,442.433 764.855,441.612C 767.483,440.692 767.479,438.678 766.489,436.456C 765.938,435.217 762.654,430.461 766.446,431.95C 768.103,432.6 772.082,436.719 772.495,432.163C 772.762,429.219 770.19,428.869 767.823,429.287" Margin="57.805,62.453,0,63.879" HorizontalAlignment="Left" Width="14.58"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 777.771,468.401C 775.798,469.292 773.697,470.491 771.51,470.703C 770.854,470.766 768.28,470.841 767.986,470.084C 767.481,468.78 771.248,467.474 768.753,466.166C 767.64,465.583 765.227,466.034 765.316,463.81C 765.38,462.238 767.684,461.435 768.634,461.433C 770.938,461.432 771.942,463.45 773.712,464.459" Margin="85.188,0,0,50.099" HorizontalAlignment="Left" Width="5.472" Height="6.276" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 744.968,418.14C 745.371,422.386 743.515,427.629 740.31,430.502C 738.128,432.46 736.257,432.334 734.424,430.038C 733.149,428.438 733.574,424.865 736.502,425.424C 737.25,426.216 738.264,427.155 737.602,428.304" Margin="2.613,0,0,40.832" HorizontalAlignment="Left" Width="7.348" Height="7.664" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 746.956,443.601C 745.457,444.586 745.039,446.814 742.922,444.936C 741.169,443.379 742.274,441.073 744.496,441.076C 743.557,440.506 741.302,439.849 740.975,438.492C 740.514,436.579 743.076,435.647 744.378,435.735" Margin="21.092,36.826,0,0" Height="7.653" VerticalAlignment="Top" HorizontalAlignment="Left" Width="4.838"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 750.015,441.729C 750.824,440.63 752.124,437.694 750.483,436.647C 748.912,435.644 748.419,437.808 748.824,439.095" HorizontalAlignment="Left" Margin="9.961,0,0,38.103" Width="2.347" Height="4.334" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 784.028,434.899C 785.393,432.667 788.25,429.824 786.308,427.078C 780.496,427.541 776.527,419.854 780.552,415.605C 783.667,412.315 790.558,413.106 791.301,418.22C 791.682,420.851 789.51,423.407 787.028,421.363C 784.23,419.058 788.069,414.43 788.835,416.374" HorizontalAlignment="Left" Margin="83.096,0,0,34.37" Width="9.452" Height="15.833" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="59.412"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 775.688,419.145C 772.544,420.095 768.708,416.478 767.944,413.362C 766.871,409.003 773.265,406.969 773.384,411.887" Margin="25.93,0,0,55.586" Height="7.898" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="6.159"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 760.183,464.227C 760.613,466.369 763.797,466.069 764.32,464.177C 764.979,461.79 761.627,461.775 760.241,462.313C 758.377,463.039 756.535,464.698 754.452,463.528C 752.932,462.677 750.764,458.619 752.391,457.078C 754.081,455.478 756.61,459.206 758.502,458.884" HorizontalAlignment="Left" Margin="2.372,0,0,63.243" Width="9.57" Height="7.007" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 756.16,460.187C 757.664,460.789 761.414,460.984 761.516,458.51C 761.612,456.218 758.233,455.482 756.694,454.768C 752.504,452.819 749.968,449.353 748.046,444.904C 748.876,446.828 748.063,449.48 746.706,450.952C 745.55,452.207 741.346,453.102 741.293,450.259C 741.262,448.576 744.826,448.389 745.6,449.421" HorizontalAlignment="Left" Margin="94.66,0,0,54.326" Width="15.08" Height="11.792" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 787.503,488.491C 786.557,489.254 785.237,491.333 783.838,491.075C 782.328,490.797 781.858,488.447 782.297,487.367C 782.826,486.068 785.01,485.548 785.358,484.151C 785.828,482.256 784.231,482.775 782.794,482.259C 780.339,481.378 776.33,477.455 779.744,475.644C 784.031,473.37 784.455,477.328 786.546,479.893C 788.354,482.11 789.32,480.992 790.006,479.014C 790.641,477.178 791.675,475.436 793.953,476.302C 797.668,477.712 796.522,480.564 793.667,482.18C 792.819,482.66 789.791,483.062 789.606,483.794C 789.185,485.453 793.322,486.012 792.977,488.036C 792.151,492.878 788.146,486.006 787.581,486.057C 786.091,486.188 783.461,486.661 784.41,488.668" Margin="8.17,0,0,12.819" HorizontalAlignment="Left" Width="11.1" Height="10.055" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 794.5,513.153C 795.111,514.504 796.331,517.838 798.339,517.551C 801.414,517.111 797.039,513.544 796.238,512.862C 795.205,511.982 793.119,510.5 792.752,509.16C 792.121,506.859 795.175,507.074 796.546,507.81C 799.436,509.361 800.172,513.185 802.91,514.925C 805.535,514.554 804.635,511.07 803.993,509.459C 802.812,506.497 799.781,505.022 796.82,504.319C 795.239,503.944 790.541,502.866 792.352,500.2C 793.55,498.435 797.385,499.155 799.117,499.485C 803.295,500.28 806.729,502.944 808.485,506.834" Margin="46.212,0,0,50.496" HorizontalAlignment="Left" Width="12.421" Height="13.843" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-64.136"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 813.847,502.976C 813.541,502.106 812.766,501.58 812.009,501.165C 809.391,501.481 810.548,506.907 811.642,508.372C 813.547,510.922 817.282,509.828 817.281,506.795" HorizontalAlignment="Left" Margin="20.495,0,0,55.586" Width="5.435" Height="6.711" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 780.578,498.373C 779.275,496.425 781.143,494.832 782.957,495.635C 784.259,496.213 785.864,500.041 787.447,498.18C 788.216,497.276 787.636,495.233 786.932,494.477C 785.987,493.462 784.248,493.382 782.973,493.738C 778.778,494.905 775.011,495.259 773.332,490.539C 775.239,488.819 779.496,487.962 779.416,491.658" HorizontalAlignment="Left" Margin="22.574,0,0,44.161" Width="10.934" Height="7.425" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="64.807"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 812.517,497.933C 808.074,494.829 805.081,494.215 799.524,496.727" HorizontalAlignment="Left" Height="2.476" Margin="110.552,0,0,58.753" VerticalAlignment="Bottom" Width="9.859" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-39.397"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 799.419,494.333C 795.477,495.101 794.173,490.392 798.169,489.309C 801.725,488.345 804.098,494.784 807.625,492.052C 806.649,489.379 803.158,488.284 802.912,485.23C 802.825,484.156 804.972,483.101 805.786,482.98C 807.166,482.775 808.481,483.495 809.208,484.651C 810.794,487.175 809.391,490.484 811.018,492.996" Margin="40.664,68.944,0,65.034" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="11.508">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="72.387"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 819.492,515.527C 820.76,514.954 822.071,514.407 823.291,513.767C 824.113,511.494 822.858,503.349 819.083,506.967C 819.761,508.698 821.928,510.925 820.106,512.565" Margin="2.613,0,0,45.485" HorizontalAlignment="Left" Width="3.692" Height="7.319" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 737.955,466.707C 740.465,464.899 740.388,469.436 740.793,470.468C 741.614,472.56 743.38,472.899 745.292,472.503" Margin="137.672,0,0,61.604" HorizontalAlignment="Left" Width="5.777" Height="5.072" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 737.14,442.286C 738.623,438.605 730.653,435.111 729.524,439.58C 729.164,441.003 730.599,444.364 732.753,442.816C 734.73,441.396 732.874,439.097 731.09,439.162" Margin="41.885,38.848,0,0" Height="4.623" VerticalAlignment="Top" HorizontalAlignment="Left" Width="6.15"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 765.305,496.082C 762.935,500.062 763.178,507.093 769.416,506.125C 776.167,505.077 772.832,494.102 768.004,497.101C 767.367,498.596 766.742,499.259 767.596,501.149C 768.486,503.12 769.539,503.457 770.964,501.58" Height="7.795" Margin="74.603,0,0,41.087" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="7.2"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 746.123,463.618C 743.692,464.972 741.121,464.47 738.696,463.253C 737.044,462.422 733.763,458.444 734.24,456.107C 734.744,453.646 739.628,453.267 739.805,455.686C 739.858,456.405 738.808,457.957 739.027,459.259C 739.25,460.587 739.778,462.221 741.395,462.338" Margin="24.152,70.404,0,64.368" HorizontalAlignment="Left" Width="9.092"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 780.86,513.216C 780.027,517.908 779.97,522.3 775.817,525.265C 773.782,526.718 770.942,526.739 768.68,525.873C 766.479,525.032 763.47,522.315 764.569,519.562C 764.918,518.685 766.859,517.815 767.503,518.766" Margin="2.539,62.453,0,70.25" HorizontalAlignment="Left" Width="11.74"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M769.58749,520.67696 C770.83149,520.89796 771.085,520.319 772.199,519.529 772.461,516.266 771.072,510.711 767.164,510.321 762.643,509.871 760.417,514.991 762.145,518.709 764.285,518.254 766.598,512.955 768.039,517.791" Height="8.002" Margin="13.824,45.144,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="8.182"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 781.412,503.22C 783.798,504.413 784.462,513.565 787.642,512.816C 788.498,510.709 786.834,508.035 786.984,505.828" HorizontalAlignment="Left" Height="7.439" Margin="12.239,0,0,55.804" VerticalAlignment="Bottom" Width="5.155"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 808.309,513.946C 809.808,517.23 810.881,516.912 813.867,517.483C 816.186,517.926 818.402,519.813 818.753,522.594C 818.99,524.455 817.071,528.497 814.927,528.48C 812.601,528.461 810.968,523.777 813.537,522.811" HorizontalAlignment="Left" Margin="10.54,0,0,40.832" Width="8.034" Height="10.972" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 751.602,490.317C 751.737,490.121 751.787,489.924 751.699,489.992C 752.008,490.879 752.157,491.662 752.63,492.494C 756.315,492.405 757.644,491.748 759.764,495.413C 761.249,497.979 761.804,501.122 759.265,503.463C 756.289,506.209 754.215,504.925 751.306,503.569C 748.019,502.039 745.888,504.853 742.68,504.6" HorizontalAlignment="Left" Margin="90.993,0,0,53.14" Width="9.088" Height="6.77" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="43.355"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 446.401,476.336C 448.299,478.213 449.147,478.63 451.84,478.556C 454.074,478.494 456.66,478.216 458.778,478.842C 460.575,479.372 462.815,481.846 460.956,483.62C 458.671,485.801 455.916,483.161 455.93,480.725" Margin="40.991,63.988,0,0" HorizontalAlignment="Left" Width="11.492" Height="6.324" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 715.455,485.136C 718.458,485.42 719.169,491.338 714.957,489.44C 713.272,488.68 708.751,483.376 707.751,487.439C 707.488,488.506 707.714,489.46 708.376,490.532" Margin="39.665,46.337,0,0" Height="4.377" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7.893"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 452.664,488.059C 453.428,488.265 453.846,489.373 454.654,489.597C 456.362,490.074 460.259,487.505 460.743,490.549C 461.354,494.399 455.071,499.071 451.959,499.849C 451.323,497.825 452.264,497.03 453.89,496.235C 454.899,495.743 456.639,493.934 455.306,492.84C 454.129,491.875 451.652,494.485 451.624,491.63" HorizontalAlignment="Left" Margin="13.824,53.462,0,0" Width="7.094" Height="8.991" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 695.938,475.349C 694.153,475.394 692.449,474.172 691.65,472.505C 690.636,470.392 691.329,468.639 691.827,466.802C 693.81,459.483 684.417,456.845 681.283,463.417C 678.293,469.685 689.289,469.297 687.658,464.818" HorizontalAlignment="Left" Margin="13.448,66.826,0,64.108" Width="11.434" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-152.871"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 692.557,456.871C 692.186,457.821 689.996,459.47 689.047,458.413C 688.093,457.347 690.426,455.196 690.901,454.01C 691.965,451.347 690.604,448.345 692.182,445.819C 694.852,446.776 696.694,451.264 697.388,453.532" HorizontalAlignment="Left" Height="9.819" Margin="7.06,49.612,0,0" VerticalAlignment="Top" Width="6.667"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 761.237,479.441C 760.695,478.242 760.284,476.709 758.753,476.816C 756.632,476.966 756.541,478.405 756.971,479.905" HorizontalAlignment="Left" Height="2.715" Margin="51.359,53.462,0,0" VerticalAlignment="Top" Width="3.709"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 627.67,440.286C 625.985,441.65 623.928,438.397 624.808,436.804C 626.021,434.609 627.869,435.341 629.818,435.791C 632.339,436.373 633.399,434.686 635.389,433.765C 637.602,432.742 639.219,434.613 639.777,436.672C 640.13,437.978 639.623,441.573 637.783,441.586C 635.814,441.601 635.042,437.878 633.42,440.816C 632.63,442.244 632.449,444.523 631.11,445.638C 629.039,447.364 626.886,445.991 627.62,443.601C 627.99,442.396 629.371,441.374 629.362,440.13C 629.349,438.444 627.507,437.747 626.241,437.338" HorizontalAlignment="Left" Margin="7.06,37.131,0,0" Width="11.514" Height="9.817" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 621.666,465.555C 619.979,461.678 623.662,458.619 621.825,454.941C 620.606,452.499 617.806,452.607 616.348,454.727C 614.604,457.267 617.631,461.545 620.257,458.719" HorizontalAlignment="Left" Margin="2.539,44.804,0,0" Width="5.189" Height="9.455" VerticalAlignment="Top"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 427.296,390.874C 429.214,394.649 428.098,398.626 425.39,401.786C 423.925,403.494 421.939,403.771 420.162,402.23C 418.548,400.832 419.524,397.966 421.726,397.86C 422.566,397.819 423.462,398.102 423.867,398.912" HorizontalAlignment="Left" Margin="5.404,27.417,0,0" Width="6.904" Height="9.409" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="23.422"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 907.787,463.873C 903.341,469.728 899.438,461.116 902.64,460.14C 903.514,460.976 903.8,463.646 905.231,463.076" Margin="38.577,56.546,0,0" Height="4.638" VerticalAlignment="Top" HorizontalAlignment="Left" Width="5.042"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 907.787,463.873C 903.341,469.728 899.438,461.116 902.64,460.14C 903.514,460.976 903.8,463.646 905.231,463.076" Margin="39.665,34.128,0,0" Height="4.638" VerticalAlignment="Top" HorizontalAlignment="Left" Width="5.042"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 803.987,420.916C 804.927,419.568 804.698,416.748 804.55,415.301C 804.333,413.191 803.779,411.343 801.53,410.798C 799.893,410.401 796.645,410.869 795.728,412.643C 794.692,414.652 795.852,416.99 798.253,416.51" Margin="128.783,0,0,59.134" HorizontalAlignment="Left" Width="7.223" RenderTransformOrigin="0.5,0.5" Height="7.876" VerticalAlignment="Bottom">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="90.583"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 799.419,494.333C 795.477,495.101 794.173,490.392 798.169,489.309C 801.725,488.345 804.098,494.784 807.625,492.052C 806.649,489.379 803.158,488.284 802.912,485.23C 802.825,484.156 804.972,483.101 805.786,482.98C 807.166,482.775 808.481,483.495 809.208,484.651C 810.794,487.175 809.391,490.484 811.018,492.996" HorizontalAlignment="Left" Margin="144.33,0,0,58.534" Width="11.508" RenderTransformOrigin="0.5,0.5" Height="8.762" VerticalAlignment="Bottom">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="189.14"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 803.987,420.916C 804.927,419.568 804.698,416.748 804.55,415.301C 804.333,413.191 803.779,411.343 801.53,410.798C 799.893,410.401 796.645,410.869 795.728,412.643C 794.692,414.652 795.852,416.99 798.253,416.51" Margin="157.449,0,0,58.8" HorizontalAlignment="Left" Width="7.223" Height="7.876" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 836.053,403.658C 835.399,402.145 833.509,402.433 832.237,402.777C 829.157,403.612 829.47,405.96 830.699,408.266C 832.384,411.426 836.107,413.414 836.305,417.391C 839.411,414.343 844.169,414.369 844.852,409.444C 845.098,407.686 845.059,404.895 843.498,403.829C 841.851,402.705 839.15,403.787 837.933,404.928C 836.363,406.401 835.246,409.642 837.779,410.968C 840.152,412.21 842.705,409.345 842.549,407.231" HorizontalAlignment="Left" Margin="9.961,0,0,22.874" Width="9.635" Height="11.229" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 843.466,426.18C 847.575,424.323 852.667,420.948 853.145,416.273" Margin="167.837,0,0,61.633" HorizontalAlignment="Left" Width="7.467" RenderTransformOrigin="0.5,0.5" Height="7.632" VerticalAlignment="Bottom">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="58.006"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 746.123,463.618C 743.692,464.972 741.121,464.47 738.696,463.253C 737.044,462.422 733.763,458.444 734.24,456.107C 734.744,453.646 739.628,453.267 739.805,455.686C 739.858,456.405 738.808,457.957 739.027,459.259C 739.25,460.587 739.778,462.221 741.395,462.338" Margin="95.326,0,0,43.436" HorizontalAlignment="Left" Width="9.092" Height="7.968" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 455.563,452.403C 455.763,457.098 463.479,460.406 463.166,453.91C 463.069,451.922 460.014,449.608 458.423,451.634C 455.945,454.791 461.785,456.677 461.167,454.155" HorizontalAlignment="Left" Height="5.308" Margin="101.77,0,0,49.832" VerticalAlignment="Bottom" Width="5.978"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 803.987,420.916C 804.927,419.568 804.698,416.748 804.55,415.301C 804.333,413.191 803.779,411.343 801.53,410.798C 799.893,410.401 796.645,410.869 795.728,412.643C 794.692,414.652 795.852,416.99 798.253,416.51" Margin="75.449,0,0,54.804" Height="7.879" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="7.223" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="150.765"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 907.787,463.873C 903.341,469.728 899.438,461.116 902.64,460.14C 903.514,460.976 903.8,463.646 905.231,463.076" Margin="44.958,0,0,44.244" Height="4.638" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="5.042"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 627.67,440.286C 625.985,441.65 623.928,438.397 624.808,436.804C 626.021,434.609 627.869,435.341 629.818,435.791C 632.339,436.373 633.399,434.686 635.389,433.765C 637.602,432.742 639.219,434.613 639.777,436.672C 640.13,437.978 639.623,441.573 637.783,441.586C 635.814,441.601 635.042,437.878 633.42,440.816C 632.63,442.244 632.449,444.523 631.11,445.638C 629.039,447.364 626.886,445.991 627.62,443.601C 627.99,442.396 629.371,441.374 629.362,440.13C 629.349,438.444 627.507,437.747 626.241,437.338" HorizontalAlignment="Left" Margin="50,0,0,40.832" Width="11.514" Height="9.817" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 737.14,442.286C 738.623,438.605 730.653,435.111 729.524,439.58C 729.164,441.003 730.599,444.364 732.753,442.816C 734.73,441.396 732.874,439.097 731.09,439.162" Margin="38.808,0,0,42.152" Height="4.623" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="6.15"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 907.787,463.873C 903.341,469.728 899.438,461.116 902.64,460.14C 903.514,460.976 903.8,463.646 905.231,463.076" Margin="76.761,0,0,62.226" HorizontalAlignment="Left" Width="5.042" Height="4.638" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 750.015,441.729C 750.824,440.63 752.124,437.694 750.483,436.647C 748.912,435.644 748.419,437.808 748.824,439.095" HorizontalAlignment="Left" Margin="177.524,0,0,62.343" Width="2.347" Height="4.335" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 737.14,442.286C 738.623,438.605 730.653,435.111 729.524,439.58C 729.164,441.003 730.599,444.364 732.753,442.816C 734.73,441.396 732.874,439.097 731.09,439.162" Margin="101.598,0,0,37.231" Height="4.623" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="6.15"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 773.205,477.379C 772.279,477.11 771.695,476.047 771.458,475.038C 772.223,474.189 773.27,473.933 774.317,473.991C 777.602,477.14 773.678,482.979 769.875,480.416C 767.335,478.703 766.638,470.184 762.376,471.779" Height="7.316" Margin="104.418,0,0,41.18" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="9.988"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 737.14,442.286C 738.623,438.605 730.653,435.111 729.524,439.58C 729.164,441.003 730.599,444.364 732.753,442.816C 734.73,441.396 732.874,439.097 731.09,439.162" Margin="4.34,0,0,12.819" Height="4.623" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="6.15"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 797.713,462.479C 799.055,465.45 799.729,472.924 794.629,472.136C 792.942,471.875 790.638,470.104 791.443,467.957C 792.416,465.358 795.07,466.629 795.884,468.512C 795.905,468.558 795.925,468.603 795.945,468.648" Margin="2.332,0,0,6.779" HorizontalAlignment="Left" Width="4.627" RenderTransformOrigin="0.5,0.5" Height="5.955" VerticalAlignment="Bottom">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="157.811"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 750.015,441.729C 750.824,440.63 752.124,437.694 750.483,436.647C 748.912,435.644 748.419,437.808 748.824,439.095" HorizontalAlignment="Left" Margin="7.614,0,0,6.415" Width="2.347" Height="4.334" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 627.67,440.286C 625.985,441.65 623.928,438.397 624.808,436.804C 626.021,434.609 627.869,435.341 629.818,435.791C 632.339,436.373 633.399,434.686 635.389,433.765C 637.602,432.742 639.219,434.613 639.777,436.672C 640.13,437.978 639.623,441.573 637.783,441.586C 635.814,441.601 635.042,437.878 633.42,440.816C 632.63,442.244 632.449,444.523 631.11,445.638C 629.039,447.364 626.886,445.991 627.62,443.601C 627.99,442.396 629.371,441.374 629.362,440.13C 629.349,438.444 627.507,437.747 626.241,437.338" HorizontalAlignment="Left" Width="11.514" RenderTransformOrigin="0.5,0.5" Height="9.817" VerticalAlignment="Bottom" Margin="2.338,0,0,-5.501">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-51.812"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 491.431,464.303C 485.233,464.73 491.268,469.832 488.218,472.952C 486.832,474.372 483.793,474.332 482.801,472.441C 481.368,469.711 486.122,467.94 486.042,471.269" HorizontalAlignment="Left" Margin="19.026,0,0,22.874" Width="6.904" Height="7.442" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 455.563,452.403C 455.763,457.098 463.479,460.406 463.166,453.91C 463.069,451.922 460.014,449.608 458.423,451.634C 455.945,454.791 461.785,456.677 461.167,454.155" HorizontalAlignment="Left" Height="5.308" Margin="19.026,0,0,43.436" VerticalAlignment="Bottom" Width="5.978"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 491.431,464.303C 485.233,464.73 491.268,469.832 488.218,472.952C 486.832,474.372 483.793,474.332 482.801,472.441C 481.368,469.711 486.122,467.94 486.042,471.269" HorizontalAlignment="Left" Margin="85.803,0,0,59.264" Width="6.904" Height="7.442" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 737.14,442.286C 738.623,438.605 730.653,435.111 729.524,439.58C 729.164,441.003 730.599,444.364 732.753,442.816C 734.73,441.396 732.874,439.097 731.09,439.162" Margin="102.766,0,0,61.998" HorizontalAlignment="Left" Width="6.15" Height="4.623" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 837.094,399.119C 836.081,397.147 833.723,397.963 832.097,398.802C 831.956,399.341 831.766,400.004 831.728,400.569" HorizontalAlignment="Left" Margin="117.635,0,0,64.259" Width="4.356" Height="2.409" VerticalAlignment="Bottom"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 761.237,479.441C 760.695,478.242 760.284,476.709 758.753,476.816C 756.632,476.966 756.541,478.405 756.971,479.905" HorizontalAlignment="Left" Height="2.715" Margin="107.748,0,0,59.188" VerticalAlignment="Bottom" Width="3.709"/>
+                <Path Stretch="Fill" StrokeThickness="0.666667" StrokeMiterLimit="2.75"  Data="F1 M 761.237,479.441C 760.695,478.242 760.284,476.709 758.753,476.816C 756.632,476.966 756.541,478.405 756.971,479.905" HorizontalAlignment="Left" Margin="82.317,0,0,63.225" Width="3.709" Height="2.715" VerticalAlignment="Bottom"/>
+                <TextBlock x:Name="headingLeadDetails" Style="{DynamicResource INPageHeadingText1}" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,48,687,60" Text="Capture TSR Targets"/>
+                <Path Data="M372,132 L609.00475,132" Stretch="Fill" Stroke="#FFFDF9F9" Margin="33.244,65,853.767,63.225" />
+            </Grid>
+        </Viewbox>
+        <Viewbox x:Name="Body">
+            <Grid Width="1200" Height="750">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="lblMonth" Style="{DynamicResource INLabelText2}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="Month" Grid.ColumnSpan="6" Grid.Row="3" FontSize="18.667"  Width="250" Height="30" Margin="32,0,0,41" FontWeight="Bold" Grid.RowSpan="2"/>
+
+
+
+                <Button Style="{DynamicResource INFlatButton}" TabIndex="2" Content="Save" x:Name="btnSave"  Height="Auto" DataContext="{Binding}" Grid.Column="20" Margin="14,14,30,0" Grid.Row="13" Grid.ColumnSpan="4" Click="btnSave_Click"   />
+
+
+                <src:EmbriantComboBox SelectionChanged="cmbMonth_SelectionChanged" x:Name="cmbMonth" Style="{DynamicResource cmbIN}" TabIndex="0" Canvas.Left="795" Canvas.Top="74.887" Height="34" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="8" VerticalAlignment="Top" Width="336" Margin="33,23,31,0" Grid.RowSpan="2"  />
+                <TextBlock x:Name="lblSelectAgent" Style="{DynamicResource INLabelText2}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="Agent Name" Grid.ColumnSpan="6" Grid.Row="2" FontSize="18.667" Width="250" Height="30" Margin="32,0,0,17" FontWeight="Bold"/>
+                <src:EmbriantComboBox SelectionChanged="cmbAgents_SelectionChanged" x:Name="cmbAgents" Style="{DynamicResource cmbIN}" TabIndex="0" Canvas.Left="795" Canvas.Top="74.887" Height="34" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="8" VerticalAlignment="Top" Width="336" Margin="33,49,31,0" Grid.RowSpan="2"/>
+                <Calendar Name="clYear" DisplayMode="Year"   Grid.Column="11" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top"  Grid.ColumnSpan="5" Width="201" Height="32" DisplayDateChanged="clYear_DisplayDateChanged"  Margin="10,23,0,0" Grid.RowSpan="2" />
+
+
+                <DataGrid AutoGenerateColumns="False"  BorderBrush="#FF7FBEF5" BorderThickness="2"  IsReadOnly="True" x:Name="dgAgentTargets" HorizontalAlignment="Left" Margin="32,38,0,0" Grid.Row="4" VerticalAlignment="Top" Grid.ColumnSpan="24" Height="402" Grid.RowSpan="9" Width="1138" CanUserResizeRows="False" SelectionChanged="dgAgentTargets_SelectionChanged"  >
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn Header="Week" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <src:EmbriantComboBox x:Name="cmbGridWeek" SelectedIndex="{Binding WeekSelectedIndex}" ItemsSource="{Binding cmbWeek}"   FontWeight="Bold" FontSize="20" SelectionChanged="cmbGridWeek_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Rectangle Fill="{Binding ColourBrush}" Height="30" Width="30"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </src:EmbriantComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Campaign">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <src:EmbriantComboBox x:Name="cmbGridCampaign" SelectedIndex="{Binding CampaignSelectedIndex}" SelectionChanged="cmbGridCampaign_SelectionChanged" ItemsSource="{Binding cmbCampaign}" FontWeight="Bold" FontSize="20">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Rectangle Fill="{Binding ColourBrush}" Height="30" Width="30"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </src:EmbriantComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Date From">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <igWPF:XamDateTimeEditor  ValueChanged="dteGridDateFrom_ValueChanged" x:Name="dteGridDateFrom" FontWeight="Bold" FontSize="18" Value="{Binding DateFrom}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Date To">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <igWPF:XamDateTimeEditor x:Name="dteGridDateTo" ValueChanged="dteGridDateTo_ValueChanged" FontWeight="Bold" FontSize="18" Value="{Binding DateTo}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Hours">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Name="txtHours" TextChanged="txtHours_TextChanged" Text="{Binding Hours}" FontSize="20" FontWeight="Bold"></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Base Target">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Name="txtBaseTarget" TextChanged="txtBaseTarget_TextChanged" Text="{Binding BaseTarget}" FontSize="20" FontWeight="Bold"></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Premium Target">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Name="txtPremiumTarget" TextChanged="txtPremiumTarget_TextChanged" Text="{Binding PremiumTarget}" FontSize="20" FontWeight="Bold"></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Type">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <src:EmbriantComboBox x:Name="cmbType" SelectionChanged="cmbType_SelectionChanged" Visibility="{Binding AccDisTypeVisibility}" SelectedIndex="{Binding AccDisTypeSelectedIndex}"  FontWeight="Bold" FontSize="20">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Rectangle Fill="{Binding ColourBrush}" Height="30" Width="30"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                        <ComboBoxItem Content="Macc"/>
+                                        <ComboBoxItem Content="Macc Million"/>
+                                    </src:EmbriantComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                     
+
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Name="dgMenuItemAddNewRow" Header="Add New Row" Click="dgMenuItemAddNewRow_Click">
+                                <MenuItem.Icon>
+                                    <Image Width="12" Height="12" Source="pack://application:,,,/Resources/add-icon.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Delete Row" Name="dgMenuItemDeleteRow" Click="dgMenuItemDeleteRow_Click">
+                                <MenuItem.Icon>
+                                    <Image Width="12" Height="12" Source="pack://application:,,,/Resources/imageError.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                </DataGrid>
+
+                <Image Visibility="Collapsed"  Name="imgEditMode" Source="pack://application:,,,/Resources/pencil.png" Stretch="Fill" Canvas.Left="3" Grid.ColumnSpan="2" Grid.Column="13" Grid.Row="7" Grid.RowSpan="2" />
+
+            </Grid>
+        </Viewbox>
+    </Canvas>
+</src:BaseControl>

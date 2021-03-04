@@ -1,0 +1,771 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <igPrim:ValueConverterGroup
+        x:Key="boolToVisibility">
+        <!--  if true sets visibility to Visible  -->
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.SourceValue>
+                <system:Boolean>True</system:Boolean>
+            </igPrim:FixedValueConverter.SourceValue>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <Visibility>Visible</Visibility>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+
+        <!--  if false sets visibility to Collapsed  -->
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <Visibility>Collapsed</Visibility>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+    </igPrim:ValueConverterGroup>
+
+    <igPrim:ValueConverterGroup
+        x:Key="notBoolToVisibility">
+        <!--  if true sets visibility to Collapsed  -->
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.SourceValue>
+                <system:Boolean>True</system:Boolean>
+            </igPrim:FixedValueConverter.SourceValue>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <Visibility>Collapsed</Visibility>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+
+        <!--  if false sets visibility to Visible  -->
+        <igPrim:FixedValueConverter>
+            <igPrim:FixedValueConverter.DestinationValue>
+                <Visibility>Visible</Visibility>
+            </igPrim:FixedValueConverter.DestinationValue>
+        </igPrim:FixedValueConverter>
+    </igPrim:ValueConverterGroup>
+
+    <SolidColorBrush
+        x:Key="SeparatorFillBrush"
+        Color="#FF7186A1" />
+    <SolidColorBrush
+        x:Key="TextForegroundBrush"
+        Color="#FF1E395B" />
+    <SolidColorBrush
+        x:Key="EditorNormalBorderBrush"
+        Color="#FF8BA0BC" />
+
+    <Style
+        x:Key="StyleActivityDialogRibbon"
+        TargetType="igPrim:ActivityDialogRibbonLite">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="igPrim:ActivityDialogRibbonLite">
+                    <ContentControl
+                        Foreground="{Binding Path=ColorScheme.DefaultBrushProvider[DialogForeground], RelativeSource={RelativeSource TemplatedParent}}">
+                        <Grid>
+                            <Grid
+                                x:Name="Ribbon"
+                                Height="93">
+                                <Grid.Resources>
+                                    <Style
+                                        TargetType="Button">
+                                        <Setter Property="Margin" Value="2,2,2,0" />
+                                        <Setter Property="FontSize" Value="11" />
+                                        <Setter Property="VerticalAlignment" Value="Top" />
+                                    </Style>
+
+                                    <Style
+                                        TargetType="ToggleButton">
+                                        <Setter Property="Margin" Value="2,2,2,0" />
+                                        <Setter Property="FontSize" Value="11" />
+                                        <Setter Property="VerticalAlignment" Value="Top" />
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border
+                                    Grid.ColumnSpan="3"
+                                    Background="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteBackgroundBrush], RelativeSource={RelativeSource TemplatedParent}}"
+                                    BorderBrush="DarkGray"
+                                    BorderThickness="1"
+                                    CornerRadius="5" />
+
+                                <!--  Actions Group  -->
+                                <Grid
+                                    x:Name="actionsGroup"
+                                    Grid.Column="0"
+                                    Margin="4,4,0,3">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition
+                                                Height="*" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel
+                                            Margin="3,3,3,0"
+                                            Orientation="Horizontal">
+
+                                            <Button
+                                                x:Name="saveAndClose">
+                                                <ig:Commanding.Command>
+                                                    <igPrim:ActivityDialogCoreCommandSource
+                                                        CommandType="SaveAndClose"
+                                                        EventName="Click" />
+                                                </ig:Commanding.Command>
+                                                <Button.Content>
+                                                    <StackPanel
+                                                        Margin="3">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            HorizontalAlignment="Center"
+                                                            Source="../Resources/Schedule/SaveAndCloseAppointment_32x32.png" />
+                                                        <TextBlock
+                                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_ButtonTool_SaveClose], RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+
+                                            <Button
+                                                x:Name="delete">
+                                                <ig:Commanding.Command>
+                                                    <igPrim:ActivityDialogCoreCommandSource
+                                                        CommandType="Delete"
+                                                        EventName="Click" />
+                                                </ig:Commanding.Command>
+                                                <Button.Content>
+                                                    <StackPanel
+                                                        Margin="3">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            HorizontalAlignment="Center"
+                                                            Source="../Resources/Schedule/DeleteAppointment_32x32.png" />
+                                                        <TextBlock
+                                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_ButtonTool_Delete], RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_RibbonGroup_Actions], RelativeSource={RelativeSource TemplatedParent}}"
+                                            TextAlignment="Center" />
+
+                                        <StackPanel
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal">
+                                            <Rectangle
+                                                Width="1"
+                                                Fill="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteGroupInnerBorderBrush], RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <Rectangle
+                                                Width="1"
+                                                Fill="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteGroupOuterBorderBrush], RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
+                                <!--  Options Group  -->
+                                <Grid
+                                    x:Name="OptionsGroup"
+                                    Grid.Column="1"
+                                    Margin="5,4,7,3">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition
+                                                Height="*" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel
+                                            Margin="3,3,3,0"
+                                            Orientation="Horizontal">
+
+                                            <StackPanel
+                                                Orientation="Horizontal">
+                                                <Image
+                                                    x:Name="ReminderPickerImage"
+                                                    Width="16"
+                                                    Height="16"
+                                                    Margin="0,5,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Top"
+                                                    Source="../Resources/Schedule/Reminder_16x16.png" />
+                                                <TextBlock
+                                                    x:Name="ReminderPickerLabel"
+                                                    Margin="2,4,4,0"
+                                                    Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_ComboTool_Reminder], RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ComboBox
+                                                    x:Name="ReminderPicker"
+                                                    Width="100"
+                                                    Height="24"
+                                                    Margin="0,2,2,0"
+                                                    VerticalAlignment="Top"
+                                                    Foreground="Black"
+                                                    IsEditable="true" />
+                                            </StackPanel>
+
+
+                                            <!--
+                                                <Button
+                                                x:Name="RecurrenceButton">
+                                                <ig:Commanding.Command>
+                                                <igPrim:ActivityDialogCoreCommandSource
+                                                CommandType="DisplayRecurrenceDialog"
+                                                EventName="Click" />
+                                                </ig:Commanding.Command>
+                                                <Button.Content>
+                                                <StackPanel
+                                                Margin="3">
+                                                <Image
+                                                Width="32"
+                                                Height="32"
+                                                HorizontalAlignment="Center"
+                                                Source="../Resources/Schedule/Recurrence_32x32.png" />
+                                                <TextBlock
+                                                Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_ButtonTool_Recurrence], RelativeSource={RelativeSource TemplatedParent}}" />
+                                                </StackPanel>
+                                                </Button.Content>
+                                                </Button>
+                                            -->
+
+
+                                            <!--
+                                                <ToggleButton
+                                                x:Name="TimeZonesButton">
+                                                <ig:Commanding.Commands>
+                                                <ig:CommandSourceCollection>
+                                                <igPrim:ActivityDialogCoreCommandSource
+                                                CommandType="ShowTimeZonePickers"
+                                                EventName="Checked" />
+                                                <igPrim:ActivityDialogCoreCommandSource
+                                                CommandType="HideTimeZonePickers"
+                                                EventName="Unchecked" />
+                                                </ig:CommandSourceCollection>
+                                                </ig:Commanding.Commands>
+                                                <ToggleButton.Content>
+                                                <StackPanel
+                                                Margin="3">
+                                                <Image
+                                                Width="32"
+                                                Height="32"
+                                                HorizontalAlignment="Center"
+                                                Source="../Resources/Schedule/TimeZones_32x32.png" />
+                                                <TextBlock
+                                                Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_ButtonTool_TimeZones], RelativeSource={RelativeSource TemplatedParent}}" />
+                                                </StackPanel>
+                                                </ToggleButton.Content>
+                                                </ToggleButton>
+                                            -->
+                                        </StackPanel>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_RibbonGroup_Options], RelativeSource={RelativeSource TemplatedParent}}"
+                                            TextAlignment="Center" />
+
+                                        <StackPanel
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal">
+                                            <Rectangle
+                                                Width="1"
+                                                Fill="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteGroupInnerBorderBrush], RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <Rectangle
+                                                Width="1"
+                                                Fill="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteGroupOuterBorderBrush], RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
+                                <!--  Tags Group  -->
+                                <Grid
+                                    x:Name="TagsGroup"
+                                    Grid.Column="2"
+                                    Margin="5,4,7,3">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition
+                                                Height="*" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel
+                                            Margin="3,3,3,0"
+                                            Orientation="Horizontal">
+                                            <ToggleButton
+                                                x:Name="CategorizeButton">
+                                                <ToggleButton.Content>
+                                                    <StackPanel
+                                                        Margin="3">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            HorizontalAlignment="Center"
+                                                            Source="../Resources/Schedule/Categorize_32x32.png" />
+                                                        <TextBlock
+                                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_ButtonTool_Categorize], RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    </StackPanel>
+                                                </ToggleButton.Content>
+                                            </ToggleButton>
+                                        </StackPanel>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_RibbonGroup_Tags], RelativeSource={RelativeSource TemplatedParent}}"
+                                            TextAlignment="Center" />
+
+                                        <StackPanel
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal">
+                                            <Rectangle
+                                                Width="1"
+                                                Fill="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteGroupInnerBorderBrush], RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <Rectangle
+                                                Width="1"
+                                                Fill="{Binding Path=ColorScheme.DefaultBrushProvider[RibbonLiteGroupOuterBorderBrush], RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
+                                <!--  Dummy group  -->
+                                <Grid
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Stretch" />
+                            </Grid>
+                        </Grid>
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="StyleAppointment"
+        TargetType="igPrim:AppointmentDialogCore">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <!--<Setter Property="Background" Value="Fuchsia"></Setter>-->
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="igPrim:AppointmentDialogCore">
+                    <ContentControl
+                        Foreground="{Binding Path=DataManager.ColorSchemeResolved.DefaultBrushProvider[DialogForeground], RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border
+                            x:Name="MainBorder"
+                            Background="Transparent"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            igPrim:XamlHelper.SnapsToDevicePixels="True">
+                            <!--{Binding Path=DataManager.ColorSchemeResolved.DefaultBrushProvider[DialogBackground], RelativeSource={RelativeSource TemplatedParent}}-->
+                            <Grid
+                                x:Name="RootPanel">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto" />
+                                    <RowDefinition
+                                        Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <ContentControl
+                                    x:Name="NavigationControlSite"
+                                    Content="{TemplateBinding NavigationControlSiteContent}" />
+
+                                <Grid
+                                    Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height="Auto" />
+                                        <RowDefinition
+                                            Height="*" />
+                                        <RowDefinition
+                                            Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition
+                                                Height="Auto" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width="90" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  Message area  -->
+                                        <StackPanel
+                                            Grid.Row="0"
+                                            Grid.ColumnSpan="5"
+                                            Margin="0,4,0,0"
+                                            Orientation="Vertical">
+                                            <!--  Occurrence Description  -->
+                                            <StackPanel
+                                                Margin="0,4,0,0"
+                                                Orientation="Horizontal"
+                                                Visibility="{Binding Path=OccurrenceDescriptionVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Image
+                                                    Width="10"
+                                                    Height="10"
+                                                    Margin="8,0,0,0"
+                                                    Source="../Resources/Schedule/Conflict_10x10.png" />
+                                                <TextBlock
+                                                    Margin="4,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Path=OccurrenceDescription, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </StackPanel>
+
+                                            <!--  Conflict Message  -->
+                                            <StackPanel
+                                                Margin="0,4,0,0"
+                                                Orientation="Horizontal"
+                                                Visibility="{Binding Path=HasConflicts, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource boolToVisibility}}">
+                                                <Image
+                                                    Width="10"
+                                                    Height="10"
+                                                    Margin="8,0,0,0"
+                                                    Source="../Resources/Schedule/Conflict_10x10.png" />
+                                                <TextBlock
+                                                    Margin="4,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Path=ConflictMessage, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </StackPanel>
+
+                                            <!--  Activity Category List  -->
+                                            <Grid
+                                                Margin="3,4,3,0"
+                                                HorizontalAlignment="Stretch"
+                                                Visibility="{Binding Path=ActivityCategoryListItemsVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <ItemsControl
+                                                    HorizontalAlignment="Stretch"
+                                                    ItemsSource="{Binding Path=ActivityCategoryListItems, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <igPrim:CompactWrapPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <igPrim:ActivityCategoryPresenter
+                                                                HorizontalContentAlignment="Stretch"
+                                                                Category="{Binding Path=ActivityCategory}"
+                                                                igPrim:ActivityCategoryHelper.ActivityCategoryHelper="{Binding ActivityCategoryHelper}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <!--  Subject  -->
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Margin="3,6,3,3"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_Subject], RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <TextBox
+                                            x:Name="Subject"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="4"
+                                            Margin="3,6,3,3"
+                                            VerticalAlignment="Center"
+                                            BorderBrush="{StaticResource EditorNormalBorderBrush}"
+                                            IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                            TabIndex="0"
+                                            Text="{Binding Subject}"
+                                            igPrim:XamlHelper.UpdateBindingOnTextPropertyChanged="True" />
+
+                                        <!--  Location  -->
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Margin="3"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_Location], RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <TextBox
+                                            x:Name="Location"
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="4"
+                                            Margin="3"
+                                            VerticalAlignment="Center"
+                                            BorderBrush="{StaticResource EditorNormalBorderBrush}"
+                                            IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                            TabIndex="10"
+                                            Text="{Binding Location}"
+                                            igPrim:XamlHelper.UpdateBindingOnTextPropertyChanged="True" />
+
+                                        <!--  Separator Line  -->
+                                        <Path
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="5"
+                                            Height="1"
+                                            Margin="3"
+                                            VerticalAlignment="Top"
+                                            Data="M132.6749,227.63374 L443.67065,227.63374"
+                                            Stretch="Fill"
+                                            Stroke="{StaticResource SeparatorFillBrush}"
+                                            StrokeDashArray="2 2"
+                                            StrokeThickness="1" />
+
+                                        <Grid
+                                            x:Name="startAndEndTimesGrid"
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="5"
+                                            Visibility="{Binding Path=IsRecurrenceRoot, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource notBoolToVisibility}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition
+                                                    Height="Auto" />
+                                                <RowDefinition
+                                                    Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition
+                                                    Width="90" />
+                                                <ColumnDefinition
+                                                    Width="160" />
+                                                <ColumnDefinition
+                                                    Width="120" />
+                                                <ColumnDefinition
+                                                    Width="Auto" />
+                                                <ColumnDefinition
+                                                    Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--  Start Time and All Day Event checkbox  -->
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="3"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_StartTime], RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <DatePicker
+                                                x:Name="StartDatePicker"
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                VerticalAlignment="Center"
+                                                Foreground="{StaticResource TextForegroundBrush}"
+                                                IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                                TabIndex="20" />
+                                            <ComboBox
+                                                x:Name="StartTimePicker"
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="3"
+                                                VerticalAlignment="Center"
+                                                BorderBrush="{StaticResource EditorNormalBorderBrush}"
+                                                Foreground="{StaticResource TextForegroundBrush}"
+                                                IsEditable="True"
+                                                IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                                TabIndex="30" />
+                                            <ComboBox
+                                                x:Name="StartTimeZonePicker"
+                                                Grid.Row="0"
+                                                Grid.Column="3"
+                                                Width="160"
+                                                Margin="3,0,3,0"
+                                                VerticalAlignment="Center"
+                                                DisplayMemberPath="DisplayName"
+                                                Foreground="{StaticResource TextForegroundBrush}"
+                                                IsEnabled="{Binding Path=TimeZonePickerEnabled, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ItemsSource="{Binding Path=DataManager.DataConnector.TimeZoneInfoProviderResolved.TimeZoneTokens, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}"
+                                                SelectedValue="{Binding Path=Appointment.StartTimeZoneId, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
+                                                SelectedValuePath="Id"
+                                                TabIndex="35"
+                                                Visibility="{Binding Path=TimeZonePickerVisibility, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <CheckBox
+                                                Grid.Row="0"
+                                                Grid.Column="4"
+                                                Margin="3"
+                                                VerticalAlignment="Center"
+                                                Content="{Binding Path=LocalizedStrings[DLG_Appointment_Core_AllDayEvent], RelativeSource={RelativeSource TemplatedParent}}"
+                                                Foreground="{Binding Path=DataManager.ColorSchemeResolved.DefaultBrushProvider[DialogForeground], RelativeSource={RelativeSource TemplatedParent}}"
+                                                IsChecked="{Binding IsTimeZoneNeutral}"
+                                                IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                                TabIndex="40"
+                                                Visibility="{Binding Path=AllowAllDayActivities, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource boolToVisibility}}" />
+
+                                            <!--  End Time  -->
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="3,3,3,6"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_EndTime], RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <DatePicker
+                                                x:Name="EndDatePicker"
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Margin="3,3,3,6"
+                                                VerticalAlignment="Center"
+                                                Foreground="{StaticResource TextForegroundBrush}"
+                                                IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                                TabIndex="50" />
+                                            <ComboBox
+                                                x:Name="EndTimePicker"
+                                                Grid.Row="1"
+                                                Grid.Column="2"
+                                                Margin="3,3,3,6"
+                                                VerticalAlignment="Center"
+                                                BorderBrush="{StaticResource EditorNormalBorderBrush}"
+                                                Foreground="{StaticResource TextForegroundBrush}"
+                                                IsEditable="True"
+                                                IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                                TabIndex="60" />
+                                            <ComboBox
+                                                x:Name="EndTimeZonePicker"
+                                                Grid.Row="1"
+                                                Grid.Column="3"
+                                                Width="160"
+                                                Margin="3,0,3,0"
+                                                VerticalAlignment="Center"
+                                                DisplayMemberPath="DisplayName"
+                                                Foreground="{StaticResource TextForegroundBrush}"
+                                                IsEnabled="{Binding Path=TimeZonePickerEnabled, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ItemsSource="{Binding Path=DataManager.DataConnector.TimeZoneInfoProviderResolved.TimeZoneTokens, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}"
+                                                SelectedValue="{Binding Path=Appointment.EndTimeZoneId, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
+                                                SelectedValuePath="Id"
+                                                TabIndex="35"
+                                                Visibility="{Binding Path=TimeZonePickerVisibility, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </Grid>
+
+                                        <Grid
+                                            x:Name="recurrenceRootMessageGrid"
+                                            Grid.Row="5"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="5"
+                                            Visibility="{Binding Path=RecurrenceRootDescriptionVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition
+                                                    Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition
+                                                    Width="90" />
+                                                <ColumnDefinition
+                                                    Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--  Root Recurrence description  -->
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="3"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Path=LocalizedStrings[DLG_Appointment_Core_RecurrenceRootLabel], RelativeSource={RelativeSource TemplatedParent}}" />
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Path=RecurrenceRootDescription, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </Grid>
+                                    </Grid>
+
+                                    <!--  Description  -->
+                                    <TextBox
+                                        Grid.Row="1"
+                                        AcceptsReturn="True"
+                                        AcceptsTab="True"
+                                        BorderBrush="{StaticResource EditorNormalBorderBrush}"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        IsEnabled="{Binding Path=IsActivityModifiable, RelativeSource={RelativeSource TemplatedParent}}"
+                                        TabIndex="70"
+                                        Text="{Binding Description}"
+                                        VerticalScrollBarVisibility="Auto"
+                                        igPrim:XamlHelper.UpdateBindingOnTextPropertyChanged="True" />
+
+                                    <!--  Description format warning message  -->
+                                    <Border
+                                        Grid.Row="2"
+                                        Background="LightYellow"
+                                        BorderBrush="{StaticResource EditorNormalBorderBrush}"
+                                        BorderThickness="0,1,0,0"
+                                        Visibility="{Binding Path=DescriptionFormatWarningMessageVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <TextBlock
+                                            Margin="3"
+                                            Text="{Binding Path=DescriptionFormatWarningMessage, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,337 @@
+﻿<UserControl
+    x:Class="UDM.Insurance.Interface.PrismViews.EditClosureScreenContentView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ribbon="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"
+    xmlns:ribbonPri="clr-namespace:Microsoft.Windows.Controls.Ribbon.Primitives;assembly=RibbonControlsLibrary"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="700"
+    d:DesignWidth="1100"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="ribbon:RibbonApplicationMenu">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+        <Style TargetType="ribbon:RibbonTabHeader">
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Height" Value="0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="1" Background="Transparent">
+
+        <Border
+            x:Name="ContentBorder"
+            BorderBrush="Gray"
+            BorderThickness="2"
+            CornerRadius="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid
+                    x:Name="grdDocRibbon"
+                    Grid.Row="0"
+                    Background="Transparent">
+                    <ribbon:Ribbon
+                        Name="DocRibbon"
+                        Margin="0"
+                        Background="{StaticResource BrandedBrushIN}"
+                        BorderBrush="Transparent"
+                        BorderThickness="2"
+                        ContextMenu="{x:Null}"
+                        IsCollapsed="False"
+                        IsTabStop="False"
+                        ShowQuickAccessToolBarOnTop="True">
+                        <ribbon:RibbonTab Header="Home">
+                            <ribbon:RibbonGroup ContextMenu="{x:Null}" Header="Edit">
+                                <ribbon:RibbonButton
+                                    x:Name="_btnPaste"
+                                    Command="{x:Static ApplicationCommands.Paste}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Paste"
+                                    LargeImageSource="../PrismInfrastructure/Images/Paste32.png">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Large" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                                <ribbon:RibbonButton
+                                    x:Name="_btnCut"
+                                    Command="{x:Static ApplicationCommands.Cut}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Cut"
+                                    SmallImageSource="../PrismInfrastructure/Images/Cut16.png">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Small" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                                <ribbon:RibbonButton
+                                    x:Name="_btnCopy"
+                                    Command="{x:Static ApplicationCommands.Copy}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Copy"
+                                    SmallImageSource="../PrismInfrastructure/Images/Copy16.png">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Small" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                                <ribbon:RibbonButton
+                                    x:Name="_btnClear"
+                                    Command="{x:Static EditingCommands.Delete}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Clear"
+                                    SmallImageSource="../PrismInfrastructure/Images/Delete16.png">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Small" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                                <ribbon:RibbonButton
+                                    x:Name="_btnUndo"
+                                    Command="{x:Static ApplicationCommands.Undo}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Undo"
+                                    SmallImageSource="../PrismInfrastructure/Images/Undo16.png">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Small" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                                <ribbon:RibbonButton
+                                    x:Name="_bntRedo"
+                                    Command="{x:Static ApplicationCommands.Redo}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Redo"
+                                    SmallImageSource="../PrismInfrastructure/Images/Redo16.png">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Small" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                                <ribbon:RibbonButton
+                                    x:Name="_btnSelectAll"
+                                    Command="{x:Static ApplicationCommands.SelectAll}"
+                                    CommandTarget="{Binding ElementName=DocWorkspace}"
+                                    ContextMenu="{x:Null}"
+                                    Label="Select All" />
+                            </ribbon:RibbonGroup>
+                            <ribbon:RibbonGroup ContextMenu="{x:Null}" Header="Font">
+                                <ribbon:RibbonControlGroup>
+                                    <ComboBox
+                                        x:Name="_fontFamily"
+                                        Width="110"
+                                        ContextMenu="{x:Null}"
+                                        IsEditable="False"
+                                        SelectionChanged="FontFamily_SelectionChanged">
+                                        <!--<ComboBox.Style>
+                                            <Style TargetType="ComboBox">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ClosureText}" Value="{x:Null}">
+                                                        <Setter Property="SelectedIndex" Value="-1" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>-->
+                                    </ComboBox>
+                                    <ComboBox
+                                        x:Name="_fontSize"
+                                        Width="45"
+                                        ContextMenu="{x:Null}"
+                                        IsEditable="False"
+                                        SelectionChanged="FontSize_SelectionChanged">
+                                        <ComboBox.Style>
+                                            <Style TargetType="ComboBox">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ClosureText}" Value="{x:Null}">
+                                                        <Setter Property="SelectedIndex" Value="-1" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>
+                                    </ComboBox>
+                                </ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup>
+                                    <ribbon:RibbonToggleButton
+                                        x:Name="_btnBold"
+                                        Command="{x:Static EditingCommands.ToggleBold}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        SmallImageSource="../PrismInfrastructure/Images/Bold16.png">
+                                        <ribbon:RibbonToggleButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonToggleButton.ControlSizeDefinition>
+                                    </ribbon:RibbonToggleButton>
+                                    <ribbon:RibbonToggleButton
+                                        x:Name="_btnItalic"
+                                        Command="{x:Static EditingCommands.ToggleItalic}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        SmallImageSource="../PrismInfrastructure/Images/Italic16.png">
+                                        <ribbon:RibbonToggleButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonToggleButton.ControlSizeDefinition>
+                                    </ribbon:RibbonToggleButton>
+                                    <ribbon:RibbonToggleButton
+                                        x:Name="_btnUnderline"
+                                        Command="{x:Static EditingCommands.ToggleUnderline}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        SmallImageSource="../PrismInfrastructure/Images/Underline16.png">
+                                        <ribbon:RibbonToggleButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonToggleButton.ControlSizeDefinition>
+                                    </ribbon:RibbonToggleButton>
+                                </ribbon:RibbonControlGroup>
+                            </ribbon:RibbonGroup>
+                            <ribbon:RibbonGroup ContextMenu="{x:Null}" Header="Paragraph">
+                                <ribbon:RibbonControlGroup>
+                                    <ribbon:RibbonRadioButton
+                                        x:Name="_btnAlignLeft"
+                                        Command="{x:Static EditingCommands.AlignLeft}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        Label=""
+                                        SmallImageSource="../PrismInfrastructure/Images/LeftAlign16.png">
+                                        <ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                    </ribbon:RibbonRadioButton>
+                                    <ribbon:RibbonRadioButton
+                                        x:Name="_btnAlignCenter"
+                                        Command="{x:Static EditingCommands.AlignCenter}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        Label=""
+                                        SmallImageSource="../PrismInfrastructure/Images/CenterAlign16.png">
+                                        <ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                    </ribbon:RibbonRadioButton>
+                                    <ribbon:RibbonRadioButton
+                                        x:Name="_btnAlignRight"
+                                        Command="{x:Static EditingCommands.AlignRight}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        Label=""
+                                        SmallImageSource="../PrismInfrastructure/Images/RightAlign16.png" />
+                                    <ribbon:RibbonRadioButton
+                                        x:Name="_btnAlignJustify"
+                                        Command="{x:Static EditingCommands.AlignJustify}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        ContextMenu="{x:Null}"
+                                        Label=""
+                                        SmallImageSource="../PrismInfrastructure/Images/JustifyAlign16.png">
+                                        <ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                    </ribbon:RibbonRadioButton>
+                                </ribbon:RibbonControlGroup>
+                                <ribbon:RibbonControlGroup>
+                                    <ribbon:RibbonRadioButton
+                                        x:Name="_btnBullets"
+                                        Command="{x:Static EditingCommands.ToggleBullets}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        Label=""
+                                        SmallImageSource="../PrismInfrastructure/Images/Bullets16.png">
+                                        <ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                    </ribbon:RibbonRadioButton>
+                                    <ribbon:RibbonRadioButton
+                                        x:Name="_btnNumbers"
+                                        Command="{x:Static EditingCommands.ToggleNumbering}"
+                                        CommandTarget="{Binding ElementName=DocWorkspace}"
+                                        Label=""
+                                        SmallImageSource="../PrismInfrastructure/Images/Numbering16.png">
+                                        <ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                            <ribbon:RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                        </ribbon:RibbonRadioButton.ControlSizeDefinition>
+                                    </ribbon:RibbonRadioButton>
+                                </ribbon:RibbonControlGroup>
+                            </ribbon:RibbonGroup>
+                            <ribbon:RibbonGroup ContextMenu="{x:Null}" Header="Color">
+                                <ribbon:RibbonButton
+                                    Click="FontColor_Click"
+                                    ContextMenu="{x:Null}"
+                                    Label=""
+                                    LargeImageSource="../PrismInfrastructure/Images/ColorDialog_32x.png"
+                                    ToolTip="Change text color">
+                                    <ribbon:RibbonButton.ControlSizeDefinition>
+                                        <ribbon:RibbonControlSizeDefinition ImageSize="Large" />
+                                    </ribbon:RibbonButton.ControlSizeDefinition>
+                                </ribbon:RibbonButton>
+                            </ribbon:RibbonGroup>
+                            <ribbon:RibbonGroup
+                                ContextMenu="{x:Null}"
+                                Header="Tags"
+                                Visibility="Visible">
+                                <ribbon:RibbonControlGroup>
+                                    <ComboBox
+                                        x:Name="_tagList"
+                                        Width="145"
+                                        ContextMenu="{x:Null}"
+                                        IsEditable="False"
+                                        SelectionChanged="TagList_SelectionChanged" />
+                                </ribbon:RibbonControlGroup>
+                            </ribbon:RibbonGroup>
+                        </ribbon:RibbonTab>
+                        <ribbon:Ribbon.Style>
+                            <Style TargetType="ribbon:Ribbon">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ClosureText}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ribbon:Ribbon.Style>
+                    </ribbon:Ribbon>
+                </Grid>
+                <Grid
+                    x:Name="grdDocWorkspace"
+                    Grid.Row="1"
+                    Background="Transparent">
+                    <toolkit:RichTextBox
+                        x:Name="DocWorkspace"
+                        Height="{Binding ElementName=grdDocWorkspace, Path=ActualHeight}"
+                        Padding="12"
+                        VerticalAlignment="Top"
+                        Background="White"
+                        BorderBrush="Transparent"
+                        BorderThickness="2"
+                        FontFamily="Calibri"
+                        FontSize="16"
+                        IsTabStop="False"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        SelectionChanged="RichTextBox_SelectionChanged"
+                        Text="{Binding ClosureText}">
+                        <toolkit:RichTextBoxFormatBarManager.FormatBar>
+                            <toolkit:RichTextBoxFormatBar IsEnabled="False" Visibility="Collapsed" />
+                        </toolkit:RichTextBoxFormatBarManager.FormatBar>
+                        <toolkit:RichTextBox.TextFormatter>
+                            <toolkit:RtfFormatter />
+                        </toolkit:RichTextBox.TextFormatter>
+                        <toolkit:RichTextBox.Style>
+                            <Style TargetType="toolkit:RichTextBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ClosureText}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </toolkit:RichTextBox.Style>
+                    </toolkit:RichTextBox>
+                </Grid>
+            </Grid>
+        </Border>
+
+    </Grid>
+</UserControl>

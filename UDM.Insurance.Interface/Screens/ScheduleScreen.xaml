@@ -1,0 +1,178 @@
+﻿<Window
+    x:Class="UDM.Insurance.Interface.Screens.ScheduleScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="clr-namespace:UDM.Insurance.Interface.Data.ScheduleScreenVM"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:library="clr-namespace:UDM.Insurance.Interface.Library"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:scdata="clr-namespace:UDM.Insurance.Interface.Data"
+    x:Name="Diary"
+    Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width, Converter={converters:MathConverter}, ConverterParameter=x*0.625}"
+    Height="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height, Converter={converters:MathConverter}, ConverterParameter=x*0.769}"
+    d:DataContext="{d:DesignInstance scdata:ScheduleScreenData}"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    AllowsTransparency="True"
+    Background="Transparent"
+    BorderThickness="0"
+    MouseLeftButtonDown="WindowMouseLeftButtonDown"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <!--  w  -->
+
+    <Window.Resources>
+
+        <!--
+            <converters:MathConverter
+            x:Key="MathConverter" />
+        -->
+
+        <library:ScheduleActivityDialogFactory x:Key="ScheduleActivityDialogFactory" />
+
+        <ig:ActivityCategoryCollection x:Key="CategoryDataSource">
+            <ig:ActivityCategory
+                CategoryName="Business"
+                Description="Business"
+                Color="{StaticResource BrandedColourIN_mediumlight}" />
+            <ig:ActivityCategory
+                CategoryName="Personal"
+                Description="Personal"
+                Color="Yellow" />
+            <ig:ActivityCategory
+                CategoryName="Urgent"
+                Description="Urgent"
+                Color="LightPink" />
+            <ig:ActivityCategory
+                CategoryName="Non-Urgent"
+                Description="Non-Urgent"
+                Color="LightGreen" />
+        </ig:ActivityCategoryCollection>
+
+    </Window.Resources>
+
+    <Viewbox Stretch="Uniform">
+        <Border
+            Width="1200"
+            Height="800"
+            Background="White"
+            BorderBrush="{StaticResource BrandedBrushIN}"
+            BorderThickness="3"
+            CornerRadius="6"
+            Cursor="Hand">
+
+            <Grid
+                x:Name="LayoutRoot"
+                Margin="0"
+                Cursor="Arrow">
+
+                <Grid
+                    Width="24"
+                    Height="24"
+                    Margin="3"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    ZIndex="10">
+                    <Button
+                        x:Name="btnClose"
+                        Margin="0"
+                        Click="btnClose_Click"
+                        Style="{StaticResource INCloseButton}" />
+                </Grid>
+
+                <ig:ListScheduleDataConnector
+                    Name="XamScheduleDataConnector"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    d:DataContext="{d:DesignInstance data:ScheduleViewModel}"
+                    ActivityCategoryItemsSource="{Binding Source={StaticResource CategoryDataSource}}"
+                    AppointmentItemsSource="{Binding Appointments, Mode=TwoWay}"
+                    Loaded="XamScheduleDataConnector_Loaded"
+                    ResourceCalendarItemsSource="{Binding ResourceCalendars, Mode=TwoWay}"
+                    ResourceItemsSource="{Binding Resources, Mode=TwoWay}">
+                    <ig:ListScheduleDataConnector.ActivityCategoryPropertyMappings>
+                        <ig:ActivityCategoryPropertyMappingCollection UseDefaultMappings="True" />
+                    </ig:ListScheduleDataConnector.ActivityCategoryPropertyMappings>
+                    <ig:ListScheduleDataConnector.ResourcePropertyMappings>
+                        <ig:ResourcePropertyMappingCollection UseDefaultMappings="True" />
+                    </ig:ListScheduleDataConnector.ResourcePropertyMappings>
+                    <ig:ListScheduleDataConnector.ResourceCalendarPropertyMappings>
+                        <ig:ResourceCalendarPropertyMappingCollection UseDefaultMappings="True" />
+                    </ig:ListScheduleDataConnector.ResourceCalendarPropertyMappings>
+                    <ig:ListScheduleDataConnector.AppointmentPropertyMappings>
+                        <ig:AppointmentPropertyMappingCollection UseDefaultMappings="True" />
+                    </ig:ListScheduleDataConnector.AppointmentPropertyMappings>
+                </ig:ListScheduleDataConnector>
+
+                <ig:XamScheduleDataManager
+                    Name="XamScheduleDataManager"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    ActivityAdded="XamScheduleDataManager_ActivityAdded"
+                    ActivityChanged="XamScheduleDataManager_ActivityChanged"
+                    ActivityDialogDisplaying="XamScheduleDataManager_ActivityDialogDisplaying"
+                    ActivityRemoved="XamScheduleDataManager_ActivityRemoved"
+                    CurrentUserId="{Binding Path=UserID}"
+                    DataConnector="{Binding ElementName=XamScheduleDataConnector}"
+                    DialogFactory="{StaticResource ScheduleActivityDialogFactory}">
+                    <ig:XamScheduleDataManager.Settings>
+                        <ig:ScheduleSettings
+                            AllowCustomizedCategories="True"
+                            LogicalDayDuration="12:00"
+                            LogicalDayOffset="07:00">
+                            <ig:ScheduleSettings.WorkingHours>
+                                <ig:WorkingHoursCollection>
+                                    <ig:TimeRange End="19:00" Start="07:00" />
+                                </ig:WorkingHoursCollection>
+                            </ig:ScheduleSettings.WorkingHours>
+                            <ig:ScheduleSettings.AppointmentSettings>
+                                <ig:AppointmentSettings
+                                    AllowDragging="No"
+                                    AllowEdit="False"
+                                    AllowRecurring="False"
+                                    AllowResizing="No" />
+                            </ig:ScheduleSettings.AppointmentSettings>
+                        </ig:ScheduleSettings>
+                    </ig:XamScheduleDataManager.Settings>
+                </ig:XamScheduleDataManager>
+
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ig:XamDateNavigator x:Name="dateNavigator" BorderThickness="0" />
+                    <ig:XamOutlookCalendarView
+                        x:Name="outlookView"
+                        Grid.Column="1"
+                        BorderThickness="0"
+                        CurrentViewMode="DayViewWeek"
+                        DataManager="{Binding ElementName=XamScheduleDataManager}"
+                        DateNavigator="{Binding ElementName=dateNavigator}"
+                        HeaderVisibility="Visible"
+                        Loaded="outlookView_Loaded"
+                        PreviewKeyDown="outlookView_PreviewKeyDown"
+                        Visibility="Visible">
+                        <ig:XamOutlookCalendarView.Background>
+                            <SolidColorBrush Color="White" />
+                        </ig:XamOutlookCalendarView.Background>
+                    </ig:XamOutlookCalendarView>
+                </Grid>
+
+            </Grid>
+
+        </Border>
+    </Viewbox>
+
+</Window>

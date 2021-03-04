@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="UDM.Insurance.Interface.Content.Hamburger"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:UDM.Insurance.Interface.Content"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <Viewbox Stretch="Uniform">
+        <Path
+            Margin="-1,-3,1,3"
+            Data="M4,10L28,10C29.104,10 30,9.104 30,8 30,6.896 29.104,6 28,6L4,6C2.896,6 2,6.896 2,8 2,9.104 2.896,10 4,10z M28,14L4,14C2.896,14 2,14.896 2,16 2,17.104 2.896,18 4,18L28,18C29.104,18 30,17.104 30,16 30,14.896 29.104,14 28,14z M28,22L4,22C2.896,22 2,22.896 2,24 2,25.104 2.896,26 4,26L28,26C29.104,26 30,25.104 30,24 30,22.896 29.104,22 28,22z"
+            Fill="{StaticResource BrandedBrushIN}" />
+    </Viewbox>
+
+</UserControl>

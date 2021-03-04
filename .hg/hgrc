@@ -1,0 +1,4 @@
+# example repository config (see 'hg help config' for more info)
+[paths]
+default = http://hglab:hglab@udmsql/hglab/hg/udm2/udminsure
+

@@ -1,0 +1,116 @@
+﻿<ResourceDictionary
+    x:Class="UDM.Insurance.Interface.Styles.INPopupStyles"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
+
+    <!--  Close Button  -->
+    <Style
+        x:Key="INPopupCloseButton"
+        TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="600" />
+        <Setter Property="Foreground" Value="{DynamicResource BrandedBrushIN_mediumdark}" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Width" Value="15" />
+        <Setter Property="IsCancel" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Content" Value="X" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="Transparent"
+                        BorderBrush="Black"
+                        BorderThickness="0.5"
+                        CornerRadius="20"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid>
+                            <ContentPresenter
+                                Margin="0, 0, 0, 0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_dark}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="PopupComboContentStyle"
+        TargetType="ContentControl">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border 
+                        x:Name="MainBorder"
+                        Background="LightGray"
+                        BorderBrush="{StaticResource BrandedBrushIN}"
+                        BorderThickness="2"
+                        CornerRadius="6">
+                        <StackPanel>
+                            <Grid>
+                                <Grid>
+                                    <TextBlock
+                                        x:Name="tbPopupHeading"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource BrandedFontIN_main}"
+                                        Padding="6"
+                                        Text="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                                                             AncestorType={x:Type ContentControl}},
+                                                              Path=Tag}">
+                                    </TextBlock>
+                                </Grid>
+                                <Button
+                                    x:Name="btnClosePopup"
+                                    Margin="0,0,5,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource INPopupCloseButton}">
+                                </Button>
+                            </Grid>
+                            <controls:EmbriantComboBox
+                                x:Name="cmbPopup"
+                                Style="{StaticResource cmbIN}">
+                            </controls:EmbriantComboBox>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="PopupComboStyle"
+        TargetType="Popup">
+        <Setter Property="PopupAnimation" Value="Slide" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="Placement" Value="Bottom" />
+        <Setter Property="StaysOpen" Value="False" />
+        <!--<Style.Triggers>
+            <Trigger Property="IsKeyboardFocusWithin" Value="False">
+                <Setter Property="IsOpen" Value="False" />
+            </Trigger>
+        </Style.Triggers>-->
+    </Style>
+
+</ResourceDictionary>

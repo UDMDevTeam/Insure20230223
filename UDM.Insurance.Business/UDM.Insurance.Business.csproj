@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{70D827FF-B146-4ECA-8EF4-966AC302D2E0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UDM.Insurance.Business</RootNamespace>
+    <AssemblyName>UDM.Insurance.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASEBUILD</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TESTBUILD</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\UDM.Insurance.Business.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Training|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Training\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Mapping\CallDataMapper.cs" />
+    <Compile Include="Mapping\CallMonitoringAllocationMapper.cs" />
+    <Compile Include="Mapping\CallMonitoringUnallocationMapper.cs" />
+    <Compile Include="Mapping\ClosureMapper.cs" />
+    <Compile Include="Mapping\Extend\INGiftRedeemMapper.cs" />
+    <Compile Include="Mapping\Extend\INImportExtraMapper.cs" />
+    <Compile Include="Mapping\Extend\INImportMapper.cs" />
+    <Compile Include="Mapping\Extend\INLeadMapper.cs" />
+    <Compile Include="Mapping\Extend\INPolicyMapper.cs" />
+    <Compile Include="Mapping\Extend\INQADetailsQuestionINImportMapper.cs" />
+    <Compile Include="Mapping\Extend\INUserScheduleMapper.cs" />
+    <Compile Include="Mapping\HRStaffMapper.cs" />
+    <Compile Include="Mapping\ImportCMStandardNotesMapper.cs" />
+    <Compile Include="Mapping\INBankDetailsMapper.cs" />
+    <Compile Include="Mapping\INBatchMapper.cs" />
+    <Compile Include="Mapping\INBeneficiaryMapper.cs" />
+    <Compile Include="Mapping\INBumpUpOptionMapper.cs" />
+    <Compile Include="Mapping\INCampaignGroupSetMapper.cs" />
+    <Compile Include="Mapping\INCampaignMapper.cs" />
+    <Compile Include="Mapping\INCampaignSetMapper.cs" />
+    <Compile Include="Mapping\INCampaignTypeSetMapper.cs" />
+    <Compile Include="Mapping\INChildMapper.cs" />
+    <Compile Include="Mapping\INDeclineReasonMapper.cs" />
+    <Compile Include="Mapping\INDefaultOptionMapper.cs" />
+    <Compile Include="Mapping\INDiaryReasonMapper.cs" />
+    <Compile Include="Mapping\INFakeBankAccountNumbersMapper.cs" />
+    <Compile Include="Mapping\INFeeMapper.cs" />
+    <Compile Include="Mapping\InfoLog1Mapper.cs" />
+    <Compile Include="Mapping\INGiftOptionMapper.cs" />
+    <Compile Include="Mapping\INGiftRedeemMapper.cs" />
+    <Compile Include="Mapping\INImportCallMonitoringMapper.cs" />
+    <Compile Include="Mapping\INImportedPolicyDataMapper.cs" />
+    <Compile Include="Mapping\INImportExtraMapper.cs" />
+    <Compile Include="Mapping\INImportHeaderMapper.cs" />
+    <Compile Include="Mapping\INImportLatentLeadReasonMapper.cs" />
+    <Compile Include="Mapping\INImportMapper.cs" />
+    <Compile Include="Mapping\INImportMiningMapper.cs" />
+    <Compile Include="Mapping\INImportNoteMapper.cs" />
+    <Compile Include="Mapping\INImportOtherMapper.cs" />
+    <Compile Include="Mapping\INImportSchedulesMapper.cs" />
+    <Compile Include="Mapping\INLeadBookImportMapper.cs" />
+    <Compile Include="Mapping\INLeadBookMapper.cs" />
+    <Compile Include="Mapping\INLeadMapper.cs" />
+    <Compile Include="Mapping\INLeadStatusMapper.cs" />
+    <Compile Include="Mapping\INLifeAssuredMapper.cs" />
+    <Compile Include="Mapping\INMoneyBackMapper.cs" />
+    <Compile Include="Mapping\INNextOfKinMapper.cs" />
+    <Compile Include="Mapping\INOptionExtraMapper.cs" />
+    <Compile Include="Mapping\INOptionFeeMapper.cs" />
+    <Compile Include="Mapping\INOptionMapper.cs" />
+    <Compile Include="Mapping\INPlanGroupMapper.cs" />
+    <Compile Include="Mapping\INPlanMapper.cs" />
+    <Compile Include="Mapping\INPolicyBeneficiaryMapper.cs" />
+    <Compile Include="Mapping\INPolicyChildMapper.cs" />
+    <Compile Include="Mapping\INPolicyLifeAssuredMapper.cs" />
+    <Compile Include="Mapping\INPolicyMapper.cs" />
+    <Compile Include="Mapping\INPolicyOptionMapper.cs" />
+    <Compile Include="Mapping\INQADetailsAnswerTypeMapper.cs" />
+    <Compile Include="Mapping\INQADetailsINImportMapper.cs" />
+    <Compile Include="Mapping\INQADetailsQuestionINImportMapper.cs" />
+    <Compile Include="Mapping\INQADetailsQuestionMapper.cs" />
+    <Compile Include="Mapping\INQADetailsQuestionTypeMapper.cs" />
+    <Compile Include="Mapping\INUserScheduleMapper.cs" />
+    <Compile Include="Mapping\INUserTypeLeadStatusMapper.cs" />
+    <Compile Include="Mapping\MercantileMapper.cs" />
+    <Compile Include="Mapping\PossibleBumpUpAllocationMapper.cs" />
+    <Compile Include="Mapping\PostalCodeMapper.cs" />
+    <Compile Include="Mapping\ReportTrackUpgradeBasePoliciesDataMapper.cs" />
+    <Compile Include="Mapping\ScriptsMapper.cs" />
+    <Compile Include="Mapping\SMSMapper.cs" />
+    <Compile Include="Mapping\SystemInfoMapper.cs" />
+    <Compile Include="Mapping\TSRCampaignTargetDefaultsMapper.cs" />
+    <Compile Include="Mapping\TSRTargetsMapper.cs" />
+    <Compile Include="Mapping\UserHoursMapper.cs" />
+    <Compile Include="Mapping\UserMapper.cs" />
+    <Compile Include="Mapping\UserSystemMapper.cs" />
+    <Compile Include="Objects\CallData.cs" />
+    <Compile Include="Objects\CallMonitoringAllocation.cs" />
+    <Compile Include="Objects\CallMonitoringUnallocation.cs" />
+    <Compile Include="Objects\Closure.cs" />
+    <Compile Include="Objects\Enumerations.cs" />
+    <Compile Include="Objects\Extend\Insure.cs" />
+    <Compile Include="Objects\HRStaff.cs" />
+    <Compile Include="Objects\ImportCMStandardNotes.cs" />
+    <Compile Include="Objects\INBankDetails.cs" />
+    <Compile Include="Objects\INBatch.cs" />
+    <Compile Include="Objects\INBeneficiary.cs" />
+    <Compile Include="Objects\INBumpUpOption.cs" />
+    <Compile Include="Objects\INCampaign.cs" />
+    <Compile Include="Objects\INCampaignGroupSet.cs" />
+    <Compile Include="Objects\INCampaignSet.cs" />
+    <Compile Include="Objects\INCampaignTypeSet.cs" />
+    <Compile Include="Objects\INChild.cs" />
+    <Compile Include="Objects\INDeclineReason.cs" />
+    <Compile Include="Objects\INDefaultOption.cs" />
+    <Compile Include="Objects\INDiaryReason.cs" />
+    <Compile Include="Objects\INFakeBankAccountNumbers.cs" />
+    <Compile Include="Objects\INFee.cs" />
+    <Compile Include="Objects\InfoLog1.cs" />
+    <Compile Include="Objects\INGiftOption.cs" />
+    <Compile Include="Objects\INGiftRedeem.cs" />
+    <Compile Include="Objects\INImport.cs" />
+    <Compile Include="Objects\INImportCallMonitoring.cs" />
+    <Compile Include="Objects\INImportedPolicyData.cs" />
+    <Compile Include="Objects\INImportExtra.cs" />
+    <Compile Include="Objects\INImportHeader.cs" />
+    <Compile Include="Objects\INImportLatentLeadReason.cs" />
+    <Compile Include="Objects\INImportMining.cs" />
+    <Compile Include="Objects\INImportNote.cs" />
+    <Compile Include="Objects\INImportOther.cs" />
+    <Compile Include="Objects\INImportSchedules.cs" />
+    <Compile Include="Objects\INLead.cs" />
+    <Compile Include="Objects\INLeadBook.cs" />
+    <Compile Include="Objects\INLeadBookImport.cs" />
+    <Compile Include="Objects\INLeadStatus.cs" />
+    <Compile Include="Objects\INLifeAssured.cs" />
+    <Compile Include="Objects\INMoneyBack.cs" />
+    <Compile Include="Objects\INNextOfKin.cs" />
+    <Compile Include="Objects\INOption.cs" />
+    <Compile Include="Objects\INOptionExtra.cs" />
+    <Compile Include="Objects\INOptionFee.cs" />
+    <Compile Include="Objects\INPlan.cs" />
+    <Compile Include="Objects\INPlanGroup.cs" />
+    <Compile Include="Objects\INPolicy.cs" />
+    <Compile Include="Objects\INPolicyBeneficiary.cs" />
+    <Compile Include="Objects\INPolicyChild.cs" />
+    <Compile Include="Objects\INPolicyLifeAssured.cs" />
+    <Compile Include="Objects\INPolicyOption.cs" />
+    <Compile Include="Objects\INQADetailsAnswerType.cs" />
+    <Compile Include="Objects\INQADetailsINImport.cs" />
+    <Compile Include="Objects\INQADetailsQuestion.cs" />
+    <Compile Include="Objects\INQADetailsQuestionINImport.cs" />
+    <Compile Include="Objects\INQADetailsQuestionType.cs" />
+    <Compile Include="Objects\INUserSchedule.cs" />
+    <Compile Include="Objects\INUserTypeLeadStatus.cs" />
+    <Compile Include="Objects\Mercantile.cs" />
+    <Compile Include="Objects\PossibleBumpUpAllocation.cs" />
+    <Compile Include="Objects\PostalCode.cs" />
+    <Compile Include="Objects\ReportTrackUpgradeBasePoliciesData.cs" />
+    <Compile Include="Objects\Scripts.cs" />
+    <Compile Include="Objects\SMS.cs" />
+    <Compile Include="Objects\SystemInfo.cs" />
+    <Compile Include="Objects\TSRCampaignTargetDefaults.cs" />
+    <Compile Include="Objects\TSRTargets.cs" />
+    <Compile Include="Objects\User.cs" />
+    <Compile Include="Objects\UserHours.cs" />
+    <Compile Include="Objects\UserSystem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Queries\CallDataQueries.cs" />
+    <Compile Include="Queries\CallMonitoringAllocationQueries.cs" />
+    <Compile Include="Queries\CallMonitoringUnallocationQueries.cs" />
+    <Compile Include="Queries\ClosureQueries.cs" />
+    <Compile Include="Queries\Extend\INImportExtraQueries.cs" />
+    <Compile Include="Queries\Extend\INImportQueries.cs" />
+    <Compile Include="Queries\Extend\INLeadQueries.cs" />
+    <Compile Include="Queries\Extend\INPolicyQueries.cs" />
+    <Compile Include="Queries\Extend\INQADetailsQuestionINImportQueries.cs" />
+    <Compile Include="Queries\Extend\INUserScheduleQueries.cs" />
+    <Compile Include="Queries\HRStaffQueries.cs" />
+    <Compile Include="Queries\ImportCMStandardNotesQueries.cs" />
+    <Compile Include="Queries\INBankDetailsQueries.cs" />
+    <Compile Include="Queries\INBatchQueries.cs" />
+    <Compile Include="Queries\INBeneficiaryQueries.cs" />
+    <Compile Include="Queries\INBumpUpOptionQueries.cs" />
+    <Compile Include="Queries\INCampaignGroupSetQueries.cs" />
+    <Compile Include="Queries\INCampaignQueries.cs" />
+    <Compile Include="Queries\INCampaignSetQueries.cs" />
+    <Compile Include="Queries\INCampaignTypeSetQueries.cs" />
+    <Compile Include="Queries\INChildQueries.cs" />
+    <Compile Include="Queries\INDeclineReasonQueries.cs" />
+    <Compile Include="Queries\INDefaultOptionQueries.cs" />
+    <Compile Include="Queries\INDiaryReasonQueries.cs" />
+    <Compile Include="Queries\INFakeBankAccountNumbersQueries.cs" />
+    <Compile Include="Queries\INFeeQueries.cs" />
+    <Compile Include="Queries\InfoLog1Queries.cs" />
+    <Compile Include="Queries\INGiftOptionQueries.cs" />
+    <Compile Include="Queries\INGiftRedeemQueries.cs" />
+    <Compile Include="Queries\INImportCallMonitoringQueries.cs" />
+    <Compile Include="Queries\INImportedPolicyDataQueries.cs" />
+    <Compile Include="Queries\INImportExtraQueries.cs" />
+    <Compile Include="Queries\INImportHeaderQueries.cs" />
+    <Compile Include="Queries\INImportLatentLeadReasonQueries.cs" />
+    <Compile Include="Queries\INImportMiningQueries.cs" />
+    <Compile Include="Queries\INImportNoteQueries.cs" />
+    <Compile Include="Queries\INImportOtherQueries.cs" />
+    <Compile Include="Queries\INImportQueries.cs" />
+    <Compile Include="Queries\INImportSchedulesQueries.cs" />
+    <Compile Include="Queries\INLeadBookImportQueries.cs" />
+    <Compile Include="Queries\INLeadBookQueries.cs" />
+    <Compile Include="Queries\INLeadQueries.cs" />
+    <Compile Include="Queries\INLeadStatusQueries.cs" />
+    <Compile Include="Queries\INLifeAssuredQueries.cs" />
+    <Compile Include="Queries\INMoneyBackQueries.cs" />
+    <Compile Include="Queries\INNextOfKinQueries.cs" />
+    <Compile Include="Queries\INOptionExtraQueries.cs" />
+    <Compile Include="Queries\INOptionFeeQueries.cs" />
+    <Compile Include="Queries\INOptionQueries.cs" />
+    <Compile Include="Queries\INPlanGroupQueries.cs" />
+    <Compile Include="Queries\INPlanQueries.cs" />
+    <Compile Include="Queries\INPolicyBeneficiaryQueries.cs" />
+    <Compile Include="Queries\INPolicyChildQueries.cs" />
+    <Compile Include="Queries\INPolicyLifeAssuredQueries.cs" />
+    <Compile Include="Queries\INPolicyOptionQueries.cs" />
+    <Compile Include="Queries\INPolicyQueries.cs" />
+    <Compile Include="Queries\INQADetailsAnswerTypeQueries.cs" />
+    <Compile Include="Queries\INQADetailsINImportQueries.cs" />
+    <Compile Include="Queries\INQADetailsQuestionINImportQueries.cs" />
+    <Compile Include="Queries\INQADetailsQuestionQueries.cs" />
+    <Compile Include="Queries\INQADetailsQuestionTypeQueries.cs" />
+    <Compile Include="Queries\INUserScheduleQueries.cs" />
+    <Compile Include="Queries\INUserTypeLeadStatusQueries.cs" />
+    <Compile Include="Queries\MercantileQueries.cs" />
+    <Compile Include="Queries\PossibleBumpUpAllocationQueries.cs" />
+    <Compile Include="Queries\PostalCodeQueries.cs" />
+    <Compile Include="Queries\ReportTrackUpgradeBasePoliciesDataQueries.cs" />
+    <Compile Include="Queries\ScriptsQueries.cs" />
+    <Compile Include="Queries\SMSQueries.cs" />
+    <Compile Include="Queries\SystemInfoQueries.cs" />
+    <Compile Include="Queries\TSRCampaignTargetDefaultsQueries.cs" />
+    <Compile Include="Queries\TSRTargetsQueries.cs" />
+    <Compile Include="Queries\UserHoursQueries.cs" />
+    <Compile Include="Queries\UserQueries.cs" />
+    <Compile Include="Queries\UserSystemQueries.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\UDMCore\Embriant.Framework\Embriant.Framework.csproj">
+      <Project>{B664B2DD-49C8-4A75-92EF-629A16D2DB04}</Project>
+      <Name>Embriant.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,62 @@
+﻿<prism:PrismApplication
+    x:Class="UDM.Insurance.Interface.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+    xmlns:prism="http://prismlibrary.com/">
+
+    <!--
+        ShutdownMode="OnExplicitShutdown"
+        Startup="Application_Startup"
+        StartupUri="Windows\MainWindow.xaml"
+    -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UDM.WPF;component/Styles/_Default.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/UDM.WPF;component/Styles/ColorStyles.xaml" />-->
+                <!--<ResourceDictionary Source="pack://application:,,,/UDM.WPF;component/Styles/BrushStyles.xaml" />-->
+                <!--<ResourceDictionary Source="pack://application:,,,/UDM.WPF;component/Styles/TextStyles.xaml" />-->
+                <!--<ResourceDictionary Source="pack://application:,,,/UDM.WPF;component/Styles/Dimensions.xaml" />-->
+
+                <!--<ResourceDictionary>
+                    <converters:IntCompareConverter x:Key="IntCompareConverter1"></converters:IntCompareConverter>
+                </ResourceDictionary>-->
+
+                <ResourceDictionary Source="Styles\INStyleColours.xaml" />
+                <ResourceDictionary Source="Styles\INStyleBrushes.xaml" />
+                <ResourceDictionary Source="Styles\INStyleConverters.xaml" />
+                <ResourceDictionary Source="Styles\INStyleDimensions.xaml" />
+                <ResourceDictionary Source="Styles\INStyleFonts.xaml" />
+                <ResourceDictionary Source="Styles\INStyleProperties.xaml" />
+
+
+                <ResourceDictionary Source="Styles\INGroupBox.xaml" />
+                <ResourceDictionary Source="Styles\INXamContextMenu.xaml" />
+                <ResourceDictionary Source="Styles\INScrollBarStyles.xaml" />
+                <ResourceDictionary Source="Styles\INCheckBoxStyles.xaml" />
+                <ResourceDictionary Source="Styles\INRadioButtonStyles.xaml" />
+                <ResourceDictionary Source="Styles\INButtonStyles.xaml" />
+                <ResourceDictionary Source="Styles\INXamDateTimeEditorStyles.xaml" />
+                <ResourceDictionary Source="Styles\INXamCalendarStyles.xaml" />
+                <ResourceDictionary Source="Styles\INEditableComboBoxStyles.xaml" />
+                <ResourceDictionary Source="Styles\INEmbriantComboBoxStyles.xaml" />
+                <ResourceDictionary Source="Styles\INXamMaskedEditorStyles.xaml" />
+                <ResourceDictionary Source="Styles\INXamDataGridStyles.xaml" />
+                <ResourceDictionary Source="Styles\INXamCurrencyEditorStyles.xaml" />
+                <ResourceDictionary Source="Styles\INDocumentViewerStyle.xaml" />
+
+
+                <ResourceDictionary Source="Styles\INStyles.xaml" />
+                <ResourceDictionary Source="Styles\INTextStyles.xaml" />
+                <ResourceDictionary Source="Styles\INPopupStyles.xaml" />
+                <ResourceDictionary Source="Styles\INScheduleDialogStyles.xaml" />
+
+
+                <ResourceDictionary Source="Styles\INContextMenuStyles.xaml" />
+                <ResourceDictionary Source="Styles\INLeadApplicationStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>

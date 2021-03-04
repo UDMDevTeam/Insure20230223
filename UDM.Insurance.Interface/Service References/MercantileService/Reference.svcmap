@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="81d95900-cd14-4b3c-a2f3-750d14641b56" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://ebureau.mercantile.co.za/mpscdv/cdv.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CDV.xsd" MetadataType="Schema" ID="8144af86-21d7-4454-b9a7-98f184e2a121" SourceId="1" SourceUrl="https://ebureau.mercantile.co.za/mpscdv/CDV.svc?xsd=xsd1" />
+    <MetadataFile FileName="CDV1.xsd" MetadataType="Schema" ID="249ec467-5aa2-4275-90c1-93925add18ab" SourceId="1" SourceUrl="https://ebureau.mercantile.co.za/mpscdv/CDV.svc?xsd=xsd0" />
+    <MetadataFile FileName="CDV2.xsd" MetadataType="Schema" ID="e98b43ae-df33-4320-b94a-1124236b46f9" SourceId="1" SourceUrl="https://ebureau.mercantile.co.za/mpscdv/CDV.svc?xsd=xsd2" />
+    <MetadataFile FileName="CdvWCF.wsdl" MetadataType="Wsdl" ID="c20b5f46-98a5-4eff-924e-414b6e3442e5" SourceId="1" SourceUrl="https://ebureau.mercantile.co.za/mpscdv/cdv.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

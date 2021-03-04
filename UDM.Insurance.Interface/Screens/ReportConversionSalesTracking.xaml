@@ -1,0 +1,355 @@
+﻿<src:BaseControl x:Class="UDM.Insurance.Interface.Screens.ReportConversionSalesTracking"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+                 mc:Ignorable="d">
+
+    <src:BaseControl.Resources>
+        <RoutedUICommand x:Key="cmdReport" />
+        <RoutedUICommand x:Key="cmdCancel" />
+    </src:BaseControl.Resources>
+
+    <src:BaseControl.CommandBindings>
+        <CommandBinding CanExecute="cmdReport_CanExecute"
+                        Command="{StaticResource cmdReport}"
+                        Executed="cmdReport_Executed" />
+        <CommandBinding CanExecute="cmdCancel_CanExecute"
+                        Command="{StaticResource cmdCancel}"
+                        Executed="cmdCancel_Executed" />
+    </src:BaseControl.CommandBindings>
+
+    <src:BaseControl.InputBindings>
+        <KeyBinding Key="R"
+                    Command="{StaticResource cmdReport}"
+                    Modifiers="Alt" />
+        <KeyBinding Key="C"
+                    Command="{StaticResource cmdCancel}"
+                    Modifiers="Alt" />
+    </src:BaseControl.InputBindings>
+
+    <Border x:Name="DimBorder"
+            Width="1200"
+            Height="750"
+            BorderBrush="Transparent"
+            BorderThickness="0"
+            CornerRadius="12"
+            Opacity="1">
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Background" Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger Property="Border.IsEnabled" Value="False">
+                        <Setter Property="Border.Background" Value="Gray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border x:Name="MainBorder"
+                Width="1200"
+                Height="750"
+                Background="Black"
+                BorderBrush="{StaticResource BrandedBrushIN}"
+                BorderThickness="2"
+                CornerRadius="12">
+            <Border.Style>
+                <Style>
+                    <Setter Property="Border.Opacity" Value="1" />
+                    <Style.Triggers>
+                        <Trigger Property="Border.IsEnabled" Value="False">
+                            <Setter Property="Border.Opacity" Value="0.7" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Viewbox>
+                <Grid x:Name="LayoutRoot"
+                      Width="1200"
+                      Height="750">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="43*" />
+                        <ColumnDefinition Width="42*" />
+                        <ColumnDefinition Width="41*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="btnClose"
+                            Grid.Column="27"
+                            Click="btnClose_Click"
+                            IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                            IsTabStop="True"
+                            Style="{StaticResource INCloseButton}" />
+
+                    <TextBlock x:Name="hdrNoContactReport"
+                               Grid.Row="1"
+                               Grid.Column="2"
+                               Grid.ColumnSpan="8"
+                               Margin="0"
+                               VerticalAlignment="Top"
+                               Style="{StaticResource INPageHeadingText1}"
+                               Text="Conversion Sales Tracking Report" />
+
+                    <Path x:Name="hdrLine"
+                          Grid.Row="1"
+                          Grid.Column="2"
+                          Grid.ColumnSpan="8"
+                          Margin="0,0,0,14"
+                          HorizontalAlignment="Left"
+                          Style="{StaticResource INUnderlineText1}" />
+
+                    <TextBlock x:Name="lblCampaignType"
+                               Grid.Row="2"
+                               Grid.Column="2"
+                               Grid.ColumnSpan="4"
+                               Margin="0,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Campaign Type"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />
+
+                    <src:EmbriantComboBox x:Name="cmbCampaignType"
+                                          Grid.Row="3"
+                                          Grid.Column="2"
+                                          Grid.ColumnSpan="7"
+                                          Margin="0"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Top"
+                                          IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                          Loaded="cmbCampaignType_Loaded"
+                                          SelectedIndex="0"
+                                          SelectionChanged="cmbCampaignType_SelectionChanged"
+                                          Style="{StaticResource cmbINHighlightBorder}"
+                                          TabIndex="0">
+                        <ComboBoxItem>Base</ComboBoxItem>
+                        <ComboBoxItem>Upgrades</ComboBoxItem>
+                    </src:EmbriantComboBox>
+
+                    <TextBlock x:Name="lblCampaigns"
+                               Grid.Row="2"
+                               Grid.Column="10"
+                               Grid.ColumnSpan="4"
+                               Margin="0,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Campaign"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />
+
+                    <src:EmbriantComboBox x:Name="cmbCampaign"
+                                          Grid.Row="3"
+                                          Grid.Column="10"
+                                          Grid.ColumnSpan="7"
+                                          Margin="0"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Top"
+                                          IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                          PreviewKeyDown="EmbriantComboBoxPreviewKeyDown"
+                                          SelectedValue="{Binding CampaignID}"
+                                          SelectionChanged="cmbCampaign_SelectionChanged"
+                                          Style="{StaticResource cmbINHighlightBorder}"
+                                          TabIndex="0" />
+
+                    <TextBlock x:Name="lblBatches"
+                               Grid.Row="2"
+                               Grid.Column="18"
+                               Grid.ColumnSpan="4"
+                               Margin="0,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Batch(es)"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />
+
+                    <igWPF:XamDataGrid x:Name="xdgBatches"
+                                       Grid.Row="3"
+                                       Grid.RowSpan="11"
+                                       Grid.Column="18"
+                                       Grid.ColumnSpan="8"
+                                       Margin="0"
+                                       HorizontalContentAlignment="Stretch"
+                                       VerticalContentAlignment="Stretch"
+                                       AutoFit="False"
+                                       DataSource="{Binding Batches}"
+                                       GroupByAreaLocation="None"
+                                       IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                       Style="{StaticResource INXamDataGridStyle1}"
+                                       TabIndex="0">
+                        <igWPF:XamDataGrid.Resources>
+                            <Style BasedOn="{x:Null}"
+                                   TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                            <CheckBox x:Name="HeaderPrefixAreaCheckbox"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"
+                                                      IsChecked="{Binding Path=DataPresenter.DataContext.AllBatchesAreChecked, Mode=TwoWay}"
+                                                      Style="{StaticResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style BasedOn="{x:Null}"
+                                   TargetType="{x:Type igWPF:RecordSelector}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                            <CheckBox x:Name="RecordSelectorCheckbox"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"
+                                                      Click="RecordSelectorCheckbox_Click"
+                                                      Focusable="False"
+                                                      IsChecked="{Binding Path=DataItem.Select, Mode=TwoWay}"
+                                                      Style="{StaticResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </igWPF:XamDataGrid.Resources>
+                        <igWPF:XamDataGrid.FieldLayouts>
+                            <igWPF:FieldLayout>
+                                <igWPF:Field Name="BatchID"
+                                             Label="Batch ID"
+                                             Visibility="Collapsed" />
+                                <igWPF:Field Name="BatchCode"
+                                             Width="290"
+                                             Label="Batch"
+                                             Visibility="Visible" />
+                                <igWPF:Field Name="Select"
+                                             Label="Select"
+                                             Visibility="Collapsed" />
+                            </igWPF:FieldLayout>
+                        </igWPF:XamDataGrid.FieldLayouts>
+                    </igWPF:XamDataGrid>
+
+                    <!--<TextBlock x:Name="lblCal1"
+                               Grid.Row="2"
+                               Grid.Column="12"
+                               Grid.ColumnSpan="6"
+                               Margin="12,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource INLabelText2}"
+                               Text="Start Date"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />-->
+                    <!--<Viewbox Grid.Row="3"
+                             Grid.RowSpan="6"
+                             Grid.Column="12"
+                             Grid.ColumnSpan="6"
+                             Width="250"
+                             Height="250"
+                             Margin="0"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Top"
+                             Stretch="Fill">
+                        <igWPF:XamMonthCalendar x:Name="Cal1"
+                                                Margin="0"
+                                                FontSize="16"
+                                                IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                                SelectedDate="{Binding DateFrom}"
+                                                Style="{StaticResource INXamMonthCalendarStyle2}"
+                                                TabIndex="0"
+                                                Visibility="Visible" />
+                    </Viewbox>-->
+
+                    <!--<TextBlock x:Name="lblCal2"
+                               Grid.Row="2"
+                               Grid.Column="20"
+                               Grid.ColumnSpan="6"
+                               Margin="12,0,0,6"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource INLabelText2}"
+                               Text="End Date"
+                               TextWrapping="NoWrap"
+                               Visibility="Visible" />-->
+                    <!--<Viewbox Grid.Row="3"
+                             Grid.RowSpan="6"
+                             Grid.Column="20"
+                             Grid.ColumnSpan="6"
+                             Width="250"
+                             Height="250"
+                             Margin="0"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Top"
+                             Stretch="Fill">
+                        <igWPF:XamMonthCalendar x:Name="Cal2"
+                                                Margin="0"
+                                                FontSize="16"
+                                                IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                                SelectedDate="{Binding DateTo}"
+                                                Style="{StaticResource INXamMonthCalendarStyle2}"
+                                                TabIndex="0"
+                                                Visibility="Visible" />
+                    </Viewbox>-->
+
+
+                    <Button x:Name="btnReport"
+                            Grid.Row="15"
+                            Grid.Column="22"
+                            Grid.ColumnSpan="4"
+                            Margin="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Command="{StaticResource cmdReport}"
+                            IsEnabled="{Binding IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"
+                            Style="{StaticResource INFlatButton}"
+                            TabIndex="0">
+                        <AccessText x:Name="atReport"
+                                    Text="_Report"
+                                    Visibility="Visible" />
+                    </Button>
+
+                </Grid>
+            </Viewbox>
+        </Border>
+    </Border>
+
+</src:BaseControl>

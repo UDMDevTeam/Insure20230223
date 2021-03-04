@@ -1,0 +1,301 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Embriant_WPF_Controls="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
+
+
+    <!-- IN Editable Combobox +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- IN Editable ComboBox ItemStyle -->
+    <Style x:Key="eComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Padding" Value="3,0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border x:Name="Border" 
+                            Background="{TemplateBinding Background}" 
+                            Padding="{TemplateBinding Padding}" 
+                            SnapsToDevicePixels="True" 
+                            BorderThickness="1" 
+                            BorderBrush="Transparent">
+                        <ContentPresenter 
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource BrandedBrushIN_light}"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- HR Editable Combobox Textbox -->
+    <ControlTemplate x:Key="eComboBoxTextBox" TargetType="{x:Type TextBox}">
+        <Border x:Name="PART_ContentHost" 
+                Focusable="False" 
+                Background="Transparent"
+                />
+    </ControlTemplate>
+
+    <!-- HR Editable Toggle Button -->
+    <ControlTemplate x:Key="ecmbToggleButton" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Border 
+			x:Name="Border" 
+			Grid.ColumnSpan="2" 
+			CornerRadius="2" 
+			Background="Transparent" 
+			BorderBrush="Transparent"
+			BorderThickness="0" />
+            <Border 
+				Grid.Column="0" 
+				CornerRadius="3,0,0,3" 
+				Margin="0"  />
+            <Path 
+					x:Name="Arrow" 
+					Grid.Column="1" 
+					Fill="Black" 
+					HorizontalAlignment="Center" 
+					VerticalAlignment="Center" 
+					Data="M 0 0 L 4 4 L 8 0 Z"/>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- HR Editable Combobox Style -->
+    <Style x:Key="INEditableComboBoxStyle" TargetType="{x:Type Embriant_WPF_Controls:EmbriantComboBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource eComboBoxItemStyle}"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="False"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Height" Value="33" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="IsEditable" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Border x:Name="cmbMainBorder" CornerRadius="4" Background="White" BorderBrush="#9d9999"  BorderThickness="{StaticResource INBorderThickness1}"  >
+                        <Grid>
+                            <ToggleButton 
+                                x:Name="ToggleButton" 
+                                Template="{StaticResource ecmbToggleButton}"
+                                HorizontalAlignment="Right"
+                                Width="120"
+                                Background="Transparent"
+                                Focusable="false"
+                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press"
+                                Visibility="Hidden"
+                            />
+
+                            <!---->
+                                
+                            <ContentPresenter
+                                x:Name="ContentSite"
+                                IsHitTestVisible="False" 
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                Margin="3,3,23,3"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left" 
+                            />
+                            <TextBox x:Name="PART_EditableTextBox"
+                                Template="{StaticResource eComboBoxTextBox}" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="3,3,23,3"
+                                Focusable="True" 
+                                Width="{Binding ElementName=cmbMainBorder, Path=ActualWidth}"
+                                Background="Transparent"
+                                Visibility="Visible"
+                                IsReadOnly="{TemplateBinding IsReadOnly}"
+                                SelectionBrush="{DynamicResource BrandedBrushIN_dark}" >
+                                <!-- Style="{x:Null}" -->
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="Foreground" Value="Maroon"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                            </TextBox>
+                            <Popup 
+                                x:Name="Popup"
+                                HorizontalOffset="5"
+                                VerticalOffset="30"
+                                Placement="Relative"
+                                IsOpen="{TemplateBinding IsDropDownOpen}"
+                                AllowsTransparency="True" 
+                                Focusable="False"
+                                PopupAnimation="Slide"
+                                >
+                                <Grid
+                                  x:Name="DropDown"
+                                  SnapsToDevicePixels="True"                
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                    x:Name="DropDownBorder"
+                                    Background="White"
+                                    BorderThickness="1"
+                                    BorderBrush="{DynamicResource BrandedBrushHR_dark}"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True" >
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="cmbMainBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="cmbMainBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                            <Setter TargetName="cmbMainBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  HR Editable Combobox ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <Style x:Key="INEditableComboBoxStyleWithDropDown" TargetType="{x:Type Embriant_WPF_Controls:EmbriantComboBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource eComboBoxItemStyle}"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="False"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontStretch" Value="Normal"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Height" Value="33" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="IsEditable" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Border x:Name="cmbMainBorder" CornerRadius="4" Background="White" BorderBrush="#9d9999"  BorderThickness="{StaticResource INBorderThickness1}"  >
+                        <Grid>
+                            <ToggleButton 
+                                x:Name="ToggleButton" 
+                                Template="{StaticResource ecmbToggleButton}"
+                                HorizontalAlignment="Right"
+                                Width="120"
+                                Background="Transparent"
+                                Focusable="false"
+                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press"
+                                Visibility="Visible"
+                            />
+
+                            <!---->
+                                
+                            <ContentPresenter
+                                x:Name="ContentSite"
+                                IsHitTestVisible="False" 
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                Margin="3,3,23,3"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left" 
+                            />
+                            <TextBox x:Name="PART_EditableTextBox"
+                                Template="{StaticResource eComboBoxTextBox}" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="3,3,23,3"
+                                Focusable="True" 
+                                Width="{Binding ElementName=cmbMainBorder, Path=ActualWidth}"
+                                Background="Transparent"
+                                Visibility="Visible"
+                                IsReadOnly="{TemplateBinding IsReadOnly}"
+                                SelectionBrush="{DynamicResource BrandedBrushIN_dark}" >
+                                <!-- Style="{x:Null}" -->
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBox}}, Path=SelectedIndex}" Value="-1">
+                                            <Setter Property="Foreground" Value="Maroon"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                            </TextBox>
+                            <Popup 
+                                x:Name="Popup"
+                                HorizontalOffset="5"
+                                VerticalOffset="30"
+                                Placement="Relative"
+                                IsOpen="{TemplateBinding IsDropDownOpen}"
+                                AllowsTransparency="True" 
+                                Focusable="False"
+                                PopupAnimation="Slide"
+                                >
+                                <Grid
+                                  x:Name="DropDown"
+                                  SnapsToDevicePixels="True"                
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                    x:Name="DropDownBorder"
+                                    Background="White"
+                                    BorderThickness="1"
+                                    BorderBrush="{DynamicResource BrandedBrushHR_dark}"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True" >
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="cmbMainBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="cmbMainBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                            <Setter TargetName="cmbMainBorder" Property="Background" Value="{DynamicResource BrandedBrushIN_light}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

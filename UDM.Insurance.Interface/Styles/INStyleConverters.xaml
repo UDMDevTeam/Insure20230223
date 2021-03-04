@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF">
+
+    <converters:RadioButtonCheckedConverter x:Key="rbCheckedConverter" />
+    <!--<converters:IntToEnumConverter x:Key="IntToEnumConverter" />-->
+    <converters:IntCompareConverter x:Key="IntCompareConverter" />
+    <converters:DateCompareConverter x:Key="DateCompareConverter" />
+    <converters:ObjectCompareConverter x:Key="ObjectCompareConverter" />
+    <converters:IsNullConverter x:Key="IsNullConverter" />
+    <converters:EnumCompareConverter x:Key="EnumCompareConverter" />
+    <converters:CalculationConverter x:Key="CalculationConverter" />
+    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <converters:InverseBooleanConverter2 x:Key="InverseBooleanConverter2"/>
+</ResourceDictionary>

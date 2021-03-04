@@ -1,0 +1,128 @@
+﻿<src:BaseMessageBoxWindow
+    x:Class="UDM.Insurance.Interface.Windows.INWelcomeMessage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:Embriant.WPF.Windows;assembly=Embriant.WPF"
+    x:Name="Window"
+    AllowsTransparency="True"
+    Background="Transparent"
+    FocusManager.FocusedElement="{Binding ElementName=buttonOK}"
+    IsVisibleChanged="INMessageBox_IsVisibleChanged"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Viewbox>
+        <Grid x:Name="grdRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="294" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="334" />
+            </Grid.RowDefinitions>
+            <Grid
+                x:Name="LayoutRoot"
+                Grid.Row="1"
+                Width="678"
+                Height="452">
+                <Image
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="pack://application:,,,/Resources/WelcomeMessage.jpg"
+                    Stretch="None" />
+                <Rectangle
+                    x:Name="BGRectangle"
+                    Margin="0"
+                    Fill="Transparent"
+                    RadiusX="6"
+                    RadiusY="6">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="{DynamicResource BrandedColourIN}" />
+                    </Rectangle.Stroke>
+                </Rectangle>
+                <Image
+                    x:Name="imageInformation"
+                    Width="44"
+                    Height="44"
+                    Margin="0,36,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Source="Resources\imageInformation.png"
+                    Stretch="Fill"
+                    Visibility="Collapsed" />
+                <Image
+                    x:Name="imageExclamation"
+                    Width="44"
+                    Height="44"
+                    Margin="0,36,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Source="Resources\imageExclamation.png"
+                    Stretch="Fill"
+                    Visibility="Collapsed" />
+                <Image
+                    x:Name="imageError"
+                    Width="44"
+                    Height="44"
+                    Margin="0,36,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Source="Resources\imageError.png"
+                    Stretch="Fill"
+                    Visibility="Collapsed" />
+                <TextBlock
+                    x:Name="txtHeading"
+                    Width="400"
+                    Height="36"
+                    Margin="0,36,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontFamily="Comic Sans MS"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Opacity="1"
+                    Text="Welcome"
+                    TextAlignment="Center"
+                    TextWrapping="NoWrap" />
+                <TextBox
+                    x:Name="txtDescription"
+                    Width="400"
+                    Height="200"
+                    Margin="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    BorderThickness="0"
+                    FontFamily="Comic Sans MS"
+                    FontSize="18"
+                    Foreground="Black"
+                    Opacity="1"
+                    ScrollViewer.CanContentScroll="True"
+                    SelectionBrush="{DynamicResource BrandedBrushIN}"
+                    Text="This is a sample message"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Visibility="Visible" />
+                <Button
+                    x:Name="btnOK"
+                    Width="60"
+                    Margin="0,0,12,12"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="btnOK_Click"
+                    Content="OK"
+                    IsCancel="False"
+                    IsDefault="True"
+                    Opacity="1"
+                    Style="{DynamicResource INFlatButton}" />
+            </Grid>
+        </Grid>
+    </Viewbox>
+
+</src:BaseMessageBoxWindow>

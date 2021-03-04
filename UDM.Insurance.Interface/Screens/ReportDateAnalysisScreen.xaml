@@ -1,0 +1,438 @@
+﻿<src:BaseControl
+    x:Class="UDM.Insurance.Interface.Screens.ReportDateAnalysisScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+    xmlns:local="clr-namespace:UDM.Insurance.Interface.Screens"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    d:DataContext="{d:DesignInstance local:ReportDateAnalysisScreenViewModel,
+                                     IsDesignTimeCreatable=True}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Loaded="BaseControl_Loaded"
+    mc:Ignorable="d">
+
+    <src:BaseControl.Resources>
+        <Style x:Key="cmbINHighlightBorderReport" TargetType="{x:Type ComboBox}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource INComboBoxItemStyle}" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="False" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontStretch" Value="Normal" />
+            <Setter Property="FontStyle" Value="Normal" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Height" Value="33" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Border
+                            x:Name="cmbMainBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="#9d9999"
+                            BorderThickness="{StaticResource INBorderThickness1}"
+                            CornerRadius="4">
+                            <Grid>
+                                <ToggleButton
+                                    x:Name="ToggleButton"
+                                    HorizontalAlignment="Stretch"
+                                    ClickMode="Press"
+                                    Focusable="false"
+                                    IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Template="{StaticResource cmbToggleButton}" />
+                                <ContentPresenter
+                                    x:Name="ContentSite"
+                                    Margin="3,3,23,3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    IsHitTestVisible="False" />
+                                <TextBox
+                                    x:Name="PART_EditableTextBox"
+                                    Margin="3,3,23,3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    Focusable="True"
+                                    IsReadOnly="{TemplateBinding IsReadOnly}"
+                                    Style="{x:Null}"
+                                    Template="{StaticResource ComboBoxTextBox}"
+                                    Visibility="Hidden" />
+                                <Popup
+                                    x:Name="Popup"
+                                    AllowsTransparency="True"
+                                    Focusable="False"
+                                    HorizontalOffset="5"
+                                    IsOpen="{TemplateBinding IsDropDownOpen}"
+                                    Placement="Relative"
+                                    PopupAnimation="Slide"
+                                    VerticalOffset="30">
+                                    <Grid
+                                        x:Name="DropDown"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        SnapsToDevicePixels="True">
+                                        <Border
+                                            x:Name="DropDownBorder"
+                                            Background="White"
+                                            BorderBrush="{StaticResource BrandedBrushIN}"
+                                            BorderThickness="1" />
+                                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="cmbMainBorder" Property="Background" Value="{StaticResource BrandedBrushIN_light}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="cmbMainBorder" Property="BorderBrush" Value="{StaticResource BrandedBrushIN}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
+            x:Key="StyleCMBReport"
+            BasedOn="{StaticResource cmbINHighlightBorderReport}"
+            TargetType="{x:Type ComboBox}">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}}" Value="False" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="LightGray" />
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </src:BaseControl.Resources>
+
+    <Border
+        x:Name="MainBorder"
+        Width="1200"
+        Height="750"
+        Background="Black"
+        BorderBrush="{StaticResource BrandedBrushIN}"
+        BorderThickness="2"
+        CornerRadius="12">
+
+        <Viewbox>
+            <Grid
+                x:Name="LayoutRoot"
+                Width="{Binding ElementName=MainBorder, Path=Width}"
+                Height="{Binding ElementName=MainBorder, Path=Height}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    x:Name="btnClose"
+                    Grid.Column="27"
+                    Command="{Binding CloseCommand}"
+                    IsEnabled="True"
+                    IsTabStop="True"
+                    Style="{StaticResource INCloseButton}" />
+
+                <TextBlock
+                    x:Name="hdrReport"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="12"
+                    Margin="0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource INPageHeadingText1}"
+                    Text="{Binding Title}" />
+
+                <Path
+                    x:Name="hdrLine"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="12"
+                    Width="{Binding ElementName=hdrReport, Path=ActualWidth}"
+                    Margin="0,0,0,14"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource INUnderlineText1}" />
+
+
+
+                <TextBlock
+                    x:Name="tbCampaignType"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="6"
+                    Margin="0,0,0,6"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Campaign Type"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
+                <src:EmbriantComboBox
+                    x:Name="cmbCampaignType"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="6"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding CampaignTypes}"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedItem="{Binding SelectedCampaignType}"
+                    Style="{StaticResource StyleCMBReport}"
+                    TabIndex="0" />
+
+                <TextBlock
+                    x:Name="tbMonthCalendar"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,6"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Batches Received In"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
+                <Viewbox
+                    Grid.Row="5"
+                    Grid.RowSpan="6"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="6"
+                    Width="250"
+                    Height="250"
+                    Margin="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Stretch="Fill">
+                    <igWPF:XamMonthCalendar
+                        x:Name="calMonthCalendar"
+                        Margin="0"
+                        CurrentCalendarMode="Months"
+                        FontSize="18"
+                        MinCalendarMode="Months"
+                        SelectedDate="{Binding SelectedDate}"
+                        Style="{DynamicResource INXamMonthCalendarStyle2}"
+                        TabIndex="0"
+                        Visibility="Visible" />
+                </Viewbox>
+
+                <TextBlock
+                    x:Name="tbCampaigns"
+                    Grid.Row="2"
+                    Grid.Column="10"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,6"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="{Binding TitleCampaigns}"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
+                <igWPF:XamDataGrid
+                    x:Name="xdgCampaigns"
+                    Grid.Row="3"
+                    Grid.RowSpan="12"
+                    Grid.Column="10"
+                    Grid.ColumnSpan="7"
+                    Margin="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    AutoFit="False"
+                    DataSource="{Binding UpgradeCampaigns}"
+                    FontSize="16"
+                    GroupByAreaLocation="None"
+                    Style="{DynamicResource INXamDataGridStyle1}"
+                    TabIndex="0">
+                    <igWPF:XamDataGrid.Resources>
+                        <!--<Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                        <CheckBox
+                                            x:Name="HeaderPrefixAreaCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Checked="HeaderPrefixAreaCheckbox_Checked"
+                                            IsChecked="False"
+                                            Loaded="HeaderPrefixAreaCheckbox_Loaded"
+                                            Style="{DynamicResource INCheckboxStyle}"
+                                            Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>-->
+                        <!--<Style TargetType="{x:Type igWPF:RecordSelector}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                        <CheckBox
+                                            x:Name="RecordSelectorCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="RecordSelectorCheckbox_Click"
+                                            Focusable="False"
+                                            IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                            Style="{DynamicResource INCheckboxStyle}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>-->
+                    </igWPF:XamDataGrid.Resources>
+                    <igWPF:XamDataGrid.FieldLayoutSettings>
+                        <igWPF:FieldLayoutSettings RecordSelectorLocation="None" />
+                    </igWPF:XamDataGrid.FieldLayoutSettings>
+                    <igWPF:XamDataGrid.FieldLayouts>
+                        <igWPF:FieldLayout x:Name="flCampaign">
+                            <igWPF:Field
+                                Name="ID"
+                                Label="CampaignID"
+                                Visibility="Collapsed" />
+                            <igWPF:Field
+                                Name="Name"
+                                Width="270"
+                                Label="Campaign"
+                                Visibility="Visible" />
+                        </igWPF:FieldLayout>
+                    </igWPF:XamDataGrid.FieldLayouts>
+                </igWPF:XamDataGrid>
+
+                <!--<TextBlock
+                    x:Name="tbUpgradeCampaign"
+                    Grid.Row="2"
+                    Grid.Column="20"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,6"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Upgrade Campaign"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />-->
+                <!--<src:EmbriantComboBox
+                    x:Name="cmbUpgradeCampaign"
+                    Grid.Row="3"
+                    Grid.Column="20"
+                    Grid.ColumnSpan="7"
+                    DisplayMemberPath="Name"
+                    IsEnabled="{Binding IsCampaignTypeSelected}"
+                    ItemsSource="{Binding UpgradeCampaigns}"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedItem="{Binding SelectedUpgradeCampaign}"
+                    Style="{StaticResource StyleCMBReport}"
+                    TabIndex="0" />-->
+
+                <!--<TextBlock
+                    x:Name="tbBatches"
+                    Grid.Row="2"
+                    Grid.Column="20"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,6"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Batch"
+                    TextWrapping="NoWrap"
+                    Visibility="Hidden" />-->
+                <!--<src:EmbriantComboBox
+                    x:Name="cmbBatches"
+                    Grid.Row="3"
+                    Grid.Column="20"
+                    Grid.ColumnSpan="7"
+                    DisplayMemberPath="Name"
+                    IsEnabled="{Binding IsUpgradeCampaignSelected}"
+                    ItemsSource="{Binding Batches}"
+                    PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                    SelectedItem="{Binding SelectedBatch}"
+                    Style="{StaticResource StyleCMBReport}"
+                    TabIndex="0"
+                    Visibility="Hidden" />-->
+
+                <!--<ContentControl
+                    Grid.Row="2"
+                    Grid.RowSpan="1"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="24"
+                    prism:RegionManager.RegionName="{x:Static inf:KnownRegionNames.ToolbarRegionA}"
+                    IsTabStop="False" />-->
+
+                <!--<ContentControl
+                    Grid.Row="3"
+                    Grid.RowSpan="14"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="24"
+                    prism:RegionManager.RegionName="{x:Static inf:KnownRegionNames.ContentRegionA}"
+                    IsTabStop="False" />-->
+
+                <Button
+                    x:Name="btnReport"
+                    Grid.Row="16"
+                    Grid.Column="23"
+                    Grid.ColumnSpan="4"
+                    Margin="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding ReportCommand}"
+                    Content="Report"
+                    Style="{StaticResource INFlatButton}"
+                    TabIndex="0" />
+
+            </Grid>
+        </Viewbox>
+
+    </Border>
+
+</src:BaseControl>

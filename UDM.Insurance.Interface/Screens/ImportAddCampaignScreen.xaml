@@ -1,0 +1,68 @@
+﻿<src:BaseControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    x:Class="UDM.Insurance.Interface.Screens.ImportAddCampaignScreen"
+	xmlns:igEditors="http://infragistics.com/Editors"
+	mc:Ignorable="d" x:Name="ImportAddCampaignControl" Height="500" Width="800" >
+
+	<Grid x:Name="LayoutRoot" Background="{x:Null}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+			<ColumnDefinition Width="0.1*"/><ColumnDefinition Width="0.1*"/>
+            
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<RowDefinition Height="0.1*"/><RowDefinition Height="0.1*"/>
+			<!--<RowDefinition Height="0.1*"/>-->
+		</Grid.RowDefinitions>
+        
+		<Rectangle x:Name="BGRectangle" Fill="Black" Margin="0" RadiusY="12" RadiusX="12" Grid.ColumnSpan="18" StrokeThickness="2" Grid.RowSpan="12" >
+			<Rectangle.Stroke>
+				<SolidColorBrush Color="{DynamicResource BrandedColourIN}"/>
+			</Rectangle.Stroke>
+		</Rectangle>
+
+        <Button x:Name="btnClose" Content="X" Style="{DynamicResource INCloseButton}" TabIndex="0" Grid.Column="17" Grid.ColumnSpan="2" Click="btnClose_Click" IsCancel="True" />
+
+        <TextBlock x:Name="headerImportAddCampaign" Style="{DynamicResource INPageHeadingText1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Text="New Campaign" Grid.ColumnSpan="5" Grid.Column="1" Grid.Row="1" />
+		<Path x:Name="headerLine" Style="{DynamicResource INUnderlineText1}" Margin="0,0,116,22" Grid.ColumnSpan="6" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" />
+		
+        <TextBlock x:Name="lblCampaignCode" Style="{DynamicResource INLabelText2}" Text="Code" Margin="0,0,0,5" Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" VerticalAlignment="Bottom" />
+        <igEditors:XamMaskedEditor x:Name="medCampaignCode" Style="{DynamicResource medIN}" TabIndex="0" Mask="{}{char:48:0-9a-zA-Z_}" PromptChar="" Grid.ColumnSpan="6" Grid.Column="3" Margin="0" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" GotFocus="xamEditor_GotFocus" Loaded="medCampaignCode_Loaded" />
+
+        <TextBlock x:Name="lblCampaignName" Style="{DynamicResource INLabelText2}" Text="Name" Margin="0,0,0,5" Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="1" VerticalAlignment="Bottom" />
+        <igEditors:XamMaskedEditor x:Name="medCampaignName" Style="{DynamicResource medIN}" TabIndex="0" Mask="{}{char:48:0-9a-zA-Z_ }" PromptChar="" Grid.ColumnSpan="6" Grid.Column="3" Margin="0" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" GotFocus="xamEditor_GotFocus" />
+
+        <TextBlock x:Name="lblCampaignType" Style="{DynamicResource INLabelText2}" Text="Type" Margin="0,0,0,5" Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="1" VerticalAlignment="Bottom" />
+        <src:EmbriantComboBox x:Name="cmbCampaignType" Style="{DynamicResource cmbIN}" Margin="0" TabIndex="0" Grid.Column="3" Grid.ColumnSpan="6" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Grid.Row="4" PreviewKeyDown="EmbriantComboBox_PreviewKeyDown" />
+
+        <TextBlock x:Name="lblCampaignGroup" Style="{DynamicResource INLabelText2}" Text="Group" Margin="0,0,0,5" Grid.Row="5" Grid.ColumnSpan="3" Grid.Column="1" VerticalAlignment="Bottom" />
+        <src:EmbriantComboBox x:Name="cmbCampaignGroup" Style="{DynamicResource cmbIN}" Margin="0" TabIndex="0" Grid.Column="3" Grid.ColumnSpan="6" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Grid.Row="5" PreviewKeyDown="EmbriantComboBox_PreviewKeyDown" />
+        
+        <TextBlock x:Name="lblConversions1" Style="{DynamicResource INLabelText2}" Text="Conversion % Week 2" Margin="0,0,0,5" Grid.Row="6" Grid.ColumnSpan="6" Grid.Column="1" VerticalAlignment="Bottom"/>
+        <igEditors:XamMaskedEditor x:Name="medConversion2" Style="{DynamicResource medIN}" TabIndex="0" Mask="{}{char:2:0-9}" PromptChar="" Grid.Row="6" Grid.ColumnSpan="3" Grid.Column="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" GotFocus="xamEditor_GotFocus"/>
+        
+        <TextBlock x:Name="lblConversions2" Style="{DynamicResource INLabelText2}" Text="Conversion % Week 4" Margin="0,0,0,5" Grid.Row="7" Grid.ColumnSpan="6" Grid.Column="1" VerticalAlignment="Bottom"/>
+        <igEditors:XamMaskedEditor x:Name="medConversion4" Style="{DynamicResource medIN}" TabIndex="0" Mask="{}{char:2:0-9}" PromptChar="" Grid.Row="7" Grid.ColumnSpan="3" Grid.Column="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" GotFocus="xamEditor_GotFocus"/>
+        
+        <TextBlock x:Name="lblConversions3" Style="{DynamicResource INLabelText2}" Text="Conversion % Week 6" Margin="0,0,0,5" Grid.Row="8" Grid.ColumnSpan="6" Grid.Column="1" VerticalAlignment="Bottom"/>
+        <igEditors:XamMaskedEditor x:Name="medConversion6" Style="{DynamicResource medIN}" TabIndex="0" Mask="{}{char:2:0-9}" PromptChar="" Grid.Row="8" Grid.ColumnSpan="3" Grid.Column="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" GotFocus="xamEditor_GotFocus"/>
+
+        <Button x:Name="btnSave" Style="{DynamicResource INFlatButton}" Content="Save" TabIndex="0" Grid.Column="13" Grid.ColumnSpan="4" Grid.Row="8" Margin="0" Click="btnSave_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        
+    </Grid>
+</src:BaseControl>

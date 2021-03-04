@@ -1,0 +1,115 @@
+﻿<Window x:Class="UDM.Insurance.Interface.Screens.ScriptScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:UDM.Insurance.Interface.Screens"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="ScriptScreen"
+        Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width, Converter={converters:MathConverter}, ConverterParameter=x*0.4688}"
+        Height="{Binding RelativeSource={RelativeSource Self}, Path=Width, Converter={converters:MathConverter}, ConverterParameter=x*0.5655}"
+        AllowsTransparency="True"
+        Background="Transparent"
+        BorderThickness="0"
+        Icon="../Resources/icons/in.ico"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        ResizeMode="CanMinimize"
+        ShowInTaskbar="True"
+        Topmost="True"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <Grid>
+        <Viewbox Stretch="Uniform">
+            <Grid Width="900" Height="510">
+                <Border x:Name="BGRectangle"
+                        Margin="0"
+                        Background="Black"
+                        BorderBrush="{StaticResource BrandedBrushIN}"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Style.Triggers>
+                                <!--<Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7" />
+                                </Trigger>-->
+                                <!--<Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Opacity" Value="1" />
+                                </Trigger>-->
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <TextBlock x:Name="hdrScriptScreen"
+                                   Margin="12,12,0,0"
+                                   VerticalAlignment="Top"
+                                   FontSize="18"
+                                   Style="{StaticResource INPageHeadingText1}"
+                                   Text="Script Title" />
+                        <StackPanel Margin="0,12,12,0"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                            <Button x:Name="btnMinimize"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Click="btnMinimize_Click"
+                                    Content="-"
+                                    Style="{StaticResource RoundedButton}"
+                                    TabIndex="0" />
+                            <Grid Width="12" />
+                            <Button x:Name="buttonClose"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Click="buttonClose_Click"
+                                    Content="X"
+                                    Style="{StaticResource RoundedButton}"
+                                    TabIndex="0" />
+                        </StackPanel>
+
+
+                        <StackPanel>
+                            <Grid Height="46">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                            <DocumentViewer x:Name="dvScript"
+                                            Height="420"
+                                            ContextMenu="{x:Null}"
+                                            Loaded="dvScript_Loaded"
+                                            Style="{StaticResource INDocumentViewerStyle1}"
+                                            Zoom="108" />
+                            <Grid Height="40">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0"
+                                            Margin="12,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal">
+                                    <CheckBox x:Name="chkAfrikaans"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              Checked="chkAfrikaans_Checked"
+                                              Style="{StaticResource INCheckboxStyle}"
+                                              Unchecked="chkAfrikaans_Unchecked" />
+                                    <TextBlock x:Name="lblAfrikaans"
+                                               Width="Auto"
+                                               Height="Auto"
+                                               Margin="6,0,0,0"
+                                               Style="{StaticResource INLabelText2}"
+                                               Text="Afrikaans" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+
+                </Border>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Window>

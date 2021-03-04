@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx?wsdl" docRef="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" xmlns:q1="http://tempuri.org/" binding="q1:TrackingWSSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx" xmlns:q2="http://tempuri.org/" binding="q2:TrackingWSSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>
