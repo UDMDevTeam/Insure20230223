@@ -11,7 +11,18 @@ namespace UDM.Insurance.Business
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetImportSummary", null);
         }
+        public static DataTable INGetBatchAnalysisReportTypes()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetBatchAnalysisReportTypes", null).Tables[0];
+        }
+        public static DataTable INGetBatchAnalysisReportCampaignsOrCampaignTypesByReportType(byte reportType)
+        {
+            object param1 = Database.GetParameter("@INReportType", reportType);
 
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetBatchAnalysisReportCampaignsOrCampaignTypesByReportType", paramArray).Tables[0];
+        }
         public static DataSet INGetAssignLeadsSummaryData()
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetAssignLeadsSummaryData", null);

@@ -110,7 +110,7 @@ namespace UDM.Insurance.Interface.Screens
         };
         //lkpINCampaignType.BlackMaccMillion
         readonly IEnumerable<lkpINCampaignType?> campaignTypesCancer = new lkpINCampaignType?[] { lkpINCampaignType.Cancer, lkpINCampaignType.CancerFuneral, lkpINCampaignType.IGCancer, lkpINCampaignType.TermCancer, };
-        readonly IEnumerable<lkpINCampaignType?> campaignTypesMacc = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.AccDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.BlackMaccMillion };
+        readonly IEnumerable<lkpINCampaignType?> campaignTypesMacc = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.AccDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.BlackMaccMillion};
         readonly IEnumerable<lkpINCampaignType?> campaignTypesMaccNotAccDis = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability };
 
         #endregion
@@ -942,6 +942,8 @@ namespace UDM.Insurance.Interface.Screens
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Defrosted ||
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Rejuvenation ||
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.DefrostR99 ||
+                          Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Lite ||
+
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Reactivation))
                     {
                         //CommenceDate is set to null here because it should be like a normal base campaign in which the commencedate is null to start with
@@ -3599,6 +3601,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             case 3:
                             case 4:
+                            case 334:
                             case 264:
 
                                 DataTable dt = Methods.GetTableData("SELECT IGFreeCover FROM INPlan WHERE ID = '" + LaData.PolicyData.PlanID + "'");
@@ -3631,7 +3634,7 @@ namespace UDM.Insurance.Interface.Screens
                         grdBaseLine4.Visibility = LA2CoverOther > 1 ? Visibility.Visible : Visibility.Collapsed;
                         grdBaseLine5.Visibility = ChildCover > 1 ? Visibility.Visible : Visibility.Collapsed;
 
-                        if (LaData.AppData.CampaignType == lkpINCampaignType.FemaleDisCancer || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion)
+                        if (LaData.AppData.CampaignType == lkpINCampaignType.FemaleDisCancer || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion || LaData.AppData.CampaignType == lkpINCampaignType.BlackMacc || LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis)
                         {
                             lblLA1CostCover.Text = "Life Assured 1 (Disability)";
                             lblLA2CostCover.Text = "Life Assured 2 (Disability)";
@@ -5530,7 +5533,19 @@ namespace UDM.Insurance.Interface.Screens
 
                                 #endregion Substituting the FuneralCover tag
 
-                                
+
+                                #region Substituting the Clients surname tag
+
+                                if (c.Contains("[MoneyBackAge]"))
+                                {
+
+                                    dat = c2.Replace("[MoneyBackAge]", LaData.PolicyData.CashBackAge.ToString());
+                                    c2 = dat;
+                                    formattingapplied = true;
+                                }
+
+                                #endregion Substituting the Clients surname tag
+
 
                                 if (formattingapplied == false)
                                 {
@@ -7103,7 +7118,7 @@ namespace UDM.Insurance.Interface.Screens
                     LaData.AppData.CampaignGroup != lkpINCampaignGroup.Rejuvenation &&
                     LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
                     LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
-
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
                     LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
                     LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
                     (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid || 
@@ -10688,8 +10703,11 @@ namespace UDM.Insurance.Interface.Screens
                            && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Resurrection) 
                            && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Rejuvenation)
                            && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Reactivation)
-                           && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.DefrostR99))
-                                                       
+                           && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.DefrostR99)
+                           && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Lite)
+
+                           )
+
                         {
                             if (LaData.AppData.CampaignType == lkpINCampaignType.Macc || LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
                             {

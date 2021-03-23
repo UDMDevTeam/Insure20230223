@@ -52,6 +52,17 @@
         <Setter Property="Opacity" Value="0.7" />
     </Style>
 
+    <!--  Label Text 4  -->
+    <Style
+        x:Key="INLabelText4"
+        BasedOn="{StaticResource INTextBlockStyle1}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="GhostWhite" />
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
+
+
     <!--  Page Heading Text  -->
     <Style
         x:Key="INPageHeadingText1"

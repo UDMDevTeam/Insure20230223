@@ -1378,8 +1378,7 @@ namespace UDM.Insurance.Interface.Screens
                 _fkUserIDs = "";
                 _fkCampaignIDs = "";
                 LoadQAInfo();
-            }
-            
+            }         
         }
 
         private void chkIncludeAdmin_Checked(object sender, RoutedEventArgs e)

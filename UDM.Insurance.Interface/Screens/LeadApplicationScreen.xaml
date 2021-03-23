@@ -5784,7 +5784,7 @@
                                         Grid.ColumnSpan="4"
                                         Margin="0"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="Funeral LA1"
                                         Visibility="Collapsed" />
                                     <igWPF:XamCurrencyEditor
@@ -5948,7 +5948,7 @@
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="5"
                                                     VerticalAlignment="Bottom"
-                                                    Style="{StaticResource INLabelText2}"
+                                                    Style="{StaticResource INLabelText4}"
                                                     Text="Life Assured 1" />
                                                 <igWPF:XamCurrencyEditor
                                                     x:Name="xamCELA1Cost"
@@ -5994,7 +5994,7 @@
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="5"
                                                     VerticalAlignment="Bottom"
-                                                    Style="{StaticResource INLabelText2}"
+                                                    Style="{StaticResource INLabelText4}"
                                                     Text="Life Assured 2" />
                                                 <igWPF:XamCurrencyEditor
                                                     x:Name="xamCELA2Cost"
@@ -6040,7 +6040,7 @@
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="5"
                                                     VerticalAlignment="Bottom"
-                                                    Style="{StaticResource INLabelText2}"
+                                                    Style="{StaticResource INLabelText4}"
                                                     Text="Life Assured 1" />
                                                 <igWPF:XamCurrencyEditor
                                                     x:Name="xamCELA1CostOther"
@@ -6086,7 +6086,7 @@
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="5"
                                                     VerticalAlignment="Bottom"
-                                                    Style="{StaticResource INLabelText2}"
+                                                    Style="{StaticResource INLabelText4}"
                                                     Text="Life Assured 2" />
                                                 <igWPF:XamCurrencyEditor
                                                     x:Name="xamCELA2CostOther"
@@ -6132,7 +6132,7 @@
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="5"
                                                     VerticalAlignment="Bottom"
-                                                    Style="{StaticResource INLabelText2}"
+                                                    Style="{StaticResource INLabelText4}"
                                                     Text="Child" />
                                                 <igWPF:XamCurrencyEditor
                                                     x:Name="xamCEChildCost"
@@ -6165,7 +6165,7 @@
                                         Grid.Column="13"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="LA1 + LA2 Total Cover" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCELA1LA2TotalCover"
@@ -6183,7 +6183,7 @@
                                         Grid.Column="13"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="IG LA1 Free Cover"
                                         Visibility="Collapsed" />
                                     <igWPF:XamCurrencyEditor
@@ -6203,7 +6203,7 @@
                                         Grid.Column="13"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="50% Violence Benefit"
                                         Visibility="Collapsed" />
                                     <igWPF:XamCurrencyEditor
@@ -6223,7 +6223,7 @@
                                         Grid.Column="0"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="Total Premium" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCETotalPremium"
@@ -6242,7 +6242,7 @@
                                         Grid.Column="13"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="Money Back Payout" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCEMoneyBack"
@@ -6260,7 +6260,7 @@
                                         Grid.Column="13"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="Payout Age"
                                         Visibility="Hidden" />
                                     <TextBlock
@@ -6271,7 +6271,7 @@
                                         Margin="0,0,0,0"
                                         VerticalAlignment="Bottom"
                                         Foreground="Silver"
-                                        Style="{StaticResource INLabelText2}"
+                                        Style="{StaticResource INLabelText4}"
                                         Text="{Binding PolicyData.MoneyBackPayoutAge}"
                                         TextWrapping="NoWrap"
                                         Visibility="Hidden" />
@@ -6586,7 +6586,7 @@
                                         Text="{Binding ImportedPolicyData.ContractPremium}" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCEMoneyBackUpg"
-                                        Grid.Row="8"
+                                        Grid.Row="9"
                                         Grid.Column="17"
                                         Grid.ColumnSpan="3"
                                         VerticalAlignment="Bottom"
@@ -6597,7 +6597,7 @@
 
                                     <TextBlock
                                         x:Name="lblTotalPremiumUpg"
-                                        Grid.Row="9"
+                                        Grid.Row="10"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
@@ -6606,7 +6606,7 @@
                                         TextWrapping="NoWrap" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCETotalPremiumUpg"
-                                        Grid.Row="9"
+                                        Grid.Row="10"
                                         Grid.Column="4"
                                         Grid.ColumnSpan="3"
                                         VerticalAlignment="Bottom"
@@ -13934,6 +13934,7 @@
                         </Grid>
                     </Border>
 
+
                     <Border
                         x:Name="UpgradePage"
                         Grid.Row="3"
@@ -14804,8 +14805,9 @@
                         <Button
                             x:Name="btnSendSMS"
                             Width="85"
+                            Height="Auto"
+                            Margin="0,11,0,0"
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
                             Click="btnSendSMS_Click"
                             ToolTip="{Binding SMSData.SMSToolTip}"
                             ToolTipService.ShowOnDisabled="True">

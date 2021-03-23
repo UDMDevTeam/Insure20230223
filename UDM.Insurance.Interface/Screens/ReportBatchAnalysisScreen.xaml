@@ -5,7 +5,14 @@
     xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
 
-    <Border x:Name="DimBorder" Width="1200" Height="750" BorderBrush="Transparent" BorderThickness="0" CornerRadius="12" Opacity="1">
+    <Border
+        x:Name="DimBorder"
+        Width="1200"
+        Height="750"
+        BorderBrush="Transparent"
+        BorderThickness="0"
+        CornerRadius="12"
+        Opacity="1">
         <Border.Style>
             <Style>
                 <Setter Property="Border.Background" Value="Transparent" />
@@ -16,7 +23,14 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        <Border x:Name="MainBorder" Width="1200" Height="750" Background="Black" BorderBrush="{DynamicResource BrandedBrushIN}" BorderThickness="2" CornerRadius="12">
+        <Border
+            x:Name="MainBorder"
+            Width="1200"
+            Height="750"
+            Background="Black"
+            BorderBrush="{DynamicResource BrandedBrushIN}"
+            BorderThickness="2"
+            CornerRadius="12">
             <Border.Style>
                 <Style>
                     <Setter Property="Border.Opacity" Value="1" />
@@ -91,7 +105,7 @@
                         Style="{DynamicResource INCloseButton}" />
 
                     <TextBlock
-                        x:Name="hdrBumpUpReport"
+                        x:Name="hdrBatchAnalysisReport"
                         Grid.Row="1"
                         Grid.Column="2"
                         Grid.ColumnSpan="7"
@@ -100,11 +114,37 @@
                         Style="{DynamicResource INPageHeadingText1}"
                         Text="Batch Analysis Report" />
 
+                    <TextBlock
+                        x:Name="lblReportType"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="4"
+                        Margin="0,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Select Report Type"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" />
+
+                    <src:EmbriantComboBox
+                        x:Name="cmbReportType"
+                        Grid.Row="3"
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="8"
+                        Margin="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        SelectionChanged="cmbReportType_SelectionChanged"
+                        Style="{DynamicResource cmbINHighlightBorder}"
+                        TabIndex="0"
+                        Visibility="Visible" />
+
                     <Path
                         x:Name="hdrLine"
                         Grid.Row="1"
                         Grid.Column="2"
-                        Grid.ColumnSpan="6"
+                        Grid.ColumnSpan="4"
                         Width="221"
                         Margin="0,0,0,14"
                         HorizontalAlignment="Left"
@@ -112,7 +152,7 @@
 
                     <TextBlock
                         x:Name="lblCampaigns"
-                        Grid.Row="2"
+                        Grid.Row="4"
                         Grid.Column="2"
                         Grid.ColumnSpan="4"
                         Margin="0,0,0,6"
@@ -124,8 +164,8 @@
 
                     <igWPF:XamDataGrid
                         x:Name="xdgCampaigns"
-                        Grid.Row="3"
-                        Grid.RowSpan="13"
+                        Grid.Row="5"
+                        Grid.RowSpan="11"
                         Grid.Column="2"
                         Grid.ColumnSpan="8"
                         Margin="0"
@@ -136,13 +176,11 @@
                         Style="{DynamicResource INXamDataGridStyle1}"
                         TabIndex="0">
                         <igWPF:XamDataGrid.Resources>
-                            <Style
-                                TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
                                 <Setter Property="Visibility" Value="Visible" />
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate
-                                            TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
                                             <CheckBox
                                                 x:Name="HeaderPrefixAreaCheckbox"
                                                 HorizontalAlignment="Center"
@@ -156,12 +194,10 @@
                                     </Setter.Value>
                                 </Setter>
                             </Style>
-                            <Style
-                                TargetType="{x:Type igWPF:RecordSelector}">
+                            <Style TargetType="{x:Type igWPF:RecordSelector}">
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate
-                                            TargetType="{x:Type igWPF:RecordSelector}">
+                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
                                             <CheckBox
                                                 x:Name="RecordSelectorCheckbox"
                                                 HorizontalAlignment="Center"
@@ -203,12 +239,13 @@
                         Grid.Row="2"
                         Grid.Column="12"
                         Grid.ColumnSpan="6"
+                        Width="247"
                         Margin="11,0,0,6"
                         VerticalAlignment="Bottom"
                         Style="{DynamicResource INLabelText2}"
                         Text="Select Date Range"
                         TextWrapping="NoWrap"
-                        Visibility="Visible" Width="247" />
+                        Visibility="Visible" />
 
                     <Viewbox
                         Grid.Row="3"
@@ -231,6 +268,31 @@
                             Visibility="Visible" />
                     </Viewbox>
 
+                    <!--<CheckBox
+                        x:Name="MergeReportCheckBox"
+                        Grid.Row="10"
+                        Grid.Column="12"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Checked="MergeReportCheckBox_Checked"
+                        IsChecked="False"
+                        Loaded="MergeReportCheckBox_Loaded"
+                        Style="{DynamicResource INCheckboxStyle}"
+                        Unchecked="MergeReportCheckBox_Unchecked" />-->
+
+                    <!--<TextBlock
+                        x:Name="lblMergeReport"
+                        Grid.Row="10"
+                        Grid.Column="13"
+                        Grid.ColumnSpan="6"
+                        Width="247"
+                        Margin="11,0,0,12.333"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Merge Selected Reports Into One"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" />-->
+
                     <!--
                         <TextBlock x:Name="lblCal2" Style="{DynamicResource INLabelText2}" Text="Select End Date" Margin="12,0,0,6" TextWrapping="NoWrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="20" Grid.ColumnSpan="6" Visibility="Visible" />
                         <Viewbox Margin="0" Grid.Row="3" Grid.Column="20" Grid.RowSpan="6" Grid.ColumnSpan="6" Width="250" Height="250" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="Fill">
@@ -243,13 +305,14 @@
                         Grid.Row="15"
                         Grid.Column="22"
                         Grid.ColumnSpan="4"
+                        Height="Auto"
                         Margin="0,8.667,0,0.333"
                         HorizontalAlignment="Right"
                         Click="btnReport_Click"
                         Content="Report"
                         IsEnabled="False"
                         Style="{DynamicResource INFlatButton}"
-                        TabIndex="0" Height="Auto" />
+                        TabIndex="0" />
 
                     <Viewbox
                         Grid.Row="3"
@@ -263,13 +326,13 @@
                         VerticalAlignment="Top"
                         Stretch="Fill">
                         <igWPF:XamMonthCalendar
-                    		x:Name="calEndDate"
-                    		Margin="0"
-                    		FontSize="16"
-                    		SelectedDatesChanged="Cal2_SelectedDatesChanged"
-                    		Style="{DynamicResource INXamMonthCalendarStyle2}"
-                    		TabIndex="0"
-                    		Visibility="Visible" />
+                            x:Name="calEndDate"
+                            Margin="0"
+                            FontSize="16"
+                            SelectedDatesChanged="Cal2_SelectedDatesChanged"
+                            Style="{DynamicResource INXamMonthCalendarStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
                     </Viewbox>
 
 
