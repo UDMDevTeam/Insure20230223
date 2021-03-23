@@ -9483,6 +9483,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
+
         #region Commands
 
         private void SelectHamburgerMenuCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
