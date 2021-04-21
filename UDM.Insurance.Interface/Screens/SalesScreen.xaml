@@ -20,7 +20,7 @@
     mc:Ignorable="d">
     <UserControl.Background>
         <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
-        <ImageBrush ImageSource="../Resources/InsureBackground.jpg"  />
+        <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
         <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
     </UserControl.Background>
     <src:BaseControl.Resources>
@@ -729,7 +729,7 @@
                                         IsTabStop="True"
                                         Style="{DynamicResource INFlatButton}"
                                         TabIndex="0"
-                                        Visibility="Visible" />
+                                        Visibility="Collapsed" />
                                     <Grid Width="{StaticResource Space}" />
                                     <Button
                                         x:Name="btnCaptureHours"
