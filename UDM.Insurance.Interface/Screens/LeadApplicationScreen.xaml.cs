@@ -217,6 +217,13 @@ namespace UDM.Insurance.Interface.Screens
             _ssGlobalData = ssGlobalData;
             _ssGlobalData.LeadApplicationScreen = this;
 
+            if (GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 199 || GlobalSettings.ApplicationUser.ID == 72) 
+            {
+                btnOverrideBumpUp.Visibility = Visibility.Visible;
+            }
+
+
+
             Page1.Visibility = Visibility.Visible;
             Page2.Visibility = Visibility.Collapsed;
             Page3.Visibility = Visibility.Collapsed;

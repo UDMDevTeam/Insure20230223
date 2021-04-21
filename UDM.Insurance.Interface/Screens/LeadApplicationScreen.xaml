@@ -4824,19 +4824,19 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <!--  <RowDefinition />  -->
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="40*" />
+                                <RowDefinition Height="41" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="40*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -5318,6 +5318,8 @@
                                 TabIndex="27100"
                                 Unchecked="chkUDMBumpUp_Unchecked"
                                 Visibility="Visible" />
+
+
                             <igWPF:XamCurrencyEditor
                                 x:Name="xamCEBumpUpAmount"
                                 Grid.Row="5"
@@ -5843,24 +5845,13 @@
                                         Text="0.00"
                                         Visibility="Collapsed" />
 
-                                    <Button
-                                        x:Name="btnOverrideBumpUp"
-                                        Grid.Row="14"
-                                        Grid.RowSpan="2"
-                                        Grid.Column="21"
-                                        Grid.ColumnSpan="6"
-                                        Width="160"
-                                        Height="30"
-                                        Margin="12,10,0,10"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Click="btnOverrideBumpUp_Click"
-                                        Content="Override B/U"
-                                        Style="{StaticResource INSquareButton}"
-                                        TabIndex="0"
-                                        Visibility="Collapsed" />
+
+
 
                                 </Grid>
+
+
+
                             </Border>
 
                             <Border
@@ -7938,23 +7929,23 @@
                                 VerticalAlignment="Center"
                                 Style="{StaticResource INLabelText4}"
                                 Text="Lead Permission"
-                                Visibility="Collapsed"/>
+                                Visibility="Collapsed" />
 
                             <CheckBox
                                 x:Name="chkLeadPermission"
-                                Width="16"
-                                Height="16"
                                 Grid.Row="0"
                                 Grid.Column="9"
+                                Width="16"
+                                Height="16"
                                 Margin="0,0,0,0"
-                                IsEnabled="True"
-                                IsEnabledChanged="chkLeadPermission_IsEnabledChanged"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Checked="chkLeadPermission_Checked_1"
-                                Unchecked="chkLeadPermission_Unchecked"
                                 IsChecked="False"
+                                IsEnabled="True"
+                                IsEnabledChanged="chkLeadPermission_IsEnabledChanged"
                                 Style="{StaticResource StyleConfirmCheckbox}"
+                                Unchecked="chkLeadPermission_Unchecked"
                                 Visibility="Collapsed" />
 
                             <TextBlock
@@ -10023,8 +10014,9 @@
                                 Grid.RowSpan="7"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="11"
+                                Margin="0,0.5,0,40.5"
                                 Background="Transparent"
-                                Visibility="Collapsed" Margin="0,0.5,0,40.5">
+                                Visibility="Collapsed">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -10248,8 +10240,9 @@
                                 Grid.RowSpan="7"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="11"
+                                Margin="0,0.5"
                                 Background="Transparent"
-                                Visibility="Collapsed" Margin="0,0.5">
+                                Visibility="Collapsed">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -10471,10 +10464,9 @@
                                         Margin="0,0,0,5"
                                         VerticalAlignment="Bottom"
                                         Style="{StaticResource INLabelText2}"
-                                        Text="Alt. Contact" 
-                                        Visibility="Collapsed"/>
+                                        Text="Alt. Contact"
+                                        Visibility="Collapsed" />
                                     <igWPF:XamMaskedEditor
-                                        Visibility="Collapsed"
                                         x:Name="medAltContactPhone"
                                         Grid.Row="7"
                                         Grid.Column="4"
@@ -10482,7 +10474,8 @@
                                         Margin="0,0,3,0"
                                         HorizontalAlignment="Stretch"
                                         data:AttachedProperties.HistoryValue="{Binding LAHistoryData[0].TelContact}"
-                                        Text="{Binding LAData[0].TelContact, TargetNullValue={x:Static sys:String.Empty}}">
+                                        Text="{Binding LAData[0].TelContact, TargetNullValue={x:Static sys:String.Empty}}"
+                                        Visibility="Collapsed">
                                         <igWPF:XamMaskedEditor.Style>
                                             <Style BasedOn="{StaticResource StyleXMETelNumberValueChanged}" TargetType="{x:Type igWPF:XamMaskedEditor}">
                                                 <Style.Triggers>
@@ -14888,19 +14881,19 @@
                         Grid.Row="16"
                         Grid.Column="3"
                         Grid.ColumnSpan="19"
-                        Orientation="Horizontal"
-                        Margin="15,0,0,0">
+                        Margin="15,0,0,0"
+                        Orientation="Horizontal">
                         <Button
                             x:Name="btnPermissionLead"
                             Width="100"
                             Height="Auto"
-                            FontSize="13"
-                            Visibility="Collapsed"
                             Margin="0,11,0,0"
-                            Content="Lead Permission"
-                            Background="Plum"
                             HorizontalAlignment="Left"
-                            Click="btnPermissionLead_Click">
+                            Background="Plum"
+                            Click="btnPermissionLead_Click"
+                            Content="Lead Permission"
+                            FontSize="13"
+                            Visibility="Collapsed">
                             <Button.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="5" />
@@ -15223,13 +15216,31 @@
                         Background="Black" />
 
                     <Button
+                        x:Name="btnOverrideBumpUp"
+                        Grid.Row="15"
+                        Grid.RowSpan="2"
+                        Grid.Column="21"
+                        Grid.ColumnSpan="6"
+                        Width="160"
+                        Height="30"
+                        Margin="12,10,0,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Click="btnOverrideBumpUp_Click"
+                        Content="Override B/U"
+                        Style="{StaticResource INSquareButton}"
+                        TabIndex="0"
+                        Visibility="Collapsed" />
+
+
+                    <Button
                         x:Name="btnSave"
                         Grid.Row="16"
                         Grid.Column="22"
                         Grid.ColumnSpan="4"
+                        Height="Auto"
                         Margin="0,11,0,0"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
                         Click="btnSave_Click"
                         Command="commands:CustomCommands.Save"
                         Style="{StaticResource SaveButton}"
