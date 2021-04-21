@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UDM.Insurance.Interface</RootNamespace>
     <AssemblyName>UDM.InsureTest.Interface</AssemblyName>
-    <AssemblyName>UDM.InsureDebug.Interface</AssemblyName>
+    <AssemblyName>UDM.Insure.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -24,7 +24,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <Utf8Output>true</Utf8Output>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
-    <PublishUrl>\\udmsql\software\insuredebug\</PublishUrl>
+    <PublishUrl>\\udmsql\software\insure\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -34,12 +34,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>\\udmsql\software\insuredebug\</UpdateUrl>
-    <ProductName>InsureDebug</ProductName>
+    <UpdateUrl>\\udmsql\software\insure\</UpdateUrl>
+    <ProductName>Insure</ProductName>
     <PublisherName>UDM</PublisherName>
-    <MinimumRequiredVersion>2.5.4.0</MinimumRequiredVersion>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.5.4.0</ApplicationVersion>
+    <MinimumRequiredVersion>2.5.7.6</MinimumRequiredVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>2.5.7.6</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -125,6 +125,13 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="AxInterop.CTPhone_ActiveXControl">
@@ -481,6 +488,10 @@
     <Compile Include="PrismViews\EditClosureScreen.xaml.cs">
       <DependentUpon>EditClosureScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\MySuccessEditScreen.xaml.cs" />
+    <Compile Include="Screens\PermissionLeadScreen.xaml.cs">
+      <DependentUpon>PermissionLeadScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\MySuccess.xaml.cs">
       <DependentUpon>MySuccess.xaml</DependentUpon>
     </Compile>
@@ -495,6 +506,9 @@
     </Compile>
     <Compile Include="Screens\ReportCustomerCareRequestsScreen.xaml.cs">
       <DependentUpon>ReportCustomerCareRequestsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportLeadPermission.xaml.cs">
+      <DependentUpon>ReportLeadPermission.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\ReportDeclineNoContact.xaml.cs">
       <DependentUpon>ReportDeclineNoContact.xaml</DependentUpon>
@@ -994,6 +1008,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Screens\MySuccessEditScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\PermissionLeadScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Screens\MySuccess.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1011,6 +1033,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\ReportCustomerCareRequestsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportLeadPermission.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1654,6 +1680,8 @@
     <Resource Include="Templates\ReportTemplateSTLAndBCP.xlsx" />
     <Resource Include="Templates\PrintTemplateUpgrade5.xlsx" />
     <Resource Include="Templates\ReportTemplateBatchReport.xlsx" />
+    <Resource Include="Templates\PrintTemplateLITE.xlsx" />
+    <Resource Include="Templates\PrintTemplateSheMaccBase.xlsx" />
     <None Include="Templates\ReportTemplateQAWeightings.xlsx" />
     <Resource Include="Templates\ReportTemplateRemoveDoNotContactLeads.xlsx" />
     <None Include="Templates\ReportTemplateSales - Copy.xlsx" />
@@ -1817,112 +1845,112 @@
   <ItemGroup>
     <PublishFile Include="InfragisticsWPF4.Controls.Charts.XamGauge.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.Controls.Editors.XamCalendar.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.Controls.Interactions.XamDialogWindow.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.Controls.Schedules.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.DataPresenter.ExcelExporter.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.DataPresenter.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.Documents.Core.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.Documents.Excel.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.Editors.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="InfragisticsWPF4.v13.1">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="stdole">
       <Visible>False</Visible>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

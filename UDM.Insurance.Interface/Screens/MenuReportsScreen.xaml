@@ -75,6 +75,7 @@
         <KeyTime x:Key="Time2">0:0:0.7</KeyTime>
         <KeyTime x:Key="Time3">0:0:1</KeyTime>
 
+        <system:Double x:Key="StartL1X0">720</system:Double>
         <system:Double x:Key="StartL1X1">630</system:Double>
         <system:Double x:Key="StartL1X2">540</system:Double>
         <system:Double x:Key="StartL1X3">450</system:Double>
@@ -672,7 +673,20 @@
         <Storyboard x:Key="MenuReportsProcessing">
 
             <!--  Line 1  -->
-
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportPermissionLead" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X0}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportPermissionLead" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportPermissionLead" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+            
             <!--  1.1. Batch & Stats Report  -->
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportBatchStats" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X1}" />
@@ -2677,6 +2691,35 @@
                                 </igWPF:TabItemEx>
                                 <igWPF:TabItemEx x:Name="tiProcessing" Header="Processing">
                                     <WrapPanel>
+                                        
+                                        <Button
+                                            x:Name="btnReportPermissionLead"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnReportPermissionLead_Click"
+                                            Style="{StaticResource INMenuButton}"
+                                            TabIndex="0"
+                                            ToolTip="{Binding ToolTipData[23].Tip}"
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                    <TextBlock
+                                                        x:Name="labelReportPermissionLead"
+                                                        Style="{StaticResource INSquareButtonReportText}"
+                                                        Text="Permission&#x0a;Lead&#x0a;" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+                                        
                                         <Button
                                             x:Name="btnReportBatchStats"
                                             Margin="{StaticResource IconMargin}"

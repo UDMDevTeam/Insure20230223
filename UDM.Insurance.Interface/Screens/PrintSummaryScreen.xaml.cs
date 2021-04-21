@@ -205,6 +205,7 @@ namespace UDM.Insurance.Interface.Screens
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLMMBE") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLBMMBElite") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB") ||
+                    (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBEC") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBER") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLMCB") ||
@@ -212,7 +213,16 @@ namespace UDM.Insurance.Interface.Screens
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDCB") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().EndsWith("Min")))
                 {
-                    PrintEliteLeads(dtSelected);
+
+                    
+                    if (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB" || dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB")
+                    {
+                        PrintSheMaccBaseLeads(dtSelected);
+                    }
+                    else
+                    {
+                        PrintEliteLeads(dtSelected);
+                    }
                     return;
                 }
 
@@ -310,6 +320,7 @@ namespace UDM.Insurance.Interface.Screens
                     case (long)lkpINCampaignGroup.Upgrade10:
                     case (long)lkpINCampaignGroup.Upgrade11:
                     case (long)lkpINCampaignGroup.Upgrade12:
+                    case (long)lkpINCampaignGroup.Upgrade13:
                     case (long)lkpINCampaignGroup.DoubleUpgrade1:
                     case (long)lkpINCampaignGroup.DoubleUpgrade2:
                     case (long)lkpINCampaignGroup.DoubleUpgrade3:
@@ -497,6 +508,11 @@ namespace UDM.Insurance.Interface.Screens
                             uri = new Uri("/Templates/PrintTemplateCancerBaseWebLNR.xlsx", UriKind.Relative);
                             TemplateLines = 5;
                         }
+                        else if (campaign.Code == "PLFDLITE" || campaign.Code == "PLCLITE" || campaign.Code == "PLMBLITE")
+                        {
+                            uri = new Uri("/Templates/PrintTemplateLITE.xlsx", UriKind.Relative);
+                            TemplateLines = 4;
+                        }
                         else
                         {
                             uri = new Uri("/Templates/PrintTemplateCancerBase.xlsx", UriKind.Relative);
@@ -600,7 +616,12 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchResurrection", parameters);
                         }
-					    else
+                        else if (campaign.Code == "PLFDLITE" || campaign.Code == "PLCLITE" || campaign.Code == "PLMBLITE")
+                        {
+                            ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchLite", parameters);
+
+                        }
+                        else
 					    {
 						    ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatch", parameters);
 					    }
@@ -2081,6 +2102,142 @@ namespace UDM.Insurance.Interface.Screens
             #endregion Finally, commit the transaction
         }
 
+        private void PrintSheMaccBaseLeads(DataTable dtSelectedItemsToPrint)
+        {
+            #region Variable Definitions
+
+            long fkINCampaign;
+
+            string campaignName = String.Empty;
+            string campaignCode = String.Empty;
+            string batches = String.Empty;
+            string leadBookName = String.Empty;
+            string leadBookFileName = String.Empty;
+
+            string templateWorkbookName = String.Empty;
+
+            DateTime nextMonday = Methods.NextWeekDay(DateTime.Now, DayOfWeek.Monday);
+
+            #endregion Variable Definitions
+
+            #region Assuming we're only printing for 1 campaign at a time, use row 1 column 1 of dtSelectedItemsToPrint to get the configs
+
+            fkINCampaign = Convert.ToInt64(dtSelectedItemsToPrint.Rows[0]["CampaignID"]);
+            campaignCode = dtSelectedItemsToPrint.Rows[0]["CampaignCode"].ToString().Trim();
+
+            DataTable dtLeadBookConfiguration = Insure.INGetLeadbookConfigurationSheMaccBase(fkINCampaign);
+            templateWorkbookName = dtLeadBookConfiguration.Rows[0]["TemplateWorkbookName"].ToString();
+
+            byte summarySheetMaxEntries = Convert.ToByte(dtLeadBookConfiguration.Rows[0]["SummarySheetMaxEntries"]);
+
+            if (dtSelectedItemsToPrint.Rows.Count > summarySheetMaxEntries)
+            {
+                bool result = false;
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+                {
+                    string message = String.Format("You have {0} lead books to print. Only {1} of those items will appear on the summary sheet, even though all {0} lead books will be printed. Would you like to continue printing anyway?",
+                    dtSelectedItemsToPrint.Rows.Count,
+                    summarySheetMaxEntries);
+                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                    messageBox.buttonOK.Content = "Yes";
+                    messageBox.buttonCancel.Content = "No";
+
+                    var showMessageBox = ShowMessageBox(messageBox, message, "Too many items selected", ShowMessageType.Exclamation);
+                    result = showMessageBox != null && (bool)showMessageBox;
+                });
+
+                if (!result)
+                {
+                    Database.CancelTransactions();
+                    return;
+                }
+            }
+
+            #endregion Assuming we're only printing for 1 campaign at a time, use row 1 column 1 of dtSelectedItemsToPrint to get the configs
+
+            #region Set the lead book name using a comma-separated string of the distinct batch codes in dtSelectedItemsToPrint
+
+            DataTable dtBatches = Methods.GroupBy("BatchCode", "BatchCode", dtSelectedItemsToPrint);
+
+            int batchCount = 0;
+            foreach (DataRow dr in dtBatches.AsEnumerable())
+            {
+                batchCount++;
+
+                if (batches.Trim().Length > 0)
+                {
+                    batches = String.Format("{0}, {1}", batches, dr[0].ToString());
+                }
+                else
+                {
+                    batches = dr[0].ToString();
+                }
+            }
+
+            //batches = batches.Trim().TrimEnd(',');
+
+            leadBookName = String.Format("{0} Batch {1} (#DATE#)", campaignCode, batches/*, DateTime.Now.ToString("yyyy-MM-dd")*/);
+            leadBookFileName = String.Format("{0} {1})", leadBookName.TrimEnd(')'), DateTime.Now.ToString("HH.mm.ss")).Replace("#DATE#", DateTime.Now.ToString("yyyy-MM-dd"));
+
+            #endregion Set the lead book name using a comma-separated string of the distinct batch codes in dtSelectedItemsToPrint
+
+            #region Define the Excel workbooks (the template and the resulting lead book) and which template sheets to use for the summary, cover, actual leads and coversion
+
+            Workbook wbTemplate = Methods.DefineTemplateWorkbook(String.Format("/Templates/{0}", templateWorkbookName));
+            Workbook wbPrint = new Workbook(WorkbookFormat.Excel2007);
+
+            #endregion Define the Excel workbooks (the template and the resulting lead book) and which template sheets to use for the summary, cover, actual leads and coversion
+
+            #region Add the summary sheet
+
+            AddSummarySheet(wbTemplate, wbPrint, dtSelectedItemsToPrint, dtLeadBookConfiguration.Rows[0], leadBookName);
+
+            #endregion Add the summary sheet
+
+            #region For each selected item, generate the cover, leads and conversion sheets
+
+            foreach (DataRow drAgent in dtSelectedItemsToPrint.AsEnumerable())
+            {
+                #region Add the current sales consultant's cover sheet and leads
+
+                //AddIndividualSalesConsultantCoverAndLeads(wbTemplate, wbPrint, drAgent, dtLeadBookConfiguration.Rows[0], leadBookName);
+                AddIndividualSalesConsultantCoverAndLeads(wbPrint, drAgent, dtLeadBookConfiguration.Rows[0], leadBookName);
+
+                #endregion Add the current sales consultant's cover sheet and leads
+
+                #region Add the current sales consultant's conversion sheet
+
+                AddIndividualSalesConsultantConversionSheet(wbTemplate, wbPrint, drAgent, dtLeadBookConfiguration.Rows[0]);
+
+                #endregion Add the current sales consultant's conversion sheet
+
+                wbPrint.NamedReferences.Clear();
+            }
+            #endregion For each selected item, generate the cover, leads and conversion sheets
+
+            #region Save and open the resulting workbook
+
+            string filePathAndName = String.Format("{0}{1}.xlsx", GlobalSettings.UserFolder, leadBookFileName);
+
+            //See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/209145461/comments#341417643
+            if (filePathAndName.Contains(Environment.NewLine))
+            {
+                filePathAndName = filePathAndName.Replace(Environment.NewLine, "");
+            }
+
+            wbPrint.Save(filePathAndName);
+            Process.Start(filePathAndName);
+
+            #endregion Save and open the resulting workbook
+
+            #region Finally, commit the transaction
+
+            CommitTransaction(null);
+
+            #endregion Finally, commit the transaction
+        }
+
         private void PrintUpgradeLeads(DataTable dtSelectedItemsToPrint)
         {
             #region Variable Definitions
@@ -2626,14 +2783,57 @@ namespace UDM.Insurance.Interface.Screens
                     (column.ColumnName.Trim() != "Select"))
 
                 {
-                    wsConversion.GetCell(column.ColumnName).Value = drSelectedEntryPrint[column.ColumnName];
+                    try
+                    {
+                        wsConversion.GetCell(column.ColumnName).Value = drSelectedEntryPrint[column.ColumnName];
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
-            
-            wsConversion.GetCell("TargetSales").Value = wsConversion.GetCell("CountingWeek3TargetSales").Value;
-            wsConversion.GetCell("TargetSales2").Value = wsConversion.GetCell("CountingWeek3TargetSales").Value;
-            wsConversion.GetCell("TargetPercentage2").Value = wsConversion.GetCell("TargetPercentage").Value;
-            wsConversion.GetCell("AllocationDate").Value = drSelectedEntryPrint["SalesStartDate"];
+
+
+             //this is for all the lead sales blocks on the conversion page
+            try
+            {
+                int TotalLeadsCalc = Convert.ToInt32(wsConversion.GetCell("Leads2Print").Value);
+
+
+                double week1stats = TotalLeadsCalc * 0.26;
+
+                double week2statsStep1 = TotalLeadsCalc * 0.30;
+                double week2stats = week2statsStep1 - week1stats;
+
+                int week1 = Convert.ToInt32(week1stats);
+                int week2 = Convert.ToInt32(week2stats);
+
+
+                for (int y = 0; y < week1; y++)
+                {
+                    try { wsConversion.GetCell("weekone" + (y + 1)).Value = (y + 1); } catch { }
+                }
+
+                for (int y = 0; y < week2; y++)
+                {
+                    try { wsConversion.GetCell("weektwo" + (y + 1)).Value = (y + 1); } catch { }
+                }
+            }
+            catch
+            {
+
+            }
+
+
+            try { wsConversion.GetCell("TargetSales").Value = wsConversion.GetCell("CountingWeek3TargetSales").Value; } catch { }
+            try { wsConversion.GetCell("TargetPercentage2").Value = wsConversion.GetCell("TargetPercentage").Value; } catch { }
+
+            try { wsConversion.GetCell("AllocationDate").Value = drSelectedEntryPrint["SalesStartDate"]; } catch { }
+
+
+            //wsConversion.Columns[2].
+                //(2, 1).CellFormat.FormatString = """$""#,##0.00;[red](""$""#,##0.00)"
 
             #endregion Add the values
 

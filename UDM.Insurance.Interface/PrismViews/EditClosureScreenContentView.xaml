@@ -295,6 +295,7 @@
                         </ribbon:Ribbon.Style>
                     </ribbon:Ribbon>
                 </Grid>
+
                 <Grid
                     x:Name="grdDocWorkspace"
                     Grid.Row="1"

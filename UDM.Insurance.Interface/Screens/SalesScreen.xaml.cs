@@ -92,7 +92,7 @@ namespace UDM.Insurance.Interface.Screens
             LoadTimer();
 
             #region Makes a button visible just for Samantha Holder
-            if (_agentID == 3388 || _agentID == 2857 || _agentID == 2810 || _agentID == 394)
+            if (_agentID == 3388 || _agentID == 2857|| _agentID == 394)
             {
                 btnCallMonQuery.Visibility = Visibility.Visible;
                 btnCallMonTracking.Visibility = Visibility.Visible;

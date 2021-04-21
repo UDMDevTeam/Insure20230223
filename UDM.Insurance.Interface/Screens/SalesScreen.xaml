@@ -729,7 +729,7 @@
                                         IsTabStop="True"
                                         Style="{DynamicResource INFlatButton}"
                                         TabIndex="0"
-                                        Visibility="Visible" />
+                                        Visibility="Collapsed" />
                                     <Grid Width="{StaticResource Space}" />
                                     <Button
                                         x:Name="btnCaptureHours"

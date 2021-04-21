@@ -16,7 +16,7 @@
     mc:Ignorable="d">
     <UserControl.Background>
         <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
-        <ImageBrush ImageSource="../Resources/InsureBackground.jpg"  />
+        <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
         <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
     </UserControl.Background>
 
@@ -139,6 +139,23 @@
             </DoubleAnimationUsingKeyFrames>
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnUtilityImportUpdate" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+
+            <!--  Edit My Success  -->
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditMySuccess" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditMySuccess" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="90" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditMySuccess" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1" />
@@ -339,6 +356,20 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditClosure" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditMySuccess" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X5}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditMySuccess" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnEditMySuccess" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
@@ -1384,6 +1415,7 @@
                                                 </Grid>
                                             </Canvas>
                                         </Button>
+
                                         <Button
                                             x:Name="btnEditClosure"
                                             Margin="{StaticResource IconMargin}"
@@ -1407,6 +1439,33 @@
                                                         x:Name="lblEditClosure"
                                                         Style="{DynamicResource INSquareButtonReportText}"
                                                         Text="Edit&#10;Closure" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+
+                                        <Button
+                                            x:Name="btnEditMySuccess"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnEditMySuccess_Click"
+                                            Style="{DynamicResource INMenuButton}"
+                                            TabIndex="0"
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                <Grid Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                    <TextBlock
+                                                        x:Name="lblEditMySuccess"
+                                                        Style="{DynamicResource INSquareButtonReportText}"
+                                                        Text="Edit My Success" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>

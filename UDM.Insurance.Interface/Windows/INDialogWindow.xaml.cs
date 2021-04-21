@@ -6,6 +6,7 @@ namespace UDM.Insurance.Interface.Windows
     {
         public INDialogWindow(BaseControl baseControl) : base(baseControl)
         {
+          
             InitializeComponent();
         }
     }

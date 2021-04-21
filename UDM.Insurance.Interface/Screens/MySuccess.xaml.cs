@@ -23,6 +23,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Media;
 using Embriant.WPF.Windows;
 using System.Diagnostics;
+using System.Windows.Navigation;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -34,15 +35,15 @@ namespace UDM.Insurance.Interface.Screens
         List<string> UpgradeBaseList = new List<string>();
 
         DataTable dtCampaigns;
-        DataTable dtCampaignsNotes;
+        DataTable dtCampaignNotes;
         DataTable dtCampaignsCalls;
 
         DataTable dtAgents;
         private DataTable dtAgentCallsDG;
 
-
         private List<Record> _lstSelectedCampaigns;
         private string _fkCampaignIDs = "";
+        public string _CampaignNoteIDs = "";
 
         #endregion
 
@@ -65,8 +66,6 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Constructor
 
-
-
         #region Private Methods
 
 
@@ -88,7 +87,15 @@ namespace UDM.Insurance.Interface.Screens
 
         private void cmbBaseUpgrade_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LoadCampaignInfo();
+            try
+            {
+                LoadCampaignInfo();
+
+            }
+            catch
+            {
+
+            }
         }
 
         #region Load Datagrids
@@ -125,13 +132,13 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(System.Windows.Input.Cursors.Wait);
 
-                try { dtCampaignsNotes.Clear(); } catch { }
+                try { dtCampaignNotes.Clear(); } catch { }
 
-                dtCampaignsNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpAgentNotesMessages");
+                dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpAgentNotesMessages");
                 DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
-                dtCampaignsNotes.Columns.Add(column);
-                dtCampaignsNotes.DefaultView.Sort = "ID ASC";
-                xdgAgentNotes.DataSource = dtCampaignsNotes.DefaultView;
+                dtCampaignNotes.Columns.Add(column);
+                dtCampaignNotes.DefaultView.Sort = "ID ASC";
+                xdgAgentNotes.DataSource = dtCampaignNotes.DefaultView;
             }
 
             catch (Exception ex)
@@ -147,28 +154,57 @@ namespace UDM.Insurance.Interface.Screens
 
         private void LoadCampaignInfo()
         {
-            try
+            if(cmbBaseUpgrade.Text == "Base")
             {
-                SetCursor(System.Windows.Input.Cursors.Wait);
+                try
+                {
+                    SetCursor(System.Windows.Input.Cursors.Wait);
 
-                try { dtCampaigns.Clear(); } catch { }
+                    try { dtCampaigns.Clear(); } catch { }
 
-                dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign");
-                DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
-                dtCampaigns.Columns.Add(column);
-                dtCampaigns.DefaultView.Sort = "CampaignName ASC";
-                xdgCampaigns.DataSource = dtCampaigns.DefaultView;
+                    dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign");
+                    DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                    dtCampaigns.Columns.Add(column);
+                    dtCampaigns.DefaultView.Sort = "CampaignName ASC";
+                    xdgCampaigns.DataSource = dtCampaigns.DefaultView;
+                }
+
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+
+                finally
+                {
+                    SetCursor(System.Windows.Input.Cursors.Arrow);
+                }
+            }
+            else
+            {
+                try
+                {
+                    SetCursor(System.Windows.Input.Cursors.Wait);
+
+                    try { dtCampaigns.Clear(); } catch { }
+
+                    dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign");
+                    DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                    dtCampaigns.Columns.Add(column);
+                    dtCampaigns.DefaultView.Sort = "CampaignName ASC";
+                    xdgCampaigns.DataSource = dtCampaigns.DefaultView;
+                }
+
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+
+                finally
+                {
+                    SetCursor(System.Windows.Input.Cursors.Arrow);
+                }
             }
 
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-
-            finally
-            {
-                SetCursor(System.Windows.Input.Cursors.Arrow);
-            }
         }
 
         private void LoadAgentDG()
@@ -203,6 +239,9 @@ namespace UDM.Insurance.Interface.Screens
                 dtAgents.Columns.Add(column);
                 dtAgents.DefaultView.Sort = "[AgentName] ASC";
                 xdgAgents.DataSource = dtAgents.DefaultView;
+
+                GlobalSettings.CampaignID = _fkCampaignIDs;
+
             }
 
             catch (Exception ex)
@@ -221,7 +260,17 @@ namespace UDM.Insurance.Interface.Screens
 
         private void HeaderPrefixAreaCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                var listTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+                var _CampaignNoteIDs = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                _CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
         }
 
         private void HeaderPrefixAreaCheckbox_Loaded(object sender, RoutedEventArgs e)
@@ -236,7 +285,14 @@ namespace UDM.Insurance.Interface.Screens
 
         private void RecordSelectorCheckbox_Click(object sender, RoutedEventArgs e)
         {
-            LoadAgentDG();
+            try
+            {
+                LoadAgentDG();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
         }
 
         #region Navigation
@@ -293,8 +349,36 @@ namespace UDM.Insurance.Interface.Screens
 
 
         #region Danes Work
+
+        #region Variables
+        private List<Record> _lstSelectedCampaignNote;
+        #endregion
+        #region Load Datagrid
+        public void LoadCampaignNotesDG()
+        {
+            try
+            {
+                SetCursor(System.Windows.Input.Cursors.Wait);
+                try { dtCampaignNotes.Clear(); } catch { }
+                dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes");
+                DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                dtCampaignNotes.Columns.Add(column);
+                dtCampaignNotes.DefaultView.Sort = "Description ASC";
+                xdgCampaignNotes.DataSource = dtCampaignNotes.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                SetCursor(System.Windows.Input.Cursors.Arrow);
+            }
+        }
+
         private void HeaderPrefixAreaCampaignNotesCheckbox_Checked(object sender, RoutedEventArgs e)
         {
+
 
         }
 
@@ -310,44 +394,54 @@ namespace UDM.Insurance.Interface.Screens
 
         private void RecordSelectorAgentNotesCheckbox_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
 
+                _lstSelectedCampaignNote = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+
+                _CampaignNoteIDs = _lstSelectedCampaignNote.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                _CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
+
+                var listTemp = (from r in xdgAgentNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+
+                //var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                //_NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
+
+                MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
+                ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
         }
+        #endregion
         #endregion
 
         #region MediaPlayer
         private void btnNext3_Click(object sender, RoutedEventArgs e)
         {
-
-
             try
             {
-                //var Call1 = Methods.GetTableData("SELECT Call1 [Call] FROM INMySuccessAgents WHERE ID = 1");
-                //object field = Call1.Rows[0].ItemArray[0];
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.InitialDirectory = "c:\\";
+                dlg.Filter = "Media files (*.wmv)|*.wmv|All Files (*.*)|*.*";
+                dlg.RestoreDirectory = true;
 
-
-                //byte[] bytes = field;
-                //string name = Path.ChangeExtension(Path.GetRandomFileName(), ".wav");
-                //string path = Path.Combine(Path.GetTempPath(), name);
-                //File.WriteAllBytes(path, bytes);
-                //Process.Start(path);
-
-
-
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string selectedFileName = dlg.FileName;
+                    FileNameLabel.Content = selectedFileName;
+                    McMediaElement.Source = new Uri(selectedFileName);
+                    McMediaElement.Play();
+                }
             }
             catch (Exception ex)
             {
 
             }
-
-            //try
-            //{
-            //    MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes();
-            //    ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Windows.MessageBox.Show(ex.ToString());
-            //}
         }
 
 
@@ -408,6 +502,8 @@ namespace UDM.Insurance.Interface.Screens
             {
                 LoadAgentNotesDG();
                 LoadAgentCalls();
+                LoadCampaignNotesDG();
+
 
                 Body.Visibility = Visibility.Collapsed;
                 Body2.Visibility = Visibility.Visible;
@@ -430,7 +526,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     try
                     {
-                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs, _NotesDescription);
+                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
                         ShowDialog(mySuccess, new INDialogWindow(mySuccess));
                     }
 
@@ -443,7 +539,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     try
                     {
-                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs, _NotesDescription);
+                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
                         ShowDialog(mySuccess, new INDialogWindow(mySuccess));
                     }
 
@@ -456,7 +552,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     try
                     {
-                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs, _NotesDescription);
+                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
                         ShowDialog(mySuccess, new INDialogWindow(mySuccess));
                     }
 

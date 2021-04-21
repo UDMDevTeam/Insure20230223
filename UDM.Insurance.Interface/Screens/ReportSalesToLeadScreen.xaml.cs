@@ -2245,6 +2245,8 @@ namespace UDM.Insurance.Interface.Screens
         //}
 
         private void InsertConversionCoverSheet(Workbook wbTemplate, Workbook wbReport, out Worksheet wsConversionSummaryTemplate, out Worksheet wsConversionSummary, DataRow drCurrentCampaign)
+        
+        
         {
             #region Get the conversion summary sheet configuration values
 
@@ -2260,6 +2262,7 @@ namespace UDM.Insurance.Interface.Screens
             string conversionSummarySheetFirstSTLTargetPercentageCell = drCurrentCampaign["ConversionSummarySheetFirstSTLTargetPercentageCell"].ToString();
             string conversionSummarySheetSecondSTLTargetPercentageCell = drCurrentCampaign["ConversionSummarySheetSecondSTLTargetPercentageCell"].ToString();
             string conversionSummarySheetThirdSTLTargetPercentageCell = drCurrentCampaign["ConversionSummarySheetThirdSTLTargetPercentageCell"].ToString();
+            string conversionSummarySheetFourthSTLTargetPercentageCell = drCurrentCampaign["ConversionSummarySheetFourthSTLTargetPercentageCell"].ToString();
 
             string conversionSummarySheetThirdWeekSalesColumnHeadingCell = drCurrentCampaign["ConversionSummarySheetThirdWeekSalesColumnHeadingCell"].ToString();
             string conversionSummarySheetThirdWeekSalesColumnHeading = drCurrentCampaign["ConversionSummarySheetThirdWeekSalesColumnHeading"].ToString();
@@ -2271,6 +2274,7 @@ namespace UDM.Insurance.Interface.Screens
             decimal firstSTLTargetPercentage = Convert.ToDecimal(drCurrentCampaign["FirstSTLTargetPercentage"]);
             decimal secondSTLTargetPercentage = Convert.ToDecimal(drCurrentCampaign["SecondSTLTargetPercentage"]);
             decimal thirdSTLTargetPercentage = Convert.ToDecimal(drCurrentCampaign["ThirdSTLTargetPercentage"]);
+            decimal fourthSTLTargetPercentage = Convert.ToDecimal(drCurrentCampaign["FourthSTLTargetPercentage"]);
 
             #endregion Get the conversion summary sheet configuration values
 
@@ -2311,12 +2315,13 @@ namespace UDM.Insurance.Interface.Screens
             wsConversionSummary.GetCell(conversionSummarySheetThirdWeekSalesPercentageColumnHeadingCell).Value = conversionSummarySheetThirdWeekSalesPercentageColumnHeading;
 
             // Adding the target percentages for the 3 different weeks:
-            if (_stlOption == 4 || _stlOptionFromCmb >= 10)
+            if (_stlOption == 4 || _stlOptionFromCmb >= 10 || _stlOption == 5)
             {
                 wsConversionSummary.GetCell(conversionSummarySheetFirstSTLTargetPercentageCell).Value = firstSTLTargetPercentage;
             }            
             wsConversionSummary.GetCell(conversionSummarySheetSecondSTLTargetPercentageCell).Value = secondSTLTargetPercentage;
             wsConversionSummary.GetCell(conversionSummarySheetThirdSTLTargetPercentageCell).Value = thirdSTLTargetPercentage;
+            wsConversionSummary.GetCell(conversionSummarySheetFourthSTLTargetPercentageCell).Value = fourthSTLTargetPercentage;
 
             #endregion Populating the report details
 
@@ -2382,6 +2387,8 @@ namespace UDM.Insurance.Interface.Screens
                 string secondSTLTargetPercentageCell = drCurrentCampaign["SecondSTLTargetPercentageCell"].ToString();
                 decimal thirdSTLTargetPercentage = Convert.ToDecimal(drCurrentCampaign["ThirdSTLTargetPercentage"]);
                 string thirdSTLTargetPercentageCell = drCurrentCampaign["ThirdSTLTargetPercentageCell"].ToString();
+                decimal fourthSTLTargetPercentage = Convert.ToDecimal(drCurrentCampaign["FourthSTLTargetPercentage"]);
+                string fourthSTLTargetPercentageCell = drCurrentCampaign["FourthSTLTargetPercentageCell"].ToString();
 
                 // Column headings and initial cell addresses of the 3 weeks of the BONUS Section:
                 string firstWeekBonusSplitColumnHeading = drCurrentCampaign["FirstWeekBonusSplitColumnHeading"].ToString();
@@ -2481,12 +2488,14 @@ namespace UDM.Insurance.Interface.Screens
 
                 // Adding the target percentages for the 3 different weeks:
 
-                if (_stlOption == 4 || _stlOptionFromCmb >= 10)
+                if (_stlOption == 4 || _stlOptionFromCmb >= 10 || _stlOption == 5)
                 {
                     wsReport.GetCell(firstSTLTargetPercentageCell).Value = firstSTLTargetPercentage;
                 }                
                 wsReport.GetCell(secondSTLTargetPercentageCell).Value = secondSTLTargetPercentage;
                 wsReport.GetCell(thirdSTLTargetPercentageCell).Value = thirdSTLTargetPercentage;
+                wsReport.GetCell(fourthSTLTargetPercentageCell).Value = fourthSTLTargetPercentage;
+
 
                 #endregion Populating the report details
 

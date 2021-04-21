@@ -63,7 +63,8 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.DoubleUpgrade12,
             lkpINCampaignGroup.DoubleUpgrade13,
             lkpINCampaignGroup.DoubleUpgrade14,
-            lkpINCampaignGroup.DefrostR99
+            lkpINCampaignGroup.DefrostR99,
+            lkpINCampaignGroup.Upgrade13
 
         };
 
@@ -416,7 +417,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade1, lkpINCampaignGroup.DoubleUpgrade2, 
                                 lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6, 
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
-                                lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14, lkpINCampaignGroup.DefrostR99
+                                lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Upgrade13
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
@@ -440,7 +441,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6, 
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
-                                lkpINCampaignGroup.DefrostR99
+                                lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Upgrade13
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {

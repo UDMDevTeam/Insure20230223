@@ -1,0 +1,13 @@
+C:\Source\udminsure\CTPhoneAxLib\bin\Training\CTPhoneAxLib.dll
+C:\Source\udminsure\CTPhoneAxLib\bin\Training\CTPhoneAxLib.pdb
+C:\Source\udminsure\CTPhoneAxLib\bin\Training\Interop.CTPhone_ActiveXControl.dll
+C:\Source\udminsure\CTPhoneAxLib\bin\Training\AxInterop.CTPhone_ActiveXControl.dll
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.csprojAssemblyReference.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\Interop.CTPhone_ActiveXControl.dll
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\AxInterop.CTPhone_ActiveXControl.dll
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.csproj.ResolveComReference.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.CTPhoneAxControl.resources
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.csproj.GenerateResource.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.csproj.CoreCompileInputs.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.dll
+C:\Source\udminsure\CTPhoneAxLib\obj\Training\CTPhoneAxLib.pdb

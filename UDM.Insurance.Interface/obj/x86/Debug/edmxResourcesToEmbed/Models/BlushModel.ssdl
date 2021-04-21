@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BlushModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="HRStaff">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeNo" Type="varchar" MaxLength="50" />
+    <Property Name="TempStartDate" Type="date" />
+    <Property Name="EmploymentStartDate" Type="date" />
+    <Property Name="EmploymentEndDate" Type="date" />
+    <Property Name="FKCompanyID" Type="bigint" />
+    <Property Name="FKStaffTypeID" Type="bigint" />
+    <Property Name="FKWorkStatusID" Type="bigint" />
+    <Property Name="FKJobTitleID" Type="bigint" />
+    <Property Name="FKUserID" Type="bigint" />
+    <Property Name="FKRecruitmentConsultantID" Type="bigint" />
+    <Property Name="RecruitmentSource" Type="varchar" MaxLength="255" />
+    <Property Name="FKTitleID" Type="bigint" />
+    <Property Name="Initials" Type="varchar" MaxLength="50" />
+    <Property Name="FirstName" Type="varchar" MaxLength="255" />
+    <Property Name="PreferredName" Type="varchar" MaxLength="255" />
+    <Property Name="Surname" Type="varchar" MaxLength="255" />
+    <Property Name="FKGenderID" Type="bigint" />
+    <Property Name="FKRaceID" Type="bigint" />
+    <Property Name="IDNo" Type="varchar" MaxLength="50" />
+    <Property Name="DOB" Type="date" />
+    <Property Name="FKCitizenID" Type="bigint" />
+    <Property Name="FKReligionID" Type="bigint" />
+    <Property Name="TelHome" Type="varchar" MaxLength="50" />
+    <Property Name="TelCell" Type="varchar" MaxLength="50" />
+    <Property Name="TelOther" Type="varchar" MaxLength="50" />
+    <Property Name="EMail" Type="varchar" MaxLength="255" />
+    <Property Name="RegisteredTaxPayer" Type="bit" />
+    <Property Name="TaxRefNo" Type="varchar" MaxLength="50" />
+    <Property Name="IRP5Number" Type="varchar" MaxLength="50" />
+    <Property Name="FKMedicalAidID" Type="bigint" />
+    <Property Name="CriminalOffence" Type="bit" />
+    <Property Name="EmploymentDismissed" Type="bit" />
+    <Property Name="DisciplinaryGuilty" Type="bit" />
+    <Property Name="WorkedFinServicesIndustry" Type="bit" />
+    <Property Name="WorkedFinServicesIndustryFrom" Type="date" />
+    <Property Name="WorkedFinServicesIndustryTo" Type="date" />
+    <Property Name="RegLevel1ExamDate" Type="date" />
+    <Property Name="Note" Type="varchar" MaxLength="512" />
+    <Property Name="FKAutomationStatusID" Type="bigint" />
+    <Property Name="AutomationDate" Type="datetime" />
+    <Property Name="StampUserID" Type="bigint" />
+    <Property Name="StampDate" Type="datetime" />
+    <Property Name="PassportNumber" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="HRStaffExtension">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FKHRStaffID" Type="bigint" />
+    <Property Name="FKHRExtensionID" Type="bigint" />
+    <Property Name="FKRequesterHRStaffID" Type="bigint" />
+    <Property Name="DateEffective" Type="date" />
+    <Property Name="Note" Type="varchar" MaxLength="2000" />
+    <Property Name="StampUserID" Type="bigint" />
+    <Property Name="StampDate" Type="datetime" />
+    <Property Name="ShiftType" Type="bigint" />
+    <Property Name="FKHRWorkstationID" Type="bigint" />
+    <Property Name="FKHRComputerID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="lkpHRExtension">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Extension" Type="varchar" MaxLength="10" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="StampDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_HRStaffExtension_HRStaff">
+    <End Role="HRStaff" Type="Self.HRStaff" Multiplicity="0..1" />
+    <End Role="HRStaffExtension" Type="Self.HRStaffExtension" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HRStaff">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HRStaffExtension">
+        <PropertyRef Name="FKHRStaffID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HRStaffExtension_HRStaff1">
+    <End Role="HRStaff" Type="Self.HRStaff" Multiplicity="0..1" />
+    <End Role="HRStaffExtension" Type="Self.HRStaffExtension" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HRStaff">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HRStaffExtension">
+        <PropertyRef Name="FKRequesterHRStaffID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HRStaffExtension_lkpHRExtension">
+    <End Role="lkpHRExtension" Type="Self.lkpHRExtension" Multiplicity="0..1" />
+    <End Role="HRStaffExtension" Type="Self.HRStaffExtension" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lkpHRExtension">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HRStaffExtension">
+        <PropertyRef Name="FKHRExtensionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BlushModelStoreContainer">
+    <EntitySet Name="HRStaff" EntityType="Self.HRStaff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HRStaffExtension" EntityType="Self.HRStaffExtension" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lkpHRExtension" EntityType="Self.lkpHRExtension" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_HRStaffExtension_HRStaff" Association="Self.FK_HRStaffExtension_HRStaff">
+      <End Role="HRStaff" EntitySet="HRStaff" />
+      <End Role="HRStaffExtension" EntitySet="HRStaffExtension" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HRStaffExtension_HRStaff1" Association="Self.FK_HRStaffExtension_HRStaff1">
+      <End Role="HRStaff" EntitySet="HRStaff" />
+      <End Role="HRStaffExtension" EntitySet="HRStaffExtension" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HRStaffExtension_lkpHRExtension" Association="Self.FK_HRStaffExtension_lkpHRExtension">
+      <End Role="lkpHRExtension" EntitySet="lkpHRExtension" />
+      <End Role="HRStaffExtension" EntitySet="HRStaffExtension" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

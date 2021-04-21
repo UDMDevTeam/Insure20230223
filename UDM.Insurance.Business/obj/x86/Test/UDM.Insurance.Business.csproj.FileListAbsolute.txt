@@ -1,0 +1,17 @@
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\UDM.Insurance.Business.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\UDM.Insurance.Business.pdb
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\Embriant.Framework.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\System.Data.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\System.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\System.Xml.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\InfragisticsWPF4.Documents.Excel.v13.1.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\OneWireAPI.NET.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\vjslib.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\itextsharp.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\vjscor.dll
+C:\Source\udminsure\UDM.Insurance.Business\bin\Test\Embriant.Framework.pdb
+C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Test\UDM.Insurance.Business.csprojAssemblyReference.cache
+C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Test\UDM.Insurance.Business.csproj.CoreCompileInputs.cache
+C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Test\UDM.Insurance.Business.csproj.CopyComplete
+C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Test\UDM.Insurance.Business.dll
+C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Test\UDM.Insurance.Business.pdb

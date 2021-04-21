@@ -43,6 +43,13 @@ namespace UDM.Insurance.Interface.Data
             //}
         }
 
+        public static void PopulateCampaignNotesComboBox(Embriant.WPF.Controls.EmbriantComboBox cmbTargetComboBox)
+        {
+            System.Data.DataTable dt = UDM.WPF.Library.Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes ORDER BY ID ASC");
+            cmbTargetComboBox.Populate(dt, "Description", "ID");
+        }
+
+
         public static void PopulateCampaignDataGrid(Infragistics.Windows.DataPresenter.XamDataGrid xdgTargetDataGrid, System.Data.DataTable dataTable)
         {
             //try
@@ -144,5 +151,7 @@ namespace UDM.Insurance.Interface.Data
         //TODO: Put all standard event handlers whose implementation are the same throughout most front-ends
 
         #endregion Standard Event Handlers
+
+
     }
 }

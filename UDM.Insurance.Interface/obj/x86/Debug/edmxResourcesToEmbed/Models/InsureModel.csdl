@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InsureModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CallData">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FKImportID" Type="Int64" />
+    <Property Name="Number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="RecRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StampUserID" Type="Int64" />
+    <Property Name="StampDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="CTPhone">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LoginName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Group" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="StampUserID" Type="Int64" />
+    <Property Name="StampDate" Type="DateTime" Precision="3" />
+    <Property Name="IsEnabled" Type="Boolean" />
+  </EntityType>
+  <EntityContainer Name="InsureEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CallDatas" EntityType="Self.CallData" />
+    <EntitySet Name="CTPhones" EntityType="Self.CTPhone" />
+  </EntityContainer>
+</Schema>

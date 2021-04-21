@@ -42,7 +42,7 @@
             Click="buttonClose_Click"
             Style="{DynamicResource INCloseButton}"
             TabIndex="3" Margin="0" />
-        <Viewbox x:Name="Body" Height="590" Visibility="Visible" Canvas.Top="10" Width="991" Canvas.Left="10">
+        <Viewbox x:Name="Body" Height="590" Visibility="Collapsed" Canvas.Top="10" Width="991" Canvas.Left="10">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -281,7 +281,7 @@
             </Grid>
         </Viewbox>
 
-        <Viewbox x:Name="Body2" Visibility="Collapsed" Height="590" Canvas.Top="10" Width="991" Canvas.Left="10">
+        <Viewbox x:Name="Body2" Visibility="Visible" Height="590" Canvas.Top="10" Width="991" Canvas.Left="10">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />

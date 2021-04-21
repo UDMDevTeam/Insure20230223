@@ -334,7 +334,8 @@
                 <Button Style="{DynamicResource INFlatButton}" TabIndex="2" Content="Save" x:Name="btnSave"  Height="Auto" DataContext="{Binding}" Grid.Column="20" Margin="14,14,30,0" Grid.Row="13" Grid.ColumnSpan="4" Click="btnSave_Click"   />
 
 
-                <src:EmbriantComboBox SelectionChanged="cmbMonth_SelectionChanged" x:Name="cmbMonth" Style="{DynamicResource cmbIN}" TabIndex="0" Canvas.Left="795" Canvas.Top="74.887" Height="34" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="8" VerticalAlignment="Top" Width="336" Margin="33,23,31,0" Grid.RowSpan="2"  />
+                <src:EmbriantComboBox SelectionChanged="cmbMonth_SelectionChanged" x:Name="cmbMonth" Style="{DynamicResource cmbIN}" TabIndex="0" Canvas.Left="795" Canvas.Top="74.887" Height="34" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="8" VerticalAlignment="Top" Width="
+                                      " Margin="33,23,31,0" Grid.RowSpan="2"  />
                 <TextBlock x:Name="lblSelectAgent" Style="{DynamicResource INLabelText2}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="Agent Name" Grid.ColumnSpan="6" Grid.Row="2" FontSize="18.667" Width="250" Height="30" Margin="32,0,0,17" FontWeight="Bold"/>
                 <src:EmbriantComboBox SelectionChanged="cmbAgents_SelectionChanged" x:Name="cmbAgents" Style="{DynamicResource cmbIN}" TabIndex="0" Canvas.Left="795" Canvas.Top="74.887" Height="34" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="8" VerticalAlignment="Top" Width="336" Margin="33,49,31,0" Grid.RowSpan="2"/>
                 <Calendar Name="clYear" DisplayMode="Year"   Grid.Column="11" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top"  Grid.ColumnSpan="5" Width="201" Height="32" DisplayDateChanged="clYear_DisplayDateChanged"  Margin="10,23,0,0" Grid.RowSpan="2" />

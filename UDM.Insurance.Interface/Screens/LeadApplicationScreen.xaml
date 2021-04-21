@@ -5843,6 +5843,23 @@
                                         Text="0.00"
                                         Visibility="Collapsed" />
 
+                                    <Button
+                                        x:Name="btnOverrideBumpUp"
+                                        Grid.Row="14"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="21"
+                                        Grid.ColumnSpan="6"
+                                        Width="160"
+                                        Height="30"
+                                        Margin="12,10,0,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Click="btnOverrideBumpUp_Click"
+                                        Content="Override B/U"
+                                        Style="{StaticResource INSquareButton}"
+                                        TabIndex="0"
+                                        Visibility="Collapsed" />
+
                                 </Grid>
                             </Border>
 
@@ -6429,7 +6446,7 @@
 
                                     <TextBlock
                                         x:Name="lblUpgradePremiumUpg"
-                                        Grid.Row="8"
+                                        Grid.Row="9"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="4"
                                         VerticalAlignment="Bottom"
@@ -6438,7 +6455,7 @@
                                         TextWrapping="NoWrap" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCEUpgradePremiumUpg"
-                                        Grid.Row="8"
+                                        Grid.Row="9"
                                         Grid.Column="4"
                                         Grid.ColumnSpan="3"
                                         VerticalAlignment="Bottom"
@@ -6448,7 +6465,7 @@
 
                                     <TextBlock
                                         x:Name="lblChildPremiumUpg"
-                                        Grid.Row="8"
+                                        Grid.Row="9"
                                         Grid.Column="8"
                                         Grid.ColumnSpan="3"
                                         HorizontalAlignment="Right"
@@ -6459,7 +6476,7 @@
                                         Visibility="{Binding Converter={StaticResource BoolToVis}, ElementName=chkChildUpgrade, Path=IsChecked}" />
                                     <igWPF:XamCurrencyEditor
                                         x:Name="xamCEChildPremiumUpg"
-                                        Grid.Row="9"
+                                        Grid.Row="10"
                                         Grid.Column="8"
                                         Grid.ColumnSpan="3"
                                         VerticalAlignment="Bottom"
@@ -7912,6 +7929,33 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                x:Name="LblLeadPermission"
+                                Grid.Row="0"
+                                Grid.Column="7"
+                                Grid.ColumnSpan="7"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource INLabelText4}"
+                                Text="Lead Permission"
+                                Visibility="Collapsed"/>
+
+                            <CheckBox
+                                x:Name="chkLeadPermission"
+                                Width="16"
+                                Height="16"
+                                Grid.Row="0"
+                                Grid.Column="9"
+                                Margin="0,0,0,0"
+                                IsEnabled="True"
+                                IsEnabledChanged="chkLeadPermission_IsEnabledChanged"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Checked="chkLeadPermission_Checked_1"
+                                Unchecked="chkLeadPermission_Unchecked"
+                                IsChecked="False"
+                                Style="{StaticResource StyleConfirmCheckbox}"
+                                Visibility="Collapsed" />
 
                             <TextBlock
                                 x:Name="hdrLifeAssured"
@@ -9976,11 +10020,11 @@
                             <Border
                                 x:Name="LA1"
                                 Grid.Row="1"
-                                Grid.RowSpan="6"
+                                Grid.RowSpan="7"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="11"
                                 Background="Transparent"
-                                Visibility="Collapsed">
+                                Visibility="Collapsed" Margin="0,0.5,0,40.5">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -10201,13 +10245,14 @@
                             <Border
                                 x:Name="LA2"
                                 Grid.Row="1"
-                                Grid.RowSpan="6"
+                                Grid.RowSpan="7"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="11"
                                 Background="Transparent"
-                                Visibility="Collapsed">
+                                Visibility="Collapsed" Margin="0,0.5">
                                 <Grid>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
@@ -10412,6 +10457,48 @@
                                                             </Condition>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="IsEnabled" Value="False" />
+                                                        <Setter Property="Value" Value="{x:Null}" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </igWPF:XamMaskedEditor.Style>
+                                    </igWPF:XamMaskedEditor>
+                                    <TextBlock
+                                        x:Name="lblAltContactPhone"
+                                        Grid.Row="7"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,0,5"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Alt. Contact" 
+                                        Visibility="Collapsed"/>
+                                    <igWPF:XamMaskedEditor
+                                        Visibility="Collapsed"
+                                        x:Name="medAltContactPhone"
+                                        Grid.Row="7"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0,0,3,0"
+                                        HorizontalAlignment="Stretch"
+                                        data:AttachedProperties.HistoryValue="{Binding LAHistoryData[0].TelContact}"
+                                        Text="{Binding LAData[0].TelContact, TargetNullValue={x:Static sys:String.Empty}}">
+                                        <igWPF:XamMaskedEditor.Style>
+                                            <Style BasedOn="{StaticResource StyleXMETelNumberValueChanged}" TargetType="{x:Type igWPF:XamMaskedEditor}">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Value="False">
+                                                                <Condition.Binding>
+                                                                    <MultiBinding Converter="{StaticResource ObjectCompareConverter}" ConverterParameter="&gt;=">
+                                                                        <MultiBinding.Bindings>
+                                                                            <Binding Path="LAData[1].Age" />
+                                                                            <Binding Source="{StaticResource MinAge}" />
+                                                                        </MultiBinding.Bindings>
+                                                                    </MultiBinding>
+                                                                </Condition.Binding>
+                                                            </Condition>
+                                                        </MultiDataTrigger.Conditions>
                                                         <Setter Property="Value" Value="{x:Null}" />
                                                     </MultiDataTrigger>
                                                 </Style.Triggers>
@@ -12278,7 +12365,7 @@
 
                             <Grid
                                 x:Name="grdChildren"
-                                Grid.Row="7"
+                                Grid.Row="8"
                                 Grid.RowSpan="5"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="11"
@@ -14799,9 +14886,28 @@
 
                     <StackPanel
                         Grid.Row="16"
-                        Grid.Column="6"
-                        Grid.ColumnSpan="16"
-                        Orientation="Horizontal">
+                        Grid.Column="3"
+                        Grid.ColumnSpan="19"
+                        Orientation="Horizontal"
+                        Margin="15,0,0,0">
+                        <Button
+                            x:Name="btnPermissionLead"
+                            Width="100"
+                            Height="Auto"
+                            FontSize="13"
+                            Visibility="Collapsed"
+                            Margin="0,11,0,0"
+                            Content="Lead Permission"
+                            Background="Plum"
+                            HorizontalAlignment="Left"
+                            Click="btnPermissionLead_Click">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Grid Width="30" />
                         <Button
                             x:Name="btnSendSMS"
                             Width="85"
@@ -14936,7 +15042,7 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Grid Width="36" />
+                        <Grid Width="30" />
                         <Button
                             x:Name="btnNotes"
                             Width="85"
@@ -14955,7 +15061,7 @@
                                 Text="N_otes"
                                 Visibility="Visible" />
                         </Button>
-                        <Grid Width="36" />
+                        <Grid Width="30" />
                         <TextBlock
                             x:Name="tbGolden"
                             Margin="0,12,0,0"
@@ -14986,7 +15092,7 @@
                                 </Style>
                             </CheckBox.Style>
                         </CheckBox>
-                        <Grid Width="36" />
+                        <Grid Width="30" />
                         <TextBlock
                             x:Name="tbMinining"
                             Margin="0,12,0,0"
@@ -15005,7 +15111,7 @@
                             Style="{StaticResource StyleConfirmCheckbox}"
                             TabIndex="98300"
                             Visibility="Visible" />
-                        <Grid Width="36" />
+                        <Grid Width="30" />
                         <TextBlock
                             x:Name="tbConfirm"
                             Margin="0,12,0,0"
@@ -15026,7 +15132,7 @@
                             Style="{StaticResource StyleConfirmCheckbox}"
                             TabIndex="98400"
                             Visibility="Visible" />
-                        <Grid Width="36" />
+                        <Grid Width="30" />
                         <TextBlock
                             x:Name="lblClosure"
                             Width="Auto"

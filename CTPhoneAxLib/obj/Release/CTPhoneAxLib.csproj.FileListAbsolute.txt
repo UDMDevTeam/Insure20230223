@@ -1,0 +1,16 @@
+C:\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csprojAssemblyReference.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.ResolveComReference.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.CTPhoneAxControl.resources
+C:\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.GenerateResource.cache
+C:\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.CoreCompileInputs.cache
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Release\CTPhoneAxLib.dll
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Release\CTPhoneAxLib.pdb
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Release\AxInterop.CTPhone_ActiveXControl.dll
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Release\stdole.dll
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.ResolveComReference.cache
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.CTPhoneAxControl.resources
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.GenerateResource.cache
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.CoreCompileInputs.cache
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.csproj.CopyComplete
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.dll
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Release\CTPhoneAxLib.pdb

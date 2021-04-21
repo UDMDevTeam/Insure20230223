@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+  </configSections>
+  <connectionStrings>
+    <clear />
+    <add name="LocalSqlServer" connectionString="vpK6UG2ZZ8vDJze/0hyH0ZtFdoP2vP4ofrYJiLUgqfVAdEM/oOV71VHxnRZCaB0/Ajc7gT/wC7T9L9hljtwWMs4swdWMKkcBI7K2Ccz4xCtn4iVNuzT5wydaoyPQ6EKfbIhU91kt89kJR26tdMHha/FD87CBnLBB2StD0IK0FMQ="
+      providerName="System.Data.SqlClient" />
+    <add name="InsureLive" connectionString="+furqQTVM7DGKMcojhC4WRJpyTOojOATD4WuLjjywEZrefWrUiAao6x4vL8EIQTRfZHEVc6/b3fZYm9JvUhfiPYmQfkxkBW15r2udQSCFI4="
+      providerName="System.Data.SqlClient" />
+    <add name="InsureTest" connectionString="DiLElwoTg1XkdGA7VTaikM5cMWmyD+qKMye3NhkvrLP4vsUA35tHlOicxaN7tfWZKPJx5IJXs2brtK44/O2uBm8OjhHkZKUm+Z03F8Qf5T4="
+      providerName="System.Data.SqlClient" />
+    <add name="InsureDebug" connectionString="K3EUqLi1n0BgAKOtjhzT/REW23j1QOaBLiKyFk9oO5P744dNtL6YScO1HM9xVp2TTUOXXE3EhuIq+IeBhaj6IQ6ohhJ2JNqEBu9oB2sHSqw="
+      providerName="System.Data.SqlClient" />
+    <add name="InsureTraining" connectionString="bZOVwJUQV9tELjoOy+lOYRJpyTOojOATD4WuLjjywEYArWsbTbIwzi8JWOXXU9GJTUOXXE3EhuIq+IeBhaj6IQ6ohhJ2JNqEBu9oB2sHSqw="
+      providerName="System.Data.SqlClient" />
+    <add name="BlushEntities" connectionString="2K0/lPyiwm4x8BsGXv3knRBAZqwTTECjGVvzsjtucHq+0xvWvgVlutpBh0fkcAvEkxZTwBO7zpQgUYUV5A0c511IjUJ5xw/fPV/EtZLXm4DBBCmJo60Gs+Y/NQvu3XcyTWugOYwdUyP7BCXqP9lmkdWE60pqnuim/yI9100Flu/2oB3oyuQpEanQOyijlp/korfe4zfdohu3OKByVqnAX4wkqWdnpP4k89U3D0MzKj23t+Wz8E+aKboVgl4UgaTrVXhmf3wIoRukVkuLVTO5DHXNju4/jGmnF/a0TCopOK1zvv+T5aoqKjY+kCONOP6mkI57S/O9tqXckeqeZNzdtPQfWfRf8fsDZ1YfudMnbF2s4fcirR8U5qYOkCDl+pZL9paymVAlZNAvxhg2vKGUu827Mm/VCwy7ITOHwkR5f/w="
+      providerName="System.Data.EntityClient" />
+    <add name="InsureEntities" connectionString="ezMMEX3FoEFfMaJ9PZnqA1OnFQs5Us8R0x03y+fyj+W2KduIj6HAP24eEloIHGaSU6cVCzlSzxHTHTfL5/KP5bM01R6qOuExeuFVPAkUjEdTpxULOVLPEdMdN8vn8o/lT4JhRBDZi+k+XPz+TsxVPWGKw3frqazrqXXU+Lam2NVbUoe4ZM4m4yTvqGA6jNoa+yAdR++dWcF6+siMKnEUpWW3XJSSMw6Iq1/Ibcy8ssRl+0RnGzrboWDDzEcD74N02mjYGAW799QMBki8mAIaXkXZBNtwzKj3lUMTKEOkhdKwvHVWOwD9gDs/p5ZV6uZkSyBdkIrSjZi8QKASctt8L3k/b4aoizr3jkMQpXHbc9hwiPkTRBRO9OIPN44WpRpp2PTUIqtxRnine1lUEfpR05+lcg724ZXctgsaf2jUtr8="
+      providerName="System.Data.EntityClient" />
+  </connectionStrings>
+  <appSettings file="">
+    <clear />
+    <add key="DefaultConnection" value="InsureLive" />
+    <add key="DefaultConnection_Test" value="InsureTest" />
+    <add key="DefaultConnection_Debug" value="InsureDebug" />
+    <add key="DefaultConnection_Training" value="InsureTraining" />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+    <add key="ConnectionsEncrypted_Test" value="True" />
+  </appSettings>
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" />
+      </providers>
+    </membership>
+    <roleManager enabled="true" defaultProvider="ClientRoleProvider">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400" />
+      </providers>
+    </roleManager>
+  </system.web>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0" />
+  </startup>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
+      <parameters>
+        <parameter value="mssqllocaldb" />
+      </parameters>
+    </defaultConnectionFactory>
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Xml" publicKeyToken="b77a5c561934e089" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System" publicKeyToken="b77a5c561934e089" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Drawing" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Data" publicKeyToken="b77a5c561934e089" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <system.serviceModel>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="TrackingWSSoap" />
+      </basicHttpBinding>
+      <customBinding>
+        <binding name="TrackingWSSoap12">
+          <textMessageEncoding messageVersion="Soap12" />
+          <httpTransport />
+        </binding>
+      </customBinding>
+      <wsHttpBinding>
+        <binding name="WSHttpBinding_ICdvWCF">
+          <security mode="Transport">
+            <transport clientCredentialType="None" />
+          </security>
+        </binding>
+      </wsHttpBinding>
+    </bindings>
+    <client>
+      <endpoint address="http://services.ramgroup.co.za/ramconnectv2/Tracking/TrackingWS.asmx"
+        binding="basicHttpBinding" bindingConfiguration="TrackingWSSoap"
+        contract="RAMService.TrackingWSSoap" name="TrackingWSSoap" />
+      <endpoint address="https://ebureau.mercantile.co.za/mpscdv/CDV.svc"
+        binding="wsHttpBinding" bindingConfiguration="WSHttpBinding_ICdvWCF"
+        contract="MercantileService.ICdvWCF" name="WSHttpBinding_ICdvWCF" />
+    </client>
+  </system.serviceModel>
+</configuration>

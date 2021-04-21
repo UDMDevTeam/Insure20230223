@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InsureModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CallData">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FKImportID" Type="bigint" />
+    <Property Name="Number" Type="varchar" MaxLength="20" />
+    <Property Name="Extension" Type="varchar" MaxLength="10" />
+    <Property Name="RecRef" Type="varchar" MaxLength="50" />
+    <Property Name="StampUserID" Type="bigint" />
+    <Property Name="StampDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="CTPhone">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoginName" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Extension" Type="varchar" MaxLength="10" />
+    <Property Name="Group" Type="varchar" MaxLength="10" />
+    <Property Name="IsEnabled" Type="bit" />
+    <Property Name="StampUserID" Type="bigint" />
+    <Property Name="StampDate" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="InsureModelStoreContainer">
+    <EntitySet Name="CallData" EntityType="Self.CallData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CTPhone" EntityType="Self.CTPhone" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

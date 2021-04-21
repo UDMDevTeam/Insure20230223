@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InsureModelStoreContainer" CdmEntityContainer="InsureEntities">
+    <EntitySetMapping Name="CallDatas">
+      <EntityTypeMapping TypeName="InsureModel.CallData">
+        <MappingFragment StoreEntitySet="CallData">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FKImportID" ColumnName="FKImportID" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="RecRef" ColumnName="RecRef" />
+          <ScalarProperty Name="StampUserID" ColumnName="StampUserID" />
+          <ScalarProperty Name="StampDate" ColumnName="StampDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTPhones">
+      <EntityTypeMapping TypeName="InsureModel.CTPhone">
+        <MappingFragment StoreEntitySet="CTPhone">
+          <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="StampUserID" ColumnName="StampUserID" />
+          <ScalarProperty Name="StampDate" ColumnName="StampDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

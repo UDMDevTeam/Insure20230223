@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BlushModelStoreContainer" CdmEntityContainer="BlushEntities">
+    <EntitySetMapping Name="HRStaffs">
+      <EntityTypeMapping TypeName="BlushModel.HRStaff">
+        <MappingFragment StoreEntitySet="HRStaff">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
+          <ScalarProperty Name="TempStartDate" ColumnName="TempStartDate" />
+          <ScalarProperty Name="EmploymentStartDate" ColumnName="EmploymentStartDate" />
+          <ScalarProperty Name="EmploymentEndDate" ColumnName="EmploymentEndDate" />
+          <ScalarProperty Name="FKCompanyID" ColumnName="FKCompanyID" />
+          <ScalarProperty Name="FKStaffTypeID" ColumnName="FKStaffTypeID" />
+          <ScalarProperty Name="FKWorkStatusID" ColumnName="FKWorkStatusID" />
+          <ScalarProperty Name="FKJobTitleID" ColumnName="FKJobTitleID" />
+          <ScalarProperty Name="FKUserID" ColumnName="FKUserID" />
+          <ScalarProperty Name="FKRecruitmentConsultantID" ColumnName="FKRecruitmentConsultantID" />
+          <ScalarProperty Name="RecruitmentSource" ColumnName="RecruitmentSource" />
+          <ScalarProperty Name="FKTitleID" ColumnName="FKTitleID" />
+          <ScalarProperty Name="Initials" ColumnName="Initials" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="PreferredName" ColumnName="PreferredName" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="FKGenderID" ColumnName="FKGenderID" />
+          <ScalarProperty Name="FKRaceID" ColumnName="FKRaceID" />
+          <ScalarProperty Name="IDNo" ColumnName="IDNo" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="FKCitizenID" ColumnName="FKCitizenID" />
+          <ScalarProperty Name="FKReligionID" ColumnName="FKReligionID" />
+          <ScalarProperty Name="TelHome" ColumnName="TelHome" />
+          <ScalarProperty Name="TelCell" ColumnName="TelCell" />
+          <ScalarProperty Name="TelOther" ColumnName="TelOther" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="RegisteredTaxPayer" ColumnName="RegisteredTaxPayer" />
+          <ScalarProperty Name="TaxRefNo" ColumnName="TaxRefNo" />
+          <ScalarProperty Name="IRP5Number" ColumnName="IRP5Number" />
+          <ScalarProperty Name="FKMedicalAidID" ColumnName="FKMedicalAidID" />
+          <ScalarProperty Name="CriminalOffence" ColumnName="CriminalOffence" />
+          <ScalarProperty Name="EmploymentDismissed" ColumnName="EmploymentDismissed" />
+          <ScalarProperty Name="DisciplinaryGuilty" ColumnName="DisciplinaryGuilty" />
+          <ScalarProperty Name="WorkedFinServicesIndustry" ColumnName="WorkedFinServicesIndustry" />
+          <ScalarProperty Name="WorkedFinServicesIndustryFrom" ColumnName="WorkedFinServicesIndustryFrom" />
+          <ScalarProperty Name="WorkedFinServicesIndustryTo" ColumnName="WorkedFinServicesIndustryTo" />
+          <ScalarProperty Name="RegLevel1ExamDate" ColumnName="RegLevel1ExamDate" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="FKAutomationStatusID" ColumnName="FKAutomationStatusID" />
+          <ScalarProperty Name="AutomationDate" ColumnName="AutomationDate" />
+          <ScalarProperty Name="StampUserID" ColumnName="StampUserID" />
+          <ScalarProperty Name="StampDate" ColumnName="StampDate" />
+          <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HRStaffExtensions">
+      <EntityTypeMapping TypeName="BlushModel.HRStaffExtension">
+        <MappingFragment StoreEntitySet="HRStaffExtension">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FKHRStaffID" ColumnName="FKHRStaffID" />
+          <ScalarProperty Name="FKHRExtensionID" ColumnName="FKHRExtensionID" />
+          <ScalarProperty Name="FKRequesterHRStaffID" ColumnName="FKRequesterHRStaffID" />
+          <ScalarProperty Name="DateEffective" ColumnName="DateEffective" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="StampUserID" ColumnName="StampUserID" />
+          <ScalarProperty Name="StampDate" ColumnName="StampDate" />
+          <ScalarProperty Name="ShiftType" ColumnName="ShiftType" />
+          <ScalarProperty Name="FKHRWorkstationID" ColumnName="FKHRWorkstationID" />
+          <ScalarProperty Name="FKHRComputerID" ColumnName="FKHRComputerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lkpHRExtensions">
+      <EntityTypeMapping TypeName="BlushModel.lkpHRExtension">
+        <MappingFragment StoreEntitySet="lkpHRExtension">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="StampDate" ColumnName="StampDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

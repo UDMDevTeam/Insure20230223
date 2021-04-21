@@ -32,6 +32,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 DataContext = this;
+
                 EditClosureCommand = new DelegateCommand(EditClosureCommandExecute, EditClosureCommandCanExecute);
 
                 InitializeComponent();
@@ -307,8 +308,20 @@ namespace UDM.Insurance.Interface.Screens
                 }
             }
         }
+        private void btnEditMySuccess_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
 
-        #endregion
-        
+                MySuccessEditScreen mySuccessEditScreen = new MySuccessEditScreen();
+                ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
     }
 }
+#endregion

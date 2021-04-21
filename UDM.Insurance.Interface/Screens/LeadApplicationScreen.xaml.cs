@@ -53,8 +53,6 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
-
-
         #region Constants
 
         //Mercantile variables
@@ -91,6 +89,7 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.Upgrade10,
             lkpINCampaignGroup.Upgrade11,
             lkpINCampaignGroup.Upgrade12,
+            lkpINCampaignGroup.Upgrade13,
             lkpINCampaignGroup.DoubleUpgrade1,
             lkpINCampaignGroup.DoubleUpgrade2,
             lkpINCampaignGroup.DoubleUpgrade3,
@@ -165,6 +164,12 @@ namespace UDM.Insurance.Interface.Screens
 
         DataTable dtCover;
 
+
+        string permissionTitle = null;
+        string permissionFirstname = null;
+        string permissionSurname = null;
+        string permissionCellNumber = null;
+        string permissionAltNumber = null;
         public LeadApplicationData LaData
         {
             get { return _laData; }
@@ -1047,7 +1052,8 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         LaData.PolicyData.PlatinumPlan = "1";
                     }
-                    
+
+
                     LaData.AppData.IsLeadUpgrade = _upgrades.Contains(LaData.AppData.CampaignGroup);
 
                     // Additional checking for the Do Not Contact Client status
@@ -1691,6 +1697,41 @@ namespace UDM.Insurance.Interface.Screens
                 if (!LaData.AppData.IsLeadUpgrade) CalculateCost(false);
                 LaData.AppData.IsLeadLoaded = true;
 
+                #region lead Permission Navigation
+                if (LaData.AppData.CampaignID == 102 || LaData.AppData.CampaignID == 2 || LaData.AppData.CampaignID == 103 || LaData.AppData.CampaignID == 250)
+                {
+                    btnPermissionLead.Visibility = Visibility.Visible;
+                    chkLeadPermission.Visibility = Visibility.Visible;
+                    LblLeadPermission.Visibility = Visibility.Visible;
+
+                    try
+                    {
+                        string strQuery;
+                        strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                        DataTable dtPermissionLeadIsloaded = Methods.GetTableData(strQuery);
+                        if (dtPermissionLeadIsloaded.Rows.Count == 0)
+                        {
+                            chkLeadPermission.IsChecked = false;
+                        }
+                        else
+                        {
+                            chkLeadPermission.IsChecked = true;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    btnPermissionLead.Visibility = Visibility.Collapsed;
+                    chkLeadPermission.Visibility = Visibility.Collapsed;
+                    LblLeadPermission.Visibility = Visibility.Collapsed;
+                }
+                #endregion
                 //ShowNotes(importID.Value);
 
             }
@@ -2322,6 +2363,69 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     throw new Exception("importID Error");
                 }
+                #endregion
+
+                #region Permission Lead
+                try
+                {
+                    if (chkLeadPermission.IsChecked == true)
+                    {
+                        string strQuery;
+                        strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                        DataTable dtPermissionLeadIsloaded = Methods.GetTableData(strQuery);
+                        if (dtPermissionLeadIsloaded.Rows.Count == 0)
+                        {
+                            GlobalSettings.IsLoadedPermission = 0;
+                        }
+                        else
+                        {
+                            GlobalSettings.IsLoadedPermission = 1;
+
+                        }
+
+                        if(medLA2ContactPhone.Text == null || medLA2ContactPhone.Text == "")
+                        {
+
+                        }
+                        else
+                        {
+                            string strQuerySavedBy;
+                            strQuerySavedBy = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                            DataTable dtPermissionSavedByIsloaded = Methods.GetTableData(strQuerySavedBy);
+
+                            string strQueryDateSaved;
+                            strQueryDateSaved = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                            DataTable dtPermissiondateSavedIsloaded = Methods.GetTableData(strQueryDateSaved);
+
+                            INPermissionLead inpermissionlead = new INPermissionLead();
+                            inpermissionlead.FKINImportID = LaData.AppData.ImportID;
+                            try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch { inpermissionlead.Title = " "; }
+                            try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch { inpermissionlead.Firstname = " "; } // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495313/comments
+                            try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { inpermissionlead.Surname = " "; }
+                            try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { inpermissionlead.Cellnumber = " "; }
+                            try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { inpermissionlead.AltNumber = " "; }
+                            if (dtPermissionSavedByIsloaded.Rows.Count == 0)
+                            {
+                                try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { inpermissionlead.SavedBy = " "; }
+                            }
+                            if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                            {
+                                try { inpermissionlead.DateSaved = DateTime.Now; } catch { inpermissionlead.DateSaved = null; }
+                            }
+
+                            inpermissionlead.Save(_validationResult);
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+
+
                 #endregion
 
                 #region Lead
@@ -7092,6 +7196,42 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if(cmbStatus.Text == "Sale")
+            {
+
+
+                if (chkLeadPermission.Visibility == Visibility.Visible)
+                {
+                    if (chkLeadPermission.IsChecked == false)
+                    {
+                        string strQuery;
+                        strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                        DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+                        if (dtPolicyPlanGroup.Rows.Count == 0)
+                        {
+                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                            messageBox.buttonOK.Content = "Yes";
+                            messageBox.buttonCancel.Content = "No";
+
+                            var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
+                            bool result = showMessageBox != null && (bool)showMessageBox;
+
+                            if (result == true)
+                            {
+                                PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
+                                ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+                                return;
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+
+            }
            
             if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.ConfirmationAgent && (lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted && LaData.AppData.IsConfirmed == false)
             {
@@ -12952,8 +13092,188 @@ namespace UDM.Insurance.Interface.Screens
             ButtonUpgradeCalculations(card16ID);
             UpgradeBtnOptionSelection.Content = Card16TB.Text;
         }
-        #endregion
 
+        #endregion
+        private void btnOverrideBumpUp_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                decimal Premium1 = Convert.ToDecimal(LaData.PolicyData.LoadedTotalPremium);
+                decimal InvoiceFee1 = Convert.ToDecimal(LaData.PolicyData.LoadedTotalInvoiceFee);
+                decimal Premium2 = Convert.ToDecimal(Regex.Match(xamCETotalPremium.Text, @"\d*[\.,]\d*").Value);
+                decimal InvoiceFee2 = Convert.ToDecimal(LaData.PolicyData.TotalInvoiceFee);
+
+                //if (Premium1 > 0 && Premium2 > 0 && InvoiceFee1 > 0 && InvoiceFee2 > 0)//if (InvoiceFee1 > 0 && InvoiceFee2 > 0)
+                //{
+                SqlParameter[] parameters = new SqlParameter[1];
+                parameters[0] = new SqlParameter("@ImportID", LaData.AppData.ImportID);
+                //this gets what the total invoice fee was when the sales agent saved it so that the bumpup agents cannot say that it was a bumpup by
+                //saving on a lower premium and then going back and saving it on a higher premium but still a lower premium than what the sales agent saved it on.
+                decimal historicTotalInvoiceFee = Convert.ToDecimal(Methods.ExecuteFunction("fnGetLatestInvoiceFeeSavedBySalesAgent", parameters));
+
+                decimal NewInvoiceFee = Convert.ToDecimal(Methods.ExecuteFunction("fnGetMostRecentInvoiceFeeSavedByBumpUpAgent", parameters));
+
+                if ((InvoiceFee2 >= InvoiceFee1 && InvoiceFee2 <= historicTotalInvoiceFee) || (Premium2 > Premium1 && LaData.AppData.IsLeadUpgrade))//bumpup
+                {
+
+                    //if (Fee2 > Fee1)
+
+                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                    messageBox.buttonOK.Content = "Yes";
+                    messageBox.buttonCancel.Content = "No";
+
+                    var showMessageBox = ShowMessageBox(messageBox, "Is this a Bump Up?", "Bump Up", ShowMessageType.Information);
+                    bool result = showMessageBox != null && (bool)showMessageBox;
+
+                    if (result)
+                    {
+
+                        LaData.PolicyData.BumpUpAmount = Premium2 - Premium1;
+                        LaData.PolicyData.UDMBumpUpOption = true;
+
+
+
+                        LaData.PolicyData.ReducedPremiumAmount = null;
+                        LaData.PolicyData.ReducedPremiumOption = false;
+                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.CallMonitoringAgent)
+                        {
+                            LaData.SaleData.FKCMCallRefUserID = GlobalSettings.ApplicationUser.ID;
+                        }
+
+
+                        //Comment this out after testing and before publishing again.
+                        //if (inImportCallMonitoring != null)
+                        //{
+                        //    inImportCallMonitoring.IsCallMonitored = false;
+                        //}
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+
+        }
+        
+
+        private void btnPermissionLead_Click(object sender, RoutedEventArgs e)
+        {
+
+            if((bool)chkLeadPermission.IsChecked)
+            {
+                try
+                {
+                    string strQuery;
+                    strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                    DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+                    if (dtPolicyPlanGroup.Rows.Count == 0)
+                    {
+                        GlobalSettings.IsLoadedPermission = 0;
+                    }
+                    else
+                    {
+                        GlobalSettings.IsLoadedPermission = 1;
+                    }
+
+                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text );
+                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+
+
+                }
+                catch
+                {
+                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text );
+                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+                }
+            }
+            else
+            {
+                try
+                {
+                    string strQuery;
+                    strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                    DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+                    if (dtPolicyPlanGroup.Rows.Count == 0)
+                    {
+                        GlobalSettings.IsLoadedPermission = 0;
+                    }
+                    else
+                    {
+                        GlobalSettings.IsLoadedPermission = 1;
+
+                    }
+                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, null, null, null, null, null) ;
+                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+
+
+                }
+                catch
+                {
+                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, null, null, null, null, null);
+                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+                }
+            }
+
+
+        }
+
+        private void chkLeadPermission_Checked_1(object sender, RoutedEventArgs e)
+        {
+            lblAltContactPhone.Visibility = Visibility.Visible;
+            medAltContactPhone.Visibility = Visibility.Visible;
+
+            try
+            {
+                //INPermissionLead inpermissionlead = new INPermissionLead();
+                //inpermissionlead.FKINImportID = LaData.AppData.ImportID;
+                //try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch { inpermissionlead.Title = " "; }
+                //try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch { inpermissionlead.Firstname = " "; } // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495313/comments
+                //try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { inpermissionlead.Surname = " "; }
+                //try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { inpermissionlead.Cellnumber = " "; }
+                //try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { inpermissionlead.AltNumber = " "; }
+
+
+                //inpermissionlead.Save(_validationResult);
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void chkLeadPermission_Unchecked(object sender, RoutedEventArgs e)
+        {
+            lblAltContactPhone.Visibility = Visibility.Collapsed;
+            medAltContactPhone.Visibility = Visibility.Collapsed;
+        }
+
+        private void chkLeadPermission_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (chkLeadPermission.IsEnabled == false)
+            {
+                chkLeadPermission.IsEnabled = true;
+            }
+        }
+
+        //public static void ChangePermissionLeadChk()
+        //{
+        //    if (chkLeadPermission.Visibility == Visibility.Collapsed)
+        //    {
+
+        //    }
+        //    else
+        //    {
+        //        chkLeadPermission.IsChecked = true;
+        //    }
+        //}
 
     }
 

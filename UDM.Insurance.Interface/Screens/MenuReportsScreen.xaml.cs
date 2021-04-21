@@ -911,5 +911,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnReportPermissionLead_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportLeadPermission reportLeadPermission = new ReportLeadPermission();
+                ShowDialog(reportLeadPermission, new INDialogWindow(reportLeadPermission));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
