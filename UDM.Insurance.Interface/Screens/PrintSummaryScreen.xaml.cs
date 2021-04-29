@@ -203,8 +203,8 @@ namespace UDM.Insurance.Interface.Screens
                 if ((dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PMCBE") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBE") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLMMBE") ||
-                    (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLBMMBElite") ||
-                    (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB") ||
+                    //(dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLBMMBElite") ||
+                    //(dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBEC") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBER") ||
@@ -214,15 +214,15 @@ namespace UDM.Insurance.Interface.Screens
                     (dtSelected.Rows[0]["CampaignCode"].ToString().EndsWith("Min")))
                 {
 
-                    
-                    if (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB" || dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB")
-                    {
-                        PrintSheMaccBaseLeads(dtSelected);
-                    }
-                    else
-                    {
+
+                    //if (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB" || dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB")
+                    //{
+                    //    PrintSheMaccBaseLeads(dtSelected);
+                    //}
+                    //else
+                    //{
                         PrintEliteLeads(dtSelected);
-                    }
+                    //}
                     return;
                 }
 
@@ -508,11 +508,11 @@ namespace UDM.Insurance.Interface.Screens
                             uri = new Uri("/Templates/PrintTemplateCancerBaseWebLNR.xlsx", UriKind.Relative);
                             TemplateLines = 5;
                         }
-                        else if (campaign.Code == "PLFDLITE" || campaign.Code == "PLCLITE" || campaign.Code == "PLMBLITE")
-                        {
-                            uri = new Uri("/Templates/PrintTemplateLITE.xlsx", UriKind.Relative);
-                            TemplateLines = 4;
-                        }
+                        //else if (campaign.Code == "PLFDLITE" || campaign.Code == "PLCLITE" || campaign.Code == "PLMBLITE")
+                        //{
+                        //    uri = new Uri("/Templates/PrintTemplateLITE.xlsx", UriKind.Relative);
+                        //    TemplateLines = 4;
+                        //}
                         else
                         {
                             uri = new Uri("/Templates/PrintTemplateCancerBase.xlsx", UriKind.Relative);
@@ -616,11 +616,11 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchResurrection", parameters);
                         }
-                        else if (campaign.Code == "PLFDLITE" || campaign.Code == "PLCLITE" || campaign.Code == "PLMBLITE")
-                        {
-                            ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchLite", parameters);
+                        //else if (campaign.Code == "PLFDLITE" || campaign.Code == "PLCLITE" || campaign.Code == "PLMBLITE")
+                        //{
+                        //    ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchLite", parameters);
 
-                        }
+                        //}
                         else
 					    {
 						    ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatch", parameters);
