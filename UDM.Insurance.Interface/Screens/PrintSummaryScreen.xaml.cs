@@ -215,14 +215,17 @@ namespace UDM.Insurance.Interface.Screens
                 {
 
 
-                    //if (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB" || dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB")
-                    //{
-                    //    PrintSheMaccBaseLeads(dtSelected);
-                    //}
-                    //else
-                    //{
+                    if (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB" || dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB")
+                    {
+                        PrintSheMaccBaseLeads(dtSelected);
+                    }
+                    else
+                    {
+
                         PrintEliteLeads(dtSelected);
-                    //}
+
+                    }
+
                     return;
                 }
 
