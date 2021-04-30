@@ -48,10 +48,31 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
             LoadTitleCB();
+            CheckDateSavedVisibility();
             importID = ImportID;
-
-
             LoadLead();
+
+        }
+
+        private void CheckDateSavedVisibility()
+        {
+            try
+            {
+                if (GlobalSettings.ApplicationUser.ID == 72)
+                {
+                    DateSavedDP.Visibility = Visibility.Visible;
+                    lblDatePicker.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    DateSavedDP.Visibility = Visibility.Collapsed;
+                    lblDatePicker.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch
+            {
+
+            }
 
         }
 
@@ -65,7 +86,7 @@ namespace UDM.Insurance.Interface.Screens
                 string strQuery;
                 DataTable dt;
 
-                strQuery = "SELECT TOP 1 Title, Firstname, Surname, CellNumber, AltNumber FROM INPermissionLead WHERE FKImportID = " + importID;
+                strQuery = "SELECT TOP 1 Title, Firstname, Surname, CellNumber, AltNumber, DateSaved FROM INPermissionLead WHERE FKImportID = " + importID;
                 DataTable dtPermissionLeadDetails = Methods.GetTableData(strQuery);
 
                 cmbTitle.Text = dtPermissionLeadDetails.Rows[0]["Title"] as string;
@@ -73,6 +94,7 @@ namespace UDM.Insurance.Interface.Screens
                 medAltPhone.Text = dtPermissionLeadDetails.Rows[0]["AltNumber"] as string;
                 medCellPhone.Text = dtPermissionLeadDetails.Rows[0]["CellNumber"] as string;
                 medSurname.Text = dtPermissionLeadDetails.Rows[0]["Surname"] as string;
+                try { DateSavedDP.SelectedDate = dtPermissionLeadDetails.Rows[0]["DateSaved"] as DateTime?; } catch { }
             }
             catch
             {
@@ -84,11 +106,12 @@ namespace UDM.Insurance.Interface.Screens
 
         private void ClearScreen()
         {
-            cmbTitle.SelectedIndex = -1;
-            medFirstName.Text = null;
-            medSurname.Text = null;
-            medCellPhone.Text = null;
-            medAltPhone.Text = null;
+            try { cmbTitle.SelectedIndex = -1; } catch { }
+            try { medFirstName.Text = null; } catch { }
+            try { medSurname.Text = null; } catch { }
+            try { medCellPhone.Text = null; } catch { }
+            try { medAltPhone.Text = null; } catch { }
+            try { DateSavedDP.SelectedDate = null; } catch { }
         }
 
         #region Event Handlers
@@ -152,9 +175,16 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { inpermissionlead.SavedBy = " "; }
                     }
-                    if(dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                    if (GlobalSettings.ApplicationUser.ID == 72) //this is for Kashmira to edit the Date the reference was saved for report purposes.
                     {
-                        try { inpermissionlead.DateSaved = DateTime.Now; } catch { inpermissionlead.DateSaved = null; }
+                        try { inpermissionlead.DateSaved = DateSavedDP.SelectedDate; } catch { inpermissionlead.DateSaved = null; }
+                    }
+                    else
+                    {
+                        if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                        {
+                            try { inpermissionlead.DateSaved = DateTime.Now; } catch { inpermissionlead.DateSaved = null; }
+                        }
                     }
                     inpermissionlead.Save(_validationResult);
 

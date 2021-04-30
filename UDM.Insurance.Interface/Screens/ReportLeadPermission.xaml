@@ -98,7 +98,7 @@
                         Margin="0"
                         VerticalAlignment="Top"
                         Style="{DynamicResource INPageHeadingText1}"
-                        Text="Diary Report" />
+                        Text="Lead Permission" />
 
                     <Path
                         x:Name="hdrLine"

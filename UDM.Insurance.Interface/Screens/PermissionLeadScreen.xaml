@@ -88,8 +88,8 @@
                     Canvas.Left="1"
                     Background="Black"
                     Grid.ColumnSpan="13" 
-                    Margin="0,52,29,46.5" 
-                    Grid.RowSpan="7" 
+                    Margin="0,0,29,0" 
+                    Grid.RowSpan="6" 
                     Grid.Column="3"
                     Grid.Row="2"
                     CornerRadius="10"
@@ -113,7 +113,7 @@
 
                 <TextBlock
                                 x:Name="lblTitle"
-                                Grid.Row="3"
+                                Grid.Row="2"
                                 Grid.Column="3"
                                 Margin="0,6,8,0"
                                 Grid.ColumnSpan="3"
@@ -123,7 +123,7 @@
                                 Text="Title" />
                 <src:EmbriantComboBox
                                 x:Name="cmbTitle"
-                                Grid.Row="3"
+                                Grid.Row="2"
                                 Grid.Column="7"
                                 Grid.ColumnSpan="3"
                                 Width="250"
@@ -138,7 +138,7 @@
 
                 <TextBlock
                         x:Name="lblFirstName"
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Grid.Column="3"
                         Grid.ColumnSpan="3"
                         Margin="0,6,8,0"
@@ -148,7 +148,7 @@
                         Text="First Name" />
                 <igWPF:XamMaskedEditor
                         x:Name="medFirstName"
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Grid.Column="7"
                         Grid.ColumnSpan="7"
                         HorizontalAlignment="Stretch"
@@ -159,7 +159,7 @@
 
                 <TextBlock
                         x:Name="lblSurname"
-                        Grid.Row="5"
+                        Grid.Row="4"
                         Grid.Column="3"
                         Grid.ColumnSpan="3"
                         Margin="0,6,8,0"
@@ -169,7 +169,7 @@
                         Text="Surname" />
                 <igWPF:XamMaskedEditor
                         x:Name="medSurname"
-                        Grid.Row="5"
+                        Grid.Row="4"
                         Grid.Column="7"
                         Grid.ColumnSpan="7"
                         FontSize="15"
@@ -180,7 +180,7 @@
 
                 <TextBlock
                         x:Name="lblCellphone"
-                        Grid.Row="6"
+                        Grid.Row="5"
                         Grid.Column="3"
                         Grid.ColumnSpan="3"
                         Margin="0,6,8,0"
@@ -190,18 +190,18 @@
                         Text="Cell Number" />
                 <igWPF:XamMaskedEditor
                         x:Name="medCellPhone"
-                        Grid.Row="6"
-                        Grid.Column="7"
-                        Grid.ColumnSpan="7"
+                        Grid.Row="5"
+                        Grid.Column="6"
+                        Grid.ColumnSpan="8"
                         FontSize="15"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         PromptChar=""
-                        Style="{StaticResource medINLA}"/>
+                        Style="{StaticResource medINLA}" Margin="60,9,2,9"/>
 
                 <TextBlock
                         x:Name="lblCAltphone"
-                        Grid.Row="7"
+                        Grid.Row="6"
                         Grid.Column="3"
                         Grid.ColumnSpan="3"
                         Margin="0,6,8,0"
@@ -211,7 +211,7 @@
                         Text="Alt. Number" />
                 <igWPF:XamMaskedEditor
                         x:Name="medAltPhone"
-                        Grid.Row="7"
+                        Grid.Row="6"
                         Grid.Column="7"
                         Grid.ColumnSpan="7"
                         FontSize="15"
@@ -219,6 +219,32 @@
                         VerticalAlignment="Center"
                         PromptChar=""
                         Style="{StaticResource medINLA}"/>
+
+
+                <TextBlock
+                        x:Name="lblDatePicker"
+                        Grid.Row="7"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Margin="0,6,8,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="Collapsed"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Date Saved" />
+
+                <DatePicker
+                    x:Name="DateSavedDP"
+                    Grid.Row="7"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Height="50" 
+                    Visibility="Collapsed"
+                    Width="223" 
+                    RenderTransformOrigin="0.484,1.008"></DatePicker>
+
 
                 <Button
                         x:Name="btnSave"
