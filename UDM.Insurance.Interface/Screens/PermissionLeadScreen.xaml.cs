@@ -58,7 +58,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if (GlobalSettings.ApplicationUser.ID == 72)
+                if (GlobalSettings.ApplicationUser.ID == 72 || GlobalSettings.ApplicationUser.ID == 174)
                 {
                     DateSavedDP.Visibility = Visibility.Visible;
                     lblDatePicker.Visibility = Visibility.Visible;
@@ -175,7 +175,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { inpermissionlead.SavedBy = " "; }
                     }
-                    if (GlobalSettings.ApplicationUser.ID == 72) //this is for Kashmira to edit the Date the reference was saved for report purposes.
+                    if (GlobalSettings.ApplicationUser.ID == 72 || GlobalSettings.ApplicationUser.ID == 174) //this is for Kashmira to edit the Date the reference was saved for report purposes.
                     {
                         try { inpermissionlead.DateSaved = DateSavedDP.SelectedDate; } catch { inpermissionlead.DateSaved = null; }
                     }
