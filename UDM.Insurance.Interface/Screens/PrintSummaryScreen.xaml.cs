@@ -204,7 +204,7 @@ namespace UDM.Insurance.Interface.Screens
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBE") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLMMBE") ||
                     //(dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLBMMBElite") ||
-                    //(dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB") ||
+                    (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDB") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "IGPLFDB") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBEC") ||
                     (dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLCBER") ||
