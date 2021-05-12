@@ -3451,16 +3451,18 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         return 65;
                     }
-                    if (age == 45)
-                    {
-                        if (commenceDate != null && (new DateTime(DateTime.Now.Year, ((DateTime)birthDate).Month, ((DateTime)birthDate).Day) < new DateTime(DateTime.Now.Year, ((DateTime)commenceDate).Month, ((DateTime)commenceDate).Day)))
-                        {
-                            return 66;
-                        }
 
-                        return 65;
-                    }
-                    if (age > 45 && age <= 80)
+                    //if (age == 45)
+                    //{
+                    //    if (commenceDate != null && (new DateTime(DateTime.Now.Year, ((DateTime)birthDate).Month, ((DateTime)birthDate).Day) < new DateTime(DateTime.Now.Year, ((DateTime)commenceDate).Month, ((DateTime)commenceDate).Day)))
+                    //    {
+                    //        return 66;
+                    //    }
+
+                    //    return 65;
+                    //}
+
+                    if (age >= 45 && age <= 80)
                     {
                         return age + 20;
                     }
@@ -13267,6 +13269,20 @@ namespace UDM.Insurance.Interface.Screens
             if (chkLeadPermission.IsEnabled == false)
             {
                 chkLeadPermission.IsEnabled = true;
+            }
+        }
+
+        private void btnAddContacts_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LeadContactTracingDetailsScreen leadContactTracingDetailsScreen = new LeadContactTracingDetailsScreen();
+                leadContactTracingDetailsScreen.LaData = LaData;
+                leadContactTracingDetailsScreen.Show();
+            }
+            catch (Exception ex) 
+            {
+                HandleException(ex); 
             }
         }
 

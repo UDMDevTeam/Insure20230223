@@ -90,7 +90,8 @@
         DoubleUpgrade14 = 38,
         DefrostR99 = 39,
         Lite = 40,
-        Upgrade13 = 41
+        Upgrade13 = 41, 
+        R99 = 42
     }
 
     public enum lkpINCampaignType

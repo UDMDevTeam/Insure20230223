@@ -2168,6 +2168,8 @@ namespace UDM.Insurance.Interface.Screens
 
                                 #endregion
 
+
+
                                 //save database objects
                                 inImport.FKINLeadID = inLead.ID;
                                 inImport.FKINPolicyID = inPolicy.ID;
@@ -2175,6 +2177,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     inImport.FKINImportedPolicyDataID = inImportedPolicyData.ID;
                                 }
+
                                 inImport.Save(_validationResult);
 
                                 //Save Other
@@ -2196,8 +2199,40 @@ namespace UDM.Insurance.Interface.Screens
 
                                 #endregion
 
+                                #region INImportContactTracing
+
+                                INImportContactTracing iNImportContactTracing = new INImportContactTracing();
+                               
+                                try
+                                {
+                                 
+                                    iNImportContactTracing.FKINImportID = inImport.ID;
+                                    iNImportContactTracing.ContactTraceOne = GetStringValue(row.Cells[idxFields["Contact1"].Index]);
+                                    iNImportContactTracing.ContactTraceTwo = GetStringValue(row.Cells[idxFields["Contact2"].Index]);
+                                    iNImportContactTracing.ContactTraceThree = GetStringValue(row.Cells[idxFields["Contact3"].Index]);
+                                    iNImportContactTracing.ContactTraceFour = GetStringValue(row.Cells[idxFields["Contact4"].Index]);
+                                    iNImportContactTracing.ContactTraceFive = GetStringValue(row.Cells[idxFields["Contact5"].Index]);
+                                    iNImportContactTracing.ContactTraceSix = GetStringValue(row.Cells[idxFields["Contact6"].Index]);
+
+                                }
+                                catch
+                                {
+                                    iNImportContactTracing.FKINImportID = null;
+                                    iNImportContactTracing.ContactTraceOne = null;
+                                    iNImportContactTracing.ContactTraceTwo = null;
+                                    iNImportContactTracing.ContactTraceThree = null;
+                                    iNImportContactTracing.ContactTraceFour = null;
+                                    iNImportContactTracing.ContactTraceFive = null;
+                                    iNImportContactTracing.ContactTraceSix = null;
+                                }
+
+
+                                iNImportContactTracing.Save(_validationResult);
+
+                                #endregion
+
                                 #region Redeemed / Not Redeemed Batches
-                                
+
                                 if (GlobalConstants.BatchCodes.RedeemGift.Contains(_batchCodeModifier))
                                 {
                                     INGiftRedeem inGiftRedeem = new INGiftRedeem();

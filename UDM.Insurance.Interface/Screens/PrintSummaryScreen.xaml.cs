@@ -2471,7 +2471,7 @@ namespace UDM.Insurance.Interface.Screens
                 (campaignCode == "PLCBEC") ||
                 (campaignCode == "PLCBER") ||
                 (campaignCode == "PLMMBE") ||
-                (campaignCode == "PLMCB") ||
+                (campaignCode == "PLMCB")  ||
                 (campaignCode == "PLMMCB") ||
                 (campaignCode == "PLFDCB"))
             {
