@@ -247,7 +247,7 @@ namespace UDM.Insurance.Interface.Screens
                         wsReport.PrintOptions.PaperSize = PaperSize.A4;
                         wsReport.PrintOptions.Orientation = Orientation.Portrait;
                         wsReport.PrintOptions.ScalingType = ScalingType.FitToPages;
-                        Methods.CopyExcelRegion(wsTemplate, 0, 0, 1, 23, wsReport, 2, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 0, 0, 1, 24, wsReport, 2, 0);
 
                         int rowFirstData = 5;
                         int rowIndex = rowFirstData;
@@ -270,9 +270,11 @@ namespace UDM.Insurance.Interface.Screens
                         decimal cancelledByPlatinumTotal = 0;
                            
                         decimal cancelationClientHasPolicy = 0;
+                        decimal debiCheckCancellations = 0;
                         decimal carriedForwardToCancellation = 0;
                          
                         decimal numberOfCombinedClientHasPolicy = 0;
+                        decimal numberOfCombinedDebiCheckCancellations = 0;
                         decimal numberOfCombinedcarriedForward = 0;
                         decimal numberOfCombinedQueriedCancelled = 0;
                         decimal totalCancellations = 0;
@@ -289,7 +291,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         foreach (string campaign in campaignsList)
                         {
-                            Methods.CopyExcelRegion(wsTemplate, 2, 0, 1, 23, wsReport, rowIndex - 1, 0);
+                            Methods.CopyExcelRegion(wsTemplate, 2, 0, 1, 24, wsReport, rowIndex - 1, 0);
                             //get falls offs for agent
                             List<string> fallOfStatuses = new List<string>();
                             fallOfStatuses.Add("Cancelled");
@@ -327,6 +329,32 @@ namespace UDM.Insurance.Interface.Screens
                                 }
 
                                 #endregion Sales
+
+
+                                //===================================== Mbulelo ===========================================================
+                                
+
+                                #region Debi-check - Cancellation
+
+                                if ((string)rw["Status"] == "Debi-check - Cancellation") //|| ((string)rw["Status"] == "Carried Forward"))
+                                {
+                                   // numberOfSales++;
+                                    //  totalSales++;
+                                    debiCheckCancellations++;
+                                    numberOfCombinedDebiCheckCancellations++;
+                                    string isConfirmed = rw["IsConfirmed"].ToString();
+                                    if (isConfirmed.ToLower() == "true")
+                                    {
+                                        numberOfConfirmed++;
+                                        confirmedTotal++;
+                                    }
+                                }
+
+                                #endregion Debi-check - Cancellation
+
+                                //===================================== Mbulelo ===========================================================
+
+
 
                                 #region Cancellations
 
@@ -533,12 +561,22 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("W" + rowIndex.ToString()).CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
                             wsReport.GetCell("W" + rowIndex.ToString()).CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
 
+                            wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.RightBorderStyle = CellBorderLineStyle.Thin;
+                            wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.LeftBorderStyle = CellBorderLineStyle.Thin;
+                            wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
+                            wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
+
+                            wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.RightBorderStyle = CellBorderLineStyle.Thin;
+                            wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.LeftBorderStyle = CellBorderLineStyle.Thin;
+                            wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
+                            wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
+
                             #endregion Formating
 
                             // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/213218545/comments
                             numberOfSalesOriginal = numberOfSales + int.Parse(numberOfCancelled.ToString()) + int.Parse(numberOfCarriedForward.ToString()) 
                                                     + int.Parse(numberOfCallMonitoringCancellations.ToString()) + int.Parse(numberOfCallMonitoringCarriedForwards.ToString()) 
-                                                    + int.Parse(numberCancelledByPlatinum.ToString()) + int.Parse(cancelationClientHasPolicy.ToString()) + int.Parse(carriedForwardToCancellation.ToString());
+                                                    + int.Parse(numberCancelledByPlatinum.ToString()) + int.Parse(cancelationClientHasPolicy.ToString()) + int.Parse(carriedForwardToCancellation.ToString()) + int.Parse(debiCheckCancellations.ToString());
                             //numberOfSalesOriginal = numberOfSales + int.Parse(numberCancelledByPlatinum.ToString()) + int.Parse(numberOfCancelled.ToString());
 
                             wsReport.GetCell("A" + rowIndex).Value = campaign;
@@ -618,7 +656,7 @@ namespace UDM.Insurance.Interface.Screens
                             }
 
                             #endregion Cancellation - Client already is a policy holder (Columns L & M)
-
+                                                        
                             #region Carried forward to Cancellation (Columns N & O)
 
                             //Carried forward to Cancellation
@@ -634,6 +672,7 @@ namespace UDM.Insurance.Interface.Screens
                             }
 
                             #endregion Carried forward to Cancellation (Columns N & O)
+
 
                             #region Call-Monitoring Cancellations (Columns P & Q)
 
@@ -699,7 +738,27 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("W" + rowIndex).Value = 0;
                             }
 
-                            #endregion Combined Cancellations (Columns T & U)
+                            #endregion Combined Cancellations (Columns V & W)
+
+
+                            //===================================== Mbulelo ===========================================================
+
+                            #region Debi-check Cancellations (Columns X & Y)
+
+                            wsReport.GetCell("X" + rowIndex).Value = debiCheckCancellations;
+                            if (numberOfSalesOriginal > 0)
+                            {
+                                //wsReport.GetCell("M" + rowIndex).Value = Math.Round(cancelationClientHasPolicy / numberOfSalesOriginal * 100, 2) + " %";
+                                wsReport.GetCell("Y" + rowIndex).ApplyFormula("=X" + rowIndex + "/B" + rowIndex);
+                            }
+                            else
+                            {
+                                wsReport.GetCell("Y" + rowIndex).Value = 0;
+                            }
+
+                            #endregion Debi-check Cancellations (Columns X & Y)
+
+                            //===================================== Mbulelo ===========================================================
 
                             rowIndex++;
                             carriedForwardToCancellation = 0;
@@ -710,7 +769,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         #region Totals
 
-                        Methods.CopyExcelRegion(wsTemplate, 2, 0, 1, 23, wsReport, rowIndex - 1, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 2, 0, 1, 24, wsReport, rowIndex - 1, 0);
 
                         // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/208066432/comments
                         confirmationCancelledTotal = confirmationCancelledTotal - numberOfCombinedClientHasPolicy - numberOfCombinedcarriedForward + numberOfCombinedQueriedCancelled;
@@ -832,6 +891,16 @@ namespace UDM.Insurance.Interface.Screens
                         wsReport.GetCell("W" + rowIndex.ToString()).CellFormat.TopBorderStyle = CellBorderLineStyle.Medium;
                         wsReport.GetCell("W" + rowIndex.ToString()).CellFormat.BottomBorderStyle = CellBorderLineStyle.Medium;
 
+                        wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.RightBorderStyle = CellBorderLineStyle.Medium;
+                        wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.LeftBorderStyle = CellBorderLineStyle.Medium;
+                        wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.TopBorderStyle = CellBorderLineStyle.Medium;
+                        wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.BottomBorderStyle = CellBorderLineStyle.Medium;
+
+                        wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.RightBorderStyle = CellBorderLineStyle.Medium;
+                        wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.LeftBorderStyle = CellBorderLineStyle.Medium;
+                        wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.TopBorderStyle = CellBorderLineStyle.Medium;
+                        wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.BottomBorderStyle = CellBorderLineStyle.Medium;
+
                         wsReport.GetCell("A" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
                         wsReport.GetCell("A" + rowIndex.ToString()).Value = "Totals";
                         wsReport.GetCell("B" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
@@ -842,7 +911,7 @@ namespace UDM.Insurance.Interface.Screens
                         //decimal totalOriginalSales = (totalSales + confirmationCancelledTotal + cancelledByPlatinumTotal);
                         decimal totalOriginalSales = totalSales + confirmationCancelledTotal + carriedForwardTotal 
                                                      + totalCallMonitoringCancellations + callMonitoringCarriedForwardTotal
-                                                     + cancelledByPlatinumTotal + numberOfCombinedClientHasPolicy + numberOfCombinedcarriedForward;
+                                                     + cancelledByPlatinumTotal + numberOfCombinedClientHasPolicy + numberOfCombinedcarriedForward + numberOfCombinedDebiCheckCancellations;
 
                         //wsReport.GetCell("B" + rowIndex).Value = totalOriginalSales;
                         wsReport.GetCell("B" + rowIndex).ApplyFormula("=SUM(B" + rowFirstData + ":B" + (rowIndex - 1) + ")");
@@ -1064,6 +1133,33 @@ namespace UDM.Insurance.Interface.Screens
                         //////////////
 
                         #endregion Total Cancellations (Columns V & W)
+
+
+
+                        #region Total Debi-check Cancellations (Columns X & Y)
+
+                        //wsReport.GetCell("J" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        //wsReport.GetCell("J" + rowIndex.ToString()).Value = cancelledByPlatinumTotal;
+                        wsReport.GetCell("X" + rowIndex).ApplyFormula("=SUM(X" + rowFirstData + ":X" + (rowIndex - 1) + ")");
+                        //////percentage cancelled by platinum
+                        wsReport.GetCell("Y" + rowIndex).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        if (totalOriginalSales > 0)
+                        {
+                            //wsReport.GetCell("K" + rowIndex).Value = Math.Round(cancelledByPlatinumTotal / totalOriginalSales * 100, 2) + " %";
+                            wsReport.GetCell("Y" + rowIndex).ApplyFormula("=X" + rowIndex + "/B" + rowIndex);
+                        }
+                        else
+                        {
+                            wsReport.GetCell("Y" + rowIndex).Value = 0;
+                        }
+
+                        /*
+                            decimal numberOfCombinedClientHasPolicy = 0;
+                            decimal numberOfCombinedcarriedForward = 0; 
+                        */
+
+                        #endregion Total Debi-check Cancellations (Columns X & Y)
+
 
                         #endregion Totals
 
