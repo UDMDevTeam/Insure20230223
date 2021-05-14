@@ -1,5 +1,5 @@
 ﻿using System.Data.SqlClient;
-using System.Windows.Resources;
+using System.Windows.Resources;			
 using Embriant.Framework;
 using Embriant.Framework.Configuration;
 using Infragistics.Documents.Excel;
@@ -44,7 +44,7 @@ namespace UDM.Insurance.Interface.Screens
         //private RecordCollectionBase _campaigns;
         private DateTime _startDate;
         private DateTime _endDate;
-      
+
 
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
         private int _timer1;
@@ -163,7 +163,7 @@ namespace UDM.Insurance.Interface.Screens
                             if (isFirst == true)
                             {
                                 isFirst = false;
-                                campaignIDs = campaignID.ToString();                         
+                                campaignIDs = campaignID.ToString();
                             }
                             else
                             {
@@ -178,8 +178,8 @@ namespace UDM.Insurance.Interface.Screens
                         #region Setting the Excel workbook
 
                         Workbook wbTemplate;
-                        
-                        string filePathAndName = GlobalSettings.UserFolder +  " Campaign Fall Off  Report ~ " + DateTime.Now.Millisecond + ".xlsx";
+
+                        string filePathAndName = GlobalSettings.UserFolder + " Campaign Fall Off  Report ~ " + DateTime.Now.Millisecond + ".xlsx";
                         Uri uri = new Uri("/Templates/ReportTemplateFallOffReport.xlsx", UriKind.Relative);
                         StreamResourceInfo info = Application.GetResourceStream(uri);
                         if (info != null)
@@ -205,7 +205,7 @@ namespace UDM.Insurance.Interface.Screens
                         DateTime fromDate = _startDate;
 
                         DateTime toDate = _endDate;
-                        if(!campaignIDs.Contains(","))
+                        if (!campaignIDs.Contains(","))
                         {
                             campaignIDs = campaignIDs + ",";
                         }
@@ -268,11 +268,11 @@ namespace UDM.Insurance.Interface.Screens
                         decimal confirmationCancelledTotal = 0;
                         decimal carriedForwardTotal = 0;
                         decimal cancelledByPlatinumTotal = 0;
-                           
+
                         decimal cancelationClientHasPolicy = 0;
                         decimal debiCheckCancellations = 0;
                         decimal carriedForwardToCancellation = 0;
-                         
+
                         decimal numberOfCombinedClientHasPolicy = 0;
                         decimal numberOfCombinedDebiCheckCancellations = 0;
                         decimal numberOfCombinedcarriedForward = 0;
@@ -284,7 +284,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         string columnsToBeHidden = "3";
 
-                        wsReport.GetCell("A" + 1).Value = "Campaign Fall Of Report - " + _startDate.ToShortDateString() + " to "+ _endDate.ToShortDateString();
+                        wsReport.GetCell("A" + 1).Value = "Campaign Fall Of Report - " + _startDate.ToShortDateString() + " to " + _endDate.ToShortDateString();
                         wsReport.GetCell("A" + 2).Value = "Compiled By " + Methods.GetTableData("select FirstName + ' ' + LastName as CompiledBy from dbo.[User] where ID = " + GlobalSettings.ApplicationUser.ID).Rows[0]["CompiledBy"];
 
                         #region Get the individual numbers for each campaign
@@ -296,7 +296,7 @@ namespace UDM.Insurance.Interface.Screens
                             List<string> fallOfStatuses = new List<string>();
                             fallOfStatuses.Add("Cancelled");
                             fallOfStatuses.Add("Carried Forward");
-                            var rows = dtLeadAllocationData.AsEnumerable().Where(x => ((string)x["CampaignName"] == campaign));                             
+                            var rows = dtLeadAllocationData.AsEnumerable().Where(x => ((string)x["CampaignName"] == campaign));
                             int numberOfSales = 0;
                             int numberOfSalesOriginal = 0;
                             decimal numberOfCancelled = 0;
@@ -332,14 +332,13 @@ namespace UDM.Insurance.Interface.Screens
 
 
                                 //===================================== Mbulelo ===========================================================
-                                
+
 
                                 #region Debi-check - Cancellation
 
                                 if ((string)rw["Status"] == "Debi-check - Cancellation") //|| ((string)rw["Status"] == "Carried Forward"))
                                 {
-                                   // numberOfSales++;
-                                    //  totalSales++;
+
                                     debiCheckCancellations++;
                                     numberOfCombinedDebiCheckCancellations++;
                                     string isConfirmed = rw["IsConfirmed"].ToString();
@@ -574,13 +573,13 @@ namespace UDM.Insurance.Interface.Screens
                             #endregion Formating
 
                             // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/213218545/comments
-                            numberOfSalesOriginal = numberOfSales + int.Parse(numberOfCancelled.ToString()) + int.Parse(numberOfCarriedForward.ToString()) 
-                                                    + int.Parse(numberOfCallMonitoringCancellations.ToString()) + int.Parse(numberOfCallMonitoringCarriedForwards.ToString()) 
+                            numberOfSalesOriginal = numberOfSales + int.Parse(numberOfCancelled.ToString()) + int.Parse(numberOfCarriedForward.ToString())
+                                                    + int.Parse(numberOfCallMonitoringCancellations.ToString()) + int.Parse(numberOfCallMonitoringCarriedForwards.ToString())
                                                     + int.Parse(numberCancelledByPlatinum.ToString()) + int.Parse(cancelationClientHasPolicy.ToString()) + int.Parse(carriedForwardToCancellation.ToString()) + int.Parse(debiCheckCancellations.ToString());
                             //numberOfSalesOriginal = numberOfSales + int.Parse(numberCancelledByPlatinum.ToString()) + int.Parse(numberOfCancelled.ToString());
 
                             wsReport.GetCell("A" + rowIndex).Value = campaign;
-                            wsReport.GetCell("B" + rowIndex).Value = numberOfSalesOriginal; 
+                            wsReport.GetCell("B" + rowIndex).Value = numberOfSalesOriginal;
                             wsReport.GetCell("C" + rowIndex).Value = numberOfSales;
 
                             #region Confirmed (Columns D & E)
@@ -641,29 +640,33 @@ namespace UDM.Insurance.Interface.Screens
 
                             #endregion Platinum Cancellations (Columns J & K)
 
-                            #region Cancellation - Client already is a policy holder (Columns L & M)
+                            //===================================== Mbulelo ===========================================================
 
-                            // Cancellation - Client has Policy
-                            wsReport.GetCell("L" + rowIndex).Value = cancelationClientHasPolicy;
+                            #region Debi-check Cancellations (Columns L & M)
+
+                            wsReport.GetCell("L" + rowIndex).Value = debiCheckCancellations;
                             if (numberOfSalesOriginal > 0)
                             {
                                 //wsReport.GetCell("M" + rowIndex).Value = Math.Round(cancelationClientHasPolicy / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("M" + rowIndex).ApplyFormula("=L" + rowIndex + "/B" + rowIndex);
+                                debiCheckCancellations = 0;
                             }
                             else
                             {
                                 wsReport.GetCell("M" + rowIndex).Value = 0;
                             }
 
-                            #endregion Cancellation - Client already is a policy holder (Columns L & M)
-                                                        
-                            #region Carried forward to Cancellation (Columns N & O)
+                            #endregion Debi-check Cancellations (Columns L & M)
 
-                            //Carried forward to Cancellation
-                            wsReport.GetCell("N" + rowIndex).Value = carriedForwardToCancellation;
+                            //===================================== Mbulelo ===========================================================
+
+                            #region Cancellation - Client already is a policy holder (Columns N & O)
+
+                            // Cancellation - Client has Policy
+                            wsReport.GetCell("N" + rowIndex).Value = cancelationClientHasPolicy;
                             if (numberOfSalesOriginal > 0)
                             {
-                                //wsReport.GetCell("O" + rowIndex).Value = Math.Round(carriedForwardToCancellation / numberOfSalesOriginal * 100, 2) + " %";
+                                //wsReport.GetCell("M" + rowIndex).Value = Math.Round(cancelationClientHasPolicy / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("O" + rowIndex).ApplyFormula("=N" + rowIndex + "/B" + rowIndex);
                             }
                             else
@@ -671,15 +674,15 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("O" + rowIndex).Value = 0;
                             }
 
-                            #endregion Carried forward to Cancellation (Columns N & O)
+                            #endregion Cancellation - Client already is a policy holder (Columns N & O)
 
+                            #region Carried forward to Cancellation (Columns P & Q)
 
-                            #region Call-Monitoring Cancellations (Columns P & Q)
-
-                            wsReport.GetCell("P" + rowIndex).Value = numberOfCallMonitoringCancellations;
+                            //Carried forward to Cancellation
+                            wsReport.GetCell("P" + rowIndex).Value = carriedForwardToCancellation;
                             if (numberOfSalesOriginal > 0)
                             {
-                                //wsReport.GetCell("Q" + rowIndex).Value = Math.Round(numberOfCallMonitoringCancellations / numberOfSalesOriginal * 100, 2) + " %";
+                                //wsReport.GetCell("O" + rowIndex).Value = Math.Round(carriedForwardToCancellation / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("Q" + rowIndex).ApplyFormula("=P" + rowIndex + "/B" + rowIndex);
                             }
                             else
@@ -687,14 +690,15 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("Q" + rowIndex).Value = 0;
                             }
 
-                            #endregion Call-Monitoring Cancellations (Columns P & Q)
+                            #endregion Carried forward to Cancellation (Columns P & Q)
 
-                            #region Call-Monitoring Carried Forwards (Columns R & S)
 
-                            wsReport.GetCell("R" + rowIndex).Value = numberOfCallMonitoringCarriedForwards;
+                            #region Call-Monitoring Cancellations (Columns R & S)
+
+                            wsReport.GetCell("R" + rowIndex).Value = numberOfCallMonitoringCancellations;
                             if (numberOfSalesOriginal > 0)
                             {
-                                //wsReport.GetCell("S" + rowIndex).Value = Math.Round(numberOfCallMonitoringCarriedForwards / numberOfSalesOriginal * 100, 2) + " %";
+                                //wsReport.GetCell("Q" + rowIndex).Value = Math.Round(numberOfCallMonitoringCancellations / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("S" + rowIndex).ApplyFormula("=R" + rowIndex + "/B" + rowIndex);
                             }
                             else
@@ -702,17 +706,14 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("S" + rowIndex).Value = 0;
                             }
 
-                            #endregion Call-Monitoring Carried Forwards (Columns R & S)
+                            #endregion Call-Monitoring Cancellations (Columns R & S)
 
-                            #region Combined Carried Forwards (Columns T & U)
+                            #region Call-Monitoring Carried Forwards (Columns T & U)
 
-                            // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495090/comments
-
-                            //wsReport.GetCell("T" + rowIndex).Value = numberOfCarriedForward /* Column H */ + numberOfCallMonitoringCarriedForwards /* Column R */;
-                            wsReport.GetCell("T" + rowIndex).ApplyFormula("=H" + rowIndex + "+R" + rowIndex);
+                            wsReport.GetCell("T" + rowIndex).Value = numberOfCallMonitoringCarriedForwards;
                             if (numberOfSalesOriginal > 0)
                             {
-                                //wsReport.GetCell("U" + rowIndex).Value = Math.Round((numberOfCarriedForward + numberOfCallMonitoringCarriedForwards) / numberOfSalesOriginal * 100, 2) + " %";
+                                //wsReport.GetCell("S" + rowIndex).Value = Math.Round(numberOfCallMonitoringCarriedForwards / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("U" + rowIndex).ApplyFormula("=T" + rowIndex + "/B" + rowIndex);
                             }
                             else
@@ -720,17 +721,17 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("U" + rowIndex).Value = 0;
                             }
 
-                            #endregion Combined Carried Forwards (Columns T & U)
+                            #endregion Call-Monitoring Carried Forwards (Columns T & U)
 
-                            #region Combined Cancellations (Columns V & W)
+                            #region Combined Carried Forwards (Columns V & W)
 
-                            // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/208066432/comments
-                            //numberOfCombineCancellations = numberCancelledByPlatinum + numberOfCancelled + cancelationClientHasPolicy + carriedForwardToCancellation /*+ queriedCancelled*/;
-                            //wsReport.GetCell("V" + rowIndex).Value = numberOfCombineCancellations + numberOfCallMonitoringCancellations; // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222872768/comments
-                            wsReport.GetCell("V" + rowIndex).ApplyFormula("=F" + rowIndex + "+J" + rowIndex + "+L" + rowIndex + "+N" + rowIndex + "+P" + rowIndex);
+                            // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495090/comments
+
+                            //wsReport.GetCell("T" + rowIndex).Value = numberOfCarriedForward /* Column H */ + numberOfCallMonitoringCarriedForwards /* Column R */;
+                            wsReport.GetCell("V" + rowIndex).ApplyFormula("=H" + rowIndex + "+T" + rowIndex);
                             if (numberOfSalesOriginal > 0)
                             {
-                                //wsReport.GetCell("W" + rowIndex.ToString()).Value = Math.Round((numberOfCombineCancellations + numberOfCallMonitoringCancellations) / numberOfSalesOriginal * 100, 2) + " %";
+                                //wsReport.GetCell("U" + rowIndex).Value = Math.Round((numberOfCarriedForward + numberOfCallMonitoringCarriedForwards) / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("W" + rowIndex).ApplyFormula("=V" + rowIndex + "/B" + rowIndex);
                             }
                             else
@@ -738,17 +739,17 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("W" + rowIndex).Value = 0;
                             }
 
-                            #endregion Combined Cancellations (Columns V & W)
+                            #endregion Combined Carried Forwards (Columns V & W)
 
+                            #region Combined Cancellations (Columns X & Y)
 
-                            //===================================== Mbulelo ===========================================================
-
-                            #region Debi-check Cancellations (Columns X & Y)
-
-                            wsReport.GetCell("X" + rowIndex).Value = debiCheckCancellations;
+                            // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/208066432/comments
+                            //numberOfCombineCancellations = numberCancelledByPlatinum + numberOfCancelled + cancelationClientHasPolicy + carriedForwardToCancellation /*+ queriedCancelled*/;
+                            //wsReport.GetCell("V" + rowIndex).Value = numberOfCombineCancellations + numberOfCallMonitoringCancellations; // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222872768/comments
+                            wsReport.GetCell("X" + rowIndex).ApplyFormula("=F" + rowIndex + "+J" + rowIndex + "+L" + rowIndex + "+N" + rowIndex + "+P" + rowIndex + "+R" + rowIndex);
                             if (numberOfSalesOriginal > 0)
                             {
-                                //wsReport.GetCell("M" + rowIndex).Value = Math.Round(cancelationClientHasPolicy / numberOfSalesOriginal * 100, 2) + " %";
+                                //wsReport.GetCell("W" + rowIndex.ToString()).Value = Math.Round((numberOfCombineCancellations + numberOfCallMonitoringCancellations) / numberOfSalesOriginal * 100, 2) + " %";
                                 wsReport.GetCell("Y" + rowIndex).ApplyFormula("=X" + rowIndex + "/B" + rowIndex);
                             }
                             else
@@ -756,9 +757,10 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("Y" + rowIndex).Value = 0;
                             }
 
-                            #endregion Debi-check Cancellations (Columns X & Y)
+                            #endregion Combined Cancellations (Columns X & Y)
 
-                            //===================================== Mbulelo ===========================================================
+
+
 
                             rowIndex++;
                             carriedForwardToCancellation = 0;
@@ -909,7 +911,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/213218545/comments
                         //decimal totalOriginalSales = (totalSales + confirmationCancelledTotal + cancelledByPlatinumTotal);
-                        decimal totalOriginalSales = totalSales + confirmationCancelledTotal + carriedForwardTotal 
+                        decimal totalOriginalSales = totalSales + confirmationCancelledTotal + carriedForwardTotal
                                                      + totalCallMonitoringCancellations + callMonitoringCarriedForwardTotal
                                                      + cancelledByPlatinumTotal + numberOfCombinedClientHasPolicy + numberOfCombinedcarriedForward + numberOfCombinedDebiCheckCancellations;
 
@@ -985,7 +987,7 @@ namespace UDM.Insurance.Interface.Screens
                         wsReport.GetCell("J" + rowIndex).ApplyFormula("=SUM(J" + rowFirstData + ":J" + (rowIndex - 1) + ")");
                         //////percentage cancelled by platinum
                         wsReport.GetCell("K" + rowIndex).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        if (totalOriginalSales > 0 )
+                        if (totalOriginalSales > 0)
                         {
                             //wsReport.GetCell("K" + rowIndex).Value = Math.Round(cancelledByPlatinumTotal / totalOriginalSales * 100, 2) + " %";
                             wsReport.GetCell("K" + rowIndex).ApplyFormula("=J" + rowIndex + "/B" + rowIndex);
@@ -1002,18 +1004,17 @@ namespace UDM.Insurance.Interface.Screens
 
                         #endregion Total Platinum Cancellations (Columns J & K)
 
-                        #region Total Cancellations - Client already is a policy holder (Columns L & M)
 
-                        ////Cancelled Already
-                        //wsReport.GetCell("L" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        //wsReport.GetCell("L" + rowIndex.ToString()).Value = numberOfCombinedClientHasPolicy.ToString(); 
+                        #region Total Debi-check Cancellations (Columns L & M)
+
+                        //wsReport.GetCell("J" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        //wsReport.GetCell("J" + rowIndex.ToString()).Value = cancelledByPlatinumTotal;
                         wsReport.GetCell("L" + rowIndex).ApplyFormula("=SUM(L" + rowFirstData + ":L" + (rowIndex - 1) + ")");
-                        //percentage already has a policy
-                        //wsReport.GetCell("M" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-
+                        //////percentage cancelled by platinum
+                        wsReport.GetCell("M" + rowIndex).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
                         if (totalOriginalSales > 0)
                         {
-                            //wsReport.GetCell("M" + rowIndex.ToString()).Value = Math.Round(numberOfCombinedClientHasPolicy / totalOriginalSales * 100, 2) + " %";
+                            //wsReport.GetCell("K" + rowIndex).Value = Math.Round(cancelledByPlatinumTotal / totalOriginalSales * 100, 2) + " %";
                             wsReport.GetCell("M" + rowIndex).ApplyFormula("=L" + rowIndex + "/B" + rowIndex);
                         }
                         else
@@ -1021,19 +1022,28 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("M" + rowIndex).Value = 0;
                         }
 
-                        #endregion Total Cancellations - Client already is a policy holder (Columns L & M)
+                        /*
+                            decimal numberOfCombinedClientHasPolicy = 0;
+                            decimal numberOfCombinedcarriedForward = 0; 
+                        */
 
-                        #region Total Carried forward to Cancellation (Columns N & O)
+                        #endregion Total Debi-check Cancellations (Columns L & M)
 
-                        ////Carried Forward Cancelled
-                        //wsReport.GetCell("N" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        //wsReport.GetCell("N" + rowIndex.ToString()).Value = numberOfCombinedcarriedForward.ToString();
+
+
+                        #region Total Cancellations - Client already is a policy holder (Columns N & O)
+
+                        ////Cancelled Already
+                        //wsReport.GetCell("L" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        //wsReport.GetCell("L" + rowIndex.ToString()).Value = numberOfCombinedClientHasPolicy.ToString(); 
                         wsReport.GetCell("N" + rowIndex).ApplyFormula("=SUM(N" + rowFirstData + ":N" + (rowIndex - 1) + ")");
                         //percentage already has a policy
                         //wsReport.GetCell("O" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+
+
                         if (totalOriginalSales > 0)
-                        {
-                            //wsReport.GetCell("O" + rowIndex.ToString()).Value = Math.Round(numberOfCombinedcarriedForward / totalOriginalSales * 100, 2) + " %";
+                            {
+                            //wsReport.GetCell("O" + rowIndex.ToString()).Value = Math.Round(numberOfCombinedClientHasPolicy / totalOriginalSales * 100, 2) + " %";
                             wsReport.GetCell("O" + rowIndex).ApplyFormula("=N" + rowIndex + "/B" + rowIndex);
                         }
                         else
@@ -1041,7 +1051,27 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("O" + rowIndex).Value = 0;
                         }
 
-                        #endregion Total Carried forward to Cancellation (Columns N & O)
+                        #endregion Total Cancellations - Client already is a policy holder (Columns N & O)
+
+                        #region Total Carried forward to Cancellation (Columns P & Q)
+
+                        ////Carried Forward Cancelled
+                        //wsReport.GetCell("N" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        //wsReport.GetCell("N" + rowIndex.ToString()).Value = numberOfCombinedcarriedForward.ToString();
+                        wsReport.GetCell("P" + rowIndex).ApplyFormula("=SUM(P" + rowFirstData + ":P" + (rowIndex - 1) + ")");
+                        //percentage already has a policy
+                        //wsReport.GetCell("Q" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        if (totalOriginalSales > 0)
+                        {
+                            //wsReport.GetCell("Q" + rowIndex.ToString()).Value = Math.Round(numberOfCombinedcarriedForward / totalOriginalSales * 100, 2) + " %";
+                            wsReport.GetCell("Q" + rowIndex).ApplyFormula("=P" + rowIndex + "/B" + rowIndex);
+                        }
+                        else
+                        {
+                            wsReport.GetCell("Q" + rowIndex).Value = 0;
+                        }
+
+                        #endregion Total Carried forward to Cancellation (Columns P & Q)
 
                         ////queried -cancelled
                         //wsReport.GetCell("P" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
@@ -1057,35 +1087,16 @@ namespace UDM.Insurance.Interface.Screens
                         //}
                         //////
 
-                        #region Total Call-Monitoring Cancellations (Columns P & Q)
-
-                        //wsReport.GetCell("P" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        //wsReport.GetCell("P" + rowIndex.ToString()).CellFormat.FormatString = "0";
-                        //wsReport.GetCell("P" + rowIndex.ToString()).Value = totalCallMonitoringCancellations;
-                        //wsReport.GetCell("Q" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        wsReport.GetCell("P" + rowIndex).ApplyFormula("=SUM(P" + rowFirstData + ":P" + (rowIndex - 1) + ")");
-                        if (totalOriginalSales > 0)
-                        {
-                            //wsReport.GetCell("Q" + rowIndex.ToString()).Value = Math.Round(totalCallMonitoringCancellations / totalOriginalSales * 100, 2) + " %";
-                            wsReport.GetCell("Q" + rowIndex).ApplyFormula("=P" + rowIndex + "/B" + rowIndex);
-                        }
-                        else
-                        {
-                            wsReport.GetCell("Q" + rowIndex).Value = 0;
-                        }
-
-                        #endregion Total Call-Monitoring Cancellations (Columns P & Q)
-
-                        #region Total Call-Monitoring Carried Forwards (Columns R & S)
+                        #region Total Call-Monitoring Cancellations (Columns R & S)
 
                         //wsReport.GetCell("R" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        //wsReport.GetCell("R" + rowIndex.ToString()).Value = callMonitoringCarriedForwardTotal;
                         //wsReport.GetCell("R" + rowIndex.ToString()).CellFormat.FormatString = "0";
+                        //wsReport.GetCell("R" + rowIndex.ToString()).Value = totalCallMonitoringCancellations;
                         //wsReport.GetCell("S" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
                         wsReport.GetCell("R" + rowIndex).ApplyFormula("=SUM(R" + rowFirstData + ":R" + (rowIndex - 1) + ")");
                         if (totalOriginalSales > 0)
                         {
-                            //wsReport.GetCell("S" + rowIndex.ToString()).Value = Math.Round(callMonitoringCarriedForwardTotal / totalOriginalSales * 100, 2) + " %";
+                            //wsReport.GetCell("S" + rowIndex.ToString()).Value = Math.Round(totalCallMonitoringCancellations / totalOriginalSales * 100, 2) + " %";
                             wsReport.GetCell("S" + rowIndex).ApplyFormula("=R" + rowIndex + "/B" + rowIndex);
                         }
                         else
@@ -1093,17 +1104,18 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("S" + rowIndex).Value = 0;
                         }
 
-                        #endregion Total Call-Monitoring Carried Forwards (Columns R & S)
+                        #endregion Total Call-Monitoring Cancellations (Columns R & S)
 
-                        #region Total Combined Carried Forwards (Columns T & U)
+                        #region Total Call-Monitoring Carried Forwards (Columns T & U)
 
-                        // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495090/comments
-
-                        //wsReport.GetCell("T" + rowIndex.ToString()).Value = carriedForwardTotal /* Column H */ + callMonitoringCarriedForwardTotal /* Column R */;
+                        //wsReport.GetCell("T" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        //wsReport.GetCell("T" + rowIndex.ToString()).Value = callMonitoringCarriedForwardTotal;
+                        //wsReport.GetCell("T" + rowIndex.ToString()).CellFormat.FormatString = "0";
+                        //wsReport.GetCell("U" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
                         wsReport.GetCell("T" + rowIndex).ApplyFormula("=SUM(T" + rowFirstData + ":T" + (rowIndex - 1) + ")");
                         if (totalOriginalSales > 0)
                         {
-                            //wsReport.GetCell("U" + rowIndex.ToString()).Value = Math.Round((carriedForwardTotal + callMonitoringCarriedForwardTotal) / totalSales * 100, 2) + " %";
+                            //wsReport.GetCell("U" + rowIndex.ToString()).Value = Math.Round(callMonitoringCarriedForwardTotal / totalOriginalSales * 100, 2) + " %";
                             wsReport.GetCell("U" + rowIndex).ApplyFormula("=T" + rowIndex + "/B" + rowIndex);
                         }
                         else
@@ -1111,54 +1123,50 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("U" + rowIndex).Value = 0;
                         }
 
-                        #endregion Total Combined Carried Forwards (Columns T & U)
+                        #endregion Total Call-Monitoring Carried Forwards (Columns T & U)
 
-                        #region Total Cancellations (Columns V & W)
+                        #region Total Combined Carried Forwards (Columns V & W)
 
-                        //totalCancellations = confirmationCancelledTotal + cancelledByPlatinumTotal + numberOfCombinedClientHasPolicy + numberOfCombinedcarriedForward + totalCallMonitoringCancellations/*+ numberOfCombinedQueriedCancelled*/;
-                        //wsReport.GetCell("V" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        //wsReport.GetCell("V" + rowIndex.ToString()).Value = totalCancellations;
-                        //////percentage combined cancellations
-                        //wsReport.GetCell("W" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495090/comments
+
+                        //wsReport.GetCell("V" + rowIndex.ToString()).Value = carriedForwardTotal /* Column H */ + callMonitoringCarriedForwardTotal /* Column R */;
                         wsReport.GetCell("V" + rowIndex).ApplyFormula("=SUM(V" + rowFirstData + ":V" + (rowIndex - 1) + ")");
                         if (totalOriginalSales > 0)
                         {
-                            //wsReport.GetCell("W" + rowIndex.ToString()).Value = Math.Round(totalCancellations / totalOriginalSales * 100, 2) + " %";
+                            //wsReport.GetCell("W" + rowIndex.ToString()).Value = Math.Round((carriedForwardTotal + callMonitoringCarriedForwardTotal) / totalSales * 100, 2) + " %";
                             wsReport.GetCell("W" + rowIndex).ApplyFormula("=V" + rowIndex + "/B" + rowIndex);
                         }
                         else
                         {
                             wsReport.GetCell("W" + rowIndex).Value = 0;
                         }
-                        //////////////
 
-                        #endregion Total Cancellations (Columns V & W)
+                        #endregion Total Combined Carried Forwards (Columns V & W)
 
+                        #region Total Cancellations (Columns X & Y)
 
-
-                        #region Total Debi-check Cancellations (Columns X & Y)
-
-                        //wsReport.GetCell("J" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
-                        //wsReport.GetCell("J" + rowIndex.ToString()).Value = cancelledByPlatinumTotal;
+                        //totalCancellations = confirmationCancelledTotal + cancelledByPlatinumTotal + numberOfCombinedClientHasPolicy + numberOfCombinedcarriedForward + totalCallMonitoringCancellations/*+ numberOfCombinedQueriedCancelled*/;
+                        //wsReport.GetCell("X" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                        //wsReport.GetCell("X" + rowIndex.ToString()).Value = totalCancellations;
+                        //////percentage combined cancellations
+                        //wsReport.GetCell("Y" + rowIndex.ToString()).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
                         wsReport.GetCell("X" + rowIndex).ApplyFormula("=SUM(X" + rowFirstData + ":X" + (rowIndex - 1) + ")");
-                        //////percentage cancelled by platinum
-                        wsReport.GetCell("Y" + rowIndex).CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
                         if (totalOriginalSales > 0)
                         {
-                            //wsReport.GetCell("K" + rowIndex).Value = Math.Round(cancelledByPlatinumTotal / totalOriginalSales * 100, 2) + " %";
+                            //wsReport.GetCell("Y" + rowIndex.ToString()).Value = Math.Round(totalCancellations / totalOriginalSales * 100, 2) + " %";
                             wsReport.GetCell("Y" + rowIndex).ApplyFormula("=X" + rowIndex + "/B" + rowIndex);
                         }
                         else
                         {
                             wsReport.GetCell("Y" + rowIndex).Value = 0;
                         }
+                        //////////////
 
-                        /*
-                            decimal numberOfCombinedClientHasPolicy = 0;
-                            decimal numberOfCombinedcarriedForward = 0; 
-                        */
+                        #endregion Total Cancellations (Columns X & Y)
 
-                        #endregion Total Debi-check Cancellations (Columns X & Y)
+
+
+
 
 
                         #endregion Totals
@@ -1187,7 +1195,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         #endregion Save and open the resulting workbook
                     }
-                }                        
+                }
             }
             catch (Exception ex)
             {
@@ -1493,8 +1501,8 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-            
-                
+
+
             }
             catch (Exception ex)
             {
@@ -1502,9 +1510,9 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-       
 
-      
+
+
 
 
         #endregion
