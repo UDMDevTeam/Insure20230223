@@ -105,6 +105,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 //DataView staffView = new DataView(dtCallMonitoringQueryLookups, "", "[ID]", DataViewRowState.OriginalRows);
                 //DataTable dtStaffCmb = staffView.ToTable(false, "ID", "Description");
+
                 cmbStaffType.Populate(dtCallMonitoringQueryLookups, "Description", "ID");
                 cmbStaffType.SelectedIndex = 2;
 

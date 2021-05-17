@@ -445,13 +445,13 @@ namespace UDM.Insurance.Interface.Screens
 
             DataSet ds = Methods.ExecuteStoredProcedure("spINReportSales", parameters);
             DataTable dtCampaigns = ds.Tables[0];
-            DataTable dtCampaignsCF = ds.Tables[17];
+            DataTable dtCampaignsCF = ds.Tables[21];
             DataTable dtSales = ds.Tables[1];
-            DataTable dtSalesCF = ds.Tables[18];
+            DataTable dtSalesCF = ds.Tables[22];
             DataTable dtCampaignTotals = ds.Tables[2];
-            DataTable dtCampaignTotalsCF = ds.Tables[19];
+            DataTable dtCampaignTotalsCF = ds.Tables[23];
             DataTable dtGrandTotals = ds.Tables[3];
-            DataTable dtGrandTotalsCF = ds.Tables[20];
+            DataTable dtGrandTotalsCF = ds.Tables[24];
 
             //bool isUpgradeCampaign = Insure.IsUpgradeCampaign(drCampaign["CampaignID"] as long?);
 
@@ -470,7 +470,7 @@ namespace UDM.Insurance.Interface.Screens
             wsReport.PrintOptions.Orientation = Orientation.Portrait;
             wsReport.PrintOptions.LeftMargin = 0.3;
             wsReport.PrintOptions.RightMargin = 0.3;
-
+            
             wsReport.Workbook.NamedReferences.Clear();
             Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 4, wsReport, 0, 0);
 
@@ -557,7 +557,7 @@ namespace UDM.Insurance.Interface.Screens
                             if (isGoldenLead) { wsReport.GetCell("SavedStatusOriginalDOS").CellFormat.Fill = cellFill; }
                             wsReport.GetCell("ReferralResult").Value = drSale["ReferralResult"] as string;
                             if (isGoldenLead) { wsReport.GetCell("ReferralResult").CellFormat.Fill = cellFill; }
-
+                            
 
 
                             wsReport.Workbook.NamedReferences.Clear();
@@ -623,7 +623,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 foreach (DataRow drCampaign in dtcancellationCampaigns.Rows)
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 5, wsReport, rowIndex, 0);
+                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 9, wsReport, rowIndex, 0);
                     rowIndex++;
 
                     wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
@@ -632,7 +632,7 @@ namespace UDM.Insurance.Interface.Screens
                     foreach (DataRow drSale in dtCampaignCancellations.Rows)
                     {
                         rowIndex++;
-                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 5, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 9, wsReport, rowIndex, 0);
 
                         bool isGoldenLead = false;
                         CellFillPattern cellFill = null;
@@ -655,13 +655,15 @@ namespace UDM.Insurance.Interface.Screens
                         if (isGoldenLead) { wsReport.GetCell("Premium").CellFormat.Fill = cellFill; }
                         wsReport.GetCell("Units").Value = drSale["Units"] as decimal?;
                         if (isGoldenLead) { wsReport.GetCell("Units").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Reason").Value = drSale["Reason"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Reason").CellFormat.Fill = cellFill; }
 
                         wsReport.Workbook.NamedReferences.Clear();
                     }
 
                     {
                         rowIndex++;
-                        Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 5, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 9, wsReport, rowIndex, 0);
 
                         DataRow dr = dtCancellationCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
                         wsReport.GetCell("TotalSales").Value = dr["TotalCancellations"] as int?;
@@ -676,7 +678,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 5, wsReport, rowIndex, 0);
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 9, wsReport, rowIndex, 0);
 
                     DataRow dr = dtCancellationGrandTotals.Rows[0];
                     wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalCancellations"] as int?;
@@ -686,6 +688,106 @@ namespace UDM.Insurance.Interface.Screens
                     wsReport.Workbook.NamedReferences.Clear();
                 }
                 #endregion Cancellations
+
+                #region DebiCheck Call Backs
+
+                DataTable dtDebiCheckCallBacksCampaigns = ds.Tables[17];
+                DataTable dtDebiCheckCallBacks = ds.Tables[18];
+                DataTable dtDebiCheckCallBacksCampaignTotals = ds.Tables[19];
+                DataTable dtDebiCheckcallBackGrandTotals = ds.Tables[20];
+                wsReport = wbReport.Worksheets.Add(string.Join("", ("Debi Check Call Backs -" + agentName).Take(31)));
+               
+                rowIndex = 4;
+                wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+                wsReport.PrintOptions.PaperSize = PaperSize.A4;
+                wsReport.PrintOptions.Orientation = Orientation.Portrait;
+                wsReport.PrintOptions.LeftMargin = 0.3;
+                wsReport.PrintOptions.RightMargin = 0.3;
+
+                wsReport.DisplayOptions.TabColorInfo = new WorkbookColorInfo(Color.Orange);
+
+
+                wsReport.Workbook.NamedReferences.Clear();
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 4, wsReport, 0, 0);
+
+                #region DebiCheck Call Backs header data
+
+                {
+                    wsReport.GetCell("AgentName").Value = agentName;
+                    wsReport.GetCell("SalesDates").Value = "Debi Check Call Backs: " + dateRange;
+
+                    //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
+                }
+                #endregion DebiCheck Call Backs header data
+
+                foreach (DataRow drCampaign in dtDebiCheckCallBacksCampaigns.Rows)
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 9, wsReport, rowIndex, 0);
+                    rowIndex++;
+
+                    wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
+
+                    DataTable dtCampaignDebiCheckCallBacks = dtDebiCheckCallBacks.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+                    foreach (DataRow drSale in dtCampaignDebiCheckCallBacks.Rows)
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 9, wsReport, rowIndex, 0);
+
+                        bool isGoldenLead = false;
+                        CellFillPattern cellFill = null;
+
+                        if ((drSale["RefNo"] as string).Contains("Golden"))
+                        {
+                            isGoldenLead = true;
+                            cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                        }
+
+                        wsReport.GetCell("DateOfSale").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                        if (isGoldenLead) { wsReport.GetCell("DateOfSale").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Batch").Value = drSale["Batch"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Batch").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RefNo").Value = drSale["RefNo"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("RefNo").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Client").Value = drSale["LeadName"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Client").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Premium").Value = drSale["Premium"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("Premium").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Units").Value = drSale["Units"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("Units").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Reason").Value = drSale["Reason"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Reason").CellFormat.Fill = cellFill; }
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 9, wsReport, rowIndex, 0);
+
+                        DataRow dr = dtDebiCheckCallBacksCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                        wsReport.GetCell("TotalSales").Value = dr["TotalDebiCheckCallBacks"] as int?;
+                        wsReport.GetCell("TotalPremium").Value = dr["TotalPremium"] as decimal?;
+                        wsReport.GetCell("TotalUnits").Value = dr["TotalUnits"] as decimal?;
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                    rowIndex += 2;
+                }
+
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 9, wsReport, rowIndex, 0);
+
+                    DataRow dr = dtDebiCheckcallBackGrandTotals.Rows[0];
+                    wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalDebiCheckCallBacks"] as int?;
+                    wsReport.GetCell("GrandTotalPremium").Value = dr["GrandTotalPremium"] as decimal?;
+                    wsReport.GetCell("GrandTotalUnits").Value = dr["GrandTotalUnits"] as decimal?;
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                }
+                #endregion DebiCheck Call Backs
 
                 #region Reduced Premiums
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/210674629/comments
@@ -781,7 +883,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 9, 10, 0, 7, wsReport, rowIndex, 1);
+                    Methods.CopyExcelRegion(wsTemplate, 9, 10, 0, 9, wsReport, rowIndex, 1);
 
                     DataRow dr = dtReducedPremiumGrandTotals.Rows[0];
                     wsReport.GetCell("RPGrandTotalSales").Value = dr["GrandTotalReducedPremiumCount"] as int?;
@@ -1066,6 +1168,8 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion  Old Carried Forwards
 
                 #endregion Carried Forwards
+
+                
 
                 //wsReport.Rows[rowIndex].Cells[5].CellFormat.SetFormatting(wsTemplate.Rows[5].Cells[5].CellFormat) ;//= "# ##0.00;[Red]# ##0.00";
             }
