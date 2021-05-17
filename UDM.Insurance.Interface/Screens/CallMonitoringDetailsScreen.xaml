@@ -11,8 +11,8 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:usercontrols="clr-namespace:UDM.Insurance.Interface.Controls"
     Title="Call Monitoring Details Screen"
-    Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width, Converter={converters:MathConverter}, ConverterParameter=x*0.625}"
-    Height="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height, Converter={converters:MathConverter}, ConverterParameter=x*0.769}"
+    Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width, Converter={converters:MathConverter}, ConverterParameter=x*0.750}"
+    Height="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height, Converter={converters:MathConverter}, ConverterParameter=x*0.859}"
     AllowsTransparency="True"
     Background="Transparent"
     BorderThickness="0"
@@ -102,8 +102,8 @@
 
         <Border
             x:Name="BGRectangle"
-            Width="1280"
-            Height="870"
+            Width="1500"
+            Height="950"
             Margin="0"
             Background="Black"
             BorderBrush="{StaticResource BrandedBrushIN}"
@@ -184,7 +184,7 @@
                 <GroupBox
                     x:Name="gbBankingDetails"
                     Grid.Row="2"
-                    Grid.RowSpan="6"
+                    Grid.RowSpan="7"
                     Grid.Column="1"
                     Grid.ColumnSpan="15"
                     Margin="0,0,7,0"
@@ -329,7 +329,25 @@
                                 IsChecked="{Binding DoesClientHaveSigningPower}"
                                 Style="{StaticResource INCheckboxStyle}" />
                         </Grid>
-
+                        <Grid>
+                            <TextBlock
+                                x:Name="lblWasDebiCheckProcessExplainedCorrectly"
+                                Grid.Row="9"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="13"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Was the Debi-Check process explained to the client correctly?" />
+                            <CheckBox
+                                x:Name="chkWasDebiCheckProcessExplainedCorrectly"
+                                Grid.Row="9"
+                                Grid.Column="14"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsChecked="{Binding WasDebiCheckProcessExplainedCorrectly}"
+                                Style="{StaticResource INCheckboxStyle}" />
+                        </Grid>
                         <!--  Groupbox ends here  -->
                     </StackPanel>
                 </GroupBox>
@@ -812,8 +830,8 @@
 
                 <GroupBox
                     x:Name="gbClosure"
-                    Grid.Row="8"
-                    Grid.RowSpan="11"
+                    Grid.Row="9"
+                    Grid.RowSpan="10"
                     Grid.Column="1"
                     Grid.ColumnSpan="15"
                     Margin="0,0,7,0"

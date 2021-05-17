@@ -291,7 +291,7 @@ namespace UDM.Insurance.Interface.Screens
 
             if (leadApplicationData.AppData.ImportID != null)
             {
-                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(leadApplicationData.AppData.ImportID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(leadApplicationData.AppData.ImportID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
             }            
 
 
@@ -304,6 +304,7 @@ namespace UDM.Insurance.Interface.Screens
                 ScreenData.WasDebitDateConfirmed = inImportCallMonitoring.WasDebitDateConfirmed;
                 ScreenData.IsAccountInClientsName = inImportCallMonitoring.IsAccountInClientsName;
                 ScreenData.DoesClientHaveSigningPower = inImportCallMonitoring.DoesClientHaveSigningPower;
+                ScreenData.WasDebiCheckProcessExplainedCorrectly = inImportCallMonitoring.WasDebiCheckProcessExplainedCorrectly;
                 ScreenData.WasCorrectClosureQuestionAsked = inImportCallMonitoring.WasCorrectClosureQuestionAsked;
                 ScreenData.WasResponseClearAndPositive = inImportCallMonitoring.WasResponseClearAndPositive;
                 ScreenData.WasUDMAndPLMentionedAsFSPs = inImportCallMonitoring.WasUDMAndPLMentionedAsFSPs;
@@ -441,6 +442,9 @@ namespace UDM.Insurance.Interface.Screens
                 ScreenData.WasDebitDateConfirmed = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasDebitDateConfirmed"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasDebitDateConfirmed"]) : (bool?)null;
                 ScreenData.IsAccountInClientsName = dtCallMonitoringScreenDefaults.Rows[0]["DefaultIsAccountInClientsName"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultIsAccountInClientsName"]) : (bool?)null;
                 ScreenData.DoesClientHaveSigningPower = dtCallMonitoringScreenDefaults.Rows[0]["DefaultDoesClientHaveSigningPower"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultDoesClientHaveSigningPower"]) : (bool?)null;
+                ScreenData.WasDebiCheckProcessExplainedCorrectly = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasDebiCheckProcessExplainedCorrectly"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasDebiCheckProcessExplainedCorrectly"]) : (bool?)null;
+
+                
                 ScreenData.WasCorrectClosureQuestionAsked = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasCorrectClosureQuestionAsked"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasCorrectClosureQuestionAsked"]) : (bool?)null;
                 ScreenData.WasResponseClearAndPositive = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasResponseClearAndPositive"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasResponseClearAndPositive"]) : (bool?)null;
                 ScreenData.WasUDMAndPLMentionedAsFSPs = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasUDMAndPLMentionedAsFSPs"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasUDMAndPLMentionedAsFSPs"]) : (bool?)null;
@@ -467,6 +471,7 @@ namespace UDM.Insurance.Interface.Screens
             LoadedScreenData.WasDebitDateConfirmed = ScreenData.WasDebitDateConfirmed;
             LoadedScreenData.IsAccountInClientsName = ScreenData.IsAccountInClientsName;
             LoadedScreenData.DoesClientHaveSigningPower = ScreenData.DoesClientHaveSigningPower;
+            LoadedScreenData.WasDebiCheckProcessExplainedCorrectly = ScreenData.WasDebiCheckProcessExplainedCorrectly;
             LoadedScreenData.WasCorrectClosureQuestionAsked = ScreenData.WasCorrectClosureQuestionAsked;
             LoadedScreenData.WasResponseClearAndPositive = ScreenData.WasResponseClearAndPositive;
             LoadedScreenData.WasUDMAndPLMentionedAsFSPs = ScreenData.WasUDMAndPLMentionedAsFSPs;
@@ -512,6 +517,7 @@ namespace UDM.Insurance.Interface.Screens
                 (LoadedScreenData.WasDebitDateConfirmed != ScreenData.WasDebitDateConfirmed) ||
                 (LoadedScreenData.IsAccountInClientsName != ScreenData.IsAccountInClientsName) ||
                 (LoadedScreenData.DoesClientHaveSigningPower != ScreenData.DoesClientHaveSigningPower) ||
+                (LoadedScreenData.WasDebiCheckProcessExplainedCorrectly != ScreenData.WasDebiCheckProcessExplainedCorrectly) ||
                 (LoadedScreenData.WasCorrectClosureQuestionAsked != ScreenData.WasCorrectClosureQuestionAsked) ||
                 (LoadedScreenData.WasResponseClearAndPositive != ScreenData.WasResponseClearAndPositive) ||
                 (LoadedScreenData.WasUDMAndPLMentionedAsFSPs != ScreenData.WasUDMAndPLMentionedAsFSPs) ||
@@ -601,6 +607,7 @@ namespace UDM.Insurance.Interface.Screens
                 inImportCallMonitoring.WasDebitDateConfirmed = ScreenData.WasDebitDateConfirmed;
                 inImportCallMonitoring.IsAccountInClientsName = ScreenData.IsAccountInClientsName;
                 inImportCallMonitoring.DoesClientHaveSigningPower = ScreenData.DoesClientHaveSigningPower;
+                inImportCallMonitoring.WasDebiCheckProcessExplainedCorrectly = ScreenData.WasDebiCheckProcessExplainedCorrectly;
                 inImportCallMonitoring.WasCorrectClosureQuestionAsked = ScreenData.WasCorrectClosureQuestionAsked;
                 inImportCallMonitoring.WasResponseClearAndPositive = ScreenData.WasResponseClearAndPositive;
                 inImportCallMonitoring.WasUDMAndPLMentionedAsFSPs = ScreenData.WasUDMAndPLMentionedAsFSPs;

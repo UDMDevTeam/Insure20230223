@@ -43,6 +43,7 @@ namespace UDM.Insurance.Interface.Data
         private bool? _isCallMonitored;
         private bool? _wasPermissionQuestionAsked;
         private bool? _wasNextOfKinQuestionAsked;
+        private bool? _wasDebiCheckProcessExplainedCorrectly;
 
         private long? _fKINCallMonitoringOutcomeID;
         private string _comments;
@@ -228,6 +229,18 @@ namespace UDM.Insurance.Interface.Data
             set
             {
                 SetProperty(ref _doesClientHaveSigningPower, value, () => DoesClientHaveSigningPower);
+            }
+        }
+
+        public bool? WasDebiCheckProcessExplainedCorrectly
+        {
+            get
+            {
+                return _wasDebiCheckProcessExplainedCorrectly;
+            }
+            set
+            {
+                SetProperty(ref _wasDebiCheckProcessExplainedCorrectly, value, () => WasDebiCheckProcessExplainedCorrectly);
             }
         }
 
