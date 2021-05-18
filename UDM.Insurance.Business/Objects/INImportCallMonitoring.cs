@@ -55,6 +55,7 @@ namespace UDM.Insurance.Business
         private DateTime? _tsrbusavedcarriedforwarddate = null;
         private long? _tsrbusavedcarriedforwardassignedbyuserid = null;
         private DateTime? _callmonitoreddate = null;
+        private bool? _wasdebicheckprocessexplainedcorrectly = null; 
         #endregion
 
         #region Constructor
@@ -183,6 +184,29 @@ namespace UDM.Insurance.Business
                 }
             }
         }
+
+
+        public bool? WasDebiCheckProcessExplainedCorrectly
+        {
+            get
+            {
+                Fill();
+                return _wasdebicheckprocessexplainedcorrectly;
+            }
+            set
+            {
+                Fill();
+                if (value != _wasdebicheckprocessexplainedcorrectly)
+                {
+                    _wasdebicheckprocessexplainedcorrectly = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
+
+        
+
 
         public bool? WasCorrectClosureQuestionAsked
         {
