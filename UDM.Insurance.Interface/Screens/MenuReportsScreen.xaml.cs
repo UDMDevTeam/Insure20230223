@@ -925,5 +925,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnDebiCheckReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportDebiCheckPL reportLeadPermission = new ReportDebiCheckPL();
+                ShowDialog(reportLeadPermission, new INDialogWindow(reportLeadPermission));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }

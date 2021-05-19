@@ -666,6 +666,20 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
 
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL3X4}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckReport" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+
             <!--  Line 3  -->
 
         </Storyboard>
@@ -2684,6 +2698,35 @@
                                                         x:Name="lbRemovedLeadsReport"
                                                         Style="{StaticResource INSquareButtonReportText}"
                                                         Text="Removed&#x0a;Leads&#x0a;Report" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+
+                                        <Button
+                                            x:Name="btnDebiCheckReport"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnDebiCheckReport_Click"
+                                            IsEnabled="True"
+                                            Style="{StaticResource INMenuButton}"
+                                            TabIndex="0"
+                                            ToolTip="{Binding ToolTipData[46].Tip}"
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                    <TextBlock
+                                                        x:Name="lbDebiCheckReport"
+                                                        Style="{StaticResource INSquareButtonReportText}"
+                                                        Text="Debi&#x0a;Check&#x0a;Report" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>
