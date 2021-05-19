@@ -22,7 +22,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inpermissionlead != null)
             {
-                query = "INSERT INTO [zHstINPermissionLead] ([ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID] FROM [INPermissionLead] WHERE [INPermissionLead].[ID] = @ID; ";
+                query = "INSERT INTO [zHstINPermissionLead] ([ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID] FROM [INPermissionLead] WHERE [INPermissionLead].[ID] = @ID; ";
                 query += "DELETE FROM [INPermissionLead] WHERE [INPermissionLead].[ID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", inpermissionlead.ID);
@@ -57,7 +57,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inpermissionlead != null)
             {
-                query = "INSERT INTO [INPermissionLead] ([ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID] FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID AND [zHstINPermissionLead].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INPermissionLeaad] WHERE [ID] = @ID) = 0; ";
+                query = "INSERT INTO [INPermissionLead] ([ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID] FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID AND [zHstINPermissionLead].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INPermissionLeaad] WHERE [ID] = @ID) = 0; ";
                 query += "DELETE FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID AND [zHstINPermissionLead].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [INPermissionLead] WHERE [ID] = @ID) = 0; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", inpermissionlead.ID);
@@ -77,7 +77,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inpermissionlead != null)
             {
-                query = "SELECT [ID], [FKImportID], [FKUserID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved] [StampUserID] FROM [INPermissionLead] WHERE [INImportNote].[ID] = @ID";
+                query = "SELECT [ID], [FKImportID], [FKUserID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampUserID] FROM [INPermissionLead] WHERE [INImportNote].[ID] = @ID";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", inpermissionlead.ID);
             }
@@ -94,7 +94,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (inpermissionlead != null)
             {
-            query.Append("SELECT [INPermissionLead].[ID], [INPermissionLead].[FKImportID], [INPermissionLead].[Title], [INPermissionLead].[Firstname], [INPermissionLead].[Surname], [INPermissionLead].[CellNumber], [INPermissionLead].[AltNumber], [INPermissionLead].[SavedBy], [INPermissionLead].[DateSaved] [INPermissionLead].[StampDate], [INPermissionLead].[StampUserID]");
+            query.Append("SELECT [INPermissionLead].[ID], [INPermissionLead].[FKImportID], [INPermissionLead].[Title], [INPermissionLead].[Firstname], [INPermissionLead].[Surname], [INPermissionLead].[CellNumber], [INPermissionLead].[AltNumber], [INPermissionLead].[SavedBy], [INPermissionLead].[DateSaved],  [INPermissionLead].[DateOfBirth], [INPermissionLead].[StampDate], [INPermissionLead].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INPermissionLead].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INPermissionLead] ");
                 query.Append(" WHERE [INPermissionLead].[ID] = @ID");
@@ -116,7 +116,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inpermissionlead != null)
             {
-                query = "SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID] FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID AND [zHstINPermission].[StampUserID] = @StampUserID AND [zHstINPermission].[StampDate] = @StampDate";
+                query = "SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID] FROM [zHstINPermissionLead] WHERE [zHstINPermissionLead].[ID] = @ID AND [zHstINPermission].[StampUserID] = @StampUserID AND [zHstINPermission].[StampDate] = @StampDate";
                 parameters = new object[3];
                 parameters[0] = Database.GetParameter("@ID", inpermissionlead.ID);
                 parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
@@ -134,7 +134,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string List()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [INPermission].[ID], [INPermission].[FKImportID], [INPermission].[Title], [INPermission].[Firstname], [INPermission].[Surname], [INPermission].[CellNumber], [INPermission].[AltNumber], [INPermissionLead].[SavedBy], [INPermissionLead].[DateSaved], [INPermission].[StampDate], [INPermission].[StampUserID]");
+            query.Append("SELECT [INPermission].[ID], [INPermission].[FKImportID], [INPermission].[Title], [INPermission].[Firstname], [INPermission].[Surname], [INPermission].[CellNumber], [INPermission].[AltNumber], [INPermissionLead].[SavedBy], [INPermissionLead].[DateSaved], [INPermissionLead].[DateOfBirth], [INPermission].[StampDate], [INPermission].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INImportNote].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INPermission] ");
             return query.ToString();
@@ -147,7 +147,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string ListDeleted()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [zHstINPermissionLead].[ID], [zHstINPermissionLead].[FKImportID], [zHstINPermissionLead].[Title], [zHstINPermissionLead].[Firstname], [zHstINPermissionLead].[Surname], [zHstINPermissionLead].[CellNumber], [zHstINPermissionLead].[AltNumber], [zHstINPermissionLead].[SavedBy], [zHstINPermissionLead].[DateSaved], [zHstINPermissionLead].[StampDate], [zHstINPermissionLead].[StampUserID]");
+            query.Append("SELECT [zHstINPermissionLead].[ID], [zHstINPermissionLead].[FKImportID], [zHstINPermissionLead].[Title], [zHstINPermissionLead].[Firstname], [zHstINPermissionLead].[Surname], [zHstINPermissionLead].[CellNumber], [zHstINPermissionLead].[AltNumber], [zHstINPermissionLead].[SavedBy], [zHstINPermissionLead].[DateSaved], [zHstINPermissionLead].[DateOfBirth], [zHstINPermissionLead].[StampDate], [zHstINPermissionLead].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINImportNote].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINPermissionLead] ");
             query.Append("INNER JOIN (SELECT [zHstINPermissionLead].[ID], MAX([zHstINPermissionLead].[StampDate]) AS 'StampDate' ");
@@ -169,7 +169,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (inpermissionlead != null)
             {
-            query.Append("SELECT [zHstINPermissionLead].[ID], [zHstINPermissionLead].[FKImportID], [zHstINPermissionLead].[Title], [zHstINPermissionLead].[Firstname], [zHstINPermissionLead].[Surname], [zHstINPermissionLead].[CellNumber], [zHstINPermissionLead].[AltNumber], [zHstINPermissionLead].[SavedBy], [zHstINPermissionLead].[DateSaved], [zHstINPermissionLead].[StampDate], [zHstINPermissionLead].[StampUserID]");
+            query.Append("SELECT [zHstINPermissionLead].[ID], [zHstINPermissionLead].[FKImportID], [zHstINPermissionLead].[Title], [zHstINPermissionLead].[Firstname], [zHstINPermissionLead].[Surname], [zHstINPermissionLead].[CellNumber], [zHstINPermissionLead].[AltNumber], [zHstINPermissionLead].[SavedBy], [zHstINPermissionLead].[DateSaved], [zHstINPermissionLead].[DateOfBirth], [zHstINPermissionLead].[StampDate], [zHstINPermissionLead].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINImportNote].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINPermissionLead] ");
                 query.Append(" WHERE [zHstINPermissionLead].[ID] = @ID");
@@ -198,9 +198,9 @@ namespace UDM.Insurance.Business.Queries
             {
                 if (GlobalSettings.IsLoadedPermission == 1)
                 {
-                    query.Append("INSERT INTO [zHstINPermissionLead] ([ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID] FROM [INPermissionLead] WHERE [INPermissionLead].[FKImportID] = " + inpermissionLead.FKINImportID + " ;");
+                    query.Append("INSERT INTO [zHstINPermissionLead] ([ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID] FROM [INPermissionLead] WHERE [INPermissionLead].[FKImportID] = " + inpermissionLead.FKINImportID + " ;");
                     query.Append("UPDATE [INPermissionLead]");
-                    parameters = new object[9];
+                    parameters = new object[10];
                     query.Append(" SET [FKImportID] = @FKImportID");
                     parameters[0] = Database.GetParameter("@FKImportID", inpermissionLead.FKINImportID.HasValue ? (object)inpermissionLead.FKINImportID.Value : DBNull.Value);
                     query.Append(", [Title] = @Title");
@@ -217,14 +217,16 @@ namespace UDM.Insurance.Business.Queries
                     parameters[6] = Database.GetParameter("@SavedBy", string.IsNullOrEmpty(inpermissionLead.SavedBy) ? DBNull.Value : (object)inpermissionLead.SavedBy);
                     query.Append(", [DateSaved] = @DateSaved");
                     parameters[7] = Database.GetParameter("@DateSaved", inpermissionLead.DateSaved.HasValue ? (object)inpermissionLead.DateSaved.Value : DBNull.Value);
+                    query.Append(", [DateOfBirth] = @DateOfBirth");
+                    parameters[8] = Database.GetParameter("@DateOfBirth", inpermissionLead.DateOfBirth.HasValue ? (object)inpermissionLead.DateOfBirth.Value : DBNull.Value);
                     query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                    query.Append(" WHERE [INPermissionLead].[FKImportID] = " + inpermissionLead.FKINImportID + ";" ); 
-                    parameters[8] = Database.GetParameter("@ID", inpermissionLead.ID);
+                    query.Append(" WHERE [INPermissionLead].[FKImportID] = " + inpermissionLead.FKINImportID + ";");
+                    parameters[9] = Database.GetParameter("@ID", inpermissionLead.ID);
                 }
                 else
                 {
-                    query.Append("INSERT INTO [INPermissionLead] ([FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [StampDate], [StampUserID]) VALUES(@FKImportID, @Title, @Firstname, @Surname, @CellNumber, @AltNumber, @SavedBy, @DateSaved, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                    parameters = new object[8];
+                    query.Append("INSERT INTO [INPermissionLead] ([FKImportID], [Title], [Firstname], [Surname], [CellNumber], [AltNumber], [SavedBy], [DateSaved], [DateOfBirth], [StampDate], [StampUserID]) VALUES(@FKImportID, @Title, @Firstname, @Surname, @CellNumber, @AltNumber, @SavedBy, @DateSaved, @DateOfBirth, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                    parameters = new object[9];
                     parameters[0] = Database.GetParameter("@FKImportID", inpermissionLead.FKINImportID.HasValue ? (object)inpermissionLead.FKINImportID.Value : DBNull.Value);
                     parameters[1] = Database.GetParameter("@Title", string.IsNullOrEmpty(inpermissionLead.Title) ? DBNull.Value : (object)inpermissionLead.Title);
                     parameters[2] = Database.GetParameter("@Firstname", string.IsNullOrEmpty(inpermissionLead.Firstname) ? DBNull.Value : (object)inpermissionLead.Firstname);
@@ -233,7 +235,7 @@ namespace UDM.Insurance.Business.Queries
                     parameters[5] = Database.GetParameter("@AltNumber", string.IsNullOrEmpty(inpermissionLead.AltNumber) ? DBNull.Value : (object)inpermissionLead.AltNumber);
                     parameters[6] = Database.GetParameter("@SavedBy", string.IsNullOrEmpty(inpermissionLead.SavedBy) ? DBNull.Value : (object)inpermissionLead.SavedBy);
                     parameters[7] = Database.GetParameter("@DateSaved", inpermissionLead.DateSaved.HasValue ? (object)inpermissionLead.DateSaved.Value : DBNull.Value);
-
+                    parameters[8] = Database.GetParameter("@DateOfBirth", inpermissionLead.DateOfBirth.HasValue ? (object)inpermissionLead.DateOfBirth.Value : DBNull.Value);
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
             }
@@ -251,7 +253,7 @@ namespace UDM.Insurance.Business.Queries
         /// <param name="note">The note search criteria.</param>
         /// <param name="sequence">The sequence search criteria.</param>
         /// <returns>A query that can be used to search for inimportnotes based on the search criteria.</returns>
-        internal static string Search(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved)
+        internal static string Search(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth)
         {
             StringBuilder whereQuery = new StringBuilder();
             StringBuilder query = new StringBuilder();
@@ -296,7 +298,13 @@ namespace UDM.Insurance.Business.Queries
                 whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
                 whereQuery.Append("[INPermissionLead].[DateSaved] = " + datesaved + "");
             }
-            query.Append("SELECT [INPermissionLead].[ID], [INPermissionLead].[FKImportID], [INpermissionLead].[Title], [INPermissionLead].[Firstname], [INPermissionLead].[Surname], [INPermissionLead].[CellNumber], [INPermissionLead].[AltNumber], [INPermissionLead].[SavedBy], [INPermissionLead].[DateSaved], [INPermissionLead].[StampDate], [INPermissionLead].[StampUserID]");
+            if (dateofbirth != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INPermissionLead].[DateOfBirth] = " + dateofbirth + "");
+            }
+
+            query.Append("SELECT [INPermissionLead].[ID], [INPermissionLead].[FKImportID], [INpermissionLead].[Title], [INPermissionLead].[Firstname], [INPermissionLead].[Surname], [INPermissionLead].[CellNumber], [INPermissionLead].[AltNumber], [INPermissionLead].[SavedBy], [INPermissionLead].[DateSaved], [INPermissionLead].[DateOfBirth], [INPermissionLead].[StampDate], [INPermissionLead].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INImportNote].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INPermissionLead] ");
             return query.ToString() + whereQuery.ToString();

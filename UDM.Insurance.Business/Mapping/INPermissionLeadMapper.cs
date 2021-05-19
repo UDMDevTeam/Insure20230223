@@ -106,6 +106,7 @@ namespace UDM.Insurance.Business.Mapping
                     inpermissionlead.AltNumber = reader["AltNumber"] != DBNull.Value ? (string)reader["AltNumber"] : (string)null;
                     inpermissionlead.SavedBy = reader["SavedBy"] != DBNull.Value ? (string)reader["SavedBy"] : (string)null;
                     inpermissionlead.DateSaved = reader["DateSaved"] != DBNull.Value ? (DateTime?)reader["DateSaved"] : (DateTime?)null;
+                    inpermissionlead.DateOfBirth = reader["DateOfBirth"] != DBNull.Value ? (DateTime?)reader["DateOfBirth"] : (DateTime?)null;
                     inpermissionlead.StampDate = (DateTime)reader["StampDate"];
                     inpermissionlead.HasChanged = false;
                 }
@@ -318,12 +319,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="sequence">The sequence search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INPermissionLeadCollection Search(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, string connectionName)
+        public static INPermissionLeadCollection Search(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth, string connectionName)
         {
             INPermissionLeadCollection collection = new INPermissionLeadCollection();
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved, dateofbirth), null);
                 while (reader.Read())
                 {
                     INPermissionLead inpermissionlead = new INPermissionLead((long)reader["ID"]);
@@ -353,11 +354,11 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="sequence">The sequence search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A data set containing the results of the search.</returns>
-        public static DataSet SearchData(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, string connectionName)
+        public static DataSet SearchData(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth, string connectionName)
         {
             try
             {
-                return Database.ExecuteDataSet(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby,datesaved), null);
+                return Database.ExecuteDataSet(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby,datesaved, dateofbirth), null);
             }
             catch (Exception ex)
             {
@@ -375,12 +376,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="sequence">The sequence search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INPermissionLead SearchOne(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, string connectionName)
+        public static INPermissionLead SearchOne(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth,  string connectionName)
         {
             INPermissionLead inpermissionlead = null;
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved, dateofbirth), null);
                 if (reader.Read())
                 {
                     inpermissionlead = new INPermissionLead((long)reader["ID"]);

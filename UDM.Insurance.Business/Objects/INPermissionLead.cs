@@ -22,6 +22,7 @@ namespace UDM.Insurance.Business
         private string _altnumber = null;
         private string _savedby = null;
         private DateTime? _datesaved = null;
+        private DateTime? _dateofbirth = null;
         bool LoadedIS;
         #endregion
 
@@ -183,6 +184,24 @@ namespace UDM.Insurance.Business
                 if (value != _datesaved)
                 {
                     _datesaved = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
+        public DateTime? DateOfBirth
+        {
+            get
+            {
+                Fill();
+                return _dateofbirth;
+            }
+            set
+            {
+                Fill();
+                if (value != _dateofbirth)
+                {
+                    _dateofbirth = value;
                     _hasChanged = true;
                 }
             }

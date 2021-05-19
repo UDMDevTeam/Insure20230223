@@ -22,8 +22,9 @@
 
     <Canvas
         x:Name="LayoutRoot"
+        Margin="0,0,165,10"
         Background="{x:Null}"
-        FocusManager.FocusedElement="{Binding ElementName=medReference}" Margin="0,0,165,10">
+        FocusManager.FocusedElement="{Binding ElementName=medReference}">
         <Rectangle
             x:Name="BGRectangle"
             Canvas.Left="1"
@@ -33,9 +34,9 @@
             RadiusX="15"
             RadiusY="15"
             Stroke="#FF7FBEF5"
-            StrokeThickness="2" >
+            StrokeThickness="2">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="../Resources/InsureBackground.jpg"/>
+                <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
             </Rectangle.Fill>
 
         </Rectangle>
@@ -43,12 +44,22 @@
             x:Name="buttonClose"
             Canvas.Left="660"
             Canvas.Top="36"
+            Margin="0"
             Click="buttonClose_Click"
             Style="{DynamicResource INCloseButton}"
-            TabIndex="3" Margin="0" />
-        <Viewbox x:Name="Body" Height="456" Visibility="Visible" Canvas.Top="10" Width="723">
+            TabIndex="3" />
+
+        <Viewbox
+            x:Name="Body"
+            Canvas.Top="10"
+            Width="723"
+            Height="456"
+            Visibility="Visible">
             <Grid Width="1177" Height="750">
                 <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
@@ -85,19 +96,16 @@
                 </Grid.ColumnDefinitions>
 
                 <Border
-                    Canvas.Left="1"
-                    Background="Black"
-                    Grid.ColumnSpan="13" 
-                    Margin="0,0,29,0" 
-                    Grid.RowSpan="6" 
-                    Grid.Column="3"
                     Grid.Row="2"
-                    CornerRadius="10"
-                    BorderThickness="2"
+                    Grid.RowSpan="10"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="16"
+                    Canvas.Left="1"
+                    Margin="0,0,29,0"
+                    Background="Black"
                     BorderBrush="LightBlue"
-                    >
-
-                </Border>
+                    BorderThickness="2"
+                    CornerRadius="10" />
 
                 <TextBlock
                     x:Name="headingLeadDetails"
@@ -112,156 +120,188 @@
 
 
                 <TextBlock
-                                x:Name="lblTitle"
-                                Grid.Row="2"
-                                Grid.Column="3"
-                                Margin="0,6,8,0"
-                                Grid.ColumnSpan="3"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource INLabelText2}"
-                                Text="Title" />
+                    x:Name="lblTitle"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Title" />
                 <src:EmbriantComboBox
-                                x:Name="cmbTitle"
-                                Grid.Row="2"
-                                Grid.Column="7"
-                                Grid.ColumnSpan="3"
-                                Width="250"
-                                Height="40"
-                                FontSize="15"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                SelectionChanged="cmbTitle_SelectionChanged"
-                                TabIndex="15300" />
+                    x:Name="cmbTitle"
+                    Grid.Row="3"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="3"
+                    Width="250"
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    FontSize="15"
+                    SelectionChanged="cmbTitle_SelectionChanged"
+                    TabIndex="15300" />
 
                 <TextBlock
-                        x:Name="lblFirstName"
-                        Grid.Row="3"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
-                        Margin="0,6,8,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource INLabelText2}"
-                        Text="First Name" />
+                    x:Name="lblFirstName"
+                    Grid.Row="4"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="First Name" />
                 <igWPF:XamMaskedEditor
-                        x:Name="medFirstName"
-                        Grid.Row="3"
-                        Grid.Column="7"
-                        Grid.ColumnSpan="7"
-                        HorizontalAlignment="Stretch"
-                        FontSize="15"
-                        VerticalAlignment="Center"
-                        PromptChar=""
-                        Style="{StaticResource medINLA}"/>
+                    x:Name="medFirstName"
+                    Grid.Row="4"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    PromptChar=""
+                    Style="{StaticResource medINLA}" />
 
                 <TextBlock
-                        x:Name="lblSurname"
-                        Grid.Row="4"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
-                        Margin="0,6,8,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource INLabelText2}"
-                        Text="Surname" />
+                    x:Name="lblSurname"
+                    Grid.Row="5"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Surname" />
                 <igWPF:XamMaskedEditor
-                        x:Name="medSurname"
-                        Grid.Row="4"
-                        Grid.Column="7"
-                        Grid.ColumnSpan="7"
-                        FontSize="15"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        PromptChar=""
-                        Style="{StaticResource medINLA}"/>
+                    x:Name="medSurname"
+                    Grid.Row="5"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    PromptChar=""
+                    Style="{StaticResource medINLA}" />
+
 
                 <TextBlock
-                        x:Name="lblCellphone"
-                        Grid.Row="5"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
-                        Margin="0,6,8,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource INLabelText2}"
-                        Text="Cell Number" />
+                    x:Name="lblDateOfBirth"
+                    Grid.Row="6"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Date Of Birth" />
+
+                <DatePicker
+                    x:Name="DateOfBirthDP"
+                    Grid.Row="6"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    Height="27"
+                    Margin="0,12,0,15"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    FontSize="14"
+                    RenderTransformOrigin="0.482,0.539"
+                    Visibility="Visible" />
+
+
+                <TextBlock
+                    x:Name="lblCellphone"
+                    Grid.Row="7"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Cell Number" />
+
                 <igWPF:XamMaskedEditor
-                        x:Name="medCellPhone"
-                        Grid.Row="5"
-                        Grid.Column="6"
-                        Grid.ColumnSpan="8"
-                        FontSize="15"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        PromptChar=""
-                        Style="{StaticResource medINLA}" Margin="60,9,2,9"/>
+                    x:Name="medCellPhone"
+                    Grid.Row="7"
+                    Grid.Column="6"
+                    Grid.ColumnSpan="8"
+                    Margin="60,9,2,9"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    PromptChar=""
+                    Style="{StaticResource medINLA}" />
 
                 <TextBlock
-                        x:Name="lblCAltphone"
-                        Grid.Row="6"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
-                        Margin="0,6,8,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource INLabelText2}"
-                        Text="Alt. Number" />
+                    x:Name="lblCAltphone"
+                    Grid.Row="8"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Alt. Number" />
+
                 <igWPF:XamMaskedEditor
-                        x:Name="medAltPhone"
-                        Grid.Row="6"
-                        Grid.Column="7"
-                        Grid.ColumnSpan="7"
-                        FontSize="15"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        PromptChar=""
-                        Style="{StaticResource medINLA}"/>
+                    x:Name="medAltPhone"
+                    Grid.Row="8"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    PromptChar=""
+                    Style="{StaticResource medINLA}" />
 
 
                 <TextBlock
-                        x:Name="lblDatePicker"
-                        Grid.Row="7"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
-                        Margin="0,6,8,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Visibility="Collapsed"
-                        Style="{StaticResource INLabelText2}"
-                        Text="Date Saved" />
+                    x:Name="lblDatePicker"
+                    Grid.Row="9"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Date Saved"
+                    Visibility="Collapsed" />
 
                 <DatePicker
                     x:Name="DateSavedDP"
-                    Grid.Row="7"
+                    Grid.Row="9"
                     Grid.Column="7"
                     Grid.ColumnSpan="5"
+                    Width="223"
+                    Height="50"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Height="50" 
-                    Visibility="Collapsed"
-                    Width="223" 
-                    RenderTransformOrigin="0.484,1.008"></DatePicker>
+                    RenderTransformOrigin="0.484,1.008"
+                    Visibility="Collapsed" />
+
 
 
                 <Button
-                        x:Name="btnSave"
-                        Grid.Row="9"
-                        Grid.Column="6"
-                        Grid.ColumnSpan="7"
-                        Width="403"
-                        Height="68"
-                        Content="Save"
-                        FontSize="20"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="LightBlue"
-                        Click="btnSave_Click" Margin="0,1,31,68" Grid.RowSpan="2">
+                    x:Name="btnSave"
+                    Grid.Row="10"
+                    Grid.RowSpan="2"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    Width="403"
+                    Height="68"
+                    Margin="0,1,31,68"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="LightBlue"
+                    Click="btnSave_Click"
+                    Content="Save"
+                    FontSize="20">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="7"/>
+                            <Setter Property="CornerRadius" Value="7" />
                         </Style>
                     </Button.Resources>
                 </Button>

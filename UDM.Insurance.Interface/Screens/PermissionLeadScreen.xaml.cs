@@ -62,6 +62,8 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     DateSavedDP.Visibility = Visibility.Visible;
                     lblDatePicker.Visibility = Visibility.Visible;
+                    
+
                 }
                 else
                 {
@@ -86,7 +88,7 @@ namespace UDM.Insurance.Interface.Screens
                 string strQuery;
                 DataTable dt;
 
-                strQuery = "SELECT TOP 1 Title, Firstname, Surname, CellNumber, AltNumber, DateSaved FROM INPermissionLead WHERE FKImportID = " + importID;
+                strQuery = "SELECT TOP 1 Title, Firstname, Surname, CellNumber, AltNumber, DateSaved, DateOfBirth FROM INPermissionLead WHERE FKImportID = " + importID;
                 DataTable dtPermissionLeadDetails = Methods.GetTableData(strQuery);
 
                 cmbTitle.Text = dtPermissionLeadDetails.Rows[0]["Title"] as string;
@@ -95,6 +97,8 @@ namespace UDM.Insurance.Interface.Screens
                 medCellPhone.Text = dtPermissionLeadDetails.Rows[0]["CellNumber"] as string;
                 medSurname.Text = dtPermissionLeadDetails.Rows[0]["Surname"] as string;
                 try { DateSavedDP.SelectedDate = dtPermissionLeadDetails.Rows[0]["DateSaved"] as DateTime?; } catch { }
+                try { DateOfBirthDP.SelectedDate = dtPermissionLeadDetails.Rows[0]["DateOfBirth"] as DateTime?; } catch { }
+
             }
             catch
             {
@@ -112,6 +116,7 @@ namespace UDM.Insurance.Interface.Screens
             try { medCellPhone.Text = null; } catch { }
             try { medAltPhone.Text = null; } catch { }
             try { DateSavedDP.SelectedDate = null; } catch { }
+            try { DateOfBirthDP.SelectedDate = null; } catch { }
         }
 
         #region Event Handlers
@@ -171,6 +176,7 @@ namespace UDM.Insurance.Interface.Screens
                     try { inpermissionlead.Surname = medSurname.Text.ToString(); } catch { inpermissionlead.Surname = " "; }
                     try { inpermissionlead.Cellnumber = medCellPhone.Text.ToString(); } catch { inpermissionlead.Cellnumber = " "; }
                     try { inpermissionlead.AltNumber = medAltPhone.Text.ToString(); } catch { inpermissionlead.AltNumber = " "; }
+
                     if (dtPermissionSavedByIsloaded.Rows.Count == 0)
                     {
                         try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { inpermissionlead.SavedBy = " "; }
@@ -178,13 +184,17 @@ namespace UDM.Insurance.Interface.Screens
                     if (GlobalSettings.ApplicationUser.ID == 72 || GlobalSettings.ApplicationUser.ID == 174) //this is for Kashmira to edit the Date the reference was saved for report purposes.
                     {
                         try { inpermissionlead.DateSaved = DateSavedDP.SelectedDate; } catch { inpermissionlead.DateSaved = null; }
+                        try { inpermissionlead.DateOfBirth = DateOfBirthDP.SelectedDate; } catch { inpermissionlead.DateOfBirth = null; }
                     }
                     else
                     {
                         if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
                         {
                             try { inpermissionlead.DateSaved = DateTime.Now; } catch { inpermissionlead.DateSaved = null; }
+                            try { inpermissionlead.DateOfBirth = null; } catch { inpermissionlead.DateOfBirth = null; }
+
                         }
+
                     }
                     inpermissionlead.Save(_validationResult);
 
@@ -197,6 +207,21 @@ namespace UDM.Insurance.Interface.Screens
             {
                 ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission saved unsuccessfully.\n", "Not saved Result", ShowMessageType.Information);
             }
+
+        }
+
+        private void dteDateOfBirth_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dteDateOfBirth_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dteDateOfBirth_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
 
         }
     }
