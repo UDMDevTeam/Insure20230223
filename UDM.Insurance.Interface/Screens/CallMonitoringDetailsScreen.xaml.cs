@@ -649,7 +649,9 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (inImportCallMonitoring.IsCallMonitored == true && inImportCallMonitoring.CallMonitoredDate == null)
                 {
+
                     ScreenData.CallMonitoredDate = DateTime.Now;
+
                     //inImportCallMonitoring.CallMonitoredDate = DateTime.Now;
                 }
                 inImportCallMonitoring.CallMonitoredDate = ScreenData.CallMonitoredDate;
