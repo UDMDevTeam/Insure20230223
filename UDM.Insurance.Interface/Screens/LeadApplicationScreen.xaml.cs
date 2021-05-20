@@ -1683,7 +1683,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Import Call Monitoring
 
-                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null);
 
                 #endregion
 
@@ -2420,6 +2420,8 @@ namespace UDM.Insurance.Interface.Screens
                             try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { inpermissionlead.Surname = " "; }
                             try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { inpermissionlead.Cellnumber = " "; }
                             try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { inpermissionlead.AltNumber = " "; }
+                            try { inpermissionlead.DateOfBirth = Convert.ToDateTime(dteBeneficiaryDateOfBirth2); } catch { inpermissionlead.DateOfBirth = null; }
+
                             if (dtPermissionSavedByIsloaded.Rows.Count == 0)
                             {
                                 try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { inpermissionlead.SavedBy = " "; }
@@ -2427,6 +2429,7 @@ namespace UDM.Insurance.Interface.Screens
                             if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
                             {
                                 try { inpermissionlead.DateSaved = DateTime.Now; } catch { inpermissionlead.DateSaved = null; }
+                                try { inpermissionlead.DateOfBirth = DateTime.Now; } catch { inpermissionlead.DateOfBirth = null; }
                             }
 
                             inpermissionlead.Save(_validationResult);

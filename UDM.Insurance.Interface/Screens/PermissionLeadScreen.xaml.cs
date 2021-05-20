@@ -176,6 +176,7 @@ namespace UDM.Insurance.Interface.Screens
                     try { inpermissionlead.Surname = medSurname.Text.ToString(); } catch { inpermissionlead.Surname = " "; }
                     try { inpermissionlead.Cellnumber = medCellPhone.Text.ToString(); } catch { inpermissionlead.Cellnumber = " "; }
                     try { inpermissionlead.AltNumber = medAltPhone.Text.ToString(); } catch { inpermissionlead.AltNumber = " "; }
+                    try { inpermissionlead.DateOfBirth = DateOfBirthDP.SelectedDate; } catch { inpermissionlead.DateOfBirth = null; }
 
                     if (dtPermissionSavedByIsloaded.Rows.Count == 0)
                     {
@@ -184,7 +185,7 @@ namespace UDM.Insurance.Interface.Screens
                     if (GlobalSettings.ApplicationUser.ID == 72 || GlobalSettings.ApplicationUser.ID == 174) //this is for Kashmira to edit the Date the reference was saved for report purposes.
                     {
                         try { inpermissionlead.DateSaved = DateSavedDP.SelectedDate; } catch { inpermissionlead.DateSaved = null; }
-                        try { inpermissionlead.DateOfBirth = DateOfBirthDP.SelectedDate; } catch { inpermissionlead.DateOfBirth = null; }
+                     
                     }
                     else
                     {
