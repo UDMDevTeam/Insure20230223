@@ -7232,7 +7232,27 @@ namespace UDM.Insurance.Interface.Screens
                     || LaData.AppData.CampaignID == 326
                     || LaData.AppData.CampaignID == 327)
                 {
-
+                    if (btnDebiCheck.Visibility == Visibility.Visible)
+                    {
+                        try
+                        {
+                            StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                            strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                            strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                            strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                            strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                            DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                            string responses = dt.Rows[0]["Response"].ToString();
+                        }
+                        catch
+                        {
+                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                            messageBox.buttonOK.Content = "Yes";
+                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                            bool result = showMessageBox != null && (bool)showMessageBox;
+                            return;
+                        }
+                    }
                 }
                 else
                 {
