@@ -13815,7 +13815,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         catch
                         {
-
+                            DebiCheckBorder.BorderBrush = Brushes.White;
                         }
 
                         //this is for the resales campaign rule
