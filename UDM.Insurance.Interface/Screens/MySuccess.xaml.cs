@@ -37,13 +37,17 @@ namespace UDM.Insurance.Interface.Screens
         DataTable dtCampaigns;
         DataTable dtCampaignNotes;
         DataTable dtCampaignsCalls;
+        DataTable dtAgentNotes; 
 
         DataTable dtAgents;
         private DataTable dtAgentCallsDG;
 
         private List<Record> _lstSelectedCampaigns;
+        private List<Record> _lstSelectedCampaignNotes;
         private string _fkCampaignIDs = "";
         public string _CampaignNoteIDs = "";
+        public string _AgentNoteIDs = "";
+
 
         #endregion
 
@@ -132,13 +136,13 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(System.Windows.Input.Cursors.Wait);
 
-                try { dtCampaignNotes.Clear(); } catch { }
+                try { dtAgentNotes.Clear(); } catch { }
 
-                dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpAgentNotesMessages");
+                dtAgentNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpAgentNotesMessages");
                 DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
-                dtCampaignNotes.Columns.Add(column);
-                dtCampaignNotes.DefaultView.Sort = "ID ASC";
-                xdgAgentNotes.DataSource = dtCampaignNotes.DefaultView;
+                dtAgentNotes.Columns.Add(column);
+                dtAgentNotes.DefaultView.Sort = "ID ASC";
+                xdgAgentNotes.DataSource = dtAgentNotes.DefaultView;
             }
 
             catch (Exception ex)
@@ -162,10 +166,10 @@ namespace UDM.Insurance.Interface.Screens
 
                     try { dtCampaigns.Clear(); } catch { }
 
-                    dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign");
+                    dtCampaigns = Methods.GetTableData("Select Name [Campaign Name] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS[CG] ON[C].[FKINCampaignGroupID] = [CG].[ID] WHERE CG.ID IN(1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
                     DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
                     dtCampaigns.Columns.Add(column);
-                    dtCampaigns.DefaultView.Sort = "CampaignName ASC";
+                    dtCampaigns.DefaultView.Sort = "CampaignID ASC";
                     xdgCampaigns.DataSource = dtCampaigns.DefaultView;
                 }
 
@@ -187,10 +191,10 @@ namespace UDM.Insurance.Interface.Screens
 
                     try { dtCampaigns.Clear(); } catch { }
 
-                    dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign");
+                    dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign ORDER BY CampaignID ASC");
                     DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
                     dtCampaigns.Columns.Add(column);
-                    dtCampaigns.DefaultView.Sort = "CampaignName ASC";
+                    dtCampaigns.DefaultView.Sort = "CampaignID ASC";
                     xdgCampaigns.DataSource = dtCampaigns.DefaultView;
                 }
 
@@ -360,11 +364,18 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(System.Windows.Input.Cursors.Wait);
                 try { dtCampaignNotes.Clear(); } catch { }
-                dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes");
-                DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
-                dtCampaignNotes.Columns.Add(column);
-                dtCampaignNotes.DefaultView.Sort = "Description ASC";
-                xdgCampaignNotes.DataSource = dtCampaignNotes.DefaultView;
+
+
+                    var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                    
+
+
+                    dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes");
+                    DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                    dtCampaignNotes.Columns.Add(column);
+                    dtCampaignNotes.DefaultView.Sort = "ID ASC";
+                    xdgCampaignNotes.DataSource = dtCampaignNotes.DefaultView;
+                
             }
             catch (Exception ex)
             {
@@ -378,6 +389,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private void HeaderPrefixAreaCampaignNotesCheckbox_Checked(object sender, RoutedEventArgs e)
         {
+
 
 
         }
@@ -394,28 +406,35 @@ namespace UDM.Insurance.Interface.Screens
 
         private void RecordSelectorAgentNotesCheckbox_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+            //try
+            //{
 
-                _lstSelectedCampaignNote = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
 
-                _CampaignNoteIDs = _lstSelectedCampaignNote.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
-                _CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
+            //        var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
 
-                var listTemp = (from r in xdgAgentNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
-                var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+            //    if (lstTemp.Count == 0)
+            //    {  
+                    
+            //    }
+            //        _lstSelectedCampaignNote = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
 
-                //var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
-                //_NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
+            //        _CampaignNoteIDs = _lstSelectedCampaignNote.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+            //        _CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
 
-                MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
-                ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
+            //        var listTemp = (from r in xdgAgentNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+            //        var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+
+            //        //var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+            //        //_NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
+
+            //        MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
+            //        ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    HandleException(ex);
+            //}
         }
         #endregion
         #endregion
@@ -440,7 +459,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-
+                HandleException(ex);
             }
         }
 
@@ -515,61 +534,59 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+
                 var listTemp = (from r in xdgAgentNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
                 var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
 
-                var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
-                _NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
+                var _AgentNotesID = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                _AgentNotesID = _AgentNotesID.Substring(0, _AgentNotesID.Length - 1);
 
-
-                if (_NotesDescription == "1")
-                {
-                    try
-                    {
-                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
-                        ShowDialog(mySuccess, new INDialogWindow(mySuccess));
-                    }
-
-                    catch (Exception ex)
-                    {
-                        HandleException(ex);
-                    }
-                }
-                else if (_NotesDescription == "2")
-                {
-                    try
-                    {
-                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
-                        ShowDialog(mySuccess, new INDialogWindow(mySuccess));
-                    }
-
-                    catch (Exception ex)
-                    {
-                        HandleException(ex);
-                    }
-                }
-                else if (_NotesDescription == "3")
-                {
-                    try
-                    {
-                        MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
-                        ShowDialog(mySuccess, new INDialogWindow(mySuccess));
-                    }
-
-                    catch (Exception ex)
-                    {
-                        HandleException(ex);
-                    }
-                }
-                else
-                {
-
-                }
+                MySuccessAgentNotes mySuccessAgentNotes = new MySuccessAgentNotes(_AgentNotesID);
+                ShowDialog(mySuccessAgentNotes, new INDialogWindow(mySuccessAgentNotes));
+                    
             }
-            catch
+
+            catch (Exception ex)
             {
-
+                HandleException(ex);
             }
+
+            //    }
+            //    else if (_NotesDescription == "2")
+            //    {
+            //        try
+            //        {
+            //            MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
+            //            ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+            //        }
+
+            //        catch (Exception ex)
+            //        {
+            //            HandleException(ex);
+            //        }
+            //    }
+            //    else if (_NotesDescription == "3")
+            //    {
+            //        try
+            //        {
+            //            MySuccessCampaignNotes mySuccess = new MySuccessCampaignNotes(_fkCampaignIDs);
+            //            ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+            //        }
+
+            //        catch (Exception ex)
+            //        {
+            //            HandleException(ex);
+            //        }
+            //    }
+            //    else
+            //    {
+
+            //    }
+            //}
+            //catch
+            //{
+
+            //}
 
         }
 
@@ -611,6 +628,44 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
+        }
+
+        private void RecordSelectorCampaignNotesCheckbox_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+
+                var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+
+                _lstSelectedCampaignNote = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+
+                if (_lstSelectedCampaignNote.Count == 0 || _lstSelectedCampaignNote.Count >= 2)
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), "Please Select Only One(1) Campaign Note From The List.", "Campaign Notes Selected", ShowMessageType.Error);
+                    return;
+                }
+
+                else
+                {
+                    _CampaignNoteIDs = _lstSelectedCampaignNote.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                    _CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
+
+                    var listTemp = (from r in xdgAgentNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                    var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
+
+                    //var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                    //_NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
+
+                    MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
+                    ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
         }
     }
 

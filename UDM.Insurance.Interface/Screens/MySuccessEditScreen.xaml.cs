@@ -339,8 +339,14 @@ namespace UDM.Insurance.Interface.Screens
 
                 var sqlQuery = "Select[INMySuccessCampaignDetails].[ID] From INMySuccessCampaignDetails where[INMySuccessCampaignDetails].[FKCampaignID] = " + _fkCampaignIDs;
                 DataTable dt = Methods.GetTableData(sqlQuery);
-                long? id = dt.Rows[0]["ID"] as long?;
 
+                //if (dt.Rows.Count == 0)
+                //{
+                //    ShowMessageBox(new INMessageBoxWindow1(), @"There is no record.", "Error", ShowMessageType.Error);
+                //}
+                
+                long? id = dt.Rows[0]["ID"] as long?;
+                
                 GlobalSettings.ColumnIDMySuccessID = id.ToString();
                 GlobalSettings.CampaignNotesID = _CampaignNoteIDs;
 

@@ -22,8 +22,9 @@
 
     <Canvas
         x:Name="LayoutRoot"
+        Margin="0,0,202,144"
         Background="{x:Null}"
-        FocusManager.FocusedElement="{Binding ElementName=medReference}" Margin="0,0,202,144">
+        FocusManager.FocusedElement="{Binding ElementName=medReference}">
         <Rectangle
             x:Name="BGRectangle"
             Canvas.Left="1"
@@ -39,10 +40,18 @@
             x:Name="buttonClose"
             Canvas.Left="942"
             Canvas.Top="25"
+            Margin="0"
             Click="buttonClose_Click"
             Style="{DynamicResource INCloseButton}"
-            TabIndex="3" Margin="0" />
-        <Viewbox x:Name="Body" Height="590" Visibility="Collapsed" Canvas.Top="10" Width="991" Canvas.Left="10">
+            TabIndex="3" />
+
+        <Viewbox
+            x:Name="Body"
+            Canvas.Left="10"
+            Canvas.Top="10"
+            Width="991"
+            Height="590"
+            Visibility="Collapsed">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -89,7 +98,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Path
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="2"
                     Grid.ColumnSpan="8"
                     Margin="0,0,36,0"
@@ -99,7 +108,7 @@
 
                 <TextBlock
                     x:Name="headingLeadDetails"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="2"
                     Grid.ColumnSpan="8"
                     Margin="0"
@@ -109,61 +118,61 @@
                     Text="M Y  S U C C E S S  L I B R A R Y" />
 
                 <TextBlock
-                    	x:Name="lblUpgradeBaseCB"
-                    	Grid.Row="1"
-                    	Grid.Column="5"
-                    	Grid.ColumnSpan="7"
-                    	Margin="0,0,0,0"
-                    	VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                    	Style="{DynamicResource INLabelText2}"
-                    	Text="Base / Upgrades"
-                    	TextWrapping="NoWrap"
-                    	Visibility="Visible" Width="290" Height="23" />
+                    x:Name="lblUpgradeBaseCB"
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="7"
+                    Width="290"
+                    Height="23"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Campaign Selection - Base / Upgrades"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
                 <src:EmbriantComboBox
-                                x:Name="cmbBaseUpgrade"
-                                Grid.Row="2"
-                                Grid.Column="3"
-                                Grid.ColumnSpan="7"
-                                Margin="0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Top"
-                                IsEnabled="True"
-                                SelectedValue="{Binding PolicyData.PlanGroupID}"
-                                SelectionChanged="cmbBaseUpgrade_SelectionChanged"
-                                Style="{StaticResource cmbINLA}"
-                                TabIndex="23000" />
+                    x:Name="cmbBaseUpgrade"
+                    Grid.Row="2"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="9"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    IsEnabled="True"
+                    SelectedValue="{Binding PolicyData.PlanGroupID}"
+                    SelectionChanged="cmbBaseUpgrade_SelectionChanged"
+                    Style="{StaticResource cmbINLA}"
+                    TabIndex="23000" />
 
                 <igWPF:XamDataGrid
-                        x:Name="xdgCampaigns"
-                        Grid.Row="3"
-                        Grid.RowSpan="10"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="9"
-                        Margin="0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        AutoFit="False"
-                        GroupByAreaLocation="None"
-                        Style="{DynamicResource INXamDataGridStyle1}"
-                        TabIndex="0" >
+                    x:Name="xdgCampaigns"
+                    Grid.Row="3"
+                    Grid.RowSpan="10"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="9"
+                    Margin="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    AutoFit="False"
+                    GroupByAreaLocation="None"
+                    Style="{DynamicResource INXamDataGridStyle1}"
+                    TabIndex="0">
                     <igWPF:XamDataGrid.Resources>
-                        <Style
-                                TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                        <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
                             <Setter Property="Visibility" Value="Visible" />
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                    <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
                                         <CheckBox
-                                                x:Name="HeaderPrefixAreaCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Checked="HeaderPrefixAreaCheckbox_Checked"
-                                                IsChecked="False"
-                                                Loaded="HeaderPrefixAreaCheckbox_Loaded"
-                                                Style="{DynamicResource INCheckboxStyle}"
-                                                Unchecked="HeaderPrefixAreaCheckbox_Unchecked"/>
+                                            x:Name="HeaderPrefixAreaCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Checked="HeaderPrefixAreaCheckbox_Checked"
+                                            IsChecked="False"
+                                            Loaded="HeaderPrefixAreaCheckbox_Loaded"
+                                            Style="{DynamicResource INCheckboxStyle}"
+                                            Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -171,50 +180,15 @@
                         <Style TargetType="{x:Type igWPF:RecordSelector}">
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:RecordSelector}">
+                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
                                         <CheckBox
-                                                x:Name="RecordSelectorCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="RecordSelectorCheckbox_Click"
-                                                Focusable="False"
-                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
-                                                Style="{DynamicResource INCheckboxStyle}" />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </igWPF:XamDataGrid.Resources>
-                </igWPF:XamDataGrid>
-
-
-                <igWPF:XamDataGrid
-                        x:Name="xdgAgents"
-                        Grid.Row="3"
-                        Grid.RowSpan="10"
-                        Grid.Column="13"
-                        Grid.ColumnSpan="9"
-                        Margin="0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        AutoFit="True"
-                        GroupByAreaLocation="None"
-                        Style="{DynamicResource INXamDataGridStyle1}"
-                        TabIndex="0">
-                    <igWPF:XamDataGrid.Resources>
-                        <Style TargetType="{x:Type igWPF:RecordSelector}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:RecordSelector}">
-                                        <CheckBox
-                                                x:Name="RecordSelectorAgentCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="RecordSelectorAgentCheckbox_Click_1"
-                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
-                                                Style="{DynamicResource INCheckboxStyle}" />
+                                            x:Name="RecordSelectorCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="RecordSelectorCheckbox_Click"
+                                            Focusable="False"
+                                            IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                            Style="{DynamicResource INCheckboxStyle}" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -223,18 +197,72 @@
                     <igWPF:XamDataGrid.FieldLayouts>
                         <igWPF:FieldLayout>
                             <igWPF:Field
-                                    Name="AgentID"
-                                    Label="Agent ID"
-                                    Visibility="Collapsed" />
+                                Name="CampaignID"
+                                Label="CampaignID"
+                                Visibility="Collapsed" />
                             <igWPF:Field
-                                    Name="AgentName"
-                                    Width="290"
-                                    Label="Agent Name" />
+                                Name="Campaign Name"
+                                Width="340"
+                                Label="Campaign Name" />
                             <igWPF:Field
-                                    Name="Select"
-                                    Width="290"
-                                    Label="Select"
-                                    Visibility="Collapsed"/>
+                                Name="CampaignCode"
+                                Label="CampaignCode"
+                                Visibility="Collapsed" />
+                            <igWPF:Field
+                                Name="Select"
+                                Width="290"
+                                Label="Select"
+                                Visibility="Collapsed" />
+                        </igWPF:FieldLayout>
+                    </igWPF:XamDataGrid.FieldLayouts>
+                </igWPF:XamDataGrid>
+
+
+                <igWPF:XamDataGrid
+                    x:Name="xdgAgents"
+                    Grid.Row="3"
+                    Grid.RowSpan="10"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="9"
+                    Margin="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    AutoFit="True"
+                    GroupByAreaLocation="None"
+                    Style="{DynamicResource INXamDataGridStyle1}"
+                    TabIndex="0">
+                    <igWPF:XamDataGrid.Resources>
+                        <Style TargetType="{x:Type igWPF:RecordSelector}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                        <CheckBox
+                                            x:Name="RecordSelectorAgentCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="RecordSelectorAgentCheckbox_Click_1"
+                                            IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                            Style="{DynamicResource INCheckboxStyle}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </igWPF:XamDataGrid.Resources>
+                    <igWPF:XamDataGrid.FieldLayouts>
+                        <igWPF:FieldLayout>
+                            <igWPF:Field
+                                Name="AgentID"
+                                Label="Agent ID"
+                                Visibility="Collapsed" />
+                            <igWPF:Field
+                                Name="AgentName"
+                                Width="290"
+                                Label="Agent Name" />
+                            <igWPF:Field
+                                Name="Select"
+                                Width="290"
+                                Label="Select"
+                                Visibility="Collapsed" />
                         </igWPF:FieldLayout>
                     </igWPF:XamDataGrid.FieldLayouts>
                 </igWPF:XamDataGrid>
@@ -281,7 +309,13 @@
             </Grid>
         </Viewbox>
 
-        <Viewbox x:Name="Body2" Visibility="Visible" Height="590" Canvas.Top="10" Width="991" Canvas.Left="10">
+        <Viewbox
+            x:Name="Body2"
+            Canvas.Left="10"
+            Canvas.Top="10"
+            Width="991"
+            Height="590"
+            Visibility="Visible">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -347,65 +381,64 @@
                     Text="M Y  S U C C E S S  L I B R A R Y" />
 
                 <TextBlock
-                    	Grid.Row="2"
-                    	Grid.Column="3"
-                    	Grid.ColumnSpan="4"
-                    	VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                    	Style="{DynamicResource INLabelText2}"
-                    	Text="Agent Calls"
-                    	TextWrapping="NoWrap"
-                    	Visibility="Visible" />
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Agent Calls"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
 
                 <TextBlock
-                    	Grid.Row="2"
-                    	Grid.Column="10"
-                    	Grid.ColumnSpan="4"
-                    	VerticalAlignment="Center"
-                        HorizontalAlignment="Right"
-                    	Style="{DynamicResource INLabelText2}"
-                    	Text="Agent Notes and Messages"
-                    	TextWrapping="NoWrap"
-                    	Visibility="Visible" />
+                    Grid.Row="2"
+                    Grid.Column="10"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Agent Notes and Messages"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
 
                 <TextBlock
-                    	Grid.Row="2"
-                    	Grid.Column="17"
-                    	Grid.ColumnSpan="4"
-                    	VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                    	Style="{DynamicResource INLabelText2}"
-                    	Text="Campaign Notes"
-                    	TextWrapping="NoWrap"
-                    	Visibility="Visible" />
+                    Grid.Row="2"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Campaign Notes"
+                    TextWrapping="NoWrap"
+                    Visibility="Visible" />
 
 
                 <igWPF:XamDataGrid
-                        x:Name="xdgAgentCalls"
-                        Grid.Row="3"
-                        Grid.RowSpan="10"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="6"
-                        Margin="0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        AutoFit="False"
-                        GroupByAreaLocation="None"
-                        Style="{DynamicResource INXamDataGridStyle1}"
-                        TabIndex="0">
+                    x:Name="xdgAgentCalls"
+                    Grid.Row="3"
+                    Grid.RowSpan="10"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="6"
+                    Margin="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    AutoFit="False"
+                    GroupByAreaLocation="None"
+                    Style="{DynamicResource INXamDataGridStyle1}"
+                    TabIndex="0">
                     <igWPF:XamDataGrid.Resources>
                         <Style TargetType="{x:Type igWPF:RecordSelector}">
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:RecordSelector}">
+                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
                                         <CheckBox
-                                                x:Name="RecordSelectorAgentCallsCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="RecordSelectorAgentCallsCheckbox_Click_1"
-                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
-                                                Style="{DynamicResource INCheckboxStyle}" />
+                                            x:Name="RecordSelectorAgentCallsCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="RecordSelectorAgentCallsCheckbox_Click_1"
+                                            IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                            Style="{DynamicResource INCheckboxStyle}" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -414,49 +447,48 @@
                     <igWPF:XamDataGrid.FieldLayouts>
                         <igWPF:FieldLayout>
                             <igWPF:Field
-                                    Name="ID"
-                                    Label="CallsID"
-                                    Visibility="Collapsed" />
+                                Name="ID"
+                                Label="CallsID"
+                                Visibility="Collapsed" />
                             <igWPF:Field
-                                    Name="Description"
-                                    Width="250"
-                                    Label="Description"
-                                    Visibility="Visible" />
+                                Name="Description"
+                                Width="250"
+                                Label="Description"
+                                Visibility="Visible" />
                             <igWPF:Field
-                                    Name="Select"
-                                    Width="290"
-                                    Label="Select"
-                                    Visibility="Collapsed"/>
+                                Name="Select"
+                                Width="290"
+                                Label="Select"
+                                Visibility="Collapsed" />
                         </igWPF:FieldLayout>
                     </igWPF:XamDataGrid.FieldLayouts>
                 </igWPF:XamDataGrid>
 
                 <igWPF:XamDataGrid
-                        x:Name="xdgAgentNotes"
-                        Grid.Row="3"
-                        Grid.RowSpan="10"
-                        Grid.Column="9"
-                        Grid.ColumnSpan="6"
-                        Margin="0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        AutoFit="False"
-                        GroupByAreaLocation="None"
-                        Style="{DynamicResource INXamDataGridStyle1}"
-                        TabIndex="0">
+                    x:Name="xdgAgentNotes"
+                    Grid.Row="3"
+                    Grid.RowSpan="10"
+                    Grid.Column="9"
+                    Grid.ColumnSpan="6"
+                    Margin="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    AutoFit="False"
+                    GroupByAreaLocation="None"
+                    Style="{DynamicResource INXamDataGridStyle1}"
+                    TabIndex="0">
                     <igWPF:XamDataGrid.Resources>
                         <Style TargetType="{x:Type igWPF:RecordSelector}">
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:RecordSelector}">
+                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
                                         <CheckBox
-                                                x:Name="RecordSelectorAgentNotesCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="RecordSelectorAgentNotesCheckbox_Click_1"
-                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
-                                                Style="{DynamicResource INCheckboxStyle}" />
+                                            x:Name="RecordSelectorAgentNotesCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="RecordSelectorAgentNotesCheckbox_Click_1"
+                                            IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                            Style="{DynamicResource INCheckboxStyle}" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -465,95 +497,78 @@
                     <igWPF:XamDataGrid.FieldLayouts>
                         <igWPF:FieldLayout>
                             <igWPF:Field
-                                    Name="ID"
-                                    Label="ID"
-                                    Visibility="Collapsed" />
+                                Name="ID"
+                                Label="ID"
+                                Visibility="Collapsed" />
+
                             <igWPF:Field
-                                    Name="Description"
-                                    Width="290"
-                                    Label="Description" />
-                                <igWPF:Field
-                                    Name="Select"
-                                    Width="290"
-                                    Label="Select"
-                                    Visibility="Collapsed"/>
-                            </igWPF:FieldLayout>
+                                Name="Description"
+                                Width="250"
+                                Label="Description"
+                                Visibility="Visible" />
+                            <igWPF:Field
+                                Name="Select"
+                                Width="290"
+                                Label="Select"
+                                Visibility="Collapsed" />
+
+                        </igWPF:FieldLayout>
                     </igWPF:XamDataGrid.FieldLayouts>
                 </igWPF:XamDataGrid>
 
                 <igWPF:XamDataGrid
-                        x:Name="xdgCampaignNotes"
-                        Grid.Row="3"
-                        Grid.RowSpan="10"
-                        Grid.Column="16"
-                        Grid.ColumnSpan="6"
-                        Margin="0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        AutoFit="False"
-                        GroupByAreaLocation="None"
-                        Style="{DynamicResource INXamDataGridStyle1}"
-                        TabIndex="0">
+                    x:Name="xdgCampaignNotes"
+                    Grid.Row="3"
+                    Grid.RowSpan="10"
+                    Grid.Column="16"
+                    Grid.ColumnSpan="6"
+                    Margin="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    AutoFit="False"
+                    GroupByAreaLocation="None"
+                    Style="{DynamicResource INXamDataGridStyle1}"
+                    TabIndex="0">
                     <igWPF:XamDataGrid.Resources>
-                        <Style
-                                TargetType="{x:Type igWPF:HeaderPrefixArea}">
-                            <Setter Property="Visibility" Value="Visible" />
+                        <Style TargetType="{x:Type igWPF:RecordSelector}">
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                    <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
                                         <CheckBox
-                                                x:Name="HeaderPrefixAreaCampaignNotesCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Checked="HeaderPrefixAreaCampaignNotesCheckbox_Checked"
-                                                IsChecked="False"
-                                                Loaded="HeaderPrefixAreaCampaignNotesCheckbox_Loaded"
-                                                Style="{DynamicResource INCheckboxStyle}"
-                                                Unchecked="HeaderPrefixAreaCampaignNotesCheckbox_Unchecked" />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                        <Style
-                                TargetType="{x:Type igWPF:RecordSelector}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate
-                                            TargetType="{x:Type igWPF:RecordSelector}">
-                                        <CheckBox
-                                                x:Name="RecordSelectorAgentNotesCheckbox"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="RecordSelectorAgentNotesCheckbox_Click"
-                                                Focusable="False"
-                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
-                                                Style="{DynamicResource INCheckboxStyle}" />
+                                            x:Name="RecordSelectorCampaignNotesCheckbox"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="RecordSelectorCampaignNotesCheckbox_Click"
+                                            Focusable="False"
+                                            IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                            Style="{DynamicResource INCheckboxStyle}" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                         </Style>
                     </igWPF:XamDataGrid.Resources>
                     <igWPF:XamDataGrid.FieldLayouts>
+
                         <igWPF:FieldLayout>
                             <igWPF:Field
-                                    Name="CampaignID"
-                                    Label="CampaignID"
-                                    Visibility="Collapsed" />
+                                Name="ID"
+                                Label="ID"
+                                Visibility="Collapsed" />
+
                             <igWPF:Field
-                                    Name="CampaignCode"
-                                    Width="250"
-                                    Label="Campaign Code"
-                                    Visibility="Collapsed" />
+                                Name="Description"
+                                Width="250"
+                                Label="Description"
+                                Visibility="Visible" />
                             <igWPF:Field
-                                    Name="CampaignName"
-                                    Width="290"
-                                    Label="Campaign Name" />
-                            <igWPF:Field
-                                    Name="Select"
-                                    Label="Select"
-                                    Visibility="Collapsed" />
+                                Name="Select"
+                                Width="290"
+                                Label="Select"
+                                Visibility="Collapsed" />
+
                         </igWPF:FieldLayout>
+
+
                     </igWPF:XamDataGrid.FieldLayouts>
                 </igWPF:XamDataGrid>
 
@@ -570,7 +585,13 @@
             </Grid>
         </Viewbox>
 
-        <Viewbox x:Name="MediaplayerVB" Visibility="Collapsed" Height="557" Canvas.Top="10" Width="991" Canvas.Left="10">
+        <Viewbox
+            x:Name="MediaplayerVB"
+            Canvas.Left="10"
+            Canvas.Top="10"
+            Width="991"
+            Height="557"
+            Visibility="Collapsed">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -655,22 +676,23 @@
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="White"/>
+                    Foreground="White" />
 
-                <MediaElement Margin="10,10,10,0" 
-                              Source="C:\Projects\WPF\MediaSamples\MediaSamples\Media\Lake.wmv"
-                              Name="McMediaElement"
-                              Width="450" 
-                              Height="250" 
-                              Grid.Row="5"
-                              Grid.Column="7"
-                              Grid.ColumnSpan="10"
-                              Grid.RowSpan="6"
-                              LoadedBehavior="Manual" 
-                              UnloadedBehavior="Stop" 
-                              Stretch="Fill"
-                              MediaOpened="McMediaElement_MediaOpened" 
-                              MediaEnded="McMediaElement_MediaEnded"/>
+                <MediaElement
+                    Name="McMediaElement"
+                    Grid.Row="5"
+                    Grid.RowSpan="6"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="10"
+                    Width="450"
+                    Height="250"
+                    Margin="10,10,10,0"
+                    LoadedBehavior="Manual"
+                    MediaEnded="McMediaElement_MediaEnded"
+                    MediaOpened="McMediaElement_MediaOpened"
+                    Source="C:\Projects\WPF\MediaSamples\MediaSamples\Media\Lake.wmv"
+                    Stretch="Fill"
+                    UnloadedBehavior="Stop" />
 
                 <Button
                     x:Name="btnPlay"
@@ -696,6 +718,7 @@
                     DataContext="{Binding}"
                     Style="{DynamicResource INFlatButton}"
                     TabIndex="2" />
+
                 <Button
                     x:Name="btnStop"
                     Grid.Row="11"
