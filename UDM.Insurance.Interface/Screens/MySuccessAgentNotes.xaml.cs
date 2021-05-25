@@ -96,9 +96,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                                 dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                _xpsDocument.Close();
 
                             }
                         }
@@ -141,9 +139,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                                 dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                _xpsDocument.Close();
 
                             }
                         }
@@ -189,9 +185,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                                 dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                _xpsDocument.Close();
 
                             }
                         }
@@ -235,9 +229,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                                 dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                _xpsDocument.Close();
 
                             }
                         }
@@ -280,9 +272,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                                 dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                _xpsDocument.Close();
 
                             }
                         }
@@ -309,6 +299,13 @@ namespace UDM.Insurance.Interface.Screens
         {
             OnDialogClose(_dialogResult);
 
+            MySuccess mySuccess = new MySuccess();
+            mySuccess.Body.Visibility = Visibility.Collapsed;
+            mySuccess.Body2.Visibility = Visibility.Visible;
+            mySuccess.LoadAgentCalls();
+            mySuccess.LoadAgentNotesDG();
+            mySuccess.LoadCampaignNotesDG();
+            ShowDialog(mySuccess, new INDialogWindow(mySuccess));
 
         }
 

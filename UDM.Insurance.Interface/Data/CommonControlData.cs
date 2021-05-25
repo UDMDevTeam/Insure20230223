@@ -48,6 +48,12 @@ namespace UDM.Insurance.Interface.Data
             System.Data.DataTable dt = UDM.WPF.Library.Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes ORDER BY ID ASC");
             cmbTargetComboBox.Populate(dt, "Description", "ID");
         }
+        public static void PopulateAgentNotesComboBox(Embriant.WPF.Controls.EmbriantComboBox cmbTargetComboBox)
+        {
+            System.Data.DataTable dt = UDM.WPF.Library.Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpAgentNotesMessages ORDER BY ID ASC");
+            cmbTargetComboBox.Populate(dt, "Description", "ID");
+        }
+        
 
 
         public static void PopulateCampaignDataGrid(Infragistics.Windows.DataPresenter.XamDataGrid xdgTargetDataGrid, System.Data.DataTable dataTable)

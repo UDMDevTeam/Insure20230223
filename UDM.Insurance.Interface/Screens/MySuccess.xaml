@@ -51,7 +51,7 @@
             Canvas.Top="10"
             Width="991"
             Height="590"
-            Visibility="Collapsed">
+            Visibility="Visible">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -315,7 +315,7 @@
             Canvas.Top="10"
             Width="991"
             Height="590"
-            Visibility="Visible">
+            Visibility="Collapsed">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />

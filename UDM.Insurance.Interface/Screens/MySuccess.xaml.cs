@@ -63,8 +63,8 @@ namespace UDM.Insurance.Interface.Screens
             #endregion
 
             UpgradeBaseList.Clear();
-            UpgradeBaseList.Add("Upgrade");
             UpgradeBaseList.Add("Base");
+            UpgradeBaseList.Add("Upgrade");         
             cmbBaseUpgrade.ItemsSource = UpgradeBaseList;
         }
 
@@ -79,7 +79,9 @@ namespace UDM.Insurance.Interface.Screens
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
+
             OnDialogClose(_dialogResult);
+
         }
 
         #endregion Event Handlers
@@ -104,7 +106,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #region Load Datagrids
 
-        private void LoadAgentCalls()
+        public void LoadAgentCalls()
         {
             try
             {
@@ -130,7 +132,7 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        private void LoadAgentNotesDG()
+        public void LoadAgentNotesDG()
         {
             try
             {
@@ -166,7 +168,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     try { dtCampaigns.Clear(); } catch { }
 
-                    dtCampaigns = Methods.GetTableData("Select Name [Campaign Name] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS[CG] ON[C].[FKINCampaignGroupID] = [CG].[ID] WHERE CG.ID IN(1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
+                    dtCampaigns = Methods.GetTableData("Select [C].[ID] [CampaignID], [C].[Name] [Campaign Name], [C].[Code] [CampaignCode] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS [CG] ON [C].[FKINCampaignGroupID] = [CG].[ID] WHERE [CG].[ID] NOT IN (1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
                     DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
                     dtCampaigns.Columns.Add(column);
                     dtCampaigns.DefaultView.Sort = "CampaignID ASC";
@@ -191,7 +193,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     try { dtCampaigns.Clear(); } catch { }
 
-                    dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign ORDER BY CampaignID ASC");
+                    dtCampaigns = Methods.GetTableData("Select [C].[ID] [CampaignID], [C].[Name] [Campaign Name], [C].[Code] [CampaignCode] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS [CG] ON [C].[FKINCampaignGroupID] = [CG].[ID] WHERE CG.ID IN (1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
                     DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
                     dtCampaigns.Columns.Add(column);
                     dtCampaigns.DefaultView.Sort = "CampaignID ASC";
@@ -211,7 +213,7 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
-        private void LoadAgentDG()
+        public void LoadAgentDG()
         {
             try
             {
@@ -222,18 +224,19 @@ namespace UDM.Insurance.Interface.Screens
                 var lstTemp = (from r in xdgCampaigns.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
 
 
-                _lstSelectedCampaigns = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["CampaignName"].Value));
+                _lstSelectedCampaigns = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Campaign Name"].Value));
 
-                if (_lstSelectedCampaigns.Count == 0)
-                {
-                    ShowMessageBox(new INMessageBoxWindow1(), "Please select at least 1 campaign from the list.", "No campaigns selected", ShowMessageType.Error);
-                    return;
-                }
-                else
-                {
+                //if (_lstSelectedCampaigns.Count == 0)
+                //{
+                //    ShowMessageBox(new INMessageBoxWindow1(), "Please select at least 1 campaign from the list.", "No Campaigns Selected", ShowMessageType.Error);
+                //    return;
+                //}
+                //else
+                //{
+
                     _fkCampaignIDs = _lstSelectedCampaigns.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["CampaignID"].Value + ",");
                     _fkCampaignIDs = _fkCampaignIDs.Substring(0, _fkCampaignIDs.Length - 1);
-                }
+                //}
 
                 dtAgents = Methods.GetTableData(
                     "SELECT [INMySuccessAgents].[UserID] AS [AgentID], (SELECT [User].[FirstName] + ' ' + [User].[LastName] FROM [User] WHERE [User].[ID] = [INMySuccessAgents].[UserID] ) AS [AgentName] " +
@@ -362,19 +365,18 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+
+                
                 SetCursor(System.Windows.Input.Cursors.Wait);
                 try { dtCampaignNotes.Clear(); } catch { }
 
-
-                    var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
                     
-
-
-                    dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes");
-                    DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
-                    dtCampaignNotes.Columns.Add(column);
-                    dtCampaignNotes.DefaultView.Sort = "ID ASC";
-                    xdgCampaignNotes.DataSource = dtCampaignNotes.DefaultView;
+                dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes");
+                DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                dtCampaignNotes.Columns.Add(column);
+                dtCampaignNotes.DefaultView.Sort = "ID ASC";
+                xdgCampaignNotes.DataSource = dtCampaignNotes.DefaultView;
                 
             }
             catch (Exception ex)
@@ -640,14 +642,15 @@ namespace UDM.Insurance.Interface.Screens
 
                 _lstSelectedCampaignNote = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
 
-                if (_lstSelectedCampaignNote.Count == 0 || _lstSelectedCampaignNote.Count >= 2)
-                {
-                    ShowMessageBox(new INMessageBoxWindow1(), "Please Select Only One(1) Campaign Note From The List.", "Campaign Notes Selected", ShowMessageType.Error);
-                    return;
-                }
+                //if (_lstSelectedCampaignNote.Count == 0 || _lstSelectedCampaignNote.Count >= 2)
+                //{
+                //    ShowMessageBox(new INMessageBoxWindow1(), "Please Select Only One(1) Campaign Note From The List.", "Campaign Notes Selected", ShowMessageType.Error);
+                //    return;
+                //}
 
-                else
-                {
+                //else
+                //{
+
                     _CampaignNoteIDs = _lstSelectedCampaignNote.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
                     _CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
 
@@ -659,7 +662,10 @@ namespace UDM.Insurance.Interface.Screens
 
                     MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
                     ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
-                }
+
+                    
+
+                //}
             }
 
             catch (Exception ex)

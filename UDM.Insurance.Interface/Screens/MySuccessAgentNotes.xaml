@@ -28,7 +28,7 @@
             x:Name="BGRectangle"
             Canvas.Left="1"
             Width="1200"
-            Height="750"
+            Height="645"
             Margin="0"
             Fill="Black"
             RadiusX="15"
@@ -37,19 +37,19 @@
             StrokeThickness="2" />
         <Button
             x:Name="buttonClose"
-            Canvas.Left="1164"
+            Canvas.Left="1120"
             Canvas.Top="12"
             Click="buttonClose_Click"
             Style="{DynamicResource INCloseButton}"
             TabIndex="3" />
         <Viewbox
             x:Name="Body"
-            Canvas.Left="60"
-            Canvas.Top="54"
+            Canvas.Left="26"
+            Canvas.Top="10"
             Width="1084"
             Height="642"
             Visibility="Visible">
-            <Grid Width="1200" Height="750">
+            <Grid Width="1084" Height="642">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -107,10 +107,10 @@
                     x:Name="headingLeadDetails"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Grid.ColumnSpan="8"
-                    Margin="0"
+                    Grid.ColumnSpan="9"
+                    Margin="10,0,35,17"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Center"
                     Style="{DynamicResource INPageHeadingText1}"
                     Text="A G E N T  N O T E S" />
 
@@ -165,7 +165,6 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.RowSpan="12" Grid.ColumnSpan="24">
-
                             <DocumentViewer
                                 x:Name="dvClosure"
                                 Height="462"
@@ -185,14 +184,15 @@
                                 <StackPanel
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
-                                    Orientation="Horizontal">
+                                    Orientation="Horizontal"
+                                    Visibility="Collapsed">
                                     <CheckBox
                                         x:Name="chkClosureAfrikaans"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center">
                                         <CheckBox.Style>
-                                            <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox">
-                                                <Setter Property="IsChecked" Value="{Binding ClosureData.ClosureLanguageID, Converter={StaticResource IntCompareConverter}, ConverterParameter='==,1'}" />
+                                            <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}">
+                                                <Setter Property="IsChecked" Value="{Binding ClosureData.ClosureLanguageID, ConverterParameter=\=\=\,1, Converter={StaticResource IntCompareConverter}}" />
                                                 <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
                                             </Style>
                                         </CheckBox.Style>

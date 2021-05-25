@@ -410,6 +410,48 @@
 
                         </Button>
 
+                        <!--<Button
+                            x:Name="btnMySuccess"
+                            Grid.Row="14"
+                            Grid.RowSpan="7"
+                            Grid.Column="33"
+                            Grid.ColumnSpan="3"
+                            Width="150"
+                            Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Click="btnMySuccess_Click"
+                            Content="My Success"
+                            Style="{DynamicResource INFlatButton}"
+                            TabIndex="0">
+
+                        </Button>-->
+
+                        <Button
+                            x:Name="btnMySuccess"
+                            Grid.Row="19"
+                            Grid.RowSpan="2"
+                            Grid.Column="4"
+                            Grid.ColumnSpan="2"
+                            Width="100"
+                            Height="100"
+                            Margin="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Click="btnMySuccess_Click"
+                            Style="{DynamicResource INAddContactsButton}"
+                            TabIndex="0">
+
+                            <Image
+                                x:Name="imageMySuccess"
+                                Width="100"
+                                Height="96"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="pack://application:,,,/Resources/success.png" />
+
+                        </Button>
+
                         <Viewbox
                             x:Name="Content1"
                             Grid.Row="4"
@@ -697,6 +739,7 @@
                                     </igWPF:XamDataGrid.FieldLayouts>-->
                                 </igWPF:XamDataGrid>
 
+
                                 <StackPanel
                                     Grid.Row="16"
                                     Grid.Column="0"
@@ -719,17 +762,8 @@
                                         Style="{DynamicResource INFlatButton}"
                                         TabIndex="0"
                                         Visibility="Collapsed" />
-                                    <Button
-                                        x:Name="btnMySuccess"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Click="btnMySuccess_Click"
-                                        Content="My Success"
-                                        IsEnabled="True"
-                                        IsTabStop="True"
-                                        Style="{DynamicResource INFlatButton}"
-                                        TabIndex="0"
-                                        Visibility="Collapsed" />
+
+
                                     <Grid Width="{StaticResource Space}" />
                                     <Button
                                         x:Name="btnCaptureHours"
@@ -854,6 +888,7 @@
                                 </StackPanel>
                             </Grid>
                         </Viewbox>
+
                         <TextBlock
                             x:Name="lblAgent"
                             Grid.Row="21"

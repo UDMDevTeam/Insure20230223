@@ -64,7 +64,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 string CampaignID = GlobalSettings.CampaignID;
                 GlobalSettings.CampaignNotesID = CampaignNotesID;
-                
+
                 if (CampaignNotesID == "1")
                 {
                     #region Scripts
@@ -87,24 +87,33 @@ namespace UDM.Insurance.Interface.Screens
 
                             byte[] data = dtScript.Rows[0]["ScriptEng"] as byte[];
 
-                            if (data != null)
+                            try
                             {
 
+                                if (data != null)
+                                {
 
-                                _strXpsDoc = Convert.ToString(data);
+                                    _strXpsDoc = Convert.ToString(data);
 
-                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                objFileStream.Write(data, 0, data.Length);
-                                objFileStream.Close();
+                                    FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                    objFileStream.Write(data, 0, data.Length);
+                                    objFileStream.Close();
 
-                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                    _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                    dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                    _xpsDocument.Close();
 
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                }
 
                             }
+                            catch (Exception ex) 
+                            {
+                                HandleException(ex); 
+                            }
+
                         }
+
+                        try { dtScript.Clear(); } catch { }
 
                         strSQLScript = null;
                     }
@@ -114,8 +123,10 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else if (CampaignNotesID == "2")
                 {
-                  #region Closure
+                    #region Closure
 
+                    try
+                    {
                         string strSQLClosure = "SELECT FKCampaignID [FKCampaignID], ClosureEng [ClosureEng] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
 
                         //dt = Methods.GetTableData(
@@ -135,46 +146,63 @@ namespace UDM.Insurance.Interface.Screens
                                 if (data != null)
                                 {
 
+                                    try
+                                    {
+                                        _strXpsDoc = Convert.ToString(data);
 
-                                    _strXpsDoc = Convert.ToString(data);
+                                        FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                        objFileStream.Write(data, 0, data.Length);
+                                        objFileStream.Close();
 
-                                    FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                    objFileStream.Write(data, 0, data.Length);
-                                    objFileStream.Close();
+                                        _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                        dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                        _xpsDocument.Close();
 
-                                    _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                    dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        HandleException(ex);
+                                    }
 
-                                    objFileStream.Close();
-                                    objFileStream.Dispose();
-
+                                    //data = null;
                                 }
+
+                                else if (data == null)
+                                {
+                                    MessageBox.Show("This message indicates a blank value");
+                                }
+
+
                             }
 
 
+                            try { dtClosure.Clear(); } catch { }
                         }
 
                         strSQLClosure = null;
                     }
+                    catch (Exception ex)
+                    {
+                        HandleException(ex);
+                    }
 
-                    #endregion
+                }
 
-                
+                #endregion
+
+
                 else if (CampaignNotesID == "3")
-                {   
+                {
                     #region Options
 
                     string strSQLOptions = "SELECT FKCampaignID [FKCampaignID], Options [Options] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
-
-                    //dt = Methods.GetTableData(
-                    //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
 
                     if (strSQLOptions != null)
                     {
 
                         dtOptions = Methods.GetTableData(strSQLOptions);
 
-                        if (dtOptions != null && dtOptions.Rows.Count == 1)
+                        if (dtOptions.Rows[0]["Options"] != null)
                         {
                             CampaignID = dtOptions.Rows[0]["FKCampaignID"] as string;
 
@@ -183,19 +211,22 @@ namespace UDM.Insurance.Interface.Screens
                             if (data != null)
                             {
 
+                                try
+                                {
+                                    _strXpsDoc = Convert.ToString(data);
 
-                                _strXpsDoc = Convert.ToString(data);
+                                    FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                    objFileStream.Write(data, 0, data.Length);
+                                    objFileStream.Close();
 
-                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                objFileStream.Write(data, 0, data.Length);
-                                objFileStream.Close();
-
-                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
-
+                                    _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                    dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                    _xpsDocument.Close();
+                                }
+                                catch (Exception ex) 
+                                {
+                                    HandleException(ex); 
+                                }
                             }
                         }
 
@@ -204,46 +235,6 @@ namespace UDM.Insurance.Interface.Screens
 
                     #endregion
 
-                    #region Covers
-
-                    string strSQLCovers = "SELECT FKCampaignID [FKCampaignID], Covers [Covers] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
-
-                    //dt = Methods.GetTableData(
-                    //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
-
-                    if (strSQLCovers != null)
-                    {
-
-                        dtCovers = Methods.GetTableData(strSQLCovers);
-
-                        if (dtCovers.Rows[0]["Covers"] != null)
-                        {
-                            CampaignID = dtCovers.Rows[0]["FKCampaignID"] as string;
-
-                            byte[] data = dtCovers.Rows[0]["Covers"] as byte[];
-
-                            if (data != null)
-                            {
-
-                                _strXpsDoc = Convert.ToString(data);
-
-                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                objFileStream.Write(data, 0, data.Length);
-                                objFileStream.Close();
-
-                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
-
-                            }
-                        }
-
-                        strSQLCovers = null;
-                    }
-
-                    #endregion
                 }
 
                 else if (CampaignNotesID == "4")
@@ -269,7 +260,8 @@ namespace UDM.Insurance.Interface.Screens
                             if (data != null)
                             {
 
-
+                                try 
+                                { 
                                 _strXpsDoc = Convert.ToString(data);
 
                                 FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -278,10 +270,13 @@ namespace UDM.Insurance.Interface.Screens
 
                                 _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                                 dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                _xpsDocument.Close();
 
-                                objFileStream.Close();
-                                objFileStream.Dispose();
-
+                                }
+                                catch (Exception ex) 
+                                {
+                                    HandleException(ex);
+                                }
                             }
                         }
 
@@ -314,18 +309,23 @@ namespace UDM.Insurance.Interface.Screens
                             if (data != null)
                             {
 
+                                try
+                                {
+                                    _strXpsDoc = Convert.ToString(data);
 
-                                _strXpsDoc = Convert.ToString(data);
+                                    FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                    objFileStream.Write(data, 0, data.Length);
+                                    objFileStream.Close();
 
-                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                objFileStream.Write(data, 0, data.Length);
-                                objFileStream.Close();
+                                    _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                    dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                    _xpsDocument.Close();
 
-                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                }
+                                catch (Exception ex)
+                                {
+                                    HandleException(ex);
+                                }
 
                             }
                         }
@@ -360,22 +360,29 @@ namespace UDM.Insurance.Interface.Screens
                             if (data != null)
                             {
 
+                                try
+                                {
+                                    _strXpsDoc = Convert.ToString(data);
 
-                                _strXpsDoc = Convert.ToString(data);
+                                    FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                    objFileStream.Write(data, 0, data.Length);
+                                    objFileStream.Close();
 
-                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                objFileStream.Write(data, 0, data.Length);
-                                objFileStream.Close();
-
-                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-
-                                objFileStream.Close();
-                                objFileStream.Dispose();
+                                    _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                    dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                    _xpsDocument.Close();
+                                }
+                                catch (Exception ex) 
+                                {
+                                    HandleException(ex); 
+                                }
 
                             }
+
+                            data = null;
                         }
 
+                       
                         strSQLNeedCreation = null;
                     }
 
@@ -398,9 +405,23 @@ namespace UDM.Insurance.Interface.Screens
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
+
             OnDialogClose(_dialogResult);
+
+            MySuccess mySuccess = new MySuccess();
+            mySuccess.Body.Visibility = Visibility.Collapsed;
+            mySuccess.Body2.Visibility = Visibility.Visible;
+            mySuccess.LoadAgentCalls();
+            mySuccess.LoadAgentNotesDG();
+            mySuccess.LoadCampaignNotesDG();
+            ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+            MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(null); 
+            
             
 
+            //mySuccess.Body2.Visibility = Visibility.Visible;
+            //mySuccess.LoadCampaignNotesDG();
         }
 
         private void dvClosure_LayoutUpdated(object sender, EventArgs e)

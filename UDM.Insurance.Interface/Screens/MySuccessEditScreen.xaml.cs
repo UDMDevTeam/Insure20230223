@@ -44,8 +44,9 @@ namespace UDM.Insurance.Interface.Screens
 
 
         private List<Record> _lstSelectedCampaigns;
-        private string _fkCampaignIDs = "";
+        private string _fkCampaignIDs = null;
         public string _CampaignNoteIDs = "";
+        public string _AgentNoteIDs = "";
         private byte[] fileData;
         private string _filePathAndName;
         private string _fileName;
@@ -58,6 +59,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private long CampaignID;
         private long CampaignNotesID;
+        private long AgentNotesID;
         private string fileName; 
 
         public object[] parameters { get; private set; }
@@ -301,7 +303,17 @@ namespace UDM.Insurance.Interface.Screens
             //LoadDocumentInfo();
             try
             {
-                CommonControlData.PopulateCampaignNotesComboBox(cmbDocumentName);
+
+                if (cmbDocumentType.SelectedValue.ToString() == "Campaign Notes")
+                {
+                    CommonControlData.PopulateCampaignNotesComboBox(cmbDocumentName);
+                }
+
+                else if (cmbDocumentType.SelectedValue.ToString() == "Agent Notes")
+                {
+                    CommonControlData.PopulateAgentNotesComboBox(cmbDocumentName);
+                }
+
             }
             catch (Exception ex) 
             {
@@ -321,7 +333,7 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        public void InsertDataIntoDatabase(long selectedCampaignID, long selectedCampaignNoteID, byte[] selectedFileName) 
+        public void InsertCampaignDataIntoDatabase(long selectedCampaignID, long selectedCampaignNoteID, byte[] selectedFileName) 
         {
 
             try
@@ -374,6 +386,54 @@ namespace UDM.Insurance.Interface.Screens
             
         }
 
+        public void InsertAgentDataIntoDatabase(long selectedCampaignID, long selectedAgentNoteID, byte[] selectedFileName)
+        {
+
+            try
+            {
+
+                StringBuilder query = new StringBuilder();
+
+                INMySuccessAgentDetails iNMySuccessAgentDetails = new INMySuccessAgentDetails();
+                //iNMySuccessCampaignDetails.Fill();
+
+                _fkCampaignIDs = selectedCampaignID.ToString();
+                _AgentNoteIDs = selectedAgentNoteID.ToString();
+                fileData = File.ReadAllBytes(selectedFileName.ToString());
+
+                var sqlQuery = "Select[INMySuccessAgentsNotesDetails].[ID] From INMySuccessAgentsNotesDetails where[INMySuccessAgentsNotesDetails].[FKCampaignID] = " + _fkCampaignIDs;
+                DataTable dt = Methods.GetTableData(sqlQuery);
+
+                //if (dt.Rows.Count == 0)
+                //{
+                //    ShowMessageBox(new INMessageBoxWindow1(), @"There is no record.", "Error", ShowMessageType.Error);
+                //}
+
+                long? id = dt.Rows[0]["ID"] as long?;
+
+                GlobalSettings.ColumnIDMySuccessID = id.ToString();
+                GlobalSettings.AgentNotesID = _AgentNoteIDs;
+
+                iNMySuccessAgentDetails.ID = (long)id;
+                iNMySuccessAgentDetails.FKCampaignID = long.Parse(_fkCampaignIDs);
+                iNMySuccessAgentDetails.DocumentID = long.Parse(_AgentNoteIDs);
+                iNMySuccessAgentDetails.Document = fileData;
+
+                iNMySuccessAgentDetails.Save(_validationResult);
+
+
+
+                ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+
+        }
+
         public void LoadDocumentFile() 
         {
             //OpenFileDialog fd = new OpenFileDialog();
@@ -424,9 +484,16 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
 
-                InsertDataIntoDatabase(CampaignID, CampaignNotesID, fileData);
+                if (cmbDocumentType.SelectedValue.ToString() == "Campaign Notes")
+                {
+                    InsertCampaignDataIntoDatabase(CampaignID, CampaignNotesID, fileData);
+                }
+                else if (cmbDocumentType.SelectedValue.ToString() == "Agent Notes")
+                {
+                    InsertAgentDataIntoDatabase(CampaignID, AgentNotesID, fileData);
+                }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
@@ -439,7 +506,15 @@ namespace UDM.Insurance.Interface.Screens
 
             try
             {
-                CampaignNotesID = long.Parse(cmbDocumentName.SelectedValue.ToString());
+
+                if (cmbDocumentType.SelectedValue.ToString() == "Campaign Notes")
+                {
+                    CampaignNotesID = long.Parse(cmbDocumentName.SelectedValue.ToString());
+                }
+                else if (cmbDocumentType.SelectedValue.ToString() == "Agent Notes")
+                {
+                    AgentNotesID = long.Parse(cmbDocumentName.SelectedValue.ToString());
+                }
 
                 btnBrowse.Visibility = Visibility.Visible;
                 //InsertDataIntoDatabase(selectedCampaignID);
@@ -456,6 +531,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+
                 CampaignID = long.Parse(cmbCampaignName.SelectedValue.ToString());
 
                 //InsertDataIntoDatabase(selectedCampaignID);
