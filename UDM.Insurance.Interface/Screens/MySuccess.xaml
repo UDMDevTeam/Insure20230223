@@ -645,7 +645,17 @@
                     Data="M372,132 L609.00475,132"
                     Stretch="Fill"
                     Stroke="#FFFDF9F9" />
-
+                
+                <Border x:Name="MediaBorder"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="21"
+                        Grid.Row="8"
+                        Grid.RowSpan="3"
+                        BorderThickness="5"
+                        BorderBrush="White"
+                        CornerRadius="10" Margin="0,0,0,10">
+                </Border>
+                
                 <TextBlock
                     Grid.Row="1"
                     Grid.Column="2"
@@ -678,59 +688,132 @@
                     VerticalAlignment="Center"
                     Foreground="White" />
 
+                <Image x:Name="CasssetePlayerImage"
+                       Grid.Column="6"
+                       Grid.ColumnSpan="13"
+                       Grid.Row="3"
+                       Grid.RowSpan="4"
+                       Source="pack://application:,,,/Resources/CassettePlayer.png">
+                    
+                </Image>
                 <MediaElement
                     Name="McMediaElement"
-                    Grid.Row="5"
-                    Grid.RowSpan="6"
-                    Grid.Column="7"
-                    Grid.ColumnSpan="10"
-                    Width="450"
-                    Height="250"
-                    Margin="10,10,10,0"
+                    Grid.Row="2"
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Margin="25,30,10,10"
                     LoadedBehavior="Manual"
+                    MediaOpened="McMediaElement_MediaOpened_1"
                     MediaEnded="McMediaElement_MediaEnded"
-                    MediaOpened="McMediaElement_MediaOpened"
                     Source="C:\Projects\WPF\MediaSamples\MediaSamples\Media\Lake.wmv"
                     Stretch="Fill"
-                    UnloadedBehavior="Stop" />
+                    UnloadedBehavior="Stop" RenderTransformOrigin="5.106,-0.358" />
 
+                <Label
+                    x:Name="TimerLbl"
+                    Grid.Column="19"
+                    Grid.Row="9"
+                    Grid.ColumnSpan="2">
+                </Label>
+                <Label
+                    x:Name="TickerLbl"
+                    Grid.Column="19"
+                    Grid.Row="10"
+                    Grid.ColumnSpan="2">
+                </Label>
                 <Button
                     x:Name="btnPlay"
-                    Grid.Row="11"
+                    Grid.Row="8"
                     Grid.Column="6"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnPlay_Click"
-                    Content="Play"
                     DataContext="{Binding}"
                     Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" />
+                    TabIndex="2" Height="83" Grid.RowSpan="2" 
+                    >
+                    <Image	
+                                    Height="45"
+                                    Width="45"
+                                    VerticalAlignment="Top"	
+                                    HorizontalAlignment="Left"
+                                    Source="pack://application:,,,/Resources/PlayButton.png" />
+                </Button>
                 <Button
                     x:Name="btnPause"
-                    Grid.Row="11"
+                    Grid.Row="8"
                     Grid.Column="10"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnPause_Click"
-                    Content="Pause"
                     DataContext="{Binding}"
                     Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" />
-
+                    TabIndex="2" Height="83" Grid.RowSpan="2" >
+                    <Image	
+                                    Height="45"
+                                    Width="45"
+                                    VerticalAlignment="Top"	
+                                    HorizontalAlignment="Left"
+                                    Source="pack://application:,,,/Resources/PauseButton.png" />
+                </Button>
                 <Button
                     x:Name="btnStop"
-                    Grid.Row="11"
+                    Grid.Row="8"
                     Grid.Column="14"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnStop_Click"
-                    Content="Stop"
                     DataContext="{Binding}"
                     Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" />
+                    TabIndex="2" Height="83" Grid.RowSpan="2" >
+                    <Image	
+                                    Height="45"
+                                    Width="45"
+                                    VerticalAlignment="Top"	
+                                    HorizontalAlignment="Left"
+                                    Source="pack://application:,,,/Resources/StopButton.png" />
+                </Button>
+                <Button
+                    x:Name="btnFastForward"
+                    Grid.Row="8"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="btnFastForward_Click"
+                    DataContext="{Binding}"
+                    Style="{DynamicResource INFlatButton}"
+                    TabIndex="2" Height="83" Grid.RowSpan="2" >
+                    <Image	
+                                    Height="45"
+                                    Width="45"
+                                    VerticalAlignment="Top"	
+                                    HorizontalAlignment="Left"
+                                    Source="pack://application:,,,/Resources/ForwardButton.png" />
+                </Button>
+                <Button
+                    x:Name="btnRewind"
+                    Grid.Row="8"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="btnRewind_Click"
+                    DataContext="{Binding}"
+                    Style="{DynamicResource INFlatButton}"
+                    TabIndex="2" Height="83" Grid.RowSpan="2" 
+                    >
+                    <Image	
+                                    Height="45"
+                                    Width="45"
+                                    VerticalAlignment="Top"	
+                                    HorizontalAlignment="Left"
+                                    Source="pack://application:,,,/Resources/RewindButton.png" />
+                </Button>
 
             </Grid>
         </Viewbox>

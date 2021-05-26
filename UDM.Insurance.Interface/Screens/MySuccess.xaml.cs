@@ -673,6 +673,23 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+        private void btnFastForward_Click(object sender, RoutedEventArgs e)
+        {
+            var item1 = McMediaElement.Position;
+            TimeSpan Time = new TimeSpan(0, 0, 10);
+            McMediaElement.Position = item1.Add(Time);
+        }
+        private void btnRewind_Click(object sender, RoutedEventArgs e)
+        {
+            var item1 = McMediaElement.Position;
+            TimeSpan Time = new TimeSpan(0, 0, 10);
+            McMediaElement.Position = item1.Subtract(Time);
+        }
+
+        private void McMediaElement_MediaOpened_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 }
