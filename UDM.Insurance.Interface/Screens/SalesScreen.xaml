@@ -427,30 +427,7 @@
 
                         </Button>-->
 
-                        <Button
-                            x:Name="btnMySuccess"
-                            Grid.Row="19"
-                            Grid.RowSpan="2"
-                            Grid.Column="4"
-                            Grid.ColumnSpan="2"
-                            Width="100"
-                            Height="100"
-                            Margin="0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Click="btnMySuccess_Click"
-                            Style="{DynamicResource INAddContactsButton}"
-                            TabIndex="0">
 
-                            <Image
-                                x:Name="imageMySuccess"
-                                Width="100"
-                                Height="96"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                Source="pack://application:,,,/Resources/success.png" />
-
-                        </Button>
 
                         <Viewbox
                             x:Name="Content1"
@@ -902,6 +879,46 @@
                             Grid.Column="32"
                             Grid.ColumnSpan="4"
                             Margin="0,13,24,0">
+                            <!--<Button
+                            x:Name="btnMySuccess"
+                            Height="56"
+                            Margin="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnMySuccess_Click"
+                            Style="{DynamicResource INAddContactsButton}"
+                            TabIndex="0">
+
+                                <Image
+                                x:Name="imageMySuccess"
+                                Width="102"
+                                Height="96"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="pack://application:,,,/Resources/success.png" RenderTransformOrigin="14.341,-4.239" />
+
+                            </Button>-->
+                            <Button
+                                x:Name="btnMySuccess"
+                                Height="56"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Click="btnMySuccess_Click"
+                                IsDefault="True"
+                                IsEnabled="True"
+                                IsTabStop="True"
+                                Style="{DynamicResource INFlatButton}"
+                                TabIndex="0"
+                                Visibility="Collapsed">
+                                <Image	
+                                    Height="45"
+                                    Width="45"
+                                    VerticalAlignment="Top"	
+                                    HorizontalAlignment="Left"
+                                    Source="pack://application:,,,/Resources/Books.png" />
+                            </Button>
+                            <Grid Height="10" />
+
                             <Button
                                 x:Name="btnCallMonQuery"
                                 Height="56"

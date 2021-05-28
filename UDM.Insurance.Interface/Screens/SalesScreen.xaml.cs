@@ -91,6 +91,8 @@ namespace UDM.Insurance.Interface.Screens
 
             LoadTimer();
 
+            btnMySuccess.ToolTip = "My Success is Yours.";
+
             #region Makes a button visible just for Samantha Holder
             if (_agentID == 3388 || _agentID == 2857|| _agentID == 394)
             {

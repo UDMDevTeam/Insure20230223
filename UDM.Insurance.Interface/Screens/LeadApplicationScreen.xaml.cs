@@ -7230,7 +7230,9 @@ namespace UDM.Insurance.Interface.Screens
                     || LaData.AppData.CampaignID == 324
                     || LaData.AppData.CampaignID == 325
                     || LaData.AppData.CampaignID == 326
-                    || LaData.AppData.CampaignID == 327)
+                    || LaData.AppData.CampaignID == 327
+                    || LaData.AppData.CampaignID == 264
+                    || LaData.AppData.CampaignID == 4)
                 {
                     if (btnDebiCheck.Visibility == Visibility.Visible)
                     {
@@ -13837,7 +13839,9 @@ namespace UDM.Insurance.Interface.Screens
                             || LaData.AppData.CampaignID == 324
                             || LaData.AppData.CampaignID == 325
                             || LaData.AppData.CampaignID == 326
-                            || LaData.AppData.CampaignID == 327)
+                            || LaData.AppData.CampaignID == 327
+                            || LaData.AppData.CampaignID == 264
+                            || LaData.AppData.CampaignID == 4)
                         {
                             IsDebiCheckValidForResales();
                         }
