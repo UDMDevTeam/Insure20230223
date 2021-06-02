@@ -332,7 +332,7 @@
                                                          IsChecked="{Binding Path=TurnoverReportMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.SalesCoaches}}"
                                                          Checked="radBySalesCoach_Checked" >
                                 <TextBlock Margin="-4,0,0,0">
-                                                    By Sales Coach
+                                                    By Training Supervisor
                                 </TextBlock>
                             </RadioButton>
                         </Viewbox>

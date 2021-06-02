@@ -330,6 +330,7 @@
         ByCampaign = 0,
         ByTSR = 1,
         ByQA = 2,
+        TrainingSupervisor = 4,
         SalesCoaches = 3
     }
 

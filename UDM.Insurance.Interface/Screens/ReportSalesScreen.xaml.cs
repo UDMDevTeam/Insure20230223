@@ -1271,6 +1271,45 @@ namespace UDM.Insurance.Interface.Screens
                         }
                     }
                 }
+                else if (ReportMode == lkpINCampTSRReportMode.TrainingSupervisor)
+                {
+                    if (_selectedAgents.Count > 0)
+                    {
+                        foreach (DataRecord drQA in _selectedAgents)
+                        {
+                            SqlParameter[] parameters = new SqlParameter[4];
+                            parameters[0] = new SqlParameter("@SupervisorUserID", drQA.Cells["ID"].Value as long?);
+                            parameters[1] = new SqlParameter("@AgentMode", (int)AgentMode);
+                            parameters[2] = new SqlParameter("@FromDate", _fromDate);
+                            parameters[3] = new SqlParameter("@ToDate", _toDate);
+
+                            DataTable dt = Methods.ExecuteStoredProcedure("spGetAgentsForTrainingSupervisor", parameters).Tables[0];
+
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow drAgent in dt.Rows)
+                                {
+                                    long? agentID = drAgent.ItemArray[0] as long?;
+                                    string agentName = drAgent.ItemArray[1] as string;
+                                    _agentName = agentName;
+
+                                    ReportBody(wbTemplate, wbReport, agentName, agentID, dateRange);
+                                    AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                }
+                            }
+                            else
+                            {
+                                Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+                                {
+                                    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
+                                });
+
+                                return;
+                            }
+                        }
+                    }
+                }
                 else
                 {
                     return;
@@ -1422,6 +1461,22 @@ namespace UDM.Insurance.Interface.Screens
                 else if (ReportMode == lkpINCampTSRReportMode.ByQA)
                 {
                     DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesSupervisors", null).Tables[0];
+
+                    DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                    column.DefaultValue = false;
+                    dt.Columns.Add(column);
+
+                    DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
+                    column2.DefaultValue = 1;
+                    dt.Columns.Add(column2);
+
+                    xdgAgents.DataSource = dt.DefaultView;
+
+                    AllRecordsChecked = false;
+                }
+                else if(ReportMode == lkpINCampTSRReportMode.TrainingSupervisor)
+                {
+                    DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesTrainingSupervisors", null).Tables[0];
 
                     DataColumn column = new DataColumn("IsChecked", typeof(bool));
                     column.DefaultValue = false;

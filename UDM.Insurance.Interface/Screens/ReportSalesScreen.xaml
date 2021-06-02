@@ -245,8 +245,8 @@
                         x:Name="grdReportOptions"
                         Grid.Row="10"
                         Grid.RowSpan="3"
-                        Grid.Column="10"
-                        Grid.ColumnSpan="6">
+                        Grid.Column="8"
+                        Grid.ColumnSpan="9">
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
                                 <Style.Triggers>
@@ -331,6 +331,19 @@
                                 FontSize="16"
                                 GroupName="rbgReportMode"
                                 IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=ReportMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.ByQA}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54300" />
+                            <Grid Width="10" />
+                            <RadioButton
+                                x:Name="radByTrainingSupervisor"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Checked="RadioButton_Checked"
+                                Content="by Training Supervisor"
+                                FontSize="16"
+                                GroupName="rbgReportMode"
+                                IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=ReportMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.TrainingSupervisor}}"
                                 Style="{StaticResource INRadioButton}"
                                 TabIndex="54300" />
                             <Grid Width="10" />
