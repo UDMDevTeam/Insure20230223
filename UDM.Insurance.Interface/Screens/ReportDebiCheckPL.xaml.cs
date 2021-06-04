@@ -45,6 +45,8 @@ namespace UDM.Insurance.Interface.Screens
 
         private bool CancerBaseBool;
         private bool MaccBaseBool;
+        string campaign = "";
+
 
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
         private int _timer1;
@@ -169,8 +171,8 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-                    string filePathAndName = String.Format("Debi-Check" + _endDate.ToShortDateString() + "_to_" + _startDate.ToShortDateString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
 
+                    string filePathAndName = String.Format("{0}DebiCheck Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
 
@@ -212,6 +214,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     excelApp.Visible = true;
                     excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                    //excelApp.Save(filePathAndName);
+                    ////Process.Start(filePathAndName);
 
                     //excelApp.Workbooks.
 
@@ -268,7 +272,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (CancerCB.IsChecked == true)
                     {
-                        TimeSpan ts = new TimeSpan(05, 30, 0);
+                        TimeSpan ts = new TimeSpan(00, 30, 0);
                         _endDate = _endDate.Date + ts;
 
                         TimeSpan ts1 = new TimeSpan(12, 59, 0);
@@ -281,6 +285,16 @@ namespace UDM.Insurance.Interface.Screens
 
                         TimeSpan ts1 = new TimeSpan(23, 00, 0);
                         _startDate = _startDate.Date + ts1;
+                    }
+
+                    campaign = "";
+                    if (CancerCB.IsChecked == true)
+                    {
+                        campaign = "07H30";
+                    }
+                    else if (MaccCB.IsChecked == true)
+                    {
+                        campaign = "13H30";
                     }
 
                     BackgroundWorker worker = new BackgroundWorker();
