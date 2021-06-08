@@ -37,10 +37,13 @@ namespace UDM.Insurance.Interface.Screens
         List<string> DocumentTypeList = new List<string>();
 
         DataTable dtCampaigns;
+        DataTable dtAgents;
         DataTable dtDocuments;
         DataTable dtAgentCalls;
         DataTable dtCampaignNotes;
         DataTable dtAgentNotes;
+
+        DataTable dtAgentsNameList;
 
 
         private List<Record> _lstSelectedCampaigns;
@@ -52,7 +55,7 @@ namespace UDM.Insurance.Interface.Screens
         private string _fileName;
         private string _fileNameOriginal;
 
-        private const string ImportFilterExpression = "(*.XPS) | *.XPS";
+        private const string ImportFilterExpression = "(*.XPS;.xls;.xlsx;.xlsm) | *.XPS;.xls;.xlsx;.xlsm";
         private const string ImportFileExtention = "(*.XPS)";
 
         private bool onlyUpgradeCampaigns = true;
@@ -60,7 +63,11 @@ namespace UDM.Insurance.Interface.Screens
         private long CampaignID;
         private long CampaignNotesID;
         private long AgentNotesID;
-        private string fileName; 
+        private string fileName;
+
+        string VoiceCall1FilePath = "";
+        string VoiceCall2FilePath = "";
+        string VoiceCall3FilePath = "";
 
         public object[] parameters { get; private set; }
 
@@ -74,6 +81,7 @@ namespace UDM.Insurance.Interface.Screens
             UpgradeBaseList.Add("Upgrade");
             UpgradeBaseList.Add("Base");
             cmbCampaignType.ItemsSource = UpgradeBaseList;
+            cmbCampaignType1.ItemsSource = UpgradeBaseList;
 
             DocumentTypeList.Clear();
             DocumentTypeList.Add("Agent Calls");
@@ -81,62 +89,25 @@ namespace UDM.Insurance.Interface.Screens
             DocumentTypeList.Add("Campaign Notes");
             cmbDocumentType.ItemsSource = DocumentTypeList;
 
+            ResetScreenVB();
+
+
         }
 
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-            //var MySuccessEditScreen = new MySuccessEditScreen(); 
-            //OnClose(MySuccessEditScreen);
-
-            //ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
             try
             {
                 OnDialogClose(_dialogResult);
             }
-            catch (Exception ex) 
-            {
-                HandleException(ex); 
-            }
-        }
-
-        private void LoadCampaignInfo()
-        {
-            try
-            {
-                SetCursor(Cursors.Wait);
-
-                //try { dtCampaigns.Clear(); } catch { }
-
-                //cmbCampaignName.Visibility = Visibility.Visible;
-
-                //dtCampaigns = Methods.GetTableData("SELECT ID [CampaignID], Name [CampaignName], Code [CampaignCode] FROM INCampaign");
-                //DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
-                //dtCampaigns.Columns.Add(column);
-                //dtCampaigns.DefaultView.Sort = "CampaignID ASC";
-
-                //List<Int64> CampaignIDList = dtCampaigns.AsEnumerable().Select(r => r.Field<Int64>("CampaignID")).ToList();
-                //List<string> CampaignNameList = dtCampaigns.AsEnumerable().Select(r => r.Field<string>("CampaignName")).ToList();
-
-                CommonControlData.PopulateCampaignComboBox(cmbCampaignName);
-
-                //cmbCampaignName.ItemsSource = CampaignNameList;
-
-
-
-                //var CampaignID = cmbCampaignName.SelectedValue.ToString();
-            }
-
             catch (Exception ex)
             {
                 HandleException(ex);
             }
-
-            finally
-            {
-                SetCursor(Cursors.Arrow);
-            }
         }
+
+
 
         private void LoadDocumentInfo()
         {
@@ -144,7 +115,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Wait);
 
-                if (cmbDocumentType.SelectedValue.ToString() == "Agent Calls") 
+                if (cmbDocumentType.SelectedValue.ToString() == "Agent Calls")
                 {
                     LoadAgentCalls();
                 }
@@ -290,9 +261,9 @@ namespace UDM.Insurance.Interface.Screens
                     CommonControlData.PopulateCampaignComboBox(cmbCampaignName, onlyUpgradeCampaigns);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                HandleException(ex); 
+                HandleException(ex);
             }
             //LoadCampaignInfo();
 
@@ -315,9 +286,9 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                HandleException(ex); 
+                HandleException(ex);
             }
         }
 
@@ -327,13 +298,13 @@ namespace UDM.Insurance.Interface.Screens
             {
                 LoadDocumentFile();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                HandleException(ex); 
+                HandleException(ex);
             }
         }
 
-        public void InsertCampaignDataIntoDatabase(long selectedCampaignID, long selectedCampaignNoteID, byte[] selectedFileName) 
+        public void InsertCampaignDataIntoDatabase(long selectedCampaignID, long selectedCampaignNoteID, byte[] selectedFileName)
         {
 
             try
@@ -345,7 +316,7 @@ namespace UDM.Insurance.Interface.Screens
                 //iNMySuccessCampaignDetails.Fill();
 
                 _fkCampaignIDs = selectedCampaignID.ToString();
-                _CampaignNoteIDs = selectedCampaignNoteID.ToString(); 
+                _CampaignNoteIDs = selectedCampaignNoteID.ToString();
                 fileData = File.ReadAllBytes(selectedFileName.ToString());
 
 
@@ -356,34 +327,34 @@ namespace UDM.Insurance.Interface.Screens
                 //{
                 //    ShowMessageBox(new INMessageBoxWindow1(), @"There is no record.", "Error", ShowMessageType.Error);
                 //}
-                
+
                 long? id = dt.Rows[0]["ID"] as long?;
-                
+
                 GlobalSettings.ColumnIDMySuccessID = id.ToString();
                 GlobalSettings.CampaignNotesID = _CampaignNoteIDs;
 
                 //strSQL = "Select ID From INMySuccesCampaignDteails where FKCampaignID = " + _fkCampaignIDs;
 
-                    
 
-                    iNMySuccessCampaignDetails.ID = (long)id;
-                    iNMySuccessCampaignDetails.FKCampaignID = long.Parse(_fkCampaignIDs);
-                    iNMySuccessCampaignDetails.DocumentID = long.Parse(_CampaignNoteIDs);
-                    iNMySuccessCampaignDetails.Document = fileData;
 
-                    iNMySuccessCampaignDetails.Save(_validationResult);
+                iNMySuccessCampaignDetails.ID = (long)id;
+                iNMySuccessCampaignDetails.FKCampaignID = long.Parse(_fkCampaignIDs);
+                iNMySuccessCampaignDetails.DocumentID = long.Parse(_CampaignNoteIDs);
+                iNMySuccessCampaignDetails.Document = fileData;
 
-                
+                iNMySuccessCampaignDetails.Save(_validationResult);
+
+
 
                 ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                HandleException(ex); 
+                HandleException(ex);
             }
 
-            
+
         }
 
         public void InsertAgentDataIntoDatabase(long selectedCampaignID, long selectedAgentNoteID, byte[] selectedFileName)
@@ -434,7 +405,7 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
-        public void LoadDocumentFile() 
+        public void LoadDocumentFile()
         {
             //OpenFileDialog fd = new OpenFileDialog();
             //fd.Title = "Select Document";
@@ -465,7 +436,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
@@ -536,10 +507,353 @@ namespace UDM.Insurance.Interface.Screens
 
                 //InsertDataIntoDatabase(selectedCampaignID);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
+        }
+
+        private void DocumentUploadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.Visibility = Visibility.Collapsed;
+            Body2.Visibility = Visibility.Visible;
+            //VoiceCallVB.Visibility = Visibility.Collapsed;
+            VoiceNoteUploadVB.Visibility = Visibility.Collapsed;
+        }
+
+        private void VoiceCallUploadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.Visibility = Visibility.Collapsed;
+            Body2.Visibility = Visibility.Collapsed;
+            //VoiceCallVB.Visibility = Visibility.Visible;
+            VoiceNoteUploadVB.Visibility = Visibility.Visible;
+        }
+
+        public void ResetScreenVB()
+        {
+            MainMenu.Visibility = Visibility.Visible;
+            Body2.Visibility = Visibility.Collapsed;
+            //VoiceCallVB.Visibility = Visibility.Collapsed;
+            VoiceNoteUploadVB.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            ResetScreenVB();
+        }
+
+        private void cmbBaseUpgrade_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                LoadCampaignInfo();
+
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void LoadCampaignInfo()
+        {
+            if (cmbCampaignType1.Text == "Base")
+            {
+                try
+                {
+                    SetCursor(System.Windows.Input.Cursors.Wait);
+
+                    try { dtCampaigns.Clear(); } catch { }
+
+                    dtCampaigns = Methods.GetTableData("Select [C].[ID] [CampaignID], [C].[Name] [Campaign Name], [C].[Code] [CampaignCode] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS [CG] ON [C].[FKINCampaignGroupID] = [CG].[ID] WHERE [CG].[ID] NOT IN (1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
+                    DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                    dtCampaigns.Columns.Add(column);
+                    dtCampaigns.DefaultView.Sort = "CampaignID ASC";
+                    //xdgCampaigns.DataSource = dtCampaigns.DefaultView;
+                    cmbCampaignName1.ItemsSource = dtCampaigns.DefaultView;
+                }
+
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+
+                finally
+                {
+                    SetCursor(System.Windows.Input.Cursors.Arrow);
+                }
+            }
+            else
+            {
+                try
+                {
+                    SetCursor(System.Windows.Input.Cursors.Wait);
+
+                    try { dtCampaigns.Clear(); } catch { }
+
+                    dtCampaigns = Methods.GetTableData("Select [C].[ID] [CampaignID], [C].[Name] [Campaign Name], [C].[Code] [CampaignCode] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS [CG] ON [C].[FKINCampaignGroupID] = [CG].[ID] WHERE CG.ID IN (1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
+                    DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                    dtCampaigns.Columns.Add(column);
+                    dtCampaigns.DefaultView.Sort = "CampaignID ASC";
+                    //xdgCampaigns.DataSource = dtCampaigns.DefaultView;
+                    cmbCampaignName1.ItemsSource = dtCampaigns.DefaultView;
+                }
+
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+
+                finally
+                {
+                    SetCursor(System.Windows.Input.Cursors.Arrow);
+                }
+            }
+
+        }
+
+        private void HeaderPrefixAreaCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HeaderPrefixAreaCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RecordSelectorAgentCheckbox_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HeaderPrefixAreaCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnBack3_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.Visibility = Visibility.Visible;
+            Body2.Visibility = Visibility.Collapsed;
+            //VoiceCallVB.Visibility = Visibility.Visible;
+            VoiceNoteUploadVB.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnToVNUpload_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.Visibility = Visibility.Collapsed;
+            Body2.Visibility = Visibility.Collapsed;
+            //VoiceCallVB.Visibility = Visibility.Collapsed;
+            VoiceNoteUploadVB.Visibility = Visibility.Visible;
+        }
+
+        private void btnAgentSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cmbCampaignType1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (cmbCampaignType1.SelectedValue.ToString() == "Base")
+                {
+                    onlyUpgradeCampaigns = false;
+                    CommonControlData.PopulateCampaignComboBox(cmbCampaignName1, onlyUpgradeCampaigns);
+                }
+                if (cmbCampaignType1.SelectedValue.ToString() == "Upgrade")
+                {
+                    onlyUpgradeCampaigns = true;
+                    CommonControlData.PopulateCampaignComboBox(cmbCampaignName1, onlyUpgradeCampaigns);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+        }
+
+
+
+        private void cmbCampaignName1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var CampaignID = long.Parse(cmbCampaignName1.SelectedValue.ToString());
+
+            try
+            {
+                SetCursor(System.Windows.Input.Cursors.Wait);
+                string AgentIDString = "";
+
+                try
+                {
+                    DataTable dtAgentsCampaignList = Methods.GetTableData("Select [UserID] FROM INMySuccessAgents WHERE [FKCampaignID] = " + CampaignID);
+                    List<long> AgentUserIDsList = dtAgentsCampaignList.AsEnumerable().Select(r => r.Field<long>("UserID")).ToList();
+                    foreach (var item in AgentUserIDsList)
+                    {
+                        AgentIDString = AgentIDString + item.ToString() + ",";
+                    }
+
+                }
+                catch (Exception a)
+                {
+
+                }
+                try
+                {
+
+                    try { AgentIDString = AgentIDString.Remove(AgentIDString.Length - 1, 1); } catch { }
+
+                    dtAgentsNameList = Methods.GetTableData("Select [ID], [FirstName] + ' ' + [LastName] as [Name] FROM [User] where [FKUserType] = 2 and IsActive = 1 order by [Name] asc");
+                    List<string> AgentNamesList = dtAgentsNameList.AsEnumerable().Select(r => r.Field<string>("Name")).ToList();
+
+                    cmbAgentnames.ItemsSource = AgentNamesList;
+                }
+                catch
+                {
+                    cmbAgentnames.ItemsSource = null;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            finally
+            {
+                SetCursor(System.Windows.Input.Cursors.Arrow);
+            }
+        }
+
+        private void cmbAgentnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
+
+        private void btnVoiceCallBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                VoiceCall1FilePath = ShowOpenFileDialog("", "");
+
+                if (VoiceCall1FilePath != string.Empty)
+                {
+                    var _fileName = System.IO.Path.GetFileName(VoiceCall1FilePath);
+                    string name =  _fileName;
+                    LblVoiceCall1.Content = name;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void btnVoiceCallBrowse2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                VoiceCall2FilePath = ShowOpenFileDialog("", "");
+
+                if (VoiceCall2FilePath != string.Empty)
+                {
+                    var _fileName = System.IO.Path.GetFileName(VoiceCall2FilePath);
+                    string name = _fileName;
+                    LblVoiceCall2.Content = name;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void btnVoiceCallBrowse3_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                VoiceCall3FilePath = ShowOpenFileDialog("", "");
+
+                if (VoiceCall3FilePath != string.Empty)
+                {
+                    var _fileName = System.IO.Path.GetFileName(VoiceCall3FilePath);
+                    string name = _fileName;
+                    LblVoiceCall3.Content = name;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void btnSaveVoiceCalls_Click(object sender, RoutedEventArgs e)
+        {
+            string expression;
+            expression = "Name = '" + cmbAgentnames.SelectedValue.ToString() + "'";
+            DataRow[] foundRows;
+            foundRows = dtAgentsNameList.Select(expression);
+            DataTable dtCampaignsCalls = null;
+            try { dtCampaignsCalls = Methods.GetTableData("Select Top 1 [ID] FROM INMySuccessAgents WHERE FKCampaignID = " + int.Parse(cmbCampaignName1.SelectedValue.ToString()) + " AND UserID = " + int.Parse(foundRows[0].ItemArray[0].ToString())); } catch { }
+            List<long> AgentCallsList = dtCampaignsCalls.AsEnumerable().Select(r => r.Field<long>("ID")).ToList();
+
+
+
+            if (AgentCallsList.Count == 0)
+            {
+
+                INMySuccessAgents db = new INMySuccessAgents();
+                try
+                {
+
+                    db.FKCampaignID = int.Parse(cmbCampaignName1.SelectedValue.ToString());
+                    db.UserID = int.Parse(foundRows[0].ItemArray[0].ToString());
+                    db.Call1 = VoiceCall1FilePath;
+                    db.Call2 = VoiceCall2FilePath;
+                    db.Call3 = VoiceCall3FilePath;
+                    db.Save(_validationResult);
+
+                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
+                    try { ResetVCScreen(); } catch { }
+                }
+                catch
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded unsuccessfully!", "Unsuccess", ShowMessageType.Error);
+                }
+            }
+            else
+            {
+                INMySuccessAgents db = new INMySuccessAgents(int.Parse(AgentCallsList[0].ToString()));
+                try
+                {
+
+                    db.FKCampaignID = int.Parse(cmbCampaignName1.SelectedValue.ToString());
+                    db.UserID = int.Parse(foundRows[0].ItemArray[0].ToString());
+                    db.Call1 = VoiceCall1FilePath;
+                    db.Call2 = VoiceCall2FilePath;
+                    db.Call3 = VoiceCall3FilePath;
+                    db.Save(_validationResult);
+
+                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
+                    try { ResetVCScreen(); } catch { }
+                }
+                catch (Exception a)
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded unsuccessfully!", "Unsuccess", ShowMessageType.Error);
+                }
+            }
+        }
+
+        public void ResetVCScreen()
+        {
+            cmbAgentnames.Text = "";
+            LblVoiceCall1.Content = "";
+            LblVoiceCall2.Content = "";
+            LblVoiceCall3.Content = "";
         }
     }
 }

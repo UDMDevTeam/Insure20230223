@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
     Width="1200"
-    Height="750"
+    Height="650"
     Margin="0"
     Background="{x:Null}"
     Loaded="BaseControl_Loaded"
@@ -23,18 +23,23 @@
     <Canvas
         x:Name="LayoutRoot"
         Background="{x:Null}"
-        FocusManager.FocusedElement="{Binding ElementName=medReference}">
+        FocusManager.FocusedElement="{Binding ElementName=medReference}" Margin="0,0,0,105">
         <Rectangle
             x:Name="BGRectangle"
             Canvas.Left="1"
             Width="1200"
             Height="645"
             Margin="0"
-            Fill="Black"
             RadiusX="15"
             RadiusY="15"
             Stroke="#FF7FBEF5"
-            StrokeThickness="2" />
+            StrokeThickness="2" >
+            <Rectangle.Fill>
+                <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+                <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
+                <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+            </Rectangle.Fill>
+        </Rectangle>
         <Button
             x:Name="buttonClose"
             Canvas.Left="1120"
@@ -44,9 +49,8 @@
             TabIndex="3" />
         <Viewbox
             x:Name="Body"
-            Canvas.Left="26"
             Canvas.Top="5"
-            Width="1084"
+            Width="1190"
             Height="642"
             Visibility="Visible">
             <Grid Width="1200" Height="642">
@@ -97,7 +101,7 @@
                 <Path
                     Grid.Row="1"
                     Grid.Column="2"
-                    Grid.ColumnSpan="8"
+                    Grid.ColumnSpan="7"
                     Margin="0,0,36,0"
                     Data="M372,132 L609.00475,132"
                     Stretch="Fill"
@@ -117,11 +121,11 @@
                 <Border
                     x:Name="ClosurePage"
                     Grid.Row="3"
-                    Grid.RowSpan="12"
+                    Grid.RowSpan="11"
                     Grid.Column="2"
-                    Grid.ColumnSpan="24"
+                    Grid.ColumnSpan="20"
                     Background="Transparent"
-                    Visibility="Visible">
+                    Visibility="Visible" Margin="0,0.5,0,0.136">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -168,7 +172,7 @@
 
                             <DocumentViewer
                                 x:Name="dvClosure"
-                                Height="462"
+                                Height="474"
                                 ContextMenu="{x:Null}"
                                 LayoutUpdated="dvClosure_LayoutUpdated"
                                 Style="{StaticResource INDocumentViewerStyle1}"

@@ -716,6 +716,18 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryTemp", paramArray, 600);
         }
 
+        public static DataSet INReportSalaryTempPostJune(string fkUserIDs, DateTime fromDate, DateTime toDate, bool includeInactiveAgents)
+        {
+            object param1 = Database.GetParameter("@FKUserIDs", fkUserIDs);
+            object param2 = Database.GetParameter("@FromDate", fromDate);
+            object param3 = Database.GetParameter("@ToDate", toDate);
+            object param4 = Database.GetParameter("@IncludeInactiveAgents", includeInactiveAgents);
+
+            object[] paramArray = new[] { param1, param2, param3, param4 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryTempPostJune2021", paramArray, 600);
+        }
+
 
         #endregion Salary Report - Specific Functionalities
 
@@ -1461,6 +1473,25 @@ namespace UDM.Insurance.Business
             object[] paramArray = new[] { param1, param2 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckPL", paramArray, 600);
+        }
+
+        public static DataSet INGetDebiCheckPLConsolidated(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+            object param3 = Database.GetParameter("@TotalCount", 0);
+
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckPLCustom", paramArray, 600);
         }
 
         #endregion

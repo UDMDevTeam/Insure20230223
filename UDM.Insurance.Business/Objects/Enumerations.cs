@@ -91,7 +91,8 @@
         DefrostR99 = 39,
         Lite = 40,
         Upgrade13 = 41, 
-        R99 = 42
+        R99 = 42,
+        SpouseLite = 43
     }
 
     public enum lkpINCampaignType

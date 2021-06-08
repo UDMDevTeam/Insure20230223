@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
     Width="1200"
-    Height="750"
+    Height="637.987"
     Margin="0"
     Background="{x:Null}"
     Loaded="BaseControl_Loaded"
@@ -23,18 +23,23 @@
     <Canvas
         x:Name="LayoutRoot"
         Background="{x:Null}"
-        FocusManager.FocusedElement="{Binding ElementName=medReference}">
+        FocusManager.FocusedElement="{Binding ElementName=medReference}" Margin="0,0,0,107">
         <Rectangle
             x:Name="BGRectangle"
             Canvas.Left="1"
             Width="1200"
             Height="645"
             Margin="0"
-            Fill="Black"
             RadiusX="15"
             RadiusY="15"
             Stroke="#FF7FBEF5"
-            StrokeThickness="2" />
+            StrokeThickness="2" >
+            <Rectangle.Fill>
+                <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+                <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
+                <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+            </Rectangle.Fill>
+        </Rectangle>
         <Button
             x:Name="buttonClose"
             Canvas.Left="1120"

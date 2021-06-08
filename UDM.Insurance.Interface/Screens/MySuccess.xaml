@@ -31,11 +31,16 @@
             Width="1000"
             Height="600"
             Margin="0"
-            Fill="Black"
             RadiusX="15"
             RadiusY="15"
             Stroke="#FF7FBEF5"
-            StrokeThickness="2" />
+            StrokeThickness="2">
+            <Rectangle.Fill>
+                <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+                <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
+                <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+            </Rectangle.Fill>
+        </Rectangle>
         <Button
             x:Name="buttonClose"
             Canvas.Left="942"
@@ -117,19 +122,18 @@
                     Style="{DynamicResource INPageHeadingText1}"
                     Text="M Y  S U C C E S S  L I B R A R Y" />
 
-                <TextBlock
+                <Label
                     x:Name="lblUpgradeBaseCB"
                     Grid.Row="2"
                     Grid.Column="3"
                     Grid.ColumnSpan="7"
                     Width="290"
-                    Height="23"
                     Margin="0,0,0,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    Style="{DynamicResource INLabelText2}"
-                    Text="Campaign Selection - Base / Upgrades"
-                    TextWrapping="NoWrap"
+                    Foreground="White"
+                    FontSize="20"
+                    Content="Campaign Selection - Base / Upgrades"
                     Visibility="Visible" />
                 <src:EmbriantComboBox
                     x:Name="cmbBaseUpgrade"
@@ -380,37 +384,37 @@
                     Style="{DynamicResource INPageHeadingText1}"
                     Text="M Y  S U C C E S S  L I B R A R Y" />
 
-                <TextBlock
+                <Label
                     Grid.Row="2"
                     Grid.Column="3"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{DynamicResource INLabelText2}"
-                    Text="Agent Calls"
-                    TextWrapping="NoWrap"
+                    Content="Agent Calls"
+                    FontSize="20"
+                    Foreground="White"
                     Visibility="Visible" />
 
-                <TextBlock
+                <Label
                     Grid.Row="2"
                     Grid.Column="10"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Style="{DynamicResource INLabelText2}"
-                    Text="Agent Notes and Messages"
-                    TextWrapping="NoWrap"
+                    Content="Agent Notes and Messages"
+                    FontSize="20"
+                    Foreground="White"
                     Visibility="Visible" />
 
-                <TextBlock
+                <Label
                     Grid.Row="2"
                     Grid.Column="17"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{DynamicResource INLabelText2}"
-                    Text="Campaign Notes"
-                    TextWrapping="NoWrap"
+                    Content="Campaign Notes"
+                    FontSize="20"
+                    Foreground="White"
                     Visibility="Visible" />
 
 
@@ -645,17 +649,32 @@
                     Data="M372,132 L609.00475,132"
                     Stretch="Fill"
                     Stroke="#FFFDF9F9" />
-                
+
+
+
                 <Border x:Name="MediaBorder"
                         Grid.Column="2"
                         Grid.ColumnSpan="21"
-                        Grid.Row="8"
-                        Grid.RowSpan="3"
+                        Grid.Row="3"
+                        Grid.RowSpan="9"
+                        Background="DarkGray"
                         BorderThickness="5"
-                        BorderBrush="White"
-                        CornerRadius="10" Margin="0,0,0,10">
+                        BorderBrush="DarkGray"
+                        CornerRadius="10"/>
+
+                <Border x:Name="MediaBorder1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="21"
+                        Grid.Row="3"
+                        Grid.RowSpan="7"
+                        BorderThickness="5"
+                        BorderBrush="Gray"
+                        CornerRadius="10" Margin="10">
+                    <Border.Background>
+                        <ImageBrush ImageSource="../Resources/MediaBackGround.jpg" />
+                    </Border.Background>
                 </Border>
-                
+
                 <TextBlock
                     Grid.Row="1"
                     Grid.Column="2"
@@ -666,7 +685,7 @@
                     Style="{DynamicResource INPageHeadingText1}"
                     Text="M Y  S U C C E S S  L I B R A R Y" />
 
-                <Button
+                <!--<Button
                     x:Name="btnNext3"
                     Grid.Row="14"
                     Grid.Column="10"
@@ -677,7 +696,7 @@
                     Content="Browse"
                     DataContext="{Binding}"
                     Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" />
+                    TabIndex="2" />-->
 
                 <Label
                     x:Name="FileNameLabel"
@@ -691,18 +710,18 @@
                 <Image x:Name="CasssetePlayerImage"
                        Grid.Column="6"
                        Grid.ColumnSpan="13"
-                       Grid.Row="3"
+                       Grid.Row="4"
                        Grid.RowSpan="4"
-                       Source="pack://application:,,,/Resources/CassettePlayer.png">
-                    
+                       Source="pack://application:,,,/Resources/CassettePlayer.png" Margin="0,35,0,0">
+
                 </Image>
                 <MediaElement
                     Name="McMediaElement"
-                    Grid.Row="2"
+                    Grid.Row="5"
                     Grid.RowSpan="2"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="2"
-                    Margin="25,30,10,10"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="3"
+                    Margin="0,10,10,10"
                     LoadedBehavior="Manual"
                     MediaOpened="McMediaElement_MediaOpened_1"
                     MediaEnded="McMediaElement_MediaEnded"
@@ -724,95 +743,95 @@
                 </Label>
                 <Button
                     x:Name="btnPlay"
-                    Grid.Row="8"
-                    Grid.Column="6"
-                    Grid.ColumnSpan="4"
+                    Grid.Row="10"
+                    Grid.Column="9"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnPlay_Click"
                     DataContext="{Binding}"
-                    Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" Height="83" Grid.RowSpan="2" 
+                    Style="{DynamicResource INMediaButton}"
+                    TabIndex="2" Height="80" Grid.RowSpan="2" Margin="0,0,26,10" Width="94"
                     >
                     <Image	
-                                    Height="45"
-                                    Width="45"
-                                    VerticalAlignment="Top"	
-                                    HorizontalAlignment="Left"
-                                    Source="pack://application:,,,/Resources/PlayButton.png" />
+                          Height="45"
+                          Width="45"
+                          VerticalAlignment="Top"	
+                          HorizontalAlignment="Left"
+                          Source="pack://application:,,,/Resources/PlayButton.png" />
                 </Button>
                 <Button
                     x:Name="btnPause"
-                    Grid.Row="8"
+                    Grid.Row="10"
                     Grid.Column="10"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnPause_Click"
                     DataContext="{Binding}"
-                    Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" Height="83" Grid.RowSpan="2" >
+                    Style="{DynamicResource INMediaButton}"
+                    TabIndex="2" Height="83" Grid.RowSpan="2" Margin="0,0,26,10" Width="94" >
                     <Image	
-                                    Height="45"
-                                    Width="45"
-                                    VerticalAlignment="Top"	
-                                    HorizontalAlignment="Left"
-                                    Source="pack://application:,,,/Resources/PauseButton.png" />
+                          Height="45"
+                          Width="45"
+                          VerticalAlignment="Top"	
+                          HorizontalAlignment="Left"
+                          Source="pack://application:,,,/Resources/PauseButton.png" />
                 </Button>
                 <Button
                     x:Name="btnStop"
-                    Grid.Row="8"
-                    Grid.Column="14"
+                    Grid.Row="10"
+                    Grid.Column="12"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnStop_Click"
                     DataContext="{Binding}"
-                    Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" Height="83" Grid.RowSpan="2" >
+                    Style="{DynamicResource INMediaButton}"
+                    TabIndex="2" Height="83" Grid.RowSpan="2" Margin="0,0,26,10" Width="94">
                     <Image	
-                                    Height="45"
-                                    Width="45"
-                                    VerticalAlignment="Top"	
-                                    HorizontalAlignment="Left"
-                                    Source="pack://application:,,,/Resources/StopButton.png" />
+                           Height="45"
+                           Width="45"
+                           VerticalAlignment="Top"	
+                           HorizontalAlignment="Left"
+                           Source="pack://application:,,,/Resources/StopButton.png" />
                 </Button>
                 <Button
                     x:Name="btnFastForward"
-                    Grid.Row="8"
-                    Grid.Column="18"
+                    Grid.Row="10"
+                    Grid.Column="14"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnFastForward_Click"
                     DataContext="{Binding}"
-                    Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" Height="83" Grid.RowSpan="2" >
+                    Style="{DynamicResource INMediaButton}"
+                    TabIndex="2" Height="83" Grid.RowSpan="2" Margin="0,0,26,10" Width="94">
                     <Image	
-                                    Height="45"
-                                    Width="45"
-                                    VerticalAlignment="Top"	
-                                    HorizontalAlignment="Left"
-                                    Source="pack://application:,,,/Resources/ForwardButton.png" />
+                          Height="45"
+                          Width="45"
+                          VerticalAlignment="Top"	
+                          HorizontalAlignment="Left"
+                          Source="pack://application:,,,/Resources/ForwardButton.png" />
                 </Button>
                 <Button
                     x:Name="btnRewind"
-                    Grid.Row="8"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="4"
+                    Grid.Row="10"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="btnRewind_Click"
                     DataContext="{Binding}"
-                    Style="{DynamicResource INFlatButton}"
-                    TabIndex="2" Height="83" Grid.RowSpan="2" 
+                    Style="{DynamicResource INMediaButton}"
+                    TabIndex="2" Height="80" Grid.RowSpan="2" Margin="0,0,26,10" Width="94" 
                     >
                     <Image	
-                                    Height="45"
-                                    Width="45"
-                                    VerticalAlignment="Top"	
-                                    HorizontalAlignment="Left"
-                                    Source="pack://application:,,,/Resources/RewindButton.png" />
+                          Height="45"
+                          Width="45"
+                          VerticalAlignment="Top"	
+                          HorizontalAlignment="Left"
+                          Source="pack://application:,,,/Resources/RewindButton.png" />
                 </Button>
 
             </Grid>

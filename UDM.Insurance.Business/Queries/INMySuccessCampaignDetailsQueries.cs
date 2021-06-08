@@ -460,7 +460,7 @@ namespace UDM.Insurance.Business.Queries
                     if (iNMySuccessCampaignDetails.IsLoaded)
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ScriptEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ScriptEng], [StampDate], [StampUserID] FROM [INMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID; ");
+                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ScriptEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ScriptEng], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
                         query.Append("UPDATE [INMySuccessCampaignDetails]");
                         parameters = new object[3];
                         query.Append(" SET [FKCampaignID] = @FKCampaignID");
@@ -485,7 +485,7 @@ namespace UDM.Insurance.Business.Queries
                     if (iNMySuccessCampaignDetails.IsLoaded)
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ClosureEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ClosureEng], [StampDate], [StampUserID] FROM [INMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID; ");
+                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ClosureEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ClosureEng], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
                         query.Append("UPDATE [INMySuccessCampaignDetails]");
                         parameters = new object[3];
                         query.Append(" SET [FKCampaignID] = @FKCampaignID");
@@ -510,7 +510,7 @@ namespace UDM.Insurance.Business.Queries
                     if (iNMySuccessCampaignDetails.IsLoaded)
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Options], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Options], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID; ");
+                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Options], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Options], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
                         query.Append("UPDATE [INMySuccessCampaignDetails]");
                         parameters = new object[3];
                         query.Append(" SET [FKCampaignID] = @FKCampaignID");
@@ -535,7 +535,7 @@ namespace UDM.Insurance.Business.Queries
                     if (iNMySuccessCampaignDetails.IsLoaded)
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID]) SELECT [FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID] FROM [INMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID; ");
+                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID]) SELECT [FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
                         query.Append("UPDATE [INMySuccessCampaignDetails]");
                         parameters = new object[3];
                         query.Append(" SET [FKCampaignID] = @FKCampaignID");
@@ -560,7 +560,7 @@ namespace UDM.Insurance.Business.Queries
                     if (iNMySuccessCampaignDetails.IsLoaded)
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Objectionhandling], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Objectionhandling], [StampDate], [StampUserID] FROM [INMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID; ");
+                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Objectionhandling], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Objectionhandling], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
                         query.Append("UPDATE [INMySuccessCampaignDetails]");
                         parameters = new object[3];
                         query.Append(" SET [FKCampaignID] = @FKCampaignID");
@@ -585,7 +585,7 @@ namespace UDM.Insurance.Business.Queries
                     if (iNMySuccessCampaignDetails.IsLoaded)
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [NeedCreation], [StampDate], [StampUserID]) SELECT [FKCampaignID], [NeedCreation], [StampDate], [StampUserID] FROM [INMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID; ");
+                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [NeedCreation], [StampDate], [StampUserID]) SELECT [FKCampaignID], [NeedCreation], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
                         query.Append("UPDATE [INMySuccessCampaignDetails]"); 
                         parameters = new object[3];
                         query.Append(" SET [FKCampaignID] = @FKCampaignID");

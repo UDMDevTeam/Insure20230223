@@ -79,8 +79,17 @@ namespace UDM.Insurance.Interface.Screens
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-
             OnDialogClose(_dialogResult);
+            if(MediaplayerVB.Visibility == Visibility.Visible)
+            {
+                MySuccess mySuccess = new MySuccess();
+                mySuccess.Body.Visibility = Visibility.Collapsed;
+                mySuccess.Body2.Visibility = Visibility.Visible;
+                mySuccess.LoadAgentCalls();
+                mySuccess.LoadAgentNotesDG();
+                mySuccess.LoadCampaignNotesDG();
+                ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+            }
 
         }
 
@@ -236,6 +245,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     _fkCampaignIDs = _lstSelectedCampaigns.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["CampaignID"].Value + ",");
                     _fkCampaignIDs = _fkCampaignIDs.Substring(0, _fkCampaignIDs.Length - 1);
+
+                GlobalSettings.MySuccessCampaignID = _fkCampaignIDs;
                 //}
 
                 dtAgents = Methods.GetTableData(
@@ -253,7 +264,6 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
             }
 
             finally
@@ -298,7 +308,6 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
             }
         }
 
@@ -370,14 +379,42 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(System.Windows.Input.Cursors.Wait);
                 try { dtCampaignNotes.Clear(); } catch { }
 
+
+
+                xdgCampaignNotes.DataSourceResetBehavior = DataSourceResetBehavior.DiscardExistingRecords;
+                xdgCampaignNotes.DataItems.Clear();
+                xdgCampaignNotes.DataSource = null;
+
+
                 var lstTemp = (from r in xdgCampaignNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
                     
                 dtCampaignNotes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpCampaignNotes");
                 DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
                 dtCampaignNotes.Columns.Add(column);
+
+
                 dtCampaignNotes.DefaultView.Sort = "ID ASC";
+
+                //for (int rowIndex = 0; rowIndex < dtCampaignNotes.Rows.Count; rowIndex++)
+                //{
+                //    dtCampaignNotes.Rows[rowIndex][0] = false;
+                //}
                 xdgCampaignNotes.DataSource = dtCampaignNotes.DefaultView;
-                
+
+
+
+                DataTable dt = ((DataView)xdgCampaignNotes.DataSource).Table;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Select"] = true;
+                }
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Select"] = false;
+                }
+
+                xdgCampaignNotes.DataSource = dt.DefaultView;
             }
             catch (Exception ex)
             {
@@ -442,28 +479,28 @@ namespace UDM.Insurance.Interface.Screens
         #endregion
 
         #region MediaPlayer
-        private void btnNext3_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                OpenFileDialog dlg = new OpenFileDialog();
-                dlg.InitialDirectory = "c:\\";
-                dlg.Filter = "Media files (*.wmv)|*.wmv|All Files (*.*)|*.*";
-                dlg.RestoreDirectory = true;
+        //private void btnNext3_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        OpenFileDialog dlg = new OpenFileDialog();
+        //        dlg.InitialDirectory = "c:\\";
+        //        dlg.Filter = "Media files (*.wmv)|*.wmv|All Files (*.*)|*.*";
+        //        dlg.RestoreDirectory = true;
 
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string selectedFileName = dlg.FileName;
-                    FileNameLabel.Content = selectedFileName;
-                    McMediaElement.Source = new Uri(selectedFileName);
-                    McMediaElement.Play();
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-        }
+        //        if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        //        {
+        //            string selectedFileName = dlg.FileName;
+        //            FileNameLabel.Content = selectedFileName;
+        //            McMediaElement.Source = new Uri("\\\\192.168.2.141\\Devs\\Angelo_CancerElite_FINObj.wav");
+        //            McMediaElement.Play();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        HandleException(ex);
+        //    }
+        //}
 
 
 
@@ -515,6 +552,12 @@ namespace UDM.Insurance.Interface.Screens
             var listTemp = (from r in xdgAgents.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
 
 
+
+            string AgentID = listTemp.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["AgentID"].Value + ",");
+            AgentID = AgentID.Substring(0, AgentID.Length - 1);
+
+            GlobalSettings.MySuccessAgentID = AgentID;
+
             if (listTemp.Count == 0)
             {
 
@@ -550,7 +593,6 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
             }
 
             //    }
@@ -602,23 +644,69 @@ namespace UDM.Insurance.Interface.Screens
                 var _CallsDescription = _listSelectedAgentCalls.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
                 _CallsDescription = _CallsDescription.Substring(0, _CallsDescription.Length - 1);
 
+                List<Record> listAgents = new List<Record>();
+                List<Record> _listSelectedAgent = new List<Record>();
+                List<Record> listCampaign = new List<Record>();
+                List<Record> _listSelectedCampaign = new List<Record>();
+                string _AgentSelected;
+                string _CampaignSelected;
+                try
+                {
+                    listAgents = (from r in xdgAgents.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                    _listSelectedAgent = new List<Record>(listAgents.OrderBy(r => ((DataRecord)r).Cells["AgentID"].Value));
+
+                    _AgentSelected = _listSelectedAgent.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["AgentID"].Value + ",");
+                    _AgentSelected = _AgentSelected.Substring(0, _AgentSelected.Length - 1);
+
+                    listCampaign = (from r in xdgCampaigns.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                    _listSelectedCampaign = new List<Record>(listCampaign.OrderBy(r => ((DataRecord)r).Cells["CampaignID"].Value));
+
+                    _CampaignSelected = _listSelectedCampaign.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["CampaignID"].Value + ",");
+                    _CampaignSelected = _CampaignSelected.Substring(0, _CampaignSelected.Length - 1);
+                }
+                catch
+                {
+                    _AgentSelected = GlobalSettings.MySuccessAgentID;
+                    _CampaignSelected = GlobalSettings.MySuccessCampaignID;
+                }
+
+
+
+
+                
+
                 if (_CallsDescription == "1")
                 {
                     Body.Visibility = Visibility.Collapsed;
                     Body2.Visibility = Visibility.Collapsed;
                     MediaplayerVB.Visibility = Visibility.Visible;
+
+                    string FileNameFromDB = Convert.ToString(Methods.GetTableData("SELECT Call1 FROM INMySuccessAgents WHERE FKCampaignID =" + "'" + _CampaignSelected + "'" + " AND UserID =" + _AgentSelected).Rows[0][0]);
+
+                    McMediaElement.Source = new Uri(FileNameFromDB);
+                    McMediaElement.Play();
                 }
                 else if (_CallsDescription == "2")
                 {
                     Body.Visibility = Visibility.Collapsed;
                     Body2.Visibility = Visibility.Collapsed;
                     MediaplayerVB.Visibility = Visibility.Visible;
+
+                    string FileNameFromDB = Convert.ToString(Methods.GetTableData("SELECT Call2 FROM INMySuccessAgents WHERE FKCampaignID =" + "'" + _CampaignSelected + "'" + " AND UserID =" + _AgentSelected).Rows[0][0]);
+
+                    McMediaElement.Source = new Uri(FileNameFromDB);
+                    McMediaElement.Play();
                 }
                 else if (_CallsDescription == "3")
                 {
                     Body.Visibility = Visibility.Collapsed;
                     Body2.Visibility = Visibility.Collapsed;
                     MediaplayerVB.Visibility = Visibility.Visible;
+
+                    string FileNameFromDB = Convert.ToString(Methods.GetTableData("SELECT Call3 FROM INMySuccessAgents WHERE FKCampaignID =" + "'" + _CampaignSelected + "'" + " AND UserID =" + _AgentSelected).Rows[0][0]);
+
+                    McMediaElement.Source = new Uri(FileNameFromDB);
+                    McMediaElement.Play();
                 }
                 else
                 {
@@ -657,11 +745,13 @@ namespace UDM.Insurance.Interface.Screens
                     var listTemp = (from r in xdgAgentNotes.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
                     var _listSelectedAgentNotes = new List<Record>(listTemp.OrderBy(r => ((DataRecord)r).Cells["Description"].Value));
 
-                    //var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
-                    //_NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
+                //var _NotesDescription = _listSelectedAgentNotes.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                //_NotesDescription = _NotesDescription.Substring(0, _NotesDescription.Length - 1);
 
-                    MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
-                    ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
+
+
+                MySuccessCampaignNotes mySuccessCampaignNotes = new MySuccessCampaignNotes(_CampaignNoteIDs);
+                ShowDialog(mySuccessCampaignNotes, new INDialogWindow(mySuccessCampaignNotes));
 
                     
 
@@ -670,7 +760,6 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
             }
         }
         private void btnFastForward_Click(object sender, RoutedEventArgs e)
