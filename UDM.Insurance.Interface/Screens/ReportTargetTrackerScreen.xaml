@@ -8,6 +8,11 @@
                  xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
                  Name="ctrlReportSalesScreen"
                  mc:Ignorable="d">
+    <UserControl.Background>
+        <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+        <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+        <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+    </UserControl.Background>
 
     <src:BaseControl.Resources>
         <converters:DateCompareConverter x:Key="DateCompareConverter" />
@@ -77,7 +82,7 @@
         <Border x:Name="MainBorder"
                 Width="1200"
                 Height="750"
-                Background="Black"
+                Background="Transparent"
                 BorderBrush="{DynamicResource BrandedBrushIN}"
                 BorderThickness="2"
                 CornerRadius="12">

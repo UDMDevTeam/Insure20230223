@@ -5,6 +5,11 @@
     xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
     xmlns:igEditors="http://infragistics.com/Editors"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
+    <UserControl.Background>
+        <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+        <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+        <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+    </UserControl.Background>
 
     <Border
         x:Name="DimBorder"
@@ -28,7 +33,7 @@
             x:Name="MainBorder"
             Width="1200"
             Height="750"
-            Background="Black"
+            Background="Transparent"
             BorderBrush="{DynamicResource BrandedBrushIN}"
             BorderThickness="2"
             CornerRadius="12">

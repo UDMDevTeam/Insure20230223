@@ -13,6 +13,11 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Loaded="BaseControl_Loaded"
     mc:Ignorable="d">
+    <UserControl.Background>
+        <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+        <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+        <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+    </UserControl.Background>
 
     <src:BaseControl.Resources>
         <Style x:Key="cmbINHighlightBorderReport" TargetType="{x:Type ComboBox}">
@@ -124,7 +129,7 @@
         x:Name="MainBorder"
         Width="1200"
         Height="750"
-        Background="Black"
+        Background="Transparent"
         BorderBrush="{StaticResource BrandedBrushIN}"
         BorderThickness="2"
         CornerRadius="12">

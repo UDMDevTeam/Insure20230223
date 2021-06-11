@@ -565,7 +565,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     try { dtCampaigns.Clear(); } catch { }
 
-                    dtCampaigns = Methods.GetTableData("Select [C].[ID] [CampaignID], [C].[Name] [Campaign Name], [C].[Code] [CampaignCode] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS [CG] ON [C].[FKINCampaignGroupID] = [CG].[ID] WHERE [CG].[ID] NOT IN (1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39)");
+                    dtCampaigns = Methods.GetTableData("Select [C].[ID] [CampaignID], [C].[Name] [Campaign Name], [C].[Code] [CampaignCode] from INCampaign AS [C] LEFT JOIN lkpINCampaignGroup AS [CG] ON [C].[FKINCampaignGroupID] = [CG].[ID] WHERE [CG].[ID] NOT IN (1, 3, 4, 6, 24, 34, 21, 40, 22, 42, 25, 26, 39) and IsActive = 1");
                     DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
                     dtCampaigns.Columns.Add(column);
                     dtCampaigns.DefaultView.Sort = "CampaignID ASC";

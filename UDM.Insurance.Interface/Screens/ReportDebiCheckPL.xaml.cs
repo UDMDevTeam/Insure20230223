@@ -28,6 +28,7 @@ namespace UDM.Insurance.Interface.Screens
     {
 
         #region Constants
+        DataSet dsDiaryReportData;
 
 
         #endregion Constants
@@ -76,7 +77,7 @@ namespace UDM.Insurance.Interface.Screens
                         return;
                 }
 
-                btnReport.IsEnabled = false;
+                //btnReport.IsEnabled = false;
             }
 
             catch (Exception ex)
@@ -149,18 +150,7 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Wait);
 
                 #region Get the report data
-                DataSet dsDiaryReportData;
-                DataTable dtSalesData = null;
-                try
-                {
-                    dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate, _startDate);
-
-                }
-                catch
-                {
-                    dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate, _startDate);
-
-                }
+                DataTable dtSalesData;
 
                 dtSalesData = dsDiaryReportData.Tables[0];
 
@@ -264,7 +254,7 @@ namespace UDM.Insurance.Interface.Screens
                 if (IsAllInputParametersSpecifiedAndValid())
                 {
                     btnClose.IsEnabled = false;
-                    btnReport.IsEnabled = false;
+                    //btnReport.IsEnabled = false;
                     calStartDate.IsEnabled = false;
                     calEndDate.IsEnabled = false;
 
@@ -296,6 +286,84 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         campaign = "13H30";
                     }
+
+                    DataTable dtSalesData = null;
+                    if(ConsolidatedStats.IsChecked == true)
+                    {
+                        try
+                        {
+                            TimeSpan ts = new TimeSpan(00, 00, 0);
+                            DateTime _endDate2 = DateTime.Now;
+                            _endDate2 = _endDate.Date + ts;
+
+                            TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                            DateTime _startDat2 = DateTime.Now;
+                            _startDat2 = _startDate.Date + ts1;
+
+                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_endDate2, _startDat2);
+
+                        }
+                        catch
+                        {
+                            TimeSpan ts = new TimeSpan(00, 00, 0);
+                            DateTime _endDate2 = DateTime.Now;
+                            _endDate2 = _endDate.Date + ts;
+
+                            TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                            DateTime _startDat2 = DateTime.Now;
+                            _startDat2 = _startDate.Date + ts1;
+                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_endDate2, _startDat2);
+
+                        }
+                    }
+                    else
+                    {
+                        if(DailyReportCB.IsChecked == true)
+                        {
+                            try
+                            {
+                                TimeSpan ts = new TimeSpan(00, 00, 0);
+                                DateTime _endDate2 = DateTime.Now;
+                                _endDate2 = _endDate.Date + ts;
+
+                                TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                                DateTime _startDat2 = DateTime.Now;
+                                _startDat2 = _startDate.Date + ts1;
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate2, _startDat2);
+
+                            }
+                            catch(Exception a)
+                            {
+
+                                TimeSpan ts = new TimeSpan(00, 00, 0);
+                                DateTime _endDate2 = DateTime.Now;
+                                _endDate2 = _endDate.Date + ts;
+
+                                TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                                DateTime _startDat2 = DateTime.Now;
+                                _startDat2 = _startDate.Date + ts1;
+                                DateTime startdate = DateTime.Parse(calStartDate.SelectedDate.ToString());
+                                DateTime enddate = DateTime.Parse(calEndDate.SelectedDate.ToString());
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate2, _startDat2);
+
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate, _startDate);
+
+                            }
+                            catch
+                            {
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate, _startDate);
+
+                            }
+                        }
+
+                    }
+
 
                     BackgroundWorker worker = new BackgroundWorker();
                     worker.DoWork += Report;
@@ -349,21 +417,50 @@ namespace UDM.Insurance.Interface.Screens
 
         private void CancerCB_Checked(object sender, RoutedEventArgs e)
         {
+            ConsolidatedStats.IsChecked = false;
             MaccCB.IsChecked = false;
             CancerBaseBool = true;
             MaccBaseBool = false;
+            DailyReportCB.IsChecked = false;
         }
 
         private void MaccCB_Checked(object sender, RoutedEventArgs e)
         {
             CancerCB.IsChecked = false;
+            ConsolidatedStats.IsChecked = false;
             CancerBaseBool = false;
             MaccBaseBool = true;
+            DailyReportCB.IsChecked = false;
+        }
+
+        private void ConsolidatedStats_Checked(object sender, RoutedEventArgs e)
+        {
+            CancerCB.IsChecked = false;
+            MaccCB.IsChecked = false;
+            CancerBaseBool = false;
+            MaccBaseBool = false;
+            DailyReportCB.IsChecked = false;
+        }
+
+        private void DailyReportCB_Checked(object sender, RoutedEventArgs e)
+        {
+            CancerCB.IsChecked = false;
+            MaccCB.IsChecked = false;
+            CancerBaseBool = false;
+            MaccBaseBool = false;
+            ConsolidatedStats.IsChecked = false;
         }
 
         private void MaccCB_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private void ConsolidatedStats_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }

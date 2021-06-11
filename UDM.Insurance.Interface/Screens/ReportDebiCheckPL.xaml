@@ -4,6 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
+    <UserControl.Background>
+        <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+        <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+        <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+    </UserControl.Background>
 
     <Border x:Name="DimBorder" Width="1200" Height="750" BorderBrush="Transparent" BorderThickness="0" CornerRadius="12" Opacity="1">
         <Border.Style>
@@ -16,7 +21,7 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        <Border x:Name="MainBorder" Width="1200" Height="750" Background="Black" BorderBrush="{DynamicResource BrandedBrushIN}" BorderThickness="2" CornerRadius="12">
+        <Border x:Name="MainBorder" Width="1200" Height="750" Background="Transparent" BorderBrush="{DynamicResource BrandedBrushIN}" BorderThickness="2" CornerRadius="12">
             <Border.Style>
                 <Style>
                     <Setter Property="Border.Opacity" Value="1" />
@@ -27,6 +32,7 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
+
             <Viewbox>
                 <Grid
                     x:Name="LayoutRoot"
@@ -90,6 +96,18 @@
                         IsTabStop="True"
                         Style="{DynamicResource INCloseButton}" />
 
+
+                    <Border
+                            Grid.Row="3"
+                            Grid.RowSpan="12"
+                            Grid.ColumnSpan="9"
+                            BorderBrush="LightBlue"
+                            BorderThickness="3"
+                            Background="Gray"
+                            CornerRadius="5"
+                            Opacity="0.5" Margin="42,0,0.5,10"/>
+
+
                     <TextBlock
                         x:Name="hdrDiaryReport"
                         Grid.Row="1"
@@ -110,16 +128,16 @@
                         HorizontalAlignment="Left"
                         Style="{DynamicResource INUnderlineText1}" />
 
-                    <TextBlock
+                    <Label
                         x:Name="lblCal1"
                         Grid.Row="2"
                         Grid.Column="12"
                         Grid.ColumnSpan="6"
                         Margin="11,0,0,6"
                         VerticalAlignment="Bottom"
-                        Style="{DynamicResource INLabelText2}"
-                        Text="Select Date Range"
-                        TextWrapping="NoWrap"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Select Date Range"
                         Visibility="Visible" Width="247" />
 
                     <Viewbox
@@ -143,15 +161,16 @@
                             Visibility="Visible" />
                     </Viewbox>
 
-                    <TextBlock
+                    <Label
                                     x:Name="lblCheckLA2"
                                     Grid.Row="4"
                                     Grid.Column="2"
                                     Grid.ColumnSpan="4"
                                     Margin="0,0,0,5"
                                     VerticalAlignment="Bottom"
-                                    Style="{StaticResource INLabelText2}"
-                                    Text="07h30" />
+                        FontSize="15"
+                        Foreground="White"
+                                    Content="07h30" />
                     <CheckBox
                                     x:Name="CancerCB"
                                     Grid.Row="4"
@@ -160,22 +179,25 @@
                                     Height="16"
                                     Margin="0,0,0,5"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
+                                    VerticalAlignment="Center"
                                     Checked="CancerCB_Checked"
                                     IsChecked="{Binding PolicyData.IsLA2Checked}"
                                     TabIndex="23200"
                                     Unchecked="CancerCB_Unchecked"
                                     Visibility="Visible" />
 
-                    <TextBlock
+                    <Label
                                     x:Name="lblCheckMacc"
                                     Grid.Row="6"
                                     Grid.Column="2"
                                     Grid.ColumnSpan="4"
                                     Margin="0,0,0,5"
                                     VerticalAlignment="Bottom"
-                                    Style="{StaticResource INLabelText2}"
-                                    Text="13h00" />
+                        VerticalContentAlignment="Bottom"
+                        
+                                    Content="13h00" 
+                        Foreground="White"
+                        FontSize="15"/>
                     <CheckBox
                                     x:Name="MaccCB"
                                     Grid.Row="6"
@@ -184,12 +206,64 @@
                                     Height="16"
                                     Margin="0,0,0,5"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
+                                    VerticalAlignment="Center"
                                     Checked="MaccCB_Checked"
                                     IsChecked="{Binding PolicyData.IsLA2Checked}"
                                     TabIndex="23200"
                                     Unchecked="MaccCB_Unchecked"
                                     Visibility="Visible" />
+
+                    <Label
+                        Grid.Row="8"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="4"
+                        Margin="0,0,0,5"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Bottom"                        
+                        Content="Consolidated Stats" 
+                        Foreground="White"
+                        FontSize="15"/>
+
+                    <CheckBox
+                                    x:Name="ConsolidatedStats"
+                                    Grid.Row="8"
+                                    Grid.Column="7"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Checked="ConsolidatedStats_Checked"
+                                    IsChecked="{Binding PolicyData.IsLA2Checked}"
+                                    TabIndex="23200"
+                                    Unchecked="ConsolidatedStats_Unchecked"
+                                    Visibility="Visible" />
+
+                    <Label
+                        Grid.Row="10"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="4"
+                        Margin="0,0,0,5"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Bottom"                        
+                        Content="Daily report" 
+                        Foreground="White"
+                        FontSize="15"/>
+
+                    <CheckBox
+                                    x:Name="DailyReportCB"
+                                    Grid.Row="10"
+                                    Grid.Column="7"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Checked="DailyReportCB_Checked"
+                                    IsChecked="{Binding PolicyData.IsLA2Checked}"
+                                    TabIndex="23200"
+                                    Visibility="Visible" />
+
 
                     <Button
                         x:Name="btnReport"

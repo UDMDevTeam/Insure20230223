@@ -32,6 +32,9 @@ namespace UDM.Insurance.Interface.Screens
 
         private bool? _allRecordsCheckedTemp = false;
 
+        DataSet dsSalaryReportData;
+
+
         private ReportData _rData = new ReportData();
 
         public ReportData RData
@@ -333,7 +336,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Ensuring that at least one campaign was selected
 
                 var lstTemp = (from r in xdgCampaigns.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
-                _lstSelectedCampaigns= new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["CampaignName"].Value));
+                _lstSelectedCampaigns = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["CampaignName"].Value));
 
                 _fkINCampaignFKINCampaignClusterIDs = _lstSelectedCampaigns.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["CampaignID"].Value + ",");
                 _fkINCampaignFKINCampaignClusterIDs = _fkINCampaignFKINCampaignClusterIDs.Substring(0, _fkINCampaignFKINCampaignClusterIDs.Length - 1);
@@ -700,10 +703,10 @@ namespace UDM.Insurance.Interface.Screens
 
 
                 reportSubTitle = dateOfSale.ToShortDateString();
-                
+
                 worksheetTabName = Methods.ParseWorksheetName(wbReport, dateOfSale.ToShortDateString().Replace('/', '-'));
             }
-            
+
 
             #endregion Declarations & Initializations
 
@@ -732,7 +735,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 wsSalaryReport.GetCell("A5").Value = String.Format("For all selected campaigns for {0}", dateOfSale.ToString("dddd, d MMMM yyyy"));
             }
-            
+
             wsSalaryReport.GetCell("A7").Value = String.Format("Date Generated: {0}", DateTime.Now.ToString("yyyy -MM-dd HH:mm:ss"));
 
             #endregion Populating the report details
@@ -760,7 +763,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Get the report data - and exit the method if there is no data available
 
                 DataSet dsSalaryReportData = Insure.INReportSalaryGeneric(_includeSystemUnitsColumn, _fkINCampaignFKINCampaignClusterIDs, _reportType, _fromDate, _toDate, _bonusSales, _useCampaignClusters);
-                
+
                 if (dsSalaryReportData.Tables[3].Rows.Count == 0)
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
@@ -795,7 +798,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region For each row in dsSalaryReportData[1], generate an individual worksheet - if there is any data for that particular sheet
 
 
-                
+
 
                 foreach (DataRow row in dsSalaryReportData.Tables[1].Rows)
                 {
@@ -1072,7 +1075,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             if (chkGroupCampaigns.IsChecked.HasValue)
             {
-                if (! chkGroupCampaigns.IsChecked.Value)
+                if (!chkGroupCampaigns.IsChecked.Value)
                 {
                     ShowDataGrid(false);
                     _useCampaignClusters = false;
@@ -1310,6 +1313,16 @@ namespace UDM.Insurance.Interface.Screens
             {
                 HandleException(ex);
             }
+
+            if (_reportMode == 2)
+            {
+                cmbSalaryReportPost.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cmbSalaryReportPost.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void HeaderPrefixAreaCheckbox_CheckedTemp(object sender, RoutedEventArgs e)
@@ -1397,15 +1410,15 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 Cursor = Cursors.Wait;
-                    DataSet ds = Methods.ExecuteStoredProcedure("spGetTempSalesAgents", null);
+                DataSet ds = Methods.ExecuteStoredProcedure("spGetTempSalesAgents", null);
 
-                    DataTable dt = ds.Tables[0];
-                    DataColumn column = new DataColumn("IsChecked", typeof(bool));
-                    column.DefaultValue = false;
-                    dt.Columns.Add(column);
+                DataTable dt = ds.Tables[0];
+                DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                column.DefaultValue = false;
+                dt.Columns.Add(column);
 
-                    xdgAgents.DataSource = dt.DefaultView;
-                
+                xdgAgents.DataSource = dt.DefaultView;
+
             }
 
             catch (Exception ex)
@@ -1524,6 +1537,18 @@ namespace UDM.Insurance.Interface.Screens
                 if (IsAllTempReportInputParametersSpecifiedAndValid())
                 {
                     ShowTempReportControls(false);
+
+                    try { dsSalaryReportData.Clear(); } catch { }
+
+                    if (cmbSalaryReportPost.Text == "Pre June 2021")
+                    {
+                        dsSalaryReportData = Insure.INReportSalaryTemp(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+                    }
+                    else
+                    {
+                        dsSalaryReportData = Insure.INReportSalaryTempPostJune(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+                    }
+
 
                     BackgroundWorker worker = new BackgroundWorker();
                     worker.DoWork += TempReport;
@@ -1795,7 +1820,9 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data - and exit the method if there is no data available
 
-                DataSet dsSalaryReportData = Insure.INReportSalaryTemp(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+
+
+
 
                 if (dsSalaryReportData.Tables[1].Rows.Count == 0)
                 {
@@ -1947,7 +1974,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 return;
             }
-            
+
             DataTable dtExcelSheetDataTableColumnMappings = dsTempSalaryReportData.Tables[6];
             DataTable dtTotalsMappings = dsTempSalaryReportData.Tables[7];
 
@@ -2112,7 +2139,7 @@ namespace UDM.Insurance.Interface.Screens
                 dt.Columns.Add(column);
 
                 xdgAgents.DataSource = dt.DefaultView;
-                
+
             }
 
             catch (Exception ex)
@@ -2139,7 +2166,7 @@ namespace UDM.Insurance.Interface.Screens
                 dt.Columns.Add(column);
 
                 xdgAgents.DataSource = dt.DefaultView;
-                
+
             }
 
             catch (Exception ex)
@@ -2153,5 +2180,9 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void cmbSalaryReportPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
