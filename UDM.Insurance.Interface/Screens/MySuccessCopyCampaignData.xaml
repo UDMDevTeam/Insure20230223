@@ -1,0 +1,731 @@
+﻿<src:BaseControl
+    x:Class="UDM.Insurance.Interface.Screens.MySuccessCopyCampaignData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+    xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    x:Name="ctrlCampaignsLeadCopyScreen"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <src:BaseControl.Resources>
+
+        <RoutedUICommand x:Key="cmdCopyLeads" />
+
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="6" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="6" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Name="Header"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                Padding="3,1,3,0">
+                                <ContentPresenter
+                                    ContentSource="Header"
+                                    RecognizesAccessKey="true"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4" />
+                            <Border
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                                <Border.OpacityMask>
+                                    <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                        <Binding ElementName="Header" Path="ActualWidth" />
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                    </MultiBinding>
+                                </Border.OpacityMask>
+                            </Border>
+                            <ContentPresenter
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Margin="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="StyleCMB1"
+            BasedOn="{StaticResource cmbIN}"
+            TargetType="{x:Type ComboBox}">
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource BrandedBrushIN}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </src:BaseControl.Resources>
+
+    <!--<src:BaseControl.CommandBindings>
+        <CommandBinding
+            CanExecute="CopyLeadsCommand_CanExecute"
+            Command="{StaticResource cmdCopyLeads}"
+            Executed="CopyLeadsCommand_Executed" />
+    </src:BaseControl.CommandBindings>-->
+
+    <Border
+        x:Name="DimBorder"
+        Width="1200"
+        Height="750"
+        BorderBrush="Transparent"
+        BorderThickness="0"
+        CornerRadius="12"
+        Opacity="1">
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Background" Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger Property="UIElement.IsEnabled" Value="False">
+                        <Setter Property="Border.Background" Value="Gray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border
+            x:Name="MainBorder"
+            Width="1200"
+            Height="750"
+            Background="Black"
+            BorderBrush="{StaticResource BrandedBrushIN}"
+            BorderThickness="2"
+            CornerRadius="12">
+            <Border.Style>
+                <Style>
+                    <Setter Property="UIElement.Opacity" Value="1" />
+                    <Style.Triggers>
+                        <Trigger Property="UIElement.IsEnabled" Value="False">
+                            <Setter Property="UIElement.Opacity" Value="0.7" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Viewbox>
+                <Grid
+                    x:Name="LayoutRoot"
+                    Width="1200"
+                    Height="750"
+                    FocusManager.FocusedElement="{Binding ElementName=cmbCampaigns}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox
+                        x:Name="cbAllowRecordFiltering"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding ElementName=xdgSourceLeads, Path=FieldSettings.AllowRecordFiltering}"
+                        Visibility="Collapsed" />
+
+                    <Button
+                        x:Name="btnClose"
+                        Grid.Row="0"
+                        Grid.Column="27"
+                        IsEnabled="{Binding ScrData.IsCopying, Converter={StaticResource InverseBooleanConverter}}"
+                        IsTabStop="True"
+                        Style="{StaticResource INCloseButton}"
+                        TabIndex="0" />
+
+                    <TextBlock
+                        x:Name="hdrLeadCopy"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="8"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource INPageHeadingText1}"
+                        Text="My Success Campaign Data Copy" />
+                    <Path
+                        x:Name="hdrLine"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="8"
+                        Width="168"
+                        Margin="-1,0,0,12"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource INUnderlineText1}" />
+
+                    <GroupBox
+                        x:Name="gbSource"
+                        Grid.Row="2"
+                        Grid.RowSpan="15"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="12"
+                        Margin="0,-12,4,0"
+                        FontSize="14"
+                        Foreground="{StaticResource BrandedBrushIN}"
+                        Header="Source" />
+
+
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible">
+                        <CheckBox
+                            x:Name="chkCampaignBase"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Checked="chkCampaignBase_Checked"
+                            IsChecked="False"
+                            Unchecked="chkCampaignBase_Unchecked">
+                            <CheckBox.Style>
+                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox" />
+                            </CheckBox.Style>
+                        </CheckBox>
+                        <TextBlock
+                            x:Name="lblSourceBase"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="6,1,0,0"
+                            Style="{StaticResource INLabelText2}"
+                            Text="Base" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible">
+                        <CheckBox
+                            x:Name="chkCampaignUpgrade"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Checked="chkCampaignUpgrade_Checked"
+                            IsChecked="False"
+                            Unchecked="chkCampaignUpgrade_Unchecked">
+                            <CheckBox.Style>
+                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox" />
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                        <TextBlock
+                            x:Name="lblSourceUpgrade"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="6,1,0,0"
+                            Style="{StaticResource INLabelText2}"
+                            Text="Upgrade" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="8"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible">
+                        <CheckBox
+                            x:Name="chkCampaignResales"
+                            Margin="0,12"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Checked="chkCampaignResales_Checked"
+                            IsChecked="False"
+                            RenderTransformOrigin="0.413,-0.703"
+                            Unchecked="chkCampaignResales_Unchecked">
+                            <CheckBox.Style>
+                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}" />
+                            </CheckBox.Style>
+                        </CheckBox>
+                        <TextBlock
+                            x:Name="lblCampaignResales"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="6,1,0,0"
+                            Style="{StaticResource INLabelText2}"
+                            Text="Resales" />
+                    </StackPanel>
+
+
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible">
+                        <CheckBox
+                            x:Name="chkDestinationCampaignBase"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Checked="chkDestinationCampaignBase_Checked"
+                            IsChecked="False"
+                            Unchecked="chkDestinationCampaignBase_Unchecked">
+                            <CheckBox.Style>
+                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox" />
+                            </CheckBox.Style>
+                        </CheckBox>
+                        <TextBlock
+                            x:Name="lblDestinationSourceBase"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="6,1,0,0"
+                            Style="{StaticResource INLabelText2}"
+                            Text="Base" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="18"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible">
+                        <CheckBox
+                            x:Name="chkDestinationCampaignUpgrade"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Checked="chkDestinationCampaignUpgrade_Checked"
+                            IsChecked="False"
+                            Unchecked="chkDestinationCampaignUpgrade_Unchecked">
+                            <CheckBox.Style>
+                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox" />
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                        <TextBlock
+                            x:Name="lblDestinationSourceUpgrade"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="6,1,0,0"
+                            Style="{StaticResource INLabelText2}"
+                            Text="Upgrade" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="21"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible">
+                        <CheckBox
+                            x:Name="chkDestinationCampaignResales"
+                            Margin="0,12"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Checked="chkDestinationCampaignResales_Checked"
+                            IsChecked="False"
+                            RenderTransformOrigin="0.413,-0.703"
+                            Unchecked="chkDestinationCampaignResales_Unchecked">
+                            <CheckBox.Style>
+                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}" />
+                            </CheckBox.Style>
+                        </CheckBox>
+                        <TextBlock
+                            x:Name="lblDestinationCampaignResales"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="6,1,0,0"
+                            Style="{StaticResource INLabelText2}"
+                            Text="Resales" />
+                    </StackPanel>
+
+
+                    <TextBlock
+                        x:Name="lblDocumentType"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="4"
+                        Width="142"
+                        Margin="8,0,0,10"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Document Type" />
+
+                    <src:EmbriantComboBox
+                        x:Name="cmbDocumentType"
+                        Grid.Row="5"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="6"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource StyleCMB1}"
+                        TabIndex="0" />
+
+                    <igWPF:XamDataGrid
+                        x:Name="xdgSourceCampaigns"
+                        Grid.Row="6"
+                        Grid.RowSpan="11"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="12"
+                        Margin="8,27,8,10"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        AutoFit="False"
+                        GroupByAreaLocation="None"
+                        Style="{DynamicResource INXamDataGridStyle1}"
+                        TabIndex="0">
+                        <igWPF:XamDataGrid.Resources>
+                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                            <CheckBox
+                                                x:Name="SourceCampaignHeaderPrefixAreaCheckbox"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Checked="SourceCampaignHeaderPrefixAreaCheckbox_Checked"
+                                                IsChecked="False"
+                                                Style="{DynamicResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style TargetType="{x:Type igWPF:RecordSelector}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                            <CheckBox
+                                                x:Name="SourceCampaignRecordSelectorCheckbox"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Click="SourceCampaignRecordSelectorCheckbox_Click"
+                                                Focusable="False"
+                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                                Style="{DynamicResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </igWPF:XamDataGrid.Resources>
+                        <igWPF:XamDataGrid.FieldLayouts>
+                            <igWPF:FieldLayout>
+                                <igWPF:Field
+                                    Name="CampaignID"
+                                    Label="CampaignID"
+                                    Visibility="Collapsed" />
+                                <igWPF:Field
+                                    Name="CampaignName"
+                                    Width="340"
+                                    Label="CampaignName" />
+                                <igWPF:Field
+                                    Name="CampaignCode"
+                                    Label="CampaignCode"
+                                    Visibility="Collapsed" />
+                                <igWPF:Field
+                                    Name="Select"
+                                    Width="290"
+                                    Label="Select"
+                                    Visibility="Collapsed" />
+                            </igWPF:FieldLayout>
+                        </igWPF:XamDataGrid.FieldLayouts>
+                    </igWPF:XamDataGrid>
+
+                    <TextBlock
+                        x:Name="lblTotalLeads"
+                        Grid.Row="16"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="7"
+                        Margin="8,0,0,4"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Total Leads:"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        x:Name="tbTotalLeads"
+                        Grid.Row="16"
+                        Grid.Column="4"
+                        Margin="-24,0,0,4"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Style="{StaticResource INLabelText3}"
+                        Text="{Binding ScrData.Leads.TotalFilteredInLeads}" />
+                    <TextBlock
+                        x:Name="lblLeadsSelected"
+                        Grid.Row="16"
+                        Grid.Column="7"
+                        Grid.ColumnSpan="7"
+                        Margin="8,0,0,4"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Leads Selected:"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        x:Name="tbLeadsSelected"
+                        Grid.Row="16"
+                        Grid.Column="10"
+                        Margin="0,0,0,4"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Style="{StaticResource INLabelText3}"
+                        Text="{Binding ScrData.Leads.TotalChecked}" />
+                    <TextBlock
+                        x:Name="lblLeadsAvailable"
+                        Grid.Row="16"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="7"
+                        Margin="8,0,0,4"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Leads Available:"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        x:Name="tbLeadsAvailable"
+                        Grid.Row="16"
+                        Grid.Column="16"
+                        Margin="0,0,0,4"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Style="{StaticResource INLabelText3}"
+                        Text="{Binding ScrData.Leads.TotalLeadsAvailable}"
+                        Visibility="Collapsed" />
+
+                    <GroupBox
+                        x:Name="gbDestination"
+                        Grid.Row="2"
+                        Grid.RowSpan="15"
+                        Grid.Column="14"
+                        Grid.ColumnSpan="12"
+                        Margin="4,-12,0,0"
+                        FontSize="14"
+                        Foreground="{StaticResource BrandedBrushIN}"
+                        Header="Destination" />
+
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.Column="17"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible" />
+
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.Column="19"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Visibility="Visible" />
+
+                    <TextBlock
+                        x:Name="lblDestinationDocumentType"
+                        Grid.Row="5"
+                        Grid.Column="14"
+                        Grid.ColumnSpan="4"
+                        Width="154"
+                        Margin="10,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Document Type " />
+
+                    <src:EmbriantComboBox
+                        x:Name="cmbDestinationDocumentType"
+                        Grid.Row="5"
+                        Grid.Column="18"
+                        Grid.ColumnSpan="7"
+                        Margin="10,0,40,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource StyleCMB1}"
+                        TabIndex="0" />
+
+                    <igWPF:XamDataGrid
+                        x:Name="xdgDestinationCampaigns"
+                        Grid.Row="6"
+                        Grid.RowSpan="11"
+                        Grid.Column="14"
+                        Grid.ColumnSpan="12"
+                        Margin="8,27,8,10"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        AutoFit="False"
+                        GroupByAreaLocation="None"
+                        Style="{DynamicResource INXamDataGridStyle1}"
+                        TabIndex="0">
+                        <igWPF:XamDataGrid.Resources>
+                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                            <CheckBox
+                                                x:Name="DestinationCampaignHeaderPrefixAreaCheckbox"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Checked="DestinationCampaignHeaderPrefixAreaCheckbox_Checked"
+                                                IsChecked="False"
+                                                Style="{DynamicResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style TargetType="{x:Type igWPF:RecordSelector}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                            <CheckBox
+                                                x:Name="DestinationCampaignRecordSelectorCheckbox"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Click="DestinationCampaignRecordSelectorCheckbox_Click"
+                                                Focusable="False"
+                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                                Style="{DynamicResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </igWPF:XamDataGrid.Resources>
+                        <igWPF:XamDataGrid.FieldLayouts>
+                            <igWPF:FieldLayout>
+                                <igWPF:Field
+                                    Name="CampaignID"
+                                    Label="CampaignID"
+                                    Visibility="Collapsed" />
+                                <igWPF:Field
+                                    Name="CampaignName"
+                                    Width="340"
+                                    Label="CampaignName" />
+                                <igWPF:Field
+                                    Name="CampaignCode"
+                                    Label="CampaignCode"
+                                    Visibility="Collapsed" />
+                                <igWPF:Field
+                                    Name="Select"
+                                    Width="290"
+                                    Label="Select"
+                                    Visibility="Collapsed" />
+                            </igWPF:FieldLayout>
+                        </igWPF:XamDataGrid.FieldLayouts>
+                    </igWPF:XamDataGrid>
+
+
+                    <TextBlock
+                        x:Name="lblLeadsCopied"
+                        Grid.Row="16"
+                        Grid.Column="19"
+                        Grid.ColumnSpan="8"
+                        Margin="8,0,0,4"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Leads Copied:"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        x:Name="tbLeadsCopied"
+                        Grid.Row="16"
+                        Grid.Column="22"
+                        Grid.ColumnSpan="4"
+                        Margin="-12,0,0,4"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Style="{StaticResource INLabelText3}"
+                        Text="{Binding ScrData.Leads.TotalLeadsCopied}" />
+
+                    <Button
+                        x:Name="btnCopy"
+                        Grid.Row="17"
+                        Grid.Column="22"
+                        Grid.ColumnSpan="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Click="btnCopy_Click"
+                        IsDefault="True"
+                        Style="{StaticResource INFlatButton}"
+                        TabIndex="0">
+                        <AccessText
+                            x:Name="atCopy"
+                            Margin="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="_Copy"
+                            Visibility="Visible" />
+                    </Button>
+
+                </Grid>
+            </Viewbox>
+        </Border>
+    </Border>
+
+</src:BaseControl>
