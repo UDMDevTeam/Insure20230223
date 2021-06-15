@@ -69,54 +69,128 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     #region Scripts
 
-
-
-                    string strSQLScript = "SELECT FKCampaignID [FKCampaignID], ScriptEng [ScriptEng] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
-
-                    //dt = Methods.GetTableData(
-                    //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
-
-                    if (strSQLScript != null)
+                    if (chkClosureAfrikaans.IsChecked == true && chkClosureEnglish.IsChecked == false)
                     {
-
-                        dtScript = Methods.GetTableData(strSQLScript);
-
-                        if (dtScript.Rows[0]["ScriptEng"] != null)
+                        try
                         {
-                            CampaignID = dtScript.Rows[0]["FKCampaignID"] as string;
+                            string strSQLScript = "SELECT FKCampaignID [FKCampaignID], ScriptAfr [ScriptAfr] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
 
-                            byte[] data = dtScript.Rows[0]["ScriptEng"] as byte[];
+                            //dt = Methods.GetTableData(
+                            //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
 
-                            try
+                            if (strSQLScript != null)
                             {
 
-                                if (data != null)
+                                dtScript = Methods.GetTableData(strSQLScript);
+
+                                if (dtScript.Rows[0]["ScriptAfr"] != null)
                                 {
+                                    CampaignID = dtScript.Rows[0]["FKCampaignID"] as string;
 
-                                    _strXpsDoc = Convert.ToString(data);
+                                    byte[] data = dtScript.Rows[0]["ScriptAfr"] as byte[];
 
-                                    FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                    objFileStream.Write(data, 0, data.Length);
-                                    objFileStream.Close();
+                                    try
+                                    {
 
-                                    _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                    dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-                                    _xpsDocument.Close();
+                                        if (data != null)
+                                        {
+
+                                            _strXpsDoc = Convert.ToString(data);
+
+                                            FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                            objFileStream.Write(data, 0, data.Length);
+                                            objFileStream.Close();
+
+                                            _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                            dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                            _xpsDocument.Close();
+
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        HandleException(ex);
+                                    }
 
                                 }
 
+                                try { dtScript.Clear(); } catch { }
+
+
                             }
-                            catch (Exception ex) 
+
+                            strSQLScript = null;
+                        }
+                        catch (Exception ex) 
+                        {
+                            HandleException(ex);
+                        }
+                    }
+
+                    if (chkClosureEnglish.IsChecked == true && chkClosureAfrikaans.IsChecked == false)
+                    {
+
+                        try
+                        {
+
+                            string strSQLScript = "SELECT FKCampaignID [FKCampaignID], ScriptEng [ScriptEng] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
+
+                            //dt = Methods.GetTableData(
+                            //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
+
+                            if (strSQLScript != null)
                             {
-                                HandleException(ex); 
+
+                                dtScript = Methods.GetTableData(strSQLScript);
+
+                                if (dtScript.Rows[0]["ScriptEng"] != null)
+                                {
+                                    CampaignID = dtScript.Rows[0]["FKCampaignID"] as string;
+
+                                    byte[] data = dtScript.Rows[0]["ScriptEng"] as byte[];
+
+                                    try
+                                    {
+
+                                        if (data != null)
+                                        {
+
+                                            _strXpsDoc = Convert.ToString(data);
+
+                                            FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                            objFileStream.Write(data, 0, data.Length);
+                                            objFileStream.Close();
+
+                                            _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                            dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                            _xpsDocument.Close();
+
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        HandleException(ex);
+                                    }
+
+                                }
+
+                                try { dtScript.Clear(); } catch { }
+
+                                strSQLScript = null;
                             }
+
+                            strSQLScript = null;
+
 
                         }
-
-                        try { dtScript.Clear(); } catch { }
-
-                        strSQLScript = null;
+                        catch (Exception ex) 
+                        {
+                            HandleException(ex); 
+                        }
                     }
+
 
                     #endregion
 
@@ -127,59 +201,142 @@ namespace UDM.Insurance.Interface.Screens
 
                     try
                     {
-                        string strSQLClosure = "SELECT FKCampaignID [FKCampaignID], ClosureEng [ClosureEng] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
 
-                        //dt = Methods.GetTableData(
-                        //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
-
-                        if (strSQLClosure != null)
+                        if (chkClosureAfrikaans.IsChecked == true)
                         {
 
-                            dtClosure = Methods.GetTableData(strSQLClosure);
-
-                            if (dtClosure.Rows[0]["ClosureEng"] != null)
+                            try
                             {
-                                CampaignID = dtClosure.Rows[0]["FKCampaignID"] as string;
 
-                                byte[] data = dtClosure.Rows[0]["ClosureEng"] as byte[];
+                                string strSQLClosure = "SELECT FKCampaignID [FKCampaignID], ClosureAfr [ClosureAfr] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
 
-                                if (data != null)
+                                //dt = Methods.GetTableData(
+                                //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
+
+                                if (strSQLClosure != null)
                                 {
 
-                                    try
+                                    dtClosure = Methods.GetTableData(strSQLClosure);
+
+                                    if (dtClosure.Rows[0]["ClosureAfr"] != null)
                                     {
-                                        _strXpsDoc = Convert.ToString(data);
+                                        CampaignID = dtClosure.Rows[0]["FKCampaignID"] as string;
 
-                                        FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
-                                        objFileStream.Write(data, 0, data.Length);
-                                        objFileStream.Close();
+                                        byte[] data = dtClosure.Rows[0]["ClosureAfr"] as byte[];
 
-                                        _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
-                                        dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
-                                        _xpsDocument.Close();
+                                        if (data != null)
+                                        {
+
+                                            try
+                                            {
+                                                _strXpsDoc = Convert.ToString(data);
+
+                                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                                objFileStream.Write(data, 0, data.Length);
+                                                objFileStream.Close();
+
+                                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                                _xpsDocument.Close();
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                HandleException(ex);
+                                            }
+
+                                            //data = null;
+                                        }
+
+                                        else if (data == null)
+                                        {
+                                            MessageBox.Show("This message indicates a blank value");
+                                        }
+
 
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        HandleException(ex);
-                                    }
 
-                                    //data = null;
+
+                                    try { dtClosure.Clear(); } catch { }
                                 }
 
-                                else if (data == null)
+                                strSQLClosure = null;
+                            }
+                            catch (Exception ex) 
+                            {
+                                HandleException(ex); 
+                            }
+                        }
+                        
+                        if (chkClosureEnglish.IsChecked == true)
+                        {
+                            try
+                            {
+
+                                string strSQLClosure = "SELECT FKCampaignID [FKCampaignID], ClosureEng [ClosureEng] FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + "";
+
+                                //dt = Methods.GetTableData(
+                                //        "SELECT FKCampaignID, ClosureEng FROM INMySuccessCampaignDetails WHERE FKCampaignID = " + CampaignID + ")");
+
+                                if (strSQLClosure != null)
                                 {
-                                    MessageBox.Show("This message indicates a blank value");
+
+                                    dtClosure = Methods.GetTableData(strSQLClosure);
+
+                                    if (dtClosure.Rows[0]["ClosureEng"] != null)
+                                    {
+                                        CampaignID = dtClosure.Rows[0]["FKCampaignID"] as string;
+
+                                        byte[] data = dtClosure.Rows[0]["ClosureEng"] as byte[];
+
+                                        if (data != null)
+                                        {
+
+                                            try
+                                            {
+                                                _strXpsDoc = Convert.ToString(data);
+
+                                                FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
+                                                objFileStream.Write(data, 0, data.Length);
+                                                objFileStream.Close();
+
+                                                _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
+                                                dvClosure.Document = _xpsDocument.GetFixedDocumentSequence();
+                                                _xpsDocument.Close();
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                HandleException(ex);
+                                            }
+
+                                            //data = null;
+                                        }
+
+                                        else if (data == null)
+                                        {
+                                            MessageBox.Show("This message indicates a blank value");
+                                        }
+
+
+                                    }
+
+
+                                    try { dtClosure.Clear(); } catch { }
                                 }
 
+
+
+                                strSQLClosure = null;
 
                             }
-
-
-                            try { dtClosure.Clear(); } catch { }
+                            catch (Exception ex) 
+                            {
+                                HandleException(ex);
+                            }
                         }
 
-                        strSQLClosure = null;
+                        
                     }
                     catch (Exception ex)
                     {
@@ -227,8 +384,14 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     HandleException(ex); 
                                 }
+
+
                             }
+
+                            try { dtOptions.Clear(); } catch { }
+
                         }
+
 
                         strSQLOptions = null;
                     }
@@ -278,6 +441,9 @@ namespace UDM.Insurance.Interface.Screens
                                     HandleException(ex);
                                 }
                             }
+
+                            try { dtIncentiveStructure.Clear(); } catch { }
+
                         }
 
                         strSQLIncentiveStructure = null;
@@ -328,6 +494,10 @@ namespace UDM.Insurance.Interface.Screens
                                 }
 
                             }
+
+                            try { dtObjectionHandling.Clear(); } catch { }
+
+
                         }
 
                         strSQLObjectionHandling = null;
@@ -380,9 +550,13 @@ namespace UDM.Insurance.Interface.Screens
                             }
 
                             data = null;
+
+                            try { dtNeedCreation.Clear(); } catch { }
+
+
                         }
 
-                       
+
                         strSQLNeedCreation = null;
                     }
 
@@ -429,9 +603,30 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+
         private void BaseControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void chkClosureAfrikaans_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadDocument();
+        }
+
+        private void chkClosureAfrikaans_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //LoadDocument(); 
+        }
+
+        private void chkClosureEnglish_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadDocument(); 
+        }
+
+        private void chkClosureEnglish_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //LoadDocument();
         }
     }
 }

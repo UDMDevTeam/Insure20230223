@@ -124,8 +124,14 @@ namespace UDM.Insurance.Interface.Data
             }
            
         }
-        
-        
+        public static void PopulateDocumentTypeComboBox(Embriant.WPF.Controls.EmbriantComboBox cmbTargetComboBox)
+        {
+            System.Data.DataTable dt = UDM.WPF.Library.Methods.GetTableData("SELECT [ID] AS [ID], [Description] AS [Description] FROM [lkpCampaignNotes]");
+            cmbTargetComboBox.Populate(dt, "Description", "ID");
+           
+        }
+
+
 
         #endregion Campaigns
 

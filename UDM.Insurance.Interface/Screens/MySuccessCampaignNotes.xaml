@@ -22,8 +22,9 @@
 
     <Canvas
         x:Name="LayoutRoot"
+        Margin="0,0,0,105"
         Background="{x:Null}"
-        FocusManager.FocusedElement="{Binding ElementName=medReference}" Margin="0,0,0,105">
+        FocusManager.FocusedElement="{Binding ElementName=medReference}">
         <Rectangle
             x:Name="BGRectangle"
             Canvas.Left="1"
@@ -33,7 +34,7 @@
             RadiusX="15"
             RadiusY="15"
             Stroke="#FF7FBEF5"
-            StrokeThickness="2" >
+            StrokeThickness="2">
             <Rectangle.Fill>
                 <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
                 <ImageBrush ImageSource="../Resources/InsureBackground.jpg" />
@@ -118,14 +119,72 @@
                     Style="{DynamicResource INPageHeadingText1}"
                     Text="C A M P A I G N  N O T E S" />
 
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="19"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Visibility="Visible">
+                    <CheckBox
+                        x:Name="chkClosureAfrikaans"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Checked="chkClosureAfrikaans_Checked"
+                        IsChecked="False"
+                        Unchecked="chkClosureAfrikaans_Unchecked">
+                        <CheckBox.Style>
+                            <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox" />
+                        </CheckBox.Style>
+                    </CheckBox>
+
+                    <TextBlock
+                        x:Name="lblAfrikaans"
+                        Width="Auto"
+                        Height="Auto"
+                        Margin="6,1,0,0"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Afrikaans" />
+                </StackPanel>
+
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Visibility="Visible">
+                    <CheckBox
+                        x:Name="chkClosureEnglish"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Checked="chkClosureEnglish_Checked"
+                        IsChecked="False"
+                        Unchecked="chkClosureEnglish_Unchecked">
+                        <CheckBox.Style>
+                            <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox" />
+                        </CheckBox.Style>
+                    </CheckBox>
+                    <TextBlock
+                        x:Name="lblEnglish"
+                        Width="Auto"
+                        Height="Auto"
+                        Margin="6,1,0,0"
+                        Style="{StaticResource INLabelText2}"
+                        Text="English" />
+                </StackPanel>
+
+
                 <Border
                     x:Name="ClosurePage"
                     Grid.Row="3"
                     Grid.RowSpan="11"
                     Grid.Column="2"
                     Grid.ColumnSpan="20"
+                    Margin="0,0.5,0,0.136"
                     Background="Transparent"
-                    Visibility="Visible" Margin="0,0.5,0,0.136">
+                    Visibility="Visible">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -186,30 +245,7 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <StackPanel
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Left"
-                                    Orientation="Horizontal"
-                                    Visibility="Collapsed">
-                                    <CheckBox
-                                        x:Name="chkClosureAfrikaans"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center">
-                                        <CheckBox.Style>
-                                            <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox">
-                                                <Setter Property="IsChecked" Value="{Binding ClosureData.ClosureLanguageID, Converter={StaticResource IntCompareConverter}, ConverterParameter='==,1'}" />
-                                                <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-                                            </Style>
-                                        </CheckBox.Style>
-                                    </CheckBox>
-                                    <TextBlock
-                                        x:Name="lblAfrikaans"
-                                        Width="Auto"
-                                        Height="Auto"
-                                        Margin="6,1,0,0"
-                                        Style="{StaticResource INLabelText2}"
-                                        Text="Afrikaans" />
-                                </StackPanel>
+
 
                             </Grid>
 

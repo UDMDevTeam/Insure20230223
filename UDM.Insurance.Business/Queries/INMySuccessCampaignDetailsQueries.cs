@@ -90,8 +90,12 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             string DocumentID = GlobalSettings.CampaignNotesID;
 
+
             if (iNMySuccessCampaignDetails != null)
             {
+
+
+
                 if (DocumentID == "1")
                 {
                     query = "SELECT [ID], [FKCampaignID], [ScriptEng], [StampDate], [StampUserID] FROM [INMySuccessCampaignDetails] WHERE [INMySuccessCampaignDetails].[ID] = @ID";
@@ -451,158 +455,257 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
 
             string DocumentID = GlobalSettings.CampaignNotesID;
+            string LanguageID = GlobalSettings.LanguageNotesID;
             string ColumnID = GlobalSettings.ColumnIDMySuccessID; 
 
             if (iNMySuccessCampaignDetails != null)
             {
                 if (DocumentID == "1")
                 {
-                    if (iNMySuccessCampaignDetails.IsLoaded)
-                    {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ScriptEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ScriptEng], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
-                        query.Append("UPDATE [INMySuccessCampaignDetails]");
-                        parameters = new object[3];
-                        query.Append(" SET [FKCampaignID] = @FKCampaignID");
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        query.Append(", [ScriptEng] = @Document");
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                        query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = " + ColumnID);
-                        parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
-                    }
-                    else
+
+                    if (LanguageID == "1")
                     {
-                        query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [ScriptEng], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                        parameters = new object[2];
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ScriptAfr], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ScriptAfr], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [ScriptAfr] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = " + ColumnID);
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [ScriptAfr], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
+                    }
+                    else if (LanguageID == "2 ")
+                    {
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ScriptEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ScriptEng], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [ScriptEng] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = " + ColumnID);
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [ScriptEng], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
                     }
                 }
                 else if (DocumentID == "2") 
                 {
-                    if (iNMySuccessCampaignDetails.IsLoaded)
-                    {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ClosureEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ClosureEng], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
-                        query.Append("UPDATE [INMySuccessCampaignDetails]");
-                        parameters = new object[3];
-                        query.Append(" SET [FKCampaignID] = @FKCampaignID");
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        query.Append(", [ClosureEng] = @Document");
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                        query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
-                        parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
-                    }
-                    else
+                    if (LanguageID == "1")
                     {
-                        query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [ClosureEng], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                        parameters = new object[2];
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ClosureAfr], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ClosureAfr], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [ClosureAfr] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [ClosureAfr], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
                     }
+                    else if (LanguageID == "2") 
+                    {
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [ClosureEng], [StampDate], [StampUserID]) SELECT [FKCampaignID], [ClosureEng], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [ClosureEng] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [ClosureEng], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
+                    }
+
+                    
                 }
                 else if (DocumentID == "3")
                 {
-                    if (iNMySuccessCampaignDetails.IsLoaded)
+
+                    if (LanguageID == "1")
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Options], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Options], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
-                        query.Append("UPDATE [INMySuccessCampaignDetails]");
-                        parameters = new object[3];
-                        query.Append(" SET [FKCampaignID] = @FKCampaignID");
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        query.Append(", [Options] = @Document");
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                        query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
-                        parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        try { } catch { }
                     }
-                    else
+
+                    else if (LanguageID == "2")
                     {
-                        query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [Options], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                        parameters = new object[2];
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Options], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Options], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [Options] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [Options], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
                     }
                 }
                 else if (DocumentID == "4")
                 {
-                    if (iNMySuccessCampaignDetails.IsLoaded)
+
+                    if (LanguageID == "1")
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID]) SELECT [FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
-                        query.Append("UPDATE [INMySuccessCampaignDetails]");
-                        parameters = new object[3];
-                        query.Append(" SET [FKCampaignID] = @FKCampaignID");
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        query.Append(", [IncentiveStructure] = @Document");
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                        query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
-                        parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        try { } catch { }
                     }
-                    else
+                    else if (LanguageID == "2")
                     {
-                        query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                        parameters = new object[2];
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID]) SELECT [FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [IncentiveStructure] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [IncentiveStructure], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
                     }
                 }
                 else if (DocumentID == "5")
                 {
-                    if (iNMySuccessCampaignDetails.IsLoaded)
+
+                    if (LanguageID == "1")
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Objectionhandling], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Objectionhandling], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
-                        query.Append("UPDATE [INMySuccessCampaignDetails]");
-                        parameters = new object[3];
-                        query.Append(" SET [FKCampaignID] = @FKCampaignID");
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        query.Append(", [Objectionhandling] = @Document");
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                        query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
-                        parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        try { } catch { }
                     }
-                    else
+                    else if (LanguageID == "2")
                     {
-                        query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [Objectionhandling], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                        parameters = new object[2];
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [Objectionhandling], [StampDate], [StampUserID]) SELECT [FKCampaignID], [Objectionhandling], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [Objectionhandling] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [Objectionhandling], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
                     }
                 }
                 else if (DocumentID == "6")
                 {
-                    if (iNMySuccessCampaignDetails.IsLoaded)
+
+                    if (LanguageID == "1")
                     {
 
-                        query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [NeedCreation], [StampDate], [StampUserID]) SELECT [FKCampaignID], [NeedCreation], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
-                        query.Append("UPDATE [INMySuccessCampaignDetails]"); 
-                        parameters = new object[3];
-                        query.Append(" SET [FKCampaignID] = @FKCampaignID");
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        query.Append(", [NeedCreation] = @Document");
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
-                        query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
-                        parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        try { } catch { }
                     }
-                    else
+                    else if (LanguageID == "2")
                     {
-                        query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [NeedCreation], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                        parameters = new object[2];
-                        parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
-                        parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
-                        query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        if (iNMySuccessCampaignDetails.IsLoaded)
+                        {
+
+                            query.Append("INSERT INTO [zHstINMySuccessCampaignDetails] ([FKCampaignID], [NeedCreation], [StampDate], [StampUserID]) SELECT [FKCampaignID], [NeedCreation], [StampDate], [StampUserID] FROM [zHstINMySuccessCampaignDetails] WHERE [zHstINMySuccessCampaignDetails].[ID] = @ID; ");
+                            query.Append("UPDATE [INMySuccessCampaignDetails]");
+                            parameters = new object[3];
+                            query.Append(" SET [FKCampaignID] = @FKCampaignID");
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            query.Append(", [NeedCreation] = @Document");
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                            query.Append(" WHERE [INMySuccessCampaignDetails].[ID] = @ID");
+                            parameters[2] = Database.GetParameter("@ID", iNMySuccessCampaignDetails.ID);
+                        }
+                        else
+                        {
+                            query.Append("INSERT INTO [INMySuccessCampaignDetails] ([FKCampaignID], [NeedCreation], [StampDate], [StampUserID]) VALUES(@FKCampaignID, @Document, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                            parameters = new object[2];
+                            parameters[0] = Database.GetParameter("@FKCampaignID", iNMySuccessCampaignDetails.FKCampaignID.HasValue ? (object)iNMySuccessCampaignDetails.FKCampaignID.Value : DBNull.Value);
+                            parameters[1] = Database.GetParameter("@Document", iNMySuccessCampaignDetails.Document);
+                            query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
+                        }
                     }
                 }
             }

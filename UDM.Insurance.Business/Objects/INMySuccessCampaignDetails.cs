@@ -17,6 +17,7 @@ namespace UDM.Insurance.Business
         private long? _id = null;
         private long? _fkcampaignid = null;
         private long? _documentid = null;
+        private long? _languageid = null;
         private byte[] _document = null;
         #endregion
 
@@ -89,6 +90,24 @@ namespace UDM.Insurance.Business
                 if (value != _documentid)
                 {
                     _documentid = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
+        public long? LanguageID
+        {
+            get
+            {
+                Fill();
+                return _languageid;
+            }
+            set
+            {
+                Fill();
+                if (value != _languageid)
+                {
+                    _languageid = value;
                     _hasChanged = true;
                 }
             }

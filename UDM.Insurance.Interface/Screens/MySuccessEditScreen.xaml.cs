@@ -41,6 +41,7 @@ namespace UDM.Insurance.Interface.Screens
         DataTable dtDocuments;
         DataTable dtAgentCalls;
         DataTable dtCampaignNotes;
+        DataTable dtLanguageTypes;
         DataTable dtAgentNotes;
 
         DataTable dtAgentsNameList;
@@ -49,6 +50,7 @@ namespace UDM.Insurance.Interface.Screens
         private List<Record> _lstSelectedCampaigns;
         private string _fkCampaignIDs = null;
         public string _CampaignNoteIDs = "";
+        public string _LanguageNoteIDs = "";
         public string _AgentNoteIDs = "";
         private byte[] fileData;
         private string _filePathAndName;
@@ -62,6 +64,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private long CampaignID;
         private long CampaignNotesID;
+        private long LanguageTypeID;
         private long AgentNotesID;
         private string fileName;
 
@@ -125,7 +128,9 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else if (cmbDocumentType.SelectedValue.ToString() == "Campaign Notes")
                 {
+                    
                     LoadCampaignNotes();
+                    
                 }
 
             }
@@ -186,6 +191,49 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void LoadLanguageTypes()
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                try { dtLanguageTypes.Clear(); } catch { }
+
+                cmbLanguageType.Visibility = Visibility.Visible;
+
+                dtLanguageTypes = Methods.GetTableData("SELECT ID [ID], Description [Description] FROM lkpLanguage WHERE ID IN (1,2)");
+                DataColumn column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                dtLanguageTypes.Columns.Add(column);
+                dtLanguageTypes.DefaultView.Sort = " [ID] ASC";
+
+                List<string> LanguageNameList = dtLanguageTypes.AsEnumerable().Select(r => r.Field<string>("Description")).ToList();
+
+
+                //List<Record> CampaignNoteIDList = dtCampaignNotes.AsEnumerable().Select(r => r.Field<Record>("ID")).ToList();
+
+                //_CampaignNoteIDs = DocumentNameList.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                //_CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
+
+                //List<Record> CampaignNoteIDList = dtCampaignNotes.AsEnumerable().Select(r => r.Field<Record>("ID")).ToList();
+
+                //_CampaignNoteIDs = CampaignNameList.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                //_CampaignNoteIDs = _CampaignNoteIDs.Substring(0, _CampaignNoteIDs.Length - 1);
+
+                cmbLanguageType.ItemsSource = LanguageNameList;
+
+
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
         private void LoadAgentNotes()
         {
             try
@@ -246,6 +294,7 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Arrow);
             }
         }
+
         private void cmbCampaignType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -304,7 +353,7 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        public void InsertCampaignDataIntoDatabase(long selectedCampaignID, long selectedCampaignNoteID, byte[] selectedFileName)
+        public void InsertCampaignDataIntoDatabase(long selectedCampaignID, long selectedCampaignNoteID, long selectedLanguageNoteID, byte[] selectedFileName)
         {
 
             try
@@ -317,6 +366,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 _fkCampaignIDs = selectedCampaignID.ToString();
                 _CampaignNoteIDs = selectedCampaignNoteID.ToString();
+                _LanguageNoteIDs = selectedLanguageNoteID.ToString(); 
                 fileData = File.ReadAllBytes(selectedFileName.ToString());
 
 
@@ -332,7 +382,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 GlobalSettings.ColumnIDMySuccessID = id.ToString();
                 GlobalSettings.CampaignNotesID = _CampaignNoteIDs;
-
+                GlobalSettings.LanguageNotesID = _LanguageNoteIDs; 
                 //strSQL = "Select ID From INMySuccesCampaignDteails where FKCampaignID = " + _fkCampaignIDs;
 
 
@@ -340,6 +390,7 @@ namespace UDM.Insurance.Interface.Screens
                 iNMySuccessCampaignDetails.ID = (long)id;
                 iNMySuccessCampaignDetails.FKCampaignID = long.Parse(_fkCampaignIDs);
                 iNMySuccessCampaignDetails.DocumentID = long.Parse(_CampaignNoteIDs);
+                iNMySuccessCampaignDetails.LanguageID = long.Parse(_LanguageNoteIDs);
                 iNMySuccessCampaignDetails.Document = fileData;
 
                 iNMySuccessCampaignDetails.Save(_validationResult);
@@ -370,6 +421,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 _fkCampaignIDs = selectedCampaignID.ToString();
                 _AgentNoteIDs = selectedAgentNoteID.ToString();
+
                 fileData = File.ReadAllBytes(selectedFileName.ToString());
 
                 var sqlQuery = "Select[INMySuccessAgentsNotesDetails].[ID] From INMySuccessAgentsNotesDetails where[INMySuccessAgentsNotesDetails].[FKCampaignID] = " + _fkCampaignIDs;
@@ -457,12 +509,13 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (cmbDocumentType.SelectedValue.ToString() == "Campaign Notes")
                 {
-                    InsertCampaignDataIntoDatabase(CampaignID, CampaignNotesID, fileData);
+                    InsertCampaignDataIntoDatabase(CampaignID, CampaignNotesID, LanguageTypeID, fileData);
                 }
                 else if (cmbDocumentType.SelectedValue.ToString() == "Agent Notes")
                 {
                     InsertAgentDataIntoDatabase(CampaignID, AgentNotesID, fileData);
                 }
+
             }
             catch (Exception ex)
             {
@@ -481,13 +534,14 @@ namespace UDM.Insurance.Interface.Screens
                 if (cmbDocumentType.SelectedValue.ToString() == "Campaign Notes")
                 {
                     CampaignNotesID = long.Parse(cmbDocumentName.SelectedValue.ToString());
+                    LoadLanguageTypes();
                 }
                 else if (cmbDocumentType.SelectedValue.ToString() == "Agent Notes")
                 {
                     AgentNotesID = long.Parse(cmbDocumentName.SelectedValue.ToString());
                 }
 
-                btnBrowse.Visibility = Visibility.Visible;
+                //btnBrowse.Visibility = Visibility.Visible;
                 //InsertDataIntoDatabase(selectedCampaignID);
             }
             catch (Exception ex)
@@ -803,49 +857,49 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-            if (AgentCallsList.Count == 0)
-            {
+            //if (AgentCallsList.Count == 0)
+            //{
 
-                INMySuccessAgents db = new INMySuccessAgents();
-                try
-                {
+            //    //INMySuccessAgents db = new INMySuccessAgents();
+            //    try
+            //    {
 
-                    db.FKCampaignID = int.Parse(cmbCampaignName1.SelectedValue.ToString());
-                    db.UserID = int.Parse(foundRows[0].ItemArray[0].ToString());
-                    db.Call1 = VoiceCall1FilePath;
-                    db.Call2 = VoiceCall2FilePath;
-                    db.Call3 = VoiceCall3FilePath;
-                    db.Save(_validationResult);
+            //        db.FKCampaignID = int.Parse(cmbCampaignName1.SelectedValue.ToString());
+            //        db.UserID = int.Parse(foundRows[0].ItemArray[0].ToString());
+            //        db.Call1 = VoiceCall1FilePath;
+            //        db.Call2 = VoiceCall2FilePath;
+            //        db.Call3 = VoiceCall3FilePath;
+            //        db.Save(_validationResult);
 
-                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
-                    try { ResetVCScreen(); } catch { }
-                }
-                catch
-                {
-                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded unsuccessfully!", "Unsuccess", ShowMessageType.Error);
-                }
-            }
-            else
-            {
-                INMySuccessAgents db = new INMySuccessAgents(int.Parse(AgentCallsList[0].ToString()));
-                try
-                {
+            //        ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
+            //        try { ResetVCScreen(); } catch { }
+            //    }
+            //    catch
+            //    {
+            //        ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded unsuccessfully!", "Unsuccess", ShowMessageType.Error);
+            //    }
+            //}
+            //else
+            //{
+            //    INMySuccessAgents db = new INMySuccessAgents(int.Parse(AgentCallsList[0].ToString()));
+            //    try
+            //    {
 
-                    db.FKCampaignID = int.Parse(cmbCampaignName1.SelectedValue.ToString());
-                    db.UserID = int.Parse(foundRows[0].ItemArray[0].ToString());
-                    db.Call1 = VoiceCall1FilePath;
-                    db.Call2 = VoiceCall2FilePath;
-                    db.Call3 = VoiceCall3FilePath;
-                    db.Save(_validationResult);
+            //        db.FKCampaignID = int.Parse(cmbCampaignName1.SelectedValue.ToString());
+            //        db.UserID = int.Parse(foundRows[0].ItemArray[0].ToString());
+            //        db.Call1 = VoiceCall1FilePath;
+            //        db.Call2 = VoiceCall2FilePath;
+            //        db.Call3 = VoiceCall3FilePath;
+            //        db.Save(_validationResult);
 
-                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
-                    try { ResetVCScreen(); } catch { }
-                }
-                catch (Exception a)
-                {
-                    ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded unsuccessfully!", "Unsuccess", ShowMessageType.Error);
-                }
-            }
+            //        ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded successfully!", "Success", ShowMessageType.Information);
+            //        try { ResetVCScreen(); } catch { }
+            //    }
+            //    catch (Exception a)
+            //    {
+            //        ShowMessageBox(new INMessageBoxWindow1(), @"The file has been uploaded unsuccessfully!", "Unsuccess", ShowMessageType.Error);
+            //    }
+            //}
         }
 
         public void ResetVCScreen()
@@ -854,6 +908,45 @@ namespace UDM.Insurance.Interface.Screens
             LblVoiceCall1.Content = "";
             LblVoiceCall2.Content = "";
             LblVoiceCall3.Content = "";
+        }
+
+        private void cmbLanguageType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+
+                    LanguageTypeID = long.Parse(cmbLanguageType.SelectedValue.ToString());
+                
+                //else if (cmbDocumentType.SelectedValue.ToString() == "Agent Notes")
+                //{
+                //    LanguageTypeID = long.Parse(cmbLanguageType.SelectedValue.ToString());
+                //}
+
+                btnBrowse.Visibility = Visibility.Visible;
+                //InsertDataIntoDatabase(selectedCampaignID);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void btnCopyCampaignData_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                MySuccessCopyCampaignData mySuccessCopyCampaignData = new MySuccessCopyCampaignData();
+                ShowDialog(mySuccessCopyCampaignData, new INDialogWindow(mySuccessCopyCampaignData));
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+
+
         }
     }
 }
