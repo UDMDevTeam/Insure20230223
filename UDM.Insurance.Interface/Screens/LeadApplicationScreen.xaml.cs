@@ -952,7 +952,7 @@ namespace UDM.Insurance.Interface.Screens
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Rejuvenation ||
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.DefrostR99 ||
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Lite ||
-
+                          Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.SpouseLite ||
                           Convert.ToInt64(dtSale.Rows[0]["CampaignGroupID"]) == (long)lkpINCampaignGroup.Reactivation))
                     {
                         //CommenceDate is set to null here because it should be like a normal base campaign in which the commencedate is null to start with
@@ -4690,10 +4690,16 @@ namespace UDM.Insurance.Interface.Screens
                     DateTime date;
                     bool result = DateTime.TryParse(strOutput, out date);
 
+
+
                     if (result)
                     {
                         return date;
                     }
+
+
+
+
                 }
 
                 return null;
@@ -6534,6 +6540,92 @@ namespace UDM.Insurance.Interface.Screens
             //xamEditor_SetMask(sender);
         }
 
+        public void CancerOptionSpouseWorking(string strInput)
+        {
+
+            if (!string.IsNullOrWhiteSpace(strInput) && strInput.Length >= 6)
+            {
+                strInput = strInput.Substring(0, 6);
+                string strYY = strInput.Substring(0, 2);
+                string strMM = strInput.Substring(2, 2);
+                string strDD = strInput.Substring(4, 2);
+
+                //Build output date string
+                string strOutput = int.Parse(strYY) > 10 ? "19" + strYY : "20" + strYY;
+                strOutput = strOutput + "/" + strMM + "/" + strDD;
+
+                DateTime date;
+                bool result = DateTime.TryParse(strOutput, out date);
+
+
+                #region PLCBSpouse Campaign Auto CancerOption Update
+
+                if (LaData.AppData.CampaignID == 344)
+                {
+                    decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
+                    int age = DateTime.Now.Year - date.Year;
+                    int optionID = 0;
+
+                    if (age >= 18 && age <= 34)
+                    {
+                        optionID = 1;
+                    }
+                    else if (age >= 35 && age <= 39)
+                    {
+                        optionID = 2;
+
+                    }
+                    else if (age >= 40 && age <= 44)
+                    {
+                        optionID = 3;
+
+                    }
+                    else if (age >= 45 && age <= 49)
+                    {
+                        optionID = 4;
+
+                    }
+                    else if (age >= 50 && age <= 54)
+                    {
+                        optionID = 5;
+
+                    }
+                    else if (age >= 55 && age <= 150)
+                    {
+                        optionID = 6;
+                    }
+
+                    if (LaData.PolicyData.PlanGroupID != null)
+                    {
+                        string strQuery = "SELECT DISTINCT ID, PlanCode [Description] FROM INPlan ";
+                        strQuery += "WHERE FKINPlanGroupID = '" + LaData.PolicyData.PlanGroupID + "'";
+
+                        DataTable dtPolicyPlan = Methods.GetTableData(strQuery);
+                        cmbPolicyPlan.Populate(dtPolicyPlan, DescriptionField, IDField);
+
+                        LaData.PolicyData.PlanID = ((DataView)cmbPolicyPlan.ItemsSource).Table.AsEnumerable().Where(r => r["Description"] as string == "Option " + optionID).Select(r => r["ID"] as long?).FirstOrDefault();
+                    }
+                    else
+                    {
+                        LaData.PolicyData.PlanID = null;
+                        cmbPolicyPlan.ItemsSource = null;
+                        LaData.PolicyData.OptionID = null;
+                        cmbOptionCode.ItemsSource = null;
+                        LaData.PolicyData.LA1Cover = null;
+                        cmbLA1Cover.ItemsSource = null;
+                    }
+                }
+
+                #endregion
+
+
+
+
+
+            }
+
+        }
+
         private void xamEditor_TextChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
         {
             //xamEditor_SetMask(sender);
@@ -6546,6 +6638,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     case "medIDNumber":
                         LaData.LeadData.DateOfBirth = IDNumberToDOB(xme.Text);
+                        CancerOptionSpouseWorking(xme.Text);
                         break;
 
                     case "medLA2IDNumber":
@@ -7245,6 +7338,29 @@ namespace UDM.Insurance.Interface.Screens
                             strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
                             DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
                             string responses = dt.Rows[0]["Response"].ToString();
+
+
+
+                            //StringBuilder strQueryJobTitle = new StringBuilder();
+                            //strQueryJobTitle.Append("SELECT TOP 1 FKJobTitle [Response] ");
+                            //strQueryJobTitle.Append("FROM HRStaff ");
+                            //strQueryJobTitle.Append("WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
+                            //strQueryJobTitle.Append(" ORDER BY ID DESC");
+                            //DataTable dt2 = Methods.GetTableData(strQueryJobTitle.ToString());
+                            //int responses2 = int.Parse(dt2.Rows[0]["Response"].ToString());
+
+                            //if (responses2 == 21 || responses2 == 23)
+                            //{
+                            //    if (btnDebiCheck.IsEnabled == true)
+                            //    {
+                            //        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                            //        messageBox.buttonOK.Content = "Yes";
+                            //        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                            //        bool result = showMessageBox != null && (bool)showMessageBox;
+                            //        return;
+                            //    }
+                            //}
+
                         }
                         catch
                         {
@@ -7344,6 +7460,7 @@ namespace UDM.Insurance.Interface.Screens
                     LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
                     LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
                     LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.SpouseLite &&
                     LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
                     LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
                     (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid ||
@@ -7890,6 +8007,10 @@ namespace UDM.Insurance.Interface.Screens
         private void dteDateOfBirth_Loaded(object sender, RoutedEventArgs e)
         {
             //dteDateOfBirth.Value = IDNumberToDOB(medIDNumber.Text);
+
+
+
+
         }
 
         private void dteLA2DateOfBirth_Loaded(object sender, RoutedEventArgs e)
@@ -10918,6 +11039,7 @@ namespace UDM.Insurance.Interface.Screens
                            && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Reactivation)
                            && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.DefrostR99)
                            && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Lite)
+                           && !(LaData.AppData.CampaignGroup == lkpINCampaignGroup.SpouseLite)
 
                            )
 
