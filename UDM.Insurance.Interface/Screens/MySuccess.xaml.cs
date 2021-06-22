@@ -34,6 +34,8 @@ namespace UDM.Insurance.Interface.Screens
         #region Variables
         List<string> UpgradeBaseList = new List<string>();
 
+        private TimeSpan TotalTime;
+
         DataTable dtCampaigns;
         DataTable dtCampaignNotes;
         DataTable dtCampaignsCalls;
@@ -66,6 +68,10 @@ namespace UDM.Insurance.Interface.Screens
             UpgradeBaseList.Add("Base");
             UpgradeBaseList.Add("Upgrade");         
             cmbBaseUpgrade.ItemsSource = UpgradeBaseList;
+
+            timeSlider.AddHandler(MouseLeftButtonUpEvent,
+                      new MouseButtonEventHandler(timeSlider_MouseLeftButtonUp),
+                      true);
         }
 
         #endregion Constructor
@@ -685,6 +691,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     McMediaElement.Source = new Uri(FileNameFromDB);
                     McMediaElement.Play();
+
+                    TimerLbl.Content = McMediaElement.Position.ToString();
                 }
                 else if (_CallsDescription == "2")
                 {
@@ -696,6 +704,9 @@ namespace UDM.Insurance.Interface.Screens
 
                     McMediaElement.Source = new Uri(FileNameFromDB);
                     McMediaElement.Play();
+
+                    TimerLbl.Content = McMediaElement.Position.ToString();
+
                 }
                 else if (_CallsDescription == "3")
                 {
@@ -707,6 +718,9 @@ namespace UDM.Insurance.Interface.Screens
 
                     McMediaElement.Source = new Uri(FileNameFromDB);
                     McMediaElement.Play();
+
+                    TimerLbl.Content = McMediaElement.Position.ToString();
+
                 }
                 else
                 {
@@ -777,6 +791,40 @@ namespace UDM.Insurance.Interface.Screens
 
         private void McMediaElement_MediaOpened_1(object sender, RoutedEventArgs e)
         {
+            TotalTime = McMediaElement.NaturalDuration.TimeSpan;
+            timeSlider.Maximum = 1;
+            // Create a timer that will update the counters and the time slider
+            DispatcherTimer timerVideoTime = new DispatcherTimer();
+            timerVideoTime.Interval = TimeSpan.FromSeconds(1);
+            timerVideoTime.Tick += new EventHandler(timer_Tick);
+            timerVideoTime.Start();
+
+        }
+
+        private void timeSlider_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (TotalTime.TotalSeconds > 0)
+            {
+                McMediaElement.Position = TimeSpan.FromSeconds(timeSlider.Value * TotalTime.TotalSeconds);
+            }
+
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+
+            // Check if the movie finished calculate it's total time
+            if (McMediaElement.NaturalDuration.TimeSpan.TotalSeconds > 0)
+            {
+                if (TotalTime.TotalSeconds > 0)
+                {
+                    // Updating time slider
+                    timeSlider.Value = McMediaElement.Position.TotalSeconds /
+                                       TotalTime.TotalSeconds;
+                }
+            }
+
+            TimerLbl.Content = McMediaElement.Position.ToString();
 
         }
     }

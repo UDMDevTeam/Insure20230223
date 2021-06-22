@@ -729,11 +729,21 @@
                     Stretch="Fill"
                     UnloadedBehavior="Stop" RenderTransformOrigin="5.106,-0.358" />
 
+                <Slider x:Name="timeSlider"
+                        Grid.Row="8"
+                        Grid.RowSpan="2"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="19"
+                        Cursor="ArrowCD"
+                        ></Slider>
+
                 <Label
                     x:Name="TimerLbl"
                     Grid.Column="19"
-                    Grid.Row="9"
-                    Grid.ColumnSpan="2">
+                    Grid.Row="10"
+                    Grid.ColumnSpan="2"
+                    FontSize="20"
+                    Foreground="Black">
                 </Label>
                 <Label
                     x:Name="TickerLbl"
