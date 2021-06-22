@@ -28,7 +28,7 @@ using UDM.WPF.Library;
 namespace UDM.Insurance.Interface.Screens
 {
 
-	public partial class ImportProgressScreen
+    public partial class ImportProgressScreen
     {
 
         #region Constants
@@ -64,9 +64,10 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.DoubleUpgrade13,
             lkpINCampaignGroup.DoubleUpgrade14,
             lkpINCampaignGroup.DefrostR99,
-            lkpINCampaignGroup.Upgrade13, 
+            lkpINCampaignGroup.Upgrade13,
             lkpINCampaignGroup.R99,
-            lkpINCampaignGroup.Lite
+            lkpINCampaignGroup.Lite,
+            lkpINCampaignGroup.SpouseLite
 
         };
 
@@ -88,7 +89,7 @@ namespace UDM.Insurance.Interface.Screens
         private string _batchCodeModifier;
         private string _batchCode2;
         //private string _campaignName; 
-        private string _campaignCode;        
+        private string _campaignCode;
         private Workbook _workbook;
         private Worksheet _workSheet;
         int _rowCount;
@@ -116,11 +117,11 @@ namespace UDM.Insurance.Interface.Screens
             public bool IgnoreIfNA { get; set; }
         }
 
-	    private Dictionary<string, ImportHeaderInfo> idxFields;
+        private Dictionary<string, ImportHeaderInfo> idxFields;
 
         #endregion
 
-        
+
 
         #region Constructors
 
@@ -244,8 +245,8 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-	    private void LoadImportHeaders()
-	    {
+        private void LoadImportHeaders()
+        {
             try
             {
                 SetCursor(Cursors.Wait);
@@ -259,12 +260,14 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         if (Convert.ToBoolean(row["IsActive"]))
                         {
-                            idxFields.Add(row["Name"].ToString(), new ImportHeaderInfo { Header = row["Header"].ToString(), 
-                                                                                         HeaderAlt1 = row["HeaderAlt1"].ToString(), 
-                                                                                         HeaderAlt2 = row["HeaderAlt2"].ToString(), 
-                                                                                         HeaderAlt3 = row["HeaderAlt3"].ToString(),
-                                                                                         IgnoreIfNA = Convert.ToBoolean(row["IgnoreIfNA"]),
-                                                                                       });
+                            idxFields.Add(row["Name"].ToString(), new ImportHeaderInfo
+                            {
+                                Header = row["Header"].ToString(),
+                                HeaderAlt1 = row["HeaderAlt1"].ToString(),
+                                HeaderAlt2 = row["HeaderAlt2"].ToString(),
+                                HeaderAlt3 = row["HeaderAlt3"].ToString(),
+                                IgnoreIfNA = Convert.ToBoolean(row["IgnoreIfNA"]),
+                            });
                         }
                     }
                 }
@@ -279,7 +282,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Arrow);
             }
-	    }
+        }
 
         private void xamEditor_Select(object sender)
         {
@@ -319,27 +322,27 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region duplicate checking
 
-				//Create a new workbook containing any duplicates detected
-				int dupRowIndex = 1;
-				Workbook wbTemplate;
-				Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
-				string filePathAndName = string.Format("{0}Duplicate Leads Report ({1}).xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                //Create a new workbook containing any duplicates detected
+                int dupRowIndex = 1;
+                Workbook wbTemplate;
+                Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
+                string filePathAndName = string.Format("{0}Duplicate Leads Report ({1}).xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
 
-				Uri uri = new Uri("/Templates/DuplicateLeadsTemplate.xlsx", UriKind.Relative);
-				StreamResourceInfo info = Application.GetResourceStream(uri);
-				if (info != null)
-				{
-					wbTemplate = Workbook.Load(info.Stream, true);
-				}
-				else
-				{
-					return;
-				}
+                Uri uri = new Uri("/Templates/DuplicateLeadsTemplate.xlsx", UriKind.Relative);
+                StreamResourceInfo info = Application.GetResourceStream(uri);
+                if (info != null)
+                {
+                    wbTemplate = Workbook.Load(info.Stream, true);
+                }
+                else
+                {
+                    return;
+                }
 
-				Worksheet wsTemplate = wbTemplate.Worksheets["Duplicates Found"];
+                Worksheet wsTemplate = wbTemplate.Worksheets["Duplicates Found"];
                 Worksheet wsReport = wbReport.Worksheets.Add("Duplicates Found");
 
-				Methods.CopyExcelRegion(wsTemplate, 0, 0, 0, 149, wsReport, 0, 0);
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 0, 149, wsReport, 0, 0);
 
                 strQuery = "SELECT DISTINCT RefNo FROM INImport ";
                 strQuery += "JOIN INLead ON INImport.FKINLeadID = INLead.ID ";
@@ -367,8 +370,8 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignType.Macc, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.AccDis, lkpINCampaignType.MaccFuneral,
                                 lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.FemaleDisCancer
                             };
-                            campaignGroups = new[] 
-                            { 
+                            campaignGroups = new[]
+                            {
                                 lkpINCampaignGroup.Base, lkpINCampaignGroup.Starter, lkpINCampaignGroup.Defrosted,
                                 lkpINCampaignGroup.Rejuvenation, lkpINCampaignGroup.Reactivation, lkpINCampaignGroup.Extension, lkpINCampaignGroup.ReDefrost,
                                 lkpINCampaignGroup.Resurrection
@@ -389,8 +392,8 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignType.Cancer, lkpINCampaignType.CancerFuneral, lkpINCampaignType.CancerFuneral99,  lkpINCampaignType.IGCancer, lkpINCampaignType.TermCancer,
                                 lkpINCampaignType.MaccCancer, lkpINCampaignType.MaccMillionCancer
                             };
-                            campaignGroups = new[] 
-                            { 
+                            campaignGroups = new[]
+                            {
                                 lkpINCampaignGroup.Base, lkpINCampaignGroup.Starter, lkpINCampaignGroup.Defrosted,
                                 lkpINCampaignGroup.Rejuvenation, lkpINCampaignGroup.Reactivation, lkpINCampaignGroup.Extension, lkpINCampaignGroup.ReDefrost,
                                 lkpINCampaignGroup.Resurrection
@@ -406,8 +409,8 @@ namespace UDM.Insurance.Interface.Screens
 
 
                             //Macc upgrades
-                            campaignTypes = new[] 
-                            { 
+                            campaignTypes = new[]
+                            {
                                 lkpINCampaignType.Macc, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.AccDis, lkpINCampaignType.MaccFuneral,
                                 lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability
                             };
@@ -416,10 +419,10 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.Upgrade, lkpINCampaignGroup.Upgrade1, lkpINCampaignGroup.Upgrade2, lkpINCampaignGroup.Upgrade3, lkpINCampaignGroup.Upgrade4,
                                 lkpINCampaignGroup.Upgrade5, lkpINCampaignGroup.Upgrade6, lkpINCampaignGroup.Upgrade7, lkpINCampaignGroup.Upgrade8, lkpINCampaignGroup.Upgrade9,
                                 lkpINCampaignGroup.Upgrade10, lkpINCampaignGroup.Upgrade11, lkpINCampaignGroup.Upgrade12, lkpINCampaignGroup.Upgrade13,
-                                lkpINCampaignGroup.DoubleUpgrade1, lkpINCampaignGroup.DoubleUpgrade2, 
-                                lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6, 
+                                lkpINCampaignGroup.DoubleUpgrade1, lkpINCampaignGroup.DoubleUpgrade2,
+                                lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6,
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
-                                lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite
+                                lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite, lkpINCampaignGroup.SpouseLite
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
@@ -439,11 +442,11 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.Upgrade, lkpINCampaignGroup.Upgrade1, lkpINCampaignGroup.Upgrade2, lkpINCampaignGroup.Upgrade3, lkpINCampaignGroup.Upgrade4,
                                 lkpINCampaignGroup.Upgrade5, lkpINCampaignGroup.Upgrade6, lkpINCampaignGroup.Upgrade7, lkpINCampaignGroup.Upgrade8,  lkpINCampaignGroup.Upgrade9,
                                 lkpINCampaignGroup.Upgrade10, lkpINCampaignGroup.Upgrade11, lkpINCampaignGroup.Upgrade12, lkpINCampaignGroup.Upgrade13,
-                                lkpINCampaignGroup.DoubleUpgrade1, lkpINCampaignGroup.DoubleUpgrade2, 
-                                lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6, 
+                                lkpINCampaignGroup.DoubleUpgrade1, lkpINCampaignGroup.DoubleUpgrade2,
+                                lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6,
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
-                                lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Upgrade13, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite
+                                lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Upgrade13, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite, lkpINCampaignGroup.SpouseLite
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
@@ -475,7 +478,7 @@ namespace UDM.Insurance.Interface.Screens
                             index[0] = row.Index;
                             string strSQL;
 
-							#region Duplicate Checks
+                            #region Duplicate Checks
 
                             int dupCheckMonth = -4; //default for now
                             int dupCheckMonthRenewals = -8;
@@ -499,28 +502,28 @@ namespace UDM.Insurance.Interface.Screens
                             #region check for duplicate RefNo in this campaign and Last ImportDate < x months
 
                             {
-								string strRefNo = null;
-								if (row.Cells[idxFields["RefNo"].Index].Value != null)
-								{
-									strRefNo = row.Cells[idxFields["RefNo"].Index].Value.ToString().Trim();
-								}
+                                string strRefNo = null;
+                                if (row.Cells[idxFields["RefNo"].Index].Value != null)
+                                {
+                                    strRefNo = row.Cells[idxFields["RefNo"].Index].Value.ToString().Trim();
+                                }
 
-								if (!string.IsNullOrWhiteSpace(strRefNo))
-								{
-								    strSQL = strQuery + "RefNo = '" + strRefNo + "' and ImportDate >= DateAdd(MM, " + dupCheckMonth + ", GetDate())";
+                                if (!string.IsNullOrWhiteSpace(strRefNo))
+                                {
+                                    strSQL = strQuery + "RefNo = '" + strRefNo + "' and ImportDate >= DateAdd(MM, " + dupCheckMonth + ", GetDate())";
                                     dt = Methods.GetTableData(strSQL);
 
-									if (dt.Rows.Count > 0)
-									{
-										Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-										{
-											//int columnIndex = 0;
-                                        //foreach (WorksheetCell cell in row.Cells)
-                                        //{
-                                        //	wsReport.Rows[dupRowIndex].Cells[columnIndex].Value = cell.Value;
-                                        //	cell.Value = string.Empty;
-                                        //	columnIndex++;
-                                        //}
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                        {
+                                            //int columnIndex = 0;
+                                            //foreach (WorksheetCell cell in row.Cells)
+                                            //{
+                                            //	wsReport.Rows[dupRowIndex].Cells[columnIndex].Value = cell.Value;
+                                            //	cell.Value = string.Empty;
+                                            //	columnIndex++;
+                                            //}
                                             //for (int columnIndex = 0; columnIndex < row.Cells.Count(); columnIndex++)
                                             //{
                                             //    wsReport.Rows[dupRowIndex].Cells[columnIndex].Value = row.Cells[columnIndex].Value;
@@ -531,38 +534,38 @@ namespace UDM.Insurance.Interface.Screens
                                             CopyCellsFromDuplicateChecker(row, dupRowIndex, ref wsReport);
 
                                             _workbook.Save(medFile.Text);
-											dupRowIndex++;
-										});
+                                            dupRowIndex++;
+                                        });
 
                                         continue;
-									}
+                                    }
 
-								    if (!string.IsNullOrWhiteSpace(strQuery2))
-								    {
-								        strSQL = strQuery2 + "RefNo = '" + strRefNo + "' and ImportDate >= DateAdd(MM, " + dupCheckMonthRenewals + ", GetDate())";
-								        dt = Methods.GetTableData(strSQL);
+                                    if (!string.IsNullOrWhiteSpace(strQuery2))
+                                    {
+                                        strSQL = strQuery2 + "RefNo = '" + strRefNo + "' and ImportDate >= DateAdd(MM, " + dupCheckMonthRenewals + ", GetDate())";
+                                        dt = Methods.GetTableData(strSQL);
 
-								        if (dt.Rows.Count > 0)
-								        {
-								            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart) delegate
-								            {
-								                //int columnIndex = 0;
-								                //foreach (WorksheetCell cell in row.Cells)
-								                //{
-								                //    wsReport.Rows[dupRowIndex].Cells[columnIndex].Value = cell.Value;
-								                //    cell.Value = string.Empty;
-								                //    columnIndex++;
-								                //}
+                                        if (dt.Rows.Count > 0)
+                                        {
+                                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                            {
+                                                //int columnIndex = 0;
+                                                //foreach (WorksheetCell cell in row.Cells)
+                                                //{
+                                                //    wsReport.Rows[dupRowIndex].Cells[columnIndex].Value = cell.Value;
+                                                //    cell.Value = string.Empty;
+                                                //    columnIndex++;
+                                                //}
                                                 CopyCellsFromDuplicateChecker(row, dupRowIndex, ref wsReport);
 
                                                 _workbook.Save(medFile.Text);
-								                dupRowIndex++;
-								            });
+                                                dupRowIndex++;
+                                            });
 
-								            continue;
-								        }
-								    }
-								}
+                                            continue;
+                                        }
+                                    }
+                                }
                             }
 
                             #endregion
@@ -570,21 +573,21 @@ namespace UDM.Insurance.Interface.Screens
                             #region check for duplicate ID numbers in leads and last importdate < x months
 
                             {
-								string strIDNumber = null;
-								if (row.Cells[idxFields["LeadIDNumber"].Index].Value != null)
-								{
-									strIDNumber = row.Cells[idxFields["LeadIDNumber"].Index].Value.ToString().Trim();
-								}
+                                string strIDNumber = null;
+                                if (row.Cells[idxFields["LeadIDNumber"].Index].Value != null)
+                                {
+                                    strIDNumber = row.Cells[idxFields["LeadIDNumber"].Index].Value.ToString().Trim();
+                                }
 
                                 if (!string.IsNullOrWhiteSpace(strIDNumber) && !strIDNumber.Contains("0000000"))
                                 {
                                     strSQL = strQuery + "INLead.IDNo = '" + strIDNumber + "' AND ImportDate >= DateAdd(MM, " + dupCheckMonth + ", GetDate())";
                                     dt = Methods.GetTableData(strSQL);
 
-									if (dt.Rows.Count > 0)
-									{
-										Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-										{
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                        {
                                             //                                 int columnIndex = 0;
                                             //foreach (WorksheetCell cell in row.Cells)
                                             //{
@@ -595,11 +598,11 @@ namespace UDM.Insurance.Interface.Screens
                                             CopyCellsFromDuplicateChecker(row, dupRowIndex, ref wsReport);
 
                                             _workbook.Save(medFile.Text);
-											dupRowIndex++;
-										});
+                                            dupRowIndex++;
+                                        });
 
                                         continue;
-									}
+                                    }
 
                                     if (!string.IsNullOrWhiteSpace(strQuery2))
                                     {
@@ -634,35 +637,35 @@ namespace UDM.Insurance.Interface.Screens
                             #region check for first name, last name, dob and last importdate < x months
 
                             {
-								string strLeadFirstname = null;
-								if (row.Cells[idxFields["LeadFirstname"].Index].Value != null)
-								{
-									strLeadFirstname = row.Cells[idxFields["LeadFirstname"].Index].Value.ToString().Trim();
-								}
+                                string strLeadFirstname = null;
+                                if (row.Cells[idxFields["LeadFirstname"].Index].Value != null)
+                                {
+                                    strLeadFirstname = row.Cells[idxFields["LeadFirstname"].Index].Value.ToString().Trim();
+                                }
 
-								string strLeadSurname = null;
-								if (row.Cells[idxFields["LeadSurname"].Index].Value != null)
-								{
-									strLeadSurname = row.Cells[idxFields["LeadSurname"].Index].Value.ToString().Trim();
-								}
+                                string strLeadSurname = null;
+                                if (row.Cells[idxFields["LeadSurname"].Index].Value != null)
+                                {
+                                    strLeadSurname = row.Cells[idxFields["LeadSurname"].Index].Value.ToString().Trim();
+                                }
 
-								string strLeadDateOfBirth = null;
-								if (row.Cells[idxFields["LeadDateOfBirth"].Index].Value != null)
-								{
-									strLeadDateOfBirth = row.Cells[idxFields["LeadDateOfBirth"].Index].Value.ToString().Trim();
-									strLeadDateOfBirth = Methods.ExcelFieldToDate(strLeadDateOfBirth);
-								}
+                                string strLeadDateOfBirth = null;
+                                if (row.Cells[idxFields["LeadDateOfBirth"].Index].Value != null)
+                                {
+                                    strLeadDateOfBirth = row.Cells[idxFields["LeadDateOfBirth"].Index].Value.ToString().Trim();
+                                    strLeadDateOfBirth = Methods.ExcelFieldToDate(strLeadDateOfBirth);
+                                }
 
                                 if (!string.IsNullOrWhiteSpace(strLeadFirstname) && !string.IsNullOrWhiteSpace(strLeadSurname) && !string.IsNullOrWhiteSpace(strLeadDateOfBirth))
                                 {
-                                    strSQL = strQuery + "INLead.FirstName = '" + strLeadFirstname.Replace("'", "''") + "' AND INLead.Surname = '" + strLeadSurname.Replace("'","''") + 
+                                    strSQL = strQuery + "INLead.FirstName = '" + strLeadFirstname.Replace("'", "''") + "' AND INLead.Surname = '" + strLeadSurname.Replace("'", "''") +
                                         "' AND INLead.DateOfBirth = '" + strLeadDateOfBirth + "' AND ImportDate >= DateAdd(MM, " + dupCheckMonth + ", GetDate())";
                                     dt = Methods.GetTableData(strSQL);
 
-									if (dt.Rows.Count > 0)
-									{
-										Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-										{
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                        {
                                             //                                 int columnIndex = 0;
                                             //foreach (WorksheetCell cell in row.Cells)
                                             //{
@@ -673,11 +676,11 @@ namespace UDM.Insurance.Interface.Screens
                                             CopyCellsFromDuplicateChecker(row, dupRowIndex, ref wsReport);
 
                                             _workbook.Save(medFile.Text);
-											dupRowIndex++;
-										});
+                                            dupRowIndex++;
+                                        });
 
                                         continue;
-									}
+                                    }
 
                                     if (!string.IsNullOrWhiteSpace(strQuery2))
                                     {
@@ -687,7 +690,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                         if (dt.Rows.Count > 0)
                                         {
-                                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart) delegate
+                                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                                             {
                                                 //int columnIndex = 0;
                                                 //foreach (WorksheetCell cell in row.Cells)
@@ -706,7 +709,7 @@ namespace UDM.Insurance.Interface.Screens
                                         }
                                     }
                                 }
-							}
+                            }
 
                             #endregion
 
@@ -734,7 +737,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 if (!string.IsNullOrWhiteSpace(strLeadFirstname) && !string.IsNullOrWhiteSpace(strLeadSurname) && !string.IsNullOrWhiteSpace(strTelCell))
                                 {
-                                    strSQL = strQuery + "INLead.FirstName = '" + strLeadFirstname.Replace("'", "''") + "' AND INLead.Surname = '" + strLeadSurname.Replace("'", "''") + 
+                                    strSQL = strQuery + "INLead.FirstName = '" + strLeadFirstname.Replace("'", "''") + "' AND INLead.Surname = '" + strLeadSurname.Replace("'", "''") +
                                         "' AND INLead.TelCell = '" + strTelCell + "' AND ImportDate >= DateAdd(MM, " + dupCheckMonth + ", GetDate())";
                                     dt = Methods.GetTableData(strSQL);
 
@@ -760,7 +763,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                     if (!string.IsNullOrWhiteSpace(strQuery2))
                                     {
-                                        strSQL = strQuery2 + "INLead.FirstName = '" + strLeadFirstname.Replace("'", "''") + "' AND INLead.Surname = '" + strLeadSurname.Replace("'", "''") + 
+                                        strSQL = strQuery2 + "INLead.FirstName = '" + strLeadFirstname.Replace("'", "''") + "' AND INLead.Surname = '" + strLeadSurname.Replace("'", "''") +
                                             "' AND INLead.TelCell = '" + strTelCell + "' AND ImportDate >= DateAdd(MM, " + dupCheckMonthRenewals + ", GetDate())";
                                         dt = Methods.GetTableData(strSQL);
 
@@ -796,11 +799,11 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
 
-				//Save excel document
-				wbReport.Save(filePathAndName);
+                //Save excel document
+                wbReport.Save(filePathAndName);
 
-				//Display excel document
-				Process.Start(filePathAndName);
+                //Display excel document
+                Process.Start(filePathAndName);
 
                 #endregion
 
@@ -957,28 +960,28 @@ namespace UDM.Insurance.Interface.Screens
                             else
                             {
                                 Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-                               {
-                                   bool result = Convert.ToBoolean(ShowMessageBox(new INMessageBoxWindow2(), "The header field for key \"" + strKey + "\" could not be found.\nSelect \"OK\" to ignore the import of this field or click \"Cancel\" to stop the import.", "Import File Alert", ShowMessageType.Information));
+                                {
+                                    bool result = Convert.ToBoolean(ShowMessageBox(new INMessageBoxWindow2(), "The header field for key \"" + strKey + "\" could not be found.\nSelect \"OK\" to ignore the import of this field or click \"Cancel\" to stop the import.", "Import File Alert", ShowMessageType.Information));
 
-                                   if (result)
-                                   {
-                                       idxFields.Remove(strKey);
-                                       _fileError = false;
-                                   }
-                                   else
-                                   {
-                                       btnImport.IsEnabled = false;
-                                       btnScheduleImport.IsEnabled = false;
-                                       btnBrowse.IsEnabled = true;
-                                       _fileError = true;
-                                   }
-                               });
+                                    if (result)
+                                    {
+                                        idxFields.Remove(strKey);
+                                        _fileError = false;
+                                    }
+                                    else
+                                    {
+                                        btnImport.IsEnabled = false;
+                                        btnScheduleImport.IsEnabled = false;
+                                        btnBrowse.IsEnabled = true;
+                                        _fileError = true;
+                                    }
+                                });
                             }
                         };
 
                         List<string> lstHeaders = new List<string>
                         {
-                            idxFields.ElementAt(0).Value.Header, 
+                            idxFields.ElementAt(0).Value.Header,
                             idxFields.ElementAt(0).Value.HeaderAlt1,
                             idxFields.ElementAt(0).Value.HeaderAlt2,
                             idxFields.ElementAt(0).Value.HeaderAlt3
@@ -1017,7 +1020,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             lstHeaders = new List<string>
                             {
-                                idxFields.ElementAt(index).Value.Header, 
+                                idxFields.ElementAt(index).Value.Header,
                                 idxFields.ElementAt(index).Value.HeaderAlt1,
                                 idxFields.ElementAt(index).Value.HeaderAlt2,
                                 idxFields.ElementAt(index).Value.HeaderAlt3
@@ -1082,7 +1085,7 @@ namespace UDM.Insurance.Interface.Screens
                             });
 
                             //check if a batch for this campaign exists
-                            INBatch inBatch = INBatchMapper.SearchOne(_inCampaign.ID, _batchCode, null, null, null, null, null,null,null,null);
+                            INBatch inBatch = INBatchMapper.SearchOne(_inCampaign.ID, _batchCode, null, null, null, null, null, null, null, null);
                             if (inBatch != null)
                             {
                                 // A batch with this code has already been imported for this campaign.
@@ -1239,7 +1242,7 @@ namespace UDM.Insurance.Interface.Screens
             btnBrowse.IsEnabled = true;
 
             ShowMessageBox(new INMessageBoxWindow1(), "An error has occurred.\nThe batch import will now be cancelled.", "Batch Import Error", ShowMessageType.Error);
-            
+
             Database.CancelTransactions();
         }
 
@@ -1625,7 +1628,7 @@ namespace UDM.Insurance.Interface.Screens
                         return Convert.ToInt64(dt.Rows[0]["ID"].ToString());
                     }
 
-                    
+
 
                     //if (lookup == "lkpINTitle" || lookup == "lkpINRelationship")
                     //{
@@ -1664,7 +1667,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         foreach (DataRow dr in dt.Rows)
                         {
-                            string strTerm = (string) dr["Term"];
+                            string strTerm = (string)dr["Term"];
                             strTerm = strTerm.ToLower();
 
                             if (strLower.Contains(strTerm))
@@ -1686,7 +1689,7 @@ namespace UDM.Insurance.Interface.Screens
                 pbImport.Minimum = 0;
                 pbImport.Maximum = _rowCount;
                 pbImport.Value = 0;
-                double[] pbCounter = {0};
+                double[] pbCounter = { 0 };
 
                 _inBatch.NewLeads = 0;
                 _inBatch.UpdatedLeads = 0;
@@ -1983,7 +1986,7 @@ namespace UDM.Insurance.Interface.Screens
                                             inPolicyLifeAssured.LifeAssuredRank = laNo[0];
                                             inPolicyLifeAssured.Save(_validationResult);
                                         }
-                                     }
+                                    }
                                 }
 
                                 #endregion
@@ -1991,7 +1994,7 @@ namespace UDM.Insurance.Interface.Screens
                                 #region INBeneficiary
 
                                 {
-                                    for (int[] beneficiaryNo = {1}; beneficiaryNo[0] <= 6; beneficiaryNo[0]++)
+                                    for (int[] beneficiaryNo = { 1 }; beneficiaryNo[0] <= 6; beneficiaryNo[0]++)
                                     {
                                         WorksheetRow wsr = row;
                                         string strBeneficiary = string.Format("Beneficiary{0}", beneficiaryNo[0]);
@@ -2011,7 +2014,7 @@ namespace UDM.Insurance.Interface.Screens
                                             if (dicBeneficiary.Keys.Contains(strBeneficiary + "Title"))
                                             {
                                                 index = dicBeneficiary.Where(item => item.Key.Contains("Title")).Select(item => item.Value.Index).ElementAt(0);
-                                                if(index > -1) inBeneficiary.FKINTitleID = GetLookupID(row.Cells[index], "lkpINTitle");
+                                                if (index > -1) inBeneficiary.FKINTitleID = GetLookupID(row.Cells[index], "lkpINTitle");
                                             }
 
                                             if (dicBeneficiary.Keys.Contains(strBeneficiary + "Initials"))
@@ -2203,10 +2206,10 @@ namespace UDM.Insurance.Interface.Screens
                                 #region INImportContactTracing
 
                                 INImportContactTracing iNImportContactTracing = new INImportContactTracing();
-                               
+
                                 try
                                 {
-                                 
+
                                     iNImportContactTracing.FKINImportID = inImport.ID;
                                     iNImportContactTracing.ContactTraceOne = GetStringValue(row.Cells[idxFields["Contact1"].Index]);
                                     iNImportContactTracing.ContactTraceTwo = GetStringValue(row.Cells[idxFields["Contact2"].Index]);
@@ -2330,8 +2333,8 @@ namespace UDM.Insurance.Interface.Screens
                 btnScheduleImport.IsEnabled = false;
                 btnBrowse.IsEnabled = false;
                 cmbCampaign.IsEnabled = false;
-                
-              
+
+
 
                 Database.BeginTransaction(null, IsolationLevel.Snapshot);
                 //save batch related information
@@ -2383,7 +2386,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-           OnDialogClose(false);
+            OnDialogClose(false);
         }
 
         private void btnBrowse_Loaded(object sender, RoutedEventArgs e)
@@ -2397,15 +2400,15 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if (cmbCampaign.SelectedIndex != -1)
                 {
-                    if (cmbCampaign.SelectedValue != null) _inCampaign = new INCampaign((long) cmbCampaign.SelectedValue);
+                    if (cmbCampaign.SelectedValue != null) _inCampaign = new INCampaign((long)cmbCampaign.SelectedValue);
 
                     if (_inCampaign.FKINCampaignTypeID != null && _inCampaign.FKINCampaignGroupID != null)
                     {
-                        tbCampaignType.Text = ((lkpINCampaignType) _inCampaign.FKINCampaignTypeID).ToString();
-                        tbCampaignGroup.Text = ((lkpINCampaignGroup) _inCampaign.FKINCampaignGroupID).ToString();
+                        tbCampaignType.Text = ((lkpINCampaignType)_inCampaign.FKINCampaignTypeID).ToString();
+                        tbCampaignGroup.Text = ((lkpINCampaignGroup)_inCampaign.FKINCampaignGroupID).ToString();
 
                         if ( //import only these campaign types and campaign group combinations
-                            (_inCampaign.FKINCampaignTypeID == (long) lkpINCampaignType.Cancer && _inCampaign.FKINCampaignGroupID == (long) lkpINCampaignGroup.Base)
+                            (_inCampaign.FKINCampaignTypeID == (long)lkpINCampaignType.Cancer && _inCampaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.Base)
                             )
                         {
                             //pbImportText.Text = "0";
@@ -2479,7 +2482,7 @@ namespace UDM.Insurance.Interface.Screens
                 calImportDate.SelectedDate = null;
                 ShowMessageBox(new INMessageBoxWindow1(), "The Date You Have Chosen has passed ", "Error", ShowMessageType.Error);
                 return;
-                    
+
             }
             EnableDisableSaveScheduleButton();
         }
@@ -2498,7 +2501,7 @@ namespace UDM.Insurance.Interface.Screens
                         return;
                     }
 
-                   
+
                 }
             }
             if (dteScheduleTime.Text.Length == 4)
@@ -2521,7 +2524,7 @@ namespace UDM.Insurance.Interface.Screens
                     ShowMessageBox(new INMessageBoxWindow1(), "The Time You Have Chosen has been restricted ", "Error", ShowMessageType.Error);
                 }
             }
-           
+
 
             EnableDisableSaveScheduleButton();
         }
@@ -2595,9 +2598,9 @@ namespace UDM.Insurance.Interface.Screens
                 // ignored
             }
         }
-      
 
-	}
+
+    }
 
 }
 

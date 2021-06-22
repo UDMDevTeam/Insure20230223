@@ -1683,7 +1683,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Import Call Monitoring
 
-                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null);
+                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
                 #endregion
 
@@ -1738,7 +1738,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 //ShowNotes(importID.Value);
 
-                if(LaData.AppData.IsLeadUpgrade)
+                if (LaData.AppData.IsLeadUpgrade)
                 {
                     btnSave.SetValue(Grid.RowProperty, 16);
                 }
@@ -13507,15 +13507,15 @@ namespace UDM.Insurance.Interface.Screens
 
                 string responsesAccountType = dtBranchCode.Rows[0]["Response"].ToString();
 
-                if(responsesAccountType == "Current")
+                if (responsesAccountType == "Current")
                 {
                     responsesAccountTypeDebiCheck = "1";
                 }
-                else if(responsesAccountType == "Savings")
+                else if (responsesAccountType == "Savings")
                 {
                     responsesAccountTypeDebiCheck = "2";
                 }
-                else if(responsesAccountType == "Transmission")
+                else if (responsesAccountType == "Transmission")
                 {
                     responsesAccountTypeDebiCheck = "3";
                 }
@@ -13541,7 +13541,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 string IDNumber = LaData.BankDetailsData.IDNumber;
                 int result = IDNumber.Count();
-                if(result == 13)
+                if (result == 13)
                 {
                     IDNumberDebiCheck = "1";
                 }
@@ -13557,6 +13557,7 @@ namespace UDM.Insurance.Interface.Screens
 
             btnDebiCheck.IsEnabled = false;
             string token = "";
+
             #region Get Token
             try
             {
@@ -13598,7 +13599,14 @@ namespace UDM.Insurance.Interface.Screens
                     try { data["CellNumber"] = LaData.BankDetailsData.TelCell; } catch { data["CellNumber"] = ""; }
                     try { data["Email"] = LaData.BankDetailsData.Email; } catch { data["Email"] = ""; }
                     try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
-                    try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                    if (IDNumberDebiCheck == "2")
+                    {
+                        try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                    }
+                    else if (IDNumberDebiCheck == "1")
+                    {
+                        try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                    }
                     try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
                     try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
                     try { data["AccountNumber"] = LaData.BankDetailsData.AccountNumber; } catch { data["AccountNumber"] = ""; }
@@ -13925,13 +13933,13 @@ namespace UDM.Insurance.Interface.Screens
                                 btnDebiCheck.IsEnabled = false;
 
                             }
-                            else if(response.Contains(""))
+                            else if (response.Contains(""))
                             {
                                 DebiCheckBorder.BorderBrush = Brushes.Green;
                                 btnDebiCheck.ToolTip = "Sent";
                                 btnDebiCheck.IsEnabled = false;
                             }
-                            else 
+                            else
                             {
                                 DebiCheckBorder.BorderBrush = Brushes.White;
                                 btnDebiCheck.IsEnabled = true;
@@ -13943,12 +13951,12 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                         //this is for the resales campaign rule
-                        if (LaData.AppData.CampaignID == 7 
-                            || LaData.AppData.CampaignID == 9 
-                            || LaData.AppData.CampaignID == 10 
-                            || LaData.AppData.CampaignID == 294 
-                            || LaData.AppData.CampaignID == 295 
-                            || LaData.AppData.CampaignID == 24 
+                        if (LaData.AppData.CampaignID == 7
+                            || LaData.AppData.CampaignID == 9
+                            || LaData.AppData.CampaignID == 10
+                            || LaData.AppData.CampaignID == 294
+                            || LaData.AppData.CampaignID == 295
+                            || LaData.AppData.CampaignID == 24
                             || LaData.AppData.CampaignID == 25
                             || LaData.AppData.CampaignID == 11
                             || LaData.AppData.CampaignID == 12
@@ -13980,12 +13988,12 @@ namespace UDM.Insurance.Interface.Screens
 
                             string response = dt.Rows[0]["Response"].ToString();
 
-                            if(response.Contains("19"))
+                            if (response.Contains("19"))
                             {
                                 DebiCheckBorder.BorderBrush = Brushes.White;
                                 btnDebiCheck.IsEnabled = true;
                             }
-                            if(response.Contains("21"))
+                            if (response.Contains("21"))
                             {
                                 DebiCheckBorder.BorderBrush = Brushes.White;
                                 btnDebiCheck.IsEnabled = true;
@@ -13998,7 +14006,7 @@ namespace UDM.Insurance.Interface.Screens
                         //this is for when there is a bump up
                         try
                         {
-                            if(chkUDMBumpUp.IsChecked == true)
+                            if (chkUDMBumpUp.IsChecked == true)
                             {
                                 btnDebiCheck.IsEnabled = true;
                             }
