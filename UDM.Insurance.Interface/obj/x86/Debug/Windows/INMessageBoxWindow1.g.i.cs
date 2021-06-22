@@ -134,7 +134,7 @@ namespace UDM.Insurance.Interface.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/windows/inmessageboxwindow1.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/windows/inmessageboxwindow1.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Windows\INMessageBoxWindow1.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

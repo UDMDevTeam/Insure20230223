@@ -13557,7 +13557,6 @@ namespace UDM.Insurance.Interface.Screens
 
             btnDebiCheck.IsEnabled = false;
             string token = "";
-
             #region Get Token
             try
             {
@@ -13599,14 +13598,7 @@ namespace UDM.Insurance.Interface.Screens
                     try { data["CellNumber"] = LaData.BankDetailsData.TelCell; } catch { data["CellNumber"] = ""; }
                     try { data["Email"] = LaData.BankDetailsData.Email; } catch { data["Email"] = ""; }
                     try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
-                    if(IDNumberDebiCheck == "2")
-                    {
-                        try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
-                    }
-                    else if (IDNumberDebiCheck == "1")
-                    {
-                        try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
-                    }
+                    try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
                     try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
                     try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
                     try { data["AccountNumber"] = LaData.BankDetailsData.AccountNumber; } catch { data["AccountNumber"] = ""; }

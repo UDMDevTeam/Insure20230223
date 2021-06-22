@@ -77,7 +77,7 @@ namespace UDM.Insurance.Interface {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/controls/movementline.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/controls/movementline.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Controls\MovementLine.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
