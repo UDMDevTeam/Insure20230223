@@ -243,7 +243,7 @@ namespace UDM.Insurance.Interface.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/views/reportdailysales.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/views/reportdailysales.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\ReportDailySales.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

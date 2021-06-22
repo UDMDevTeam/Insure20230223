@@ -100,7 +100,8 @@ namespace UDM.Insurance.Interface.PrismViews {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/prismviews/editclosurescreentoolbarview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/prismviews/editclosurescreentoolbarview.xaml" +
+                    "", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\PrismViews\EditClosureScreenToolbarView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

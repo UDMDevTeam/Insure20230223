@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="UDM.Insure.Interface.exe" version="2.5.7.6" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="UDM.Insure.Interface.exe" version="2.6.3.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="InsureIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="UDM.Insure.Interface" version="2.5.7.6" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="UDM.Insure.Interface" version="2.6.3.1" language="neutral" processorArchitecture="x86" />
     <commandLine file="UDM.Insure.Interface.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bhGHOWVOxNLdV2bAll4nTSOU8jLBtK9hc+p6tnlXhEk=</dsig:DigestValue>
+        <dsig:DigestValue>HiQQNLTo/m/0bdJYnWs/S1gOeqfxzRMoItfxRDC15ws=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cAY9yA7lNQTL/EaqQJj8XXRuXytOJAOiPoXD1ao9SGs=</dsig:DigestValue>
+        <dsig:DigestValue>j2Z1LErAX0+CP/BCe413SpTqvBYm1ZnZGr8Cjju0gp8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -415,26 +415,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insurance.Business.dll" size="1546752">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insurance.Business.dll" size="1652224">
       <assemblyIdentity name="UDM.Insurance.Business" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>V3vGb2skDdavEdgpRdepLiYF2M/Dozlb19FschG+5xY=</dsig:DigestValue>
+        <dsig:DigestValue>cvrUhumCVRyjZNpZ3nSN6J2VQ/rnGk8LHW1934uDL+0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insure.Interface.exe" size="22689280">
-      <assemblyIdentity name="UDM.Insure.Interface" version="2.5.7.6" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insure.Interface.exe" size="23529984">
+      <assemblyIdentity name="UDM.Insure.Interface" version="2.6.3.1" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DRc0eRe+cfFzqimzm1iY62brErX2X+ElB48lpVCMNqc=</dsig:DigestValue>
+        <dsig:DigestValue>Wv1jSWGfV9zYeFS1nUCO7bSh1qfjFZb2qKuBHj+jZB8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -446,7 +446,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DXDJBty6T5ld6dAxd/yAL/+nzvK4K3KvKkmvIc7kTYY=</dsig:DigestValue>
+        <dsig:DigestValue>dRD2jrUPXerli+zv8h8Rze2A7vGGnW9UkvIZKrl6ksM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

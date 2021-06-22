@@ -54,7 +54,7 @@ namespace UDM.Insurance.Interface.Styles {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/styles/inpopupstyles.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/styles/inpopupstyles.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Styles\INPopupStyles.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

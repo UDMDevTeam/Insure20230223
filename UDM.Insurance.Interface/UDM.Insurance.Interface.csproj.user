@@ -4,12 +4,12 @@
     <PublishUrlHistory>\\udmsql\software\insure\|\\udmsql\software\insuredebug\|\\udmsql\software\insuretest\|\\udmsql\software\insureTest\|\\udmsql\software\insuretraining\</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
-    <UpdateUrlHistory>\\udmsql\software\insuredebug\|\\udmsql\software\insure\|\\udmsql\software\insuretest\|\\udmsql\software\insuretraining\</UpdateUrlHistory>
+    <UpdateUrlHistory>\\udmsql\software\insure\|\\udmsql\software\insuredebug\|\\udmsql\software\insuretest\|\\udmsql\software\insuretraining\</UpdateUrlHistory>
     <BootstrapperUrlHistory>\\udmsql\Software\.NET</BootstrapperUrlHistory>
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
