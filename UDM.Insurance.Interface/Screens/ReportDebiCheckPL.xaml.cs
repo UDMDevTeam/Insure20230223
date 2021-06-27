@@ -200,6 +200,137 @@ namespace UDM.Insurance.Interface.Screens
                         }
                     }
 
+
+                        workSheet.get_Range("A1", "B10").BorderAround(
+                        Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                        Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                        Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic,1);
+                    
+
+                    // check file path
+
+                    excelApp.Visible = true;
+                    excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                    //excelApp.Save(filePathAndName);
+                    ////Process.Start(filePathAndName);
+
+                    //excelApp.Workbooks.
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
+        private void ReportConsolidated(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                #region Get the report data
+                DataTable dtSalesData;
+
+                dtSalesData = dsDiaryReportData.Tables[0];
+
+
+                #endregion Get the report data
+
+                try
+                {
+                    string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+                    string filePathAndName = String.Format("{0}DebiCheck Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    if (dtSalesData == null || dtSalesData.Columns.Count == 0)
+                        throw new Exception("ExportToExcel: Null or empty input table!\n");
+
+                    // load excel, and create a new workbook
+                    var excelApp = new Microsoft.Office.Interop.Excel.Application();
+                    excelApp.Workbooks.Add();
+
+                    // single worksheet
+                    Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
+
+                    workSheet.Cells[1, 0 + 1] = "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
+                    for (var i = 0; i < dtSalesData.Columns.Count; i++)
+                    {
+
+                        workSheet.Cells[2, i + 1].Font.Bold = true;
+                        if(i == 0)
+                        {
+                            workSheet.Cells[2, i + 1].ColumnWidth = 100;
+                        }
+                        else
+                        {
+                            workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                        }
+
+                        workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                        //workSheet.get_Range("A4", "J1").Font.Bold = true;
+                    }
+
+
+                    // column headings
+                    for (var i = 0; i < dtSalesData.Columns.Count; i++)
+                    {
+                        workSheet.Cells[2, i + 1] = dtSalesData.Columns[i].ColumnName;
+                    }
+
+                    // rows
+                    for (var i = 1; i < dtSalesData.Rows.Count + 1; i++)
+                    {
+                        // to do: format datetime values before printing
+                        for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                        {
+                            workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
+                        }
+                    }
+
+                    var totalTable = dsDiaryReportData.Tables[1];
+
+                    workSheet.Cells[24, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
+                    workSheet.Cells[24, 1].Value = "Total :";
+
+
+
+                    workSheet.get_Range("A2", "C23").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "C2").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A24", "C24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.Range["A6", "C6"].Interior.Color = System.Drawing.Color.Orange;
+
+
+
+
+                    (workSheet.Cells[1, 3]).EntireColumn.NumberFormat = "00,00%";
+
+
                     // check file path
 
                     excelApp.Visible = true;
@@ -292,27 +423,27 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         try
                         {
-                            TimeSpan ts = new TimeSpan(00, 00, 0);
+                            TimeSpan ts = new TimeSpan(23, 00, 0);
                             DateTime _endDate2 = DateTime.Now;
                             _endDate2 = _endDate.Date + ts;
 
-                            TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                            TimeSpan ts1 = new TimeSpan(00, 00, 0);
                             DateTime _startDat2 = DateTime.Now;
                             _startDat2 = _startDate.Date + ts1;
 
-                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_endDate2, _startDat2);
+                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_startDat2, _endDate2);
 
                         }
                         catch
                         {
-                            TimeSpan ts = new TimeSpan(00, 00, 0);
+                            TimeSpan ts = new TimeSpan(23, 00, 0);
                             DateTime _endDate2 = DateTime.Now;
                             _endDate2 = _endDate.Date + ts;
 
-                            TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                            TimeSpan ts1 = new TimeSpan(00, 00, 0);
                             DateTime _startDat2 = DateTime.Now;
                             _startDat2 = _startDate.Date + ts1;
-                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_endDate2, _startDat2);
+                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_startDat2, _endDate2);
 
                         }
                     }
@@ -329,22 +460,22 @@ namespace UDM.Insurance.Interface.Screens
                                 TimeSpan ts1 = new TimeSpan(23, 00, 0);
                                 DateTime _startDat2 = DateTime.Now;
                                 _startDat2 = _startDate.Date + ts1;
-                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate2, _startDat2);
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_startDat2, _endDate2);
 
                             }
                             catch(Exception a)
                             {
 
-                                TimeSpan ts = new TimeSpan(00, 00, 0);
+                                TimeSpan ts = new TimeSpan(23, 00, 0);
                                 DateTime _endDate2 = DateTime.Now;
                                 _endDate2 = _endDate.Date + ts;
 
-                                TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                                TimeSpan ts1 = new TimeSpan(00, 00, 0);
                                 DateTime _startDat2 = DateTime.Now;
                                 _startDat2 = _startDate.Date + ts1;
                                 DateTime startdate = DateTime.Parse(calStartDate.SelectedDate.ToString());
                                 DateTime enddate = DateTime.Parse(calEndDate.SelectedDate.ToString());
-                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_endDate2, _startDat2);
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_startDat2, _endDate2);
 
                             }
                         }
@@ -366,7 +497,14 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     BackgroundWorker worker = new BackgroundWorker();
-                    worker.DoWork += Report;
+                    if(ConsolidatedStats.IsChecked == true)
+                    {
+                        worker.DoWork += ReportConsolidated;
+                    }
+                    else
+                    {
+                        worker.DoWork += Report;
+                    }
                     worker.RunWorkerCompleted += ReportCompleted;
                     worker.RunWorkerAsync();
 
@@ -376,7 +514,12 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
+
+                btnReport.IsEnabled = true;
+                btnClose.IsEnabled = true;
+                calStartDate.IsEnabled = true;
+                calEndDate.IsEnabled = true;
             }
         }
 
