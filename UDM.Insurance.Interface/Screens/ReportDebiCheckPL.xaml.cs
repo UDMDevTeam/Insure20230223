@@ -201,10 +201,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
 
-                        workSheet.get_Range("A1", "B10").BorderAround(
-                        Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-                        Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-                        Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic,1);
+
                     
 
                     // check file path
@@ -308,10 +305,10 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-                    workSheet.get_Range("A2", "C23").BorderAround(
-                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+                    //workSheet.get_Range("A2", "C23").BorderAround(
+                    //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
                     workSheet.get_Range("A2", "C2").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
@@ -323,8 +320,12 @@ namespace UDM.Insurance.Interface.Screens
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.Range["A6", "C6"].Interior.Color = System.Drawing.Color.Orange;
 
+                    Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+                    tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+                    workSheet.Range["A3", "C5"].Interior.Color = System.Drawing.Color.LightSalmon;
 
 
 
