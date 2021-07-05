@@ -15308,17 +15308,62 @@
                         ToolTipService.IsEnabled="True"
                         Style="{StaticResource DebiCheck}"
                         TabIndex="98600" />
-                    <!--<Image Name="imgLock"
-                           Grid.Row="16"
-                           Grid.Column="26"
-                           Grid.ColumnSpan="2"
-                           Width="62"
-                           Height="44"
-                           Margin="5,0,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Source="pack://application:,,,/Resources/lock.png"
-                           Visibility="Collapsed" />-->
+
+
+                    <Label
+                        x:Name="Mandate1Lbl1"
+                        Grid.Row="14"
+                        Grid.Column="17"
+                        Grid.ColumnSpan="3"
+                        Content="Mandate #2 :"
+                        Foreground="LightBlue"
+                        VerticalContentAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        FontSize="13"
+                        Visibility="Hidden">
+
+                    </Label>
+                    <TextBlock
+                        x:Name="Mandate1TB"
+                        Grid.Row="15"
+                        Grid.RowSpan="2"
+                        Grid.Column="17"
+                        Grid.ColumnSpan="4"
+                        Height="35"
+                        TextWrapping="Wrap"
+                        Foreground="White"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        FontSize="13"
+                        Visibility="Hidden"/>
+
+                    <Label
+                        x:Name="Mandate2Lbl1"
+                        Grid.Row="14"
+                        Grid.Column="13"
+                        Grid.ColumnSpan="3"
+                        Content="Mandate #1 :"
+                        Foreground="LightBlue"
+                        VerticalContentAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        FontSize="13"
+                        Visibility="Hidden">
+
+                    </Label>
+                    <TextBlock
+                        x:Name="Mandate2TB"
+                        Grid.Row="15"
+                        Grid.RowSpan="2"                        
+                        Grid.Column="13"
+                        Grid.ColumnSpan="4"
+                        Height="35"
+                        TextWrapping="Wrap"
+                        Foreground="White"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        FontSize="13"
+                        Visibility="Hidden">
+                    </TextBlock>
 
 
                     <StackPanel

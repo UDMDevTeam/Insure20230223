@@ -52,6 +52,8 @@ namespace UDM.Insurance.Interface.Screens
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int x, int y);
 
+        bool DebiCheckSentTwice = false;
+
         #endregion
 
         #region Constants
@@ -62,6 +64,7 @@ namespace UDM.Insurance.Interface.Screens
         private const string mercPassword = "Password1";
 
         private const string debiCheckURL = "http://plhqweb.platinumlife.co.za:8081/";
+        
 
         #region BulkSMS
 
@@ -75,6 +78,9 @@ namespace UDM.Insurance.Interface.Screens
         private const string bulkSMSURL = "https://api.bulksms.com/v1";
 
         #endregion BulkSMS
+
+
+        private int BumpUpSelected = 0;
 
         private const string IDField = "ID";
         private const string DescriptionField = "Description";
@@ -540,6 +546,8 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+
+                DebiCheckSentTwice = false;
 
                 SetCursor(Cursors.Wait);
                 CheckIfTemp();
@@ -4538,7 +4546,7 @@ namespace UDM.Insurance.Interface.Screens
                                     {
                                         LaData.SaleData.FKCMCallRefUserID = GlobalSettings.ApplicationUser.ID;
                                     }
-
+                                    BumpUpSelected = 1;
 
                                     //Comment this out after testing and before publishing again.
                                     //if (inImportCallMonitoring != null)
@@ -7303,6 +7311,29 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+
+            //if (BumpUpSelected == 1)
+            //{
+            //    if (btnDebiCheck.IsEnabled == true)
+            //    {
+            //        INMessageBoxWindow2 messageBox1 = new INMessageBoxWindow2();
+            //        messageBox1.buttonOK.Content = "Yes";
+            //        messageBox1.buttonCancel.Content = "No";
+            //        var showMessageBox1 = ShowMessageBox(messageBox1, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+            //        bool result1 = showMessageBox1 != null && (bool)showMessageBox1;
+
+            //        if (result1 == true)
+            //        {
+            //            btnDebiCheck_Click(sender, e);
+            //        }
+            //        else
+            //        {
+            //            return;
+            //        }
+            //    }
+
+            //}
+
             if (cmbStatus.Text == "Sale")
             {
                 if (LaData.AppData.CampaignID == 7
@@ -7339,27 +7370,6 @@ namespace UDM.Insurance.Interface.Screens
                             DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
                             string responses = dt.Rows[0]["Response"].ToString();
 
-
-
-                            //StringBuilder strQueryJobTitle = new StringBuilder();
-                            //strQueryJobTitle.Append("SELECT TOP 1 FKJobTitle [Response] ");
-                            //strQueryJobTitle.Append("FROM HRStaff ");
-                            //strQueryJobTitle.Append("WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
-                            //strQueryJobTitle.Append(" ORDER BY ID DESC");
-                            //DataTable dt2 = Methods.GetTableData(strQueryJobTitle.ToString());
-                            //int responses2 = int.Parse(dt2.Rows[0]["Response"].ToString());
-
-                            //if (responses2 == 21 || responses2 == 23)
-                            //{
-                            //    if (btnDebiCheck.IsEnabled == true)
-                            //    {
-                            //        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                            //        messageBox.buttonOK.Content = "Yes";
-                            //        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                            //        bool result = showMessageBox != null && (bool)showMessageBox;
-                            //        return;
-                            //    }
-                            //}
 
                         }
                         catch
@@ -7518,6 +7528,8 @@ namespace UDM.Insurance.Interface.Screens
                     Save();
                 }
             }
+
+            BumpUpSelected = 0;
         }
 
         private void cmbDOBank_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -13458,7 +13470,7 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void btnDebiCheck_Click(object sender, RoutedEventArgs e)
         {
-
+            #region Constants
             //string documentTypeDebiCheckSent = LaData.BankDetailsData.typ
             string branchCodeID = LaData.BankDetailsData.BankBranchCodeID.ToString();
             string accounTypeID = LaData.BankDetailsData.AccountTypeID.ToString();
@@ -13476,7 +13488,9 @@ namespace UDM.Insurance.Interface.Screens
             DateTime CommencementDateEdited;
 
             string IDNumberDebiCheck = "1";
+            #endregion
 
+            #region variable workings
             // this is for the branch code
             try
             {
@@ -13555,8 +13569,10 @@ namespace UDM.Insurance.Interface.Screens
                 IDNumberDebiCheck = "1";
             }
 
-            btnDebiCheck.IsEnabled = false;
+            //btnDebiCheck.IsEnabled = false;
             string token = "";
+
+            #endregion
 
             #region Get Token
             try
@@ -13638,7 +13654,6 @@ namespace UDM.Insurance.Interface.Screens
 
             #endregion
 
-
             #region Save Debi Chek on our side
             try
             {
@@ -13659,6 +13674,8 @@ namespace UDM.Insurance.Interface.Screens
                 DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
                 DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
 
+
+
                 DebiCheckSentData.Save(_validationResult);
             }
             catch
@@ -13668,6 +13685,7 @@ namespace UDM.Insurance.Interface.Screens
 
             #endregion
 
+            #region Button Feedback
             try
             {
                 StringBuilder strQuery = new StringBuilder();
@@ -13678,26 +13696,36 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dt = Methods.GetTableData(strQuery.ToString());
 
                 string responses = dt.Rows[0]["Response"].ToString();
+                //string responses = "2";
 
                 if (responses.Contains("1"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Record Created";
-                    btnDebiCheck.IsEnabled = false;
+                    if(DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
 
                 }
                 else if (responses.Contains("2"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Record Submitted";
-                    btnDebiCheck.IsEnabled = false;
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
 
                 }
                 else if (responses.Contains("3"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Results Received but no Further Details";
-                    btnDebiCheck.IsEnabled = false;
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
 
                 }
                 else if (responses.Contains("4"))
@@ -13718,22 +13746,29 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Mandate Approved";
-                    btnDebiCheck.IsEnabled = false;
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
 
                 }
                 else if (responses.Contains("7"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Red;
                     btnDebiCheck.ToolTip = "Client Rejected";
-                    btnDebiCheck.IsEnabled = false;
-
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
                 }
                 else if (responses.Contains("8"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
-                    btnDebiCheck.IsEnabled = false;
-
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
                 }
                 else if (responses.Contains("9"))
                 {
@@ -13746,27 +13781,34 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
-                    btnDebiCheck.IsEnabled = false;
-
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
                 }
                 else if (responses.Contains(""))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Sent";
-                    btnDebiCheck.IsEnabled = false;
+                    if (DebiCheckSentTwice == true)
+                    {
+                        btnDebiCheck.IsEnabled = false;
+                    }
                 }
                 else
                 {
                     DebiCheckBorder.BorderBrush = Brushes.White;
                     btnDebiCheck.IsEnabled = true;
                 }
+
+                DebiCheckSentTwice = true;
+                GetMandateInfo();
             }
             catch
             {
 
             }
-
-
+            #endregion
         }
         public void IsDebiCheckValidForResales()
         {
@@ -13784,6 +13826,146 @@ namespace UDM.Insurance.Interface.Screens
                 btnDebiCheck.IsEnabled = true;
             }
         }
+
+        public void GetMandateInfo()
+        {
+            try
+            {
+
+            }
+            catch
+            {
+
+            }
+            StringBuilder strQuery = new StringBuilder();
+            strQuery.Append("SELECT TOP 2 SMSBody as [Response], SubmissionDate  ");
+            strQuery.Append("FROM DebiCheckSent ");
+            strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+            strQuery.Append(" ORDER BY ID DESC");
+            DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+            try
+            {
+                string responses = dt.Rows[0]["Response"].ToString();
+                string datetime = dt.Rows[0]["SubmissionDate"].ToString();
+
+                if (responses.Contains("1"))
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() => { Mandate1TB.Text = "Record Created " + datetime; }));                    
+                }
+                else if (responses.Contains("2"))
+                {
+                    Mandate1TB.Text = "Record Submitted " + datetime;
+                }
+                else if (responses.Contains("3"))
+                {
+                    Mandate1TB.Text = "Results Received " + datetime;
+                }
+                else if (responses.Contains("4"))
+                {
+                    Mandate1TB.Text = "Bank Returned Authentication Failure " + datetime;
+                }
+                else if (responses.Contains("5"))
+                {
+                    Mandate1TB.Text = "Bank Returned Error With File Submitted " + datetime;
+                }
+                else if (responses.Contains("6"))
+                {
+                    Mandate1TB.Text = "Mandate Approved " + datetime;
+                }
+                else if (responses.Contains("7"))
+                {
+                    Mandate1TB.Text = "Client Rejected " + datetime;
+                }
+                else if (responses.Contains("8"))
+                {
+                    Mandate1TB.Text = "No Response " + datetime;
+                }
+                else if (responses.Contains("9"))
+                {
+                    Mandate1TB.Text = "Timeout on Submission " + datetime;
+                }
+                else if (responses.Contains("10"))
+                {
+                    Mandate1TB.Text = "File delivered to XCOM for processing " + datetime;
+                }
+                else if (responses.Contains(""))
+                {
+                    Mandate1TB.Text = "Sent " + datetime;
+                }
+                else
+                {
+
+                }
+            }
+            catch
+            {
+
+            }
+
+
+            try
+            {
+
+                string responses2 = dt.Rows[1]["Response"].ToString();
+                string datetime = dt.Rows[1]["SubmissionDate"].ToString();
+                
+                if (responses2.Contains("1"))
+                {
+                    Mandate2TB.Text = "Record Created " + datetime;
+                }
+                else if (responses2.Contains("2"))
+                {
+                    Mandate2TB.Text = "Record Submitted " + datetime;
+                }
+                else if (responses2.Contains("3"))
+                {
+                    Mandate2TB.Text = "Results Received " + datetime;
+                }
+                else if (responses2.Contains("4"))
+                {
+                    Mandate2TB.Text = "Bank Returned Authentication Failure " + datetime;
+                }
+                else if (responses2.Contains("5"))
+                {
+                    Mandate2TB.Text = "Bank Returned Error With File Submitted " + datetime;
+                }
+                else if (responses2.Contains("6"))
+                {
+                    Mandate2TB.Text = "Mandate Approved " + datetime;
+                }
+                else if (responses2.Contains("7"))
+                {
+                    Mandate2TB.Text = "Client Rejected " + datetime;
+                }
+                else if (responses2.Contains("8"))
+                {
+                    Mandate2TB.Text = "No Response " + datetime;
+                }
+                else if (responses2.Contains("9"))
+                {
+                    Mandate2TB.Text = "Timeout on Submission " + datetime;
+                }
+                else if (responses2.Contains("10"))
+                {
+                    Mandate2TB.Text = "File delivered to XCOM for processing " + datetime;
+                }
+                else if (responses2.Contains(""))
+                {
+                    Mandate2TB.Text = "Sent " + datetime;
+                }
+                else
+                {
+
+                }
+            }
+            catch
+            {
+
+            }
+
+        }
+
         public void IsDebiCheckValid()
         {
             if (cmbStatus.SelectedValue.ToString() == "1")
@@ -13850,6 +14032,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         btnDebiCheck.Visibility = Visibility.Visible;
                         DebiCheckBorder.Visibility = Visibility.Visible;
+                        Mandate1Lbl1.Visibility = Visibility.Visible;
+                        Mandate1TB.Visibility = Visibility.Visible;
+                        Mandate2Lbl1.Visibility = Visibility.Visible;
+                        Mandate2TB.Visibility = Visibility.Visible;
                         IsDebiCheckValid();
 
                         try
@@ -14021,6 +14207,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         btnDebiCheck.Visibility = Visibility.Collapsed;
                         DebiCheckBorder.Visibility = Visibility.Collapsed;
+                        Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                        Mandate1TB.Visibility = Visibility.Collapsed;
+                        Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                        Mandate2TB.Visibility = Visibility.Collapsed;
 
                     }
                 }
@@ -14028,6 +14218,10 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     btnDebiCheck.Visibility = Visibility.Collapsed;
                     DebiCheckBorder.Visibility = Visibility.Collapsed;
+                    Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                    Mandate1TB.Visibility = Visibility.Collapsed;
+                    Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                    Mandate2TB.Visibility = Visibility.Collapsed;
                 }
             }
             catch
@@ -14036,6 +14230,8 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
+
+            try { GetMandateInfo(); } catch(Exception y) { GetMandateInfo(); }
 
         }
         private void btnAddContacts_Click(object sender, RoutedEventArgs e)
