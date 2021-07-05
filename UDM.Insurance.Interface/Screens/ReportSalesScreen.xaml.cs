@@ -507,7 +507,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         DataTable dtCampaignSales = dtSales.Select(filterString, orderByString).CopyToDataTable();
 
-                        Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 8, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 10, wsReport, rowIndex, 0);
 
                         rowIndex++;
 
@@ -523,7 +523,7 @@ namespace UDM.Insurance.Interface.Screens
                         foreach (DataRow drSale in dtCampaignSales.Rows)
                         {
                             rowIndex++;
-                            Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 8, wsReport, rowIndex, 0);
+                            Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 10, wsReport, rowIndex, 0);
 
                             bool isGoldenLead = false;
                             CellFillPattern cellFill = null;
@@ -557,7 +557,11 @@ namespace UDM.Insurance.Interface.Screens
                             if (isGoldenLead) { wsReport.GetCell("SavedStatusOriginalDOS").CellFormat.Fill = cellFill; }
                             wsReport.GetCell("ReferralResult").Value = drSale["ReferralResult"] as string;
                             if (isGoldenLead) { wsReport.GetCell("ReferralResult").CellFormat.Fill = cellFill; }
-                            
+                            wsReport.GetCell("MandateStatus").Value = drSale["MandateStatus"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("MandateStatus").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("Incentive").Value = drSale["Incentive"] as int?;
+                            if (isGoldenLead) { wsReport.GetCell("Incentive").CellFormat.Fill = cellFill; }
+
 
 
                             wsReport.Workbook.NamedReferences.Clear();
@@ -565,7 +569,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         {
                             rowIndex++;
-                            Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 9, wsReport, rowIndex, 0);
+                            Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 11, wsReport, rowIndex, 0);
 
                             //DataRow dr = dtCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
                             DataRow dr = dtCampaignTotals.Select(campaignTotalsFilteringString).CopyToDataTable().Rows[0];
@@ -573,6 +577,7 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("TotalPremium").Value = dr["TotalPremium"] as decimal?;
                             wsReport.GetCell("TotalUnits").Value = dr["TotalUnits"] as decimal?;
                             wsReport.GetCell("TotalReferrals").Value = dr["TotalReferrals"] as int?;
+                            wsReport.GetCell("TotalIncentive").Value = dr["TotalIncentive"] as int?;
                             wsReport.Workbook.NamedReferences.Clear();
                         }
 
@@ -582,13 +587,15 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 9, wsReport, rowIndex, 0);
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 11, wsReport, rowIndex, 0);
 
                     DataRow dr = dtGrandTotals.Rows[0];
                     wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalSales"] as int?;
                     wsReport.GetCell("GrandTotalPremium").Value = dr["GrandTotalPremium"] as decimal?;
                     wsReport.GetCell("GrandTotalUnits").Value = dr["GrandTotalUnits"] as decimal?;
                     wsReport.GetCell("GrandTotalReferrals").Value = dr["GrandTotalReferrals"] as int?;
+                    wsReport.GetCell("GrandTotalIncentive").Value = dr["GrandTotalIncentive"] as int?;
+
                     wsReport.Workbook.NamedReferences.Clear();
                 }
 
@@ -623,7 +630,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 foreach (DataRow drCampaign in dtcancellationCampaigns.Rows)
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 9, wsReport, rowIndex, 0);
+                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 12, wsReport, rowIndex, 0);
                     rowIndex++;
 
                     wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
@@ -632,7 +639,7 @@ namespace UDM.Insurance.Interface.Screens
                     foreach (DataRow drSale in dtCampaignCancellations.Rows)
                     {
                         rowIndex++;
-                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 9, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 12, wsReport, rowIndex, 0);
 
                         bool isGoldenLead = false;
                         CellFillPattern cellFill = null;
