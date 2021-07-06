@@ -730,7 +730,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 foreach (DataRow drCampaign in dtDebiCheckCallBacksCampaigns.Rows)
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 9, wsReport, rowIndex, 0);
+                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 11, wsReport, rowIndex, 0);
                     rowIndex++;
 
                     wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
@@ -739,7 +739,7 @@ namespace UDM.Insurance.Interface.Screens
                     foreach (DataRow drSale in dtCampaignDebiCheckCallBacks.Rows)
                     {
                         rowIndex++;
-                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 9, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 11, wsReport, rowIndex, 0);
 
                         bool isGoldenLead = false;
                         CellFillPattern cellFill = null;
