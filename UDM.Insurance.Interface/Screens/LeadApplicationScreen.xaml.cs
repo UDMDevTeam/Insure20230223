@@ -548,6 +548,8 @@ namespace UDM.Insurance.Interface.Screens
             {
 
                 DebiCheckSentTwice = false;
+                Mandate1TB.Text = " ";
+                Mandate2TB.Text = " ";
 
                 SetCursor(Cursors.Wait);
                 CheckIfTemp();
