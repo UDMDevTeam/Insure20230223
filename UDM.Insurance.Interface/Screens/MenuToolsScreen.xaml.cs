@@ -322,6 +322,19 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void btnDebiCheckStatusLoader_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                DebiCheckStatusLoader mySuccessEditScreen = new DebiCheckStatusLoader();
+                ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
 #endregion

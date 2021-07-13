@@ -840,7 +840,7 @@ namespace UDM.Insurance.Interface.Screens
                     foreach (DataRow drSale in dtCampaignReducedPremiums.Rows)
                     {
                         rowIndex++;
-                        Methods.CopyExcelRegion(wsTemplate, 6, 11, 0, 8, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 6, 11, 0, 11, wsReport, rowIndex, 0);
 
                         bool isGoldenLead = false;
                         CellFillPattern cellFill = null;
@@ -873,7 +873,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     {
                         rowIndex++;
-                        Methods.CopyExcelRegion(wsTemplate, 7, 11, 0, 8, wsReport, rowIndex, 0);
+                        Methods.CopyExcelRegion(wsTemplate, 7, 11, 0, 11, wsReport, rowIndex, 0);
 
                         DataRow dr = dtReducedPremiumCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
                         wsReport.GetCell("RPTotalSales").Value = dr["ReducedPremiumCount"] as int?;
