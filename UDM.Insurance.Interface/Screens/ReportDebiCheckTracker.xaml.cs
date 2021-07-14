@@ -207,28 +207,59 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[24, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
                     workSheet.Cells[24, 1].Value = "Total :";
 
+                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 16]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 18]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
 
-
-                    //workSheet.get_Range("A2", "C23").BorderAround(
-                    //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-                    //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-                    //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
-
-                    workSheet.get_Range("A2", "C2").BorderAround(
-                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
-
-                    workSheet.get_Range("A24", "C24").BorderAround(
-                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 24]].Merge();
 
                     workSheet.Rows[2].WrapText = true;
 
                     Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
                     tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                     tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+                    workSheet.get_Range("A2", "X2").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "D24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "F24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "J24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "V24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "X24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A24", "X24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
                     workSheet.Range["F3", "F24"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
                     workSheet.Range["H3", "H24"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
@@ -288,45 +319,32 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[22, 2].Formula = string.Format("=D22+C22");
                     workSheet.Cells[23, 2].Formula = string.Format("=D23+C23");
 
-                    workSheet.Cells[24, 2].Formula = string.Format("=SUM(B1:B23)");
-                    workSheet.Cells[24, 3].Formula = string.Format("=SUM(C1:C23)");
-                    workSheet.Cells[24, 4].Formula = string.Format("=SUM(D1:D23)");
-                    workSheet.Cells[24, 5].Formula = string.Format("=SUM(E1:E23)");
-                    //workSheet.Cells[24, 6].Formula = string.Format("=SUM(F1:F23)");
-                    workSheet.Cells[24, 7].Formula = string.Format("=SUM(G1:G23)");
-                    //workSheet.Cells[24, 8].Formula = string.Format("=SUM(H1:H23)");
-                    workSheet.Cells[24, 9].Formula = string.Format("=SUM(I1:I23)");
-                    //workSheet.Cells[24, 10].Formula = string.Format("=SUM(J1:J23)");
-                    workSheet.Cells[24, 11].Formula = string.Format("=SUM(K1:K23)");
-                    //workSheet.Cells[24, 12].Formula = string.Format("=SUM(L1:L23)");
-                    workSheet.Cells[24, 13].Formula = string.Format("=SUM(M1:M23)");
-                    //workSheet.Cells[24, 14].Formula = string.Format("=SUM(N1:N23)");
-                    workSheet.Cells[24, 15].Formula = string.Format("=SUM(O1:O23)");
-                    //workSheet.Cells[24, 16].Formula = string.Format("=SUM(P1:P23)");
-                    workSheet.Cells[24, 17].Formula = string.Format("=SUM(Q1:Q23)");
-                    //workSheet.Cells[24, 18].Formula = string.Format("=SUM(R1:R23)");
-                    workSheet.Cells[24, 19].Formula = string.Format("=SUM(S1:S23)");
-                    //workSheet.Cells[24, 20].Formula = string.Format("=SUM(T1:T23)");
-                    workSheet.Cells[24, 21].Formula = string.Format("=SUM(U1:U23)");
-                    //workSheet.Cells[24, 22].Formula = string.Format("=SUM(V1:V23)");
-                    workSheet.Cells[24, 23].Formula = string.Format("=SUM(W1:W23)");
-                    //workSheet.Cells[24, 23].Formula = string.Format("=SUM(X1:X23)");
+                    workSheet.Cells[24, 2].Formula = string.Format("=SUM(B1:B23)"); //B
+                    workSheet.Cells[24, 3].Formula = string.Format("=SUM(C1:C23)"); //C
+                    workSheet.Cells[24, 4].Formula = string.Format("=SUM(D1:D23)"); //D
+                    workSheet.Cells[24, 5].Formula = string.Format("=SUM(E1:E23)"); //E
+                    workSheet.Cells[24, 7].Formula = string.Format("=SUM(G1:G23)"); //G
+                    workSheet.Cells[24, 9].Formula = string.Format("=SUM(I1:I23)"); //I
+                    workSheet.Cells[24, 11].Formula = string.Format("=SUM(K1:K23)"); //K
+                    workSheet.Cells[24, 13].Formula = string.Format("=SUM(M1:M23)"); //M
+                    workSheet.Cells[24, 15].Formula = string.Format("=SUM(O1:O23)"); //O
+                    workSheet.Cells[24, 17].Formula = string.Format("=SUM(Q1:Q23)"); //Q
+                    workSheet.Cells[24, 19].Formula = string.Format("=SUM(S1:S23)"); //S
+                    workSheet.Cells[24, 21].Formula = string.Format("=SUM(U1:U23)"); //U
+                    workSheet.Cells[24, 23].Formula = string.Format("=SUM(W1:W23)"); //W
+
+                    workSheet.Cells[24, 6].Formula = string.Format("=E24/B24*100"); //F
+                    workSheet.Cells[24, 8].Formula = string.Format("=G24/B24*100"); //H
+                    workSheet.Cells[24, 10].Formula = string.Format("=I24/B24*100"); //J
+                    workSheet.Cells[24, 12].Formula = string.Format("=K24/B24*100"); //L
+                    workSheet.Cells[24, 14].Formula = string.Format("=M24/B24*100"); //N
+                    workSheet.Cells[24, 16].Formula = string.Format("=O24/B24*100"); //P
+                    workSheet.Cells[24, 18].Formula = string.Format("=Q24/B24*100"); //R
+                    workSheet.Cells[24, 20].Formula = string.Format("=S24/B24*100"); //T
+                    workSheet.Cells[24, 22].Formula = string.Format("=U24/B24*100"); //V
+                    workSheet.Cells[24, 24].Formula = string.Format("=W24/B24*100"); //X
 
                     #endregion
-
-
-                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 16]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 18]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
-
-
 
                     // check file path
 

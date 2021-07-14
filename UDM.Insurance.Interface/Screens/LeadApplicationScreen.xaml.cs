@@ -13831,14 +13831,7 @@ namespace UDM.Insurance.Interface.Screens
 
         public void GetMandateInfo()
         {
-            try
-            {
 
-            }
-            catch
-            {
-
-            }
             StringBuilder strQuery = new StringBuilder();
             strQuery.Append("SELECT TOP 2 SMSBody as [Response], SubmissionDate  ");
             strQuery.Append("FROM DebiCheckSent ");
