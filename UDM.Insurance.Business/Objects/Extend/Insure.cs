@@ -1486,14 +1486,33 @@ namespace UDM.Insurance.Business
 
             object param1 = Database.GetParameter("@DateFrom", fromDate);
             object param2 = Database.GetParameter("@DateTo", toDate);
-            object param3 = Database.GetParameter("@TotalCount", 0);
 
 
-            object[] paramArray = new[] { param1, param2, param3 };
+            object[] paramArray = new[] { param1, param2 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckPLCustom", paramArray, 600);
         }
 
+        #endregion
+
+        #region DebiCheck Tracking Report
+        public static DataSet INGetDebiCheckTracking(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTracking", paramArray, 600);
+        }
         #endregion
 
         #region Status Loading Screen - Specific Functionalities
@@ -2048,6 +2067,11 @@ namespace UDM.Insurance.Business
         public static DataSet INGetBumpUpSortSummaryData()
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetBumpUpSortSummaryData", null, 1800);
+        }
+
+        public static DataSet INGetLeadsAvailable()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportBumpUpLeadAvailable", null, 1800);
         }
 
         public static DataSet INGetDateOfSaleAssignedPossibleBumpUpsData(DateTime dateOfSale, string campaignIDs, long activity, long workStatusEmployed)
