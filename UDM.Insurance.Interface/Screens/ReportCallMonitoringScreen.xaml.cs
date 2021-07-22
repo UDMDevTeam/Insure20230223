@@ -180,6 +180,8 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Setup excel documents
 
                 #region Get the data
+                try
+                {
 
                 DataSet dsCallMonitoringReportData = Business.Insure.INReportCallMonitoring(_fromDate, _toDate, _staffType);
 
@@ -192,12 +194,17 @@ namespace UDM.Insurance.Interface.Screens
 
                     return;
                 }
-
+                
                 #endregion Get the data
 
                 #region Insert the various report sheets
 
                 InsertCallMonitoringReportSheets(wbConfirmedSalesReportTemplate, wbConfirmedSalesReport, dsCallMonitoringReportData);
+                }
+                catch (Exception ex)
+                {
+                   // HandleException(ex);
+                }
 
                 #endregion Insert the various report sheets
 
