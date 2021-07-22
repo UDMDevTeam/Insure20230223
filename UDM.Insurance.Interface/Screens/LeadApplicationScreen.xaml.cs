@@ -52,7 +52,7 @@ namespace UDM.Insurance.Interface.Screens
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int x, int y);
 
-        bool DebiCheckSentTwice = false;
+        bool DebiCheckSentTwice;
 
         #endregion
 
@@ -551,7 +551,10 @@ namespace UDM.Insurance.Interface.Screens
                 Mandate1TB.Text = " ";
                 Mandate2TB.Text = " ";
 
-                SetCursor(Cursors.Wait);
+                #region DebiCheck Button Enabled
+                    #endregion
+
+                    SetCursor(Cursors.Wait);
                 CheckIfTemp();
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/211742618/comments
                 UpdateLeadStatuses(importID);
@@ -1756,6 +1759,112 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     btnSave.SetValue(Grid.RowProperty, 15);
                 }
+
+                try
+                {
+                    StringBuilder strQuery = new StringBuilder();
+                    strQuery.Append("SELECT TOP 1 SMSBody [Response] ");
+                    strQuery.Append("FROM DebiCheckSent ");
+                    strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                    strQuery.Append(" ORDER BY ID DESC");
+                    DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                    string responses = dt.Rows[0]["Response"].ToString();
+                    //string responses = "2";
+
+                    if (responses.Contains("1"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "Record Created";
+
+                        btnDebiCheck.IsEnabled = false;
+
+                    }
+                    else if (responses.Contains("2"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "Record Submitted";
+
+                        btnDebiCheck.IsEnabled = false;
+
+                    }
+                    else if (responses.Contains("3"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "Results Received but no Further Details";
+
+                        btnDebiCheck.IsEnabled = false;
+
+                    }
+                    else if (responses.Contains("4"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Red;
+                        btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
+                        btnDebiCheck.IsEnabled = true;
+
+                    }
+                    else if (responses.Contains("5"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Red;
+                        btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
+                        btnDebiCheck.IsEnabled = true;
+
+                    }
+                    else if (responses.Contains("6"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "Mandate Approved";
+
+                        btnDebiCheck.IsEnabled = false;
+
+                    }
+                    else if (responses.Contains("7"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Red;
+                        btnDebiCheck.ToolTip = "Client Rejected";
+
+                        btnDebiCheck.IsEnabled = false;
+                    }
+                    else if (responses.Contains("8"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
+
+                        btnDebiCheck.IsEnabled = false;
+                    }
+                    else if (responses.Contains("9"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Yellow;
+                        btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
+                        btnDebiCheck.IsEnabled = true;
+
+                    }
+                    else if (responses.Contains("10"))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
+
+                        btnDebiCheck.IsEnabled = false;
+                    }
+                    else if (responses.Contains(""))
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.Green;
+                        btnDebiCheck.ToolTip = "Sent";
+
+                        btnDebiCheck.IsEnabled = false;
+                    }
+                    else
+                    {
+                        DebiCheckBorder.BorderBrush = Brushes.White;
+                        btnDebiCheck.IsEnabled = true;
+                    }
+                }
+                catch
+                {
+                    DebiCheckBorder.BorderBrush = Brushes.White;
+                    btnDebiCheck.IsEnabled = true;
+                }
+
 
             }
 
@@ -13648,7 +13757,6 @@ namespace UDM.Insurance.Interface.Screens
             {
                 DebiCheckSent DebiCheckSentData = new DebiCheckSent();
 
-
                 DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
                 DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
                 DebiCheckSentData.SMSID = ClientResponseStatus;
@@ -13662,8 +13770,6 @@ namespace UDM.Insurance.Interface.Screens
                 DebiCheckSentData.SubmissionDate = DateTime.Now;
                 DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
                 DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-
-
 
                 DebiCheckSentData.Save(_validationResult);
             }
@@ -13963,42 +14069,47 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.BankDetailsData.DebitDay != null)
                                 {
-                                    btnDebiCheck.IsEnabled = true;
+                                    btnDebiCheck.Opacity = 1;
                                     btnDebiCheck.ToolTip = null;
                                 }
                                 else
                                 {
-                                    btnDebiCheck.IsEnabled = false;
+
+                                    btnDebiCheck.Opacity = 0.5;
                                     btnDebiCheck.ToolTip = "Fill In Debit Day.";
                                 }
                             }
                             else
                             {
-                                btnDebiCheck.IsEnabled = false;
+
+                                btnDebiCheck.Opacity = 0.5;
+
                                 btnDebiCheck.ToolTip = "Fill In Account Number.";
                             }
                         }
                         else
                         {
-                            btnDebiCheck.IsEnabled = false;
+
+                            btnDebiCheck.Opacity = 0.5;
                             btnDebiCheck.ToolTip = "Fill in ID Number.";
                         }
                     }
                     else
                     {
-                        btnDebiCheck.IsEnabled = false;
+                        btnDebiCheck.Opacity = 0.5;
                         btnDebiCheck.ToolTip = "Fill in Cell Number";
                     }
                 }
                 else
                 {
-                    btnDebiCheck.IsEnabled = false;
+                    btnDebiCheck.Opacity = 0.5;
                     btnDebiCheck.ToolTip = "Fill in Name.";
                 }
             }
             else
             {
-                btnDebiCheck.IsEnabled = false;
+
+                btnDebiCheck.Opacity = 0.5;
                 btnDebiCheck.ToolTip = "Lead Status is not a sale";
             }
         }
@@ -14033,103 +14144,120 @@ namespace UDM.Insurance.Interface.Screens
                             Mandate2TB.Visibility = Visibility.Visible;
                             IsDebiCheckValid();
 
-                            try
-                            {
-                                //this is to see what happened last on this lead regarding debicheck
-                                StringBuilder strQuery = new StringBuilder();
-                                strQuery.Append("SELECT TOP 1 SMSBody [Response] ");
-                                strQuery.Append("FROM DebiCheckSent ");
-                                strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                                strQuery.Append(" ORDER BY ID DESC");
-                                DataTable dt = Methods.GetTableData(strQuery.ToString());
+                            //try
+                            //{
+                            //    //this is to see what happened last on this lead regarding debicheck
+                            //    StringBuilder strQuery = new StringBuilder();
+                            //    strQuery.Append("SELECT TOP 1 SMSBody [Response] ");
+                            //    strQuery.Append("FROM DebiCheckSent ");
+                            //    strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                            //    strQuery.Append(" ORDER BY ID DESC");
+                            //    DataTable dt = Methods.GetTableData(strQuery.ToString());
 
-                                string response = dt.Rows[0]["Response"].ToString();
-                                if (response.Contains("1"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "Record Created";
-                                    btnDebiCheck.IsEnabled = false;
+                            //    string response = dt.Rows[0]["Response"].ToString();
+                            //    if (response.Contains("1"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "Record Created";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains("2"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "Record Submitted";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains("3"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "Results Received but no Further Details";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains("4"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Red;
+                            //        btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
+                            //        btnDebiCheck.IsEnabled = true;
 
-                                }
-                                else if (response.Contains("2"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "Record Submitted";
-                                    btnDebiCheck.IsEnabled = false;
+                            //    }
+                            //    else if (response.Contains("5"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Red;
+                            //        btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
+                            //        btnDebiCheck.IsEnabled = true;
 
-                                }
-                                else if (response.Contains("3"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "Results Received but no Further Details";
-                                    btnDebiCheck.IsEnabled = false;
+                            //    }
+                            //    else if (response.Contains("6"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "Mandate Approved";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains("7"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Red;
+                            //        btnDebiCheck.ToolTip = "Client Rejected";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains("8"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains("9"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Yellow;
+                            //        btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
+                            //        btnDebiCheck.IsEnabled = true;
 
-                                }
-                                else if (response.Contains("4"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Red;
-                                    btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
-                                    btnDebiCheck.IsEnabled = true;
-
-                                }
-                                else if (response.Contains("5"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Red;
-                                    btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
-                                    btnDebiCheck.IsEnabled = true;
-
-                                }
-                                else if (response.Contains("6"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "Mandate Approved";
-                                    btnDebiCheck.IsEnabled = false;
-
-                                }
-                                else if (response.Contains("7"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Red;
-                                    btnDebiCheck.ToolTip = "Client Rejected";
-                                    btnDebiCheck.IsEnabled = false;
-
-                                }
-                                else if (response.Contains("8"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
-                                    btnDebiCheck.IsEnabled = false;
-
-                                }
-                                else if (response.Contains("9"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Yellow;
-                                    btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
-                                    btnDebiCheck.IsEnabled = true;
-
-                                }
-                                else if (response.Contains("10"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
-                                    btnDebiCheck.IsEnabled = false;
-
-                                }
-                                else if (response.Contains(""))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.Green;
-                                    btnDebiCheck.ToolTip = "Sent";
-                                    btnDebiCheck.IsEnabled = false;
-                                }
-                                else
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.White;
-                                    btnDebiCheck.IsEnabled = true;
-                                }
-                            }
-                            catch
-                            {
-                                DebiCheckBorder.BorderBrush = Brushes.White;
-                            }
+                            //    }
+                            //    else if (response.Contains("10"))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else if (response.Contains(""))
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
+                            //        btnDebiCheck.ToolTip = "Sent";
+                            //        if (DebiCheckSentTwice == true)
+                            //        {
+                            //            btnDebiCheck.IsEnabled = false;
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        DebiCheckBorder.BorderBrush = Brushes.White;
+                            //        btnDebiCheck.IsEnabled = true;
+                            //    }
+                            //}
+                            //catch
+                            //{
+                            //    DebiCheckBorder.BorderBrush = Brushes.White;
+                            //}
 
                             //this is for the resales campaign rule
                             if (LaData.AppData.CampaignID == 7
