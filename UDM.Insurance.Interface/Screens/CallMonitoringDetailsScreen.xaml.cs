@@ -13,6 +13,7 @@ using UDM.WPF.Classes;
 using Embriant.Framework.Configuration;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Text;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -116,7 +117,7 @@ namespace UDM.Insurance.Interface.Screens
                 chkTSRBUSavedCF.IsEnabled = true;
             }
 
-
+            GetMandateInfo(leadApplicationData.AppData.ImportID);
 
             //var dataSource = new List<StandardNote>();
             //dataSource.Add(new StandardNote() { Title = "123", IsSelected = false });
@@ -130,7 +131,147 @@ namespace UDM.Insurance.Interface.Screens
         #endregion Constructors
 
         #region Private Methods
+        public void GetMandateInfo(long? ImportID)
+        {
+            try
+            {
+                StringBuilder strQuery = new StringBuilder();
+                strQuery.Append("SELECT TOP 2 SMSBody as [Response], SubmissionDate  ");
+                strQuery.Append("FROM DebiCheckSent ");
+                strQuery.Append("WHERE FKImportID = " + ImportID);
+                strQuery.Append(" ORDER BY ID DESC");
+                DataTable dt = Methods.GetTableData(strQuery.ToString());
 
+                try
+                {
+                    string responses = dt.Rows[0]["Response"].ToString();
+                    string datetime = dt.Rows[0]["SubmissionDate"].ToString();
+
+                    if (responses.Contains("1"))
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => { Mandate1TB.Text = "Other " + datetime; }));
+                    }
+                    else if (responses.Contains("2"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("3"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("4"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("5"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("6"))
+                    {
+                        Mandate1TB.Text = "Approved " + datetime;
+                    }
+                    else if (responses.Contains("7"))
+                    {
+                        Mandate1TB.Text = "Rejected " + datetime;
+                    }
+                    else if (responses.Contains("8"))
+                    {
+                        Mandate1TB.Text = "No Response " + datetime;
+                    }
+                    else if (responses.Contains("9"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("10"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains(""))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else
+                    {
+                        Mandate1TB.Text = " ";
+                    }
+                }
+                catch
+                {
+                    Mandate2TB.Text = " ";
+                }
+
+
+                try
+                {
+
+                    string responses2 = dt.Rows[1]["Response"].ToString();
+                    string datetime = dt.Rows[1]["SubmissionDate"].ToString();
+
+                    if (responses2.Contains("1"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("2"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("3"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("4"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("5"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("6"))
+                    {
+                        Mandate2TB.Text = "Approved " + datetime;
+                    }
+                    else if (responses2.Contains("7"))
+                    {
+                        Mandate2TB.Text = "Rejected " + datetime;
+                    }
+                    else if (responses2.Contains("8"))
+                    {
+                        Mandate2TB.Text = "No Response " + datetime;
+                    }
+                    else if (responses2.Contains("9"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("10"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains(""))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else
+                    {
+                        Mandate2TB.Text = " ";
+
+                    }
+                }
+                catch
+                {
+                    Mandate2TB.Text = " ";
+
+                }
+
+            }
+            catch
+            {
+
+            }
+
+
+        }
         private void LoadLookupData()
         {
 

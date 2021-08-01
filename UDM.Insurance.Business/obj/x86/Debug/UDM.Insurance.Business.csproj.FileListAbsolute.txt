@@ -15,8 +15,6 @@ C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.
 C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.csproj.CopyComplete
 C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.dll
 C:\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.pdb
-C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.csprojAssemblyReference.cache
-C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.csproj.CoreCompileInputs.cache
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\UDM.Insurance.Business.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\UDM.Insurance.Business.pdb
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\Embriant.Framework.dll
@@ -29,6 +27,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\vjslib
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\itextsharp.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\vjscor.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\bin\Debug\Embriant.Framework.pdb
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.csproj.AssemblyReference.cache
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.csproj.CoreCompileInputs.cache
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.csproj.CopyComplete
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Business\obj\x86\Debug\UDM.Insurance.Business.pdb

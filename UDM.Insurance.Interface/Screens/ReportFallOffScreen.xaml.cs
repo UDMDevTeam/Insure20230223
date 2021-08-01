@@ -1232,7 +1232,7 @@ namespace UDM.Insurance.Interface.Screens
 
             int reportRow = 3;
             int reportTemplateRowIndex = 3;
-            int reportTemplateColumnSpan = 9;
+            int reportTemplateColumnSpan = 10;
 
             #endregion Declarations
 
@@ -1272,6 +1272,7 @@ namespace UDM.Insurance.Interface.Screens
                 wsNewReportSheet.GetCell(String.Format("H{0}", reportRow + 1)).Value = dtCancellationsDatasheetData.Rows[i]["TSR"];
                 wsNewReportSheet.GetCell(String.Format("I{0}", reportRow + 1)).Value = dtCancellationsDatasheetData.Rows[i]["CallMonitoringAgent"];
                 wsNewReportSheet.GetCell(String.Format("J{0}", reportRow + 1)).Value = dtCancellationsDatasheetData.Rows[i]["ConfirmationAgent"];
+                wsNewReportSheet.GetCell(String.Format("K{0}", reportRow + 1)).Value = dtCancellationsDatasheetData.Rows[i]["BatchNumber"];
 
                 ++reportRow;
 

@@ -37,9 +37,9 @@
     <UpdateUrl>\\udmsql\software\insure\</UpdateUrl>
     <ProductName>Insure</ProductName>
     <PublisherName>UDM</PublisherName>
-    <MinimumRequiredVersion>2.5.7.6</MinimumRequiredVersion>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>2.5.7.6</ApplicationVersion>
+    <MinimumRequiredVersion>2.6.6.3</MinimumRequiredVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>2.6.6.3</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -257,6 +257,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
@@ -488,6 +489,15 @@
     <Compile Include="PrismViews\EditClosureScreen.xaml.cs">
       <DependentUpon>EditClosureScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\LeadContactTracingDetailsScreen.xaml.cs">
+      <DependentUpon>LeadContactTracingDetailsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MySuccessAgentNotes.xaml.cs">
+      <DependentUpon>MySuccessAgentNotes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\MySuccessCopyCampaignData.xaml.cs">
+      <DependentUpon>MySuccessCopyCampaignData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\MySuccessEditScreen.xaml.cs" />
     <Compile Include="Screens\PermissionLeadScreen.xaml.cs">
       <DependentUpon>PermissionLeadScreen.xaml</DependentUpon>
@@ -506,6 +516,18 @@
     </Compile>
     <Compile Include="Screens\ReportCustomerCareRequestsScreen.xaml.cs">
       <DependentUpon>ReportCustomerCareRequestsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\DebiCheckStatusLoader.xaml.cs">
+      <DependentUpon>DebiCheckStatusLoader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDebiCheckTrackingTSR.xaml.cs">
+      <DependentUpon>ReportDebiCheckTrackingTSR.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDebiCheckTracker.xaml.cs">
+      <DependentUpon>ReportDebiCheckTracker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDebiCheckPL.xaml.cs">
+      <DependentUpon>ReportDebiCheckPL.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\ReportLeadPermission.xaml.cs">
       <DependentUpon>ReportLeadPermission.xaml</DependentUpon>
@@ -1008,6 +1030,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Screens\LeadContactTracingDetailsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\MySuccessAgentNotes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\MySuccessCopyCampaignData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Screens\MySuccessEditScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1033,6 +1067,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\ReportCustomerCareRequestsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\DebiCheckStatusLoader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDebiCheckTrackingTSR.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDebiCheckTracker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDebiCheckPL.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2012,6 +2062,18 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\call.png" />
+    <Resource Include="Resources\CassettePlayer.png" />
+    <Resource Include="Resources\documents.png" />
+    <Resource Include="Resources\FloppyDisk.png" />
+    <Resource Include="Resources\ForwardButton.png" />
+    <Resource Include="Resources\MediaBackGround.jpg" />
+    <Resource Include="Resources\PauseButton.png" />
+    <Resource Include="Resources\PlayButton.png" />
+    <Resource Include="Resources\plus.png" />
+    <Resource Include="Resources\ReportBackground.jpg" />
+    <Resource Include="Resources\RewindButton.png" />
+    <Resource Include="Resources\StopButton.png" />
     <Resource Include="Resources\optionWallpaper.png" />
     <Resource Include="Resources\CancerRibbon.png" />
     <Resource Include="Resources\carAccident.png" />
@@ -2060,6 +2122,8 @@
     <Resource Include="PrismInfrastructure\Images\ColorDialog_16x.png" />
     <Resource Include="PrismInfrastructure\Images\ColorDialog_32x.png" />
     <Resource Include="Resources\BirthdayWish1.jpg" />
+    <Resource Include="Resources\BackButton.png" />
+    <Resource Include="Resources\books.png" />
     <Content Include="Resources\calc.exe" />
     <None Include="Service References\MercantileService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>

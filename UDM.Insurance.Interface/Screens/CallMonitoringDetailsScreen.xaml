@@ -1227,6 +1227,76 @@
                     VerticalAlignment="Bottom"
                     Style="{StaticResource INUnderlineText1}" />
 
+                <Border Grid.Column="16"
+                        Grid.Row="1"
+                        Grid.RowSpan="1"
+                        Grid.ColumnSpan="3"
+                        BorderThickness="2"
+                        BorderBrush="Gray"
+                        CornerRadius="5"></Border>
+
+                <Border Grid.Column="20"
+                        Grid.Row="1"
+                        Grid.RowSpan="1"
+                        Grid.ColumnSpan="3"
+                        BorderThickness="2"
+                        BorderBrush="Gray"
+                        CornerRadius="5"></Border>
+                
+                <Label
+                        x:Name="Mandate1Lbl1"
+                        Grid.Row="0"
+                        Grid.Column="16"
+                        Grid.ColumnSpan="3"
+                        Content="Mandate Details :"
+                        Foreground="LightBlue"
+                        VerticalContentAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        FontSize="13"
+                        Visibility="Visible">
+
+                </Label>
+                <TextBlock
+                        x:Name="Mandate1TB"
+                        Grid.Row="1"
+                        Grid.Column="16"
+                        Grid.ColumnSpan="3"
+                        Height="35"
+                        TextWrapping="Wrap"
+                        Foreground="White"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        FontSize="13"
+                        Visibility="Visible"/>
+
+                <Label
+                        x:Name="Mandate2Lbl1"
+                        Grid.Row="0"
+                        Grid.Column="20"
+                        Grid.ColumnSpan="3"
+                        Content="Mandate Details :"
+                        Foreground="LightBlue"
+                        VerticalContentAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        FontSize="13"
+                        Visibility="Visible">
+
+                </Label>
+                <TextBlock
+                        x:Name="Mandate2TB"
+                        Grid.Row="1"
+                        Grid.Column="20"
+                        Grid.ColumnSpan="3"
+                        Height="35"
+                        TextWrapping="Wrap"
+                        Foreground="White"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        FontSize="13"
+                        Visibility="Visible">
+                </TextBlock>
+
+
                 <Button
                     x:Name="btnNotes"
                     Grid.RowSpan="2"

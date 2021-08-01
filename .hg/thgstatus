@@ -1,9 +1,15 @@
+mUDM.Insurance.Business
 mUDM.Insurance.Business/Mapping
 mUDM.Insurance.Business/Objects
+mUDM.Insurance.Business/Objects/Extend
 mUDM.Insurance.Business/Queries
 mUDM.Insurance.Interface
+mUDM.Insurance.Interface/Controls
 mUDM.Insurance.Interface/Data
+mUDM.Insurance.Interface/PrismViews
 mUDM.Insurance.Interface/Properties
 aUDM.Insurance.Interface/Resources
 mUDM.Insurance.Interface/Screens
+mUDM.Insurance.Interface/Styles
 mUDM.Insurance.Interface/Templates
+mUDM.Insurance.Interface/Windows

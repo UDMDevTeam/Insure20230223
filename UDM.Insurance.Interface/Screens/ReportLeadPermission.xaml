@@ -121,6 +121,7 @@
                         Grid.Column="2"
                         Grid.ColumnSpan="4"
                         Margin="0,0,0,6"
+                        Foreground="White"
                         VerticalAlignment="Bottom"
                         Style="{DynamicResource INLabelText2}"
                         Text="Select Campaign(s)"
@@ -162,6 +163,17 @@
                             Visibility="Visible" />
                     </Viewbox>
 
+                    <Border Grid.Column="1"
+                            Grid.Row="4"
+                            Grid.RowSpan="5"
+                            Grid.ColumnSpan="7"
+                            Background="Gray"
+                            Opacity="0.5"
+                            >
+                       
+                        
+                    </Border>
+
                     <TextBlock
                                     x:Name="lblCheckLA2"
                                     Grid.Row="4"
@@ -169,6 +181,7 @@
                                     Grid.ColumnSpan="4"
                                     Margin="0,0,0,5"
                                     VerticalAlignment="Bottom"
+                        Foreground="White"
                                     Style="{StaticResource INLabelText2}"
                                     Text="Cancer Base Elite" />
                     <CheckBox
@@ -193,6 +206,7 @@
                                     Grid.ColumnSpan="4"
                                     Margin="0,0,0,5"
                                     VerticalAlignment="Bottom"
+                        Foreground="White"
                                     Style="{StaticResource INLabelText2}"
                                     Text="Macc Base" />
                     <CheckBox
@@ -208,6 +222,30 @@
                                     IsChecked="{Binding PolicyData.IsLA2Checked}"
                                     TabIndex="23200"
                                     Unchecked="MaccCB_Unchecked"
+                                    Visibility="Visible" />
+
+                    <TextBlock
+                                    x:Name="lblCheckMaccMill"
+                                    Grid.Row="8"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="4"
+                                    Margin="0,0,0,5"
+                                    VerticalAlignment="Bottom"
+                                    Foreground="White"
+                                    Style="{StaticResource INLabelText2}"
+                                    Text="Macc Million Base" />
+                    <CheckBox
+                                    x:Name="MaccMillCB"
+                                    Grid.Row="8"
+                                    Grid.Column="7"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Checked="MaccMillCB_Checked"
+                                    IsChecked="{Binding PolicyData.IsLA2Checked}"
+                                    TabIndex="23200"
                                     Visibility="Visible" />
 
                     <Button

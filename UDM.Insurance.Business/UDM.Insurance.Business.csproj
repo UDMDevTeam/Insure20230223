@@ -98,10 +98,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\RejectedDebiCheckTrackingMapper.cs" />
     <Compile Include="Mapping\CallDataMapper.cs" />
     <Compile Include="Mapping\CallMonitoringAllocationMapper.cs" />
     <Compile Include="Mapping\CallMonitoringUnallocationMapper.cs" />
     <Compile Include="Mapping\ClosureMapper.cs" />
+    <Compile Include="Mapping\DebiCheckSentMapper.cs" />
     <Compile Include="Mapping\Extend\INGiftRedeemMapper.cs" />
     <Compile Include="Mapping\Extend\INImportExtraMapper.cs" />
     <Compile Include="Mapping\Extend\INImportMapper.cs" />
@@ -129,12 +131,14 @@
     <Compile Include="Mapping\INGiftOptionMapper.cs" />
     <Compile Include="Mapping\INGiftRedeemMapper.cs" />
     <Compile Include="Mapping\INImportCallMonitoringMapper.cs" />
+    <Compile Include="Mapping\INImportContactTracingMapper.cs" />
     <Compile Include="Mapping\INImportedPolicyDataMapper.cs" />
     <Compile Include="Mapping\INImportExtraMapper.cs" />
     <Compile Include="Mapping\INImportHeaderMapper.cs" />
     <Compile Include="Mapping\INImportLatentLeadReasonMapper.cs" />
     <Compile Include="Mapping\INImportMapper.cs" />
     <Compile Include="Mapping\INImportMiningMapper.cs" />
+    <Compile Include="Mapping\INMySuccessAgentDetailsMapper.cs" />
     <Compile Include="Mapping\INMySuccessCampaignDetailsMapper.cs" />
     <Compile Include="Mapping\INPermissionLeadMapper.cs" />
     <Compile Include="Mapping\INImportNoteMapper.cs" />
@@ -176,10 +180,12 @@
     <Compile Include="Mapping\UserHoursMapper.cs" />
     <Compile Include="Mapping\UserMapper.cs" />
     <Compile Include="Mapping\UserSystemMapper.cs" />
+    <Compile Include="Objects\RejectedDebiCheckTracking.cs" />
     <Compile Include="Objects\CallData.cs" />
     <Compile Include="Objects\CallMonitoringAllocation.cs" />
     <Compile Include="Objects\CallMonitoringUnallocation.cs" />
     <Compile Include="Objects\Closure.cs" />
+    <Compile Include="Objects\DebiCheckSent.cs" />
     <Compile Include="Objects\Enumerations.cs" />
     <Compile Include="Objects\Extend\Insure.cs" />
     <Compile Include="Objects\HRStaff.cs" />
@@ -203,11 +209,13 @@
     <Compile Include="Objects\INGiftRedeem.cs" />
     <Compile Include="Objects\INImport.cs" />
     <Compile Include="Objects\INImportCallMonitoring.cs" />
+    <Compile Include="Objects\INImportContactTracing.cs" />
     <Compile Include="Objects\INImportedPolicyData.cs" />
     <Compile Include="Objects\INImportExtra.cs" />
     <Compile Include="Objects\INImportHeader.cs" />
     <Compile Include="Objects\INImportLatentLeadReason.cs" />
     <Compile Include="Objects\INImportMining.cs" />
+    <Compile Include="Objects\INMySuccessAgentDetails.cs" />
     <Compile Include="Objects\INMySuccessCampaignDetails.cs" />
     <Compile Include="Objects\INPermissionLead.cs" />
     <Compile Include="Objects\INImportNote.cs" />
@@ -253,10 +261,12 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <Compile Include="Queries\RejectedDebiCheckTrackingQueries.cs" />
     <Compile Include="Queries\CallDataQueries.cs" />
     <Compile Include="Queries\CallMonitoringAllocationQueries.cs" />
     <Compile Include="Queries\CallMonitoringUnallocationQueries.cs" />
     <Compile Include="Queries\ClosureQueries.cs" />
+    <Compile Include="Queries\DebiCheckSentQueries.cs" />
     <Compile Include="Queries\Extend\INImportExtraQueries.cs" />
     <Compile Include="Queries\Extend\INImportQueries.cs" />
     <Compile Include="Queries\Extend\INLeadQueries.cs" />
@@ -283,11 +293,13 @@
     <Compile Include="Queries\INGiftOptionQueries.cs" />
     <Compile Include="Queries\INGiftRedeemQueries.cs" />
     <Compile Include="Queries\INImportCallMonitoringQueries.cs" />
+    <Compile Include="Queries\INImportContactTracingQueries.cs" />
     <Compile Include="Queries\INImportedPolicyDataQueries.cs" />
     <Compile Include="Queries\INImportExtraQueries.cs" />
     <Compile Include="Queries\INImportHeaderQueries.cs" />
     <Compile Include="Queries\INImportLatentLeadReasonQueries.cs" />
     <Compile Include="Queries\INImportMiningQueries.cs" />
+    <Compile Include="Queries\INMySuccessAgentDetailsQueries.cs" />
     <Compile Include="Queries\INMySuccessCampaignDetailsQueries.cs" />
     <Compile Include="Queries\INPermissionLeadQueries.cs" />
     <Compile Include="Queries\INImportNoteQueries.cs" />

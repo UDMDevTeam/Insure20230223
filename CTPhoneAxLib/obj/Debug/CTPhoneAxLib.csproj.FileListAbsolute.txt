@@ -7,7 +7,7 @@ C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Debug\CTPhoneAxLib.dll
 C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Debug\CTPhoneAxLib.pdb
 C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Debug\AxInterop.CTPhone_ActiveXControl.dll
 C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\bin\Debug\stdole.dll
-C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Debug\CTPhoneAxLib.csprojAssemblyReference.cache
+C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Debug\CTPhoneAxLib.csproj.AssemblyReference.cache
 C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Debug\CTPhoneAxLib.csproj.ResolveComReference.cache
 C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Debug\CTPhoneAxLib.CTPhoneAxControl.resources
 C:\Users\TyronR\Desktop\Source\udminsure\CTPhoneAxLib\obj\Debug\CTPhoneAxLib.csproj.GenerateResource.cache

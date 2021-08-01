@@ -45,6 +45,8 @@ namespace UDM.Insurance.Interface.Screens
 
         private bool CancerBaseBool;
         private bool MaccBaseBool;
+        private bool MaccMillBaseBool;
+
 
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
         private int _timer1;
@@ -158,6 +160,10 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     _campaignIDList = 103;
                 }
+                else
+                {
+                    _campaignIDList = 105;
+                }
 
 
                 #region Get the report data
@@ -166,9 +172,14 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     dsDiaryReportData = Business.Insure.INGetPermissionLeadMaccReportData(_campaignIDList, _endDate, _startDate);
                 }
-                else
+                else if(CancerBaseBool == true)
                 {
                     dsDiaryReportData = Business.Insure.INGetPermissionLeadReportData(_campaignIDList, _endDate, _startDate);
+                }
+                else
+                {
+                    dsDiaryReportData = Business.Insure.INGetPermissionLeadMaccMillReportData(_campaignIDList, _endDate, _startDate);
+
                 }
                 DataTable dtSalesData = dsDiaryReportData.Tables[0];
 
@@ -319,8 +330,6 @@ namespace UDM.Insurance.Interface.Screens
             EnableDisableExportButton();
         }
 
-        #endregion
-
         private void CancerCB_Unchecked(object sender, RoutedEventArgs e)
         {
 
@@ -329,13 +338,17 @@ namespace UDM.Insurance.Interface.Screens
         private void CancerCB_Checked(object sender, RoutedEventArgs e)
         {
             MaccCB.IsChecked = false;
+            MaccMillCB.IsChecked = false;
             CancerBaseBool = true;
+            MaccMillBaseBool = false;
             MaccBaseBool = false;
         }
 
         private void MaccCB_Checked(object sender, RoutedEventArgs e)
         {
+            MaccMillCB.IsChecked = false;
             CancerCB.IsChecked = false;
+            MaccMillBaseBool = false;
             CancerBaseBool = false;
             MaccBaseBool = true;
         }
@@ -344,5 +357,18 @@ namespace UDM.Insurance.Interface.Screens
         {
 
         }
+
+        private void MaccMillCB_Checked(object sender, RoutedEventArgs e)
+        {
+            MaccCB.IsChecked = false;
+            MaccCB.IsChecked = false;
+            CancerBaseBool = false;
+            MaccBaseBool = false;
+            MaccMillBaseBool = true;
+
+        }
+        #endregion
+
+
     }
 }

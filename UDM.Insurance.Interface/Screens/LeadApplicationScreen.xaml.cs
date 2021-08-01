@@ -40,6 +40,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Windows.Media.Imaging;
 using System.Collections.Specialized;
+using System.Transactions;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -1714,12 +1715,27 @@ namespace UDM.Insurance.Interface.Screens
                 if (!LaData.AppData.IsLeadUpgrade) CalculateCost(false);
                 LaData.AppData.IsLeadLoaded = true;
 
+                //||
+                //    LaData.AppData.CampaignID == 6 ||
+                //    LaData.AppData.CampaignID == 105 THIS IS FOR MACC MILL
+
                 #region lead Permission Navigation
-                if (LaData.AppData.CampaignID == 102 || LaData.AppData.CampaignID == 2 || LaData.AppData.CampaignID == 103 || LaData.AppData.CampaignID == 250)
+                if (LaData.AppData.CampaignID == 102 ||
+                    LaData.AppData.CampaignID == 2 ||
+                    LaData.AppData.CampaignID == 103 ||
+                    LaData.AppData.CampaignID == 250 )
                 {
                     btnPermissionLead.Visibility = Visibility.Visible;
-                    chkLeadPermission.Visibility = Visibility.Visible;
-                    LblLeadPermission.Visibility = Visibility.Visible;
+                    if(LaData.AppData.CampaignID == 6 || LaData.AppData.CampaignID == 105)
+                    {
+
+                    }
+                    else
+                    {
+                        chkLeadPermission.Visibility = Visibility.Visible;
+                        LblLeadPermission.Visibility = Visibility.Visible;
+                    }
+
 
                     try
                     {
@@ -2422,7 +2438,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-                Database.BeginTransaction(null, IsolationLevel.Snapshot);
+                Database.BeginTransaction(null, System.Data.IsolationLevel.Snapshot);
 
                 #region Import
                 if (LaData.AppData.ImportID.HasValue)
@@ -2522,36 +2538,113 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else
                         {
+
+                            long? ID = null;
+                            DataTable dtIsloaded;
+                            long IDReal;
+                            try
+                            {
+                                string strQueryIsLoaded;
+                                strQueryIsLoaded = "SELECT top 1 ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID; ;
+                                dtIsloaded = Methods.GetTableData(strQueryIsLoaded);
+                                ID = dtIsloaded.Rows[0]["ID"] as long?;
+                                IDReal = long.Parse(ID.ToString());
+                            }
+                            catch
+                            {
+                                IDReal = 0;
+                                dtIsloaded = null;
+                            }
+
                             string strQuerySavedBy;
                             strQuerySavedBy = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
-
                             DataTable dtPermissionSavedByIsloaded = Methods.GetTableData(strQuerySavedBy);
 
                             string strQueryDateSaved;
                             strQueryDateSaved = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
-
                             DataTable dtPermissiondateSavedIsloaded = Methods.GetTableData(strQueryDateSaved);
 
-                            INPermissionLead inpermissionlead = new INPermissionLead();
-                            inpermissionlead.FKINImportID = LaData.AppData.ImportID;
-                            try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch { inpermissionlead.Title = " "; }
-                            try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch { inpermissionlead.Firstname = " "; } // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222495313/comments
-                            try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { inpermissionlead.Surname = " "; }
-                            try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { inpermissionlead.Cellnumber = " "; }
-                            try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { inpermissionlead.AltNumber = " "; }
-                            try { inpermissionlead.DateOfBirth = Convert.ToDateTime(dteBeneficiaryDateOfBirth2); } catch { inpermissionlead.DateOfBirth = null; }
-
-                            if (dtPermissionSavedByIsloaded.Rows.Count == 0)
+                            if (dtIsloaded == null)
                             {
-                                try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { inpermissionlead.SavedBy = " "; }
+                                string dateString = "";
+                                DateTime resultingDate;
+                                try
+                                {
+                                    dateString = dteLA2DateOfBirth.Text;
+                                    var fr = new System.Globalization.CultureInfo("fr-FR");
+                                    resultingDate = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
+                                }
+                                catch
+                                {
+                                    resultingDate = DateTime.Parse("0000/00/00");
+                                }
+
+                                INPermissionLead inpermissionlead = new INPermissionLead();
+                                try { inpermissionlead.FKINImportID = LaData.AppData.ImportID; } catch { }
+                                try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch { }
+                                try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch { }
+                                try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { }
+                                try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { }
+                                try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { }
+
+                                    try { inpermissionlead.DateOfBirth = resultingDate; } catch { }
+                                
+                                if (dtPermissionSavedByIsloaded.Rows.Count == 0)
+                                {
+                                    try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { }
+                                }
+                                    if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                                    {
+                                        try { inpermissionlead.DateSaved = DateTime.Now; } catch { }
+                                    }
+                                
+                                inpermissionlead.Save(_validationResult);
+
+                                ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission successfully saved.\n", "Save Result", ShowMessageType.Information);
                             }
-                            if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                            else
                             {
-                                try { inpermissionlead.DateSaved = DateTime.Now; } catch { inpermissionlead.DateSaved = null; }
-                                try { inpermissionlead.DateOfBirth = DateTime.Now; } catch { inpermissionlead.DateOfBirth = null; }
+                                string dateString = "";
+                                DateTime resultingDate;
+                                try
+                                {
+                                    dateString = dteLA2DateOfBirth.Text;
+                                    var fr = new System.Globalization.CultureInfo("fr-FR");
+                                    resultingDate = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
+                                }
+                                catch
+                                {
+                                    resultingDate = DateTime.Parse("0000/00/00");
+                                }
+
+
+                                INPermissionLead inpermissionlead = new INPermissionLead(IDReal);
+                                try { inpermissionlead.FKINImportID = LaData.AppData.ImportID; } catch { }
+                                try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch {  }
+                                try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch {  }
+                                try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { }
+                                try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { }
+                                try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch {}
+
+
+                                    try { inpermissionlead.DateOfBirth = resultingDate; } catch { }
+                                
+                                if (dtPermissionSavedByIsloaded.Rows.Count == 0)
+                                {
+                                    try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch {  }
+                                }
+
+                                    if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                                    {
+                                        try { inpermissionlead.DateSaved = DateTime.Now; } catch { }
+                                    }
+                                
+                                inpermissionlead.Save(_validationResult);
+
+                                //ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission successfully saved.\n", "Save Result", ShowMessageType.Information);
                             }
 
-                            inpermissionlead.Save(_validationResult);
+
                         }
                     }
                 }
@@ -13732,7 +13825,17 @@ namespace UDM.Insurance.Interface.Screens
                     wb.Headers.Add("Authorization", "Bearer " + token);
 
                     var response = wb.UploadValues(submitMandate_url, "POST", data);
-                    string responseInString = Encoding.UTF8.GetString(response);
+                    string responseInString;
+
+                    try
+                    {
+                        responseInString = Encoding.UTF8.GetString(response);
+                    }
+                    catch
+                    {
+                        responseInString = null;
+                    }
+
                     var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
 
                     MandateRequestID = (string)customObject["MandateRequestID"];
@@ -13742,7 +13845,7 @@ namespace UDM.Insurance.Interface.Screens
                     SubmittingBankResponseStatusCode = (string)customObject["SubmittingBankResponseStatusCode"];
                 }
             }
-            catch
+            catch(Exception q)
             {
                 MandateStatusCode = null;
                 ClientResponseStatus = null;
@@ -13770,6 +13873,7 @@ namespace UDM.Insurance.Interface.Screens
                 DebiCheckSentData.SubmissionDate = DateTime.Now;
                 DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
                 DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+
 
                 DebiCheckSentData.Save(_validationResult);
             }
@@ -13925,65 +14029,25 @@ namespace UDM.Insurance.Interface.Screens
         public void GetMandateInfo()
         {
 
-            StringBuilder strQuery = new StringBuilder();
-            strQuery.Append("SELECT TOP 2 SMSBody as [Response], SubmissionDate  ");
-            strQuery.Append("FROM DebiCheckSent ");
-            strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-            strQuery.Append(" ORDER BY ID DESC");
-            DataTable dt = Methods.GetTableData(strQuery.ToString());
+            //StringBuilder strQuery = new StringBuilder();
+            //strQuery.Append("SELECT TOP 1 [MandateRequestStatus] [Response] , [CreatedDate]  ");
+            //strQuery.Append("FROM [41.170.75.25].[MR_DC].[PLUDM].[MandateRequestsView] ");
+            //strQuery.Append("WHERE [ReferenceNumber] COLLATE Latin1_General_CI_AS = " + LaData.AppData.RefNo);
+            //strQuery.Append(" ORDER BY [CreatedDate] DESC");
+            //DataTable dt = Methods.GetTableData(strQuery.ToString());
+            DataSet dsDiaryReportData = null;
 
             try
             {
-                string responses = dt.Rows[0]["Response"].ToString();
-                string datetime = dt.Rows[0]["SubmissionDate"].ToString();
 
-                if (responses.Contains("1"))
+                var transactionOptions = new TransactionOptions
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() => { Mandate1TB.Text = "Record Created " + datetime; }));                    
-                }
-                else if (responses.Contains("2"))
-                {
-                    Mandate1TB.Text = "Record Submitted " + datetime;
-                }
-                else if (responses.Contains("3"))
-                {
-                    Mandate1TB.Text = "Results Received " + datetime;
-                }
-                else if (responses.Contains("4"))
-                {
-                    Mandate1TB.Text = "Bank Returned Authentication Failure " + datetime;
-                }
-                else if (responses.Contains("5"))
-                {
-                    Mandate1TB.Text = "Bank Returned Error With File Submitted " + datetime;
-                }
-                else if (responses.Contains("6"))
-                {
-                    Mandate1TB.Text = "Mandate Approved " + datetime;
-                }
-                else if (responses.Contains("7"))
-                {
-                    Mandate1TB.Text = "Client Rejected " + datetime;
-                }
-                else if (responses.Contains("8"))
-                {
-                    Mandate1TB.Text = "No Response " + datetime;
-                }
-                else if (responses.Contains("9"))
-                {
-                    Mandate1TB.Text = "Timeout on Submission " + datetime;
-                }
-                else if (responses.Contains("10"))
-                {
-                    Mandate1TB.Text = "File delivered to XCOM for processing " + datetime;
-                }
-                else if (responses.Contains(""))
-                {
-                    Mandate1TB.Text = "Sent " + datetime;
-                }
-                else
-                {
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                };
 
+                using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                {
+                    dsDiaryReportData = Business.Insure.INGetMandateInfo(LaData.AppData.RefNo);
                 }
             }
             catch
@@ -13994,55 +14058,31 @@ namespace UDM.Insurance.Interface.Screens
 
             try
             {
+                DataTable dt = dsDiaryReportData.Tables[0];
+                try
+                {
+                    string responses = dt.Rows[0]["Response"].ToString();
+                    string datetime = dt.Rows[0]["CreatedDate"].ToString();
 
-                string responses2 = dt.Rows[1]["Response"].ToString();
-                string datetime = dt.Rows[1]["SubmissionDate"].ToString();
-                
-                if (responses2.Contains("1"))
-                {
-                    Mandate2TB.Text = "Record Created " + datetime;
+
+                    Mandate1TB.Text = responses + " " + datetime;
+
+
                 }
-                else if (responses2.Contains("2"))
+                catch
                 {
-                    Mandate2TB.Text = "Record Submitted " + datetime;
+
                 }
-                else if (responses2.Contains("3"))
+
+
+                try
                 {
-                    Mandate2TB.Text = "Results Received " + datetime;
+                    string responses2 = dt.Rows[1]["Response"].ToString();
+                    string datetime = dt.Rows[1]["CreatedDate"].ToString();
+
+                    Mandate2TB.Text = responses2 + " " + datetime;
                 }
-                else if (responses2.Contains("4"))
-                {
-                    Mandate2TB.Text = "Bank Returned Authentication Failure " + datetime;
-                }
-                else if (responses2.Contains("5"))
-                {
-                    Mandate2TB.Text = "Bank Returned Error With File Submitted " + datetime;
-                }
-                else if (responses2.Contains("6"))
-                {
-                    Mandate2TB.Text = "Mandate Approved " + datetime;
-                }
-                else if (responses2.Contains("7"))
-                {
-                    Mandate2TB.Text = "Client Rejected " + datetime;
-                }
-                else if (responses2.Contains("8"))
-                {
-                    Mandate2TB.Text = "No Response " + datetime;
-                }
-                else if (responses2.Contains("9"))
-                {
-                    Mandate2TB.Text = "Timeout on Submission " + datetime;
-                }
-                else if (responses2.Contains("10"))
-                {
-                    Mandate2TB.Text = "File delivered to XCOM for processing " + datetime;
-                }
-                else if (responses2.Contains(""))
-                {
-                    Mandate2TB.Text = "Sent " + datetime;
-                }
-                else
+                catch
                 {
 
                 }
@@ -14051,6 +14091,8 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
+
+
 
         }
 
@@ -14354,6 +14396,11 @@ namespace UDM.Insurance.Interface.Screens
             {
                 DebiCheckBorder.BorderBrush = Brushes.White;
 
+            }
+            //thia is for Janelle Naidoo and Gizelle Frazer to try boost the Accepted rates
+            if(GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181)
+            {
+                btnDebiCheck.IsEnabled = true;
             }
 
 
