@@ -953,5 +953,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnDebiCheckTrackingTSRReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportDebiCheckTrackingTSR reportDebiCheckTracker = new ReportDebiCheckTrackingTSR();
+                ShowDialog(reportDebiCheckTracker, new INDialogWindow(reportDebiCheckTracker));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
