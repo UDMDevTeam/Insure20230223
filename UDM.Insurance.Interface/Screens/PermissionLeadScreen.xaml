@@ -6,7 +6,7 @@
     xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
-    Width="744"
+    Width="1002"
     Height="476"
     Margin="0"
     Loaded="BaseControl_Loaded"
@@ -18,17 +18,18 @@
             <Setter Property="FontFamily" Value="/UDM.Blush.Interface;component/Fonts/#Century Gothic" />
         </Style>
 
+
     </src:BaseControl.Resources>
 
     <Canvas
         x:Name="LayoutRoot"
-        Margin="0,0,165,10"
+        Margin="0,0,10,10"
         Background="{x:Null}"
         FocusManager.FocusedElement="{Binding ElementName=medReference}">
         <Rectangle
             x:Name="BGRectangle"
             Canvas.Left="1"
-            Width="701"
+            Width="981"
             Height="466"
             Margin="0"
             RadiusX="15"
@@ -42,8 +43,8 @@
         </Rectangle>
         <Button
             x:Name="buttonClose"
-            Canvas.Left="660"
-            Canvas.Top="36"
+            Canvas.Left="925"
+            Canvas.Top="30"
             Margin="0"
             Click="buttonClose_Click"
             Style="{DynamicResource INCloseButton}"
@@ -52,10 +53,10 @@
         <Viewbox
             x:Name="Body"
             Canvas.Top="10"
-            Width="723"
+            Width="982"
             Height="456"
             Visibility="Visible">
-            <Grid Width="1177" Height="750">
+            <Grid Width="1468" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -98,14 +99,12 @@
                 <Border
                     Grid.Row="2"
                     Grid.RowSpan="10"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="16"
+                    Grid.ColumnSpan="12"
                     Canvas.Left="1"
-                    Margin="0,0,29,0"
                     Background="Black"
                     BorderBrush="LightBlue"
                     BorderThickness="2"
-                    CornerRadius="10" />
+                    CornerRadius="10" Margin="76.5,0,0,0" Grid.Column="3" />
 
                 <TextBlock
                     x:Name="headingLeadDetails"
@@ -122,10 +121,11 @@
                 <TextBlock
                     x:Name="lblTitle"
                     Grid.Row="3"
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
-                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Style="{StaticResource INLabelText2}"
                     Text="Title" />
@@ -147,10 +147,11 @@
                 <TextBlock
                     x:Name="lblFirstName"
                     Grid.Row="4"
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
-                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Style="{StaticResource INLabelText2}"
                     Text="First Name" />
@@ -168,10 +169,11 @@
                 <TextBlock
                     x:Name="lblSurname"
                     Grid.Row="5"
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
-                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Style="{StaticResource INLabelText2}"
                     Text="Surname" />
@@ -190,10 +192,11 @@
                 <TextBlock
                     x:Name="lblDateOfBirth"
                     Grid.Row="6"
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
-                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Style="{StaticResource INLabelText2}"
                     Text="Date Of Birth" />
@@ -215,11 +218,12 @@
                 <TextBlock
                     x:Name="lblCellphone"
                     Grid.Row="7"
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
+                    FontSize="20"
                     Style="{StaticResource INLabelText2}"
                     Text="Cell Number" />
 
@@ -228,21 +232,25 @@
                     Grid.Row="7"
                     Grid.Column="6"
                     Grid.ColumnSpan="8"
-                    Margin="60,9,2,9"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     FontSize="15"
                     PromptChar=""
-                    Style="{StaticResource medINLA}" />
+                    
+                    MouseDoubleClick="medCellPhone_MouseEnter"
+                    Margin="73.5,1.5,3.5,2" 
+                    Style="{StaticResource medINLA}"/>
+
 
                 <TextBlock
                     x:Name="lblCAltphone"
                     Grid.Row="8"
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
+                    FontSize="20"
                     Style="{StaticResource INLabelText2}"
                     Text="Alt. Number" />
 
@@ -255,12 +263,36 @@
                     VerticalAlignment="Center"
                     FontSize="15"
                     PromptChar=""
-                    Style="{StaticResource medINLA}" />
+                    MouseDoubleClick="medAltPhone_MouseEnter"
+                    Style="{StaticResource medINLA}"
+                     />
 
 
                 <TextBlock
-                    x:Name="lblDatePicker"
+                    x:Name="lblOccupation"
                     Grid.Row="9"
+                    Grid.Column="5"
+                    Grid.ColumnSpan="3"
+                    Margin="0,6,8,0"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Occupation" />
+                <igWPF:XamMaskedEditor
+                    x:Name="medOccupation"
+                    Grid.Row="9"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    PromptChar=""
+                    Style="{StaticResource medINLA}" />
+
+                <TextBlock
+                    x:Name="lblDatePicker"
+                    Grid.Row="10"
                     Grid.Column="3"
                     Grid.ColumnSpan="3"
                     Margin="0,6,8,0"
@@ -272,7 +304,7 @@
 
                 <DatePicker
                     x:Name="DateSavedDP"
-                    Grid.Row="9"
+                    Grid.Row="10"
                     Grid.Column="7"
                     Grid.ColumnSpan="5"
                     Width="223"
@@ -286,13 +318,12 @@
 
                 <Button
                     x:Name="btnSave"
-                    Grid.Row="10"
-                    Grid.RowSpan="2"
-                    Grid.Column="7"
-                    Grid.ColumnSpan="7"
-                    Width="403"
-                    Height="68"
-                    Margin="0,1,31,68"
+                    Grid.Row="12"
+                    Grid.Column="16"
+                    Grid.ColumnSpan="4"
+                    Width="135"
+                    Height="33"
+                    Margin="10.5,10,9,10.5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="LightBlue"
@@ -305,6 +336,269 @@
                         </Style>
                     </Button.Resources>
                 </Button>
+
+                <Border x:Name="KeypadBorder"
+                        Grid.Row="4"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="4"
+                        Grid.RowSpan="5"
+                        Background="Black"
+                        BorderBrush="LightBlue"
+                        BorderThickness="2"
+                        CornerRadius="10"
+                        Visibility="Collapsed" Margin="77,0.5,0,0">
+                </Border>
+                <Button x:Name="CloseKeypadbtn"
+                        Grid.Column="17"
+                        Grid.Row="4"
+                        Content="Close"
+                        Margin="5"
+                        Background="White"
+                        Click="CloseKeypadbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Onebtn"
+                        Grid.Column="16"
+                        Grid.Row="5"
+                        Content="1"
+                        Margin="5"
+                        FontSize="20"
+                        Background="White"
+                        Click="Onebtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Twobtn"
+                        Grid.Column="17"
+                        Grid.Row="5"
+                        Content="2"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Twobtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Threebtn"
+                        Grid.Column="18"
+                        Grid.Row="5"
+                        Content="3"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Threebtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Fourbtn"
+                        Grid.Column="16"
+                        Grid.Row="6"
+                        Content="4"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Fourbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Fivebtn"
+                        Grid.Column="17"
+                        Grid.Row="6"
+                        Content="5"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Fivebtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Sixbtn"
+                        Grid.Column="18"
+                        Grid.Row="6"
+                        Content="6"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Sixbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Sevenbtn"
+                        Grid.Column="16"
+                        Grid.Row="7"
+                        Content="7"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Sevenbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Eightbtn"
+                        Grid.Column="17"
+                        Grid.Row="7"
+                        Content="8"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Eightbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Ninebtn"
+                        Grid.Column="18"
+                        Grid.Row="7"
+                        Content="9"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Ninebtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Zerobtn"
+                        Grid.Column="17"
+                        Grid.Row="8"
+                        Content="0"
+                        Margin="5"
+                        FontSize="20"  
+                        Background="White"
+                        Click="Zerobtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Enterbtn"
+                        Grid.Column="18"
+                        Grid.Row="8"
+                        Content="Delete"
+                        Margin="5"
+                        Background="White"
+                        Click="Enterbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="Cancelbtn"
+                        Grid.Column="16"
+                        Grid.Row="8"
+                        Content="Clear"
+                        Margin="5"
+                        Background="White"
+                        Click="Cancelbtn_Click"
+                        Visibility="Collapsed"
+                        >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Grid.RowSpan="1"
+                    Content="A C T I V A T E  K E Y P A D"
+                    Foreground="White"
+                    FontSize="15"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center">
+                </Label>
+
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Grid.RowSpan="1"
+                    Text="- Double click on the Cell Number field or Alt. number field"
+                    Foreground="White"
+                    FontSize="15"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    TextWrapping="WrapWithOverflow"
+                    Margin="5"
+                    >
+
+                </TextBlock>
+
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Grid.RowSpan="1"
+                    Text="- Double click on the field to add the digits to that specific field"
+                    Foreground="White"
+                    FontSize="15"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    TextWrapping="WrapWithOverflow"
+                    Margin="5"
+                    >
+
+                </TextBlock>
 
 
 

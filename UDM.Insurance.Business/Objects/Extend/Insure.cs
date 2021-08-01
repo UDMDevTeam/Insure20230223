@@ -1438,6 +1438,24 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportPermissionLead", paramArray, 600);
         }
 
+        public static DataSet INGetPermissionLeadMaccMillReportData(int? fkINCampaignIDs, DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
+            object param2 = Database.GetParameter("@FromDate", fromDate);
+            object param3 = Database.GetParameter("@ToDate", toDate);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportPermissionLeadMaccMill", paramArray, 600);
+        }
+
         public static DataSet INGetPermissionLeadMaccReportData(int? fkINCampaignIDs, DateTime fromDate, DateTime toDate)
         {
             //SqlParameter[] parameters = new SqlParameter[3];
@@ -1456,6 +1474,8 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportPermissionLeadMacc", paramArray, 600);
         }
         #endregion
+
+
 
         #region Debi-Check Report
         public static DataSet INGetDebiCheckPL(DateTime fromDate, DateTime toDate)
@@ -1493,6 +1513,42 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckPLCustom", paramArray, 600);
         }
 
+        public static DataSet INGetDebiChecKTrackingTSR(DateTime fromDate, DateTime toDate, long? userID)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", toDate);
+            object param2 = Database.GetParameter("@DateTo", fromDate);
+            object param3 = Database.GetParameter("@FKUserID", userID);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTrackingByTSR", paramArray, 600);
+        }
+
+        public static DataSet INGetDebiChecKTrackingTSRAgents(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", toDate);
+            object param2 = Database.GetParameter("@DateTo", fromDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetDebiCheckTrackingByTSR", paramArray, 600);
+        }
+
+
         #endregion
 
         #region DebiCheck Tracking Report
@@ -1512,6 +1568,24 @@ namespace UDM.Insurance.Business
             object[] paramArray = new[] { param1, param2 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTracking", paramArray, 600);
+        }
+        #endregion
+
+        #region GetMandateInfo
+        public static DataSet INGetMandateInfo(string RefNo)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@RefNo", @RefNo);
+
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetMandateInfo", paramArray, 600);
         }
         #endregion
 

@@ -23,6 +23,7 @@ namespace UDM.Insurance.Business
         private string _savedby = null;
         private DateTime? _datesaved = null;
         private DateTime? _dateofbirth = null;
+        private string _occupation = null;
         bool LoadedIS;
         #endregion
 
@@ -206,6 +207,24 @@ namespace UDM.Insurance.Business
                 }
             }
         }
+
+        public string Occupation
+        {
+            get
+            {
+                Fill();
+                return _occupation;
+            }
+            set
+            {
+                Fill();
+                if (value != _occupation)
+                {
+                    _occupation = value;
+                    _hasChanged = true;
+                }
+            }
+        }
         #endregion
 
         #region Override Methods
@@ -277,7 +296,7 @@ namespace UDM.Insurance.Business
             xml.Append("<surname>" + Surname.ToString() + "</surname>");
             xml.Append("<cellnumber>" + Cellnumber.ToString() + "</note>");
             xml.Append("<altnumber>" + AltNumber.ToString() + "</altnumber>");
-            xml.Append("</inimportnote>");
+            xml.Append("</inpermissionlead>");
             return xml.ToString();
         }
         #endregion
@@ -292,7 +311,7 @@ namespace UDM.Insurance.Business
         /// <param name="note"></param>
         /// <param name="sequence"></param>
         /// <returns>A Validation Result object with the result of the fill opertation.</returns>
-        public ValidationResult Fill(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber)
+        public ValidationResult Fill(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, DateTime? dateofbirth, string occupation)
         {
             ValidationResult result = new ValidationResult();
 
@@ -304,6 +323,8 @@ namespace UDM.Insurance.Business
                 this.Surname = surname;
                 this.Cellnumber = cellnumber;
                 this.AltNumber = altnumber;
+                this.DateOfBirth = dateofbirth;
+                this.Occupation = occupation;
             }
             catch (Exception ex)
             {

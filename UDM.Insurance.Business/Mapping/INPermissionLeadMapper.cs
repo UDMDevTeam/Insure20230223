@@ -98,7 +98,7 @@ namespace UDM.Insurance.Business.Mapping
                 if (reader["ID"] != DBNull.Value)
                 {
                     inpermissionlead.IsLoaded = true;
-                    inpermissionlead.FKINImportID = reader["FKINImportID"] != DBNull.Value ? (long)reader["FKINImportID"] : (long?)null;
+                    inpermissionlead.FKINImportID = reader["FKImportID"] != DBNull.Value ? (long)reader["FKImportID"] : (long?)null;
                     inpermissionlead.Title = reader["Title"] != DBNull.Value ? (string)reader["Title"] : (string)null;
                     inpermissionlead.Firstname = reader["Firstname"] != DBNull.Value ? (string)reader["Firstname"] : (string)null;
                     inpermissionlead.Surname = reader["Surname"] != DBNull.Value ? (string)reader["Surname"] : (string)null;
@@ -107,6 +107,7 @@ namespace UDM.Insurance.Business.Mapping
                     inpermissionlead.SavedBy = reader["SavedBy"] != DBNull.Value ? (string)reader["SavedBy"] : (string)null;
                     inpermissionlead.DateSaved = reader["DateSaved"] != DBNull.Value ? (DateTime?)reader["DateSaved"] : (DateTime?)null;
                     inpermissionlead.DateOfBirth = reader["DateOfBirth"] != DBNull.Value ? (DateTime?)reader["DateOfBirth"] : (DateTime?)null;
+                    inpermissionlead.Occupation = reader["Occupation"] != DBNull.Value ? (string)reader["Occupation"] : (string)null;
                     inpermissionlead.StampDate = (DateTime)reader["StampDate"];
                     inpermissionlead.HasChanged = false;
                 }
@@ -117,7 +118,9 @@ namespace UDM.Insurance.Business.Mapping
             }
             catch (Exception ex)
             {
-                throw new MapperException("Failed to populate a INPermissionLead object from the database", ex);
+                //throw new MapperException("Failed to populate a INPermissionLead object from the database", ex);
+                throw new MapperException("Break 1", ex);
+
             }
         }
 
@@ -143,7 +146,9 @@ namespace UDM.Insurance.Business.Mapping
             }
             catch (Exception ex)
             {
-                throw new MapperException("Failed to populate a INPermissionLead object from the database", ex);
+                //throw new MapperException("Failed to populate a INPermissionLead object from the database", ex);
+                throw new MapperException("Break 2", ex);
+
             }
         }
 
@@ -189,7 +194,9 @@ namespace UDM.Insurance.Business.Mapping
             }
             catch (Exception ex)
             {
-                throw new MapperException("Failed to populate a INPermissionLead object from the database", ex);
+                //throw new MapperException("Failed to populate a INPermissionLead object from the database", ex);
+                throw new MapperException("Break 3", ex);
+
             }
         }
         #endregion
@@ -251,7 +258,7 @@ namespace UDM.Insurance.Business.Mapping
         /// <returns>A data set containing the results of the query.</returns>
         public static DataSet ListHistory(INPermissionLead inpermissionlead)
         {
-            INImportNoteCollection collection = new INImportNoteCollection();
+            INPermissionLeadCollection collection = new INPermissionLeadCollection();
             try
             {
                 object[] parameters = null;
@@ -319,12 +326,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="sequence">The sequence search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INPermissionLeadCollection Search(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth, string connectionName)
+        public static INPermissionLeadCollection Search(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth, string occupation, string connectionName)
         {
             INPermissionLeadCollection collection = new INPermissionLeadCollection();
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved, dateofbirth), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved, dateofbirth, occupation), null);
                 while (reader.Read())
                 {
                     INPermissionLead inpermissionlead = new INPermissionLead((long)reader["ID"]);
@@ -354,11 +361,11 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="sequence">The sequence search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A data set containing the results of the search.</returns>
-        public static DataSet SearchData(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth, string connectionName)
+        public static DataSet SearchData(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth, string occupation, string connectionName)
         {
             try
             {
-                return Database.ExecuteDataSet(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby,datesaved, dateofbirth), null);
+                return Database.ExecuteDataSet(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby,datesaved, dateofbirth, occupation), null);
             }
             catch (Exception ex)
             {
@@ -376,12 +383,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="sequence">The sequence search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INPermissionLead SearchOne(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth,  string connectionName)
+        public static INPermissionLead SearchOne(long? fkinimportid, string title, string firstname, string surname, string cellnumber, string altnumber, string savedby, DateTime? datesaved, DateTime? dateofbirth,  string occupation, string connectionName)
         {
             INPermissionLead inpermissionlead = null;
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved, dateofbirth), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INPermissionLeadQueries.Search(fkinimportid, title, firstname, surname, cellnumber, altnumber, savedby, datesaved, dateofbirth, occupation), null);
                 if (reader.Read())
                 {
                     inpermissionlead = new INPermissionLead((long)reader["ID"]);
