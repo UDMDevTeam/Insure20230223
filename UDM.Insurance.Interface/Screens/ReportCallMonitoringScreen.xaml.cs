@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using UDM.Insurance.Interface.Windows;
 using UDM.WPF.Library;
 using UDM.Insurance.Business;
+using System.Transactions;
 //using System.Text.RegularExpressions;
 
 namespace UDM.Insurance.Interface.Screens
@@ -94,7 +95,7 @@ namespace UDM.Insurance.Interface.Screens
         private void LoadCallMonitoringQueryLookups()
         {
             dtCallMonitoringQueryLookups = Insure.INGetReportCallMonitoringQueryScreenLookups();
-            
+
             LoadStaffTypes();
         }
 
@@ -163,6 +164,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private void Report(object sender, DoWorkEventArgs e)
         {
+
             try
             {
                 SetCursor(Cursors.Wait);
@@ -177,33 +179,48 @@ namespace UDM.Insurance.Interface.Screens
                 Workbook wbConfirmedSalesReportTemplate = Methods.DefineTemplateWorkbook("/Templates/ReportTemplateCallMonitoring.xlsx");
                 Workbook wbConfirmedSalesReport = new Workbook(WorkbookFormat.Excel2007);
 
+
+
                 #endregion Setup excel documents
 
                 #region Get the data
                 try
                 {
+                    DataSet dsCallMonitoringReportData = null;
 
-                DataSet dsCallMonitoringReportData = Business.Insure.INReportCallMonitoring(_fromDate, _toDate, _staffType);
-
-                if (dsCallMonitoringReportData.Tables[1].Rows.Count == 0)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                    var transactionOptions = new TransactionOptions
                     {
-                        ShowMessageBox(new INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", ShowMessageType.Information);
-                    });
+                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    };
 
-                    return;
-                }
-                
-                #endregion Get the data
+                    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                    {
+                        dsCallMonitoringReportData = Business.Insure.INReportCallMonitoring(_fromDate, _toDate, _staffType);
+                    }
 
-                #region Insert the various report sheets
 
-                InsertCallMonitoringReportSheets(wbConfirmedSalesReportTemplate, wbConfirmedSalesReport, dsCallMonitoringReportData);
+
+                    if (dsCallMonitoringReportData.Tables[1].Rows.Count == 0)
+                    {
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                        {
+                            ShowMessageBox(new INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", ShowMessageType.Information);
+                        });
+                        return;
+
+                    }
+
+
+                    #endregion Get the data
+
+                    #region Insert the various report sheets
+
+                    InsertCallMonitoringReportSheets(wbConfirmedSalesReportTemplate, wbConfirmedSalesReport, dsCallMonitoringReportData);
                 }
                 catch (Exception ex)
                 {
-                   // HandleException(ex);
+                    return;
+                    //  HandleException(ex);
                 }
 
                 #endregion Insert the various report sheets
@@ -220,11 +237,16 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                    //emptyDataTableCount++;
+
+                    //return;
+                    ////ex.Message = Error filling data set with data adapter
+                    ////InnerException = {"Remote access is not supported for transaction isolation level \"SNAPSHOT\"."}
+
                     Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
                         ShowMessageBox(new INMessageBoxWindow1(), "There is no data available for the criteria you have specified. Please change some of them and try again.", "No data available", ShowMessageType.Information);
                     });
+
                 }
 
                 #endregion Finally, save and display the resulting workbook
@@ -232,6 +254,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
+
                 HandleException(ex);
             }
 
@@ -249,7 +272,7 @@ namespace UDM.Insurance.Interface.Screens
 
             //string orderByString = drCurrentSalesConsultant["OrderByString"].ToString();
             DataTable dtReportDataFiltersAndConfigs = dsReportData.Tables[0];
-           
+
             DataTable dtExcelSheetDataTableColumnMappings = dsReportData.Tables[2];
 
             #endregion Partition the given dataset
@@ -282,7 +305,7 @@ namespace UDM.Insurance.Interface.Screens
                 filterString = row["FilterString"].ToString();
                 orderByString = row["OrderByString"].ToString();
 
-                if (! String.IsNullOrEmpty(filterString))
+                if (!String.IsNullOrEmpty(filterString))
                 {
                     var filteredRows = dsReportData.Tables[1].Select(filterString, orderByString).AsEnumerable();
                     if (!filteredRows.Any())
@@ -292,7 +315,7 @@ namespace UDM.Insurance.Interface.Screens
                     else
                     {
                         dtReportData = dsReportData.Tables[1].Select(filterString, orderByString).CopyToDataTable();
-                    } 
+                    }
                 }
                 else
                 {
@@ -319,7 +342,7 @@ namespace UDM.Insurance.Interface.Screens
                 Worksheet wsReportTemplate = wbTemplate.Worksheets[templateSheetName];
                 Worksheet wsReport = wbReport.Worksheets.Add(sheetName);
                 Methods.CopyWorksheetOptionsFromTemplate(wsReportTemplate, wsReport, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, false, false);
-                
+
                 #endregion Add the worksheet
 
                 #region Populating the report details
@@ -337,7 +360,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Add the data
             }
         }
-        
+
         private void ReportCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             dispatcherTimer1.Stop();
