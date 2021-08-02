@@ -707,6 +707,8 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
+            
+            
             <!--  Line 3  -->
 
         </Storyboard>
@@ -943,7 +945,19 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
 
-            <!--  Line 3  -->
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHours" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL3X1}" />	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />	
+            </DoubleAnimationUsingKeyFrames>	
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHours" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />	
+            </DoubleAnimationUsingKeyFrames>	
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHours" Storyboard.TargetProperty="(UIElement.Opacity)">	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />	
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames> 
 
             <!--  3.1. Hours Report  -->
             <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHours"
@@ -1113,6 +1127,19 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnCustomerCareRequestsReport" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHoursConfirmation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL4X2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHoursConfirmation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnReportHoursConfirmation" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
@@ -3417,6 +3444,34 @@
                                                         x:Name="lblTrackUpgradeBasePolicies"
                                                         Style="{StaticResource INSquareButtonReportText}"
                                                         Text="Track&#x0a;Upgrade&#x0a;Base&#x0a;Policies" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+
+                                        <Button	
+                                            x:Name="btnReportHoursConfirmation"	
+                                            Margin="{StaticResource IconMargin}"	
+                                            HorizontalAlignment="Right"	
+                                            VerticalAlignment="Bottom"	
+                                            Click="btnReportHoursConfirmation_Click"	
+                                            Style="{StaticResource INMenuButton}"	
+                                            TabIndex="0"	
+                                            ToolTip="{Binding ToolTipData[29].Tip}"	
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                    <TextBlock	
+                                                        x:Name="labelReportHours"	
+                                                        Style="{StaticResource INSquareButtonReportText}"	
+                                                        Text="Call Monitoring Stats Report" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>

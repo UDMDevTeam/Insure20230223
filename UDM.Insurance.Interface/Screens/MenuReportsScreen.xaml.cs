@@ -967,5 +967,18 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnReportHoursConfirmation_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportCallMonitoringStats reportCallMonitoringStats = new ReportCallMonitoringStats();
+                ShowDialog(reportCallMonitoringStats, new INDialogWindow(reportCallMonitoringStats));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@
             Click="buttonClose_Click"
             Style="{DynamicResource INCloseButton}"
             TabIndex="3" />
-        <Viewbox x:Name="Body">
+        <Viewbox x:Name="Body" Visibility="Collapsed">
             <Grid Width="1200" Height="750">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -134,6 +134,7 @@
                             Style="{DynamicResource cmbIN}"
                             TabIndex="0" />
                     </StackPanel>
+
                     <Grid Height="20" Visibility="Collapsed" />
                     <StackPanel Orientation="Horizontal" Visibility="Collapsed">
                         <TextBlock
@@ -145,6 +146,7 @@
                             FontWeight="Bold"
                             Style="{DynamicResource INLabelText2}"
                             Text="Campaign" />
+
                         <src:EmbriantComboBox
                             x:Name="cmbCampaigns"
                             Width="320"
@@ -567,6 +569,577 @@
 
                 <Image
                     Name="imgEditMode"
+                    Grid.Row="7"
+                    Grid.RowSpan="2"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="2"
+                    Source="pack://application:,,,/Resources/pencil.png"
+                    Stretch="Fill"
+                    Visibility="Collapsed" />
+
+            </Grid>
+        </Viewbox>
+
+        <Viewbox x:Name="ConfirmationBody">
+            <Grid Width="1200" Height="750">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="headingLeadDetailsConfirmation"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="8"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource INPageHeadingText1}"
+                    Text="Capture Statistics"
+                    Visibility="Visible" />
+                <Path
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="4"
+                    Margin="0,0,36,0"
+                    Data="M372,132 L609.00475,132"
+                    Stretch="Fill"
+                    Stroke="#FFFDF9F9" />
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.RowSpan="5"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="10"
+                    Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblSelectConfirmationAgent"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Agent Name" />
+
+                        <TextBox
+                            x:Name="txtboxConfirmationAgent"
+                            Width="320"
+                            Height="30"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            IsReadOnly="True"
+                            IsUndoEnabled="False"
+                            Style="{DynamicResource INTextBoxStyle1}"
+                            Text="" />
+
+
+                        <!--<src:EmbriantComboBox
+                            x:Name="cmbConfirmationAgents"
+                            Width="320"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Normal"
+                            SelectionChanged="cmbConfirmationAgents_SelectionChanged"
+                            Style="{DynamicResource cmbIN}"
+                            TabIndex="0" />-->
+
+                    </StackPanel>
+                    <Grid Height="20" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationCampaign"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Campaign" />
+
+                        <src:EmbriantComboBox
+                            x:Name="cmbConfirmationCampaigns"
+                            Width="320"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            SelectionChanged="cmbConfirmationCampaigns_SelectionChanged"
+                            Style="{DynamicResource cmbIN}"
+                            TabIndex="0" />
+
+                    </StackPanel>
+                    <Grid Height="20" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationDate"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Date" />
+
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationDate"
+                            Width="320"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Normal"
+                            Style="{StaticResource INXamDateTimeEditorStyle1}"
+                            TabIndex="0"
+                            ValueChanged="dteConfirmationDate_ValueChanged" />
+                    </StackPanel>
+                    <Grid Height="20" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationShiftType"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Shift Type" />
+
+                        <src:EmbriantComboBox
+                            x:Name="cmbConfirmationShiftType"
+                            Width="320"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Normal"
+                            SelectionChanged="cmbConfirmationShiftType_SelectionChanged"
+                            Style="{DynamicResource cmbIN}"
+                            TabIndex="0" />
+                    </StackPanel>
+                    <Grid Height="20" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblTest"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="" />
+
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="8"
+                    Grid.RowSpan="6"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="10"
+                    Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationDescription"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Description" />
+                        <TextBlock
+                            x:Name="lblConfirmationDescriptionText"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Foreground="Gray"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Description" />
+                    </StackPanel>
+                    <Grid Height="20" />
+                    <StackPanel Orientation="Horizontal" Visibility="Visible">
+                        <TextBlock
+                            x:Name="lblConfirmationNormalShift"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18.667"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Normal Shift" />
+
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationNormalShiftStartTime"
+                            Width="100"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                        <TextBlock
+                            x:Name="lblConfirmationToNormal"
+                            Margin="20,5,20,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="to" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationNormalShiftEndTime"
+                            Width="100"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                    </StackPanel>
+                    <Grid Height="20" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationMorningShift"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Morning Overtime" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationMorningShiftStartTime"
+                            Width="100"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                        <TextBlock
+                            x:Name="lblConfirmationToMorning"
+                            Margin="20,5,20,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="to" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationMorningShiftEndTime"
+                            Width="100"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                    </StackPanel>
+                    <Grid Height="20" Visibility="Visible" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationEveningShift"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Evening Overtime" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationEveningShiftStartTime"
+                            Width="100"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                        <TextBlock
+                            x:Name="lblConfirmationToEvening"
+                            Margin="20,5,20,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="to" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationEveningShiftEndTime"
+                            Width="100"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                    </StackPanel>
+                    <Grid Height="12" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="lblConfirmationWeekend"
+                            Width="180"
+                            Margin="0,5,0,0"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Weekend / Public Holiday Overtime" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationWeekendPublicHolidayShiftStartTime"
+                            Width="100"
+                            Margin="0,8,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                        <TextBlock
+                            x:Name="lblConfirmationToWeekend"
+                            Margin="20,13,20,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="to" />
+                        <igWPF:XamDateTimeEditor
+                            x:Name="dteConfirmationWeekendPublicHolidayShiftEndTime"
+                            Width="100"
+                            Margin="0,8,0,0"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource INXamDateTimeEditorStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock
+                    x:Name="lblConfirmationEditMode"
+                    Grid.Row="9"
+                    Grid.RowSpan="2"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="5"
+                    Width="250"
+                    Height="60"
+                    Margin="0,0,0,30"
+                    VerticalAlignment="Bottom"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="You are in Edit Mode"
+                    Visibility="Collapsed" />
+
+                <Button
+                    x:Name="btnConfirmationStopEditing"
+                    Grid.Row="7"
+                    Grid.Column="16"
+                    Grid.ColumnSpan="3"
+                    Width="Auto"
+                    Height="Auto"
+                    Margin="22,1,10,13"
+                    Click="btnStopEditing_Click"
+                    Content="Stop Editing"
+                    DataContext="{Binding}"
+                    Style="{DynamicResource INFlatButton}"
+                    TabIndex="2"
+                    Visibility="Collapsed" />
+
+                <Button
+                    x:Name="btnConfirmationSave"
+                    Grid.Row="13"
+                    Grid.Column="19"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="btnConfirmationSave_Click"
+                    Content="Save"
+                    DataContext="{Binding}"
+                    Style="{DynamicResource INFlatButton}"
+                    TabIndex="2" />
+
+                <TextBlock
+                    x:Name="lblConfirmationAgent"
+                    Grid.Row="13"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="5"
+                    Width="450"
+                    Height="25"
+                    Margin="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    FontSize="18.667"
+                    Foreground="#FFDFA1B0"
+                    TextWrapping="Wrap" />
+
+                <TextBlock
+                    x:Name="lblConfirmationIsRedeemedHours"
+                    Grid.Row="6"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="7"
+                    Margin="0"
+                    VerticalAlignment="Top"
+                    FontSize="18.667"
+                    FontWeight="Bold"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Are these hours captured for a redeemed gift batch?"
+                    Visibility="Hidden" />
+                <RadioButton
+                    x:Name="rbConfirmationIsRedeemedYes"
+                    Grid.Row="6"
+                    Grid.Column="8"
+                    Margin="0,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    GroupName="rbgRedeemedGiftHours"
+                    IsChecked="False"
+                    Style="{StaticResource INRadioButton}"
+                    Visibility="Hidden" />
+                <TextBlock
+                    x:Name="lblConfirmationIsRedeemedHoursYes"
+                    Grid.Row="6"
+                    Grid.Column="9"
+                    Grid.ColumnSpan="2"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="R Batch"
+                    Visibility="Hidden" />
+                <RadioButton
+                    x:Name="rbConfirmationIsRedeemedNo"
+                    Grid.Row="6"
+                    Grid.Column="8"
+                    Margin="0,0,0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    GroupName="rbgRedeemedGiftHours"
+                    IsChecked="False"
+                    Style="{StaticResource INRadioButton}"
+                    Visibility="Hidden" />
+                <TextBlock
+                    x:Name="lblConfirmationIsRedeemedHoursNo"
+                    Grid.Row="6"
+                    Grid.Column="9"
+                    Grid.ColumnSpan="2"
+                    Margin="0,7,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="N/R Batch"
+                    Visibility="Hidden" />
+
+                <RadioButton
+                    x:Name="rbConfirmationIsRedeemedNeither"
+                    Grid.Row="7"
+                    Grid.Column="8"
+                    Margin="0,0,0,18"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    GroupName="rbgRedeemedGiftHours"
+                    IsChecked="True"
+                    Style="{StaticResource INRadioButton}"
+                    Visibility="Hidden" />
+                <TextBlock
+                    x:Name="lblConfirmationIsRedeemedHoursNeither"
+                    Grid.Row="7"
+                    Grid.Column="9"
+                    Grid.ColumnSpan="2"
+                    Margin="0,0,0,16"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource INLabelText2}"
+                    Text="Default"
+                    Visibility="Hidden" />
+
+                <!--<CheckBox x:Name="chkIsRedeemedHours"
+                          Style="{DynamicResource INCheckboxStyle}"
+                          TabIndex="0"
+                          Grid.Column="11"
+                          Grid.Row="6"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Top"
+                          Visibility="Visible"
+                          IsEnabled="True"
+                          Margin="0,7,0,0"
+                          Height="16"
+                          Width="16" />-->
+
+
+                <Border
+                    Grid.Row="2"
+                    Grid.RowSpan="5"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="10"
+                    Margin="-6,0,0,0"
+                    Background="GhostWhite"
+                    BorderBrush="Gray"
+                    BorderThickness="2"
+                    CornerRadius="4">
+                    <DataGrid
+                        x:Name="dgConfirmationAgentTimes"
+                        Margin="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGeneratingColumn="dgConfirmationAgentTimes_AutoGeneratingColumn"
+                        BorderThickness="0"
+                        IsReadOnly="True"
+                        MouseDoubleClick="dgConfirmationAgentTimes_MouseDoubleClick">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Click="MenuItem_Click" Header="Remove Time">
+                                    <MenuItem.Icon>
+                                        <Image
+                                            Width="12"
+                                            Height="12"
+                                            Source="pack://application:,,,/Resources/imageError.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                </Border>
+
+
+
+                <Image
+                    Name="imgConfirmationEditMode"
                     Grid.Row="7"
                     Grid.RowSpan="2"
                     Grid.Column="13"

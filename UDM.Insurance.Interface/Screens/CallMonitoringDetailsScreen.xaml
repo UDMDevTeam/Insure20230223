@@ -98,7 +98,15 @@
     </Window.Resources>
 
 
-    <Viewbox Stretch="Uniform">
+    <Viewbox RenderTransformOrigin="0.5,0.5" Stretch="Uniform">
+        <Viewbox.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform />
+                <SkewTransform AngleY="-0.397" />
+                <RotateTransform />
+                <TranslateTransform Y="4.993" />
+            </TransformGroup>
+        </Viewbox.RenderTransform>
 
         <Border
             x:Name="BGRectangle"
@@ -357,7 +365,7 @@
                     Grid.Row="2"
                     Grid.RowSpan="7"
                     Grid.Column="17"
-                    Grid.ColumnSpan="15"
+                    Grid.ColumnSpan="16"
                     Margin="0"
                     FontSize="16"
                     FontWeight="Bold"
@@ -373,6 +381,7 @@
                     VerticalAlignment="Top"
                     Style="{StaticResource INLabelText2}"
                     Text="Reference Number" />
+
                 <TextBlock
                     x:Name="tbRefNo"
                     Grid.Row="3"
@@ -384,6 +393,19 @@
                     Style="{StaticResource INLabelText2}"
                     Text="{Binding RefNo}"
                     TextWrapping="NoWrap" />
+
+                <TextBlock
+                    x:Name="lblRefNoCampaignType"
+                    Grid.Row="3"
+                    Grid.Column="27"
+                    Grid.ColumnSpan="3"
+                    Margin="14,1,0,19"
+                    VerticalAlignment="Center"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Base / Upgrade"
+                    Visibility="Collapsed" />
+
                 <TextBlock
                     x:Name="lblHasPolicyBeenBumpedUp"
                     Grid.Row="4"
@@ -1017,7 +1039,7 @@
                     Grid.Row="9"
                     Grid.RowSpan="10"
                     Grid.Column="17"
-                    Grid.ColumnSpan="15"
+                    Grid.ColumnSpan="16"
                     FontSize="16"
                     FontWeight="Bold"
                     Foreground="{StaticResource BrandedBrushIN}"
@@ -1184,6 +1206,7 @@
                     VerticalAlignment="Top"
                     Style="{StaticResource INLabelText2}"
                     Text="Were the applicable exclusions explained to the client?" />
+
                 <CheckBox
                     x:Name="chkExlusionsExplainedBumpUpClosure"
                     Grid.Row="18"
@@ -1200,12 +1223,15 @@
                     Grid.Row="19"
                     Grid.RowSpan="5"
                     Grid.Column="1"
-                    Grid.ColumnSpan="31"
+                    Grid.ColumnSpan="32"
                     Margin="0"
                     FontSize="16"
                     FontWeight="Bold"
                     Foreground="{StaticResource BrandedBrushIN}"
                     Header="Assessment Overview" />
+
+
+
 
                 <TextBlock
                     x:Name="hdrCallMonitoringDetails"
@@ -1227,80 +1253,77 @@
                     VerticalAlignment="Bottom"
                     Style="{StaticResource INUnderlineText1}" />
 
-                <Border Grid.Column="16"
-                        Grid.Row="1"
-                        Grid.RowSpan="1"
-                        Grid.ColumnSpan="3"
-                        BorderThickness="2"
-                        BorderBrush="Gray"
-                        CornerRadius="5"></Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.RowSpan="1"
+                    Grid.Column="14"
+                    Grid.ColumnSpan="3"
+                    BorderBrush="Gray"
+                    BorderThickness="2"
+                    CornerRadius="5" />
 
-                <Border Grid.Column="20"
-                        Grid.Row="1"
-                        Grid.RowSpan="1"
-                        Grid.ColumnSpan="3"
-                        BorderThickness="2"
-                        BorderBrush="Gray"
-                        CornerRadius="5"></Border>
-                
-                <Label
-                        x:Name="Mandate1Lbl1"
-                        Grid.Row="0"
-                        Grid.Column="16"
-                        Grid.ColumnSpan="3"
-                        Content="Mandate Details :"
-                        Foreground="LightBlue"
-                        VerticalContentAlignment="Top"
-                        HorizontalContentAlignment="Center"
-                        FontSize="13"
-                        Visibility="Visible">
-
-                </Label>
-                <TextBlock
-                        x:Name="Mandate1TB"
-                        Grid.Row="1"
-                        Grid.Column="16"
-                        Grid.ColumnSpan="3"
-                        Height="35"
-                        TextWrapping="Wrap"
-                        Foreground="White"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        FontSize="13"
-                        Visibility="Visible"/>
+                <Border
+                    Grid.Row="1"
+                    Grid.RowSpan="1"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="3"
+                    BorderBrush="Gray"
+                    BorderThickness="2"
+                    CornerRadius="5" />
 
                 <Label
-                        x:Name="Mandate2Lbl1"
-                        Grid.Row="0"
-                        Grid.Column="20"
-                        Grid.ColumnSpan="3"
-                        Content="Mandate Details :"
-                        Foreground="LightBlue"
-                        VerticalContentAlignment="Top"
-                        HorizontalContentAlignment="Center"
-                        FontSize="13"
-                        Visibility="Visible">
-
-                </Label>
+                    x:Name="Mandate1Lbl1"
+                    Grid.Row="0"
+                    Grid.Column="14"
+                    Grid.ColumnSpan="3"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Top"
+                    Content="Mandate Details :"
+                    FontSize="13"
+                    Foreground="LightBlue"
+                    Visibility="Visible" />
                 <TextBlock
-                        x:Name="Mandate2TB"
-                        Grid.Row="1"
-                        Grid.Column="20"
-                        Grid.ColumnSpan="3"
-                        Height="35"
-                        TextWrapping="Wrap"
-                        Foreground="White"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        FontSize="13"
-                        Visibility="Visible">
-                </TextBlock>
+                    x:Name="Mandate1TB"
+                    Grid.Row="1"
+                    Grid.Column="14"
+                    Grid.ColumnSpan="3"
+                    Height="35"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="13"
+                    Foreground="White"
+                    TextWrapping="Wrap"
+                    Visibility="Visible" />
+
+                <Label
+                    x:Name="Mandate2Lbl1"
+                    Grid.Row="0"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="3"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Top"
+                    Content="Mandate Details :"
+                    FontSize="13"
+                    Foreground="LightBlue"
+                    Visibility="Visible" />
+                <TextBlock
+                    x:Name="Mandate2TB"
+                    Grid.Row="1"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="3"
+                    Height="35"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="13"
+                    Foreground="White"
+                    TextWrapping="Wrap"
+                    Visibility="Visible" />
 
 
                 <Button
                     x:Name="btnNotes"
                     Grid.RowSpan="2"
-                    Grid.Column="13"
+                    Grid.Column="10"
                     Grid.ColumnSpan="3"
                     Width="Auto"
                     Height="34"
@@ -1365,7 +1388,7 @@
                     x:Name="cmbCallMonitoringOutcomeID"
                     Grid.Row="20"
                     Grid.Column="8"
-                    Grid.ColumnSpan="7"
+                    Grid.ColumnSpan="8"
                     Margin="0,-7,0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
@@ -1375,10 +1398,10 @@
                 <TextBlock
                     x:Name="lblComments"
                     Grid.Row="20"
-                    Grid.Column="15"
+                    Grid.Column="17"
                     Grid.ColumnSpan="3"
                     Margin="0,0,10,0"
-                    HorizontalAlignment="Right"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Style="{StaticResource INLabelText2}"
                     Text="Comments" />
@@ -1387,7 +1410,7 @@
                     x:Name="txtComments"
                     Grid.Row="20"
                     Grid.RowSpan="1"
-                    Grid.Column="19"
+                    Grid.Column="20"
                     Grid.ColumnSpan="13"
                     Margin="0,-7,8,10"
                     HorizontalAlignment="Stretch"
@@ -1401,10 +1424,10 @@
                 <TextBlock
                     x:Name="lblStandardComments"
                     Grid.Row="21"
-                    Grid.Column="15"
+                    Grid.Column="17"
                     Grid.ColumnSpan="4"
                     Margin="0,0,10,0"
-                    HorizontalAlignment="Right"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Style="{StaticResource INLabelText2}"
                     Text="CF/Query Reason" />
@@ -1412,7 +1435,7 @@
                 <usercontrols:ComboWithCheckboxes
                     x:Name="cmbStandardNotes"
                     Grid.Row="21"
-                    Grid.Column="19"
+                    Grid.Column="20"
                     Grid.ColumnSpan="13"
                     Margin="0,-7,8,10"
                     DefaultText="Choose Standard Notes"
@@ -1430,16 +1453,18 @@
                     VerticalAlignment="Top"
                     Style="{StaticResource INLabelText2}"
                     Text="Calls Listened To By" />
+
                 <controls:EmbriantComboBox
                     x:Name="cmbCallMonitoringUser"
                     Grid.Row="21"
                     Grid.Column="8"
-                    Grid.ColumnSpan="7"
+                    Grid.ColumnSpan="8"
                     Margin="0,-7,0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                     SelectedValue="{Binding FKCallMonitoringUserID}"
+                    SelectionChanged="cmbCallMonitoringUser_SelectionChanged"
                     Style="{StaticResource cmbINLA}" />
 
                 <TextBlock
@@ -1455,13 +1480,63 @@
                 <CheckBox
                     x:Name="chkWasCallEvaluatedBySecondaryUser"
                     Grid.Row="22"
-                    Grid.Column="8"
-                    HorizontalAlignment="Left"
+                    Grid.Column="6"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Checked="chkWasCallEvaluatedBySecondaryUser_Checked"
                     IsChecked="{Binding WasCallEvaluatedBySecondaryUser}"
+                    RenderTransformOrigin="1.168,0.54"
                     Style="{StaticResource INCheckboxStyle}"
                     Unchecked="chkWasCallEvaluatedBySecondaryUser_Unchecked" />
+
+                <TextBlock
+                    x:Name="lblStartTimeCallOverAssessment"
+                    Grid.Row="22"
+                    Grid.Column="8"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Start: "
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblStartTimeCallOverAssessmentField"
+                    Grid.Row="22"
+                    Grid.Column="9"
+                    Grid.ColumnSpan="3"
+                    Margin="10,1,0,19"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblEndTimeCallOverAssessment"
+                    Grid.Row="22"
+                    Grid.Column="12"
+                    Grid.ColumnSpan="7"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Style="{StaticResource INLabelText2}"
+                    Text="End: "
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblEndTimeCallOverAssessmentField"
+                    Grid.Row="22"
+                    Grid.Column="13"
+                    Grid.ColumnSpan="3"
+                    Margin="14,1,0,19"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Text="2021/07/12 09:27 "
+                    Visibility="Collapsed" />
 
                 <TextBlock
                     x:Name="lblCallAssessmentOutcomeID"
@@ -1477,7 +1552,7 @@
                     x:Name="cmbCallAssessmentOutcome"
                     Grid.Row="23"
                     Grid.Column="8"
-                    Grid.ColumnSpan="7"
+                    Grid.ColumnSpan="8"
                     Margin="0,-7,0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
@@ -1487,9 +1562,57 @@
                     Style="{StaticResource cmbINLA}" />
 
                 <TextBlock
+                    x:Name="lblStartTimeCallOverAssessmentOutcome"
+                    Grid.Row="22"
+                    Grid.Column="17"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Start: "
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblStartTimeCallOverAssessmentOutomeField"
+                    Grid.Row="22"
+                    Grid.Column="18"
+                    Grid.ColumnSpan="3"
+                    Margin="8,1,0,19"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblEndTimeCallOverAssessmentOutcome"
+                    Grid.Row="22"
+                    Grid.Column="21"
+                    Grid.ColumnSpan="7"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Style="{StaticResource INLabelText2}"
+                    Text="End: "
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblEndTimeCallOverAssessmentOutcomeField"
+                    Grid.Row="22"
+                    Grid.Column="22"
+                    Grid.ColumnSpan="3"
+                    Margin="0,1,0,19"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Visibility="Collapsed" />
+
+                <TextBlock
                     x:Name="lblFKSecondaryCallMonitoringUserID"
                     Grid.Row="23"
-                    Grid.Column="16"
+                    Grid.Column="17"
                     Grid.ColumnSpan="2"
                     Margin="0,-10,0,0"
                     VerticalAlignment="Top"
@@ -1499,7 +1622,7 @@
                 <controls:EmbriantComboBox
                     x:Name="cmbSecondaryCallMonitoringUser"
                     Grid.Row="23"
-                    Grid.Column="18"
+                    Grid.Column="19"
                     Grid.ColumnSpan="5"
                     Margin="0,-7,0,0"
                     HorizontalAlignment="Stretch"
@@ -1507,28 +1630,78 @@
                     IsEnabled="False"
                     PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                     SelectedValue="{Binding FKSecondaryCallMonitoringUserID}"
+                    SelectionChanged="cmbSecondaryCallMonitoringUser_SelectionChanged"
                     Style="{StaticResource cmbINLA}" />
 
                 <TextBlock
                     x:Name="lblFKTertiaryCallMonitoringUserID"
                     Grid.Row="23"
-                    Grid.Column="23"
+                    Grid.Column="24"
                     Grid.ColumnSpan="4"
                     Margin="17.5,-10,0,0"
                     VerticalAlignment="Top"
                     Style="{StaticResource INLabelText2}"
                     Text="Carried Forward Over Assessor" />
 
+                <TextBlock
+                    x:Name="lblStartTimeCFOverAssessment"
+                    Grid.Row="22"
+                    Grid.Column="25"
+                    Grid.ColumnSpan="7"
+                    Margin="22,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Style="{StaticResource INLabelText2}"
+                    Text="Start: "
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblStartTimeCFOverAssessmentField"
+                    Grid.Row="22"
+                    Grid.Column="26"
+                    Grid.ColumnSpan="6"
+                    Margin="28,1,0,19"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblEndTimeCFOverAssessment"
+                    Grid.Row="22"
+                    Grid.Column="29"
+                    Grid.ColumnSpan="7"
+                    Margin="15,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Style="{StaticResource INLabelText2}"
+                    Text="End: "
+                    Visibility="Collapsed" />
+
+                <TextBlock
+                    x:Name="lblEndTimeCFOverAssessmentField"
+                    Grid.Row="22"
+                    Grid.Column="30"
+                    Grid.ColumnSpan="3"
+                    Margin="14,1,0,19"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Visibility="Collapsed" />
+
                 <controls:EmbriantComboBox
                     x:Name="cmbTertiaryCallMonitoringUser"
                     Grid.Row="23"
-                    Grid.Column="27"
+                    Grid.Column="28"
                     Grid.ColumnSpan="5"
                     Margin="0,-7,8,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                     SelectedValue="{Binding FKTertiaryCallMonitoringUserID}"
+                    SelectionChanged="cmbTertiaryCallMonitoringUser_SelectionChanged"
                     Style="{StaticResource cmbINLA}" />
 
                 <TextBlock
@@ -1568,6 +1741,7 @@
                     Grid.Column="19"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
+                    Checked="chkIsCallMonitored_Checked"
                     IsChecked="{Binding IsCallMonitored}"
                     Style="{StaticResource INCheckboxStyle}" />
 
@@ -1588,6 +1762,7 @@
                     Grid.Column="29"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
+                    Checked="chkTSRBUSavedCF_Checked"
                     Click="chkTSRBUSavedCF_Click"
                     IsChecked="{Binding IsTSRBUSavedCarriedForward}">
                     <CheckBox.Style>

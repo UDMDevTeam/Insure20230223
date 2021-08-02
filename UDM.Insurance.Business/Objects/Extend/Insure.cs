@@ -2268,9 +2268,18 @@ namespace UDM.Insurance.Business
 
         #endregion Sales Tracking Report - Specific Functionalities
 
-        #region Leads Available Report - Specific Functionalities
+        public static DataSet INGetCallMonitoringStatsReport(DateTime fromDate, DateTime toDate)
+        {
 
-        public static DataSet INGetReportLeadsAvailableData (string campaignTypeIDs, string campaignGroupIDs)
+            object param1 = Database.GetParameter("@FromDate", fromDate);
+            object param2 = Database.GetParameter("@ToDate", toDate);
+            object[] paramArray = new[] { param1, param2 };
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportHoursConfirmation", paramArray, 600);
+        }
+
+            #region Leads Available Report - Specific Functionalities
+
+            public static DataSet INGetReportLeadsAvailableData (string campaignTypeIDs, string campaignGroupIDs)
         {
             object param1 = Database.GetParameter("@CampaignTypes", campaignTypeIDs);
             object param2 = Database.GetParameter("@CampaignGroups", campaignGroupIDs);
