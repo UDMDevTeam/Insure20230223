@@ -13,9 +13,7 @@ using UDM.WPF.Classes;
 using Embriant.Framework.Configuration;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Text;
-using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -28,7 +26,7 @@ namespace UDM.Insurance.Interface.Screens
 
     public class ContactNumber
     {
-        public string ID {get; set; }
+        public string ID { get; set; }
         public string TelNumber { get; set; }
     }
 
@@ -114,14 +112,12 @@ namespace UDM.Insurance.Interface.Screens
             LoadScreenData(leadApplicationData);
             SaleDetailNotes = leadApplicationData.SaleData.Notes;
 
-            if(userID == 2857 || userID == 2810 || userID == 394)
+            if (userID == 2857 || userID == 2810 || userID == 394)
             {
                 chkTSRBUSavedCF.IsEnabled = true;
             }
 
-            try { GetMandateInfo(); } catch { }
-            //GetMandateInfo(leadApplicationData.AppData.ImportID);
-
+            GetMandateInfo(leadApplicationData.AppData.ImportID);
 
             //var dataSource = new List<StandardNote>();
             //dataSource.Add(new StandardNote() { Title = "123", IsSelected = false });
@@ -135,66 +131,139 @@ namespace UDM.Insurance.Interface.Screens
         #endregion Constructors
 
         #region Private Methods
-        public void GetMandateInfo()
+        public void GetMandateInfo(long? ImportID)
         {
-
-            //StringBuilder strQuery = new StringBuilder();
-            //strQuery.Append("SELECT TOP 1 [MandateRequestStatus] [Response] , [CreatedDate]  ");
-            //strQuery.Append("FROM [41.170.75.25].[MR_DC].[PLUDM].[MandateRequestsView] ");
-            //strQuery.Append("WHERE [ReferenceNumber] COLLATE Latin1_General_CI_AS = " + LaData.AppData.RefNo);
-            //strQuery.Append(" ORDER BY [CreatedDate] DESC");
-            //DataTable dt = Methods.GetTableData(strQuery.ToString());
-            DataSet dsDiaryReportData = null;
-
             try
             {
+                StringBuilder strQuery = new StringBuilder();
+                strQuery.Append("SELECT TOP 2 SMSBody as [Response], SubmissionDate  ");
+                strQuery.Append("FROM DebiCheckSent ");
+                strQuery.Append("WHERE FKImportID = " + ImportID);
+                strQuery.Append(" ORDER BY ID DESC");
+                DataTable dt = Methods.GetTableData(strQuery.ToString());
 
-                var transactionOptions = new TransactionOptions
-                {
-                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-                };
-
-                using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                {
-                    dsDiaryReportData = Business.Insure.INGetMandateInfo(tbRefNo.Text);
-                }
-            }
-            catch
-            {
-
-            }
-
-
-            try
-            {
-                DataTable dt = dsDiaryReportData.Tables[0];
                 try
                 {
                     string responses = dt.Rows[0]["Response"].ToString();
-                    string datetime = dt.Rows[0]["CreatedDate"].ToString();
+                    string datetime = dt.Rows[0]["SubmissionDate"].ToString();
 
-
-                    Mandate1TB.Text = responses + " " + datetime;
-
-
+                    if (responses.Contains("1"))
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => { Mandate1TB.Text = "Other " + datetime; }));
+                    }
+                    else if (responses.Contains("2"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("3"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("4"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("5"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("6"))
+                    {
+                        Mandate1TB.Text = "Approved " + datetime;
+                    }
+                    else if (responses.Contains("7"))
+                    {
+                        Mandate1TB.Text = "Rejected " + datetime;
+                    }
+                    else if (responses.Contains("8"))
+                    {
+                        Mandate1TB.Text = "No Response " + datetime;
+                    }
+                    else if (responses.Contains("9"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains("10"))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else if (responses.Contains(""))
+                    {
+                        Mandate1TB.Text = "Other " + datetime;
+                    }
+                    else
+                    {
+                        Mandate1TB.Text = " ";
+                    }
                 }
                 catch
                 {
-
+                    Mandate2TB.Text = " ";
                 }
 
 
                 try
                 {
-                    string responses2 = dt.Rows[1]["Response"].ToString();
-                    string datetime = dt.Rows[1]["CreatedDate"].ToString();
 
-                    Mandate2TB.Text = responses2 + " " + datetime;
+                    string responses2 = dt.Rows[1]["Response"].ToString();
+                    string datetime = dt.Rows[1]["SubmissionDate"].ToString();
+
+                    if (responses2.Contains("1"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("2"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("3"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("4"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("5"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("6"))
+                    {
+                        Mandate2TB.Text = "Approved " + datetime;
+                    }
+                    else if (responses2.Contains("7"))
+                    {
+                        Mandate2TB.Text = "Rejected " + datetime;
+                    }
+                    else if (responses2.Contains("8"))
+                    {
+                        Mandate2TB.Text = "No Response " + datetime;
+                    }
+                    else if (responses2.Contains("9"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains("10"))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else if (responses2.Contains(""))
+                    {
+                        Mandate2TB.Text = "Other " + datetime;
+                    }
+                    else
+                    {
+                        Mandate2TB.Text = " ";
+
+                    }
                 }
                 catch
                 {
+                    Mandate2TB.Text = " ";
 
                 }
+
             }
             catch
             {
@@ -202,142 +271,7 @@ namespace UDM.Insurance.Interface.Screens
             }
 
 
-
         }
-
-        //public void GetMandateInfo(long? ImportID)
-        //{
-
-        //    StringBuilder strQuery = new StringBuilder();
-        //    strQuery.Append("SELECT TOP 2 SMSBody as [Response], SubmissionDate  ");
-        //    strQuery.Append("FROM DebiCheckSent");
-        //    strQuery.Append("WHERE FKImportID = " + ImportID);
-        //    strQuery.Append(" ORDER BY ID DESC");
-        //    DataTable dt = Methods.GetTableData(strQuery.ToString());
-
-        //    try
-        //    {
-        //        string responses = dt.Rows[0]["Response"].ToString();
-        //        string datetime = dt.Rows[0]["SubmissionDate"].ToString();
-
-        //        if (responses.Contains("1"))
-        //        {
-        //            Application.Current.Dispatcher.Invoke(new Action(() => { Mandate1TB.Text = "Other " + datetime; }));
-        //        }
-        //        else if (responses.Contains("2"))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses.Contains("3"))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses.Contains("4"))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses.Contains("5"))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses.Contains("6"))
-        //        {
-        //            Mandate1TB.Text = "Approved " + datetime;
-        //        }
-        //        else if (responses.Contains("7"))
-        //        {
-        //            Mandate1TB.Text = "Rejected " + datetime;
-        //        }
-        //        else if (responses.Contains("8"))
-        //        {
-        //            Mandate1TB.Text = "No Response " + datetime;
-        //        }
-        //        else if (responses.Contains("9"))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses.Contains("10"))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses.Contains(""))
-        //        {
-        //            Mandate1TB.Text = "Other " + datetime;
-        //        }
-        //        else
-        //        {
-        //            Mandate1TB.Text = " ";
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        Mandate2TB.Text = " ";
-        //    }
-
-
-        //    try
-        //    {
-
-        //        string responses2 = dt.Rows[1]["Response"].ToString();
-        //        string datetime = dt.Rows[1]["SubmissionDate"].ToString();
-
-        //        if (responses2.Contains("1"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains("2"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains("3"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains("4"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains("5"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains("6"))
-        //        {
-        //            Mandate2TB.Text = "Approved " + datetime;
-        //        }
-        //        else if (responses2.Contains("7"))
-        //        {
-        //            Mandate2TB.Text = "Rejected " + datetime;
-        //        }
-        //        else if (responses2.Contains("8"))
-        //        {
-        //            Mandate2TB.Text = "No Response " + datetime;
-        //        }
-        //        else if (responses2.Contains("9"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains("10"))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else if (responses2.Contains(""))
-        //        {
-        //            Mandate2TB.Text = "Other " + datetime;
-        //        }
-        //        else
-        //        {
-        //            Mandate2TB.Text = " ";
-
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        Mandate2TB.Text = " ";
-
-        //    }
-
-        //}
         private void LoadLookupData()
         {
 
@@ -353,7 +287,7 @@ namespace UDM.Insurance.Interface.Screens
             cmbTertiaryCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[8], "CallOverAssessor", "ID");
             SetStandardNotes(null);
 
-            //LoadDateTimeFields();
+
 
 
 
@@ -377,12 +311,6 @@ namespace UDM.Insurance.Interface.Screens
             //}
         }
 
-        private void LoadDateTimeFields() 
-        {
-            //DateTime.Content = DateTime.Now.ToShortDateString("DD/MM HH:MM:SS");
-
-            lblStartTimeCallOverAssessmentField.Text = DateTime.Now.ToString();
-        }
         private void SetStandardNotes(long? importID)
         {
             if (importID == null)
@@ -402,7 +330,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     foreach (DataRow note in dtSelectedNotes.Rows)
                     {
-                        
+
                         if (note["ID"].ToString() != "")
                         {
                             int index = (itemSourceStandardNotes.IndexOf(itemSourceStandardNotes.Where(n => Convert.ToInt64(n.ID) == Convert.ToInt64(note["ID"])).FirstOrDefault<Node>()));
@@ -412,11 +340,11 @@ namespace UDM.Insurance.Interface.Screens
                             itemSourceStandardNotes[index].IsSelected = true;
                         }
                         //itemSourceStandardNotes.AsEnumerable().Where(n => n.ID == Convert.ToInt64(note["ID"]));
-                    //itemSourceStandardNotes.AsEnumerable().Select(n => n.ID).Where(n => n.ID == Convert.ToInt64(note["ID"]))
-                        
+                        //itemSourceStandardNotes.AsEnumerable().Select(n => n.ID).Where(n => n.ID == Convert.ToInt64(note["ID"]))
+
                         //((Node)itemSourceStandardNotes.AsEnumerable().Where(n => n.ID == Convert.ToInt64(note["ID"]))).IsSelected = Convert.ToBoolean(note["IsSelected"]);
                         //itemSourceStandardNotes[index].IsSelected = Convert.ToBoolean(note["IsSelected"]);
-                        
+
                     }
                 }
 
@@ -449,7 +377,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 lstContactNumbers.Add(new ContactNumber { ID = "Other", TelNumber = "Other: " + Convert.ToInt64(leadApplicationData.LeadData.TelOther).ToString("0#########") });
             }
-            
+
             cmbContactNumbers.ItemsSource = lstContactNumbers;
             cmbContactNumbers.DisplayMemberPath = "TelNumber";
             cmbContactNumbers.SelectedValuePath = "ID";
@@ -463,42 +391,10 @@ namespace UDM.Insurance.Interface.Screens
 
             ScreenData.FKINImportID = leadApplicationData.AppData.ImportID;
             ScreenData.RefNo = leadApplicationData.AppData.RefNo;
-
-            
-
-            SqlParameter[] parameters = new SqlParameter[1];
-            parameters[0] = new SqlParameter("@RefNo", leadApplicationData.AppData.RefNo.ToString());
-            DataTable dtData = Methods.ExecuteStoredProcedure("spGetCampaignType", parameters).Tables[0];
-            //double timeDiffRecordedNormalHours = 0;
-            
-            if (dtData.Rows.Count > 0)
-            {
-
-                        string campaignGroupType = dtData.Rows[0]["Description"].ToString();
-
-                        lblRefNoCampaignType.Visibility = Visibility.Visible;
-                        lblRefNoCampaignType.Text = campaignGroupType;
-
-                        ScreenData.RefNoCampaignGroupType = lblRefNoCampaignType.Text; 
-
-            }
-
-
-            
-
-            string RefNoCampaign = ScreenData.RefNo;
-
-            //campaignGroupType = Methods.GetTableData("Select (CASE WHEN [CG].[ID] IN (2, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 41) THEN 'Upgrade' ELSE 'Base' END ) AS [Description] FROM INCampaign AS [C] INNER JOIN lkpINCampaignGroup AS [CG] ON [CG].[ID] = [C].[FKINCampaignGroupID] INNER JOIN INImport AS [I] ON [I].[FKINCampaignID] = [C].[ID] WHERE [I].[RefNo] = '" + RefNoCampaign + "' AND [I].[FKINCampaignID] = [C].[ID] ").ToString();
-
-           
-
             ScreenData.CanModifyBumpUpCallDetails = leadApplicationData.PolicyData.UDMBumpUpOption;
-
             if (leadApplicationData.NextOfKinData[0] != null)
             {
-
                 string relationship = "";
-
                 ScreenData.NextOfKinDetails = leadApplicationData.NextOfKinData[0].FullName;
                 if (leadApplicationData.NextOfKinData[0].RelationshipID != null && leadApplicationData.NextOfKinData[0].RelationshipID != 0)
                 {
@@ -511,7 +407,9 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 //ScreenData.NextOfKinDetails = leadApplicationData.NextOfKinData[0].FullName + "(" + relationship + ") TelContact: " + leadApplicationData.NextOfKinData[0].TelContact;
             }
-            
+
+
+
             if (leadApplicationData.PolicyData.UDMBumpUpOption)
             {
                 ScreenData.HasPolicyBeenBumpedUp = "Yes";
@@ -531,14 +429,10 @@ namespace UDM.Insurance.Interface.Screens
             }
 
             INImportCallMonitoring inImportCallMonitoring = new INImportCallMonitoring();
-            INImportCallMonitoringStats iNImportCallMonitoringStats = new INImportCallMonitoringStats();
 
             if (leadApplicationData.AppData.ImportID != null)
             {
                 inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(leadApplicationData.AppData.ImportID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-                
-                //iNImportCallMonitoringStats = INCallMonitoringStatsMapper.SearchOne(leadApplicationData.AppData.ImportID, null);
-
             }
 
 
@@ -589,40 +483,16 @@ namespace UDM.Insurance.Interface.Screens
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/221494754/comments
                 ScreenData.ExclusionsExplained = inImportCallMonitoring.ExclusionsExplained;
                 ScreenData.ExclusionsExplainedBumpUpClosure = inImportCallMonitoring.ExclusionsExplainedBumpUpClosure;
-
             }
-
-            if (iNImportCallMonitoringStats != null)
-            {
-
-                //lblRefNoCampaignType.Text = iNImportCallMonitoringStats.FKINlkpCampaignGroupType; 
-                lblStartTimeCallOverAssessmentField.Text = iNImportCallMonitoringStats.StartTimeOverAssessment.ToString();
-                lblEndTimeCallOverAssessmentField.Text = iNImportCallMonitoringStats.EndTimeOverAssessment.ToString();
-                lblStartTimeCallOverAssessmentOutomeField.Text = iNImportCallMonitoringStats.StartTimeOverAssessorOutcome.ToString();
-                lblEndTimeCallOverAssessmentOutcomeField.Text = iNImportCallMonitoringStats.EndTimeOverAssessorOutcome.ToString();
-                lblStartTimeCFOverAssessmentField.Text = iNImportCallMonitoringStats.StartTimeCFOverAssessment.ToString();
-                lblEndTimeCFOverAssessmentField.Text = iNImportCallMonitoringStats.EndTimeCFOverAssessment.ToString();
-
-            }
-
             else
             {
                 // Create a new INImportCallMonitoring record:
-
                 inImportCallMonitoring = new INImportCallMonitoring();
                 ApplyDefaultSettings();
                 inImportCallMonitoring.FKINImportID = leadApplicationData.AppData.ImportID;
                 inImportCallMonitoring.Save(null);
 
-                iNImportCallMonitoringStats = new INImportCallMonitoringStats();
-                ApplyDefaultSettings();
-                iNImportCallMonitoringStats.FKINImportID = iNImportCallMonitoringStats.FKINImportID;
-                iNImportCallMonitoringStats.Save(null);
-
-
                 ScreenData.ID = inImportCallMonitoring.ID;
-                ScreenData.ID = iNImportCallMonitoringStats.ID;
-
             }
 
             #region Create a secondary screen data object to keep track of the details as they are loaded
@@ -715,7 +585,7 @@ namespace UDM.Insurance.Interface.Screens
                 ScreenData.DoesClientHaveSigningPower = dtCallMonitoringScreenDefaults.Rows[0]["DefaultDoesClientHaveSigningPower"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultDoesClientHaveSigningPower"]) : (bool?)null;
                 ScreenData.WasDebiCheckProcessExplainedCorrectly = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasDebiCheckProcessExplainedCorrectly"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasDebiCheckProcessExplainedCorrectly"]) : (bool?)null;
 
-                
+
                 ScreenData.WasCorrectClosureQuestionAsked = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasCorrectClosureQuestionAsked"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasCorrectClosureQuestionAsked"]) : (bool?)null;
                 ScreenData.WasResponseClearAndPositive = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasResponseClearAndPositive"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasResponseClearAndPositive"]) : (bool?)null;
                 ScreenData.WasUDMAndPLMentionedAsFSPs = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasUDMAndPLMentionedAsFSPs"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasUDMAndPLMentionedAsFSPs"]) : (bool?)null;
@@ -782,7 +652,7 @@ namespace UDM.Insurance.Interface.Screens
         private bool HasDetailsBeenModified()
         {
             return
-                (LoadedScreenData.WasClearYesGivenInSalesQuestion != ScreenData.WasClearYesGivenInSalesQuestion) || 
+                (LoadedScreenData.WasClearYesGivenInSalesQuestion != ScreenData.WasClearYesGivenInSalesQuestion) ||
                 (LoadedScreenData.IsBankingDetailsCapturedCorrectly != ScreenData.IsBankingDetailsCapturedCorrectly) ||
                 (LoadedScreenData.WasAccountVerified != ScreenData.WasAccountVerified) ||
                 (LoadedScreenData.WasDebitDateConfirmed != ScreenData.WasDebitDateConfirmed) ||
@@ -814,7 +684,7 @@ namespace UDM.Insurance.Interface.Screens
                 (LoadedScreenData.IsRecoveredSale != ScreenData.IsRecoveredSale) ||
                 (LoadedScreenData.IsCallMonitored != ScreenData.IsCallMonitored) ||
                 (LoadedScreenData.WasPermissionQuestionAsked != ScreenData.WasPermissionQuestionAsked) ||
-                (LoadedScreenData.WasNextOfKinQuestionAsked != ScreenData.WasNextOfKinQuestionAsked) ||                
+                (LoadedScreenData.WasNextOfKinQuestionAsked != ScreenData.WasNextOfKinQuestionAsked) ||
                 (LoadedScreenData.FKTertiaryCallMonitoringUserID != ScreenData.FKTertiaryCallMonitoringUserID) ||
                 (LoadedScreenData.IsTSRBUSavedCarriedForward != ScreenData.IsTSRBUSavedCarriedForward) ||
                 (LoadedScreenData.TSRBUSavedCarriedForwardDate != ScreenData.TSRBUSavedCarriedForwardDate) ||
@@ -910,11 +780,11 @@ namespace UDM.Insurance.Interface.Screens
                 if ((LoadedScreenData.IsTSRBUSavedCarriedForward == null || LoadedScreenData.IsTSRBUSavedCarriedForward == false) && ScreenData.IsTSRBUSavedCarriedForward == true)
                 {
                     ScreenData.TSRBUSavedCarriedForwardDate = DateTime.Now;
-                    ScreenData.TSRBUSavedCarriedForwardAssignedByUserID = GlobalSettings.ApplicationUser.ID;                    
+                    ScreenData.TSRBUSavedCarriedForwardAssignedByUserID = GlobalSettings.ApplicationUser.ID;
                 }
                 inImportCallMonitoring.TSRBUSavedCarriedForwardDate = ScreenData.TSRBUSavedCarriedForwardDate;
                 inImportCallMonitoring.TSRBUSavedCarriedForwardAssignedByUserID = ScreenData.TSRBUSavedCarriedForwardAssignedByUserID;
-                
+
 
                 inImportCallMonitoring.IsCallMonitored = ScreenData.IsCallMonitored;
 
@@ -931,20 +801,7 @@ namespace UDM.Insurance.Interface.Screens
                 inImportCallMonitoring.ExclusionsExplained = ScreenData.ExclusionsExplained;
                 inImportCallMonitoring.ExclusionsExplainedBumpUpClosure = ScreenData.ExclusionsExplainedBumpUpClosure;
 
-
                 inImportCallMonitoring.Save(null);
-
-                INImportCallMonitoringStats iNImportCallMonitoringStats = new INImportCallMonitoringStats((long)ScreenData.ID);
-                iNImportCallMonitoringStats.FKINImportID = ScreenData.FKINImportID;
-                iNImportCallMonitoringStats.FKINlkpCampaignGroupType = ScreenData.RefNoCampaignGroupType;
-                iNImportCallMonitoringStats.StartTimeOverAssessment = ScreenData.StartTimeOverAssessment;
-                iNImportCallMonitoringStats.EndTimeOverAssessment = ScreenData.EndTimeOverAssessment;
-                iNImportCallMonitoringStats.StartTimeOverAssessorOutcome = ScreenData.StartTimeOverAssessorOutcome;
-                iNImportCallMonitoringStats.EndTimeOverAssessorOutcome = ScreenData.EndTimeOverAssessorOutcome;
-                iNImportCallMonitoringStats.StartTimeCFOverAssessment = ScreenData.StartTimeCFOverAssessment;
-                iNImportCallMonitoringStats.EndTimeCFOverAssessment = ScreenData.EndTimeCFOverAssessment;
-
-                iNImportCallMonitoringStats.Save(null);
 
                 MessageBox.Show("The call monitoring details have been saved successfully.", "Save Successful", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -954,7 +811,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void xamEditor_Select(object sender)
@@ -1001,9 +858,9 @@ namespace UDM.Insurance.Interface.Screens
         {
             DragMove();
         }
-        
+
         private void btbClose_Click(object sender, RoutedEventArgs e)
-        {      
+        {
             if (HasDetailsBeenModified())
             {
                 MessageBoxResult result = MessageBox.Show("Would you save the changes to these call monitoring details?", "Save Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
@@ -1012,7 +869,7 @@ namespace UDM.Insurance.Interface.Screens
                     if (AreAllRequiredFieldsCompletedAndValid())
                     {
                         Save();
-                        
+
                         Close();
                     }
                 }
@@ -1028,7 +885,7 @@ namespace UDM.Insurance.Interface.Screens
             else
             {
                 Close();
-            } 
+            }
         }
 
         public void EmbriantComboBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1042,7 +899,6 @@ namespace UDM.Insurance.Interface.Screens
                     cmbControl.SelectedValue = null;
                     e.Handled = true;
                 }
-                 
             }
         }
 
@@ -1058,21 +914,8 @@ namespace UDM.Insurance.Interface.Screens
 
         private void chkWasCallEvaluatedBySecondaryUser_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                cmbCallAssessmentOutcome.IsEnabled = true;
-                cmbSecondaryCallMonitoringUser.IsEnabled = true;
-
-                lblStartTimeCallOverAssessmentOutcome.Visibility = Visibility.Visible;
-                lblStartTimeCallOverAssessmentOutomeField.Visibility = Visibility.Visible;
-                lblStartTimeCallOverAssessmentOutomeField.Text = DateTime.Now.ToString();
-
-                ScreenData.StartTimeOverAssessorOutcome = DateTime.Now;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString(); 
-            }
+            cmbCallAssessmentOutcome.IsEnabled = true;
+            cmbSecondaryCallMonitoringUser.IsEnabled = true;
         }
 
         private void chkWasCallEvaluatedBySecondaryUser_Unchecked(object sender, RoutedEventArgs e)
@@ -1158,7 +1001,6 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     chkTSRBUSavedCF.IsChecked = false;
                 }
-
             }
         }
 
@@ -1166,89 +1008,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             SaleDetailNotesScreen noteScreen = new SaleDetailNotesScreen(this);
             noteScreen.ShowDialog();
-        }
-
-        private void cmbCallMonitoringUser_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            try
-            {
-                lblStartTimeCallOverAssessment.Visibility = Visibility.Visible;
-                lblStartTimeCallOverAssessmentField.Visibility = Visibility.Visible;
-                lblStartTimeCallOverAssessmentField.Text = DateTime.Now.ToString();
-
-                ScreenData.StartTimeOverAssessment = DateTime.Now;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
-        }
-
-        private void chkIsCallMonitored_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                lblEndTimeCallOverAssessment.Visibility = Visibility.Visible;
-                lblEndTimeCallOverAssessmentField.Visibility = Visibility.Visible;
-                lblEndTimeCallOverAssessmentField.Text = DateTime.Now.ToString();
-
-                ScreenData.EndTimeOverAssessment = DateTime.Now;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
-
-        }
-
-        private void cmbSecondaryCallMonitoringUser_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            try
-            {
-                lblEndTimeCallOverAssessmentOutcome.Visibility = Visibility.Visible;
-                lblEndTimeCallOverAssessmentOutcomeField.Visibility = Visibility.Visible;
-                lblEndTimeCallOverAssessmentOutcomeField.Text = DateTime.Now.ToString();
-
-                ScreenData.EndTimeOverAssessorOutcome = DateTime.Now;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
-        }
-
-        private void chkTSRBUSavedCF_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                lblStartTimeCFOverAssessment.Visibility = Visibility.Visible;
-                lblStartTimeCFOverAssessmentField.Visibility = Visibility.Visible;
-                lblStartTimeCFOverAssessmentField.Text = DateTime.Now.ToString();
-
-                ScreenData.StartTimeCFOverAssessment = DateTime.Now;
-
-            }
-            catch (Exception ex) 
-            {
-                ex.ToString(); 
-            }
-        }
-
-        private void cmbTertiaryCallMonitoringUser_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            try
-            {
-                lblEndTimeCFOverAssessment.Visibility = Visibility.Visible;
-                lblEndTimeCFOverAssessmentField.Visibility = Visibility.Visible;
-                lblEndTimeCFOverAssessmentField.Text = DateTime.Now.ToString();
-
-                ScreenData.EndTimeCFOverAssessment = DateTime.Now;
-
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
         }
     }
 
