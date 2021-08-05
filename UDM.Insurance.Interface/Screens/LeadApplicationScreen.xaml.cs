@@ -1715,15 +1715,15 @@ namespace UDM.Insurance.Interface.Screens
                 if (!LaData.AppData.IsLeadUpgrade) CalculateCost(false);
                 LaData.AppData.IsLeadLoaded = true;
 
-                //||
-                //    LaData.AppData.CampaignID == 6 ||
-                //    LaData.AppData.CampaignID == 105 THIS IS FOR MACC MILL
+
 
                 #region lead Permission Navigation
                 if (LaData.AppData.CampaignID == 102 ||
                     LaData.AppData.CampaignID == 2 ||
                     LaData.AppData.CampaignID == 103 ||
-                    LaData.AppData.CampaignID == 250 )
+                    LaData.AppData.CampaignID == 250 ||
+                    LaData.AppData.CampaignID == 6 ||
+                    LaData.AppData.CampaignID == 105)
                 {
                     btnPermissionLead.Visibility = Visibility.Visible;
                     if(LaData.AppData.CampaignID == 6 || LaData.AppData.CampaignID == 105)
@@ -13733,7 +13733,8 @@ namespace UDM.Insurance.Interface.Screens
             //this is for the commencement date
             try
             {
-                CommencementDateDebiCheck = CommencementDateDebiCheck.AddMonths(2);
+                DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
+                CommencementDateDebiCheck = datevariable.AddMonths(2);
                 CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(LaData.BankDetailsData.DebitDay.ToString()));
             }
             catch
@@ -14397,8 +14398,8 @@ namespace UDM.Insurance.Interface.Screens
                 DebiCheckBorder.BorderBrush = Brushes.White;
 
             }
-            //thia is for Janelle Naidoo and Gizelle Frazer to try boost the Accepted rates
-            if(GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181)
+            //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
+            if(GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 2810)
             {
                 btnDebiCheck.IsEnabled = true;
             }
