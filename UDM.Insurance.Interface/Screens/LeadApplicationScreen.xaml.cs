@@ -7515,124 +7515,131 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-
-            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
+            try
             {
-
-            }
-            else
-            {
-                if (cmbStatus.Text == "Sale")
+                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
                 {
-                    if (LaData.AppData.CampaignID == 7
-                        || LaData.AppData.CampaignID == 9
-                        || LaData.AppData.CampaignID == 10
-                        || LaData.AppData.CampaignID == 294
-                        || LaData.AppData.CampaignID == 295
-                        || LaData.AppData.CampaignID == 24
-                        || LaData.AppData.CampaignID == 25
-                        || LaData.AppData.CampaignID == 11
-                        || LaData.AppData.CampaignID == 12
-                        || LaData.AppData.CampaignID == 13
-                        || LaData.AppData.CampaignID == 14
-                        || LaData.AppData.CampaignID == 85
-                        || LaData.AppData.CampaignID == 86
-                        || LaData.AppData.CampaignID == 87
-                        || LaData.AppData.CampaignID == 281
-                        || LaData.AppData.CampaignID == 324
-                        || LaData.AppData.CampaignID == 325
-                        || LaData.AppData.CampaignID == 326
-                        || LaData.AppData.CampaignID == 327
-                        || LaData.AppData.CampaignID == 264
-                        || LaData.AppData.CampaignID == 4)
+
+                }
+                else
+                {
+                    if (cmbStatus.Text == "Sale")
                     {
-                        if (btnDebiCheck.Visibility == Visibility.Visible)
+                        if (LaData.AppData.CampaignID == 7
+                            || LaData.AppData.CampaignID == 9
+                            || LaData.AppData.CampaignID == 10
+                            || LaData.AppData.CampaignID == 294
+                            || LaData.AppData.CampaignID == 295
+                            || LaData.AppData.CampaignID == 24
+                            || LaData.AppData.CampaignID == 25
+                            || LaData.AppData.CampaignID == 11
+                            || LaData.AppData.CampaignID == 12
+                            || LaData.AppData.CampaignID == 13
+                            || LaData.AppData.CampaignID == 14
+                            || LaData.AppData.CampaignID == 85
+                            || LaData.AppData.CampaignID == 86
+                            || LaData.AppData.CampaignID == 87
+                            || LaData.AppData.CampaignID == 281
+                            || LaData.AppData.CampaignID == 324
+                            || LaData.AppData.CampaignID == 325
+                            || LaData.AppData.CampaignID == 326
+                            || LaData.AppData.CampaignID == 327
+                            || LaData.AppData.CampaignID == 264
+                            || LaData.AppData.CampaignID == 4)
                         {
-                            try
+                            if (btnDebiCheck.Visibility == Visibility.Visible)
                             {
-                                StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
-                                strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
-                                strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
-                                strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                                strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
-                                DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
-                                string responses = dt.Rows[0]["Response"].ToString();
-
-
-                            }
-                            catch
-                            {
-                                INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                messageBox.buttonOK.Content = "Yes";
-                                var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                bool result = showMessageBox != null && (bool)showMessageBox;
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
-                        {
-                            try
-                            {
-                                StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
-                                strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
-                                strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
-                                strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                                strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
-                                DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
-                                string responses = dt.Rows[0]["Response"].ToString();
-                            }
-                            catch
-                            {
-                                INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                messageBox.buttonOK.Content = "Yes";
-                                var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                bool result = showMessageBox != null && (bool)showMessageBox;
-                                return;
-                            }
-                        }
-                    }
-
-
-
-
-
-                    if (chkLeadPermission.Visibility == Visibility.Visible)
-                    {
-                        if (chkLeadPermission.IsChecked == false)
-                        {
-                            string strQuery;
-                            strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
-
-                            DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
-                            if (dtPolicyPlanGroup.Rows.Count == 0)
-                            {
-                                INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                messageBox.buttonOK.Content = "Yes";
-                                messageBox.buttonCancel.Content = "No";
-
-                                var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
-                                bool result = showMessageBox != null && (bool)showMessageBox;
-
-                                if (result == true)
+                                try
                                 {
-                                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
-                                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+                                    StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                    strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                    strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                    strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                    strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                    DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                    string responses = dt.Rows[0]["Response"].ToString();
 
+
+                                }
+                                catch
+                                {
+                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                    messageBox.buttonOK.Content = "Yes";
+                                    var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                    bool result = showMessageBox != null && (bool)showMessageBox;
                                     return;
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
                             {
+                                try
+                                {
+                                    StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                    strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                    strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                    strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                    strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                    DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                    string responses = dt.Rows[0]["Response"].ToString();
+                                }
+                                catch
+                                {
+                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                    messageBox.buttonOK.Content = "Yes";
+                                    var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                    bool result = showMessageBox != null && (bool)showMessageBox;
+                                    return;
+                                }
                             }
                         }
+
+
+
+
+
+                        if (chkLeadPermission.Visibility == Visibility.Visible)
+                        {
+                            if (chkLeadPermission.IsChecked == false)
+                            {
+                                string strQuery;
+                                strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                                DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+                                if (dtPolicyPlanGroup.Rows.Count == 0)
+                                {
+                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                    messageBox.buttonOK.Content = "Yes";
+                                    messageBox.buttonCancel.Content = "No";
+
+                                    var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
+                                    bool result = showMessageBox != null && (bool)showMessageBox;
+
+                                    if (result == true)
+                                    {
+                                        PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
+                                        ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+
                     }
 
                 }
+            }
+            catch
+            {
 
             }
+
 
 
             if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.ConfirmationAgent && (lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted && LaData.AppData.IsConfirmed == false)
@@ -13874,6 +13881,20 @@ namespace UDM.Insurance.Interface.Screens
                 DebiCheckSentData.SubmissionDate = DateTime.Now;
                 DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
                 DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+
+                //DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
+                //DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
+                //DebiCheckSentData.SMSID = "";
+                //DebiCheckSentData.FKlkpSMSTypeID = 2;
+                //DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
+                //DebiCheckSentData.SMSBody = "6";
+                //DebiCheckSentData.FKlkpSMSEncodingID = 2;
+                //DebiCheckSentData.SubmissionID = "";
+                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                //DebiCheckSentData.SubmissionDate = DateTime.Now;
+                //DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
+                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
 
 
                 DebiCheckSentData.Save(_validationResult);
