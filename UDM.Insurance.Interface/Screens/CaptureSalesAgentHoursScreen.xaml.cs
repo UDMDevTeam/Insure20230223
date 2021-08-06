@@ -38,7 +38,7 @@ namespace UDM.Insurance.Interface.Screens
             InitializeComponent();
 
 
-            if(GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 1016 || GlobalSettings.ApplicationUser.ID == 6091 || GlobalSettings.ApplicationUser.ID == 7194 || GlobalSettings.ApplicationUser.ID == 45 || GlobalSettings.ApplicationUser.ID == 394
+            if(GlobalSettings.ApplicationUser.ID == 1016 || GlobalSettings.ApplicationUser.ID == 6091 || GlobalSettings.ApplicationUser.ID == 7194 || GlobalSettings.ApplicationUser.ID == 45 || GlobalSettings.ApplicationUser.ID == 394
                 || GlobalSettings.ApplicationUser.ID == 403 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 2857 || GlobalSettings.ApplicationUser.ID == 3165
                 || GlobalSettings.ApplicationUser.ID == 3388 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 7206 || GlobalSettings.ApplicationUser.ID == 40416)
             {
@@ -1289,7 +1289,7 @@ namespace UDM.Insurance.Interface.Screens
 
             try
             {
-                if (GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 1016 || GlobalSettings.ApplicationUser.ID == 6091 || GlobalSettings.ApplicationUser.ID == 7194 || GlobalSettings.ApplicationUser.ID == 45 || GlobalSettings.ApplicationUser.ID == 394
+                if (GlobalSettings.ApplicationUser.ID == 1016 || GlobalSettings.ApplicationUser.ID == 6091 || GlobalSettings.ApplicationUser.ID == 7194 || GlobalSettings.ApplicationUser.ID == 45 || GlobalSettings.ApplicationUser.ID == 394
                    || GlobalSettings.ApplicationUser.ID == 403 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 2857 || GlobalSettings.ApplicationUser.ID == 3165
                    || GlobalSettings.ApplicationUser.ID == 3388 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 7206 || GlobalSettings.ApplicationUser.ID == 40416)
                 {
@@ -1515,13 +1515,13 @@ namespace UDM.Insurance.Interface.Screens
 
                         #region Ensuring that at least 1 of the 3 redeemed hours options is selected
 
-                        if ((Convert.ToBoolean(rbIsRedeemedYes.IsChecked) == false) &&
-                            (Convert.ToBoolean(rbIsRedeemedNo.IsChecked) == false) &&
-                            (Convert.ToBoolean(rbIsRedeemedNeither.IsChecked) == false))
-                        {
-                            ShowMessageBox(new INMessageBoxWindow1(), "Please indicate the hours as being either redeemed, non-redeemed or default.", "Save Result", ShowMessageType.Exclamation);
-                            return;
-                        }
+                        //if ((Convert.ToBoolean(rbIsRedeemedYes.IsChecked) == false) &&
+                        //    (Convert.ToBoolean(rbIsRedeemedNo.IsChecked) == false) &&
+                        //    (Convert.ToBoolean(rbIsRedeemedNeither.IsChecked) == false))
+                        //{
+                        //    ShowMessageBox(new INMessageBoxWindow1(), "Please indicate the hours as being either redeemed, non-redeemed or default.", "Save Result", ShowMessageType.Exclamation);
+                        //    return;
+                        //}
 
                         #endregion Ensuring that at least 1 of the 3 redeemed hours options is selected
 
