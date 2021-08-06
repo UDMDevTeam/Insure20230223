@@ -2038,6 +2038,8 @@ namespace UDM.Insurance.Interface.Screens
                                             index = dicBeneficiary.Where(item => item.Key.Contains("Relationship")).Select(item => item.Value.Index).ElementAt(0);
                                             if (index > -1) inBeneficiary.FKINRelationshipID = GetLookupID(row.Cells[index], "lkpINRelationship");
 
+                                            if (idxFields.ContainsKey("Future9")) inBeneficiary.TelContact = GetStringValue(row.Cells[idxFields["Future9"].Index]);
+
                                             inBeneficiary.Save(_validationResult);
 
                                             INPolicyBeneficiary inPolicyBeneficiary = new INPolicyBeneficiary();
@@ -2207,9 +2209,9 @@ namespace UDM.Insurance.Interface.Screens
 
                                 INImportContactTracing iNImportContactTracing = new INImportContactTracing();
 
-                                try
-                                {
-
+                                //try
+                                //{
+                                              
                                     iNImportContactTracing.FKINImportID = inImport.ID;
                                     iNImportContactTracing.ContactTraceOne = GetStringValue(row.Cells[idxFields["Contact1"].Index]);
                                     iNImportContactTracing.ContactTraceTwo = GetStringValue(row.Cells[idxFields["Contact2"].Index]);
@@ -2218,20 +2220,22 @@ namespace UDM.Insurance.Interface.Screens
                                     iNImportContactTracing.ContactTraceFive = GetStringValue(row.Cells[idxFields["Contact5"].Index]);
                                     iNImportContactTracing.ContactTraceSix = GetStringValue(row.Cells[idxFields["Contact6"].Index]);
 
-                                }
-                                catch
-                                {
-                                    iNImportContactTracing.FKINImportID = null;
-                                    iNImportContactTracing.ContactTraceOne = null;
-                                    iNImportContactTracing.ContactTraceTwo = null;
-                                    iNImportContactTracing.ContactTraceThree = null;
-                                    iNImportContactTracing.ContactTraceFour = null;
-                                    iNImportContactTracing.ContactTraceFive = null;
-                                    iNImportContactTracing.ContactTraceSix = null;
-                                }
+                                    iNImportContactTracing.Save(_validationResult);
+
+                                //}
+                                //catch
+                                //{
+                                //    iNImportContactTracing.FKINImportID = null;
+                                //    iNImportContactTracing.ContactTraceOne = null;
+                                //    iNImportContactTracing.ContactTraceTwo = null;
+                                //    iNImportContactTracing.ContactTraceThree = null;
+                                //    iNImportContactTracing.ContactTraceFour = null;
+                                //    iNImportContactTracing.ContactTraceFive = null;
+                                //    iNImportContactTracing.ContactTraceSix = null;
+                                //}
 
 
-                                iNImportContactTracing.Save(_validationResult);
+                                //iNImportContactTracing.Save(_validationResult);
 
                                 #endregion
 

@@ -817,8 +817,6 @@ namespace UDM.Insurance.Interface.Screens
                         DuplicateFinder();
                         //}
                         
-
-
                         Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                         {
                             atCopy.Text = "_Cancel";
@@ -869,14 +867,17 @@ namespace UDM.Insurance.Interface.Screens
                                     desImport.FKINBatchID = ScrData.DestinationBatchID;
                                     desImport.FKINLeadStatusID = null;
                                     desImport.FKINDeclineReasonID = lead.FKINDeclineReasonID; // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222129304/comments
+                                    
                                     if (!(dtUpgradeCampaigns.AsEnumerable().Any(row => Convert.ToInt64(ScrData.DestinationCampaignID) == row.Field<Int64>("CampaignID"))))
                                     {
                                         desImport.RefNo = Insure.INGetRenewalReferenceNumber((long)ScrData.SourceCampaignID, (long)ScrData.DestinationCampaignID, srcImport.RefNo);
                                     }
+
                                     else
                                     {
                                         desImport.RefNo = srcImport.RefNo;
                                     }
+
                                     desImport.AllocationDate = null;
                                     desImport.IsPrinted = null;
                                     desImport.DateOfSale = null;
@@ -1003,6 +1004,77 @@ namespace UDM.Insurance.Interface.Screens
 
                                     #endregion Copy INImportLatentLeadReason
 
+                                    #region Copy INNextOfKin
+
+                                    {
+                                        List<Tuple<string, string, object>> parameters = new List<Tuple<string, string, object>>();
+                                        parameters.Add(new Tuple<string, string, object>("", "FKINImportID", lead.ImportID));
+                                        List<long?> objIDs = Methods.GetObjectIDs("INNextOfKin", parameters);
+
+                                        if (objIDs != null)
+                                        {
+                                            foreach (long? id in objIDs)
+                                            {
+                                                if (id != null)
+                                                {
+                                                    INNextOfKin srcObject = new INNextOfKin((long)id);
+                                                    INNextOfKin desObject = new INNextOfKin();
+
+                                                    Methods.CopyObject(srcObject, desObject);
+
+                                                    desObject.FKINImportID = desImport.ID;
+                                                    desObject.FKINRelationshipID = srcObject.FKINRelationshipID;
+                                                    desObject.FirstName = srcObject.FirstName;
+                                                    desObject.Surname = srcObject.Surname;
+                                                    desObject.TelContact = srcObject.TelContact;
+
+
+                                                    desObject.Save(_validationResult);
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+
+                                    #endregion Copy INNextOfKin
+
+                                    #region Copy INImportContactTracing 
+
+                                    {
+                                        List<Tuple<string, string, object>> parameters = new List<Tuple<string, string, object>>();
+                                        parameters.Add(new Tuple<string, string, object>("", "FKINImportID", lead.ImportID));
+                                        List<long?> objIDs = Methods.GetObjectIDs("INImportContactTracing", parameters);
+
+                                        if (objIDs != null)
+                                        {
+                                            foreach (long? id in objIDs)
+                                            {
+                                                if (id != null)
+                                                {
+                                                    INImportContactTracing srcObject = new INImportContactTracing((long)id);
+                                                    INImportContactTracing desObject = new INImportContactTracing();
+
+                                                    Methods.CopyObject(srcObject, desObject);
+
+                                                    desObject.FKINImportID = desImport.ID;
+                                                    desObject.ContactTraceOne = srcObject.ContactTraceOne;
+                                                    desObject.ContactTraceTwo = srcObject.ContactTraceTwo;
+                                                    desObject.ContactTraceThree = srcObject.ContactTraceThree;
+                                                    desObject.ContactTraceFour = srcObject.ContactTraceFour;
+                                                    desObject.ContactTraceFive = srcObject.ContactTraceFive;
+                                                    desObject.ContactTraceSix = srcObject.ContactTraceSix;
+
+                                                    desObject.Save(_validationResult);
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+
+                                    #endregion Copy INNextOfKin
+
                                     #region clear OptionID
 
                                     if (desImport.FKINPolicyID != null)
@@ -1047,7 +1119,6 @@ namespace UDM.Insurance.Interface.Screens
                                     return;
                                 }
                             }
-
 
                             CommitTransaction(null);
                         }

@@ -412,7 +412,7 @@ namespace UDM.Insurance.Business.Queries
                     parameters[65] = Database.GetParameter("@FKINCallMonitoringCancellationReasonID", inimport.FKINCallMonitoringCancellationReasonID.HasValue ? (object)inimport.FKINCallMonitoringCancellationReasonID.Value : DBNull.Value);
                     parameters[66] = Database.GetParameter("@IsFutureAllocation", inimport.IsFutureAllocation.HasValue ? (object)inimport.IsFutureAllocation.Value : DBNull.Value);
                     parameters[67] = Database.GetParameter("@MoneyBackDate", inimport.MoneyBackDate.HasValue ? (object)inimport.MoneyBackDate.Value : DBNull.Value);
-                    parameters[68] = Database.GetParameter("ConversionMBDate", inimport.ConversionMBDate.HasValue ? (object)inimport.ConversionMBDate.Value : DBNull.Value);
+                    parameters[68] = Database.GetParameter("@ConversionMBDate", inimport.ConversionMBDate.HasValue ? (object)inimport.ConversionMBDate.Value : DBNull.Value);
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
             }
