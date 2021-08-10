@@ -41,11 +41,11 @@ namespace UDM.Insurance.Interface.Screens
             _TimerPrint.Tick += TimerPrint;
             _TimerPrint.Interval = new TimeSpan(0, 0, 1);
 
-            #if TESTBUILD
+#if TESTBUILD
                 TestControl.Visibility = Visibility.Visible;
-            #else
-                TestControl.Visibility = Visibility.Collapsed;
-            #endif
+#else
+            TestControl.Visibility = Visibility.Collapsed;
+#endif
         }
 
         #endregion
@@ -171,13 +171,13 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Initialize & check campaign
 
-                DataTable dt = ((DataView) xdgPrintLeads.DataSource).Table;
+                DataTable dt = ((DataView)xdgPrintLeads.DataSource).Table;
                 DataTable dtSelected = dt.Select("Select = true", "SalesAgent ASC").CopyToDataTable();
                 DataTable dtCampaigns = Methods.GroupBy("CampaignCode", "CampaignCode", dtSelected);
                 string[] groupByBatches = new string[] { "CampaignCode", "BatchCode" };
                 DataTable dtCampaignBatches = Methods.GroupBy(groupByBatches, "BatchCode", dtSelected);
 
-                
+
                 if (dtCampaigns.Rows.Count > 1)
                 {
                     ShowMessageBox(new INMessageBoxWindow1(), "Multiple Campaigns Selected.\n Select leads to print from the same campaign.", "Lead Print Error", ShowMessageType.Error);
@@ -186,7 +186,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 INCampaign campaign = INCampaignMapper.SearchOne(null, null, null, dtSelected.Rows[0]["CampaignCode"].ToString(), null, null, null, null, null, null, null, null);
 
-                #if !TRAININGBUILD
+#if !TRAININGBUILD
                 if (campaign.Name.CaseInsensitiveContains("Upgrade"))
                 {
                     if (dtCampaignBatches.Rows.Count > 1)
@@ -195,7 +195,7 @@ namespace UDM.Insurance.Interface.Screens
                         return;
                     }
                 }
-                #endif
+#endif
 
                 INBatch batch = INBatchMapper.SearchOne(campaign.ID, dtSelected.Rows[0]["BatchCode"].ToString(), null, null, null, null, null, null, null, null);
                 DateTime nextMonday = Methods.NextWeekDay(DateTime.Now, DayOfWeek.Monday);
@@ -433,7 +433,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             leadTemplateRowIndex = 40;
                         }
-                        else if (campaign.Code == "PLDMM6U")
+                        else if (campaign.Code == "PLDMM6U" || campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM8U")
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
                             TemplateLines = 15;//13;
@@ -453,26 +453,26 @@ namespace UDM.Insurance.Interface.Screens
 
                             leadTemplateRowIndex = 40;
                         }
-                        else if (campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM8U")
-                        {
-                            uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
-                            TemplateLines = 15;//13;
-                            leadsPerPage = 3;
-                            leadColumnWidth = 54;
-                            coverColumns = 58;
-                            coverRows = 34; //51;
+                        //else if (campaign.Code == "PLDMM7U")
+                        //{
+                        //    uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
+                        //    TemplateLines = 15;//13;
+                        //    leadsPerPage = 3;
+                        //    leadColumnWidth = 54;
+                        //    coverColumns = 58;
+                        //    coverRows = 34; //51;
 
-                            if (uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx")
-                            {
-                                coverRows = 39;
-                            }
+                        //    if (uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx")
+                        //    {
+                        //        coverRows = 39;
+                        //    }
 
-                            upgradeCoverSheetColumnIndex = 26;
-                            upgradeCoverSheetRowIndex = 2;
-                            verticalSpacingBetweenLeads = 1;
+                        //    upgradeCoverSheetColumnIndex = 26;
+                        //    upgradeCoverSheetRowIndex = 2;
+                        //    verticalSpacingBetweenLeads = 1;
 
-                            leadTemplateRowIndex = 40;
-                        }
+                        //    leadTemplateRowIndex = 40;
+                        //}
                         else
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgrade3.xlsx", UriKind.Relative);
@@ -493,10 +493,10 @@ namespace UDM.Insurance.Interface.Screens
 
                             leadTemplateRowIndex = 40;
                         }
-                        
+
                         IsUpgradeCampaign = true;
 
-                        
+
                         break;
 
                     #endregion Upgrades
@@ -504,7 +504,7 @@ namespace UDM.Insurance.Interface.Screens
                     #region Other non-upgrade campaigns
 
                     default:
-                        if ((dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDBPE") && 
+                        if ((dtSelected.Rows[0]["CampaignCode"].ToString().Trim() == "PLFDBPE") &&
                              dtSelected.Rows[0]["BatchCode"].ToString().Trim().Contains("WebL") &&
                              dtSelected.Rows[0]["BatchCode"].ToString().Trim().Contains("_NR"))
                         {
@@ -521,7 +521,7 @@ namespace UDM.Insurance.Interface.Screens
                             uri = new Uri("/Templates/PrintTemplateCancerBase.xlsx", UriKind.Relative);
                             TemplateLines = 4;
                         }
-                        
+
                         leadsPerPage = 5;
                         leadColumnWidth = 16;
                         coverColumns = 15;
@@ -532,7 +532,7 @@ namespace UDM.Insurance.Interface.Screens
                         verticalSpacingBetweenLeads = 1;
                         break;
 
-                    #endregion Other non-upgrade campaigns
+                        #endregion Other non-upgrade campaigns
                 }
 
                 StreamResourceInfo info = Application.GetResourceStream(uri);
@@ -562,7 +562,7 @@ namespace UDM.Insurance.Interface.Screens
                 wsSummary.PrintOptions.Header = "&C&B" + LeadBookName.Replace("#DATE#", (Convert.ToDateTime(dtSelected.Rows[0]["AllocationDate"])).ToString("yyyy/MM/dd"));
                 wsSummary.PrintOptions.Footer = "&C&B" + (Convert.ToDateTime(dtSelected.Rows[0]["SalesStartDate"])).ToString("yyyy/MM/dd");
 
-                Methods.SetExcelStandardWSOptions(wsSummary, Orientation.Landscape);                
+                Methods.SetExcelStandardWSOptions(wsSummary, Orientation.Landscape);
 
                 //Worksheet wsCover = wbPrint.Worksheets.Add("Cover");
                 //wsCover.PrintOptions.Header = "&C&B" + LeadBookName;
@@ -608,9 +608,9 @@ namespace UDM.Insurance.Interface.Screens
                     else
                     {
                         if (strCampaignCode == "ACCDIS")
-					    {
-						    ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchACCDIS", parameters);
-					    }
+                        {
+                            ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchACCDIS", parameters);
+                        }
                         else if (strCampaignCode.Contains("REJ") || strCampaignCode.Contains("DEF") || strCampaignCode.Contains("REACT"))
                         {
                             ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatch2", parameters);
@@ -625,32 +625,32 @@ namespace UDM.Insurance.Interface.Screens
 
                         //}
                         else
-					    {
-						    ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatch", parameters);
-					    }
+                        {
+                            ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatch", parameters);
+                        }
                     }
 
-                    #if !TRAININGBUILD
+#if !TRAININGBUILD
 
                     DataTable dtLeadPrintData = ds.Tables[0];
                     dtLeadPrintData = Methods.OrderRandomly(dtLeadPrintData.AsEnumerable()).CopyToDataTable();
 
-                    #else
+#else
                     
                     DataTable dtLeadPrintData = ds.Tables[0];
                     DataView dvLeadPrintData = dtLeadPrintData.DefaultView;
                     dvLeadPrintData.Sort = "ImportID ASC";
                     dtLeadPrintData = dvLeadPrintData.ToTable();
 
-                    #endif
+#endif
 
                     #endregion Get Lead Data
 
                     #region Create Leadbook Entry
 
                     INLeadBook inLeadBook = new INLeadBook();
-                    inLeadBook.FKUserID = (long) drAgent["AgentID"];
-                    inLeadBook.FKINBatchID = (long) drAgent["BatchID"];
+                    inLeadBook.FKUserID = (long)drAgent["AgentID"];
+                    inLeadBook.FKINBatchID = (long)drAgent["BatchID"];
                     inLeadBook.Description = nextMonday.ToString().Substring(0, 10) + "-" + drAgent["CampaignCode"] + "-" + drAgent["BatchCode"];
                     inLeadBook.Save(_validationResult);
                     long leadBookID = inLeadBook.ID;
@@ -696,7 +696,7 @@ namespace UDM.Insurance.Interface.Screens
                     //setup leadsheet
                     string strAgent = drAgent["SalesAgent"].ToString().Length > 31 ? drAgent["SalesAgent"].ToString().Substring(0, 31) : drAgent["SalesAgent"].ToString();
 
-                    lblAgent.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate{lblAgent.Text = strAgent;}));
+                    lblAgent.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { lblAgent.Text = strAgent; }));
 
                     Worksheet wsLeads = wbPrint.Worksheets.Add(strAgent);
 
@@ -769,7 +769,7 @@ namespace UDM.Insurance.Interface.Screens
                     leadRow += IsUpgradeCampaign ? leadTemplateRowIndex + 2 : 31;
 
                     #endregion Cover Page
-                    
+
                     #region Insert Page Break
 
                     //See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/208328091/comments     
@@ -786,7 +786,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         if (IsUpgradeCampaign)
                         {
-                            if (campaign.Code == "PLDMM5U" )
+                            if (campaign.Code == "PLDMM5U")
                             {
                                 Methods.CopyExcelRegion(wsCoverAndLeadTemplate, leadTemplateRowIndex, 0, TemplateLines + 1, leadColumnWidth, wsLeads, leadRow, 0);
 
@@ -892,13 +892,6 @@ namespace UDM.Insurance.Interface.Screens
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
 
-                                    if (campaign.Code == "PLDMM8U")
-                                    {
-                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
-                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
-
-                                    }
-
                                 }
 
                                 if (batch.Code.Contains("_R"))
@@ -988,23 +981,23 @@ namespace UDM.Insurance.Interface.Screens
                                     uri.ToString() == "/Templates/PrintTemplateUpgradeNonRedeemed2mWLite.xlsx")
                                 {
                                     string str;
-                                    string[,] Label = new string[3,4];
-                                    string[,] Value = new string[3,4];
+                                    string[,] Label = new string[3, 4];
+                                    string[,] Value = new string[3, 4];
 
-                                    Action<int, int, string, string> getDisplayData = delegate(int i, int j, string strCover, string strDisplay)
+                                    Action<int, int, string, string> getDisplayData = delegate (int i, int j, string strCover, string strDisplay)
                                     {
-                                        Value[i,j] = Convert.ToString(dtLeadPrintData.Rows[lead[0] - 1][strCover]);
-                                        if (!string.IsNullOrWhiteSpace(Value[i,j]))
+                                        Value[i, j] = Convert.ToString(dtLeadPrintData.Rows[lead[0] - 1][strCover]);
+                                        if (!string.IsNullOrWhiteSpace(Value[i, j]))
                                         {
-                                            Label[i,j] = strDisplay + ", ";
+                                            Label[i, j] = strDisplay + ", ";
                                             if (Value[i, j].Length > Value[i, j].Length - 3)
-                                                Value[i,j] = "R " + $"{Convert.ToDecimal(Value[i, j]):N0}" + ", ";//.Remove(Value[i,j].Length - 3)
+                                                Value[i, j] = "R " + $"{Convert.ToDecimal(Value[i, j]):N0}" + ", ";//.Remove(Value[i,j].Length - 3)
                                         }
                                     };
 
 
                                     //LA1
-                                    string[,,] LA1Strings = 
+                                    string[,,] LA1Strings =
                                     {
                                         {
                                             {"LA1CancerCover", "Cancer" }, {"LA1DisabilityCover", "Disability" }, {"LA1AccidentalDeathCover", "AccDeath" }, {"LA1FuneralCover", "Funeral" }
@@ -1021,21 +1014,21 @@ namespace UDM.Insurance.Interface.Screens
                                     {
                                         for (int k = 0; k < 4; k++) //Cancer, Disability, AccDeath, Funeral
                                         {
-                                            getDisplayData(l, k, LA1Strings[l,k,0], LA1Strings[l,k,1]);
+                                            getDisplayData(l, k, LA1Strings[l, k, 0], LA1Strings[l, k, 1]);
                                         }
-                                        str = "LA1 " + Label[l,0] + Label[l,1] + Label[l,2] + Label[l,3];
+                                        str = "LA1 " + Label[l, 0] + Label[l, 1] + Label[l, 2] + Label[l, 3];
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA1Label" + (l + 1)).Value = str.Remove(str.Length - 2);
-                                        str = Value[l,0] + Value[l,1] + Value[l,2] + Value[l,3];
+                                        str = Value[l, 0] + Value[l, 1] + Value[l, 2] + Value[l, 3];
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA1Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
-                                
-                                    //LA2
-                                    Label = new string[3,4];
-                                    Value = new string[3,4];
 
-                                    string[,,] LA2Strings = 
+                                    //LA2
+                                    Label = new string[3, 4];
+                                    Value = new string[3, 4];
+
+                                    string[,,] LA2Strings =
                                     {
                                         {
                                             {"LA2CancerCover", "Cancer" }, {"LA2DisabilityCover", "Disability" }, {"LA2AccidentalDeathCover", "AccDeath" }, {"LA2FuneralCover", "Funeral" }
@@ -1052,21 +1045,16 @@ namespace UDM.Insurance.Interface.Screens
                                     {
                                         for (int k = 0; k < 4; k++) //Cancer, Disability, AccDeath, Funeral
                                         {
-                                            getDisplayData(l, k, LA2Strings[l,k,0], LA2Strings[l,k,1]);
+                                            getDisplayData(l, k, LA2Strings[l, k, 0], LA2Strings[l, k, 1]);
                                         }
-                                        str = "LA2 " + Label[l,0] + Label[l,1] + Label[l,2] + Label[l,3];
+                                        str = "LA2 " + Label[l, 0] + Label[l, 1] + Label[l, 2] + Label[l, 3];
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA2Label" + (l + 1)).Value = str.Remove(str.Length - 2);
-                                        str = Value[l,0] + Value[l,1] + Value[l,2] + Value[l,3];
+                                        str = Value[l, 0] + Value[l, 1] + Value[l, 2] + Value[l, 3];
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
-                                    if (campaign.Code == "PLDMM8U")
-                                    {
-                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
-                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
 
-                                    }
                                 }
 
                                 if (batch.Code.Contains("_R"))
@@ -1175,7 +1163,7 @@ namespace UDM.Insurance.Interface.Screens
                                         case 1:
                                             //if (targetCell != null)
                                             //{
-                                                targetCell.Value = dtLeadPrintData.Rows[lead[0] - 1][column].ToString();
+                                            targetCell.Value = dtLeadPrintData.Rows[lead[0] - 1][column].ToString();
                                             //}
                                             break;
 
@@ -1195,9 +1183,9 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                 }
 
-                                if (campaign.FKINCampaignGroupID == (long) lkpINCampaignGroup.Rejuvenation 
-                                    || campaign.FKINCampaignGroupID == (long) lkpINCampaignGroup.Defrosted 
-                                    || campaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.ReDefrost 
+                                if (campaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.Rejuvenation
+                                    || campaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.Defrosted
+                                    || campaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.ReDefrost
                                     || campaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.Reactivation
                                     || campaign.FKINCampaignGroupID == (long)lkpINCampaignGroup.Resurrection
                                     )
@@ -1315,7 +1303,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     #region Populate conversion sheets
 
-                    DateTime dateReceived = Convert.ToDateTime(drAgent["SalesStartDate"]);                    
+                    DateTime dateReceived = Convert.ToDateTime(drAgent["SalesStartDate"]);
                     int totalLeads = Convert.ToInt32(drAgent["Leads2Print"].ToString());
 
                     // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/223109796/comments
@@ -1391,8 +1379,8 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                     // Date Received
-                    wsConversionCell = wsConversion.Rows[9].Cells[4];                    
-                    wsConversionCell.Value = dateReceived.ToString("yyyy-MM-dd");      
+                    wsConversionCell = wsConversion.Rows[9].Cells[4];
+                    wsConversionCell.Value = dateReceived.ToString("yyyy-MM-dd");
 
                     //Sales Target %
                     if (IsUpgradeCampaign)
@@ -1431,7 +1419,7 @@ namespace UDM.Insurance.Interface.Screens
                         wsConversionCell = wsConversion.Rows[22].Cells[12];
                         wsConversionCell.Value = Math.Ceiling(((totalLeads * Math.Ceiling(contactRateTargetPerc)) / 100m)).ToString();
                     }
-                    
+
                     #region OLD
 
                     // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/207460137/comments
@@ -1640,7 +1628,7 @@ namespace UDM.Insurance.Interface.Screens
             int coverRows = 29;
             int verticalSpacingBetweenLeads = 1;
             int leadTemplateRowIndex = 35; // Give it a default value
-                 
+
             Worksheet wsSummaryTemplate = wbTemplate.Worksheets["Summary"];
             Worksheet wsConversionTemplate = wbTemplate.Worksheets["Conversion"];
 
@@ -1698,11 +1686,11 @@ namespace UDM.Insurance.Interface.Screens
 
                 DataTable dtLeadPrintData = ds.Tables[0];
 
-                #if !TRAININGBUILD
+#if !TRAININGBUILD
 
                 dtLeadPrintData = Methods.OrderRandomly(dtLeadPrintData.AsEnumerable()).CopyToDataTable();
 
-                #endif
+#endif
 
                 #endregion Get Lead Data
 
@@ -1746,7 +1734,7 @@ namespace UDM.Insurance.Interface.Screens
                 wsLeads.GetCell("G20").Value = drAgent["CampaignName"] + " " + drAgent["BatchCode"];
                 wsLeads.GetCell("G21").Value = (Convert.ToDateTime(drAgent["SalesStartDate"])).ToString("yyyy/MM/dd");
                 wsLeads.GetCell("G22").Value = Convert.ToDateTime(drAgent["SalesStartDate"]).AddDays(63).ToString("yyyy/MM/dd");
-               
+
                 long pages = Convert.ToInt64(drAgent["Leads2Print"]) / leadsPerPage;
                 long remainder = Convert.ToInt64(drAgent["Leads2Print"]) % leadsPerPage;
                 if (remainder > 0)
@@ -2032,7 +2020,7 @@ namespace UDM.Insurance.Interface.Screens
                     return;
                 }
             }
-            
+
             #endregion Assuming we're only printing for 1 campaign at a time, use row 1 column 1 of dtSelectedItemsToPrint to get the configs
 
             #region Set the lead book name using a comma-separated string of the distinct batch codes in dtSelectedItemsToPrint
@@ -2082,7 +2070,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 //AddIndividualSalesConsultantCoverAndLeads(wbTemplate, wbPrint, drAgent, dtLeadBookConfiguration.Rows[0], leadBookName);
                 AddIndividualSalesConsultantCoverAndLeads(wbPrint, drAgent, dtLeadBookConfiguration.Rows[0], leadBookName);
-                
+
                 #endregion Add the current sales consultant's cover sheet and leads
 
                 #region Add the current sales consultant's conversion sheet
@@ -2483,7 +2471,7 @@ namespace UDM.Insurance.Interface.Screens
                 (campaignCode == "PLCBEC") ||
                 (campaignCode == "PLCBER") ||
                 (campaignCode == "PLMMBE") ||
-                (campaignCode == "PLMCB")  ||
+                (campaignCode == "PLMCB") ||
                 (campaignCode == "PLMMCB") ||
                 (campaignCode == "PLFDCB"))
             {
@@ -2497,7 +2485,7 @@ namespace UDM.Insurance.Interface.Screens
                     if (DateTime.Now >= Convert.ToDateTime("2018-09-12 00:00:00"))
                     {
                         templateWorkbookName = "PrintTemplateEliteNonRedeemedGiftsWLite.xlsx";
-                    }  
+                    }
                     else
                     {
                         templateWorkbookName = "PrintTemplateEliteNonRedeemedGifts.xlsx";
@@ -2615,7 +2603,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 wsLeads.GetCell(String.Format("AG{0}", coverFirstValueRowIndex + 7)).Value = drSelectedEntryPrint["RedeemTarget"];
             }
-            
+
             #endregion Populate the workbook cover
 
             #region Insert the page break
@@ -2629,13 +2617,13 @@ namespace UDM.Insurance.Interface.Screens
 
             DataTable dtLeadData = Insure.INGetLeadsForUserAndBatchGeneric(fkINBatchID, fkUserID, allocationDate);
 
-            #if TRAININGBUILD
+#if TRAININGBUILD
 
             DataView dv = dtLeadData.DefaultView;
             dv.Sort = "RefNo ASC";
             dtLeadData = dv.ToTable();
 
-            #endif
+#endif
 
             #endregion Get the lead data from the database
 
@@ -2685,7 +2673,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         if (column?.ColumnName?.Trim() == "CallTime")
                         {
-                            FormattedString formattedString =  new FormattedString(wsLeads.GetCell("CallTime").Value?.ToString());
+                            FormattedString formattedString = new FormattedString(wsLeads.GetCell("CallTime").Value?.ToString());
 
                             if (formattedString?.ToString()?.Contains("SMS Date") == true)
                             {
@@ -2810,7 +2798,7 @@ namespace UDM.Insurance.Interface.Screens
             }
 
 
-             //this is for all the lead sales blocks on the conversion page
+            //this is for all the lead sales blocks on the conversion page
             try
             {
                 int TotalLeadsCalc = Convert.ToInt32(wsConversion.GetCell("Leads2Print").Value);
@@ -2848,7 +2836,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
             //wsConversion.Columns[2].
-                //(2, 1).CellFormat.FormatString = """$""#,##0.00;[red](""$""#,##0.00)"
+            //(2, 1).CellFormat.FormatString = """$""#,##0.00;[red](""$""#,##0.00)"
 
             #endregion Add the values
 
@@ -2856,7 +2844,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 wsConversion.Rows[25].Hidden = true;
             }
-            
+
         }
 
         #endregion Private Methods
