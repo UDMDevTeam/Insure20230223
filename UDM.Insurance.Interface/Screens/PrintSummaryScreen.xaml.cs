@@ -433,7 +433,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             leadTemplateRowIndex = 40;
                         }
-                        else if (campaign.Code == "PLDMM6U" || campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM8U")
+                        else if (campaign.Code == "PLDMM6U")
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
                             TemplateLines = 15;//13;
@@ -453,26 +453,26 @@ namespace UDM.Insurance.Interface.Screens
 
                             leadTemplateRowIndex = 40;
                         }
-                        //else if (campaign.Code == "PLDMM7U")
-                        //{
-                        //    uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
-                        //    TemplateLines = 15;//13;
-                        //    leadsPerPage = 3;
-                        //    leadColumnWidth = 54;
-                        //    coverColumns = 58;
-                        //    coverRows = 34; //51;
+                        else if (campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM8U")
+                        {
+                            uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
+                            TemplateLines = 15;//13;
+                            leadsPerPage = 3;
+                            leadColumnWidth = 54;
+                            coverColumns = 58;
+                            coverRows = 34; //51;
 
-                        //    if (uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx")
-                        //    {
-                        //        coverRows = 39;
-                        //    }
+                            if (uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx")
+                            {
+                                coverRows = 39;
+                            }
 
-                        //    upgradeCoverSheetColumnIndex = 26;
-                        //    upgradeCoverSheetRowIndex = 2;
-                        //    verticalSpacingBetweenLeads = 1;
+                            upgradeCoverSheetColumnIndex = 26;
+                            upgradeCoverSheetRowIndex = 2;
+                            verticalSpacingBetweenLeads = 1;
 
-                        //    leadTemplateRowIndex = 40;
-                        //}
+                            leadTemplateRowIndex = 40;
+                        }
                         else
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgrade3.xlsx", UriKind.Relative);
@@ -892,6 +892,13 @@ namespace UDM.Insurance.Interface.Screens
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
 
+                                    if (campaign.Code == "PLDMM8U")
+                                    {
+                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
+                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
+
+                                    }
+
                                 }
 
                                 if (batch.Code.Contains("_R"))
@@ -1054,7 +1061,12 @@ namespace UDM.Insurance.Interface.Screens
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
+                                    if (campaign.Code == "PLDMM8U")
+                                    {
+                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
+                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
 
+                                    }
                                 }
 
                                 if (batch.Code.Contains("_R"))
