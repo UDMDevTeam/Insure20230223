@@ -1039,7 +1039,9 @@ namespace UDM.Insurance.Interface.Screens
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                             ||
-                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7)
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                            ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                             ))
                         {
                             LaData.PolicyData.PlatinumPlan = "1";
@@ -4098,6 +4100,8 @@ namespace UDM.Insurance.Interface.Screens
                                                     ||
                                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
                                                     ||
+                                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
+                                                    ||
                                                     (LaData.AppData.CampaignType == lkpINCampaignType.Cancer
                                                     &&
                                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9)
@@ -4141,6 +4145,8 @@ namespace UDM.Insurance.Interface.Screens
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
                             ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
+                            ||
                             LaData.AppData.CampaignType == lkpINCampaignType.Cancer
                             &&
                             (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
@@ -4179,6 +4185,8 @@ namespace UDM.Insurance.Interface.Screens
                                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                                                     ||
                                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                                                    ||
+                                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
                                                     ||
                                                     (LaData.AppData.CampaignType == lkpINCampaignType.Cancer
                                                     &&
@@ -4221,6 +4229,8 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                            ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
                             ||
                             LaData.AppData.CampaignType == lkpINCampaignType.Cancer
                             &&
@@ -4272,6 +4282,8 @@ namespace UDM.Insurance.Interface.Screens
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
                             ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
+                            ||
                             LaData.AppData.CampaignType == lkpINCampaignType.Cancer
                             &&
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
@@ -4308,6 +4320,8 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                            ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
                             ||
                             LaData.AppData.CampaignType == lkpINCampaignType.Cancer
                             &&
@@ -4513,7 +4527,9 @@ namespace UDM.Insurance.Interface.Screens
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                             ||
-                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7)
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                            ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                             ))
                             {
                                 ((TextBlock)control).Text = "Child Cancer";
@@ -4555,7 +4571,9 @@ namespace UDM.Insurance.Interface.Screens
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                             ||
-                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7)
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                            ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                             ))
                             {
                                 ((TextBlock)control).Text = "Total Child Cancer";
@@ -4588,7 +4606,9 @@ namespace UDM.Insurance.Interface.Screens
                                     ||
                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
                                     ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7)
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
+                                    ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                                     ))
                                 {
                                     total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[8].Cover);
