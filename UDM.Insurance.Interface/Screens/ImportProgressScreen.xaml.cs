@@ -2211,7 +2211,8 @@ namespace UDM.Insurance.Interface.Screens
 
                                 //try
                                 //{
-                                              
+                                try
+                                {
                                     iNImportContactTracing.FKINImportID = inImport.ID;
                                     iNImportContactTracing.ContactTraceOne = GetStringValue(row.Cells[idxFields["Contact1"].Index]);
                                     iNImportContactTracing.ContactTraceTwo = GetStringValue(row.Cells[idxFields["Contact2"].Index]);
@@ -2221,6 +2222,12 @@ namespace UDM.Insurance.Interface.Screens
                                     iNImportContactTracing.ContactTraceSix = GetStringValue(row.Cells[idxFields["Contact6"].Index]);
 
                                     iNImportContactTracing.Save(_validationResult);
+                                }   
+                                catch
+                                {
+
+                                }
+
 
                                 //}
                                 //catch

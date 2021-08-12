@@ -596,7 +596,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (IsUpgradeCampaign)
                     {
-                        if (campaign.Code == "PLDMM5U")
+                        if (campaign.Code == "PLDMM5U" || campaign.Code == "PLDMM8U")
                         {
                             ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchPLDMM5U", parameters);
                         }
@@ -892,12 +892,12 @@ namespace UDM.Insurance.Interface.Screens
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
 
-                                    if (campaign.Code == "PLDMM8U")
-                                    {
-                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
-                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
+                                    //if (campaign.Code == "PLDMM8U")
+                                    //{
+                                    //    wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
+                                    //    wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
 
-                                    }
+                                    //}
 
                                 }
 
@@ -1061,12 +1061,12 @@ namespace UDM.Insurance.Interface.Screens
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
-                                    if (campaign.Code == "PLDMM8U")
-                                    {
-                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
-                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
+                                    //if (campaign.Code == "PLDMM8U")
+                                    //{
+                                    //    wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
+                                    //    wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
 
-                                    }
+                                    //}
                                 }
 
                                 if (batch.Code.Contains("_R"))
