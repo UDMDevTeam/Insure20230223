@@ -4111,7 +4111,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             ((TextBlock)control).Text = "LA1 Cancer";
                         }
-                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5)
+                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                         {
                             ((TextBlock)control).Text = "LA1 Cancer";
                         }
@@ -4158,7 +4158,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             ((TextBlock)control).Text = "Total LA1 Cancer";
                         }
-                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5)
+                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                         {
                             ((TextBlock)control).Text = "Total LA1 Cancer";
                         }
@@ -4197,7 +4197,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[0].Cover);
                         }
-                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5)
+                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                         {
                             total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[0].Cover);
                         }
@@ -4243,7 +4243,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
 
-                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5)
+                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                         {
                             ((TextBlock)control).Text = "LA2 Cancer";
                         }
@@ -4293,7 +4293,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             ((TextBlock)control).Text = "Total LA2 Cancer";
                         }
-                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5)
+                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                         {
                             ((TextBlock)control).Text = "Total LA2 Cancer";
                         }
@@ -4332,7 +4332,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[4].Cover);
                         }
-                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5)
+                        else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                         {
                             total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[4].Cover);
                         }
@@ -4534,7 +4534,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 ((TextBlock)control).Text = "Child Cancer";
                             }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType))
+                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                             {
                                 ((TextBlock)control).Text = "Child Cancer";
                             }
@@ -4578,7 +4578,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 ((TextBlock)control).Text = "Total Child Cancer";
                             }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType))
+                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                             {
                                 ((TextBlock)control).Text = "Total Child Cancer";
                             }
