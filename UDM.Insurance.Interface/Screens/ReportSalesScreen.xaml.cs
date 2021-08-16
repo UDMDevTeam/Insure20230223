@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Resources;
@@ -443,7 +444,13 @@ namespace UDM.Insurance.Interface.Screens
                     new SqlParameter("@ToDate", _toDate)
                 };
 
-            DataSet ds = Methods.ExecuteStoredProcedure("spINReportSales", parameters);
+            DataSet ds = null;
+
+
+                ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSales", parameters);
+            
+
+
             DataTable dtCampaigns = ds.Tables[0];
             DataTable dtCampaignsCF = ds.Tables[21];
             DataTable dtSales = ds.Tables[1];

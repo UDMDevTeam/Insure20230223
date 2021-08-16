@@ -22,6 +22,7 @@ using UDM.Insurance.Business;
 using Embriant.WPF.Controls;
 using Orientation = Infragistics.Documents.Excel.Orientation;
 using UDM.Insurance.Interface.Data;
+using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -762,7 +763,19 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data - and exit the method if there is no data available
 
-                DataSet dsSalaryReportData = Insure.INReportSalaryGeneric(_includeSystemUnitsColumn, _fkINCampaignFKINCampaignClusterIDs, _reportType, _fromDate, _toDate, _bonusSales, _useCampaignClusters);
+                DataSet dsSalaryReportData;
+
+
+                var transactionOptions = new TransactionOptions
+                {
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                };
+
+                using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                {
+                     dsSalaryReportData = Insure.INReportSalaryGeneric(_includeSystemUnitsColumn, _fkINCampaignFKINCampaignClusterIDs, _reportType, _fromDate, _toDate, _bonusSales, _useCampaignClusters);
+                }
+
 
                 if (dsSalaryReportData.Tables[3].Rows.Count == 0)
                 {

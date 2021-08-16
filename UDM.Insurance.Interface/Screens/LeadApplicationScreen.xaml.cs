@@ -2446,10 +2446,10 @@ namespace UDM.Insurance.Interface.Screens
                 if (LaData.AppData.ImportID.HasValue)
                 {
                     INImport import = new INImport((long)LaData.AppData.ImportID);
-                    import.FKINLeadStatusID = LaData.AppData.LeadStatus;
+                    import.FKINLeadStatusID = LaData.AppData.LeadStatus; 
 
-                    import.FKUserID = LaData.AppData.AgentID;
-                    import.DateOfSale = LaData.AppData.DateOfSale;
+                    import.FKUserID = LaData.AppData.AgentID; 
+                    import.DateOfSale = LaData.AppData.DateOfSale; 
 
                     #region Sale Data (page5)
 

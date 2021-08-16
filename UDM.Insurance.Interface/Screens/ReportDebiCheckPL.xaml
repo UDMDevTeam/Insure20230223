@@ -300,6 +300,40 @@
                     		Visibility="Visible" />
                     </Viewbox>
 
+                    <DataGrid x:Name="MandateLookupDG"
+                              Grid.Row="10"
+                              Grid.Column="12"
+                              Grid.ColumnSpan="12"
+                              Grid.RowSpan="4"
+                              Visibility="Collapsed">
+                        
+                    </DataGrid>
+                    <TextBox x:Name="ReferenceNumberTB"
+                             Grid.Row="14"
+                             Grid.Column="12"
+                             Grid.ColumnSpan="6"  
+                             VerticalContentAlignment="Center"
+                             Margin="5"
+                             HorizontalContentAlignment="Center"
+                             Visibility="Collapsed"
+                        ></TextBox>
+                    <Button x:Name="RefrenceGoBtn"
+                            Grid.Column="18"
+                            Grid.Row="14"
+                            Grid.ColumnSpan="2"
+                            Click="RefrenceGoBtn_Click"
+                            Content="Go"
+                            Visibility="Collapsed"
+                            Style="{StaticResource INSendSMSButton}" Margin="0.5,4.5,10,4" Width="Auto"></Button>
+
+                    <Button x:Name="RefrenceGoOpenBtn"
+                            Grid.Column="3"
+                            Grid.Row="13"
+                            Grid.ColumnSpan="4"
+                            Click="RefrenceGoOpenBtn_Click"
+                            Content="Reference LookUp"
+                            Visibility="Collapsed"
+                            Style="{StaticResource INSendSMSButton}"></Button>
 
                 </Grid>
             </Viewbox>

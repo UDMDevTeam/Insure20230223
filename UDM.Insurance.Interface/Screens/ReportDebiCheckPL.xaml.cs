@@ -18,6 +18,7 @@ using UDM.WPF.Library;
 using Orientation = Infragistics.Documents.Excel.Orientation;
 using System.Linq;
 using System.Collections.Generic;
+using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -605,6 +606,41 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+        private void RefrenceGoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string refno = ReferenceNumberTB.Text;
 
+                DataSet DebiCheckLoopup = null;
+                DataTable DebiCheckLookupDT = null;
+
+
+                var transactionOptions = new TransactionOptions
+                {
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                };
+
+                using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                {
+                    DebiCheckLoopup = Business.Insure.INGetDebiCheckLookupPL(refno);
+                }
+
+                DebiCheckLookupDT = DebiCheckLoopup.Tables[0];
+                MandateLookupDG.ItemsSource = DebiCheckLookupDT.DefaultView;
+
+            }
+            catch (Exception q)
+            {
+
+            }
+        }
+
+        private void RefrenceGoOpenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            RefrenceGoBtn.Visibility = Visibility;
+            ReferenceNumberTB.Visibility = Visibility;
+            MandateLookupDG.Visibility = Visibility;
+        }
     }
 }
