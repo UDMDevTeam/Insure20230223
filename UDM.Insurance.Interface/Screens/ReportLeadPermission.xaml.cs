@@ -202,13 +202,13 @@ namespace UDM.Insurance.Interface.Screens
                     // single worksheet
                     Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
 
-                    workSheet.Cells[1, 0 + 1] = "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
+                //    workSheet.Cells[1, 0 + 1] =  "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
                     for (var i = 0; i < dtSalesData.Columns.Count; i++)
                     {
 
-                        workSheet.Cells[2, i + 1].Font.Bold = true;
-                        workSheet.Cells[2, i + 1].ColumnWidth = 20;
-                        workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                        workSheet.Cells[1, i + 1].Font.Bold = true;
+                        workSheet.Cells[1, i + 1].ColumnWidth = 20;
+                        workSheet.Cells[1, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                         //workSheet.get_Range("A4", "J1").Font.Bold = true;
                     }
 
@@ -216,7 +216,7 @@ namespace UDM.Insurance.Interface.Screens
                     // column headings
                     for (var i = 0; i < dtSalesData.Columns.Count; i++)
                     {
-                        workSheet.Cells[2, i + 1] = dtSalesData.Columns[i].ColumnName;
+                        workSheet.Cells[1, i + 1] = dtSalesData.Columns[i].ColumnName;
                     }
 
                     // rows
@@ -225,7 +225,7 @@ namespace UDM.Insurance.Interface.Screens
                         // to do: format datetime values before printing
                         for (var j = 0; j < dtSalesData.Columns.Count; j++)
                         {
-                            workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[ i - 1 ][ j ];
+                            workSheet.Cells[i + 1, j + 1] = dtSalesData.Rows[ i - 1 ][ j ];
                         }
                     }
 
