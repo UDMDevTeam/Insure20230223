@@ -20,6 +20,7 @@ using Orientation = Infragistics.Documents.Excel.Orientation;
 using System.Linq;
 using UDM.Insurance.Business;
 using UDM.Insurance.Interface.Data;
+using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -45,7 +46,16 @@ namespace UDM.Insurance.Interface.Screens
         private CheckBox _xdgHeaderPrefixAreaCheckbox;
         private RecordCollectionBase _campaigns;
         private DateTime _fromDate = DateTime.Now;
+        private long CampaignID;
         private string _dateOfSale;
+
+        DataTable dtDebiCheckRefNo;
+
+        DataTable dtBatchExportData;
+
+        DataTable dtTempBatchExportData;
+
+        DataSet dsBatchExportData;
 
         private string _platinumBatchCode;
         private List<Record> _lstSelectedCampaigns;
@@ -302,6 +312,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Wait);
 
+               
                 foreach (var campaign in _campaigns)
                 {
                     var record = (DataRecord) campaign;
@@ -321,6 +332,7 @@ namespace UDM.Insurance.Interface.Screens
                         Workbook wbTemplate = new Workbook(WorkbookFormat.Excel2007);
                         Workbook wbBatchExport = new Workbook(WorkbookFormat.Excel2007);
                         //string filePathAndName = GlobalSettings.UserFolder + campaignName + " Batch Export ~ " + DateTime.Now.Millisecond + ".xlsx";
+
                         #region Append R or NR
                         string appendedCampaignCodeString = "";
                         if (RData.BatchType == lkpINBatchType.Redeemed)
@@ -336,7 +348,6 @@ namespace UDM.Insurance.Interface.Screens
                             appendedCampaignCodeString = "";
                         }
                         #endregion Append R or NR
-
 
                         string filePathAndName = String.Format("{0}{1},{2},{3}.xlsx", GlobalSettings.UserFolder, campaignCode + appendedCampaignCodeString, _dateOfSale, _platinumBatchCode);
 
@@ -369,21 +380,102 @@ namespace UDM.Insurance.Interface.Screens
 
                         #region Get batch export data from database
 
-                        DataTable dtBatchExportData;
+
+                        //DataTable dtBatchExportData;
+
+                        //DataSet dsBatchExportData, dsDebiCheckRefNo;
+
+                        _ = dtDebiCheckRefNo;
+
+                        //if (dtDebiCheckRefNo.Rows.Count > 0)
+                        //{
+                        //    foreach (System.Data.DataRow drDebiCheck in dtDebiCheckRefNo.Rows)
+                        //    {
+                        //        DataTable dtTempSalesData = null;
+
+                        //        string RefNo = drDebiCheck.ItemArray[0] as string;
+
+                        //        dtTempBatchExportData = dtDebiCheckRefNo;
+
+
+                        //        foreach (DataRow row in dtTempSalesData.Rows)
+                        //        {
+                        //            dtDebiCheckRefNo.Rows.Add(row.ItemArray);
+                        //        }
+
+
+                        //    }
+                        //}
+
+
+
 
                         SqlParameter[] parameters = new SqlParameter[4];
                         parameters[0] = new SqlParameter("@CampaignID", campaignID);
                         parameters[1] = new SqlParameter("@DateOfSale", _fromDate.ToString("yyyy-MM-dd"));
                         parameters[2] = new SqlParameter("@PlatinumBatchCode", _platinumBatchCode);
                         parameters[3] = new SqlParameter("@BatchType", (byte)RData.BatchType);
-                        //parameters[2] = new SqlParameter("@ToDate", _fromDate.ToString("yyyy-MM-dd"));
 
-                        DataSet dsBatchExportData = Methods.ExecuteStoredProcedure("spINReportBatchExport", parameters);
-                        if (dsBatchExportData.Tables.Count > 0)
+
+                        dsBatchExportData = Methods.ExecuteStoredProcedure("spINReportBatchExport", parameters);
+
+                        dtBatchExportData = dsBatchExportData.Tables[2];
+
+                        if (dtDebiCheckRefNo.Rows.Count > 0)
                         {
-                            dtBatchExportData = dsBatchExportData.Tables[0];
+                            //foreach (System.Data.DataRow drDebiCheck in dtDebiCheckRefNo.Rows)
+                            //{
+                                DataTable dtTempSalesData = null;
 
-                            if (dtBatchExportData.Rows.Count == 0)
+                                //string RefNo = drDebiCheck.ItemArray[0] as string;
+
+                                dtTempBatchExportData = dsBatchExportData.Tables[0];
+
+                                for (int count = 0; count < dtBatchExportData.Rows.Count; count++)
+                                {
+                                   if (dtBatchExportData.Rows[count]["ClientRefNr"].ToString() == dtDebiCheckRefNo.Rows[count]["ReferenceNumber"].ToString()) 
+                                    {
+
+                                        dtBatchExportData.Rows[count]["MandateRequestStatus"] = dtDebiCheckRefNo.Rows[count]["MandateRequestStatus"].ToString();
+
+                                        //dtBatchExportData = dsBatchExportData.Tables[2];
+                                    }
+                                }
+
+                            //dtTempBatchExportData.Columns("RefNo") 
+
+
+                            //}
+                        }
+
+
+                        //DataTable dtBatchExportData;
+
+                        //SqlParameter[] parameters = new SqlParameter[4];
+                        //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+                        //parameters[1] = new SqlParameter("@DateOfSale", _fromDate.ToString("yyyy-MM-dd"));
+                        //parameters[2] = new SqlParameter("@PlatinumBatchCode", _platinumBatchCode);
+                        //parameters[3] = new SqlParameter("@BatchType", (byte)RData.BatchType);
+                        ////parameters[2] = new SqlParameter("@ToDate", _fromDate.ToString("yyyy-MM-dd"));
+
+                        //DataSet dsBatchExportData = Methods.ExecuteStoredProcedure("spINReportBatchExport", parameters);
+
+
+                        if (dsBatchExportData.Tables.Count > 0)
+                            {
+                                dtBatchExportData = dsBatchExportData.Tables[0];
+
+                                if (dtBatchExportData.Rows.Count == 0)
+                                {
+                                    Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                    {
+                                        ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
+                                    });
+
+                                    continue;
+                                }
+                            }
+                            else
                             {
                                 Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                                 {
@@ -392,135 +484,126 @@ namespace UDM.Insurance.Interface.Screens
 
                                 continue;
                             }
-                        }
-                        else
-                        {
-                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+
+
+                            #endregion Get batch export data from database
+
+                            #region Batch Cover Page
+
+                            wsBatchCoverSheet.DisplayOptions.TabColorInfo = wsBatchCoverSheetTemplate.DisplayOptions.TabColorInfo;
+                            Methods.CopyExcelRegion(wsBatchCoverSheetTemplate, 0, 0, 45, 24, wsBatchCoverSheet, 0, 0);
+
+                            // Get the required data.
+                            DataTable coverPageTable = dsBatchExportData.Tables[0];
+
+                            if (coverPageTable != null)
                             {
-                                ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
-                            });
-
-                            continue;
-                        }
-
-                        #endregion Get batch export data from database
-
-                        #region Batch Cover Page
-
-                        wsBatchCoverSheet.DisplayOptions.TabColorInfo = wsBatchCoverSheetTemplate.DisplayOptions.TabColorInfo;
-                        Methods.CopyExcelRegion(wsBatchCoverSheetTemplate, 0, 0, 45, 24, wsBatchCoverSheet, 0, 0);
-
-                        // Get the required data.
-                        DataTable coverPageTable = dsBatchExportData.Tables[0];
-
-                        if (coverPageTable != null)
-                        {
-                            if (coverPageTable.Rows.Count > 0)
-                            {
-                                DataRow coverPageRow = coverPageTable.Rows[0];
-
-                                // Assign values to excell sheet.
-                                wsCoverCell = wsBatchCoverSheet.Rows[18].Cells[1];
-                                wsCoverCell.Value = coverPageRow["Campaign"];
-
-                                wsCoverCell = wsBatchCoverSheet.Rows[22].Cells[1];
-                                wsCoverCell.Value = coverPageRow["CampaignCode"];
-
-                                wsCoverCell = wsBatchCoverSheet.Rows[26].Cells[1];
-                                wsCoverCell.Value = coverPageRow["BatchNumber"];
-
-                                wsCoverCell = wsBatchCoverSheet.Rows[30].Cells[1];
-                                wsCoverCell.Value = coverPageRow["DateOfSale"];
-
-                                wsCoverCell = wsBatchCoverSheet.Rows[37].Cells[12];
-                                wsCoverCell.Value = coverPageRow["TotalPolicies"];
-
-                                wsCoverCell = wsBatchCoverSheet.Rows[39].Cells[12];
-                                wsCoverCell.Value = coverPageRow["TotalUnits"];
-
-                                //// This was giving problems, so this will be replaced by an Excel Formula at the very end
-                                //// as soon as the the Policy Data sheet  has been populated
-                                //wsCoverCell = wsBatchCoverSheet.Rows[41].Cells[12];
-                                //wsCoverCell.Value = coverPageRow["TotalPremiums"];
-
-                                //wsCoverCell = wsBatchCoverSheet.Rows[43].Cells[12];
-                                //wsCoverCell.Value = coverPageRow["AveragePremium"];
-                            }
-                        }
-
-                        #endregion
-
-                        #region Batch Client summary
-
-                        wsBatchClientSummary.DisplayOptions.View = WorksheetView.PageLayout;
-                        wsBatchClientSummary.DisplayOptions.TabColorInfo = wsBatchClientSummaryTemplate.DisplayOptions.TabColorInfo;
-
-                        //Only copy until row 20. Row 21 will be repeatedly copied and inserted:
-                        Methods.CopyExcelRegion(wsBatchClientSummaryTemplate, 0, 0, 19, 22, wsBatchClientSummary, 0, 0);
-
-                        // Get the required data.                        
-                        if (coverPageTable != null)
-                        {
-                            if (coverPageTable.Rows.Count > 0)
-                            {
-                                DataRow coverPageRow = coverPageTable.Rows[0];
-
-
-                                // Assign values to excell sheet.
-                                wsCoverCell = wsBatchClientSummary.Rows[11].Cells[12];
-                                wsCoverCell.Value = coverPageRow["Campaign"];
-
-                                wsCoverCell = wsBatchClientSummary.Rows[13].Cells[12];
-                                wsCoverCell.Value = coverPageRow["CampaignCode"];
-
-                                wsCoverCell = wsBatchClientSummary.Rows[15].Cells[12];
-                                wsCoverCell.Value = coverPageRow["BatchNumber"];
-
-                                wsCoverCell = wsBatchClientSummary.Rows[17].Cells[12];
-                                wsCoverCell.CellFormat.FormatString = "yyyy/mm/dd";
-                                wsCoverCell.Value = coverPageRow["DateOfSale"];
-                                //wsCoverCell.Value = Convert.ToDateTime(coverPageRow["DateOfSale"]).ToString("yyyy/MM/dd");
-
-                                // Get summary table.
-                                DataTable summaryPageTable = dsBatchExportData.Tables[1];
-                                if (summaryPageTable != null)
+                                if (coverPageTable.Rows.Count > 0)
                                 {
-                                    if (summaryPageTable.Rows.Count > 0)
+                                    DataRow coverPageRow = coverPageTable.Rows[0];
+
+                                    // Assign values to excell sheet.
+                                    wsCoverCell = wsBatchCoverSheet.Rows[18].Cells[1];
+                                    wsCoverCell.Value = coverPageRow["Campaign"];
+
+                                    wsCoverCell = wsBatchCoverSheet.Rows[22].Cells[1];
+                                    wsCoverCell.Value = coverPageRow["CampaignCode"];
+
+                                    wsCoverCell = wsBatchCoverSheet.Rows[26].Cells[1];
+                                    wsCoverCell.Value = coverPageRow["BatchNumber"];
+
+                                    wsCoverCell = wsBatchCoverSheet.Rows[30].Cells[1];
+                                    wsCoverCell.Value = coverPageRow["DateOfSale"];
+
+                                    wsCoverCell = wsBatchCoverSheet.Rows[37].Cells[12];
+                                    wsCoverCell.Value = coverPageRow["TotalPolicies"];
+
+                                    wsCoverCell = wsBatchCoverSheet.Rows[39].Cells[12];
+                                    wsCoverCell.Value = coverPageRow["TotalUnits"];
+
+                                    //// This was giving problems, so this will be replaced by an Excel Formula at the very end
+                                    //// as soon as the the Policy Data sheet  has been populated
+                                    //wsCoverCell = wsBatchCoverSheet.Rows[41].Cells[12];
+                                    //wsCoverCell.Value = coverPageRow["TotalPremiums"];
+
+                                    //wsCoverCell = wsBatchCoverSheet.Rows[43].Cells[12];
+                                    //wsCoverCell.Value = coverPageRow["AveragePremium"];
+                                }
+                            }
+
+                            #endregion
+
+                            #region Batch Client summary
+
+                            wsBatchClientSummary.DisplayOptions.View = WorksheetView.PageLayout;
+                            wsBatchClientSummary.DisplayOptions.TabColorInfo = wsBatchClientSummaryTemplate.DisplayOptions.TabColorInfo;
+
+                            //Only copy until row 20. Row 21 will be repeatedly copied and inserted:
+                            Methods.CopyExcelRegion(wsBatchClientSummaryTemplate, 0, 0, 19, 22, wsBatchClientSummary, 0, 0);
+
+                            // Get the required data.                        
+                            if (coverPageTable != null)
+                            {
+                                if (coverPageTable.Rows.Count > 0)
+                                {
+                                    DataRow coverPageRow = coverPageTable.Rows[0];
+
+
+                                    // Assign values to excell sheet.
+                                    wsCoverCell = wsBatchClientSummary.Rows[11].Cells[12];
+                                    wsCoverCell.Value = coverPageRow["Campaign"];
+
+                                    wsCoverCell = wsBatchClientSummary.Rows[13].Cells[12];
+                                    wsCoverCell.Value = coverPageRow["CampaignCode"];
+
+                                    wsCoverCell = wsBatchClientSummary.Rows[15].Cells[12];
+                                    wsCoverCell.Value = coverPageRow["BatchNumber"];
+
+                                    wsCoverCell = wsBatchClientSummary.Rows[17].Cells[12];
+                                    wsCoverCell.CellFormat.FormatString = "yyyy/mm/dd";
+                                    wsCoverCell.Value = coverPageRow["DateOfSale"];
+                                    //wsCoverCell.Value = Convert.ToDateTime(coverPageRow["DateOfSale"]).ToString("yyyy/MM/dd");
+
+                                    // Get summary table.
+                                    DataTable summaryPageTable = dsBatchExportData.Tables[1];
+                                    if (summaryPageTable != null)
                                     {
-                                        int count = 0;
-
-                                        foreach (DataRow summaryRow in summaryPageTable.Rows)
+                                        if (summaryPageTable.Rows.Count > 0)
                                         {
-                                            Methods.CopyExcelRegion(wsBatchClientSummaryTemplate, 20, 2, 0, 19, wsBatchClientSummary, (20 + count), 2);
+                                            int count = 0;
 
-                                            // Row index
-                                            wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[2];
-                                            wsCoverCell.Value = (count + 1).ToString();
+                                            foreach (DataRow summaryRow in summaryPageTable.Rows)
+                                            {
+                                                Methods.CopyExcelRegion(wsBatchClientSummaryTemplate, 20, 2, 0, 19, wsBatchClientSummary, (20 + count), 2);
 
-                                            wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[4];
-                                            wsCoverCell.Value = summaryRow["RefNo"];
+                                                // Row index
+                                                wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[2];
+                                                wsCoverCell.Value = (count + 1).ToString();
 
-                                            wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[10];
-                                            wsCoverCell.Value = summaryRow["Surname"];
+                                                wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[4];
+                                                wsCoverCell.Value = summaryRow["RefNo"];
 
-                                            wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[16];
-                                            wsCoverCell.Value = summaryRow["IDNumber"];
+                                                wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[10];
+                                                wsCoverCell.Value = summaryRow["Surname"];
 
-                                            count++;
+                                                wsCoverCell = wsBatchClientSummary.Rows[20 + count].Cells[16];
+                                                wsCoverCell.Value = summaryRow["IDNumber"];
+
+                                                count++;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
 
-                        #endregion Batch Client summary
+                            #endregion Batch Client summary
 
-                        #region Policy Data
+                            #region Policy Data
 
-                        //Firstly copy the column headings
-                        wsPolicyData.DisplayOptions.TabColorInfo = wsPolicyDataTemplate.DisplayOptions.TabColorInfo;
-                        Methods.CopyExcelRegion(wsPolicyDataTemplate, 0, 0, 3, 221, wsPolicyData, 0, 0);
+                            //Firstly copy the column headings
+                            wsPolicyData.DisplayOptions.TabColorInfo = wsPolicyDataTemplate.DisplayOptions.TabColorInfo;
+                            Methods.CopyExcelRegion(wsPolicyDataTemplate, 0, 0, 3, 221, wsPolicyData, 0, 0);
 
                         #region If if is an Upgrade campaign, change column heading of column F to "Ref Policy Nr"
 
@@ -551,53 +634,56 @@ namespace UDM.Insurance.Interface.Screens
                         //table.Style = wsPolicyData.Workbook.StandardTableStyles["TableStyleLight15"];
                         //table.DisplayBandedRows = false;
 
+                        //dsBatchExportData.Tables[2];
+
                         DataTable policyTable = dsBatchExportData.Tables[2];
-                        //DataTable benificiaryTable = dsBatchExportData.Tables[3];
 
-                        WorksheetCell wsPolicyCell;
+                            //DataTable benificiaryTable = dsBatchExportData.Tables[3];
 
-                        if (policyTable != null)
-                        {
-                            if (policyTable.Rows.Count > 0)
+                            WorksheetCell wsPolicyCell;
+
+                            if (policyTable != null)
                             {
-                                int rowCount = 3;
-                                foreach (DataRow polRow in policyTable.Rows)
+                                if (policyTable.Rows.Count > 0)
                                 {
-                                    // Copy the template for each row
-                                    Methods.CopyExcelRegion(wsPolicyDataTemplate, 3, 0, 0, 221, wsPolicyData, rowCount, 0);
-                                    string referenceNum = polRow[13].ToString();
-                                    DataTable dtImport = Methods.GetTableData("SELECT * FROM INImport WHERE FKINCampaignID = " + campaignID + " AND RefNo = '" + referenceNum + "' AND FKINLeadstatusID = '1'");
-                                    if (dtImport.Rows.Count == 0)
+                                    int rowCount = 3;
+                                    foreach (DataRow polRow in policyTable.Rows)
                                     {
-                                        dtImport = Methods.GetTableData("SELECT * from INImport where  RefNo = '" + referenceNum + "'");
-                                    }
-                                    long impID = -1;
-                                    if (dtImport.Rows.Count > 0)
-                                    {
-                                        impID = long.Parse(dtImport.Rows[0][0].ToString());
-                                    }
+                                        // Copy the template for each row
+                                        Methods.CopyExcelRegion(wsPolicyDataTemplate, 3, 0, 0, 221, wsPolicyData, rowCount, 0);
+                                        string referenceNum = polRow[13].ToString();
+                                        DataTable dtImport = Methods.GetTableData("SELECT * FROM INImport WHERE FKINCampaignID = " + campaignID + " AND RefNo = '" + referenceNum + "' AND FKINLeadstatusID = '1'");
+                                        if (dtImport.Rows.Count == 0)
+                                        {
+                                            dtImport = Methods.GetTableData("SELECT * from INImport where  RefNo = '" + referenceNum + "'");
+                                        }
+                                        long impID = -1;
+                                        if (dtImport.Rows.Count > 0)
+                                        {
+                                            impID = long.Parse(dtImport.Rows[0][0].ToString());
+                                        }
 
-                                    #region Update each INImport's DateSent value
+                                        #region Update each INImport's DateSent value
 
-                                    //Embriant.Framework.Data.Database.BeginTransaction(null, IsolationLevel.Snapshot);
+                                        //Embriant.Framework.Data.Database.BeginTransaction(null, IsolationLevel.Snapshot);
 
-                                    Business.INImport import = new Business.INImport(impID);
-                                    import.DateBatched = DateTime.Now;
-                                    import.Save(_validationResult);
+                                        Business.INImport import = new Business.INImport(impID);
+                                        import.DateBatched = DateTime.Now;
+                                        import.Save(_validationResult);
 
-                                    //CommitTransaction(null);
+                                        //CommitTransaction(null);
 
-                                    #endregion Update each INImport's DateSent value
+                                        #endregion Update each INImport's DateSent value
 
-                                    SqlParameter[] param = new SqlParameter[1];
-                                    param[0] = new SqlParameter("@ImportID", impID);
-                                    DataSet dsHistory = Methods.ExecuteStoredProcedure("sp_BatchExportHist", param);
+                                        SqlParameter[] param = new SqlParameter[1];
+                                        param[0] = new SqlParameter("@ImportID", impID);
+                                        DataSet dsHistory = Methods.ExecuteStoredProcedure("sp_BatchExportHist", param);
 
-                                    //int columnIndex = 0;
-                                    for (int b = 0; b < policyTable.Columns.Count - 1; b++)
-                                    {
-                                        //if (policyTable.Columns[b].ColumnName != "SoldByTempConsultant")
-                                        //{
+                                        //int columnIndex = 0;
+                                        for (int b = 0; b < policyTable.Columns.Count - 1; b++)
+                                        {
+                                            //if (policyTable.Columns[b].ColumnName != "SoldByTempConsultant")
+                                            //{
                                             wsPolicyCell = wsPolicyData.Rows[rowCount].Cells[b];
 
                                             #region Setting the font attributes:
@@ -1436,1204 +1522,1207 @@ namespace UDM.Insurance.Interface.Screens
                                             #endregion Shade the 1TSR cell green if the sale was made by a temp consultant
 
                                             //++columnIndex;
+                                            //}
+
+                                        }
+                                        // Update the row counter:
+                                        rowCount++;
+
+                                        #region Finally, apply the formulae to the Total Premium & Average Premium fields on the Batch Cover Sheet
+
+                                        wsCoverCell = wsBatchCoverSheet.Rows[41].Cells[12];
+                                        wsCoverCell.ApplyFormula(String.Format("=SUM('Policy Data'!AV4:AV{0})", rowCount));
+                                        wsCoverCell.CellFormat.FormatString = "#,##0.00";
+
+                                        wsCoverCell = wsBatchCoverSheet.Rows[43].Cells[12];
+                                        wsCoverCell.ApplyFormula(String.Format("=AVERAGE('Policy Data'!AV4:AV{0})", rowCount));
+                                        wsCoverCell.CellFormat.FormatString = "#,##0.00";
+
+                                        if (UDM.Insurance.Business.Insure.IsUpgradeCampaign(campaignID))
+                                        {
+                                            wsCoverCell = wsBatchCoverSheet.Rows[39].Cells[12];
+                                            wsCoverCell.ApplyFormula(String.Format("=SUM('Policy Data'!BG4:BG{0})", rowCount));
+                                            wsCoverCell.CellFormat.FormatString = "#,##0.00";
+                                        }
+
+                                        #endregion Finally, apply the formulae to the Total Premium & Average Premium fields on the Batch Cover Sheet
+
+                                        #region THE VERY LONG WAY!!!
+
+                                        //#region UDM Details
+
+                                        //// Campaign Code
+                                        //WorksheetCell wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //wsPolicyCell.Value = polRow["CampaignCode"];
+                                        //++_columnIndex;
+
+                                        //// Lead Date
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[1];
+                                        //wsPolicyCell.Value = polRow["LeadDate"];
+                                        //++_columnIndex;
+
+                                        //// Source
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[2];
+                                        //wsPolicyCell.Value = polRow["Source"];
+                                        //++_columnIndex;
+
+                                        //// Disc Ref
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[3];
+                                        //wsPolicyCell.Value = polRow["DiscRef"];
+
+                                        //// UDM Ref
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[4];
+                                        //wsPolicyCell.Value = polRow["UDMRef"];
+                                        //++_columnIndex;
+
+                                        //// Category
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[5];
+                                        //wsPolicyCell.Value = polRow["Category"];
+                                        //++_columnIndex;
+
+                                        //// Referror
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[6];
+                                        //wsPolicyCell.Value = polRow["Referror"];
+                                        //++_columnIndex;
+
+                                        //// Relationship
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[7];
+                                        //wsPolicyCell.Value = polRow["Relationship"];
+                                        //++_columnIndex;
+
+                                        //// 1TSR
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[8];
+                                        //wsPolicyCell.Value = polRow["1TSR"];
+                                        //++_columnIndex;
+
+                                        //// 2TSR
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[9];
+                                        //wsPolicyCell.Value = polRow["2TSR"];
+                                        //++_columnIndex;
+
+                                        //// 2Date
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[10];
+                                        //wsPolicyCell.Value = polRow["2Date"];
+                                        //++_columnIndex;
+
+                                        //// UDMNotes
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[11];
+                                        //wsPolicyCell.Value = polRow["UDMNotes"];
+                                        //++_columnIndex;
+
+                                        //// Notes
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[12];
+                                        //wsPolicyCell.Value = polRow["Notes"];
+                                        //++_columnIndex;
+
+                                        //// Client Ref Nr
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[13];
+                                        //wsPolicyCell.Value = polRow["ClientRefNr"];
+                                        //++_columnIndex;
+
+                                        //// Policy Nr
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[14];
+                                        //wsPolicyCell.Value = polRow["PolicyNr"];
+                                        //++_columnIndex;
+
+                                        //// Commence Date                                    
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[15];
+                                        //wsPolicyCell.Value = polRow["CommenceDate"];
+                                        //++_columnIndex;
+
+                                        //// Alteration Date                            
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[16];
+                                        //wsPolicyCell.Value = polRow["AlterationDate"];
+                                        //++_columnIndex;
+
+                                        //// Date of Sale                            
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[17];
+                                        //wsPolicyCell.Value = polRow["DateOfSale"];
+                                        //++_columnIndex;
+
+                                        //// Old Product ID                            
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[18];
+                                        //wsPolicyCell.Value = polRow["OldProductID"];
+                                        //++_columnIndex;
+
+                                        //// Auto Include MB                            
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[19];
+                                        //wsPolicyCell.Value = polRow["AutoIncludeMB"];
+                                        //++_columnIndex;
+
+                                        //#endregion UDM Details
+
+                                        //#region Policy Owner
+
+                                        //// Gender                                    
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[20];
+                                        //wsPolicyCell.Value = polRow["Gender"];
+                                        //++_columnIndex;
+
+                                        //// POTitle                            
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[21];
+                                        //wsPolicyCell.Value = polRow["POTitle"];
+                                        //++_columnIndex;
+
+                                        //// POInitials                            
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[22];
+                                        //wsPolicyCell.Value = polRow["POInitials"];
+                                        //++_columnIndex;
+
+                                        //// POFirst Name
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[23];
+                                        //wsPolicyCell.Value = polRow["POFirstName"];
+                                        //++_columnIndex;
+
+                                        //// POSurname
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[24];
+                                        //wsPolicyCell.Value = polRow["POSurname"];
+                                        //++_columnIndex;
+
+                                        //// POID Number
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[25];
+                                        //wsPolicyCell.Value = polRow["POIDNumber"];
+                                        //++_columnIndex;
+
+                                        //// PODate of Birth
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[26];
+                                        //wsPolicyCell.Value = polRow["PODateOfBirth"];
+                                        //++_columnIndex;
+
+                                        //// Age
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[27];
+                                        //wsPolicyCell.Value = polRow["Age"];
+                                        //++_columnIndex;
+
+                                        //// POAddress1
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[28];
+                                        //wsPolicyCell.Value = polRow["POAddress1"];
+                                        //++_columnIndex;
+
+                                        //// POAddress2
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[29];
+                                        //wsPolicyCell.Value = polRow["POAddress2"];
+                                        //++_columnIndex;
+
+                                        //// POAddress3
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[30];
+                                        //wsPolicyCell.Value = polRow["POAddress3"];
+                                        //++_columnIndex;
+
+                                        //// POAddress4
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[31];
+                                        //wsPolicyCell.Value = polRow["POAddress4"];
+                                        //++_columnIndex;
+
+                                        //// POAreaCode
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[32];
+                                        //wsPolicyCell.Value = polRow["POAreaCode"];
+                                        //++_columnIndex;
+
+                                        //// POWorkTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[33];
+                                        //wsPolicyCell.Value = polRow["POWorkTel"];
+                                        //++_columnIndex;
+
+                                        //// POHomeTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[34];
+                                        //wsPolicyCell.Value = polRow["POHomeTel"];
+                                        //++_columnIndex;
+
+                                        //// POCellTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[35];
+                                        //wsPolicyCell.Value = polRow["POCellTel"];
+                                        //++_columnIndex;
+
+                                        //// POEmail
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[36];
+                                        //wsPolicyCell.Value = polRow["POEmail"];
+                                        //++_columnIndex;
+
+                                        //#endregion Policy Owner
+
+                                        //#region Premium Payer
+
+                                        //// PPGender
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[37];
+                                        //wsPolicyCell.Value = polRow["PPGender"];
+                                        //++_columnIndex;
+
+                                        //// PPTitle
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[38];
+                                        //wsPolicyCell.Value = polRow["PPTitle"];
+                                        //++_columnIndex;
+
+                                        //// PPInitials
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[39];
+                                        //wsPolicyCell.Value = polRow["PPInitials"];
+                                        //++_columnIndex;
+
+                                        //// PPFirstName
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[40];
+                                        //wsPolicyCell.Value = polRow["PPFirstName"];
+                                        //++_columnIndex;
+
+                                        //// PPSurname
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[41];
+                                        //wsPolicyCell.Value = polRow["PPSurname"];
+                                        //++_columnIndex;
+
+                                        //// PPIDNumber
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[42];
+                                        //wsPolicyCell.Value = polRow["PPIDNumber"];
+                                        //++_columnIndex;
+
+                                        //// PPDateOfBirth
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[43];
+                                        //wsPolicyCell.Value = polRow["PPDateOfBirth"];
+                                        //++_columnIndex;
+
+                                        //// PPWorkTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[44];
+                                        //wsPolicyCell.Value = polRow["PPWorkTel"];
+                                        //++_columnIndex;
+
+                                        //// PPHomeTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[45];
+                                        //wsPolicyCell.Value = polRow["PPHomeTel"];
+                                        //++_columnIndex;
+
+                                        //// PPCellTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[46];
+                                        //wsPolicyCell.Value = polRow["PPCellTel"];
+                                        //++_columnIndex;
+
+                                        //#endregion Premium Payer
+
+                                        //#region Banking Details
+
+                                        //// ContractPremium
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[47];
+                                        //wsPolicyCell.Value = polRow["ContractPremium"];
+                                        //++_columnIndex;
+
+                                        //// BankName
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[48];
+                                        //wsPolicyCell.Value = polRow["BankName"];
+                                        //++_columnIndex;
+
+                                        //// BranchName
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[49];
+                                        //wsPolicyCell.Value = polRow["BranchName"];
+                                        //++_columnIndex;
+
+                                        //// BranchCode
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[50];
+                                        //wsPolicyCell.Value = polRow["BranchCode"];
+                                        //++_columnIndex;
+
+                                        //// AccountType
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[51];
+                                        //wsPolicyCell.Value = polRow["AccountType"];
+                                        //++_columnIndex;
+
+                                        //// AccountNumber
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[52];
+                                        //wsPolicyCell.Value = polRow["AccountNumber"];
+                                        //++_columnIndex;
+
+                                        //// DebitDay
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[53];
+                                        //wsPolicyCell.Value = polRow["DebitDay"];
+                                        //++_columnIndex;
+
+                                        //#endregion Banking Details
+
+                                        //#region Component 1: Basic Component
+
+                                        //// CNCompID
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[54];
+                                        //wsPolicyCell.Value = polRow["CNCompID"];
+                                        //++_columnIndex;
+
+                                        //// CNPrem
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[55];
+                                        //wsPolicyCell.Value = polRow["CNPrem"];
+                                        //++_columnIndex;
+
+                                        //// CNCover
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[56];
+                                        //wsPolicyCell.Value = polRow["CNCover"];
+                                        //++_columnIndex;
+
+                                        //// CNTerm
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[57];
+                                        //wsPolicyCell.Value = polRow["CNTerm"];
+                                        //++_columnIndex;
+
+                                        //// CNUnits
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[58];
+                                        //wsPolicyCell.Value = polRow["CNUnits"];
+                                        //++_columnIndex;
+
+                                        //// CNPGValue
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[59];
+                                        //wsPolicyCell.Value = polRow["CNPGValue"];
+                                        //++_columnIndex;
+
+                                        //// CNCG Perc
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[60];
+                                        //wsPolicyCell.Value = polRow["CNCGPerc"];
+                                        //++_columnIndex;
+
+                                        //#endregion Component 1: Basic Component
+
+                                        //#region Component 2: Money Back Component
+
+                                        //// MBCompID
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[61];
+                                        //wsPolicyCell.Value = polRow["MBCompID"];
+                                        //++_columnIndex;
+
+                                        //// MBPrem
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[62];
+                                        //wsPolicyCell.Value = polRow["MBPrem"];
+                                        //++_columnIndex;
+
+                                        //// MBCover
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[63];
+                                        //wsPolicyCell.Value = polRow["MBCover"];
+                                        //++_columnIndex;
+
+                                        //// MBTerm
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[64];
+                                        //wsPolicyCell.Value = polRow["MBTerm"];
+                                        //++_columnIndex;
+
+                                        //// MBUnits
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[65];
+                                        //wsPolicyCell.Value = polRow["MBUnits"];
+                                        //++_columnIndex;
+
+                                        //#endregion Component 2: Money Back Component
+
+                                        //#region Life Assured 1 Components
+
+                                        //#region Client Details
+                                        //// LA1Title
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[66];
+                                        //wsPolicyCell.Value = polRow["LA1Title"];
+                                        //++_columnIndex;
+
+                                        //// LA1Initials
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[67];
+                                        //wsPolicyCell.Value = polRow["LA1Initials"];
+                                        //++_columnIndex;
+
+                                        //// LA1FirstName
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[68];
+                                        //wsPolicyCell.Value = polRow["LA1FirstName"];
+                                        //++_columnIndex;
+
+                                        //// LA1Surname
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[69];
+                                        //wsPolicyCell.Value = polRow["LA1Surname"];
+                                        //++_columnIndex;
+
+                                        //// LA1IDNumber
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[70];
+                                        //wsPolicyCell.Value = polRow["LA1IDNumber"];
+                                        //++_columnIndex;
+
+                                        //// LA1DateOfBirth
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[71];
+                                        //wsPolicyCell.Value = polRow["LA1DateOfBirth"];
+                                        //++_columnIndex;
+
+                                        //// LA1Age
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[72];
+                                        //wsPolicyCell.Value = polRow["LA1Age"];
+                                        //++_columnIndex;
+
+                                        //// LA1WorkTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[73];
+                                        //wsPolicyCell.Value = polRow["LA1WorkTel"];
+                                        //++_columnIndex;
+
+                                        //// LA1HomeTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[74];
+                                        //wsPolicyCell.Value = polRow["LA1HomeTel"];
+                                        //++_columnIndex;
+
+                                        //// LA1CellTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[75];
+                                        //wsPolicyCell.Value = polRow["LA1CellTel"];
+                                        //++_columnIndex;
+
+                                        //// LA1Gender
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[76];
+                                        //wsPolicyCell.Value = polRow["LA1Gender"];
+                                        //++_columnIndex;
+
+                                        //#endregion Client Details
+
+                                        //#region LA1 Cancer
+
+                                        //// LA1CompID68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[77];
+                                        //wsPolicyCell.Value = polRow["LA1CompID68"];
+                                        //++_columnIndex;
+
+                                        //// LA1Prem68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[78];
+                                        //wsPolicyCell.Value = polRow["LA1Prem68"];
+                                        //++_columnIndex;
+
+                                        //// LA1Cover68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[79];
+                                        //wsPolicyCell.Value = polRow["LA1Cover68"];
+                                        //++_columnIndex;
+
+                                        //// LA1Term68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[80];
+                                        //wsPolicyCell.Value = polRow["LA1Term68"];
+                                        //++_columnIndex;
+
+                                        //// LA1Units68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[81];
+                                        //wsPolicyCell.Value = polRow["LA1Units68"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA1 Cancer
+
+                                        //#region LA1 Death
+                                        //// LA1CompID632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[82];
+                                        //wsPolicyCell.Value = polRow["LA1CompID632"];
+                                        //++_columnIndex;
+
+                                        //// LA1Prem632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[83];
+                                        //wsPolicyCell.Value = polRow["LA1Prem632"];
+                                        //++_columnIndex;
+
+                                        //// LA1Cover632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[84];
+                                        //wsPolicyCell.Value = polRow["LA1Cover632"];
+                                        //++_columnIndex;
+
+                                        //// LA1Term632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[85];
+                                        //wsPolicyCell.Value = polRow["LA1Term632"];
+                                        //++_columnIndex;
+
+                                        //// LA1Units632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[86];
+                                        //wsPolicyCell.Value = polRow["LA1Units632"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA1 Death
+
+                                        //#region LA1 Disability
+
+                                        //// LA1CompID637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[87];
+                                        //wsPolicyCell.Value = polRow["LA1CompID637"];
+                                        //++_columnIndex;
+
+                                        //// LA1Prem637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[88];
+                                        //wsPolicyCell.Value = polRow["LA1Prem637"];
+                                        //++_columnIndex;
+
+                                        //// LA1Cover637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[89];
+                                        //wsPolicyCell.Value = polRow["LA1Cover637"];
+                                        //++_columnIndex;
+
+                                        //// LA1Term637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[90];
+                                        //wsPolicyCell.Value = polRow["LA1Term637"];
+                                        //++_columnIndex;
+
+                                        //// LA1Units637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[91];
+                                        //wsPolicyCell.Value = polRow["LA1Units637"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA1 Disability
+
+                                        //#region LA1 Funeral
+
+                                        //// LA1CompID635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[92];
+                                        //wsPolicyCell.Value = polRow["LA1CompID635"];
+                                        //++_columnIndex;
+
+                                        //// LA1Prem635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[93];
+                                        //wsPolicyCell.Value = polRow["LA1Prem635"];
+                                        //++_columnIndex;
+
+                                        //// LA1Cover635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[94];
+                                        //wsPolicyCell.Value = polRow["LA1Cover635"];
+                                        //++_columnIndex;
+
+                                        //// LA1Term635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[95];
+                                        //wsPolicyCell.Value = polRow["LA1Term635"];
+                                        //++_columnIndex;
+
+                                        //// LA1Units635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[96];
+                                        //wsPolicyCell.Value = polRow["LA1Units635"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA1 Funeral
+
+                                        //#region Kids Component
+
+                                        //// LA1CompID687
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[97];
+                                        //wsPolicyCell.Value = polRow["LA1CompID687"];
+                                        //++_columnIndex;
+
+                                        //// LA1Prem687
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[98];
+                                        //wsPolicyCell.Value = polRow["LA1Prem687"];
+                                        //++_columnIndex;
+
+                                        //// LA1Cover687
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[99];
+                                        //wsPolicyCell.Value = polRow["LA1Cover687"];
+                                        //++_columnIndex;
+
+                                        //// LA1Term687
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[100];
+                                        //wsPolicyCell.Value = polRow["LA1Term687"];
+                                        //++_columnIndex;
+
+                                        //// LA1Units687
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[101];
+                                        //wsPolicyCell.Value = polRow["LA1Units687"];
+                                        //++_columnIndex;
+
+                                        //#endregion Kids Component
+
+                                        //#region LA1 Future Component
+
+                                        //// LA1CompID 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[102];
+                                        //wsPolicyCell.Value = polRow["LA1CompID"];
+                                        //++_columnIndex;
+
+                                        //// LA1Prem 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[103];
+                                        //wsPolicyCell.Value = polRow["LA1Prem"];
+                                        //++_columnIndex;
+
+                                        //// LA1Cover 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[104];
+                                        //wsPolicyCell.Value = polRow["LA1Cover"];
+                                        //++_columnIndex;
+
+                                        //// LA1Term 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[105];
+                                        //wsPolicyCell.Value = polRow["LA1Term"];
+                                        //++_columnIndex;
+
+                                        //// LA1Units 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[106];
+                                        //wsPolicyCell.Value = polRow["LA1Units"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA1 Future Component
+
+                                        //#endregion Life Assured 1 Components
+
+                                        //#region Life Assured 2 Components
+
+                                        //#region Client Info
+
+                                        //// LA2Title
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[107];
+                                        //wsPolicyCell.Value = polRow["LA2Title"];
+                                        //++_columnIndex;
+
+                                        //// LA2Initials
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[108];
+                                        //wsPolicyCell.Value = polRow["LA2Initials"];
+                                        //++_columnIndex;
+
+                                        //// LA2FirstName
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[109];
+                                        //wsPolicyCell.Value = polRow["LA2FirstName"];
+                                        //++_columnIndex;
+
+                                        //// LA2Surname
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[110];
+                                        //wsPolicyCell.Value = polRow["LA2Surname"];
+                                        //++_columnIndex;
+
+                                        //// LA2IDNumber
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[111];
+                                        //wsPolicyCell.Value = polRow["LA2IDNumber"];
+                                        //++_columnIndex;
+
+                                        //// LA2DateOfBirth
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[112];
+                                        //wsPolicyCell.Value = polRow["LA2DateOfBirth"];
+                                        //++_columnIndex;
+
+                                        //// LA2Age
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[113];
+                                        //wsPolicyCell.Value = polRow["LA2Age"];
+                                        //++_columnIndex;
+
+                                        //// LA2WorkTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[114];
+                                        //wsPolicyCell.Value = polRow["LA2WorkTel"];
+                                        //++_columnIndex;
+
+                                        //// LA2HomeTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[115];
+                                        //wsPolicyCell.Value = polRow["LA2HomeTel"];
+                                        //++_columnIndex;
+
+                                        //// LA2CellTel
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[116];
+                                        //wsPolicyCell.Value = polRow["LA2CellTel"];
+                                        //++_columnIndex;
+
+                                        //// LA2Gender
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[117];
+                                        //wsPolicyCell.Value = polRow["LA2Gender"];
+                                        //++_columnIndex;
+
+                                        //#endregion Client Info
+
+                                        //#region LA2 Cancer
+
+                                        //// LA2CompID68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[118];
+                                        //wsPolicyCell.Value = polRow["LA2CompID68"];
+                                        //++_columnIndex;
+
+                                        //// LA2Prem68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[119];
+                                        //wsPolicyCell.Value = polRow["LA2Prem68"];
+                                        //++_columnIndex;
+
+                                        //// LA2Cover68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[120];
+                                        //wsPolicyCell.Value = polRow["LA2Cover68"];
+                                        //++_columnIndex;
+
+                                        //// LA2Term68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[121];
+                                        //wsPolicyCell.Value = polRow["LA2Term68"];
+                                        //++_columnIndex;
+
+                                        //// LA2Units68
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[122];
+                                        //wsPolicyCell.Value = polRow["LA2Units68"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA2 Cancer
+
+                                        //#region LA2 Death
+                                        //// LA2CompID632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[123];
+                                        //wsPolicyCell.Value = polRow["LA2CompID632"];
+                                        //++_columnIndex;
+
+                                        //// LA2Prem632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[124];
+                                        //wsPolicyCell.Value = polRow["LA2Prem632"];
+                                        //++_columnIndex;
+
+                                        //// LA2Cover632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[125];
+                                        //wsPolicyCell.Value = polRow["LA2Cover632"];
+                                        //++_columnIndex;
+
+                                        //// LA2Term632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[126];
+                                        //wsPolicyCell.Value = polRow["LA2Term632"];
+                                        //++_columnIndex;
+
+                                        //// LA2Units632
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[127];
+                                        //wsPolicyCell.Value = polRow["LA2Units632"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA2 Death
+
+                                        //#region LA2 Disability
+
+                                        //// LA2CompID637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[128];
+                                        //wsPolicyCell.Value = polRow["LA2CompID637"];
+                                        //++_columnIndex;
+
+                                        //// LA2Prem637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[129];
+                                        //wsPolicyCell.Value = polRow["LA2Prem637"];
+                                        //++_columnIndex;
+
+                                        //// LA2Cover637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[130];
+                                        //wsPolicyCell.Value = polRow["LA2Cover637"];
+                                        //++_columnIndex;
+
+                                        //// LA2Term637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[131];
+                                        //wsPolicyCell.Value = polRow["LA2Term637"];
+                                        //++_columnIndex;
+
+                                        //// LA2Units637
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[132];
+                                        //wsPolicyCell.Value = polRow["LA2Units637"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA2 Disability
+
+                                        //#region LA2 Funeral
+                                        //// LA2CompID635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[133];
+                                        //wsPolicyCell.Value = polRow["LA2CompID635"];
+                                        //++_columnIndex;
+
+                                        //// LA2Prem635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[134];
+                                        //wsPolicyCell.Value = polRow["LA2Prem635"];
+                                        //++_columnIndex;
+
+                                        //// LA2Cover635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[135];
+                                        //wsPolicyCell.Value = polRow["LA2Cover635"];
+                                        //++_columnIndex;
+
+                                        //// LA2Term635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[136];
+                                        //wsPolicyCell.Value = polRow["LA2Term635"];
+                                        //++_columnIndex;
+
+                                        //// LA2Units635
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[137];
+                                        //wsPolicyCell.Value = polRow["LA2Units635"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA2 Funeral
+
+                                        //#region LA2 Future Component
+
+                                        //// LA2CompID
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[138];
+                                        //wsPolicyCell.Value = polRow["LA2CompID"];
+                                        //++_columnIndex;
+
+                                        //// LA2Prem 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[139];
+                                        //wsPolicyCell.Value = polRow["LA2Prem"];
+                                        //++_columnIndex;
+
+                                        //// LA2Cover 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[140];
+                                        //wsPolicyCell.Value = polRow["LA2Cover"];
+                                        //++_columnIndex;
+
+                                        //// LA2Term 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[141];
+                                        //wsPolicyCell.Value = polRow["LA2Term"];
+                                        //++_columnIndex;
+
+                                        //// LA2Units 
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[142];
+                                        //wsPolicyCell.Value = polRow["LA2Units"];
+                                        //++_columnIndex;
+
+                                        //#endregion LA2 Future Component
+
+                                        //#endregion Life Assured 2 Components
+
+                                        //#region Beneficiaries
+
+                                        //#region OLD
+                                        //// NOTE:
+                                        //// The 4th table returned by the dataSet contains benficiary data.
+                                        //// We will find all rows that has a INPolicy.ID matching polRow["PolicyID"].
+                                        //// Depending on their order we will add them to ben1, ben2, ben3, ben4.
+
+                                        ////if (benificiaryTable != null)
+                                        ////{
+                                        ////    if (benificiaryTable.Rows.Count > 0)
+                                        ////    {
+                                        ////        int benRowCount = 0;
+                                        ////        foreach (DataRow benRow in benificiaryTable.Rows)
+                                        ////        {
+                                        ////            if (benRow["PolicyID"].ToString() == polRow["PolicyID"].ToString())
+                                        ////            {
+                                        ////                benRowCount++;
+
+                                        ////                switch (benRowCount)
+                                        ////                {
+                                        ////                    case 1:
+                                        ////                        #region BN1
+
+                                        ////                        // BN1Title
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[143];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN1Initials
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[144];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN1FirstName
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[145];
+                                        ////                        wsPolicyCell.Value = benRow["FirstName"];
+
+                                        ////                        // BN1Surname
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[146];
+                                        ////                        wsPolicyCell.Value = benRow["Surname"];
+
+                                        ////                        // BN1IDNumber
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[147];
+                                        ////                        wsPolicyCell.Value = benRow["IDNo"];
+
+                                        ////                        // BN1DateOfBirth
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[148];
+                                        ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
+
+                                        ////                        // BN1Gender
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[149];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN1Relation
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[150];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN1ClientNature
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[151];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN1Percentage
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[152];
+                                        ////                        wsPolicyCell.Value = benRow["Percentage"];
+
+                                        ////                        #endregion
+                                        ////                        break;
+                                        ////                    case 2:
+                                        ////                        #region BN2
+
+                                        ////                        // BN2Title
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[153];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN2Initials
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[154];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN2FirstName
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[155];
+                                        ////                        wsPolicyCell.Value = benRow["FirstName"];
+
+                                        ////                        // BN2Surname
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[156];
+                                        ////                        wsPolicyCell.Value = benRow["Surname"];
+
+                                        ////                        // BN2IDNumber
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[157];
+                                        ////                        wsPolicyCell.Value = benRow["IDNo"];
+
+                                        ////                        // BN2DateOfBirth
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[158];
+                                        ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
+
+                                        ////                        // BN2Gender
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[159];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN2Relation
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[160];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN3ClientNature
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[161];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN2Percentage
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[162];
+                                        ////                        wsPolicyCell.Value = benRow["Percentage"];
+
+                                        ////                        #endregion
+                                        ////                        break;
+                                        ////                    case 3:
+                                        ////                        #region BN3
+
+                                        ////                        // BN3Title
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[163];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN3Initials
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[164];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN3FirstName
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[165];
+                                        ////                        wsPolicyCell.Value = benRow["FirstName"];
+
+                                        ////                        // BN3Surname
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[166];
+                                        ////                        wsPolicyCell.Value = benRow["Surname"];
+
+                                        ////                        // BN3IDNumber
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[167];
+                                        ////                        wsPolicyCell.Value = benRow["IDNo"];
+
+                                        ////                        // BN3DateOfBirth
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[168];
+                                        ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
+
+                                        ////                        // BN3Gender
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[169];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN3Relation
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[170];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN3ClientNature
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[171];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN3Percentage
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[172];
+                                        ////                        wsPolicyCell.Value = benRow["Percentage"];
+
+                                        ////                        #endregion
+                                        ////                        break;
+                                        ////                    case 4:
+                                        ////                        #region BN4
+
+                                        ////                        // BN4Title
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[173];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN4Initials
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[174];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN4FirstName
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[175];
+                                        ////                        wsPolicyCell.Value = benRow["FirstName"];
+
+                                        ////                        // BN4Surname
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[176];
+                                        ////                        wsPolicyCell.Value = benRow["Surname"];
+
+                                        ////                        // BN4IDNumber
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[177];
+                                        ////                        wsPolicyCell.Value = benRow["IDNo"];
+
+                                        ////                        // BN4DateOfBirth
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[178];
+                                        ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
+
+                                        ////                        // BN4Gender
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[179];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN4Relation
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[180];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN4ClientNature
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[181];
+                                        ////                        wsPolicyCell.Value = "";
+
+                                        ////                        // BN4Percentage
+                                        ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[182];
+                                        ////                        wsPolicyCell.Value = benRow["Percentage"];
+
+                                        ////                        #endregion
+                                        ////                        break;
+
+                                        ////                    default:
+                                        ////                        // NOTE:
+                                        ////                        // More than 4 beneficiaries was added
+                                        ////                        // Export template only caters for 4.
+                                        ////                        break;
+                                        ////                }
+                                        ////            }
+                                        ////        }
+                                        ////    }
+                                        ////}
+
+                                        //#endregion OLD
+
+                                        //for (int a = 1; a <= _maxBeneficiaryCount; a++)
+                                        //{
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Title", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Initials", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}FirstName", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Surname", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}IDNumber", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}DateOfBirth", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Gender", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Relationship", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Nature", a)];
+                                        //    ++_columnIndex;
+
+                                        //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
+                                        //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Percentage", a)];
+                                        //    ++_columnIndex;
                                         //}
 
+                                        //#endregion Beneficiaries
+
+                                        //#region Kids
+
+                                        //// Kids1DOB
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[183];
+                                        //wsPolicyCell.Value = polRow["Kids1DOB"];
+                                        //++_columnIndex;
+
+                                        //// Kids2DOB
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[184];
+                                        //wsPolicyCell.Value = polRow["Kids2DOB"];
+                                        //++_columnIndex;
+
+                                        //// Kids3DOB
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[185];
+                                        //wsPolicyCell.Value = polRow["Kids3DOB"];
+                                        //++_columnIndex;
+
+                                        //// Kids4DOB
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[186];
+                                        //wsPolicyCell.Value = polRow["Kids4DOB"];
+                                        //++_columnIndex;
+
+                                        //#endregion
+
+                                        //#region Future Fields
+
+                                        //// FutureField1
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[187];
+                                        //wsPolicyCell.Value = polRow["FutureField1"];
+                                        //++_columnIndex;
+
+                                        //// FutureField2
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[188];
+                                        //wsPolicyCell.Value = polRow["FutureField2"];
+                                        //++_columnIndex;
+
+                                        //// FutureField3
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[189];
+                                        //wsPolicyCell.Value = polRow["FutureField3"];
+                                        //++_columnIndex;
+
+                                        //// FutureField4
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[190];
+                                        //wsPolicyCell.Value = polRow["FutureField4"];
+                                        //++_columnIndex;
+
+                                        //// FutureField5
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[191];
+                                        //wsPolicyCell.Value = polRow["FutureField5"];
+                                        //++_columnIndex;
+
+                                        //// FutureField6
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[192];
+                                        //wsPolicyCell.Value = polRow["FutureField6"];
+                                        //++_columnIndex;
+
+                                        //// FutureField7
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[193];
+                                        //wsPolicyCell.Value = polRow["FutureField7"];
+                                        //++_columnIndex;
+
+                                        //// FutureField8
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[194];
+                                        //wsPolicyCell.Value = polRow["FutureField8"];
+                                        //++_columnIndex;
+
+                                        //// FutureField9
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[195];
+                                        //wsPolicyCell.Value = polRow["FutureField9"];
+                                        //++_columnIndex;
+
+                                        //// FutureField10
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[196];
+                                        //wsPolicyCell.Value = polRow["FutureField10"];
+                                        //++_columnIndex;
+
+                                        //#endregion Future Fields
+
+                                        //#region 
+                                        //// LA2Relationship
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[197];
+                                        //wsPolicyCell.Value = polRow["LA2Relationship"];
+                                        //++_columnIndex;
+
+                                        //// HaloOfHope
+                                        //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[198];
+                                        //wsPolicyCell.Value = polRow["HaloOfHope"];
+
+                                        //#endregion
+
+                                        //// Update the row counter:
+                                        //rowCount++;
+
+                                        ////Reset the column index to 0:
+                                        //_columnIndex = 0;
+
+                                        #endregion #region THE VERY LONG WAY!!!
                                     }
-                                    // Update the row counter:
-                                    rowCount++;
-
-                                    #region Finally, apply the formulae to the Total Premium & Average Premium fields on the Batch Cover Sheet
-
-                                    wsCoverCell = wsBatchCoverSheet.Rows[41].Cells[12];
-                                    wsCoverCell.ApplyFormula(String.Format("=SUM('Policy Data'!AV4:AV{0})", rowCount));
-                                    wsCoverCell.CellFormat.FormatString = "#,##0.00";
-
-                                    wsCoverCell = wsBatchCoverSheet.Rows[43].Cells[12];
-                                    wsCoverCell.ApplyFormula(String.Format("=AVERAGE('Policy Data'!AV4:AV{0})", rowCount));
-                                    wsCoverCell.CellFormat.FormatString = "#,##0.00";
-
-                                    if (UDM.Insurance.Business.Insure.IsUpgradeCampaign(campaignID))
-                                    {
-                                        wsCoverCell = wsBatchCoverSheet.Rows[39].Cells[12];
-                                        wsCoverCell.ApplyFormula(String.Format("=SUM('Policy Data'!BG4:BG{0})", rowCount));
-                                        wsCoverCell.CellFormat.FormatString = "#,##0.00";
-                                    }
-
-                                    #endregion Finally, apply the formulae to the Total Premium & Average Premium fields on the Batch Cover Sheet
-
-                                    #region THE VERY LONG WAY!!!
-
-                                    //#region UDM Details
-
-                                    //// Campaign Code
-                                    //WorksheetCell wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //wsPolicyCell.Value = polRow["CampaignCode"];
-                                    //++_columnIndex;
-
-                                    //// Lead Date
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[1];
-                                    //wsPolicyCell.Value = polRow["LeadDate"];
-                                    //++_columnIndex;
-
-                                    //// Source
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[2];
-                                    //wsPolicyCell.Value = polRow["Source"];
-                                    //++_columnIndex;
-
-                                    //// Disc Ref
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[3];
-                                    //wsPolicyCell.Value = polRow["DiscRef"];
-
-                                    //// UDM Ref
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[4];
-                                    //wsPolicyCell.Value = polRow["UDMRef"];
-                                    //++_columnIndex;
-
-                                    //// Category
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[5];
-                                    //wsPolicyCell.Value = polRow["Category"];
-                                    //++_columnIndex;
-
-                                    //// Referror
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[6];
-                                    //wsPolicyCell.Value = polRow["Referror"];
-                                    //++_columnIndex;
-
-                                    //// Relationship
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[7];
-                                    //wsPolicyCell.Value = polRow["Relationship"];
-                                    //++_columnIndex;
-
-                                    //// 1TSR
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[8];
-                                    //wsPolicyCell.Value = polRow["1TSR"];
-                                    //++_columnIndex;
-
-                                    //// 2TSR
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[9];
-                                    //wsPolicyCell.Value = polRow["2TSR"];
-                                    //++_columnIndex;
-
-                                    //// 2Date
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[10];
-                                    //wsPolicyCell.Value = polRow["2Date"];
-                                    //++_columnIndex;
-
-                                    //// UDMNotes
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[11];
-                                    //wsPolicyCell.Value = polRow["UDMNotes"];
-                                    //++_columnIndex;
-
-                                    //// Notes
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[12];
-                                    //wsPolicyCell.Value = polRow["Notes"];
-                                    //++_columnIndex;
-
-                                    //// Client Ref Nr
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[13];
-                                    //wsPolicyCell.Value = polRow["ClientRefNr"];
-                                    //++_columnIndex;
-
-                                    //// Policy Nr
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[14];
-                                    //wsPolicyCell.Value = polRow["PolicyNr"];
-                                    //++_columnIndex;
-
-                                    //// Commence Date                                    
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[15];
-                                    //wsPolicyCell.Value = polRow["CommenceDate"];
-                                    //++_columnIndex;
-
-                                    //// Alteration Date                            
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[16];
-                                    //wsPolicyCell.Value = polRow["AlterationDate"];
-                                    //++_columnIndex;
-
-                                    //// Date of Sale                            
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[17];
-                                    //wsPolicyCell.Value = polRow["DateOfSale"];
-                                    //++_columnIndex;
-
-                                    //// Old Product ID                            
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[18];
-                                    //wsPolicyCell.Value = polRow["OldProductID"];
-                                    //++_columnIndex;
-
-                                    //// Auto Include MB                            
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[19];
-                                    //wsPolicyCell.Value = polRow["AutoIncludeMB"];
-                                    //++_columnIndex;
-
-                                    //#endregion UDM Details
-
-                                    //#region Policy Owner
-
-                                    //// Gender                                    
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[20];
-                                    //wsPolicyCell.Value = polRow["Gender"];
-                                    //++_columnIndex;
-
-                                    //// POTitle                            
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[21];
-                                    //wsPolicyCell.Value = polRow["POTitle"];
-                                    //++_columnIndex;
-
-                                    //// POInitials                            
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[22];
-                                    //wsPolicyCell.Value = polRow["POInitials"];
-                                    //++_columnIndex;
-
-                                    //// POFirst Name
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[23];
-                                    //wsPolicyCell.Value = polRow["POFirstName"];
-                                    //++_columnIndex;
-
-                                    //// POSurname
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[24];
-                                    //wsPolicyCell.Value = polRow["POSurname"];
-                                    //++_columnIndex;
-
-                                    //// POID Number
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[25];
-                                    //wsPolicyCell.Value = polRow["POIDNumber"];
-                                    //++_columnIndex;
-
-                                    //// PODate of Birth
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[26];
-                                    //wsPolicyCell.Value = polRow["PODateOfBirth"];
-                                    //++_columnIndex;
-
-                                    //// Age
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[27];
-                                    //wsPolicyCell.Value = polRow["Age"];
-                                    //++_columnIndex;
-
-                                    //// POAddress1
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[28];
-                                    //wsPolicyCell.Value = polRow["POAddress1"];
-                                    //++_columnIndex;
-
-                                    //// POAddress2
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[29];
-                                    //wsPolicyCell.Value = polRow["POAddress2"];
-                                    //++_columnIndex;
-
-                                    //// POAddress3
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[30];
-                                    //wsPolicyCell.Value = polRow["POAddress3"];
-                                    //++_columnIndex;
-
-                                    //// POAddress4
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[31];
-                                    //wsPolicyCell.Value = polRow["POAddress4"];
-                                    //++_columnIndex;
-
-                                    //// POAreaCode
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[32];
-                                    //wsPolicyCell.Value = polRow["POAreaCode"];
-                                    //++_columnIndex;
-
-                                    //// POWorkTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[33];
-                                    //wsPolicyCell.Value = polRow["POWorkTel"];
-                                    //++_columnIndex;
-
-                                    //// POHomeTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[34];
-                                    //wsPolicyCell.Value = polRow["POHomeTel"];
-                                    //++_columnIndex;
-
-                                    //// POCellTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[35];
-                                    //wsPolicyCell.Value = polRow["POCellTel"];
-                                    //++_columnIndex;
-
-                                    //// POEmail
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[36];
-                                    //wsPolicyCell.Value = polRow["POEmail"];
-                                    //++_columnIndex;
-
-                                    //#endregion Policy Owner
-                                    
-                                    //#region Premium Payer
-
-                                    //// PPGender
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[37];
-                                    //wsPolicyCell.Value = polRow["PPGender"];
-                                    //++_columnIndex;
-
-                                    //// PPTitle
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[38];
-                                    //wsPolicyCell.Value = polRow["PPTitle"];
-                                    //++_columnIndex;
-
-                                    //// PPInitials
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[39];
-                                    //wsPolicyCell.Value = polRow["PPInitials"];
-                                    //++_columnIndex;
-
-                                    //// PPFirstName
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[40];
-                                    //wsPolicyCell.Value = polRow["PPFirstName"];
-                                    //++_columnIndex;
-
-                                    //// PPSurname
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[41];
-                                    //wsPolicyCell.Value = polRow["PPSurname"];
-                                    //++_columnIndex;
-
-                                    //// PPIDNumber
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[42];
-                                    //wsPolicyCell.Value = polRow["PPIDNumber"];
-                                    //++_columnIndex;
-
-                                    //// PPDateOfBirth
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[43];
-                                    //wsPolicyCell.Value = polRow["PPDateOfBirth"];
-                                    //++_columnIndex;
-
-                                    //// PPWorkTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[44];
-                                    //wsPolicyCell.Value = polRow["PPWorkTel"];
-                                    //++_columnIndex;
-
-                                    //// PPHomeTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[45];
-                                    //wsPolicyCell.Value = polRow["PPHomeTel"];
-                                    //++_columnIndex;
-
-                                    //// PPCellTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[46];
-                                    //wsPolicyCell.Value = polRow["PPCellTel"];
-                                    //++_columnIndex;
-
-                                    //#endregion Premium Payer
-
-                                    //#region Banking Details
-
-                                    //// ContractPremium
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[47];
-                                    //wsPolicyCell.Value = polRow["ContractPremium"];
-                                    //++_columnIndex;
-
-                                    //// BankName
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[48];
-                                    //wsPolicyCell.Value = polRow["BankName"];
-                                    //++_columnIndex;
-
-                                    //// BranchName
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[49];
-                                    //wsPolicyCell.Value = polRow["BranchName"];
-                                    //++_columnIndex;
-
-                                    //// BranchCode
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[50];
-                                    //wsPolicyCell.Value = polRow["BranchCode"];
-                                    //++_columnIndex;
-
-                                    //// AccountType
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[51];
-                                    //wsPolicyCell.Value = polRow["AccountType"];
-                                    //++_columnIndex;
-
-                                    //// AccountNumber
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[52];
-                                    //wsPolicyCell.Value = polRow["AccountNumber"];
-                                    //++_columnIndex;
-
-                                    //// DebitDay
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[53];
-                                    //wsPolicyCell.Value = polRow["DebitDay"];
-                                    //++_columnIndex;
-
-                                    //#endregion Banking Details
-
-                                    //#region Component 1: Basic Component
-
-                                    //// CNCompID
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[54];
-                                    //wsPolicyCell.Value = polRow["CNCompID"];
-                                    //++_columnIndex;
-
-                                    //// CNPrem
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[55];
-                                    //wsPolicyCell.Value = polRow["CNPrem"];
-                                    //++_columnIndex;
-
-                                    //// CNCover
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[56];
-                                    //wsPolicyCell.Value = polRow["CNCover"];
-                                    //++_columnIndex;
-
-                                    //// CNTerm
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[57];
-                                    //wsPolicyCell.Value = polRow["CNTerm"];
-                                    //++_columnIndex;
-
-                                    //// CNUnits
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[58];
-                                    //wsPolicyCell.Value = polRow["CNUnits"];
-                                    //++_columnIndex;
-
-                                    //// CNPGValue
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[59];
-                                    //wsPolicyCell.Value = polRow["CNPGValue"];
-                                    //++_columnIndex;
-
-                                    //// CNCG Perc
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[60];
-                                    //wsPolicyCell.Value = polRow["CNCGPerc"];
-                                    //++_columnIndex;
-
-                                    //#endregion Component 1: Basic Component
-
-                                    //#region Component 2: Money Back Component
-
-                                    //// MBCompID
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[61];
-                                    //wsPolicyCell.Value = polRow["MBCompID"];
-                                    //++_columnIndex;
-
-                                    //// MBPrem
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[62];
-                                    //wsPolicyCell.Value = polRow["MBPrem"];
-                                    //++_columnIndex;
-
-                                    //// MBCover
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[63];
-                                    //wsPolicyCell.Value = polRow["MBCover"];
-                                    //++_columnIndex;
-
-                                    //// MBTerm
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[64];
-                                    //wsPolicyCell.Value = polRow["MBTerm"];
-                                    //++_columnIndex;
-
-                                    //// MBUnits
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[65];
-                                    //wsPolicyCell.Value = polRow["MBUnits"];
-                                    //++_columnIndex;
-
-                                    //#endregion Component 2: Money Back Component
-
-                                    //#region Life Assured 1 Components
-
-                                    //#region Client Details
-                                    //// LA1Title
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[66];
-                                    //wsPolicyCell.Value = polRow["LA1Title"];
-                                    //++_columnIndex;
-
-                                    //// LA1Initials
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[67];
-                                    //wsPolicyCell.Value = polRow["LA1Initials"];
-                                    //++_columnIndex;
-
-                                    //// LA1FirstName
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[68];
-                                    //wsPolicyCell.Value = polRow["LA1FirstName"];
-                                    //++_columnIndex;
-
-                                    //// LA1Surname
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[69];
-                                    //wsPolicyCell.Value = polRow["LA1Surname"];
-                                    //++_columnIndex;
-
-                                    //// LA1IDNumber
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[70];
-                                    //wsPolicyCell.Value = polRow["LA1IDNumber"];
-                                    //++_columnIndex;
-
-                                    //// LA1DateOfBirth
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[71];
-                                    //wsPolicyCell.Value = polRow["LA1DateOfBirth"];
-                                    //++_columnIndex;
-
-                                    //// LA1Age
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[72];
-                                    //wsPolicyCell.Value = polRow["LA1Age"];
-                                    //++_columnIndex;
-
-                                    //// LA1WorkTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[73];
-                                    //wsPolicyCell.Value = polRow["LA1WorkTel"];
-                                    //++_columnIndex;
-
-                                    //// LA1HomeTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[74];
-                                    //wsPolicyCell.Value = polRow["LA1HomeTel"];
-                                    //++_columnIndex;
-
-                                    //// LA1CellTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[75];
-                                    //wsPolicyCell.Value = polRow["LA1CellTel"];
-                                    //++_columnIndex;
-
-                                    //// LA1Gender
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[76];
-                                    //wsPolicyCell.Value = polRow["LA1Gender"];
-                                    //++_columnIndex;
-
-                                    //#endregion Client Details
-
-                                    //#region LA1 Cancer
-
-                                    //// LA1CompID68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[77];
-                                    //wsPolicyCell.Value = polRow["LA1CompID68"];
-                                    //++_columnIndex;
-
-                                    //// LA1Prem68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[78];
-                                    //wsPolicyCell.Value = polRow["LA1Prem68"];
-                                    //++_columnIndex;
-
-                                    //// LA1Cover68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[79];
-                                    //wsPolicyCell.Value = polRow["LA1Cover68"];
-                                    //++_columnIndex;
-
-                                    //// LA1Term68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[80];
-                                    //wsPolicyCell.Value = polRow["LA1Term68"];
-                                    //++_columnIndex;
-
-                                    //// LA1Units68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[81];
-                                    //wsPolicyCell.Value = polRow["LA1Units68"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA1 Cancer
-
-                                    //#region LA1 Death
-                                    //// LA1CompID632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[82];
-                                    //wsPolicyCell.Value = polRow["LA1CompID632"];
-                                    //++_columnIndex;
-
-                                    //// LA1Prem632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[83];
-                                    //wsPolicyCell.Value = polRow["LA1Prem632"];
-                                    //++_columnIndex;
-
-                                    //// LA1Cover632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[84];
-                                    //wsPolicyCell.Value = polRow["LA1Cover632"];
-                                    //++_columnIndex;
-
-                                    //// LA1Term632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[85];
-                                    //wsPolicyCell.Value = polRow["LA1Term632"];
-                                    //++_columnIndex;
-
-                                    //// LA1Units632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[86];
-                                    //wsPolicyCell.Value = polRow["LA1Units632"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA1 Death
-
-                                    //#region LA1 Disability
-
-                                    //// LA1CompID637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[87];
-                                    //wsPolicyCell.Value = polRow["LA1CompID637"];
-                                    //++_columnIndex;
-
-                                    //// LA1Prem637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[88];
-                                    //wsPolicyCell.Value = polRow["LA1Prem637"];
-                                    //++_columnIndex;
-
-                                    //// LA1Cover637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[89];
-                                    //wsPolicyCell.Value = polRow["LA1Cover637"];
-                                    //++_columnIndex;
-
-                                    //// LA1Term637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[90];
-                                    //wsPolicyCell.Value = polRow["LA1Term637"];
-                                    //++_columnIndex;
-
-                                    //// LA1Units637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[91];
-                                    //wsPolicyCell.Value = polRow["LA1Units637"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA1 Disability
-
-                                    //#region LA1 Funeral
-
-                                    //// LA1CompID635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[92];
-                                    //wsPolicyCell.Value = polRow["LA1CompID635"];
-                                    //++_columnIndex;
-
-                                    //// LA1Prem635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[93];
-                                    //wsPolicyCell.Value = polRow["LA1Prem635"];
-                                    //++_columnIndex;
-
-                                    //// LA1Cover635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[94];
-                                    //wsPolicyCell.Value = polRow["LA1Cover635"];
-                                    //++_columnIndex;
-
-                                    //// LA1Term635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[95];
-                                    //wsPolicyCell.Value = polRow["LA1Term635"];
-                                    //++_columnIndex;
-
-                                    //// LA1Units635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[96];
-                                    //wsPolicyCell.Value = polRow["LA1Units635"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA1 Funeral
-
-                                    //#region Kids Component
-
-                                    //// LA1CompID687
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[97];
-                                    //wsPolicyCell.Value = polRow["LA1CompID687"];
-                                    //++_columnIndex;
-
-                                    //// LA1Prem687
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[98];
-                                    //wsPolicyCell.Value = polRow["LA1Prem687"];
-                                    //++_columnIndex;
-
-                                    //// LA1Cover687
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[99];
-                                    //wsPolicyCell.Value = polRow["LA1Cover687"];
-                                    //++_columnIndex;
-
-                                    //// LA1Term687
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[100];
-                                    //wsPolicyCell.Value = polRow["LA1Term687"];
-                                    //++_columnIndex;
-
-                                    //// LA1Units687
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[101];
-                                    //wsPolicyCell.Value = polRow["LA1Units687"];
-                                    //++_columnIndex;
-
-                                    //#endregion Kids Component
-
-                                    //#region LA1 Future Component
-
-                                    //// LA1CompID 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[102];
-                                    //wsPolicyCell.Value = polRow["LA1CompID"];
-                                    //++_columnIndex;
-
-                                    //// LA1Prem 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[103];
-                                    //wsPolicyCell.Value = polRow["LA1Prem"];
-                                    //++_columnIndex;
-
-                                    //// LA1Cover 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[104];
-                                    //wsPolicyCell.Value = polRow["LA1Cover"];
-                                    //++_columnIndex;
-
-                                    //// LA1Term 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[105];
-                                    //wsPolicyCell.Value = polRow["LA1Term"];
-                                    //++_columnIndex;
-
-                                    //// LA1Units 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[106];
-                                    //wsPolicyCell.Value = polRow["LA1Units"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA1 Future Component
-
-                                    //#endregion Life Assured 1 Components
-
-                                    //#region Life Assured 2 Components
-
-                                    //#region Client Info
-
-                                    //// LA2Title
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[107];
-                                    //wsPolicyCell.Value = polRow["LA2Title"];
-                                    //++_columnIndex;
-
-                                    //// LA2Initials
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[108];
-                                    //wsPolicyCell.Value = polRow["LA2Initials"];
-                                    //++_columnIndex;
-
-                                    //// LA2FirstName
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[109];
-                                    //wsPolicyCell.Value = polRow["LA2FirstName"];
-                                    //++_columnIndex;
-
-                                    //// LA2Surname
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[110];
-                                    //wsPolicyCell.Value = polRow["LA2Surname"];
-                                    //++_columnIndex;
-
-                                    //// LA2IDNumber
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[111];
-                                    //wsPolicyCell.Value = polRow["LA2IDNumber"];
-                                    //++_columnIndex;
-
-                                    //// LA2DateOfBirth
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[112];
-                                    //wsPolicyCell.Value = polRow["LA2DateOfBirth"];
-                                    //++_columnIndex;
-
-                                    //// LA2Age
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[113];
-                                    //wsPolicyCell.Value = polRow["LA2Age"];
-                                    //++_columnIndex;
-
-                                    //// LA2WorkTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[114];
-                                    //wsPolicyCell.Value = polRow["LA2WorkTel"];
-                                    //++_columnIndex;
-
-                                    //// LA2HomeTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[115];
-                                    //wsPolicyCell.Value = polRow["LA2HomeTel"];
-                                    //++_columnIndex;
-
-                                    //// LA2CellTel
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[116];
-                                    //wsPolicyCell.Value = polRow["LA2CellTel"];
-                                    //++_columnIndex;
-
-                                    //// LA2Gender
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[117];
-                                    //wsPolicyCell.Value = polRow["LA2Gender"];
-                                    //++_columnIndex;
-
-                                    //#endregion Client Info
-
-                                    //#region LA2 Cancer
-
-                                    //// LA2CompID68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[118];
-                                    //wsPolicyCell.Value = polRow["LA2CompID68"];
-                                    //++_columnIndex;
-
-                                    //// LA2Prem68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[119];
-                                    //wsPolicyCell.Value = polRow["LA2Prem68"];
-                                    //++_columnIndex;
-
-                                    //// LA2Cover68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[120];
-                                    //wsPolicyCell.Value = polRow["LA2Cover68"];
-                                    //++_columnIndex;
-
-                                    //// LA2Term68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[121];
-                                    //wsPolicyCell.Value = polRow["LA2Term68"];
-                                    //++_columnIndex;
-
-                                    //// LA2Units68
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[122];
-                                    //wsPolicyCell.Value = polRow["LA2Units68"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA2 Cancer
-
-                                    //#region LA2 Death
-                                    //// LA2CompID632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[123];
-                                    //wsPolicyCell.Value = polRow["LA2CompID632"];
-                                    //++_columnIndex;
-
-                                    //// LA2Prem632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[124];
-                                    //wsPolicyCell.Value = polRow["LA2Prem632"];
-                                    //++_columnIndex;
-
-                                    //// LA2Cover632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[125];
-                                    //wsPolicyCell.Value = polRow["LA2Cover632"];
-                                    //++_columnIndex;
-
-                                    //// LA2Term632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[126];
-                                    //wsPolicyCell.Value = polRow["LA2Term632"];
-                                    //++_columnIndex;
-
-                                    //// LA2Units632
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[127];
-                                    //wsPolicyCell.Value = polRow["LA2Units632"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA2 Death
-
-                                    //#region LA2 Disability
-
-                                    //// LA2CompID637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[128];
-                                    //wsPolicyCell.Value = polRow["LA2CompID637"];
-                                    //++_columnIndex;
-
-                                    //// LA2Prem637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[129];
-                                    //wsPolicyCell.Value = polRow["LA2Prem637"];
-                                    //++_columnIndex;
-
-                                    //// LA2Cover637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[130];
-                                    //wsPolicyCell.Value = polRow["LA2Cover637"];
-                                    //++_columnIndex;
-
-                                    //// LA2Term637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[131];
-                                    //wsPolicyCell.Value = polRow["LA2Term637"];
-                                    //++_columnIndex;
-
-                                    //// LA2Units637
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[132];
-                                    //wsPolicyCell.Value = polRow["LA2Units637"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA2 Disability
-
-                                    //#region LA2 Funeral
-                                    //// LA2CompID635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[133];
-                                    //wsPolicyCell.Value = polRow["LA2CompID635"];
-                                    //++_columnIndex;
-
-                                    //// LA2Prem635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[134];
-                                    //wsPolicyCell.Value = polRow["LA2Prem635"];
-                                    //++_columnIndex;
-
-                                    //// LA2Cover635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[135];
-                                    //wsPolicyCell.Value = polRow["LA2Cover635"];
-                                    //++_columnIndex;
-
-                                    //// LA2Term635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[136];
-                                    //wsPolicyCell.Value = polRow["LA2Term635"];
-                                    //++_columnIndex;
-
-                                    //// LA2Units635
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[137];
-                                    //wsPolicyCell.Value = polRow["LA2Units635"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA2 Funeral
-
-                                    //#region LA2 Future Component
-
-                                    //// LA2CompID
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[138];
-                                    //wsPolicyCell.Value = polRow["LA2CompID"];
-                                    //++_columnIndex;
-
-                                    //// LA2Prem 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[139];
-                                    //wsPolicyCell.Value = polRow["LA2Prem"];
-                                    //++_columnIndex;
-
-                                    //// LA2Cover 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[140];
-                                    //wsPolicyCell.Value = polRow["LA2Cover"];
-                                    //++_columnIndex;
-
-                                    //// LA2Term 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[141];
-                                    //wsPolicyCell.Value = polRow["LA2Term"];
-                                    //++_columnIndex;
-
-                                    //// LA2Units 
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[142];
-                                    //wsPolicyCell.Value = polRow["LA2Units"];
-                                    //++_columnIndex;
-
-                                    //#endregion LA2 Future Component
-
-                                    //#endregion Life Assured 2 Components
-
-                                    //#region Beneficiaries
-
-                                    //#region OLD
-                                    //// NOTE:
-                                    //// The 4th table returned by the dataSet contains benficiary data.
-                                    //// We will find all rows that has a INPolicy.ID matching polRow["PolicyID"].
-                                    //// Depending on their order we will add them to ben1, ben2, ben3, ben4.
-
-                                    ////if (benificiaryTable != null)
-                                    ////{
-                                    ////    if (benificiaryTable.Rows.Count > 0)
-                                    ////    {
-                                    ////        int benRowCount = 0;
-                                    ////        foreach (DataRow benRow in benificiaryTable.Rows)
-                                    ////        {
-                                    ////            if (benRow["PolicyID"].ToString() == polRow["PolicyID"].ToString())
-                                    ////            {
-                                    ////                benRowCount++;
-
-                                    ////                switch (benRowCount)
-                                    ////                {
-                                    ////                    case 1:
-                                    ////                        #region BN1
-
-                                    ////                        // BN1Title
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[143];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN1Initials
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[144];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN1FirstName
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[145];
-                                    ////                        wsPolicyCell.Value = benRow["FirstName"];
-
-                                    ////                        // BN1Surname
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[146];
-                                    ////                        wsPolicyCell.Value = benRow["Surname"];
-
-                                    ////                        // BN1IDNumber
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[147];
-                                    ////                        wsPolicyCell.Value = benRow["IDNo"];
-
-                                    ////                        // BN1DateOfBirth
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[148];
-                                    ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
-
-                                    ////                        // BN1Gender
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[149];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN1Relation
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[150];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN1ClientNature
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[151];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN1Percentage
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[152];
-                                    ////                        wsPolicyCell.Value = benRow["Percentage"];
-
-                                    ////                        #endregion
-                                    ////                        break;
-                                    ////                    case 2:
-                                    ////                        #region BN2
-
-                                    ////                        // BN2Title
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[153];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN2Initials
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[154];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN2FirstName
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[155];
-                                    ////                        wsPolicyCell.Value = benRow["FirstName"];
-
-                                    ////                        // BN2Surname
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[156];
-                                    ////                        wsPolicyCell.Value = benRow["Surname"];
-
-                                    ////                        // BN2IDNumber
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[157];
-                                    ////                        wsPolicyCell.Value = benRow["IDNo"];
-
-                                    ////                        // BN2DateOfBirth
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[158];
-                                    ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
-
-                                    ////                        // BN2Gender
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[159];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN2Relation
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[160];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN3ClientNature
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[161];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN2Percentage
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[162];
-                                    ////                        wsPolicyCell.Value = benRow["Percentage"];
-
-                                    ////                        #endregion
-                                    ////                        break;
-                                    ////                    case 3:
-                                    ////                        #region BN3
-
-                                    ////                        // BN3Title
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[163];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN3Initials
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[164];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN3FirstName
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[165];
-                                    ////                        wsPolicyCell.Value = benRow["FirstName"];
-
-                                    ////                        // BN3Surname
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[166];
-                                    ////                        wsPolicyCell.Value = benRow["Surname"];
-
-                                    ////                        // BN3IDNumber
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[167];
-                                    ////                        wsPolicyCell.Value = benRow["IDNo"];
-
-                                    ////                        // BN3DateOfBirth
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[168];
-                                    ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
-
-                                    ////                        // BN3Gender
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[169];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN3Relation
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[170];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN3ClientNature
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[171];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN3Percentage
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[172];
-                                    ////                        wsPolicyCell.Value = benRow["Percentage"];
-
-                                    ////                        #endregion
-                                    ////                        break;
-                                    ////                    case 4:
-                                    ////                        #region BN4
-
-                                    ////                        // BN4Title
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[173];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN4Initials
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[174];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN4FirstName
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[175];
-                                    ////                        wsPolicyCell.Value = benRow["FirstName"];
-
-                                    ////                        // BN4Surname
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[176];
-                                    ////                        wsPolicyCell.Value = benRow["Surname"];
-
-                                    ////                        // BN4IDNumber
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[177];
-                                    ////                        wsPolicyCell.Value = benRow["IDNo"];
-
-                                    ////                        // BN4DateOfBirth
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[178];
-                                    ////                        wsPolicyCell.Value = benRow["DateOfBirth"];
-
-                                    ////                        // BN4Gender
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[179];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN4Relation
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[180];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN4ClientNature
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[181];
-                                    ////                        wsPolicyCell.Value = "";
-
-                                    ////                        // BN4Percentage
-                                    ////                        wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[182];
-                                    ////                        wsPolicyCell.Value = benRow["Percentage"];
-
-                                    ////                        #endregion
-                                    ////                        break;
-                                                            
-                                    ////                    default:
-                                    ////                        // NOTE:
-                                    ////                        // More than 4 beneficiaries was added
-                                    ////                        // Export template only caters for 4.
-                                    ////                        break;
-                                    ////                }
-                                    ////            }
-                                    ////        }
-                                    ////    }
-                                    ////}
-
-                                    //#endregion OLD
-
-                                    //for (int a = 1; a <= _maxBeneficiaryCount; a++)
-                                    //{
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Title", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Initials", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}FirstName", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Surname", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}IDNumber", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}DateOfBirth", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Gender", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Relationship", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Nature", a)];
-                                    //    ++_columnIndex;
-
-                                    //    wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[_columnIndex];
-                                    //    wsPolicyCell.Value = polRow[String.Format("Beneficiary{0}Percentage", a)];
-                                    //    ++_columnIndex;
-                                    //}
-
-                                    //#endregion Beneficiaries
-
-                                    //#region Kids
-
-                                    //// Kids1DOB
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[183];
-                                    //wsPolicyCell.Value = polRow["Kids1DOB"];
-                                    //++_columnIndex;
-
-                                    //// Kids2DOB
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[184];
-                                    //wsPolicyCell.Value = polRow["Kids2DOB"];
-                                    //++_columnIndex;
-
-                                    //// Kids3DOB
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[185];
-                                    //wsPolicyCell.Value = polRow["Kids3DOB"];
-                                    //++_columnIndex;
-
-                                    //// Kids4DOB
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[186];
-                                    //wsPolicyCell.Value = polRow["Kids4DOB"];
-                                    //++_columnIndex;
-
-                                    //#endregion
-
-                                    //#region Future Fields
-
-                                    //// FutureField1
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[187];
-                                    //wsPolicyCell.Value = polRow["FutureField1"];
-                                    //++_columnIndex;
-
-                                    //// FutureField2
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[188];
-                                    //wsPolicyCell.Value = polRow["FutureField2"];
-                                    //++_columnIndex;
-
-                                    //// FutureField3
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[189];
-                                    //wsPolicyCell.Value = polRow["FutureField3"];
-                                    //++_columnIndex;
-
-                                    //// FutureField4
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[190];
-                                    //wsPolicyCell.Value = polRow["FutureField4"];
-                                    //++_columnIndex;
-
-                                    //// FutureField5
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[191];
-                                    //wsPolicyCell.Value = polRow["FutureField5"];
-                                    //++_columnIndex;
-
-                                    //// FutureField6
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[192];
-                                    //wsPolicyCell.Value = polRow["FutureField6"];
-                                    //++_columnIndex;
-
-                                    //// FutureField7
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[193];
-                                    //wsPolicyCell.Value = polRow["FutureField7"];
-                                    //++_columnIndex;
-
-                                    //// FutureField8
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[194];
-                                    //wsPolicyCell.Value = polRow["FutureField8"];
-                                    //++_columnIndex;
-
-                                    //// FutureField9
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[195];
-                                    //wsPolicyCell.Value = polRow["FutureField9"];
-                                    //++_columnIndex;
-
-                                    //// FutureField10
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[196];
-                                    //wsPolicyCell.Value = polRow["FutureField10"];
-                                    //++_columnIndex;
-
-                                    //#endregion Future Fields
-
-                                    //#region 
-                                    //// LA2Relationship
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[197];
-                                    //wsPolicyCell.Value = polRow["LA2Relationship"];
-                                    //++_columnIndex;
-
-                                    //// HaloOfHope
-                                    //wsPolicyCell = wsPolicyData.Rows[3 + rowCount].Cells[198];
-                                    //wsPolicyCell.Value = polRow["HaloOfHope"];
-
-                                    //#endregion
-
-                                    //// Update the row counter:
-                                    //rowCount++;
-
-                                    ////Reset the column index to 0:
-                                    //_columnIndex = 0;
-
-                                    #endregion #region THE VERY LONG WAY!!!
                                 }
                             }
-                        }
 
-                        #endregion Policy Data
+                            #endregion Policy Data
 
-                        //Save excel document
-                        //wbBatchExport.SetCurrentFormat(WorkbookFormat.Excel97To2003);
+                            //Save excel document
+                            //wbBatchExport.SetCurrentFormat(WorkbookFormat.Excel97To2003);
 
-                        //if (System.IO.File.Exists(filePathAndName))
-                        //{
-                        //    filePathAndName = filePathAndName + "_" + DateTime.Now.ToString("yyyy-MM-dd HHmmss");
-                        //}
-
+                            //if (System.IO.File.Exists(filePathAndName))
+                            //{
+                            //    filePathAndName = filePathAndName + "_" + DateTime.Now.ToString("yyyy-MM-dd HHmmss");
+                            //}
                         
+
+
 
                         wbBatchExport.Save(filePathAndName);
 
                         //Display excel document
                         Process.Start(filePathAndName);
+                    
+                        
                     }
                 }
             }
@@ -2674,6 +2763,48 @@ namespace UDM.Insurance.Interface.Screens
                 if (IsAllInputsValidAndComplete())
                 {
                     EnableAllControls(false);
+                    try {  dtDebiCheckRefNo.Clear(); } catch { }
+
+
+
+                    var transactionOptions = new TransactionOptions
+                    {
+                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    };
+
+
+
+
+                    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                    {
+
+                        DataSet dsDebiCheckRefNo;
+
+                        //dsDebiCheckRefNo = Business.Insure.INGetBatchExportDebiCheckRefNo(_fromDate);
+                        foreach (DataRecord record in _campaigns)
+                        {
+                            if ((bool)record.Cells["Select"].Value)
+                            {
+                                long campaignID = Convert.ToInt32(record.Cells["CampaignID"].Value);
+
+                                dsDebiCheckRefNo = Business.Insure.INGetBatchExportDebiCheckRefNo(_fromDate);
+
+                                dtDebiCheckRefNo = dsDebiCheckRefNo.Tables[0];
+
+                            }
+                        }
+                        //dtDebiCheckRefNo = dsDebiCheckRefNo.Tables[0].Rows; 
+
+                        //SqlParameter[] SQLparameters = new SqlParameter[1];
+                        //SQLparameters[0] = new SqlParameter("@DateOfSale", _fromDate);
+
+                        //dsDebiCheckRefNo = Methods.ExecuteStoredProcedure("spINGetDebiCheckRefNo", SQLparameters);
+
+                        //parameters[2] = new SqlParameter("@ToDate", _fromDate.ToString("yyyy-MM-dd"));
+
+
+
+                    }
 
                     BackgroundWorker worker = new BackgroundWorker();
                     worker.DoWork += BatchExport;
