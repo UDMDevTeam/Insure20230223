@@ -19,6 +19,7 @@ using Orientation = Infragistics.Documents.Excel.Orientation;
 using System.Linq;
 using System.Collections.Generic;
 using Embriant.WPF.Controls;
+using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -211,6 +212,8 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Wait);
 
                 #region Get the report data
+
+
                 var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgents(_endDate, _startDate);
 
 
@@ -227,7 +230,16 @@ namespace UDM.Insurance.Interface.Screens
                         DataTable dtTempSalesData = null;
 
                         long? agentID = drAgent.ItemArray[0] as long?;
-                        var ds = Business.Insure.INGetDebiChecKTrackingTSR(_endDate, _startDate, agentID);
+                        DataSet ds = null;
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
+
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            ds = Business.Insure.INGetDebiChecKTrackingTSR(_endDate, _startDate, agentID);
+                        }
 
                         dtTempSalesData = ds.Tables[0];
                         foreach (DataRow row in dtTempSalesData.Rows)
