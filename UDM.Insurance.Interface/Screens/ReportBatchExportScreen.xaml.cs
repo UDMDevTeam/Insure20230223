@@ -436,7 +436,7 @@ namespace UDM.Insurance.Interface.Screens
                                    if (dtBatchExportData.Rows[count]["ClientRefNr"].ToString() == dtDebiCheckRefNo.Rows[count]["ReferenceNumber"].ToString()) 
                                     {
 
-                                        dtBatchExportData.Rows[count]["MandateRequestStatus"] = dtDebiCheckRefNo.Rows[count]["MandateRequestStatus"].ToString();
+                                        dtBatchExportData.Rows[count]["MandateRequestStatus"] = dtDebiCheckRefNo.Rows[count]["Result"].ToString();
 
                                         //dtBatchExportData = dsBatchExportData.Tables[2];
                                     }
@@ -2787,7 +2787,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 long campaignID = Convert.ToInt32(record.Cells["CampaignID"].Value);
 
-                                dsDebiCheckRefNo = Business.Insure.INGetBatchExportDebiCheckRefNo(_fromDate);
+                                dsDebiCheckRefNo = Business.Insure.INGetBatchExportDebiCheckRefNo(_fromDate, campaignID);
 
                                 dtDebiCheckRefNo = dsDebiCheckRefNo.Tables[0];
 
