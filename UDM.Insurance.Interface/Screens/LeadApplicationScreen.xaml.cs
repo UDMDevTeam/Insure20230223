@@ -7527,7 +7527,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 #region DebiCheck Workings
-                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
+                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || GlobalSettings.ApplicationUser.ID == 199)
                 {
 
                 }
