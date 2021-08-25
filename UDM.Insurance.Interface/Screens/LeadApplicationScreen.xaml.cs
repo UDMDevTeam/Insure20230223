@@ -66,6 +66,15 @@ namespace UDM.Insurance.Interface.Screens
 
         private const string debiCheckURL = "http://plhqweb.platinumlife.co.za:8081/";
 
+        string PolicyNumberPLLKP = "";
+        string ReferenceNumberPLLKP = "";
+        string ResponseDetailPLLKP = ""; // WILL RETURN "OK" OR "No Data Found"
+        string BankPLLKP = "";
+        string AccountNumberPLLKP = "";
+        string AccountHolderPLLKP = "";
+        string BranchCodePLLKP = "";
+        string AccountTypePLLKP = "";
+        string DebitDayPLLKP = "";
 
         #region BulkSMS
 
@@ -1778,6 +1787,8 @@ namespace UDM.Insurance.Interface.Screens
                     btnSave.SetValue(Grid.RowProperty, 15);
                 }
 
+                #region DebiCheck Workings
+
                 try
                 {
                     StringBuilder strQuery = new StringBuilder();
@@ -1882,6 +1893,19 @@ namespace UDM.Insurance.Interface.Screens
                     DebiCheckBorder.BorderBrush = Brushes.White;
                     btnDebiCheck.IsEnabled = true;
                 }
+
+                if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
+                {
+                    btnDebiCheck.SetValue(Grid.RowProperty, 16);
+                }
+                else
+                {
+                    btnDebiCheck.SetValue(Grid.RowProperty, 17);
+                    GetBankingDetailLookup();
+                }
+
+                #endregion
+
 
 
             }
@@ -2446,10 +2470,10 @@ namespace UDM.Insurance.Interface.Screens
                 if (LaData.AppData.ImportID.HasValue)
                 {
                     INImport import = new INImport((long)LaData.AppData.ImportID);
-                    import.FKINLeadStatusID = LaData.AppData.LeadStatus; 
+                    import.FKINLeadStatusID = LaData.AppData.LeadStatus;
 
-                    import.FKUserID = LaData.AppData.AgentID; 
-                    import.DateOfSale = LaData.AppData.DateOfSale; 
+                    import.FKUserID = LaData.AppData.AgentID;
+                    import.DateOfSale = LaData.AppData.DateOfSale;
 
                     #region Sale Data (page5)
 
@@ -6442,17 +6466,6 @@ namespace UDM.Insurance.Interface.Screens
             return optionID;
         }
 
-        //private string DateOfBirthToIDNumber(DateTime? dateOfBirth)
-        //{
-        //    string resultingIDNumber = null;
-
-        //    if (dateOfBirth.HasValue)
-        //    {
-        //        resultingIDNumber = String.Format("{0}0000000", dateOfBirth.Value.ToString("yyMMdd"));
-        //    }
-
-        //    return resultingIDNumber;
-        //}
 
         private long? GetGenderIDFromTitle(long? titleID)
         {
@@ -6591,31 +6604,7 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        //private void EnableAddressControls(bool enabled)
-        //{
-        //    if (enabled)
-        //    {
-        //        medAddress1.Style = FindResource("medIN") as Style;
-        //        medAddress2.Style = FindResource("medIN") as Style;
-        //        medAddress3.Style = FindResource("medIN") as Style;
-        //        medSuburb.Style = FindResource("medIN") as Style;
-        //        medTown.Style = FindResource("medIN") as Style;
-        //        //ecbSuburb.Style = this.FindResource("INEditableComboBoxStyleWithDropDown") as Style;
-        //        //ecbTown.Style = this.FindResource("INEditableComboBoxStyleWithDropDown") as Style;
-        //        medPostalCode.Style = FindResource("medIN") as Style;
-        //    }
-        //    else
-        //    {
-        //        medAddress1.Style = FindResource("medINDisabled") as Style;
-        //        medAddress2.Style = FindResource("medINDisabled") as Style;
-        //        medAddress3.Style = FindResource("medINDisabled") as Style;
-        //        //ecbSuburb.Style = this.FindResource("cmbINDisabled") as Style;
-        //        //ecbTown.Style = this.FindResource("cmbINDisabled") as Style;
-        //        medSuburb.Style = FindResource("medINDisabled") as Style;
-        //        medTown.Style = FindResource("medINDisabled") as Style;
-        //        medPostalCode.Style = FindResource("medINDisabled") as Style;
-        //    }
-        //}
+
 
         private void Viewbox_Zoom(object sender)
         {
@@ -7537,6 +7526,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+                #region DebiCheck Workings
                 if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
                 {
 
@@ -7614,8 +7604,45 @@ namespace UDM.Insurance.Interface.Screens
                                     return;
                                 }
                             }
+                            else if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade4 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade7 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade8 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade4 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
+                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
+                                    )
+                            {
+                                try
+                                {
+                                    StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                    strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                    strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                    strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                    strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                    DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                    string responses = dt.Rows[0]["Response"].ToString();
+                                }
+                                catch
+                                {
+                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                    messageBox.buttonOK.Content = "Yes";
+                                    var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                    bool result = showMessageBox != null && (bool)showMessageBox;
+                                    return;
+                                }
+                            }
                         }
-
+                        #endregion
 
 
 
@@ -10025,15 +10052,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Popups
 
-        //private void CanSave_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    imgLock.Visibility = Visibility.Collapsed;
-        //}
 
-        //private void CanSave_Unchecked(object sender, RoutedEventArgs e)
-        //{
-        //    imgLock.Visibility = Visibility.Visible;
-        //}
 
 
 
@@ -13583,7 +13602,7 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
-
+        #region Permission Lead
         private void btnPermissionLead_Click(object sender, RoutedEventArgs e)
         {
 
@@ -13686,6 +13705,9 @@ namespace UDM.Insurance.Interface.Screens
                 chkLeadPermission.IsEnabled = true;
             }
         }
+        #endregion
+
+
         private void btnDebiCheck_Click(object sender, RoutedEventArgs e)
         {
             #region Constants
@@ -13830,25 +13852,100 @@ namespace UDM.Insurance.Interface.Screens
                 using (var wb = new WebClient())
                 {
                     var data = new NameValueCollection();
-                    try { data["ClientName"] = LaData.BankDetailsData.FullName; } catch { data["ClientName"] = ""; }
-                    try { data["CellNumber"] = LaData.BankDetailsData.TelCell; } catch { data["CellNumber"] = ""; }
-                    try { data["Email"] = LaData.BankDetailsData.Email; } catch { data["Email"] = ""; }
-                    try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
-                    if (IDNumberDebiCheck == "2")
+
+                    if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade4 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade7 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade8 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade4 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                     {
-                        try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+
+                        string AccountTypeNumber = " ";
+                        if (AccountTypePLLKP == "Current")
+                        {
+                            AccountTypeNumber = "1";
+                        }
+                        else if (AccountTypePLLKP == "Savings")
+                        {
+                            AccountTypeNumber = "2";
+                        }
+                        else if (AccountTypePLLKP == "Transmission")
+                        {
+                            AccountTypeNumber = "3";
+                        }
+
+                        try
+                        {
+                            DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
+                            CommencementDateDebiCheck = datevariable.AddMonths(2);
+                            CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(DebitDayPLLKP));
+                        }
+                        catch
+                        {
+                            CommencementDateEdited = DateTime.Now;
+                        }
+
+                        try { data["ClientName"] = LaData.LeadData.FullName; } catch { data["ClientName"] = ""; }
+                        try { data["CellNumber"] = LaData.LeadData.TelCell; } catch { data["CellNumber"] = ""; }
+                        try { data["Email"] = LaData.LeadData.Email; } catch { data["Email"] = ""; }
+                        try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
+                        if (IDNumberDebiCheck == "2")
+                        {
+                            try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                        }
+                        else if (IDNumberDebiCheck == "1")
+                        {
+                            try { data["IdentificationNumber"] = LaData.LeadData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                        }
+                        try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
+                        try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
+                        try { data["AccountNumber"] = AccountNumberPLLKP; } catch { data["AccountNumber"] = ""; }
+                        try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
+                        try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
+                        try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
+
+
+
                     }
-                    else if (IDNumberDebiCheck == "1")
+                    else
                     {
-                        try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                        try { data["ClientName"] = LaData.BankDetailsData.FullName; } catch { data["ClientName"] = ""; }
+                        try { data["CellNumber"] = LaData.BankDetailsData.TelCell; } catch { data["CellNumber"] = ""; }
+                        try { data["Email"] = LaData.BankDetailsData.Email; } catch { data["Email"] = ""; }
+                        try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
+                        if (IDNumberDebiCheck == "2")
+                        {
+                            try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                        }
+                        else if (IDNumberDebiCheck == "1")
+                        {
+                            try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                        }
+                        try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
+                        try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
+                        try { data["AccountNumber"] = LaData.BankDetailsData.AccountNumber; } catch { data["AccountNumber"] = ""; }
+                        try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
+                        try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
+                        try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
+
                     }
-                    try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
-                    try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
-                    try { data["AccountNumber"] = LaData.BankDetailsData.AccountNumber; } catch { data["AccountNumber"] = ""; }
-                    try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
-                    try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
-                    try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
-                    try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
+
+
 
                     wb.Headers.Add("Authorization", "Bearer " + token);
 
@@ -13886,38 +13983,42 @@ namespace UDM.Insurance.Interface.Screens
             #region Save Debi Chek on our side
             try
             {
-                DebiCheckSent DebiCheckSentData = new DebiCheckSent();
+                if(MandateStatusCode != null)
+                {
+                    DebiCheckSent DebiCheckSentData = new DebiCheckSent();
 
-                DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
-                DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
-                DebiCheckSentData.SMSID = ClientResponseStatus;
-                DebiCheckSentData.FKlkpSMSTypeID = 2;
-                DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
-                DebiCheckSentData.SMSBody = MandateStatusCode;
-                DebiCheckSentData.FKlkpSMSEncodingID = 2;
-                DebiCheckSentData.SubmissionID = ClientsBankResponseStatusCode;
-                DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                DebiCheckSentData.SubmissionDate = DateTime.Now;
-                DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
-                DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                    DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
+                    DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
+                    DebiCheckSentData.SMSID = ClientResponseStatus;
+                    DebiCheckSentData.FKlkpSMSTypeID = 2;
+                    DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
+                    DebiCheckSentData.SMSBody = MandateStatusCode;
+                    DebiCheckSentData.FKlkpSMSEncodingID = 2;
+                    DebiCheckSentData.SubmissionID = ClientsBankResponseStatusCode;
+                    DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                    DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                    DebiCheckSentData.SubmissionDate = DateTime.Now;
+                    DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
+                    DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
 
-                //DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
-                //DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
-                //DebiCheckSentData.SMSID = "";
-                //DebiCheckSentData.FKlkpSMSTypeID = 2;
-                //DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
-                //DebiCheckSentData.SMSBody = "6";
-                //DebiCheckSentData.FKlkpSMSEncodingID = 2;
-                //DebiCheckSentData.SubmissionID = "";
-                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                //DebiCheckSentData.SubmissionDate = DateTime.Now;
-                //DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
-                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                    //DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
+                    //DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
+                    //DebiCheckSentData.SMSID = "";
+                    //DebiCheckSentData.FKlkpSMSTypeID = 2;
+                    //DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
+                    //DebiCheckSentData.SMSBody = "6";
+                    //DebiCheckSentData.FKlkpSMSEncodingID = 2;
+                    //DebiCheckSentData.SubmissionID = "";
+                    //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                    //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                    //DebiCheckSentData.SubmissionDate = DateTime.Now;
+                    //DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
+                    //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
 
 
-                DebiCheckSentData.Save(_validationResult);
+                    DebiCheckSentData.Save(_validationResult);
+                }
+
             }
             catch
             {
@@ -14051,6 +14152,97 @@ namespace UDM.Insurance.Interface.Screens
             }
             #endregion
         }
+
+        private void GetBankingDetailLookup()
+        {
+            #region AuthToken
+            try
+            {
+                PolicyNumberPLLKP = "";
+                ReferenceNumberPLLKP = "";
+                ResponseDetailPLLKP = "";
+                BankPLLKP = "";
+                AccountNumberPLLKP = "";
+                AccountHolderPLLKP = "";
+                BranchCodePLLKP = "";
+                AccountTypePLLKP = "";
+                DebitDayPLLKP = "";
+
+                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string Username = "udm@platinumlife.co.za";
+                string Password = "P@ssword1";
+                string token = "";
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection();
+                    data["username"] = Username;
+                    data["password"] = Password;
+                    data["grant_type"] = "password";
+
+                    var response = wb.UploadValues(auth_url, "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                    token = (string)customObject["access_token"];
+                }
+                #endregion
+
+                #region SumbitBankingDetailRequest
+                string submitRequest_url = "http://plhqweb.platinumlife.co.za:999/api/BD/PL_Request";
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection();
+                    data["Organization"] = "PL"; //THG //TBF //IG //IPS
+                    data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
+                    data["IDNumber"] = LaData.LeadData.IDNumber;
+                    data["ReferenceNumber"] = LaData.AppData.RefNo;
+                    data["PassportNumber"] = "";
+                    data["FirstName"] = LaData.LeadData.Name;
+                    data["LastName"] = LaData.LeadData.Surname;
+                    data["MobileNumber"] = LaData.LeadData.TelCell;
+                    data["HomeNumber"] = LaData.LeadData.TelHome;
+                    data["WorkNumber"] = LaData.LeadData.TelWork;
+                    data["EmailAddress"] = LaData.LeadData.Email;
+
+                    wb.Headers.Add("Authorization", "Bearer " + token);
+
+                    var response = wb.UploadValues(submitRequest_url, "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                    PolicyNumberPLLKP = (string)customObject["PolicyNumber"];
+                    ReferenceNumberPLLKP = (string)customObject["ReferenceNumber"];
+                    ResponseDetailPLLKP = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
+                    BankPLLKP = (string)customObject["Bank"];
+                    AccountNumberPLLKP = (string)customObject["AccountNumber"];
+                    AccountHolderPLLKP = (string)customObject["AccountHolder"];
+                    BranchCodePLLKP = (string)customObject["BranchCode"];
+                    AccountTypePLLKP = (string)customObject["AccountType"];
+                    DebitDayPLLKP = (string)customObject["DebitDay"];
+
+                    if (BankPLLKP == null || BankPLLKP == "")
+                    {
+                        GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                        GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
+                    }
+                    else
+                    {
+                        GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
+                        GotBankingDetailsPLLBL2.Text = " ";
+                    }
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            #endregion
+
+
+        }
+
         public void IsDebiCheckValidForResales()
         {
             btnDebiCheck.Visibility = Visibility.Collapsed;
@@ -14215,6 +14407,10 @@ namespace UDM.Insurance.Interface.Screens
                         Mandate1TB.Visibility = Visibility.Collapsed;
                         Mandate2Lbl1.Visibility = Visibility.Collapsed;
                         Mandate2TB.Visibility = Visibility.Collapsed;
+                        GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                        GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                        GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                        GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                     }
                     else
                     {
@@ -14226,122 +14422,12 @@ namespace UDM.Insurance.Interface.Screens
                             Mandate1TB.Visibility = Visibility.Visible;
                             Mandate2Lbl1.Visibility = Visibility.Visible;
                             Mandate2TB.Visibility = Visibility.Visible;
+                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+
                             IsDebiCheckValid();
-
-                            //try
-                            //{
-                            //    //this is to see what happened last on this lead regarding debicheck
-                            //    StringBuilder strQuery = new StringBuilder();
-                            //    strQuery.Append("SELECT TOP 1 SMSBody [Response] ");
-                            //    strQuery.Append("FROM DebiCheckSent ");
-                            //    strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                            //    strQuery.Append(" ORDER BY ID DESC");
-                            //    DataTable dt = Methods.GetTableData(strQuery.ToString());
-
-                            //    string response = dt.Rows[0]["Response"].ToString();
-                            //    if (response.Contains("1"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "Record Created";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains("2"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "Record Submitted";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains("3"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "Results Received but no Further Details";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains("4"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Red;
-                            //        btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
-                            //        btnDebiCheck.IsEnabled = true;
-
-                            //    }
-                            //    else if (response.Contains("5"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Red;
-                            //        btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
-                            //        btnDebiCheck.IsEnabled = true;
-
-                            //    }
-                            //    else if (response.Contains("6"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "Mandate Approved";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains("7"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Red;
-                            //        btnDebiCheck.ToolTip = "Client Rejected";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains("8"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains("9"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Yellow;
-                            //        btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
-                            //        btnDebiCheck.IsEnabled = true;
-
-                            //    }
-                            //    else if (response.Contains("10"))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else if (response.Contains(""))
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.Green;
-                            //        btnDebiCheck.ToolTip = "Sent";
-                            //        if (DebiCheckSentTwice == true)
-                            //        {
-                            //            btnDebiCheck.IsEnabled = false;
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        DebiCheckBorder.BorderBrush = Brushes.White;
-                            //        btnDebiCheck.IsEnabled = true;
-                            //    }
-                            //}
-                            //catch
-                            //{
-                            //    DebiCheckBorder.BorderBrush = Brushes.White;
-                            //}
 
                             //this is for the resales campaign rule
                             if (LaData.AppData.CampaignID == 7
@@ -14418,12 +14504,125 @@ namespace UDM.Insurance.Interface.Screens
                             Mandate1TB.Visibility = Visibility.Collapsed;
                             Mandate2Lbl1.Visibility = Visibility.Collapsed;
                             Mandate2TB.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
 
                         }
                     }
 
 
                 }
+                else if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade4 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade7 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade8 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade4 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
+                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
+                {
+                    //this enables the button depending on the Leadstatus the lead is saved as
+                    try
+                    {
+                        if (ClosurePage.Visibility == Visibility.Visible)
+                        {
+                            btnDebiCheck.Visibility = Visibility.Visible;
+                            DebiCheckBorder.Visibility = Visibility.Visible;
+                            Mandate1Lbl1.Visibility = Visibility.Visible;
+                            Mandate1TB.Visibility = Visibility.Visible;
+                            Mandate2Lbl1.Visibility = Visibility.Visible;
+                            Mandate2TB.Visibility = Visibility.Visible;
+                            GotBankingDetailsPL.Visibility = Visibility.Visible;
+                            GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
+                            GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
+                            GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+
+                            //IsDebiCheckValid();
+
+                            //this enables the button depending on the Leadstatus the lead is saved as
+                            try
+                            {
+                                StringBuilder strQuery = new StringBuilder();
+                                strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
+                                strQuery.Append("FROM INImport ");
+                                strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                strQuery.Append(" ORDER BY ID DESC");
+                                DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                string response = dt.Rows[0]["Response"].ToString();
+
+                                if (response.Contains("19"))
+                                {
+                                    DebiCheckBorder.BorderBrush = Brushes.White;
+                                    btnDebiCheck.IsEnabled = true;
+                                }
+                                if (response.Contains("21"))
+                                {
+                                    DebiCheckBorder.BorderBrush = Brushes.White;
+                                    btnDebiCheck.IsEnabled = true;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            //this is for when there is a bump up
+                            try
+                            {
+                                if (chkUDMBumpUp.IsChecked == true)
+                                {
+                                    btnDebiCheck.IsEnabled = true;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+
+                        }
+                        else
+                        {
+                            btnDebiCheck.Visibility = Visibility.Collapsed;
+                            DebiCheckBorder.Visibility = Visibility.Collapsed;
+                            Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                            Mandate1TB.Visibility = Visibility.Collapsed;
+                            Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                            Mandate2TB.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                        }
+
+                    }
+                    catch
+                    {
+
+                    }
+                    //this is for when there is a bump up
+                    try
+                    {
+                        if (chkUDMBumpUp.IsChecked == true)
+                        {
+                            btnDebiCheck.IsEnabled = true;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
                 else
                 {
                     btnDebiCheck.Visibility = Visibility.Collapsed;
@@ -14440,7 +14639,7 @@ namespace UDM.Insurance.Interface.Screens
 
             }
             //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
-            if (GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 2810)
+            if (GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 1)
             {
                 btnDebiCheck.IsEnabled = true;
             }
@@ -14460,6 +14659,18 @@ namespace UDM.Insurance.Interface.Screens
             catch (Exception ex)
             {
                 HandleException(ex);
+            }
+        }
+
+        private void GotBankingDetailsPLBTN_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                GetBankingDetailLookup();
+            }
+            catch
+            {
+
             }
         }
     }

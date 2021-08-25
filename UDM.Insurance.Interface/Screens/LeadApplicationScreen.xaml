@@ -15364,7 +15364,53 @@
                         FontSize="13"
                         Visibility="Hidden">
                     </TextBlock>
+                    <TextBlock
+                        x:Name="GotBankingDetailsPLLBL"
+                        Grid.Row="14" 
+                        Grid.Column="8"
+                        Text="Banking Details Retrieved:"
+                        Foreground="LightBlue"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed" Grid.ColumnSpan="4" Height="22" Margin="0,0,26,23" Width="145"/>
+                    <TextBlock
+                        x:Name="GotBankingDetailsPLLBL2"
+                        Grid.Row="15"
+                        Grid.Column="4"
+                        Text="Adjust Details and retry"
+                        Foreground="LightBlue"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed" 
+                        Grid.ColumnSpan="4" 
+                        Height="45" 
+                        Margin="0,0,40,0" 
+                        Width="129" 
+                        RenderTransformOrigin="0.09,0.459"/>
 
+                    <Border
+                        x:Name="GotBankingDetailsPL"
+                        Grid.Row="14"
+                        Margin="2,27,2,23"
+                        Grid.Column="10"       
+                        Visibility="Collapsed"
+                        CornerRadius="20"
+                        Background="Gray"
+                        Grid.RowSpan="2">
+                    </Border>
+
+                    <Button x:Name ="GotBankingDetailsPLBTN"
+                            Grid.Column="8"
+                            Background="Black"
+                            Grid.Row="14"
+                            Grid.RowSpan="2"
+                            Visibility="Collapsed"
+                            Click="GotBankingDetailsPLBTN_Click" Margin="0,22,0,23"
+                            >
+                        <Image Source="../Resources/reloadbanking.png"></Image>
+
+                    </Button>
 
                     <StackPanel
                         x:Name="spMessage"
@@ -15472,6 +15518,7 @@
                                 </Style>
                             </UserControl.Resources>
                         </content:icoPhone>
+                        
                         <ig:ContextMenuService.Manager>
                             <ig:ContextMenuManager OpenMode="LeftClick">
                                 <ig:ContextMenuManager.ContextMenu>
