@@ -13983,8 +13983,7 @@ namespace UDM.Insurance.Interface.Screens
             #region Save Debi Chek on our side
             try
             {
-                if(MandateStatusCode != null)
-                {
+
                     DebiCheckSent DebiCheckSentData = new DebiCheckSent();
 
                     DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
@@ -14017,7 +14016,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     DebiCheckSentData.Save(_validationResult);
-                }
+                
 
             }
             catch
