@@ -11315,6 +11315,12 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.SMSSendData.body = defaultMessage;
                         }
                     }
+                    if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
+                    {
+                        LaData.SMSSendData.body = defaultMessage;
+
+                    }
+
 
                     //if (!excludedCampaigns.Contains(LaData.AppData.CampaignCode))
                     //{
@@ -13832,6 +13838,8 @@ namespace UDM.Insurance.Interface.Screens
                     data["password"] = Password;
                     data["grant_type"] = "password";
 
+                    
+
                     var response = wb.UploadValues(auth_url, "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
                     var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
@@ -13948,7 +13956,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     wb.Headers.Add("Authorization", "Bearer " + token);
-
+                    
                     var response = wb.UploadValues(submitMandate_url, "POST", data);
                     string responseInString;
 

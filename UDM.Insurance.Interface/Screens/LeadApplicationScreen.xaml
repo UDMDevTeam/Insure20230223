@@ -14976,7 +14976,7 @@
                                                 <!--<Condition Binding="{Binding UserData.UserID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,7313'}" Value="True" />-->
                                                 <!--<Condition Binding="{Binding UserData.UserID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,1'}" Value="True" />-->
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Setter Property="Visibility" Value="Visible" />
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -14993,7 +14993,7 @@
                                                 <!--<Condition Binding="{Binding UserData.UserID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,7313'}" Value="True" />-->
                                                 <!--<Condition Binding="{Binding UserData.UserID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,1'}" Value="True" />-->
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Setter Property="Visibility" Value="Visible" />
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -15518,7 +15518,7 @@
                                 </Style>
                             </UserControl.Resources>
                         </content:icoPhone>
-                        
+
                         <ig:ContextMenuService.Manager>
                             <ig:ContextMenuManager OpenMode="LeftClick">
                                 <ig:ContextMenuManager.ContextMenu>
