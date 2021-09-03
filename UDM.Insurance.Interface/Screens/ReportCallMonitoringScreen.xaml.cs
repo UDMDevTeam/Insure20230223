@@ -18,7 +18,6 @@ using System.Windows.Threading;
 using UDM.Insurance.Interface.Windows;
 using UDM.WPF.Library;
 using UDM.Insurance.Business;
-using System.Transactions;
 //using System.Text.RegularExpressions;
 
 namespace UDM.Insurance.Interface.Screens
@@ -164,7 +163,6 @@ namespace UDM.Insurance.Interface.Screens
 
         private void Report(object sender, DoWorkEventArgs e)
         {
-
             try
             {
                 SetCursor(Cursors.Wait);
@@ -179,49 +177,27 @@ namespace UDM.Insurance.Interface.Screens
                 Workbook wbConfirmedSalesReportTemplate = Methods.DefineTemplateWorkbook("/Templates/ReportTemplateCallMonitoring.xlsx");
                 Workbook wbConfirmedSalesReport = new Workbook(WorkbookFormat.Excel2007);
 
-
-
                 #endregion Setup excel documents
 
                 #region Get the data
-                try
+
+                DataSet dsCallMonitoringReportData = Business.Insure.INReportCallMonitoring(_fromDate, _toDate, _staffType);
+
+                if (dsCallMonitoringReportData.Tables[1].Rows.Count == 0)
                 {
-                    DataSet dsCallMonitoringReportData = null;
-
-                    var transactionOptions = new TransactionOptions
+                    Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
-                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-                    };
+                        ShowMessageBox(new INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", ShowMessageType.Information);
+                    });
 
-                    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                    {
-                        dsCallMonitoringReportData = Business.Insure.INReportCallMonitoring(_fromDate, _toDate, _staffType);
-                    }
-
-
-
-                    if (dsCallMonitoringReportData.Tables[1].Rows.Count == 0)
-                    {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-                        {
-                            ShowMessageBox(new INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", ShowMessageType.Information);
-                        });
-                        return;
-
-                    }
-
-
-                    #endregion Get the data
-
-                    #region Insert the various report sheets
-
-                    InsertCallMonitoringReportSheets(wbConfirmedSalesReportTemplate, wbConfirmedSalesReport, dsCallMonitoringReportData);
-                }
-                catch (Exception ex)
-                {
                     return;
-                    //  HandleException(ex);
                 }
+
+                #endregion Get the data
+
+                #region Insert the various report sheets
+
+                InsertCallMonitoringReportSheets(wbConfirmedSalesReportTemplate, wbConfirmedSalesReport, dsCallMonitoringReportData);
 
                 #endregion Insert the various report sheets
 
@@ -237,16 +213,11 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-
-                    //return;
-                    ////ex.Message = Error filling data set with data adapter
-                    ////InnerException = {"Remote access is not supported for transaction isolation level \"SNAPSHOT\"."}
-
+                    //emptyDataTableCount++;
                     Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
                         ShowMessageBox(new INMessageBoxWindow1(), "There is no data available for the criteria you have specified. Please change some of them and try again.", "No data available", ShowMessageType.Information);
                     });
-
                 }
 
                 #endregion Finally, save and display the resulting workbook
@@ -254,7 +225,6 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-
                 HandleException(ex);
             }
 
