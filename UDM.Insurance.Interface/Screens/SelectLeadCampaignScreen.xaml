@@ -13,24 +13,48 @@
 
     <Grid x:Name="LayoutRoot" Background="{x:Null}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="14*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="13*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="14*" />
 
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -51,7 +75,7 @@
         <Rectangle
             x:Name="BGRectangle"
             Grid.RowSpan="12"
-            Grid.ColumnSpan="18"
+            Grid.ColumnSpan="41"
             Margin="0"
             Fill="Black"
             RadiusX="12"
@@ -66,8 +90,8 @@
             x:Name="btnClose"
             Grid.Row="0"
             Grid.RowSpan="2"
-            Grid.Column="16"
-            Grid.ColumnSpan="2"
+            Grid.Column="37"
+            Grid.ColumnSpan="3"
             Click="btnClose_Click"
             Style="{DynamicResource INCloseButton}"
             TabIndex="0" />
@@ -76,7 +100,7 @@
             x:Name="headerSelectLeadCampaign"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="6"
+            Grid.ColumnSpan="12"
             VerticalAlignment="Top"
             Style="{DynamicResource INPageHeadingText1}"
             Text="Select Campaign" />
@@ -86,11 +110,11 @@
             Grid.Row="2"
             Grid.RowSpan="8"
             Grid.Column="1"
-            Grid.ColumnSpan="16"
+            Grid.ColumnSpan="39"
             Margin="0,0,0,15"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            AutoFit="False"
+            AutoFit="True"
             GroupByAreaLocation="None"
             Style="{DynamicResource INXamDataGridStyle1}"
             TabIndex="0">
@@ -128,6 +152,11 @@
                         Name="LeadName"
                         Width="200"
                         Label="Lead Name" />
+                    <igDP:Field
+                        Name="Description"
+                        Width="200"
+                        Label="Description" />
+
                 </igDP:FieldLayout>
             </igDP:XamDataGrid.FieldLayouts>
         </igDP:XamDataGrid>
@@ -135,8 +164,8 @@
         <Button
             x:Name="btnSelect"
             Grid.Row="10"
-            Grid.Column="12"
-            Grid.ColumnSpan="5"
+            Grid.Column="28"
+            Grid.ColumnSpan="12"
             Margin="0"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
