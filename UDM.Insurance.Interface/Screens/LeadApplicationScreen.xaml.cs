@@ -124,7 +124,6 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.DoubleUpgrade13,
             lkpINCampaignGroup.DoubleUpgrade14
 
-
         };
         //lkpINCampaignType.BlackMaccMillion
         readonly IEnumerable<lkpINCampaignType?> campaignTypesCancer = new lkpINCampaignType?[] { lkpINCampaignType.Cancer, lkpINCampaignType.CancerFuneral, lkpINCampaignType.IGCancer, lkpINCampaignType.TermCancer, };
@@ -1897,11 +1896,39 @@ namespace UDM.Insurance.Interface.Screens
                 if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
                 {
                     btnDebiCheck.SetValue(Grid.RowProperty, 16);
+                    DebiCheckBorder.SetValue(Grid.RowProperty, 16);
+
+                    if (LaData.AppData.CampaignID == 7
+                            || LaData.AppData.CampaignID == 9
+                            || LaData.AppData.CampaignID == 10
+                            || LaData.AppData.CampaignID == 294
+                            || LaData.AppData.CampaignID == 295
+                            || LaData.AppData.CampaignID == 24
+                            || LaData.AppData.CampaignID == 25
+                            || LaData.AppData.CampaignID == 11
+                            || LaData.AppData.CampaignID == 12
+                            || LaData.AppData.CampaignID == 13
+                            || LaData.AppData.CampaignID == 14
+                            || LaData.AppData.CampaignID == 85
+                            || LaData.AppData.CampaignID == 86
+                            || LaData.AppData.CampaignID == 87
+                            || LaData.AppData.CampaignID == 281
+                            || LaData.AppData.CampaignID == 324
+                            || LaData.AppData.CampaignID == 325
+                            || LaData.AppData.CampaignID == 326
+                            || LaData.AppData.CampaignID == 327
+                            || LaData.AppData.CampaignID == 264
+                            || LaData.AppData.CampaignID == 4)
+                    {
+                        GetBankingDetailLookup();
+                    }
                 }
                 else
                 {
                     btnDebiCheck.SetValue(Grid.RowProperty, 17);
+                    DebiCheckBorder.SetValue(Grid.RowProperty, 17);
                     GetBankingDetailLookup();
+
                 }
 
                 #endregion
@@ -6781,7 +6808,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region PLCBSpouse Campaign Auto CancerOption Update
 
-                if (LaData.AppData.CampaignID == 344)
+                if (LaData.AppData.CampaignID == 344 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                 {
                     decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
                     int age = DateTime.Now.Year - date.Year;
@@ -6794,22 +6821,18 @@ namespace UDM.Insurance.Interface.Screens
                     else if (age >= 35 && age <= 39)
                     {
                         optionID = 2;
-
                     }
                     else if (age >= 40 && age <= 44)
                     {
                         optionID = 3;
-
                     }
                     else if (age >= 45 && age <= 49)
                     {
                         optionID = 4;
-
                     }
                     else if (age >= 50 && age <= 54)
                     {
                         optionID = 5;
-
                     }
                     else if (age >= 55 && age <= 150)
                     {
@@ -7557,7 +7580,29 @@ namespace UDM.Insurance.Interface.Screens
                             || LaData.AppData.CampaignID == 264
                             || LaData.AppData.CampaignID == 4)
                         {
-                            if (btnDebiCheck.Visibility == Visibility.Visible)
+                            DateTime ImportDate;
+
+                            try
+                            {
+                                StringBuilder strQueryImportDate = new StringBuilder();
+                                strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
+                                strQueryImportDate.Append("FROM INImport ");
+                                strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                strQueryImportDate.Append(" ORDER BY ID DESC");
+                                DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
+
+                                ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
+
+                            }
+                            catch
+                            {
+                                ImportDate = DateTime.Now;
+                            }
+
+
+
+
+                            if (ImportDate >  DateTime.Now.AddMonths(-3))
                             {
                                 try
                                 {
@@ -7579,6 +7624,10 @@ namespace UDM.Insurance.Interface.Screens
                                     bool result = showMessageBox != null && (bool)showMessageBox;
                                     return;
                                 }
+                            }
+                            else
+                            {
+
                             }
                         }
                         else
@@ -7604,23 +7653,7 @@ namespace UDM.Insurance.Interface.Screens
                                     return;
                                 }
                             }
-                            else if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade4 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade7 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade8 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade4 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                    )
+                            else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
                             {
                                 try
                                 {
@@ -13831,7 +13864,7 @@ namespace UDM.Insurance.Interface.Screens
                 string Password = "P@ssword1";
 
 
-                using (var wb = new WebClient())
+                using (var wb = new MyWebClient(180000))
                 {
                     var data = new NameValueCollection();
                     data["username"] = Username;
@@ -13857,26 +13890,11 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequest";
-                using (var wb = new WebClient())
+                using (var wb = new MyWebClient(180000))
                 {
                     var data = new NameValueCollection();
 
-                    if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade4 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade7 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade8 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade4 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
+                    if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade )
                     {
 
                         string AccountTypeNumber = " ";
@@ -13927,6 +13945,128 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
+                    }
+                    else if (LaData.AppData.CampaignID == 7
+                            || LaData.AppData.CampaignID == 9
+                            || LaData.AppData.CampaignID == 10
+                            || LaData.AppData.CampaignID == 294
+                            || LaData.AppData.CampaignID == 295
+                            || LaData.AppData.CampaignID == 24
+                            || LaData.AppData.CampaignID == 25
+                            || LaData.AppData.CampaignID == 11
+                            || LaData.AppData.CampaignID == 12
+                            || LaData.AppData.CampaignID == 13
+                            || LaData.AppData.CampaignID == 14
+                            || LaData.AppData.CampaignID == 85
+                            || LaData.AppData.CampaignID == 86
+                            || LaData.AppData.CampaignID == 87
+                            || LaData.AppData.CampaignID == 281
+                            || LaData.AppData.CampaignID == 324
+                            || LaData.AppData.CampaignID == 325
+                            || LaData.AppData.CampaignID == 326
+                            || LaData.AppData.CampaignID == 327
+                            || LaData.AppData.CampaignID == 264
+                            || LaData.AppData.CampaignID == 4)
+                    {
+                        string AccountTypeNumber = " ";
+                        if (AccountTypePLLKP == "Current")
+                        {
+                            AccountTypeNumber = "1";
+                        }
+                        else if (AccountTypePLLKP == "Savings")
+                        {
+                            AccountTypeNumber = "2";
+                        }
+                        else if (AccountTypePLLKP == "Transmission")
+                        {
+                            AccountTypeNumber = "3";
+                        }
+                        else
+                        {
+                            try
+                            {
+                                StringBuilder strQueryAccountype = new StringBuilder();
+                                strQueryAccountype.Append("SELECT TOP 1 Description [Response] ");
+                                strQueryAccountype.Append("FROM lkpAccountType ");
+                                strQueryAccountype.Append("WHERE ID = " + accounTypeID);
+                                strQueryAccountype.Append(" ORDER BY ID DESC");
+                                DataTable dtBranchCode = Methods.GetTableData(strQueryAccountype.ToString());
+
+                                string responsesAccountType = dtBranchCode.Rows[0]["Response"].ToString();
+
+                                if (responsesAccountType == "Current")
+                                {
+                                    AccountTypeNumber = "1";
+                                }
+                                else if (responsesAccountType == "Savings")
+                                {
+                                    AccountTypeNumber = "2";
+                                }
+                                else if (responsesAccountType == "Transmission")
+                                {
+                                    AccountTypeNumber = "3";
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+
+                        
+                        
+
+                        
+                        try
+                        {
+                            DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
+                            CommencementDateDebiCheck = datevariable.AddMonths(2);
+                            CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(DebitDayPLLKP));
+                        }
+                        catch
+                        {
+                            DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
+                            CommencementDateDebiCheck = datevariable.AddMonths(2);
+                            CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(LaData.BankDetailsData.DebitDay.ToString()));
+                        }
+
+                        try { data["ClientName"] = LaData.LeadData.FullName; } catch { data["ClientName"] = ""; }
+                        try { data["CellNumber"] = LaData.LeadData.TelCell; } catch { data["CellNumber"] = ""; }
+                        try { data["Email"] = LaData.LeadData.Email; } catch { data["Email"] = ""; }
+                        try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
+                        if (IDNumberDebiCheck == "2")
+                        {
+                            try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                        }
+                        else if (IDNumberDebiCheck == "1")
+                        {
+                            try { data["IdentificationNumber"] = LaData.LeadData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                        }
+                        try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
+
+                        if(medDOAccountNumber.Text != "")
+                        {
+                            try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
+                        }
+                        else
+                        {
+                            try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
+                        }
+
+                        if (medDOAccountNumber.Text != "")
+                        {
+                            try { data["AccountNumber"] = medDOAccountNumber.Text; } catch { data["AccountNumber"] = ""; }
+                        }
+                        else
+                        {
+                            try { data["AccountNumber"] = AccountNumberPLLKP; } catch { data["AccountNumber"] = ""; }
+                        }
+
+                        try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
+                        try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
+                        try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
                     }
                     else
                     {
@@ -14240,7 +14380,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
             }
-            catch
+            catch(Exception r)
             {
 
             }
@@ -14252,19 +14392,19 @@ namespace UDM.Insurance.Interface.Screens
 
         public void IsDebiCheckValidForResales()
         {
-            btnDebiCheck.Visibility = Visibility.Collapsed;
-            DebiCheckBorder.Visibility = Visibility.Collapsed;
-            if (medDOAccountNumber.Text == "" || medDOAccountNumber.Text == null)
-            {
+            //btnDebiCheck.Visibility = Visibility.Collapsed;
+            //DebiCheckBorder.Visibility = Visibility.Collapsed;
+            //if (medDOAccountNumber.Text == "" || medDOAccountNumber.Text == null)
+            //{
 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 btnDebiCheck.Visibility = Visibility.Visible;
                 DebiCheckBorder.Visibility = Visibility.Visible;
-                DebiCheckBorder.BorderBrush = Brushes.White;
+                //DebiCheckBorder.BorderBrush = Brushes.White;
                 btnDebiCheck.IsEnabled = true;
-            }
+            //}
         }
 
         public void GetMandateInfo()
@@ -14460,6 +14600,23 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.AppData.CampaignID == 4)
                             {
                                 IsDebiCheckValidForResales();
+
+                                GotBankingDetailsPL.Visibility = Visibility.Visible;
+                                GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
+                                GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
+                                GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+
+                                //btnDebiCheck.Visibility = Visibility.Collapsed;
+                                //DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                //Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                //Mandate1TB.Visibility = Visibility.Collapsed;
+                                //Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                //Mandate2TB.Visibility = Visibility.Collapsed;
+
+                                //GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                //GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                //GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                //GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                             }
 
                             //this enables the button depending on the Leadstatus the lead is saved as
@@ -14521,22 +14678,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                 }
-                else if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade4 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade7 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade8 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade4 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
-                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
+                else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
                 {
                     //this enables the button depending on the Leadstatus the lead is saved as
                     try
@@ -14679,6 +14821,40 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
+        }
+    }
+
+    public class MyWebClient : WebClient
+    {
+        //time in milliseconds
+        private int timeout;
+        public int Timeout
+        {
+            get
+            {
+                return timeout;
+            }
+            set
+            {
+                timeout = value;
+            }
+        }
+
+        public MyWebClient()
+        {
+            this.timeout = 180000;
+        }
+
+        public MyWebClient(int timeout)
+        {
+            this.timeout = timeout;
+        }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var result = base.GetWebRequest(address);
+            result.Timeout = this.timeout;
+            return result;
         }
     }
 
