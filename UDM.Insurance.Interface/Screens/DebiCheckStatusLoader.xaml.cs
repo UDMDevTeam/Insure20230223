@@ -202,24 +202,51 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     string strQuery = " ";
 
-                    strQuery = "SELECT DISTINCT ID FROM INImport WHERE ";
+                    strQuery = "SELECT ID FROM INImport WHERE ";
                     strQuery += "RefNo = '" + ReferenceTB5.Text + "'";
 
                     DataTable dtINImport = Methods.GetTableData(strQuery);
 
-                    long? INImportID = dtINImport.Rows[0]["ID"] as long?;
-                    long inimportIDLong = long.Parse(INImportID.ToString());
+                    if (dtINImport.Rows.Count > 1)
+                    {
+                        SelectLeadCampaignScreen selectLeadCampaignScreen = new SelectLeadCampaignScreen(ReferenceTB5.Text);
 
-                    INImport import = new INImport(inimportIDLong);
-                    import.FKINLeadStatusID = 19;
-                    import.Save(_validationResult);
+                        //ShowOrHideFields(true);
 
-                    RejectedDebiCheckTracking RDT = new RejectedDebiCheckTracking();
-                    RDT.DateTimeSaved = DateTime.Now;
-                    RDT.FKImportID = INImportID;
-                    RDT.Save(_validationResult);
+                        if (ShowDialog(selectLeadCampaignScreen, new INDialogWindow(selectLeadCampaignScreen)) == true)
+                        {
+                            long importID = selectLeadCampaignScreen.ImportID;
 
-                    Reference1Indicator5.Background = System.Windows.Media.Brushes.Green;
+
+                            INImport import = new INImport(importID);
+                            import.FKINLeadStatusID = 19;
+                            import.Save(_validationResult);
+
+                            RejectedDebiCheckTracking RDT = new RejectedDebiCheckTracking();
+                            RDT.DateTimeSaved = DateTime.Now;
+                            RDT.FKImportID = importID;
+                            RDT.Save(_validationResult);
+
+                            Reference1Indicator5.Background = System.Windows.Media.Brushes.Green;
+                        }
+                    }
+                    else
+                    {
+                        long? INImportID = dtINImport.Rows[0]["ID"] as long?;
+                        long inimportIDLong = long.Parse(INImportID.ToString());
+
+                        INImport import = new INImport(inimportIDLong);
+                        import.FKINLeadStatusID = 19;
+                        import.Save(_validationResult);
+
+                        RejectedDebiCheckTracking RDT = new RejectedDebiCheckTracking();
+                        RDT.DateTimeSaved = DateTime.Now;
+                        RDT.FKImportID = INImportID;
+                        RDT.Save(_validationResult);
+
+                        Reference1Indicator5.Background = System.Windows.Media.Brushes.Green;
+                    }
+
                 }
                 catch
                 {

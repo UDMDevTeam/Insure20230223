@@ -301,6 +301,21 @@
                              VerticalContentAlignment="Center"
                              HorizontalContentAlignment="Center">
                     </TextBox>
+
+                    <GroupBox x:Name="UpgradeBorder"
+                            Grid.RowSpan="3"
+                            Grid.Column="3"
+                            Grid.Row="12"
+                            Foreground="White"
+                            Grid.ColumnSpan="12"
+                            Margin="0,20,0,20"
+                            BorderBrush="Beige"
+                        >
+                        <GroupBox.Header>
+                            U P G R A D E
+                        </GroupBox.Header>
+                    </GroupBox>
+                    
                     <TextBox x:Name="ReferenceTB5"
                                Grid.Row="13"
                                Grid.Column="6"
