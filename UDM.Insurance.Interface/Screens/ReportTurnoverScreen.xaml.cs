@@ -473,9 +473,21 @@ namespace UDM.Insurance.Interface.Screens
                 //{
                 //    allCampaigns = false;
                 //}
+                DataSet dsTurnoverReport = null;
+
+                if(RData.IncludeElevationTeam == true)
+                {
+                    dsTurnoverReport = Insure.INReportTurnoverElevation(_fkCampaignIDs, _fkUserIDs, _startDate, _endDate, RData.IncludeBumpups, RData.IncludeElevationTeam, RData.TurnoverCompanyMode, _staffType, allSalesAgents, _fkQAIDs);
+                }
+                else
+                {
+                    dsTurnoverReport = Insure.INReportTurnover(_fkCampaignIDs, _fkUserIDs, _startDate, _endDate, RData.IncludeBumpups, RData.IncludeElevationTeam, RData.TurnoverCompanyMode, _staffType, allSalesAgents, _fkQAIDs);
+
+                }
 
 
-                DataSet dsTurnoverReport = Insure.INReportTurnover(_fkCampaignIDs, _fkUserIDs, _startDate, _endDate, RData.IncludeBumpups, RData.TurnoverCompanyMode, _staffType, allSalesAgents, _fkQAIDs);
+
+
 
                 if (dsTurnoverReport.Tables[2].Rows.Count == 0)
                 {
