@@ -30,11 +30,18 @@ namespace UDM.Insurance.Interface.Data
         }
 
         private bool _includeBumpups/* = false*/;
+        private bool _includeElevationTeam/* = false*/;
 
         public bool IncludeBumpups
         {
             get { return _includeBumpups; }
             set { SetProperty(ref _includeBumpups, value, () => IncludeBumpups); }
+        }
+
+        public bool IncludeElevationTeam
+        {
+            get { return _includeElevationTeam; }
+            set { SetProperty(ref _includeElevationTeam, value, () => IncludeElevationTeam); }
         }
 
         #endregion Turnover Specific Properties
