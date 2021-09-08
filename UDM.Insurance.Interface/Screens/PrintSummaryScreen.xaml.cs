@@ -1796,6 +1796,7 @@ namespace UDM.Insurance.Interface.Screens
                     // Row 3
                     if (isRedeemedGiftBatch)
                     {
+                        wsLeads.GetCell(String.Format("N{0}", leadRow + 4)).Value = drCurrentLead["Premarketed"];
                         wsLeads.GetCell(String.Format("M{0}", leadRow + 4)).Value = drCurrentLead["SignedBy"];
                         wsLeads.GetCell(String.Format("P{0}", leadRow + 4)).Value = drCurrentLead["DateOfDelivery"];
                         wsLeads.GetCell(String.Format("Q{0}", leadRow + 4)).Value = drCurrentLead["ContractPremium"];
