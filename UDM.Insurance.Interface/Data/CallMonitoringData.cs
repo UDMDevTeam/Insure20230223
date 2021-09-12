@@ -59,16 +59,6 @@ namespace UDM.Insurance.Interface.Data
         private DateTime? _callMonitoredDate;
         private string _nextOfKinDetails;
 
-        public string RefNoCampaignGroupType;
-        public DateTime? StartTimeOverAssessment;
-        public DateTime? EndTimeOverAssessment;
-        public DateTime? StartTimeOverAssessorOutcome;
-        public DateTime? EndTimeOverAssessorOutcome;
-        public DateTime? StartTimeCFOverAssessment;
-        public DateTime? EndTimeCFOverAssessment;
-
-
-
 
         #endregion Private Members
 
@@ -681,7 +671,7 @@ namespace UDM.Insurance.Interface.Data
 
         public CallMonitoringData()
         {
-            
+
         }
 
         #endregion Constructor
