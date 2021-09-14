@@ -14684,7 +14684,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 string response = dt.Rows[0]["Response"].ToString();
 
-                                if (response.Contains("19"))
+                                if (response.Contains("19") || response.Contains("23"))
                                 {
                                     DebiCheckBorder.BorderBrush = Brushes.White;
                                     btnDebiCheck.IsEnabled = true;
