@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -2198,8 +2200,30 @@ namespace UDM.Insurance.Interface.Screens
                                 inNextOfKin.FKINImportID = inImport.ID;
                                 inNextOfKin.TelContact = GetStringValue(row.Cells[idxFields["Future10"].Index]);
                                 inNextOfKin.FirstName = GetStringValue(row.Cells[idxFields["Future11"].Index]);
+                              //inNextOfKin.FKINRelationshipID = GetLongValue(row.Cells[idxFields["Future13"].Index]);
                                 inNextOfKin.Surname = GetStringValue(row.Cells[idxFields["Future12"].Index]);
-                                inNextOfKin.FKINRelationshipID = GetLongValue(row.Cells[idxFields["Future13"].Index]);
+                                string relationship = GetStringValue(row.Cells[idxFields["Future13"].Index]);
+
+
+                                try
+        
+                                {
+                                    SqlParameter[] parameters = new SqlParameter[1];
+                                    parameters[0] = new SqlParameter("@Description", relationship);
+                                    DataSet dsNOKRelationship = Methods.ExecuteStoredProcedure("GetNOKRelationshipID", parameters);
+
+                                    DataTable dtNOKRelationship = dsNOKRelationship.Tables[0];
+
+
+                                    if (dtNOKRelationship.Rows.Count > 0)
+                                    {
+                                    inNextOfKin.FKINRelationshipID = (long)dsNOKRelationship.Tables[0].Rows[0]["ID"];                                   
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+
 
                                 inNextOfKin.Save(_validationResult);
 
