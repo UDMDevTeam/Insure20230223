@@ -668,6 +668,59 @@ namespace UDM.Insurance.Interface.Screens
                 LaData.AppData.CampaignID = dtSale.Rows[0]["CampaignID"] as long?;
                 LaData.AppData.IsConfirmed = Convert.ToBoolean(dtSale.Rows[0]["IsConfirmed"] as bool?);
 
+                if (LaData.AppData.CampaignID == 344)
+                {
+                    lblCancerQuestionOne.Visibility = Visibility.Visible;
+                    lblCancerQuestionTwo.Visibility = Visibility.Visible;
+                    chkQuestionOne.Visibility = Visibility.Visible;
+                    chkQuestionTwo.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    lblCancerQuestionOne.Visibility = Visibility.Collapsed;
+                    lblCancerQuestionTwo.Visibility = Visibility.Collapsed;
+                    chkQuestionOne.Visibility = Visibility.Collapsed;
+                    chkQuestionTwo.Visibility = Visibility.Collapsed;
+                }
+
+
+
+                try
+                {
+                    StringBuilder strQueryCancerQuestion = new StringBuilder();
+                    strQueryCancerQuestion.Append("SELECT [QuestionOne], [QuestionTwo] ");
+                    strQueryCancerQuestion.Append("FROM [CancerQuestion] ");
+                    strQueryCancerQuestion.Append("WHERE FKINImportID = " + importID);
+                    //strQuery.Append(" ORDER BY ID ASC");    
+                    DataTable dtCancerQuestion = Methods.GetTableData(strQueryCancerQuestion.ToString());
+
+                    if (dtCancerQuestion.Rows.Count > 0 && LaData.AppData.CampaignID == 344)
+                    //if (dtCancerQuestion.Rows.Count > 0)
+                    {
+                        bool? questionOne = (bool)dtCancerQuestion.Rows[0]["QuestionOne"];
+                        bool? questionTwo = (bool)dtCancerQuestion.Rows[0]["QuestionTwo"];
+                        if (questionOne == true && questionTwo == false)
+                        {
+                            chkQuestionOne.IsChecked = true;
+                            chkQuestionTwo.IsChecked = false;
+                        }
+                        else if (questionOne == false && questionTwo == true)
+                        {
+                            chkQuestionOne.IsChecked = false;
+                            chkQuestionTwo.IsChecked = true;
+                        }
+                        else
+                        {
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "This client has already been saved.", "Record already exists", ShowMessageType.Exclamation);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+
+
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/219494758/comments
                 if (dtLeadHst.Rows.Count > 0)
                 {
@@ -14631,7 +14684,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 string response = dt.Rows[0]["Response"].ToString();
 
-                                if (response.Contains("19"))
+                                if (response.Contains("19") || response.Contains("23"))
                                 {
                                     DebiCheckBorder.BorderBrush = Brushes.White;
                                     btnDebiCheck.IsEnabled = true;
@@ -14821,6 +14874,50 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
+        }
+        private void chkQuestionOne_Checked(object sender, RoutedEventArgs e)
+        {
+            if (chkQuestionOne.IsChecked == true)
+            {
+                chkQuestionTwo.IsChecked = false;
+                cmbStatus.SelectedValue = (long)2; // Declined - Pre existing condition  
+                //SelectDeclineReasonScreen selectDeclineReasonScreen = new SelectDeclineReasonScreen(this);  
+                ////selectDeclineReasonScreen.SelectedDeclineReasonID = 26; 
+                //ShowDialog(selectDeclineReasonScreen, new INDialogWindow(selectDeclineReasonScreen));     
+            }
+            else
+            {
+                chkQuestionOne.IsChecked = false;
+                cmbStatus.SelectedValue = (long)-1;
+            }
+        }
+
+
+        private void chkQuestionTwo_Checked(object sender, RoutedEventArgs e)
+        {
+            if (chkQuestionTwo.IsChecked == true)
+            {
+                chkQuestionOne.IsChecked = false;
+                cmbStatus.SelectedValue = (long)2; // Declined - Pre existing condition  
+                //SelectDeclineReasonScreen selectDeclineReasonScreen = new SelectDeclineReasonScreen(this);  
+                ////selectDeclineReasonScreen.SelectedDeclineReasonID = 26; 
+                //ShowDialog(selectDeclineReasonScreen, new INDialogWindow(selectDeclineReasonScreen));     
+            }
+            else
+            {
+                chkQuestionTwo.IsChecked = false;
+                cmbStatus.SelectedValue = (long)-1;
+            }
+        }
+
+        private void chkQuestionOne_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chkQuestionTwo_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

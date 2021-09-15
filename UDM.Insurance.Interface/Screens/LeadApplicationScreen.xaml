@@ -4840,6 +4840,54 @@
                                     Visibility="Collapsed" />
 
                             </Grid>
+                            <TextBlock
+                                x:Name="lblCancerQuestionOne"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="9"
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Have you ever been diagnosed with cancer?" Margin="0,0,0,19" Width="353"  FontSize="15"
+                                Visibility="Collapsed" />
+                            <CheckBox
+                                    x:Name="chkQuestionOne"
+                                    Grid.Row="2"
+                                    Grid.Column="11"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="10,0,17,21"
+                                    VerticalAlignment="Bottom"
+                                    Checked="chkQuestionOne_Checked"
+                                    IsChecked="false"
+                                    Style="{StaticResource StyleCHKLA2}"
+                                    TabIndex="23200"
+                                    Unchecked="chkQuestionOne_Unchecked"
+                                    Visibility="Collapsed" />
+                            <TextBlock
+                                x:Name="lblCancerQuestionTwo"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="14"
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Have you ever been to a doctor who told you, you may have cancer?" Width="563" Margin="0,0,0,35" Grid.RowSpan="2" FontSize="15" 
+                                Visibility="Collapsed"/>
+
+                            <CheckBox
+                                    x:Name="chkQuestionTwo"
+                                    Grid.Row="2"
+                                    Grid.Column="11"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="10,0,17,35"
+                                    VerticalAlignment="Bottom"
+                                    Checked="chkQuestionTwo_Checked"
+                                    IsChecked="false"
+                                    Style="{StaticResource StyleCHKLA2}"
+                                    TabIndex="23200"
+                                    Unchecked="chkQuestionTwo_Unchecked"
+                                    Visibility="Collapsed"
+                                    Grid.RowSpan="2" />
 
 
 

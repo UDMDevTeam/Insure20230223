@@ -188,6 +188,55 @@
                     		Visibility="Visible" />
                     </Viewbox>
 
+                    <Border x:Name="BorderCB"
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            Grid.RowSpan="5"
+                            Grid.ColumnSpan="8"
+                            CornerRadius="10"
+                            BorderThickness="2"
+                            Background="Gray"
+                            Opacity="0.5">
+
+                    </Border>
+
+                    <CheckBox x:Name="UpgradeCB"
+                              Grid.Row="4"
+                              Grid.Column="3"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="UpgradeCB_Checked">
+                    </CheckBox>
+                    <CheckBox x:Name="BaseCB"
+                              Grid.Row="6"
+                              Grid.Column="3"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="BaseCB_Checked">
+                    </CheckBox>
+
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Upgrades"
+                        Visibility="Visible" Width="247" />
+
+                    <Label
+                        Grid.Row="6"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Base"
+                        Visibility="Visible" Width="247" />
+
 
                 </Grid>
             </Viewbox>

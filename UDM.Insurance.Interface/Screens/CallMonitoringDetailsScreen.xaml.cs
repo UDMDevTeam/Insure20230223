@@ -13,7 +13,6 @@ using UDM.WPF.Classes;
 using Embriant.Framework.Configuration;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
@@ -41,7 +40,7 @@ namespace UDM.Insurance.Interface.Screens
         }
 
         #region Constants
-
+        string PassedRefNo;
 
 
         #endregion
@@ -118,7 +117,16 @@ namespace UDM.Insurance.Interface.Screens
                 chkTSRBUSavedCF.IsEnabled = true;
             }
 
+            #region DebiCheck Data
+            PassedRefNo = " ";
+            Mandate1TB.Text = " ";
+            Mandate2TB.Text = " ";
+
+            PassedRefNo = leadApplicationData.AppData.RefNo;
+
             GetMandateInfo();
+            #endregion
+
 
             //var dataSource = new List<StandardNote>();
             //dataSource.Add(new StandardNote() { Title = "123", IsSelected = false });
@@ -132,6 +140,45 @@ namespace UDM.Insurance.Interface.Screens
         #endregion Constructors
 
         #region Private Methods
+
+        private void LoadLookupData()
+        {
+
+            DataSet dsCallMonitoringScreenLookups = Insure.INGetCallMonitoringScreenLookups();
+            cmbCallMonitoringOutcomeID.Populate(dsCallMonitoringScreenLookups.Tables[0], "Description", "ID");
+            cmbCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[1], "CallMonitoringUser", "ID");
+            cmbCallAssessmentOutcome.Populate(dsCallMonitoringScreenLookups.Tables[2], "Description", "ID");
+            cmbSecondaryCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[3], "CallOverAssessor", "ID");
+            cmbBank.Populate(dsCallMonitoringScreenLookups.Tables[4], "Description", "ID");
+            cmbAccountType.Populate(dsCallMonitoringScreenLookups.Tables[5], "Description", "ID");
+            _dtAllBankBranches = dsCallMonitoringScreenLookups.Tables[6];
+            _dtAllBankAccountNumberPatterns = dsCallMonitoringScreenLookups.Tables[7];
+            cmbTertiaryCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[8], "CallOverAssessor", "ID");
+            SetStandardNotes(null);
+
+
+
+
+
+            //ObservableNodeList itemSource = new ObservableNodeList();
+
+            //itemSource.Add(new Node("123") { IsSelected = false });
+            //itemSource.Add(new Node("456") { IsSelected = false });
+            //itemSource.Add(new Node("789") { IsSelected = false });
+
+
+
+
+
+
+
+            //if (fkINImportID.HasValue)
+            //{
+            //    DataSet dsLookups = Insure.INGetRedeemGiftScreenLookups(fkINImportID.Value);
+            //    cmbGiftStatus.Populate(dsLookups.Tables[0], "Description", "ID");
+            //    cmbGiftSelection.Populate(dsLookups.Tables[1], "Gift", "ID");
+            //}
+        }
         public void GetMandateInfo()
         {
 
@@ -153,7 +200,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                 {
-                    dsDiaryReportData = Business.Insure.INGetMandateInfo(ScreenData.RefNo);
+                    dsDiaryReportData = Business.Insure.INGetMandateInfo(PassedRefNo);
                 }
             }
             catch
@@ -200,44 +247,6 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-        }
-        private void LoadLookupData()
-        {
-
-            DataSet dsCallMonitoringScreenLookups = Insure.INGetCallMonitoringScreenLookups();
-            cmbCallMonitoringOutcomeID.Populate(dsCallMonitoringScreenLookups.Tables[0], "Description", "ID");
-            cmbCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[1], "CallMonitoringUser", "ID");
-            cmbCallAssessmentOutcome.Populate(dsCallMonitoringScreenLookups.Tables[2], "Description", "ID");
-            cmbSecondaryCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[3], "CallOverAssessor", "ID");
-            cmbBank.Populate(dsCallMonitoringScreenLookups.Tables[4], "Description", "ID");
-            cmbAccountType.Populate(dsCallMonitoringScreenLookups.Tables[5], "Description", "ID");
-            _dtAllBankBranches = dsCallMonitoringScreenLookups.Tables[6];
-            _dtAllBankAccountNumberPatterns = dsCallMonitoringScreenLookups.Tables[7];
-            cmbTertiaryCallMonitoringUser.Populate(dsCallMonitoringScreenLookups.Tables[8], "CallOverAssessor", "ID");
-            SetStandardNotes(null);
-
-
-
-
-
-            //ObservableNodeList itemSource = new ObservableNodeList();
-
-            //itemSource.Add(new Node("123") { IsSelected = false });
-            //itemSource.Add(new Node("456") { IsSelected = false });
-            //itemSource.Add(new Node("789") { IsSelected = false });
-
-
-
-
-
-
-
-            //if (fkINImportID.HasValue)
-            //{
-            //    DataSet dsLookups = Insure.INGetRedeemGiftScreenLookups(fkINImportID.Value);
-            //    cmbGiftStatus.Populate(dsLookups.Tables[0], "Description", "ID");
-            //    cmbGiftSelection.Populate(dsLookups.Tables[1], "Gift", "ID");
-            //}
         }
 
         private void SetStandardNotes(long? importID)
