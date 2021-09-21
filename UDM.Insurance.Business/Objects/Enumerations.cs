@@ -287,7 +287,8 @@
         Closure = 1,
         ObjectionInformation = 2,
         ClaimInformation = 3,
-        ExclusionInformation = 4
+        ExclusionInformation = 4,
+        DebicheckInformation = 5
     }
 
     public enum lkpINCampaignGroupType

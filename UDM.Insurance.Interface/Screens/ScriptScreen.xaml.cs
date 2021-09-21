@@ -113,8 +113,6 @@ namespace UDM.Insurance.Interface.Screens
             strSQL.Append("AND  IsActive = '1'");
 
 
-
-
             dt = Methods.GetTableData(strSQL.ToString());
 
             if (dt != null && dt.Rows.Count == 1)
@@ -129,6 +127,12 @@ namespace UDM.Insurance.Interface.Screens
                     FileStream objFileStream = new FileStream(_strXpsDoc, FileMode.Create, FileAccess.Write, FileShare.None);
                     objFileStream.Write(data, 0, data.Length);
                     objFileStream.Close();
+
+                    //dvScript.Zoom = 10;
+
+                    //int zoom = 18;
+
+                    //zoom += zoom - 10;
 
                     _xpsDocument = new XpsDocument(_strXpsDoc, FileAccess.Read);
                     dvScript.Document = _xpsDocument.GetFixedDocumentSequence();
@@ -182,7 +186,18 @@ namespace UDM.Insurance.Interface.Screens
             LoadScriptDocument();
         }
 
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            dvScript.Zoom += 10;
+        }
+
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            dvScript.Zoom -= 10;
+        }
+
 
         #endregion
+
     }
 }

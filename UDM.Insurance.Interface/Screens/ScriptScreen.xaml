@@ -84,13 +84,13 @@
                                             Zoom="108" />
                             <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="0*" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0"
                                             Margin="12,0,0,0"
                                             HorizontalAlignment="Left"
-                                            Orientation="Horizontal">
+                                            Orientation="Horizontal" Width="874">
                                     <CheckBox x:Name="chkAfrikaans"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Center"
@@ -103,6 +103,30 @@
                                                Margin="6,0,0,0"
                                                Style="{StaticResource INLabelText2}"
                                                Text="Afrikaans" />
+                                    <TextBlock x:Name="lblZoomINOut"
+                                               Width="Auto"
+                                               Height="Auto"
+                                               Margin="650,0,0,0"
+                                               Style="{StaticResource INLabelText2}"
+                                               Text="Zoom" />
+
+                                    <Button x:Name="btnZoomIn"
+                                    HorizontalAlignment="Left"                
+                                    Margin="15,0,0,0"
+                                    Click="btnZoomIn_Click"
+                                    Content="+"
+                                    Style="{StaticResource RoundedButton}"
+                                    TabIndex="0" />
+
+                                    <Button x:Name="btnZoomOut"
+                                    HorizontalAlignment="Right"                                            
+                                    Margin="15,0,0,0"
+                                    Click="btnZoomOut_Click"
+                                    Content="-"
+                                    Style="{StaticResource RoundedButton}"
+                                    TabIndex="0" />
+
+
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
