@@ -555,6 +555,15 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+                try
+                {
+                    chkMoveToLeadPermissions.IsChecked = false;
+
+                }
+                catch
+                {
+
+                }
 
                 DebiCheckSentTwice = false;
                 Mandate1TB.Text = " ";
@@ -7414,13 +7423,16 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page1.Visibility = Visibility.Collapsed;
                         Page5.Visibility = Visibility.Visible;
-
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Lead)";
                     }
                     else if (Page5.IsVisible)
                     {
                         Page5.Visibility = Visibility.Collapsed;
                         Page1.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                     }
 
                 }
@@ -7431,30 +7443,49 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page1.Visibility = Visibility.Collapsed;
                         Page2.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Policy)";
                     }
                     else if (Page2.IsVisible)
                     {
                         Page2.Visibility = Visibility.Collapsed;
                         Page3.Visibility = Visibility.Visible;
+                        if (LaData.AppData.CampaignID == 102 ||
+                            LaData.AppData.CampaignID == 2 ||
+                            LaData.AppData.CampaignID == 103 ||
+                            LaData.AppData.CampaignID == 250 ||
+                            LaData.AppData.CampaignID == 6 ||
+                            LaData.AppData.CampaignID == 105)
+                        {
+                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                        }
+
                         lblPage.Text = "(Banking)";
                     }
                     else if (Page3.IsVisible)
                     {
                         Page3.Visibility = Visibility.Collapsed;
                         Page4.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(LA + Beneficiary)";
                     }
                     else if (Page4.IsVisible)
                     {
                         Page4.Visibility = Visibility.Collapsed;
                         Page5.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Sale)";
                     }
                     else if (Page5.IsVisible)
                     {
                         Page5.Visibility = Visibility.Collapsed;
                         Page1.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Lead)";
                     }
 
@@ -7481,6 +7512,7 @@ namespace UDM.Insurance.Interface.Screens
                 medReference.Focus();
             }
         }
+
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
@@ -7529,13 +7561,16 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page1.Visibility = Visibility.Collapsed;
                         Page5.Visibility = Visibility.Visible;
-
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Lead)";
                     }
                     else if (Page5.IsVisible)
                     {
                         Page5.Visibility = Visibility.Collapsed;
                         Page1.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                     }
 
                 }
@@ -7545,30 +7580,49 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page1.Visibility = Visibility.Collapsed;
                         Page5.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Sale)";
                     }
                     else if (Page2.IsVisible)
                     {
                         Page2.Visibility = Visibility.Collapsed;
                         Page1.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Lead)";
                     }
                     else if (Page3.IsVisible)
                     {
                         Page3.Visibility = Visibility.Collapsed;
                         Page2.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(Policy)";
                     }
                     else if (Page4.IsVisible)
                     {
                         Page4.Visibility = Visibility.Collapsed;
                         Page3.Visibility = Visibility.Visible;
+                        if (LaData.AppData.CampaignID == 102 ||
+                            LaData.AppData.CampaignID == 2 ||
+                            LaData.AppData.CampaignID == 103 ||
+                            LaData.AppData.CampaignID == 250 ||
+                            LaData.AppData.CampaignID == 6 ||
+                            LaData.AppData.CampaignID == 105)
+                        {
+                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                        }
+
                         lblPage.Text = "(Banking)";
                     }
                     else if (Page5.IsVisible)
                     {
                         Page5.Visibility = Visibility.Collapsed;
                         Page4.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         lblPage.Text = "(LA + Beneficiary)";
                     }
 
@@ -9749,6 +9803,30 @@ namespace UDM.Insurance.Interface.Screens
                             break;
 
                         #endregion Exclusion Information
+
+                        #region Debi-check Statuses    
+
+                        case "Debi-check Statuses":
+                            foreach (Window window in Application.Current.Windows)
+                            {
+                                if (window.Title == "Debi-check Statuses")
+                                {
+                                    window.WindowState = WindowState.Normal;
+                                    return;
+                                }
+                            }
+                            ScriptScreen scriptScreenDebiCheck = new ScriptScreen();
+                            scriptScreenDebiCheck.chkAfrikaans.Visibility = Visibility.Hidden;
+                            scriptScreenDebiCheck.lblAfrikaans.Visibility = Visibility.Hidden;
+                            scriptScreenDebiCheck.Title = "Debi-check Statuses";
+                            scriptScreenDebiCheck.hdrScriptScreen.Text = "Debi-check Statuses";
+                            scriptScreenDebiCheck.ScriptType = lkpScriptType.DebicheckInformation;
+                            scriptScreenDebiCheck.LaData = LaData;
+                            scriptScreenDebiCheck.Show();
+                            break;
+
+                        #endregion Debi-check Statuses
+
 
                         #region RAM Service Test
 
@@ -14919,6 +14997,44 @@ namespace UDM.Insurance.Interface.Screens
         {
 
         }
+
+        private void chkMoveToLeadPermissions_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (chkMoveToLeadPermissions.IsChecked == true)
+                {
+                    var name = medNOKName.Text;
+                    var surname = medNOKSurname.Text;
+                    //string relationship = cmbNOKRelationship.SelectedValue.ToString();
+                    var contact = medNOKContactPhone.Text;
+
+
+                    PermissionLeadScreen permissionLeadScreen = new PermissionLeadScreen(LaData.AppData.ImportID, null, name, surname, contact, null);
+                    permissionLeadScreen.medFirstName.Text = name;
+                    permissionLeadScreen.medSurname.Text = surname;
+                    permissionLeadScreen.medCellPhone.Text = contact;
+
+                    ShowDialog(permissionLeadScreen, new INDialogWindow(permissionLeadScreen));
+
+
+
+
+                }
+                else
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+
     }
 
     public class MyWebClient : WebClient

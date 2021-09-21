@@ -2788,6 +2788,21 @@
                                         </ig:XamMenuItem>
                                         <ig:XamMenuItem
                                             Click="XamMenuItem_Click"
+                                            GotFocus="XamMenuItem_GotFocus"
+                                            Header="Debi-check Statuses"
+                                            IsEnabled="True"
+                                            LostFocus="XamMenuItem_LostFocus"
+                                            PreviewGotKeyboardFocus="XamMenuItem_PreviewGotKeyboardFocus">
+                                            <ig:XamMenuItem.Icon>
+                                                <Image
+                                                    Width="24"
+                                                    Height="24"
+                                                    Source="../Resources/Icons/blog.png" />
+                                            </ig:XamMenuItem.Icon>
+                                        </ig:XamMenuItem>
+
+                                        <ig:XamMenuItem
+                                            Click="XamMenuItem_Click"
                                             Header="Exclusion Information"
                                             IsEnabled="{Binding AppData.IsLeadLoaded}">
                                             <ig:XamMenuItem.Icon>
@@ -15313,6 +15328,30 @@
                         Content="Override B/U"
                         Style="{StaticResource INSquareButton}"
                         TabIndex="0"
+                        Visibility="Collapsed" />
+
+                    <TextBlock
+                        x:Name="lblMoveToLeadPermissions"
+                        Grid.Row="15"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="9"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource INLabelText2}"
+                        Text="Copy the Next of Kin details to Lead Permission" Margin="0,0,0,19" Width="353"  FontSize="15"
+                        Visibility="Collapsed" />
+
+                    <CheckBox
+                        x:Name="chkMoveToLeadPermissions"
+                        Grid.Row="15"
+                        Grid.Column="10"
+                        Width="16"
+                        Height="16"
+                        Margin="10,0,17,21"
+                        VerticalAlignment="Bottom"
+                        Checked="chkMoveToLeadPermissions_Checked"
+                        IsChecked="false"
+                        Style="{StaticResource StyleCHKLA2}"
+                        TabIndex="23200"
                         Visibility="Collapsed" />
 
 
