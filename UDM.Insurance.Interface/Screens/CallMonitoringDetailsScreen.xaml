@@ -1314,6 +1314,23 @@
                         Visibility="Visible" />
                 </Button>
 
+                <Button
+                    x:Name="btnDebiCheckStatus"
+                    Grid.RowSpan="2"
+                    Grid.Column="10"
+                    Grid.ColumnSpan="3"
+                    Width="Auto"
+                    Height="34"
+                    Content="DC Status"
+                    Margin="13,0,7,0"
+                    VerticalAlignment="Bottom"
+                    Click="btnDebiCheckStatus_Click"
+                    IsEnabled="{Binding AppData.IsLeadLoaded}"
+                    Style="{StaticResource INFlatButton}"
+                    TabIndex="98200">
+
+                </Button>
+
                 <TextBlock
                     x:Name="lblContactNumbers"
                     Grid.Row="1"
