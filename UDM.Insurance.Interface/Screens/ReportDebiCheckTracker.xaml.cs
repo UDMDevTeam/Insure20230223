@@ -19,6 +19,7 @@ using Orientation = Infragistics.Documents.Excel.Orientation;
 using System.Linq;
 using System.Collections.Generic;
 using System.Transactions;
+using System.Text;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -44,6 +45,8 @@ namespace UDM.Insurance.Interface.Screens
 
         DataTable dtSalesData = new DataTable();
         private List<System.Data.DataRow> _selectedAgents;
+        private List<System.Data.DataRow> _campaignsWithNoSales;
+
         DataSet dsDebiCheckTrackingTSRReportData;
 
 
@@ -427,7 +430,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Get the report data
 
 
-                //var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsUpgrades(_endDate, _startDate);
+                //This gets all of the Campaign IDS that have sales attached
                 string strQuery;
                 strQuery = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
                 strQuery += "LEFT JOIN [INImport] AS [I] ON [I].[FKINCampaignID] = [C].[ID]";
@@ -440,6 +443,29 @@ namespace UDM.Insurance.Interface.Screens
                 dsAgents.Tables.Add(dtAgents);
 
                 _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+
+                //This adds it to a usable format for the query to get all campaign IDs that dont have sales attached
+                string CampaignIDString = "(";
+                foreach(System.Data.DataRow item in _selectedAgents)
+                {
+                    long? agentID = item.ItemArray[0] as long?;
+                    CampaignIDString = CampaignIDString + agentID.ToString() + ",";
+                }
+                CampaignIDString = CampaignIDString.Remove(CampaignIDString.Length - 1, 1);
+                CampaignIDString = CampaignIDString + ")";
+
+                // query for campiagns that dont have sales
+                string strQuery2;
+                strQuery2 = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
+                strQuery2 += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' ";
+                strQuery2 += "AND [C].[IsActive] = 1 AND [C].[ID] NOT IN " + CampaignIDString;
+
+                DataTable dtNoSaleCampaignIDs = Methods.GetTableData(strQuery2);
+                DataSet dsNoSaleCampaignIDs = new DataSet();
+
+                dsNoSaleCampaignIDs.Tables.Add(dtNoSaleCampaignIDs);
+                try { _campaignsWithNoSales.Clear(); } catch { }
+                _campaignsWithNoSales = dsNoSaleCampaignIDs.Tables[0].AsEnumerable().ToList();
 
 
                 try { dtSalesData.Clear(); } catch { };
@@ -470,6 +496,22 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
 
+                    }
+
+                    //foreach loop for the campiagns that dont have any sales
+                    foreach(System.Data.DataRow drAgent in _campaignsWithNoSales)
+                    {
+                        long? campaignID = drAgent.ItemArray[0] as long?;
+
+                        StringBuilder strQueryAccountype = new StringBuilder();
+                        strQueryAccountype.Append("SELECT TOP 1 Name [Response] ");
+                        strQueryAccountype.Append("FROM INCampaign ");
+                        strQueryAccountype.Append("WHERE ID = " + campaignID.ToString());
+                        DataTable dtBranchCode = Methods.GetTableData(strQueryAccountype.ToString());
+
+                        string CampaignName = dtBranchCode.Rows[0]["Response"].ToString();
+
+                        dtSalesData.Rows.Add(CampaignName, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                     }
                 }
 
@@ -615,6 +657,17 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 20].Formula = string.Format("=S" + totalrows + "/B" + totalrows + "*100"); //T
                     workSheet.Cells[totalrows, 22].Formula = string.Format("=U" + totalrows + "/B" + totalrows + "*100"); //V
                     workSheet.Cells[totalrows, 24].Formula = string.Format("=W" + totalrows + "/B" + totalrows + "*100"); //X
+
+                    workSheet.UsedRange.Select();
+                    workSheet.Sort.SortFields.Clear();
+                    workSheet.Sort.SortFields.Add(workSheet.UsedRange.Columns["A"], Microsoft.Office.Interop.Excel.XlSortOn.xlSortOnValues, Microsoft.Office.Interop.Excel.XlSortOrder.xlAscending, System.Type.Missing, Microsoft.Office.Interop.Excel.XlSortDataOption.xlSortNormal);
+                    var sort = workSheet.Sort;
+                    sort.SetRange(workSheet.UsedRange);
+                    sort.Header = Microsoft.Office.Interop.Excel.XlYesNoGuess.xlYes;
+                    sort.MatchCase = false;
+                    sort.Orientation = Microsoft.Office.Interop.Excel.XlSortOrientation.xlSortColumns;
+                    sort.SortMethod = Microsoft.Office.Interop.Excel.XlSortMethod.xlPinYin;
+                    sort.Apply();
 
                     for (int w = 3; w <= totalRowMinusOne; w++)
                     {
