@@ -1555,11 +1555,33 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (cmbSalaryReportPost.Text == "Pre June 2021")
                     {
-                        dsSalaryReportData = Insure.INReportSalaryTemp(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
+
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            dsSalaryReportData = Insure.INReportSalaryTemp(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+
+                        }
+
                     }
                     else
                     {
-                        dsSalaryReportData = Insure.INReportSalaryTempPostJune(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
+
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            dsSalaryReportData = Insure.INReportSalaryTempPostJune(_fkUserIDs, _fromDate, _toDate, RData.IncludeInactiveAgents);
+
+                        }
+
+
                     }
 
 
@@ -1834,9 +1856,6 @@ namespace UDM.Insurance.Interface.Screens
                 #region Get the report data - and exit the method if there is no data available
 
 
-
-
-
                 if (dsSalaryReportData.Tables[1].Rows.Count == 0)
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
@@ -1905,6 +1924,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 #endregion Saves and opens the resulting Excel workbook - if there are any pages in the workbook
+
             }
             catch (Exception ex)
             {
@@ -2047,6 +2067,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private void InsertFinalSummaryTab(Workbook wbTemplate, Workbook wbReport, DataSet dsTempSalaryReportData)
         {
+
             #region Partition the given dataset
 
             DataRow drReportConfigs = dsTempSalaryReportData.Tables[0].Rows[0];
