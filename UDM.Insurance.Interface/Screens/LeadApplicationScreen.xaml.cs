@@ -762,7 +762,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
 
-                cmbStatus_ToolTip();
+                cmbStatus_ToolTip(importID);
 
 
 
@@ -6346,7 +6346,7 @@ namespace UDM.Insurance.Interface.Screens
             medPassportNumber.Tag = null;
         }
 
-        private void cmbStatus_ToolTip()
+        private void cmbStatus_ToolTip(long? importID)
         {
             switch (LaData.AppData.LeadStatus)
             {
@@ -6375,10 +6375,25 @@ namespace UDM.Insurance.Interface.Screens
                 case 9:
                     if (LaData.AppData.DiaryReasonID.HasValue)
                     {
-                        DataTable dtDiaryReasons = Methods.GetTableData(string.Format("SELECT [Description] FROM [INDiaryReason] WHERE [ID] = {0}", LaData.AppData.DiaryReasonID));
-                        cmbStatus.ToolTip = dtDiaryReasons.Rows.Count > 0 ? dtDiaryReasons.Rows[0]["Description"] : null;
+                        try
+                        {
+                            DataTable dtDiaryReasons = Methods.GetTableData(string.Format("SELECT [Description] FROM [INDiaryReason] WHERE [ID] = {0}", LaData.AppData.DiaryReasonID));
+
+                            SqlParameter[] parameters = new SqlParameter[2];
+                            parameters[0] = new SqlParameter("@ImportID", importID);
+                            parameters[1] = new SqlParameter("@LoggedInUserID", GlobalSettings.ApplicationUser.ID);
+                            DataSet dsLookups = Methods.ExecuteStoredProcedure("spINGetLeadByImportID", parameters);
+                            string StartDate = dsLookups.Tables[1].Rows[0]["Start"].ToString();
+
+                            cmbStatus.ToolTip = dtDiaryReasons.Rows.Count > 0 ? dtDiaryReasons.Rows[0]["Description"] + " --- " + StartDate : null;
+                        }
+                        catch
+                        {
+
+                        }
                     }
                     break;
+
 
                 case 10:
                     if (LaData.AppData.FutureContactDate != null)
@@ -8551,7 +8566,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        cmbStatus_ToolTip();
+                        cmbStatus_ToolTip(null);
 
                         break;
 
@@ -8586,7 +8601,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        cmbStatus_ToolTip();
+                        cmbStatus_ToolTip(null);
 
                         break;
 
@@ -8722,7 +8737,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        cmbStatus_ToolTip();
+                        cmbStatus_ToolTip(null);
 
                         break;
 
@@ -8757,7 +8772,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        cmbStatus_ToolTip();
+                        cmbStatus_ToolTip(null);
 
                         break;
 
@@ -8768,7 +8783,7 @@ namespace UDM.Insurance.Interface.Screens
                         break;
                 }
 
-                cmbStatus_ToolTip();
+                cmbStatus_ToolTip(null);
                 LaData.AppData.DiaryStatusHandled = false;
             }
         }
