@@ -8474,6 +8474,12 @@ namespace UDM.Insurance.Interface.Screens
             ////{
             ////    medDOAccountHolder.Text = string.Empty;
             ////}
+            ///
+            if (cmbDOSigningPower.SelectedItem != null)
+            {
+                SigningPower();
+            }
+
         }
 
         private void cmbTitle_LostFocus(object sender, RoutedEventArgs e)
@@ -15048,6 +15054,29 @@ namespace UDM.Insurance.Interface.Screens
             }
 
         }
+
+        #region Signing Power
+
+        private void SigningPower()
+        {
+            try
+            {
+                String valueSelected = cmbDOSigningPower.SelectedValue.ToString();
+                if (valueSelected != null && (valueSelected == "2" || valueSelected == "3"))
+                {
+                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    ShowMessageBox(messageWindow, "Please call the Account holder to authorize the Debi-check mandate", "Reminder - DebiCheck", ShowMessageType.Exclamation);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        #endregion
 
 
     }
