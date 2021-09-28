@@ -154,7 +154,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if (medCellPhone.Text == null || medCellPhone.Text == "")
+                if (medCellPhone.Text == null || medCellPhone.Text == "" || DateOfBirthDP.SelectedDate == null)
                 {
                     ShowMessageBox(new INMessageBoxWindow1(), "Missing fields Required.\n", "Not saved.", ShowMessageType.Information);
                 }
