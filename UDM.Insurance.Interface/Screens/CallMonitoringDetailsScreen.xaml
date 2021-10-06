@@ -1227,7 +1227,7 @@
                     VerticalAlignment="Bottom"
                     Style="{StaticResource INUnderlineText1}" />
 
-                <Border Grid.Column="16"	
+                <!--<Border Grid.Column="16"	
                         Grid.Row="1"	
                         Grid.RowSpan="1"	
                         Grid.ColumnSpan="3"	
@@ -1251,7 +1251,7 @@
                         VerticalContentAlignment="Top"	
                         HorizontalContentAlignment="Center"	
                         FontSize="13"	
-                        Visibility="Visible">
+                        Visibility="Visible" Height="36" VerticalAlignment="Bottom">
                 </Label>
                 <TextBlock	
                         x:Name="Mandate1TB"	
@@ -1289,7 +1289,7 @@
                         HorizontalAlignment="Center"	
                         FontSize="13"	
                         Visibility="Visible">
-                </TextBlock>
+                </TextBlock>-->
 
                 <Button
                     x:Name="btnNotes"
@@ -1314,7 +1314,7 @@
                         Visibility="Visible" />
                 </Button>
 
-                <Button
+                <!--<Button
                     x:Name="btnDebiCheckStatus"
                     Grid.RowSpan="2"
                     Grid.Column="10"
@@ -1329,7 +1329,7 @@
                     Style="{StaticResource INFlatButton}"
                     TabIndex="98200">
 
-                </Button>
+                </Button>-->
 
                 <TextBlock
                     x:Name="lblContactNumbers"

@@ -118,11 +118,11 @@ namespace UDM.Insurance.Interface.Screens
             }
 
             #region DebiCheck Data
-            PassedRefNo = " ";
-            Mandate1TB.Text = " ";
-            Mandate2TB.Text = " ";
+            //PassedRefNo = " ";
+            //Mandate1TB.Text = " ";
+            //Mandate2TB.Text = " ";
 
-            PassedRefNo = leadApplicationData.AppData.RefNo;
+            //PassedRefNo = leadApplicationData.AppData.RefNo;
 
             //GetMandateInfo();
             #endregion
@@ -941,57 +941,57 @@ namespace UDM.Insurance.Interface.Screens
             noteScreen.ShowDialog();
         }
 
-        private void btnDebiCheckStatus_Click(object sender, RoutedEventArgs e)
-        {
-            DataSet dsDiaryReportData = null;
+        //private void btnDebiCheckStatus_Click(object sender, RoutedEventArgs e)
+        //{
+        //    DataSet dsDiaryReportData = null;
 
-            try
-            {
-                var transactionOptions = new TransactionOptions
-                {
-                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-                };
+        //    try
+        //    {
+        //        var transactionOptions = new TransactionOptions
+        //        {
+        //            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+        //        };
 
-                using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                {
-                    dsDiaryReportData = Business.Insure.INGetMandateInfo(PassedRefNo);
-                }
-            }
-            catch
-            {
+        //        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+        //        {
+        //            dsDiaryReportData = Business.Insure.INGetMandateInfo(PassedRefNo);
+        //        }
+        //    }
+        //    catch
+        //    {
 
-            }
+        //    }
 
-            try
-            {
-                DataTable dt = dsDiaryReportData.Tables[0];
-                try
-                {
-                    string responses = dt.Rows[0]["Response"].ToString();
-                    string datetime = dt.Rows[0]["CreatedDate"].ToString();
-                    Mandate1TB.Text = responses + " " + datetime;
-                }
-                catch
-                {
+        //    try
+        //    {
+        //        DataTable dt = dsDiaryReportData.Tables[0];
+        //        try
+        //        {
+        //            string responses = dt.Rows[0]["Response"].ToString();
+        //            string datetime = dt.Rows[0]["CreatedDate"].ToString();
+        //            Mandate1TB.Text = responses + " " + datetime;
+        //        }
+        //        catch
+        //        {
 
-                }
+        //        }
 
-                try
-                {
-                    string responses2 = dt.Rows[1]["Response"].ToString();
-                    string datetime = dt.Rows[1]["CreatedDate"].ToString();
-                    Mandate2TB.Text = responses2 + " " + datetime;
-                }
-                catch
-                {
+        //        try
+        //        {
+        //            string responses2 = dt.Rows[1]["Response"].ToString();
+        //            string datetime = dt.Rows[1]["CreatedDate"].ToString();
+        //            Mandate2TB.Text = responses2 + " " + datetime;
+        //        }
+        //        catch
+        //        {
 
-                }
-            }
-            catch
-            {
+        //        }
+        //    }
+        //    catch
+        //    {
 
-            }
-        }
+        //    }
+        //}
     }
 
 }
