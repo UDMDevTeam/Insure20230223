@@ -14872,6 +14872,11 @@ namespace UDM.Insurance.Interface.Screens
                                     DebiCheckBorder.BorderBrush = Brushes.White;
                                     btnDebiCheck.IsEnabled = true;
                                 }
+                                if (response.Contains("23"))
+                                {
+                                    DebiCheckBorder.BorderBrush = Brushes.White;
+                                    btnDebiCheck.IsEnabled = true;
+                                }
                             }
                             catch
                             {
