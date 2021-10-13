@@ -338,6 +338,7 @@ namespace UDM.Insurance.Interface.Screens
                     case (long)lkpINCampaignGroup.DoubleUpgrade12:
                     case (long)lkpINCampaignGroup.DoubleUpgrade13:
                     case (long)lkpINCampaignGroup.DoubleUpgrade14:
+                    case (long)lkpINCampaignGroup.Upgrade14:
                         if (batch.Code.Contains("_R"))
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgradeRedeemed2.xlsx", UriKind.Relative);
