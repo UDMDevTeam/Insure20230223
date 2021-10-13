@@ -577,6 +577,10 @@ namespace UDM.Insurance.Interface.Screens
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/211742618/comments
                 UpdateLeadStatuses(importID);
                 UpdateLeadApplicationScreenLookups(importID);
+                LoadLookupData();
+
+                try { LaData.AppData.ImportID = importID; } catch { }
+
 
                 if (importID == null) return;
 
@@ -3523,7 +3527,15 @@ namespace UDM.Insurance.Interface.Screens
                 parameters[0] = new SqlParameter("@UserTypeID", LaData.UserData.UserTypeID);
                 DataSet dsLookups = Methods.ExecuteStoredProcedure("spINGetLeadApplicationScreenLookups", parameters);
 
+
+
                 DataTable dtStatus = dsLookups.Tables[0];
+                if (GlobalSettings.ApplicationUser.ID == 3388 || GlobalSettings.ApplicationUser.ID == 394)
+                {
+                    dtStatus.Rows.Add(13, "Carried forward to Cancellation");
+                    dtStatus.DefaultView.Sort = "Description";
+                }
+
                 cmbStatus.Populate(dtStatus, DescriptionField, IDField);
 
                 parameters = new SqlParameter[1];
@@ -6891,50 +6903,65 @@ namespace UDM.Insurance.Interface.Screens
                     int age = DateTime.Now.Year - date.Year;
                     int optionID = 0;
 
-                    if (age >= 18 && age <= 34)
-                    {
-                        optionID = 1;
-                    }
-                    else if (age >= 35 && age <= 39)
-                    {
-                        optionID = 2;
-                    }
-                    else if (age >= 40 && age <= 44)
-                    {
-                        optionID = 3;
-                    }
-                    else if (age >= 45 && age <= 49)
-                    {
-                        optionID = 4;
-                    }
-                    else if (age >= 50 && age <= 54)
-                    {
-                        optionID = 5;
-                    }
-                    else if (age >= 55 && age <= 150)
-                    {
-                        optionID = 6;
-                    }
+                    string strQuery1 = "SELECT DISTINCT CancerOption FROM INImport ";
+                    strQuery1 += "WHERE ID = '" + LaData.AppData.ImportID + "'";
 
-                    if (LaData.PolicyData.PlanGroupID != null)
+                    DataTable dtCancerOption = Methods.GetTableData(strQuery1);
+                    long? Canceroption = long.Parse(dtCancerOption.Rows[0]["CancerOption"].ToString());
+
+                    if (Canceroption != null)
                     {
-                        string strQuery = "SELECT DISTINCT ID, PlanCode [Description] FROM INPlan ";
-                        strQuery += "WHERE FKINPlanGroupID = '" + LaData.PolicyData.PlanGroupID + "'";
 
-                        DataTable dtPolicyPlan = Methods.GetTableData(strQuery);
-                        cmbPolicyPlan.Populate(dtPolicyPlan, DescriptionField, IDField);
-
-                        LaData.PolicyData.PlanID = ((DataView)cmbPolicyPlan.ItemsSource).Table.AsEnumerable().Where(r => r["Description"] as string == "Option " + optionID).Select(r => r["ID"] as long?).FirstOrDefault();
                     }
                     else
                     {
-                        LaData.PolicyData.PlanID = null;
-                        cmbPolicyPlan.ItemsSource = null;
-                        LaData.PolicyData.OptionID = null;
-                        cmbOptionCode.ItemsSource = null;
-                        LaData.PolicyData.LA1Cover = null;
-                        cmbLA1Cover.ItemsSource = null;
+                        if (age >= 18 && age <= 34)
+                        {
+                            optionID = 1;
+                        }
+                        else if (age >= 35 && age <= 39)
+                        {
+                            optionID = 2;
+                        }
+                        else if (age >= 40 && age <= 44)
+                        {
+                            optionID = 3;
+                        }
+                        else if (age >= 45 && age <= 49)
+                        {
+                            optionID = 4;
+                        }
+                        else if (age >= 50 && age <= 54)
+                        {
+                            optionID = 5;
+                        }
+                        else if (age >= 55 && age <= 150)
+                        {
+                            optionID = 6;
+                        }
+
+                        if (LaData.PolicyData.PlanGroupID != null)
+                        {
+                            string strQuery = "SELECT DISTINCT ID, PlanCode [Description] FROM INPlan ";
+                            strQuery += "WHERE FKINPlanGroupID = '" + LaData.PolicyData.PlanGroupID + "'";
+
+                            DataTable dtPolicyPlan = Methods.GetTableData(strQuery);
+                            cmbPolicyPlan.Populate(dtPolicyPlan, DescriptionField, IDField);
+
+                            LaData.PolicyData.PlanID = ((DataView)cmbPolicyPlan.ItemsSource).Table.AsEnumerable().Where(r => r["Description"] as string == "Option " + optionID).Select(r => r["ID"] as long?).FirstOrDefault();
+                        }
+                        else
+                        {
+                            LaData.PolicyData.PlanID = null;
+                            cmbPolicyPlan.ItemsSource = null;
+                            LaData.PolicyData.OptionID = null;
+                            cmbOptionCode.ItemsSource = null;
+                            LaData.PolicyData.LA1Cover = null;
+                            cmbLA1Cover.ItemsSource = null;
+                        }
                     }
+
+
                 }
 
                 #endregion
