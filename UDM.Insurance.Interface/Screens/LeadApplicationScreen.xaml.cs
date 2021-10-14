@@ -6907,7 +6907,15 @@ namespace UDM.Insurance.Interface.Screens
                     strQuery1 += "WHERE ID = '" + LaData.AppData.ImportID + "'";
 
                     DataTable dtCancerOption = Methods.GetTableData(strQuery1);
-                    long? Canceroption = long.Parse(dtCancerOption.Rows[0]["CancerOption"].ToString());
+                    long? Canceroption;
+                    try
+                    {
+                        Canceroption = long.Parse(dtCancerOption.Rows[0]["CancerOption"].ToString());
+                    }
+                    catch
+                    {
+                        Canceroption = null;
+                    }
 
                     if (Canceroption != null)
                     {
