@@ -1192,6 +1192,765 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+        private void ReportBodyDC(Workbook wbTemplate, Workbook wbReport, string agentName, long? agentID, string dateRange)
+        {
+            #region Retrieve data from database
+
+            SqlParameter[] parameters =
+                {
+                    new SqlParameter("@AgentID", agentID),
+                    new SqlParameter("@FromDate", _fromDate),
+                    new SqlParameter("@ToDate", _toDate)
+                };
+
+            DataSet ds = null;
+
+
+            ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSalesDC", parameters);
+
+
+
+            DataTable dtCampaigns = ds.Tables[0];
+            DataTable dtCampaignsCF = ds.Tables[21];
+            DataTable dtSales = ds.Tables[1];
+            DataTable dtSalesCF = ds.Tables[22];
+            DataTable dtCampaignTotals = ds.Tables[2];
+            DataTable dtCampaignTotalsCF = ds.Tables[23];
+            DataTable dtGrandTotals = ds.Tables[3];
+            DataTable dtGrandTotalsCF = ds.Tables[24];
+
+            //bool isUpgradeCampaign = Insure.IsUpgradeCampaign(drCampaign["CampaignID"] as long?);
+
+
+            #endregion retrieve data from database
+
+            #region setup worksheet
+
+            //WorksheetCell wsCell;
+            Worksheet wsTemplate = wbTemplate.Worksheets["Report"];
+            Worksheet wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
+
+            wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+            wsReport.PrintOptions.PaperSize = PaperSize.A4;
+            wsReport.PrintOptions.Orientation = Orientation.Portrait;
+            wsReport.PrintOptions.LeftMargin = 0.3;
+            wsReport.PrintOptions.RightMargin = 0.3;
+
+            wsReport.Workbook.NamedReferences.Clear();
+            Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 4, wsReport, 0, 0);
+
+            #endregion
+
+            #region header data
+
+            {
+                wsReport.GetCell("AgentName").Value = agentName;
+                wsReport.GetCell("SalesDates").Value = "Sales: " + dateRange;
+
+                //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
+            }
+
+            #endregion
+
+            #region report data
+
+            {
+                #region Sales
+
+                int rowIndex = 4;
+                wsReport.Workbook.NamedReferences.Clear();
+
+                foreach (DataRow drCampaign in dtCampaigns.Rows)
+                {
+                    string filterString = drCampaign["FilterString"].ToString();
+                    string orderByString = drCampaign["OrderByString"].ToString();
+                    string campaignTotalsFilteringString = drCampaign["CampaignTotalsFilteringString"].ToString();
+
+                    // Determine if there are any rows for the given partition
+                    var filteredSheetRows = dtSales.Select(filterString).AsEnumerable();
+                    if (filteredSheetRows.Any())
+                    {
+                        DataTable dtCampaignSales = dtSales.Select(filterString, orderByString).CopyToDataTable();
+
+                        Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 10, wsReport, rowIndex, 0);
+
+                        rowIndex++;
+
+                        wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
+
+                        //DataTable dtCampaignSales = dtSales.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+
+                        //string filterString = drCampaign["FilterString"].ToString();
+                        //string orderByString = drCampaign["OrderByString"].ToString();
+                        //string campaignTotalsFilteringString = drCampaign["CampaignTotalsFilteringString"].ToString();
+                        //DataTable dtCampaignSales = dtSales.Select(filterString, orderByString).CopyToDataTable();
+
+                        foreach (DataRow drSale in dtCampaignSales.Rows)
+                        {
+                            rowIndex++;
+                            Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 10, wsReport, rowIndex, 0);
+
+                            bool isGoldenLead = false;
+                            CellFillPattern cellFill = null;
+
+                            if ((drSale["RefNo"] as string).Contains("Golden"))
+                            {
+                                isGoldenLead = true;
+                                cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                            }
+
+                            wsReport.GetCell("DateOfSale").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                            if (isGoldenLead) { wsReport.GetCell("DateOfSale").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("Batch").Value = drSale["Batch"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("Batch").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("RefNo").Value = drSale["RefNo"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("RefNo").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("Client").Value = drSale["LeadName"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("Client").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("Premium").Value = drSale["Premium"] as decimal?;
+                            if (isGoldenLead)
+                            {
+                                wsReport.GetCell("Premium").CellFormat.Fill = cellFill;
+                                wsReport.GetCell("Premium").CellFormat.Font.ColorInfo = new WorkbookColorInfo(Color.Red);
+                                //wsReport.GetCell("Premium").Value = "[" + wsReport.GetCell("Premium").Value + "]";
+                            }
+                            wsReport.GetCell("Units").Value = drSale["Units"] as decimal?;
+                            if (isGoldenLead) { wsReport.GetCell("Units").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("SavedStatus").Value = drSale["SavedStatus"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("SavedStatus").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("SavedStatusOriginalDOS").Value = drSale["SavedStatusOriginalDOS"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("SavedStatusOriginalDOS").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("ReferralResult").Value = drSale["ReferralResult"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("ReferralResult").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("MandateStatus").Value = drSale["MandateStatus"] as string;
+                            if (isGoldenLead) { wsReport.GetCell("MandateStatus").CellFormat.Fill = cellFill; }
+                            wsReport.GetCell("Incentive").Value = drSale["Incentive"] as int?;
+                            if (isGoldenLead) { wsReport.GetCell("Incentive").CellFormat.Fill = cellFill; }
+
+
+
+                            wsReport.Workbook.NamedReferences.Clear();
+                        }
+
+                        {
+                            rowIndex++;
+                            Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 11, wsReport, rowIndex, 0);
+
+                            //DataRow dr = dtCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                            DataRow dr = dtCampaignTotals.Select(campaignTotalsFilteringString).CopyToDataTable().Rows[0];
+                            wsReport.GetCell("TotalSales").Value = dr["TotalSales"] as int?;
+                            wsReport.GetCell("TotalPremium").Value = dr["TotalPremium"] as decimal?;
+                            wsReport.GetCell("TotalUnits").Value = dr["TotalUnits"] as decimal?;
+                            wsReport.GetCell("TotalReferrals").Value = dr["TotalReferrals"] as int?;
+                            wsReport.GetCell("TotalIncentive").Value = dr["TotalIncentive"] as int?;
+                            wsReport.Workbook.NamedReferences.Clear();
+                        }
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                        rowIndex += 2;
+                    }
+                }
+
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 11, wsReport, rowIndex, 0);
+
+                    DataRow dr = dtGrandTotals.Rows[0];
+                    wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalSales"] as int?;
+                    wsReport.GetCell("GrandTotalPremium").Value = dr["GrandTotalPremium"] as decimal?;
+                    wsReport.GetCell("GrandTotalUnits").Value = dr["GrandTotalUnits"] as decimal?;
+                    wsReport.GetCell("GrandTotalReferrals").Value = dr["GrandTotalReferrals"] as int?;
+                    wsReport.GetCell("GrandTotalIncentive").Value = dr["GrandTotalIncentive"] as int?;
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                }
+
+                #endregion Sales
+
+                #region Cancellations
+                DataTable dtcancellationCampaigns = ds.Tables[4];
+                DataTable dtCancellations = ds.Tables[5];
+                DataTable dtCancellationCampaignTotals = ds.Tables[6];
+                DataTable dtCancellationGrandTotals = ds.Tables[7];
+                wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations-" + agentName).Take(31)));
+                rowIndex = 4;
+                wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+                wsReport.PrintOptions.PaperSize = PaperSize.A4;
+                wsReport.PrintOptions.Orientation = Orientation.Portrait;
+                wsReport.PrintOptions.LeftMargin = 0.3;
+                wsReport.PrintOptions.RightMargin = 0.3;
+
+                wsReport.Workbook.NamedReferences.Clear();
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 5, wsReport, 0, 0);
+
+                #region Cancellation header data
+
+                {
+                    wsReport.GetCell("AgentName").Value = agentName;
+                    wsReport.GetCell("SalesDates").Value = "Cancellations: " + dateRange;
+
+                    //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
+                }
+                #endregion Cancellation header data
+
+                foreach (DataRow drCampaign in dtcancellationCampaigns.Rows)
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 12, wsReport, rowIndex, 0);
+                    rowIndex++;
+
+                    wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
+
+                    DataTable dtCampaignCancellations = dtCancellations.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+                    foreach (DataRow drSale in dtCampaignCancellations.Rows)
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 12, wsReport, rowIndex, 0);
+
+                        bool isGoldenLead = false;
+                        CellFillPattern cellFill = null;
+
+                        if ((drSale["RefNo"] as string).Contains("Golden"))
+                        {
+                            isGoldenLead = true;
+                            cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                        }
+
+                        wsReport.GetCell("DateOfSale").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                        if (isGoldenLead) { wsReport.GetCell("DateOfSale").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Batch").Value = drSale["Batch"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Batch").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RefNo").Value = drSale["RefNo"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("RefNo").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Client").Value = drSale["LeadName"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Client").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Premium").Value = drSale["Premium"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("Premium").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Units").Value = drSale["Units"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("Units").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Reason").Value = drSale["Reason"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Reason").CellFormat.Fill = cellFill; }
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 9, wsReport, rowIndex, 0);
+
+                        DataRow dr = dtCancellationCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                        wsReport.GetCell("TotalSales").Value = dr["TotalCancellations"] as int?;
+                        wsReport.GetCell("TotalPremium").Value = dr["TotalPremium"] as decimal?;
+                        wsReport.GetCell("TotalUnits").Value = dr["TotalUnits"] as decimal?;
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                    rowIndex += 2;
+                }
+
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 9, wsReport, rowIndex, 0);
+
+                    DataRow dr = dtCancellationGrandTotals.Rows[0];
+                    wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalCancellations"] as int?;
+                    wsReport.GetCell("GrandTotalPremium").Value = dr["GrandTotalPremium"] as decimal?;
+                    wsReport.GetCell("GrandTotalUnits").Value = dr["GrandTotalUnits"] as decimal?;
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                }
+                #endregion Cancellations
+
+                #region DebiCheck Call Backs
+
+                DataTable dtDebiCheckCallBacksCampaigns = ds.Tables[17];
+                DataTable dtDebiCheckCallBacks = ds.Tables[18];
+                DataTable dtDebiCheckCallBacksCampaignTotals = ds.Tables[19];
+                DataTable dtDebiCheckcallBackGrandTotals = ds.Tables[20];
+                wsReport = wbReport.Worksheets.Add(string.Join("", ("Debi Check Call Backs -" + agentName).Take(31)));
+
+                rowIndex = 4;
+                wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+                wsReport.PrintOptions.PaperSize = PaperSize.A4;
+                wsReport.PrintOptions.Orientation = Orientation.Portrait;
+                wsReport.PrintOptions.LeftMargin = 0.3;
+                wsReport.PrintOptions.RightMargin = 0.3;
+
+                wsReport.DisplayOptions.TabColorInfo = new WorkbookColorInfo(Color.Orange);
+
+
+                wsReport.Workbook.NamedReferences.Clear();
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 4, wsReport, 0, 0);
+
+                #region DebiCheck Call Backs header data
+
+                {
+                    wsReport.GetCell("AgentName").Value = agentName;
+                    wsReport.GetCell("SalesDates").Value = "Debi Check Call Backs: " + dateRange;
+
+                    //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
+                }
+                #endregion DebiCheck Call Backs header data
+
+                foreach (DataRow drCampaign in dtDebiCheckCallBacksCampaigns.Rows)
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 11, wsReport, rowIndex, 0);
+                    rowIndex++;
+
+                    wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
+
+                    DataTable dtCampaignDebiCheckCallBacks = dtDebiCheckCallBacks.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+                    foreach (DataRow drSale in dtCampaignDebiCheckCallBacks.Rows)
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 11, wsReport, rowIndex, 0);
+
+                        bool isGoldenLead = false;
+                        CellFillPattern cellFill = null;
+
+                        if ((drSale["RefNo"] as string).Contains("Golden"))
+                        {
+                            isGoldenLead = true;
+                            cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                        }
+
+                        wsReport.GetCell("DateOfSale").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                        if (isGoldenLead) { wsReport.GetCell("DateOfSale").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Batch").Value = drSale["Batch"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Batch").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RefNo").Value = drSale["RefNo"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("RefNo").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Client").Value = drSale["LeadName"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Client").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Premium").Value = drSale["Premium"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("Premium").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Units").Value = drSale["Units"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("Units").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("Reason").Value = drSale["Reason"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("Reason").CellFormat.Fill = cellFill; }
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 9, wsReport, rowIndex, 0);
+
+                        DataRow dr = dtDebiCheckCallBacksCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                        wsReport.GetCell("TotalSales").Value = dr["TotalDebiCheckCallBacks"] as int?;
+                        wsReport.GetCell("TotalPremium").Value = dr["TotalPremium"] as decimal?;
+                        wsReport.GetCell("TotalUnits").Value = dr["TotalUnits"] as decimal?;
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                    rowIndex += 2;
+                }
+
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 9, wsReport, rowIndex, 0);
+
+                    DataRow dr = dtDebiCheckcallBackGrandTotals.Rows[0];
+                    wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalDebiCheckCallBacks"] as int?;
+                    wsReport.GetCell("GrandTotalPremium").Value = dr["GrandTotalPremium"] as decimal?;
+                    wsReport.GetCell("GrandTotalUnits").Value = dr["GrandTotalUnits"] as decimal?;
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                }
+                #endregion DebiCheck Call Backs
+
+                #region Reduced Premiums
+                // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/210674629/comments
+
+                wsReport.Workbook.NamedReferences.Clear();
+
+                DataTable dtReducedPremiumCampaigns = ds.Tables[13];
+                DataTable dtReducedPremiums = ds.Tables[14];
+                DataTable dtReducedPremiumCampaignTotals = ds.Tables[15];
+                DataTable dtReducedPremiumGrandTotals = ds.Tables[16];
+                //wsReport = wbReport.Worksheets.Add(string.Join("", ("Reduced Premiums - " + agentName).Take(31)));
+                string newReducedPremiumWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Reduced Premiums", agentName));
+                wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+
+                rowIndex = 4;
+                wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+                wsReport.PrintOptions.PaperSize = PaperSize.A4;
+                wsReport.PrintOptions.Orientation = Orientation.Portrait;
+                wsReport.PrintOptions.LeftMargin = 0.3;
+                wsReport.PrintOptions.RightMargin = 0.3;
+
+                //wsReport.Workbook.NamedReferences.Clear();
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 5, wsReport, 0, 0);
+
+                #region Reduced Premium header data
+
+                {
+                    wsReport.GetCell("AgentName").Value = agentName;
+                    wsReport.GetCell("SalesDates").Value = "Reduced Premiums: " + dateRange;
+                    //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
+                }
+                #endregion Reduced Premium header data
+
+                foreach (DataRow drCampaign in dtReducedPremiumCampaigns.Rows)
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 4, 11, 1, 8, wsReport, rowIndex, 0);
+                    rowIndex++;
+
+                    wsReport.GetCell("RPCampaign").Value = drCampaign["CampaignCode"] as string;
+
+                    DataTable dtCampaignReducedPremiums = dtReducedPremiums.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+                    foreach (DataRow drSale in dtCampaignReducedPremiums.Rows)
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 6, 11, 0, 11, wsReport, rowIndex, 0);
+
+                        bool isGoldenLead = false;
+                        CellFillPattern cellFill = null;
+
+                        if ((drSale["RefNo"] as string).Contains("Golden"))
+                        {
+                            isGoldenLead = true;
+                            cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                        }
+
+                        wsReport.GetCell("RPDateOfSale").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                        if (isGoldenLead) { wsReport.GetCell("DateOfSale").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPBatch").Value = drSale["Batch"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("RPBatch").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPRefNo").Value = drSale["RefNo"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("RPRefNo").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPClient").Value = drSale["LeadName"] as string;
+                        if (isGoldenLead) { wsReport.GetCell("RPClient").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPOriginalPremium").Value = drSale["OriginalPremium"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("RPOriginalPremium").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPReducedPremium").Value = drSale["ReducedPremium"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("RPReducedPremium").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPFallOffPremium").Value = drSale["FallOffPremium"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("RPFallOffPremium").CellFormat.Fill = cellFill; }
+                        wsReport.GetCell("RPUnits").Value = drSale["ReducedUnits"] as decimal?;
+                        if (isGoldenLead) { wsReport.GetCell("RPUnits").CellFormat.Fill = cellFill; }
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    {
+                        rowIndex++;
+                        Methods.CopyExcelRegion(wsTemplate, 7, 11, 0, 11, wsReport, rowIndex, 0);
+
+                        DataRow dr = dtReducedPremiumCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                        wsReport.GetCell("RPTotalSales").Value = dr["ReducedPremiumCount"] as int?;
+                        wsReport.GetCell("RPTotalOriginalPremium").Value = dr["TotalOriginalPremium"] as decimal?;
+                        wsReport.GetCell("RPTotalReducedPremium").Value = dr["TotalReducedPremium"] as decimal?;
+                        wsReport.GetCell("RPTotalFallOffPremium").Value = dr["TotalFallOffPremium"] as decimal?;
+                        wsReport.GetCell("RPTotalUnits").Value = dr["TotalReducedUnits"] as decimal?;
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                    rowIndex += 2;
+                }
+
+                {
+                    Methods.CopyExcelRegion(wsTemplate, 9, 12, 0, 8, wsReport, rowIndex, 1);
+
+                    DataRow dr = dtReducedPremiumGrandTotals.Rows[0];
+                    wsReport.GetCell("RPGrandTotalSales").Value = dr["GrandTotalReducedPremiumCount"] as int?;
+                    wsReport.GetCell("RPGrandTotalOriginalPremium").Value = dr["GrandTotalOriginalPremium"] as decimal?;
+                    wsReport.GetCell("RPGrandTotalReducedPremium").Value = dr["GrandTotalReducedPremium"] as decimal?;
+                    wsReport.GetCell("RPGrandTotalFallOffPremium").Value = dr["GrandTotalFallOffPremium"] as decimal?;
+                    wsReport.GetCell("RPGrandTotalUnits").Value = dr["GrandTotalReducedUnits"] as decimal?;
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                }
+
+                #endregion Reduced Premiums
+
+                #region Carried Forwards
+
+                #region New Carried Forwards
+
+                if (1 == 1)
+                {
+                    string strAgentName = string.Format("{0}...Carried Forwards", new string(agentName.Take(20).ToArray()));
+                    if (strAgentName.Length > 31)
+                    {
+                        strAgentName = (new string(strAgentName.Take(31).ToArray()));
+                        strAgentName = strAgentName.Remove(strAgentName.Length - 3, 3) + "...";
+                    }
+                    wsReport = wbReport.Worksheets.Add(strAgentName);
+
+                    wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+                    wsReport.PrintOptions.PaperSize = PaperSize.A4;
+                    wsReport.PrintOptions.Orientation = Orientation.Portrait;
+                    wsReport.PrintOptions.LeftMargin = 0.3;
+                    wsReport.PrintOptions.RightMargin = 0.3;
+
+                    wsTemplate = wbTemplate.Worksheets["CarriedForwards"];
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                    Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 4, wsReport, 0, 1);
+
+                    #region Carried Forward Header Data
+
+                    {
+                        wsReport.GetCell("AgentName").Value = agentName;
+                        wsReport.GetCell("SalesDates").Value = "Carried Forwards: " + dateRange;
+                    }
+
+                    #endregion Carried Forward Header Data
+
+                    rowIndex = 4;
+                    wsReport.Workbook.NamedReferences.Clear();
+
+                    foreach (DataRow drCampaign in dtCampaignsCF.Rows)
+                    {
+                        string filterString = drCampaign["FilterString"].ToString();
+                        string orderByString = drCampaign["OrderByString"].ToString();
+                        string campaignTotalsFilteringString = drCampaign["CampaignTotalsFilteringString"].ToString();
+
+                        // Determine if there are any rows for the given partition
+                        var filteredSheetRows = dtSalesCF.Select(filterString).AsEnumerable();
+                        if (filteredSheetRows.Any())
+                        {
+                            DataTable dtCampaignSalesCF = dtSalesCF.Select(filterString, orderByString).CopyToDataTable();
+
+                            Methods.CopyExcelRegion(wsTemplate, 4, 1, 1, 7, wsReport, rowIndex, 1);
+
+                            rowIndex++;
+
+                            wsReport.GetCell("CampaignCF2").Value = drCampaign["CampaignCode"] as string;
+
+                            //DataTable dtCampaignSales = dtSales.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+
+                            //string filterString = drCampaign["FilterString"].ToString();
+                            //string orderByString = drCampaign["OrderByString"].ToString();
+                            //string campaignTotalsFilteringString = drCampaign["CampaignTotalsFilteringString"].ToString();
+                            //DataTable dtCampaignSales = dtSales.Select(filterString, orderByString).CopyToDataTable();
+
+                            foreach (DataRow drSale in dtCampaignSalesCF.Rows)
+                            {
+                                rowIndex++;
+                                Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 7, wsReport, rowIndex, 0);
+
+                                bool isGoldenLead = false;
+                                CellFillPattern cellFill = null;
+
+                                if ((drSale["RefNo"] as string).Contains("Golden"))
+                                {
+                                    isGoldenLead = true;
+                                    cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                                }
+
+                                wsReport.GetCell("DateOfSaleCF2").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                                if (isGoldenLead) { wsReport.GetCell("DateOfSaleCF2").CellFormat.Fill = cellFill; }
+
+                                //wsReport.GetCell("BatchCF2").Value = drSale["Batch"] as string;
+                                //if (isGoldenLead) { wsReport.GetCell("BatchCF2").CellFormat.Fill = cellFill; }
+
+                                //wsReport.GetCell("RefNoCF2").Value = drSale["RefNo"] as string;
+                                //if (isGoldenLead) { wsReport.GetCell("RefNoCF2").CellFormat.Fill = cellFill; }
+
+                                //wsReport.GetCell("ClientCF2").Value = drSale["LeadName"] as string;
+                                //if (isGoldenLead) { wsReport.GetCell("ClientCF2").CellFormat.Fill = cellFill; }
+
+                                wsReport.GetCell("PremiumCF2").Value = drSale["Premium"] as decimal?;
+                                if (isGoldenLead)
+                                {
+                                    wsReport.GetCell("PremiumCF2").CellFormat.Fill = cellFill;
+                                    wsReport.GetCell("PremiumCF2").CellFormat.Font.ColorInfo = new WorkbookColorInfo(Color.Red);
+                                }
+
+                                wsReport.GetCell("UnitsCF2").Value = drSale["Units"] as decimal?;
+                                if (isGoldenLead) { wsReport.GetCell("UnitsCF2").CellFormat.Fill = cellFill; }
+
+                                wsReport.GetCell("CarriedForwardReasonCF2").Value = drSale["SavedStatus"] as string;
+                                if (isGoldenLead) { wsReport.GetCell("CarriedForwardReasonCF2").CellFormat.Fill = cellFill; }
+
+                                //wsReport.GetCell("SavedStatusOriginalDOS").Value = drSale["SavedStatusOriginalDOS"] as string;
+                                //if (isGoldenLead) { wsReport.GetCell("SavedStatusOriginalDOS").CellFormat.Fill = cellFill; }
+
+                                wsReport.Workbook.NamedReferences.Clear();
+                            }
+
+                            {
+                                rowIndex++;
+                                Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 6, wsReport, rowIndex, 0);
+
+                                //DataRow dr = dtCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                                DataRow dr = dtCampaignTotalsCF.Select(campaignTotalsFilteringString).CopyToDataTable().Rows[0];
+                                wsReport.GetCell("TotalSalesCF2").Value = dr["TotalSales"] as int?;
+                                wsReport.GetCell("TotalPremiumCF2").Value = dr["TotalPremium"] as decimal?;
+                                wsReport.GetCell("TotalUnitsCF2").Value = dr["TotalUnits"] as decimal?;
+
+                                wsReport.Workbook.NamedReferences.Clear();
+                            }
+
+                            wsReport.Workbook.NamedReferences.Clear();
+                            rowIndex += 2;
+                        }
+                    }
+
+                    {
+                        Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 6, wsReport, rowIndex, 0);
+
+                        DataRow dr = dtGrandTotalsCF.Rows[0];
+                        wsReport.GetCell("GrandTotalSalesCF2").Value = dr["GrandTotalSales"] as int?;
+                        wsReport.GetCell("GrandTotalPremiumCF2").Value = dr["GrandTotalPremium"] as decimal?;
+                        wsReport.GetCell("GrandTotalUnitsCF2").Value = dr["GrandTotalUnits"] as decimal?;
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+                }
+
+                #endregion  New Carried Forwards
+
+                #region Old Carried Forwards
+
+                if (0 == 1)
+                {
+                    DataTable dtIncludeCarriedForwardBreakdown = ds.Tables[8];
+                    DataTable dtCarriedForwardCampaigns = ds.Tables[9];
+                    DataTable dtCarriedForwards = ds.Tables[10];
+                    DataTable dtCarriedForwardCampaignTotals = ds.Tables[11];
+                    DataTable dtCarriedForwardGrandTotals = ds.Tables[12];
+                    //wsReport = wbReport.Worksheets.Add(string.Join("", ("Carried Forwards - " + agentName).Take(31)));
+                    string newCarriedForwardsWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Carried Forwards", agentName));
+                    wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription);
+
+                    rowIndex = 4;
+                    wsReport.DisplayOptions.View = WorksheetView.Normal;
+
+                    wsReport.PrintOptions.PaperSize = PaperSize.A4;
+                    wsReport.PrintOptions.Orientation = Orientation.Portrait;
+                    wsReport.PrintOptions.LeftMargin = 0.3;
+                    wsReport.PrintOptions.RightMargin = 0.3;
+
+                    wsReport.Workbook.NamedReferences.Clear();
+                    Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 5, wsReport, 0, 0);
+
+                    #region Carried Forward Header Data
+
+                    {
+                        wsReport.GetCell("AgentName").Value = agentName;
+                        wsReport.GetCell("SalesDates").Value = "Carried Forwards: " + dateRange;
+
+                        //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
+                    }
+                    #endregion Carried Forward Header Data
+
+                    #region Determining if a detailed breakdown of the carried forwards should be included
+
+                    bool includeCarriedForwardBreakdown = false;
+
+                    if (dtIncludeCarriedForwardBreakdown.Rows.Count > 0)
+                    {
+                        includeCarriedForwardBreakdown = Convert.ToBoolean(dtIncludeCarriedForwardBreakdown.Rows[0]["IncludeCarriedForwardBreakdown"]);
+                    }
+
+                    #endregion Determining if a detailed breakdown of the carried forwards should be included
+
+                    if (includeCarriedForwardBreakdown)
+                    {
+                        foreach (DataRow drCampaign in dtCarriedForwardCampaigns.Rows)
+                        {
+                            Methods.CopyExcelRegion(wsTemplate, 4, 0, 1, 5, wsReport, rowIndex, 0);
+                            rowIndex++;
+
+                            wsReport.GetCell("Campaign").Value = drCampaign["CampaignCode"] as string;
+
+                            DataTable dtCampaignCancellations = dtCarriedForwards.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'").CopyToDataTable();
+                            foreach (DataRow drSale in dtCarriedForwards.Rows)
+                            {
+                                rowIndex++;
+                                Methods.CopyExcelRegion(wsTemplate, 6, 0, 0, 5, wsReport, rowIndex, 0);
+
+                                bool isGoldenLead = false;
+                                CellFillPattern cellFill = null;
+
+                                if ((drSale["RefNo"] as string).Contains("Golden"))
+                                {
+                                    isGoldenLead = true;
+                                    cellFill = new CellFillPattern(new WorkbookColorInfo(Color.Gold), null, FillPatternStyle.Solid);
+                                }
+
+                                wsReport.GetCell("DateOfSale").Value = ((DateTime)drSale["DateOfSale"]).ToString("d");
+                                if (isGoldenLead) { wsReport.GetCell("DateOfSale").CellFormat.Fill = cellFill; }
+                                wsReport.GetCell("Batch").Value = drSale["Batch"] as string;
+                                if (isGoldenLead) { wsReport.GetCell("Batch").CellFormat.Fill = cellFill; }
+                                wsReport.GetCell("RefNo").Value = drSale["RefNo"] as string;
+                                if (isGoldenLead) { wsReport.GetCell("RefNo").CellFormat.Fill = cellFill; }
+                                wsReport.GetCell("Client").Value = drSale["LeadName"] as string;
+                                if (isGoldenLead) { wsReport.GetCell("Client").CellFormat.Fill = cellFill; }
+                                wsReport.GetCell("Premium").Value = drSale["Premium"] as decimal?;
+                                if (isGoldenLead) { wsReport.GetCell("Premium").CellFormat.Fill = cellFill; }
+                                wsReport.GetCell("Units").Value = drSale["Units"] as decimal?;
+                                if (isGoldenLead) { wsReport.GetCell("Units").CellFormat.Fill = cellFill; }
+
+                                wsReport.Workbook.NamedReferences.Clear();
+                            }
+
+                            {
+                                rowIndex++;
+                                Methods.CopyExcelRegion(wsTemplate, 7, 0, 0, 5, wsReport, rowIndex, 0);
+
+                                DataRow dr = dtCarriedForwardCampaignTotals.Select("CampaignID = '" + (drCampaign["CampaignID"] as long?) + "'")[0];
+                                wsReport.GetCell("TotalSales").Value = dr["TotalCarriedForwards"] as int?;
+                                wsReport.GetCell("TotalPremium").Value = dr["TotalPremium"] as decimal?;
+                                wsReport.GetCell("TotalUnits").Value = dr["TotalUnits"] as decimal?;
+
+                                wsReport.Workbook.NamedReferences.Clear();
+                            }
+
+                            wsReport.Workbook.NamedReferences.Clear();
+                            rowIndex += 2;
+                        }
+
+                        {
+                            Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 5, wsReport, rowIndex, 0);
+
+                            DataRow dr = dtCarriedForwardGrandTotals.Rows[0];
+                            wsReport.GetCell("GrandTotalSales").Value = dr["GrandTotalCarriedForwards"] as int?;
+                            wsReport.GetCell("GrandTotalPremium").Value = dr["GrandTotalPremium"] as decimal?;
+                            wsReport.GetCell("GrandTotalUnits").Value = dr["GrandTotalUnits"] as decimal?;
+
+                            wsReport.Workbook.NamedReferences.Clear();
+                        }
+                    }
+                    else
+                    {
+
+                        DataRow drCarriedForwardGrandTotal = dtCarriedForwardGrandTotals.Rows[0];
+
+                        Methods.CopyExcelRegion(wsTemplate, 12, 0, 2, 4, wsReport, rowIndex, 0);
+
+                        wsReport.GetCell("GrandTotalCarriedForwardsBase").Value = drCarriedForwardGrandTotal["GrandTotalCarriedForwardsBase"] as int?;
+                        wsReport.GetCell("GrandTotalCarriedForwardPremium").Value = Methods.ForceCurrencyFormatting(drCarriedForwardGrandTotal["GrandTotalCarriedForwardPremium"], false);
+                        wsReport.GetCell("GrandTotalCarriedForwardUpgrades").Value = drCarriedForwardGrandTotal["GrandTotalCarriedForwardUpgrades"] as int?;
+                        wsReport.GetCell("GrandTotalCarriedForwardUnits").Value = drCarriedForwardGrandTotal["GrandTotalCarriedForwardUnits"] as decimal?;
+
+                        wsReport.Workbook.NamedReferences.Clear();
+                    }
+                }
+
+                #endregion  Old Carried Forwards
+
+                #endregion Carried Forwards
+
+
+
+                //wsReport.Rows[rowIndex].Cells[5].CellFormat.SetFormatting(wsTemplate.Rows[5].Cells[5].CellFormat) ;//= "# ##0.00;[Red]# ##0.00";
+            }
+
+            #endregion
+
+        }
+
         private void Report(object sender, DoWorkEventArgs e)
         {
             try
@@ -1353,6 +2112,167 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void ReportDC(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                #region setup excel document
+
+                Workbook wbTemplate;
+                Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
+
+                string dateRange = (_fromDate.ToString("d") + " to " + _toDate.ToString("d")).Replace("/", "-");
+
+                string filePathAndName = GlobalSettings.UserFolder + "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
+
+                Uri uri = new Uri("/Templates/ReportTemplateSales.xlsx", UriKind.Relative);
+
+                StreamResourceInfo info = Application.GetResourceStream(uri);
+                if (info != null)
+                {
+                    wbTemplate = Workbook.Load(info.Stream, true);
+                }
+                else
+                {
+                    return;
+                }
+
+                #endregion
+
+                if (ReportMode == lkpINCampTSRReportMode.ByTSR)
+                {
+                    if (_selectedAgents.Count > 0)
+                    {
+                        foreach (DataRecord drAgent in _selectedAgents)
+                        {
+                            string agentName = drAgent.Cells["Description"].Value as string;
+                            _agentName = agentName;
+                            long? agentID = drAgent.Cells["ID"].Value as long?;
+
+                            ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
+                            AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                            AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                        }
+                    }
+                    else
+                    {
+                        string agentName = _user.FirstName.Trim() + " " + _user.LastName.Trim();
+                        long? agentID = _user.ID;
+
+                        ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
+                        AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                        AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                    }
+                }
+                else if (ReportMode == lkpINCampTSRReportMode.ByQA)
+                {
+                    if (_selectedAgents.Count > 0)
+                    {
+                        foreach (DataRecord drQA in _selectedAgents)
+                        {
+                            SqlParameter[] parameters = new SqlParameter[4];
+                            parameters[0] = new SqlParameter("@SupervisorUserID", drQA.Cells["ID"].Value as long?);
+                            parameters[1] = new SqlParameter("@AgentMode", (int)AgentMode);
+                            parameters[2] = new SqlParameter("@FromDate", _fromDate);
+                            parameters[3] = new SqlParameter("@ToDate", _toDate);
+
+                            DataTable dt = Methods.ExecuteStoredProcedure("spGetAgentsForSupervisor", parameters).Tables[0];
+
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow drAgent in dt.Rows)
+                                {
+                                    long? agentID = drAgent.ItemArray[0] as long?;
+                                    string agentName = drAgent.ItemArray[1] as string;
+                                    _agentName = agentName;
+
+                                    ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
+                                    AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                }
+                            }
+                            else
+                            {
+                                Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+                                {
+                                    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
+                                });
+
+                                return;
+                            }
+                        }
+                    }
+                }
+                else if (ReportMode == lkpINCampTSRReportMode.TrainingSupervisor)
+                {
+                    if (_selectedAgents.Count > 0)
+                    {
+                        foreach (DataRecord drQA in _selectedAgents)
+                        {
+                            SqlParameter[] parameters = new SqlParameter[4];
+                            parameters[0] = new SqlParameter("@SupervisorUserID", drQA.Cells["ID"].Value as long?);
+                            parameters[1] = new SqlParameter("@AgentMode", (int)AgentMode);
+                            parameters[2] = new SqlParameter("@FromDate", _fromDate);
+                            parameters[3] = new SqlParameter("@ToDate", _toDate);
+
+                            DataTable dt = Methods.ExecuteStoredProcedure("spGetAgentsForTrainingSupervisor", parameters).Tables[0];
+
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow drAgent in dt.Rows)
+                                {
+                                    long? agentID = drAgent.ItemArray[0] as long?;
+                                    string agentName = drAgent.ItemArray[1] as string;
+                                    _agentName = agentName;
+
+                                    ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
+                                    AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                }
+                            }
+                            else
+                            {
+                                Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+                                {
+                                    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
+                                });
+
+                                return;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+
+
+                #region save and display excel document
+
+                //Save excel document
+                wbReport.SetCurrentFormat(WorkbookFormat.Excel2007);
+                wbReport.Save(filePathAndName);
+
+                //Display excel document
+                Process.Start(filePathAndName);
+
+                #endregion
+
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
         private void ReportTimer(object sender, EventArgs e)
         {
             _seconds++;
@@ -1380,7 +2300,15 @@ namespace UDM.Insurance.Interface.Screens
                 _selectedAgents = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
 
                 BackgroundWorker worker = new BackgroundWorker();
-                worker.DoWork += Report;
+                if(DebiCheckCB.IsChecked == true)
+                {
+                    worker.DoWork += ReportDC;
+
+                }
+                else
+                {
+                    worker.DoWork += Report;
+                }
                 worker.RunWorkerCompleted += ReportCompleted;
                 worker.RunWorkerAsync();
 

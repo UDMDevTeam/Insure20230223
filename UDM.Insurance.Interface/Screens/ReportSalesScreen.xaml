@@ -395,6 +395,16 @@
                                 GroupName="grpAgentMode"
                                 IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=AgentMode, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static business:lkpAgentMode.Temporary}}"
                                 Style="{StaticResource INRadioButton}" />
+                            <RadioButton
+                                x:Name="DebiCheckCB"
+                                Width="Auto"
+                                Style="{StaticResource INRadioButton}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Checked="RadioButton_Checked"
+                                Content="DebiCheck"
+                                FontSize="16"
+                                GroupName="grpAgentMode"></RadioButton>
                         </StackPanel>
                     </Grid>
 
