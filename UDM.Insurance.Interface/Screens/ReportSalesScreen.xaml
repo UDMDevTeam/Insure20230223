@@ -395,17 +395,40 @@
                                 GroupName="grpAgentMode"
                                 IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=AgentMode, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static business:lkpAgentMode.Temporary}}"
                                 Style="{StaticResource INRadioButton}" />
-                            <RadioButton
+
+                        </StackPanel>
+
+                    </Grid>
+                    <Grid Grid.Row="12"
+                          Grid.Column="8"
+                          Grid.ColumnSpan="9"
+                          Grid.RowSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton
                                 x:Name="DebiCheckCB"
                                 Width="Auto"
                                 Style="{StaticResource INRadioButton}"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Checked="RadioButton_Checked"
-                                Content="DebiCheck"
+                                Content="DebiCheck Incentive"
                                 FontSize="16"
-                                GroupName="grpAgentMode"></RadioButton>
-                        </StackPanel>
+                                GroupName="grpAgentMode"
+                                Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            ></RadioButton>
                     </Grid>
 
                     <Grid
