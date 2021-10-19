@@ -32,8 +32,8 @@
                 <Image
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Source="pack://application:,,,/Resources/BirthdayWish1.jpg"
-                    Stretch="None" />
+                    Source="pack://application:,,,/Resources/HappyBirthday.png"
+                    Stretch="Fill" />
                 <Rectangle
                     x:Name="BGRectangle"
                     Margin="0"
@@ -76,15 +76,16 @@
                     Visibility="Collapsed" />
                 <TextBlock
                     x:Name="txtHeading"
-                    Width="400"
-                    Height="26"
-                    Margin="270,221,0,0"
+                    Width="778"
+                    Height="67"
+                    Margin="10,214,22,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     FontFamily="Comic Sans MS"
-                    FontSize="18"
+                    FontSize="25"
                     FontWeight="Bold"
-                    Foreground="DarkGoldenrod"
+                    
+                    Foreground="White"
                     Opacity="1"
                     Text="Magdalena"
                     TextAlignment="Center"
@@ -110,7 +111,7 @@
                     Visibility="Collapsed" />
                 <Button
                     x:Name="btnOK"
-                    Margin="0,0,12,12"
+                    Margin="0,0,12,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Width="60"
@@ -119,7 +120,7 @@
                     IsCancel="False"
                     IsDefault="True"
                     Opacity="1"
-                    Style="{DynamicResource INFlatButton}" />
+                    Style="{DynamicResource INFlatButton}" Height="32" />
             </Grid>
         </Grid>
     </Viewbox>
