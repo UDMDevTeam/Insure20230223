@@ -1105,7 +1105,12 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                     LaData.PolicyData.PlatinumPlan = dtPolicy.Rows[0]["CancerOption"] as string;
-                    if (campaignTypesMaccNotAccDis.Contains(LaData.AppData.CampaignType))
+                    if (!(LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion
+                            &&
+                            (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5
+                            ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
+                            campaignTypesMaccNotAccDis.Contains(LaData.AppData.CampaignType))))
                     {
                         if (!(LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
                             &&
@@ -7707,7 +7712,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 #region DebiCheck Workings
-                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || GlobalSettings.ApplicationUser.ID == 199)
+                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 241 || GlobalSettings.ApplicationUser.ID == 199)
                 {
 
                 }
@@ -14579,19 +14584,10 @@ namespace UDM.Insurance.Interface.Screens
 
         public void IsDebiCheckValidForResales()
         {
-            //btnDebiCheck.Visibility = Visibility.Collapsed;
-            //DebiCheckBorder.Visibility = Visibility.Collapsed;
-            //if (medDOAccountNumber.Text == "" || medDOAccountNumber.Text == null)
-            //{
 
-            //}
-            //else
-            //{
                 btnDebiCheck.Visibility = Visibility.Visible;
                 DebiCheckBorder.Visibility = Visibility.Visible;
-                //DebiCheckBorder.BorderBrush = Brushes.White;
-                btnDebiCheck.IsEnabled = true;
-            //}
+                //btnDebiCheck.IsEnabled = true;
         }
 
         public void GetMandateInfo()
@@ -14733,7 +14729,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
 
                     //these banks dont accept DebiCheck Mandates Yet
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 241)
                     {
                         btnDebiCheck.Visibility = Visibility.Collapsed;
                         DebiCheckBorder.Visibility = Visibility.Collapsed;
