@@ -117,8 +117,8 @@ namespace UDM.Insurance.Interface.Screens
                 userSchedule.FKINImportID = ((AppointmentInfo)e.Activity.DataItem).ImportID;
                 if (Guid.TryParse(e.Activity.Id, out guid)) { userSchedule.ScheduleID = guid; }
                 userSchedule.Duration = e.Activity.Duration;
-                userSchedule.Start = e.Activity.Start;
-                userSchedule.End = e.Activity.End;
+                userSchedule.Start = e.Activity.Start.AddHours(2); //Added two hours for our timezone
+                userSchedule.End = e.Activity.End.AddHours(2); //Added two hours for our timezone
                 userSchedule.Subject = e.Activity.Subject;
                 userSchedule.Description = e.Activity.Description;
                 userSchedule.Location = ((AppointmentInfo)e.Activity.DataItem).Location;
@@ -162,8 +162,8 @@ namespace UDM.Insurance.Interface.Screens
                         _ssData.INUserSchedules.Remove(userSchedule);
 
                         userSchedule.Duration = e.Activity.Duration;
-                        userSchedule.Start = e.Activity.Start;
-                        userSchedule.End = e.Activity.End;
+                        userSchedule.Start = e.Activity.Start.AddHours(2); //Added two hours for our timezone
+                        userSchedule.End = e.Activity.End.AddHours(2); //Added two hours for our timezone
                         userSchedule.Subject = e.Activity.Subject;
                         userSchedule.Description = e.Activity.Description;
                         userSchedule.Location = ((AppointmentInfo)e.Activity.DataItem).Location;
