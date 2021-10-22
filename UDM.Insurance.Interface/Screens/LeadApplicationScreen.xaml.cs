@@ -1105,12 +1105,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                     LaData.PolicyData.PlatinumPlan = dtPolicy.Rows[0]["CancerOption"] as string;
-                    if (!(LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion
-                            &&
-                            (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5
-                            ||
-                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6 ||
-                            campaignTypesMaccNotAccDis.Contains(LaData.AppData.CampaignType))))
+                    if (campaignTypesMaccNotAccDis.Contains(LaData.AppData.CampaignType))
                     {
                         if (!(LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
                             &&
@@ -7712,7 +7707,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 #region DebiCheck Workings
-                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 241 || GlobalSettings.ApplicationUser.ID == 199)
+                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || GlobalSettings.ApplicationUser.ID == 199)
                 {
 
                 }
@@ -7764,7 +7759,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-                            if (ImportDate >  DateTime.Now.AddMonths(-3))
+                            if (ImportDate > DateTime.Now.AddMonths(-3))
                             {
                                 try
                                 {
@@ -14063,7 +14058,7 @@ namespace UDM.Insurance.Interface.Screens
                     data["password"] = Password;
                     data["grant_type"] = "password";
 
-                    
+
 
                     var response = wb.UploadValues(auth_url, "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
@@ -14086,7 +14081,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     var data = new NameValueCollection();
 
-                    if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade )
+                    if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
                     {
 
                         string AccountTypeNumber = " ";
@@ -14205,10 +14200,10 @@ namespace UDM.Insurance.Interface.Screens
                             }
                         }
 
-                        
-                        
 
-                        
+
+
+
                         try
                         {
                             DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
@@ -14236,7 +14231,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
 
-                        if(medDOAccountNumber.Text != "")
+                        if (medDOAccountNumber.Text != "")
                         {
                             try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
                         }
@@ -14288,7 +14283,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     wb.Headers.Add("Authorization", "Bearer " + token);
-                    
+
                     var response = wb.UploadValues(submitMandate_url, "POST", data);
                     string responseInString;
 
@@ -14324,39 +14319,39 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
 
-                    DebiCheckSent DebiCheckSentData = new DebiCheckSent();
+                DebiCheckSent DebiCheckSentData = new DebiCheckSent();
 
-                    DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
-                    DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
-                    DebiCheckSentData.SMSID = ClientResponseStatus;
-                    DebiCheckSentData.FKlkpSMSTypeID = 2;
-                    DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
-                    DebiCheckSentData.SMSBody = MandateStatusCode;
-                    DebiCheckSentData.FKlkpSMSEncodingID = 2;
-                    DebiCheckSentData.SubmissionID = ClientsBankResponseStatusCode;
-                    DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                    DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                    DebiCheckSentData.SubmissionDate = DateTime.Now;
-                    DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
-                    DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
+                DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
+                DebiCheckSentData.SMSID = ClientResponseStatus;
+                DebiCheckSentData.FKlkpSMSTypeID = 2;
+                DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
+                DebiCheckSentData.SMSBody = MandateStatusCode;
+                DebiCheckSentData.FKlkpSMSEncodingID = 2;
+                DebiCheckSentData.SubmissionID = ClientsBankResponseStatusCode;
+                DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                DebiCheckSentData.SubmissionDate = DateTime.Now;
+                DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
+                DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
 
-                    //DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
-                    //DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
-                    //DebiCheckSentData.SMSID = "";
-                    //DebiCheckSentData.FKlkpSMSTypeID = 2;
-                    //DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
-                    //DebiCheckSentData.SMSBody = "6";
-                    //DebiCheckSentData.FKlkpSMSEncodingID = 2;
-                    //DebiCheckSentData.SubmissionID = "";
-                    //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                    //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
-                    //DebiCheckSentData.SubmissionDate = DateTime.Now;
-                    //DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
-                    //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                //DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
+                //DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
+                //DebiCheckSentData.SMSID = "";
+                //DebiCheckSentData.FKlkpSMSTypeID = 2;
+                //DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
+                //DebiCheckSentData.SMSBody = "6";
+                //DebiCheckSentData.FKlkpSMSEncodingID = 2;
+                //DebiCheckSentData.SubmissionID = "";
+                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
+                //DebiCheckSentData.SubmissionDate = DateTime.Now;
+                //DebiCheckSentData.FKlkpSMSStatusTypeID = 1;
+                //DebiCheckSentData.FKlkpSMSStatusSubtypeID = 1;
 
 
-                    DebiCheckSentData.Save(_validationResult);
-                
+                DebiCheckSentData.Save(_validationResult);
+
 
             }
             catch
@@ -14572,7 +14567,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
             }
-            catch(Exception r)
+            catch (Exception r)
             {
 
             }
@@ -14584,10 +14579,19 @@ namespace UDM.Insurance.Interface.Screens
 
         public void IsDebiCheckValidForResales()
         {
+            //btnDebiCheck.Visibility = Visibility.Collapsed;
+            //DebiCheckBorder.Visibility = Visibility.Collapsed;
+            //if (medDOAccountNumber.Text == "" || medDOAccountNumber.Text == null)
+            //{
 
-                btnDebiCheck.Visibility = Visibility.Visible;
-                DebiCheckBorder.Visibility = Visibility.Visible;
-                //btnDebiCheck.IsEnabled = true;
+            //}
+            //else
+            //{
+            btnDebiCheck.Visibility = Visibility.Visible;
+            DebiCheckBorder.Visibility = Visibility.Visible;
+            //DebiCheckBorder.BorderBrush = Brushes.White;
+            btnDebiCheck.IsEnabled = true;
+            //}
         }
 
         public void GetMandateInfo()
@@ -14729,7 +14733,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
 
                     //these banks dont accept DebiCheck Mandates Yet
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 241)
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
                     {
                         btnDebiCheck.Visibility = Visibility.Collapsed;
                         DebiCheckBorder.Visibility = Visibility.Collapsed;

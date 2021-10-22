@@ -91,11 +91,32 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             IsEnabled="False" />
-        <Button x:Name="btnScheduleImport" Style="{DynamicResource INFlatButton}" Content="Schedule Import" TabIndex="0" Grid.Column="13" Grid.ColumnSpan="4" Grid.Row="9" Margin="0,0,0,0"  HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="False" Click="btnScheduleImport_Click" />
+        
+        <Button x:Name="btnScheduleImport" 
+                Style="{DynamicResource INFlatButton}" 
+                Content="Schedule Import"
+                TabIndex="0" 
+                Grid.Column="13" 
+                Grid.ColumnSpan="4" 
+                Grid.Row="9" 
+                Margin="0,0,0,0"  
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                IsEnabled="False" 
+                Click="btnScheduleImport_Click" />
 
 
-        <Popup Margin="-69,10,0,0" Name="Popup1" HorizontalAlignment="Left" 
- VerticalAlignment="Top" Width="424" Height="371" IsOpen="False" StaysOpen="False" PlacementTarget="{Binding ElementName=chkPopupShow}" Grid.ColumnSpan="8" Grid.RowSpan="9">
+        <Popup Margin="-69,10,0,0" 
+               Name="Popup1" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top"
+               Width="424" 
+               Height="371" 
+               IsOpen="False" 
+               StaysOpen="False" 
+               PlacementTarget="{Binding ElementName=chkPopupShow}" 
+               Grid.ColumnSpan="8" 
+               Grid.RowSpan="9">
 
 
             <Grid Background="Black" Margin="0,-10,0,-9"  >
