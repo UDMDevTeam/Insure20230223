@@ -160,11 +160,19 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
+                    INNextOfKin nok = new INNextOfKin();
                     long? ID = null;
                     DataTable dtIsloaded;
                     long IDReal;
                     try
                     {
+                        nok.FKINImportID = importID;
+                        nok.FirstName = medFirstName.Text;
+                        nok.Surname = medSurname.Text;
+                        nok.FKINRelationshipID = long.Parse(getNOKRelationship.Text);
+                        nok.TelContact = medCellPhone.Text;
+                        nok.Save(_validationResult);
+
                         string strQueryIsLoaded;
                         strQueryIsLoaded = "SELECT top 1 ID FROM INPermissionLead WHERE FKImportID = " + importID;
                         dtIsloaded = Methods.GetTableData(strQueryIsLoaded);

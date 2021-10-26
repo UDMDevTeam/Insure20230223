@@ -290,6 +290,16 @@
                     PromptChar=""
                     Style="{StaticResource medINLA}" />
 
+                <TextBox
+                    x:Name="getNOKRelationship"
+                    Visibility="Collapsed"
+                    Grid.Row="10"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="7"
+                    >
+                </TextBox>
+
+
                 <TextBlock
                     x:Name="lblDatePicker"
                     Grid.Row="10"
