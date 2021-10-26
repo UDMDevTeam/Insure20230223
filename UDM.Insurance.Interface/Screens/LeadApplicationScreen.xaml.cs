@@ -1128,7 +1128,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                     LaData.PolicyData.PlatinumPlan = dtPolicy.Rows[0]["CancerOption"] as string;
-                    if (campaignTypesMaccNotAccDis.Contains(LaData.AppData.CampaignType))
+                    if (!campaignTypesCancer.Contains(LaData.AppData.CampaignType) && !campaignTypesMaccNotAccDis.Contains(LaData.AppData.CampaignType))
                     {
                         if (!(LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
                             &&
@@ -1140,10 +1140,12 @@ namespace UDM.Insurance.Interface.Screens
                             ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                             ))
+
                         {
                             LaData.PolicyData.PlatinumPlan = "1";
                         }
                     }
+
                     else if (LaData.AppData.CampaignType == lkpINCampaignType.AccDis)
                     {
                         //this should be either 1 or 2 as imported!
@@ -1165,10 +1167,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         LaData.PolicyData.PlatinumPlan = "2";
                     }
-                    else if (LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
-                    {
-                        LaData.PolicyData.PlatinumPlan = "1";
-                    }
+                    //else if (LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
+                    //{
+                    //    LaData.PolicyData.PlatinumPlan = "1";
+                    //}
 
 
                     LaData.AppData.IsLeadUpgrade = _upgrades.Contains(LaData.AppData.CampaignGroup);
