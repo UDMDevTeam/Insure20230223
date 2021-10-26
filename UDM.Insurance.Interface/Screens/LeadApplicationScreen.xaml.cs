@@ -54,6 +54,7 @@ namespace UDM.Insurance.Interface.Screens
         private static extern bool SetCursorPos(int x, int y);
 
         bool DebiCheckSentTwice;
+        int checkBoxMoveToPermissionLeadsCounter = 0;
 
         #endregion
 
@@ -638,7 +639,29 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion Get the complete lead from the database
 
+                #region Get data to check NOK - Permission Lead Checkbox
+                try
+                {
+                    string NOKID = (dtNextOfKin.Rows[0]["NOKID"]).ToString();
+                    string NOKFirstName = (dtNextOfKin.Rows[0]["NOKFirstName"]).ToString();
+                    string NOKSurname = (dtNextOfKin.Rows[0]["NOKSurname"]).ToString();
+                    string NOKRelationshipID = (dtNextOfKin.Rows[0]["NOKRelationshipID"]).ToString();
+                    string NOKTelContact = (dtNextOfKin.Rows[0]["NOKTelContact"]).ToString();
+                    if (dtNextOfKin.Rows.Count > 0 && NOKFirstName != "" && NOKSurname != "" && NOKRelationshipID != "" && NOKTelContact != "")
+                    {
+                        checkBoxMoveToPermissionLeadsCounter = 1; // If value is one, then dialog box should be hidden
+                        chkMoveToLeadPermissions.IsChecked = true;
+                    }
+                    else
+                    {
+                        chkMoveToLeadPermissions.IsChecked = false;
+                    }
+                }
+                catch (Exception ex)
+                {
 
+                }
+                #endregion
 
                 #region Get the lead History from the database
 
@@ -15067,26 +15090,23 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     var name = medNOKName.Text;
                     var surname = medNOKSurname.Text;
-                    //string relationship = cmbNOKRelationship.SelectedValue.ToString();
+                    var relationship = cmbNOKRelationship.SelectedValue.ToString();
                     var contact = medNOKContactPhone.Text;
 
 
                     PermissionLeadScreen permissionLeadScreen = new PermissionLeadScreen(LaData.AppData.ImportID, null, name, surname, contact, null);
                     permissionLeadScreen.medFirstName.Text = name;
                     permissionLeadScreen.medSurname.Text = surname;
+                    permissionLeadScreen.getNOKRelationship.Text = relationship;
                     permissionLeadScreen.medCellPhone.Text = contact;
 
-                    ShowDialog(permissionLeadScreen, new INDialogWindow(permissionLeadScreen));
-
-
-
-
+                    if (checkBoxMoveToPermissionLeadsCounter == 0)
+                    {
+                        ShowDialog(permissionLeadScreen, new INDialogWindow(permissionLeadScreen));
+                        checkBoxMoveToPermissionLeadsCounter = 0;
+                    }
+                    checkBoxMoveToPermissionLeadsCounter = 0;
                 }
-                else
-                {
-
-                }
-
             }
             catch (Exception ex)
             {
