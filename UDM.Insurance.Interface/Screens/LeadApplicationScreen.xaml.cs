@@ -3530,11 +3530,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                 DataTable dtStatus = dsLookups.Tables[0];
-                if (GlobalSettings.ApplicationUser.ID == 3388 || GlobalSettings.ApplicationUser.ID == 394)
-                {
-                    dtStatus.Rows.Add(13, "Carried forward to Cancellation");
-                    dtStatus.DefaultView.Sort = "Description";
-                }
+
 
                 cmbStatus.Populate(dtStatus, DescriptionField, IDField);
 

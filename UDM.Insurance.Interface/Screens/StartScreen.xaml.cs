@@ -243,6 +243,7 @@ namespace UDM.Insurance.Interface.Screens
                                     case (int) lkpUserType.ConfirmationAgent:
                                     case (int) lkpUserType.StatusLoader:
                                     case (int) lkpUserType.CallMonitoringAgent:
+                                    case (int)lkpUserType.Preserver:
                                         //nextControl = new ConfirmScreen();
                                         nextControl = new SalesScreen();
                                         break;
