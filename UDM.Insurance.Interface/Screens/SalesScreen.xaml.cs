@@ -130,7 +130,7 @@ namespace UDM.Insurance.Interface.Screens
                 LoadSalesGrid();
                 xdgSales.DataSource = null;
 
-                if (UserType == lkpUserType.CallMonitoringAgent)
+                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
                     DataSet ds = Insure.INGetSalesAssignedToCMAgent(_agentID);
 
@@ -237,7 +237,7 @@ namespace UDM.Insurance.Interface.Screens
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += AutoRefreshTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 30, 0);
-            if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.ConfirmationAgent)
+            if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.ConfirmationAgent || UserType == lkpUserType.Preserver)
             {
                 dispatcherTimer.Start();
             }
@@ -294,7 +294,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Determining whether or not the lead has a status of cancelled
 
 
-                if (UserType == lkpUserType.CallMonitoringAgent)
+                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
                     LeadApplicationScreen leadApplicationScreen = new LeadApplicationScreen(ImportID, _ssGlobalData, true);
                     ShowDialog(leadApplicationScreen, new INDialogWindow(leadApplicationScreen));
@@ -407,7 +407,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if (UserType == lkpUserType.CallMonitoringAgent)
+                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
                     #region Campaign
 
@@ -1195,7 +1195,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     if (xdgSales.ActiveRecord != null && xdgSales.ActiveRecord.RecordType == RecordType.DataRecord && xdgSales.ActiveRecord.FieldLayout.Description == "Lead")
                     {
-                        if (UserType == lkpUserType.CallMonitoringAgent)
+                        if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                         {
                             DataTable dtCMA = Methods.GetTableData("SELECT * FROM CallMonitoringAllocation AS CMA LEFT JOIN [User] AS U ON CMA.FKUserID = U.ID WHERE FKINImportID = " + Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
                             if (dtCMA.AsEnumerable().Where(x => x["IsSavedCarriedForward"] as bool? == true && x["FKUserID"] as long? != _agentID).Count() > 0)
@@ -1383,7 +1383,7 @@ namespace UDM.Insurance.Interface.Screens
                 btnCallMonitoringTrackingReport.Visibility = Visibility.Collapsed;
                 btnBumpUpStatsReport.Visibility = Visibility.Visible;
             }
-            else if (UserType.Value == lkpUserType.CallMonitoringAgent)
+            else if (UserType.Value == lkpUserType.CallMonitoringAgent || UserType.Value == lkpUserType.Preserver)
             {
                 btnSalesReport.Visibility = Visibility.Collapsed;
                 btnConfirmationStats.Visibility = Visibility.Collapsed;
@@ -1645,7 +1645,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private void xdgSales_RecordExpanded(object sender, RecordExpandedEventArgs e)
         {
-            if (UserType == lkpUserType.CallMonitoringAgent)
+            if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
             {
                 if (e.Record != null)
                 {
