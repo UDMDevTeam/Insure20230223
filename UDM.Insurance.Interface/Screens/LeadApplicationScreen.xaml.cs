@@ -1999,6 +1999,32 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
+                #region Cancer R99 Annual Premium Adjustments
+                if(LaData.AppData.CampaignID == 342)
+                {
+
+
+                    lblTotalPremiumUpgAnnual.Visibility = Visibility.Visible;
+                    xamCETotalPremiumUpgAnnual.Visibility = Visibility.Visible;
+                    try
+                    {
+                        xamCETotalPremiumUpgAnnual.Text = (LaData.PolicyData.LoadedTotalPremium * 12).ToString();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+
+                    lblTotalPremiumUpgAnnual.Visibility = Visibility.Collapsed;
+                    xamCETotalPremiumUpgAnnual.Visibility = Visibility.Collapsed;
+
+                }
+
+                #endregion
+
 
 
             }
@@ -4144,6 +4170,11 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 if (LaData.AppData.IsLeadLoaded && checkBumpup) CalculateBumpUpOrReducedPremium();
+
+                if(LaData.AppData.CampaignID == 342)
+                {
+                    xamCETotalPremiumUpgAnnual.Text = (LaData.PolicyData.TotalPremium * 12).ToString();
+                }
             }
 
             catch (Exception ex)
@@ -6025,6 +6056,18 @@ namespace UDM.Insurance.Interface.Screens
 
                                 #endregion Substituting the Clients surname tag
 
+                                #region Annual  premium Cancer R99
+                                if (c.Contains("[AnnualPremium]"))
+                                {
+
+                                    Decimal Annual = Convert.ToDecimal(xamCETotalPremium.Value) * 12;
+
+                                    dat = c2.Replace("[AnnualPremium]", string.Format("{0:c}", Annual.ToString()));
+                                    c2 = dat;
+                                    formattingapplied = true;
+                                }
+
+                                #endregion
 
                                 if (formattingapplied == false)
                                 {
@@ -14269,7 +14312,16 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
                         try { data["AccountNumber"] = LaData.BankDetailsData.AccountNumber; } catch { data["AccountNumber"] = ""; }
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
-                        try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        if(LaData.AppData.CampaignID == 342)
+                        {
+                            try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+
+                        }
+                        else
+                        {
+                            try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+
+                        }
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }

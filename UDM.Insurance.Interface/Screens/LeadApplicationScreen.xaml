@@ -6381,6 +6381,26 @@
                                         TextWrapping="NoWrap"
                                         Visibility="Hidden" />
 
+                                    <TextBlock
+                                        x:Name="lblTotalPremiumUpgAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="New Annual Premium"
+                                        TextWrapping="NoWrap"
+                                        Visibility="Collapsed"/>
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCETotalPremiumUpgAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}" 
+                                        Visibility="Collapsed"/>
+
                                 </Grid>
                             </Border>
 
@@ -6719,6 +6739,8 @@
                                         Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
                                         Text="{Binding PolicyData.TotalPremium}"
                                         ToolTip="{Binding PolicyData.LoadedTotalPremium}" />
+
+
 
                                 </Grid>
                             </Border>

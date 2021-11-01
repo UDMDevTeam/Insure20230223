@@ -69,7 +69,8 @@ namespace UDM.Insurance.Interface.PrismViews
                     "[TotalLA2Death]",
                     "[TotalPremium]",
                     "[TSR]",
-                    "[WorkPhone]"
+                    "[WorkPhone]",
+                    "[AnnualPremium]"
                 };
             }
         }
