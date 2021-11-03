@@ -767,7 +767,7 @@ namespace UDM.Insurance.Interface.Screens
                     //wsCell.Value = Convert.ToDateTime(drAgent["SalesStartDate"]).AddDays(63).ToString("yyyy/MM/dd");//expiry date
                     wsCell.Value = Convert.ToDateTime(drAgent["ExpiryDate"]).ToString("yyyy/MM/dd");
 
-                    leadRow += IsUpgradeCampaign ? leadTemplateRowIndex + 2 : 31;
+                    leadRow += IsUpgradeCampaign ? leadTemplateRowIndex + 2 : 30;
 
                     #endregion Cover Page
 
@@ -1080,7 +1080,7 @@ namespace UDM.Insurance.Interface.Screens
                                 // Because Excel is up to !@##$%$%^%^&$#%&^%$E^&&&&&&^%^&^%$ and doesn't want to copy the formatting from the template!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                                 wsLeads.GetCell("ContractPremium").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ContractPremium"], false);
-                                wsLeads.GetCell("Offer").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["Offer"], false);
+                                //wsLeads.GetCell("Offer").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["Offer"], false);
                                 wsLeads.GetCell("NewTotalPremium").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["NewTotalPremium"], false);
                                 wsLeads.GetCell("ChildCover").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ChildCover"], false);
                                 wsLeads.GetCell("ChildCover3").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ChildCover"], false);
@@ -1190,7 +1190,10 @@ namespace UDM.Insurance.Interface.Screens
                                                 ))
                                             {
                                                 targetCell = wsLeads.Rows[leadRow + row].Cells[15];
-                                                targetCell.Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ContractPremium"], false);
+                                                //targetCell.Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ContractPremium"], false);
+                                                targetCell.Value = dtLeadPrintData.Rows[lead[0] - 1]["ContractPremium"].ToString();
+
+
                                             }
                                             break;
                                     }
