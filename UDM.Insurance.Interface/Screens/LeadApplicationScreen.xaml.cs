@@ -41,6 +41,7 @@ using System.Net;
 using System.Windows.Media.Imaging;
 using System.Collections.Specialized;
 using System.Transactions;
+using System.Threading;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -2898,9 +2899,12 @@ namespace UDM.Insurance.Interface.Screens
                     #region Policy
                     if (LaData.PolicyData.PolicyID.HasValue)
                     {
-                        INPolicy policy = new INPolicy(Convert.ToInt32(LaData.PolicyData.PolicyID));
+                        int policyID = Convert.ToInt32(LaData.PolicyData.PolicyID);
+                        INPolicy policy = new INPolicy(policyID);
 
-                        policy.CommenceDate = LaData.PolicyData.CommenceDate;
+                        bool failed = false;
+
+                        try { policy.CommenceDate = LaData.PolicyData.CommenceDate; } catch(Exception e) { failed = true; }
                         policy.FKINBankDetailsID = LaData.BankDetailsData.BankDetailsID;
                         policy.FKINOptionID = LaData.PolicyData.OptionID;
                         policy.FKINOptionFeesID = LaData.PolicyData.OptionFeesID;
@@ -2924,6 +2928,18 @@ namespace UDM.Insurance.Interface.Screens
                         policy.OptionChild = LaData.AppData.IsLeadUpgrade ? LaData.PolicyData.IsChildUpgradeChecked : LaData.PolicyData.IsChildChecked;
 
                         policy.BumpUpOffered = LaData.PolicyData.BumpUpOffered;
+                        try
+                        {
+                            if (failed == true)
+                            {
+                                policy.CommenceDate = LaData.PolicyData.CommenceDate;
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+
                         //LaData.PolicyData.BumpUpOffered = Convert.ToBoolean(dtPolicy.Rows[0]["BumpUpOffered"]);
                         //LaData.PolicyData.CanOfferBumpUp = Convert.ToBoolean(dtPolicy.Rows[0]["CanOfferBumpUp"]);
 
