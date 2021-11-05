@@ -299,10 +299,12 @@ namespace UDM.Insurance.Interface.Screens
                         }
                     }
 
+                    int totalrows = dtSalesData.Rows.Count + 3;
+
                     var totalTable = dsDiaryReportData.Tables[1];
 
-                    workSheet.Cells[24, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
-                    workSheet.Cells[24, 1].Value = "Total :";
+                    workSheet.Cells[totalrows, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
+                    workSheet.Cells[totalrows, 1].Value = "Total :";
 
 
 
@@ -316,7 +318,7 @@ namespace UDM.Insurance.Interface.Screens
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A24", "C24").BorderAround(
+                    workSheet.get_Range("A" + totalrows.ToString(), "C" + totalrows.ToString()).BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
@@ -326,7 +328,7 @@ namespace UDM.Insurance.Interface.Screens
                     tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                     tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
-                    workSheet.Range["A3", "C5"].Interior.Color = System.Drawing.Color.LightSalmon;
+                    //workSheet.Range["A3", "C5"].Interior.Color = System.Drawing.Color.LightSalmon;
 
 
 
@@ -425,6 +427,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         try
                         {
+                            #region Parameter workings
                             TimeSpan ts = new TimeSpan(23, 00, 0);
                             DateTime _endDate2 = DateTime.Now;
                             _endDate2 = _endDate.Date + ts;
@@ -433,19 +436,53 @@ namespace UDM.Insurance.Interface.Screens
                             DateTime _startDat2 = DateTime.Now;
                             _startDat2 = _startDate.Date + ts1;
 
-                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_startDat2, _endDate2);
+                            string baseupgrade = "";
+                            if(UpgradeReportCB.IsChecked == true)
+                            {
+                                baseupgrade = "1";
+                            }
+                            else
+                            {
+                                baseupgrade = "0";
+                            }
+                            #endregion
+
+                            var transactionOptions = new TransactionOptions
+                            {
+                                IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                            };
+
+                            using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                            {
+                                dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_startDat2, _endDate2, baseupgrade);
+                            }
+
 
                         }
-                        catch
+                        catch(Exception w)
                         {
-                            TimeSpan ts = new TimeSpan(23, 00, 0);
-                            DateTime _endDate2 = DateTime.Now;
-                            _endDate2 = _endDate.Date + ts;
+                            //#region Parameter workings
+                            //TimeSpan ts = new TimeSpan(23, 00, 0);
+                            //DateTime _endDate2 = DateTime.Now;
+                            //_endDate2 = _endDate.Date + ts;
 
-                            TimeSpan ts1 = new TimeSpan(00, 00, 0);
-                            DateTime _startDat2 = DateTime.Now;
-                            _startDat2 = _startDate.Date + ts1;
-                            dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_startDat2, _endDate2);
+                            //TimeSpan ts1 = new TimeSpan(00, 00, 0);
+                            //DateTime _startDat2 = DateTime.Now;
+                            //_startDat2 = _startDate.Date + ts1;
+
+                            //string baseupgrade = "";
+                            //if (UpgradeReportCB.IsChecked == true)
+                            //{
+                            //    baseupgrade = "1";
+                            //}
+                            //else
+                            //{
+                            //    baseupgrade = "0";
+                            //}
+                            //#endregion
+
+
+                            //dsDiaryReportData = Business.Insure.INGetDebiCheckPLConsolidated(_startDat2, _endDate2, baseupgrade);
 
                         }
                     }
@@ -585,6 +622,14 @@ namespace UDM.Insurance.Interface.Screens
             CancerBaseBool = false;
             MaccBaseBool = false;
             DailyReportCB.IsChecked = false;
+
+            #region Base / upgrades Visibility
+            BaseLbl.Visibility = Visibility.Visible;
+            UpgradeLbl.Visibility = Visibility.Visible;
+            BaseReportCB.Visibility = Visibility.Visible;
+            UpgradeReportCB.Visibility = Visibility.Visible;
+            BaseUpgradeBorder.Visibility = Visibility.Visible;
+            #endregion
         }
 
         private void DailyReportCB_Checked(object sender, RoutedEventArgs e)
@@ -603,9 +648,16 @@ namespace UDM.Insurance.Interface.Screens
 
         private void ConsolidatedStats_Unchecked(object sender, RoutedEventArgs e)
         {
-
+            #region Base / upgrades Visibility
+            BaseLbl.Visibility = Visibility.Collapsed;
+            UpgradeLbl.Visibility = Visibility.Collapsed;
+            BaseReportCB.Visibility = Visibility.Collapsed;
+            UpgradeReportCB.Visibility = Visibility.Collapsed;
+            BaseUpgradeBorder.Visibility = Visibility.Collapsed;
+            #endregion
         }
 
+        #region Search DebiCheck Status
         private void RefrenceGoBtn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -641,6 +693,27 @@ namespace UDM.Insurance.Interface.Screens
             RefrenceGoBtn.Visibility = Visibility;
             ReferenceNumberTB.Visibility = Visibility;
             MandateLookupDG.Visibility = Visibility;
+        }
+
+        #endregion
+
+
+
+
+        private void BaseReportCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if(BaseReportCB.IsChecked == true)
+            {
+                UpgradeReportCB.IsChecked = false;
+            }   
+        }
+
+        private void UpgradeReportCB_Checked(object sender, RoutedEventArgs e)
+        { 
+            if(UpgradeReportCB.IsChecked == true)
+            {
+                BaseReportCB.IsChecked = false;
+            }
         }
     }
 }
