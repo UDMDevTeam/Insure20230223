@@ -77,6 +77,8 @@ namespace UDM.Insurance.Interface.Screens
         string AccountTypePLLKP = "";
         string DebitDayPLLKP = "";
 
+        string IDNumberPLLKP = "";
+
         #region BulkSMS
 
         //Bulk SMS variables
@@ -14090,7 +14092,6 @@ namespace UDM.Insurance.Interface.Screens
             {
                 IDNumberDebiCheck = "1";
             }
-
             //btnDebiCheck.IsEnabled = false;
             string token = "";
 
@@ -14155,6 +14156,24 @@ namespace UDM.Insurance.Interface.Screens
 
                         try
                         {
+                            string IDNumberUpgrades = IDNumberPLLKP;
+                            int resultResales = IDNumberUpgrades.Count();
+                            if (resultResales == 13)
+                            {
+                                IDNumberDebiCheck = "1";
+                            }
+                            else
+                            {
+                                IDNumberDebiCheck = "2";
+                            }
+                        }
+                        catch
+                        {
+                            IDNumberDebiCheck = "1";
+                        }
+
+                        try
+                        {
                             DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
                             CommencementDateDebiCheck = datevariable.AddMonths(2);
                             CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(DebitDayPLLKP));
@@ -14170,11 +14189,11 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
                         if (IDNumberDebiCheck == "2")
                         {
-                            try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = IDNumberPLLKP;} catch { data["IdentificationNumber"] = ""; }
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
-                            try { data["IdentificationNumber"] = LaData.LeadData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = IDNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
                         }
                         try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
                         try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
@@ -14254,8 +14273,6 @@ namespace UDM.Insurance.Interface.Screens
 
                             }
                         }
-
-
 
 
 
@@ -14556,6 +14573,7 @@ namespace UDM.Insurance.Interface.Screens
             #region AuthToken
             try
             {
+                #region Reset PL Lookup Variables
                 PolicyNumberPLLKP = "";
                 ReferenceNumberPLLKP = "";
                 ResponseDetailPLLKP = "";
@@ -14565,6 +14583,8 @@ namespace UDM.Insurance.Interface.Screens
                 BranchCodePLLKP = "";
                 AccountTypePLLKP = "";
                 DebitDayPLLKP = "";
+                IDNumberPLLKP = "";
+                #endregion
 
                 string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
                 string Username = "udm@platinumlife.co.za";
@@ -14584,6 +14604,39 @@ namespace UDM.Insurance.Interface.Screens
                     token = (string)customObject["access_token"];
                 }
                 #endregion
+
+                #region SumbitClientDetailRequest
+                string submitRequest_urlID = "http://plhqweb.platinumlife.co.za:999/api/CD/PL_Request";
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection();
+                    data["Organization"] = "PL"; //THG //TBF //IG //IPS
+                    data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
+                    data["ReferenceNumber"] = LaData.AppData.RefNo;
+                    data["PassportNumber"] = LaData.LeadData.PassportNumber;
+                    data["FirstName"] = LaData.LeadData.Name; 
+                    data["LastName"] = LaData.LeadData.Surname;
+                    data["MobileNumber"] = LaData.LeadData.TelCell;
+                    data["HomeNumber"] = LaData.LeadData.TelHome;
+                    data["WorkNumber"] = LaData.LeadData.TelWork;
+                    data["EmailAddress"] = LaData.LeadData.TelCell;
+
+                    wb.Headers.Add("Authorization", "Bearer " + token);
+
+                    var response = wb.UploadValues(submitRequest_urlID, "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+
+                    string ReferenceNumber = (string)customObject["ReferenceNumber"];
+                    string ResponseDetail = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
+                    string IDNumber = (string)customObject["IDNumber"];
+
+                    IDNumberPLLKP = IDNumber;
+
+                }
+                #endregion
+
 
                 #region SumbitBankingDetailRequest
                 string submitRequest_url = "http://plhqweb.platinumlife.co.za:999/api/BD/PL_Request";
