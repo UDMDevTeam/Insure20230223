@@ -25,7 +25,7 @@ namespace UDM.Insurance.Interface.Screens
     /// <summary>
     /// Interaction logic for ReportWebScreen.xaml
     /// </summary>
-    public partial class ReportWebScreen 
+    public partial class ReportWebScreen
     {
 
         #region Private members
@@ -45,6 +45,11 @@ namespace UDM.Insurance.Interface.Screens
         private List<Record> _campaigns;
 
         private int _timer1;
+
+        private bool LeadAllocationReportBool;
+        private string campaign = "";
+        DataSet dsDiaryReportData;
+        DataSet dsDiaryReportDataSummary;
 
         #endregion
 
@@ -132,22 +137,316 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnReport_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (LeadAllocationReportBool == true)
             {
-                var lstTemp = (from r in xdgBatches.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
-                _campaigns = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["ID"].Value));
+                try
+                {
+                    DateTime _startDat2 = DateTime.Parse(calStartDate.SelectedDate.ToString());
+                    DateTime _endDate2 = DateTime.Parse(calEndDate.SelectedDate.ToString());
+                    try { dsDiaryReportData.Clear(); } catch { }
+                    try { dsDiaryReportDataSummary.Clear(); } catch { }
+
+                    long campaignID = Convert.ToInt64(cmbCampaign.SelectedValue);
+
+                    dsDiaryReportData = Business.Insure.INGetLeadAllocationBatch(campaignID, _endDate2, _startDat2);
+                    dsDiaryReportDataSummary = Business.Insure.INGetLeadAllocationBatchSummary(campaignID, _endDate2, _startDat2);
+                }
+                catch (Exception a)
+                {
+
+                }
+
 
                 BackgroundWorker worker = new BackgroundWorker();
-                worker.DoWork += Report;
+                worker.DoWork += ReportLeadAllocationBatch;
                 worker.RunWorkerCompleted += ReportCompleted;
                 worker.RunWorkerAsync();
 
                 dispatcherTimer1.Start();
             }
+            else
+            {
+                try
+                {
+                    var lstTemp = (from r in xdgBatches.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                    _campaigns = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["ID"].Value));
+
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.DoWork += Report;
+                    worker.RunWorkerCompleted += ReportCompleted;
+                    worker.RunWorkerAsync();
+
+                    dispatcherTimer1.Start();
+                }
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+            }
+
+        }
+
+        private void ReportLeadAllocationBatch(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                #region Get the report data
+                DataTable dtSalesData;
+                DataTable dtSalesData2;
+
+                dtSalesData = dsDiaryReportData.Tables[0];
+                dtSalesData2 = dsDiaryReportData.Tables[1];
+
+
+                #endregion Get the report data
+
+                try
+                {
+                    string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+                    string filePathAndName = String.Format("{0}Lead Allocation Batch Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    if (dtSalesData == null || dtSalesData.Columns.Count == 0)
+                        throw new Exception("ExportToExcel: Null or empty input table!\n");
+
+                    // load excel, and create a new workbook
+                    var excelApp = new Microsoft.Office.Interop.Excel.Application();
+                    excelApp.Workbooks.Add();
+                    int countForNonRedeemed = 0;
+
+                    // single worksheet
+                    Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
+                    workSheet.Name = "Data Sheet";
+
+                    workSheet.Cells[1, 0 + 1] = "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
+                    for (var i = 0; i < dtSalesData.Columns.Count; i++)
+                    {
+
+                        workSheet.Cells[2, i + 1].Font.Bold = true;
+                        if (i == 0)
+                        {
+                            workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                        }
+                        else
+                        {
+                            workSheet.Cells[2, i + 1].ColumnWidth = 12;
+                        }
+
+                        workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                        //workSheet.get_Range("A4", "J1").Font.Bold = true;
+                    }
+
+
+                    // column headings
+                    for (var i = 0; i < dtSalesData.Columns.Count; i++)
+                    {
+
+                        workSheet.Cells[2, i + 1] = dtSalesData.Columns[i].ColumnName;
+                    }
+
+                    // rows
+                    for (var i = 1; i < dtSalesData.Rows.Count + 1; i++)
+                    {
+                        // to do: format datetime values before printing
+                        for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                        {
+                            workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
+                        }
+
+                        countForNonRedeemed = countForNonRedeemed + 1;
+                    }
+
+                    countForNonRedeemed = countForNonRedeemed + 2;
+
+
+                    for (var i = 0; i < dtSalesData2.Columns.Count; i++)
+                    {
+                        workSheet.Cells[countForNonRedeemed + 2, i + 1].Font.Bold = true;
+
+                        workSheet.Cells[2 + countForNonRedeemed, i + 1] = dtSalesData2.Columns[i].ColumnName;
+                    }
+
+                    // rows
+                    for (var i = 1; i < dtSalesData2.Rows.Count + 1; i++)
+                    {
+                        // to do: format datetime values before printing
+                        for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                        {
+                            workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
+                        }
+                    }
+
+                    //var totalTable = dsDiaryReportData.Tables[1];
+
+                    //workSheet.Cells[24, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
+
+
+
+                    //workSheet.get_Range("A2", "C23").BorderAround(
+                    //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A2", "C2").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+                    workSheet.get_Range("A24", "C24").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+
+                    Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+                    tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+
+                    (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
+
+                    //AddSummaryPage(excelApp);
+
+
+                    // check file path
+
+                    excelApp.Visible = true;
+                    excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                    //excelApp.Save(filePathAndName);
+                    ////Process.Start(filePathAndName);
+
+                    //excelApp.Workbooks.
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+
             catch (Exception ex)
             {
                 HandleException(ex);
             }
+
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
+        private void AddSummaryPage(Microsoft.Office.Interop.Excel.Application excelApp)
+        {
+
+            #region Get the report data
+            DataTable dtSalesData;
+            DataTable dtSalesData2;
+
+            dtSalesData = dsDiaryReportDataSummary.Tables[0];
+            dtSalesData2 = dsDiaryReportDataSummary.Tables[1];
+
+
+            #endregion Get the report data
+
+            int countForNonRedeemed = 0;
+            Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.Worksheets.Add();
+            workSheet.Name = "Summary Sheet";
+            workSheet.Cells[1, 0 + 1] = "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
+            for (var i = 0; i < dtSalesData.Columns.Count; i++)
+            {
+
+                workSheet.Cells[2, i + 1].Font.Bold = true;
+                if (i == 0)
+                {
+                    workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                }
+                else
+                {
+                    workSheet.Cells[2, i + 1].ColumnWidth = 12;
+                }
+
+                workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                //workSheet.get_Range("A4", "J1").Font.Bold = true;
+            }
+
+
+            // column headings
+            for (var i = 0; i < dtSalesData.Columns.Count; i++)
+            {
+
+                workSheet.Cells[2, i + 1] = dtSalesData.Columns[i].ColumnName;
+            }
+
+            // rows
+            for (var i = 1; i < dtSalesData.Rows.Count + 1; i++)
+            {
+                // to do: format datetime values before printing
+                for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                {
+                    workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
+                }
+
+                countForNonRedeemed = countForNonRedeemed + 1;
+            }
+
+            countForNonRedeemed = countForNonRedeemed + 2;
+
+
+            for (var i = 0; i < dtSalesData2.Columns.Count; i++)
+            {
+                workSheet.Cells[countForNonRedeemed + 2, i + 1].Font.Bold = true;
+
+                workSheet.Cells[2 + countForNonRedeemed, i + 1] = dtSalesData2.Columns[i].ColumnName;
+            }
+
+            // rows
+            for (var i = 1; i < dtSalesData2.Rows.Count + 1; i++)
+            {
+                // to do: format datetime values before printing
+                for (var j = 0; j < dtSalesData2.Columns.Count; j++)
+                {
+                    workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
+                }
+            }
+
+            //var totalTable = dsDiaryReportData.Tables[1];
+
+            //workSheet.Cells[24, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
+
+
+
+            //workSheet.get_Range("A2", "C23").BorderAround(
+            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+            workSheet.get_Range("A2", "C2").BorderAround(
+            Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+            Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+            Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+            workSheet.get_Range("A24", "C24").BorderAround(
+            Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+            Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+            Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+
+            Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+            tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+            tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+
+            (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "00,00%";
+            (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "00,00%";
+            (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
+            (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
         }
 
         private void Report(object sender, DoWorkEventArgs e)
@@ -258,7 +557,7 @@ namespace UDM.Insurance.Interface.Screens
                 //calculate the totals
 
                 DataTable dtExcelFormulaMappings = dsLeadAllocationReportData.Tables[7];
-                 Methods.MapTemplatizedExcelFormulas(wsAllAllocationsReportSheetTemplate, dtExcelFormulaMappings, allAllocationsSheetTotalsRow, 0, 0, templateColumnSpan, wsAllAllocationsReportSheet, allAllocationsSheetNewRowIndex, 0, allAllocationsTotalsFromRow, allAllocationsSheetNewRowIndex - 1);
+                Methods.MapTemplatizedExcelFormulas(wsAllAllocationsReportSheetTemplate, dtExcelFormulaMappings, allAllocationsSheetTotalsRow, 0, 0, templateColumnSpan, wsAllAllocationsReportSheet, allAllocationsSheetNewRowIndex, 0, allAllocationsTotalsFromRow, allAllocationsSheetNewRowIndex - 1);
                 wsAllAllocationsReportSheet.MoveToIndex(1);
                 #region Save the workbook and open it - if there is at least 1 worksheet in the workbook
 
@@ -495,7 +794,7 @@ namespace UDM.Insurance.Interface.Screens
             btnReport.Content = "Report";
         }
 
-            private bool IsAllInputParametersSpecifiedAndValid()
+        private bool IsAllInputParametersSpecifiedAndValid()
         {
             #region BatchesSelected
 
@@ -560,17 +859,17 @@ namespace UDM.Insurance.Interface.Screens
             TemporaryBool = false;
             Temp_PermBool = false;
 
-            if(chkPermenantEmployee.IsChecked == true)
+            if (chkPermenantEmployee.IsChecked == true)
             {
                 chkTemporaryEmployee.IsChecked = false;
                 chkBothEmployee.IsChecked = false;
             }
-            if(chkTemporaryEmployee.IsChecked == true)
+            if (chkTemporaryEmployee.IsChecked == true)
             {
                 chkPermenantEmployee.IsChecked = false;
                 chkBothEmployee.IsChecked = false;
             }
-            if(chkBothEmployee.IsChecked == true)
+            if (chkBothEmployee.IsChecked == true)
             {
                 chkPermenantEmployee.IsChecked = false;
                 chkTemporaryEmployee.IsChecked = false;
@@ -622,9 +921,38 @@ namespace UDM.Insurance.Interface.Screens
                 chkTemporaryEmployee.IsChecked = false;
             }
         }
+
+
         #endregion
 
+        private void LeadAllocationCB_Checked(object sender, RoutedEventArgs e)
+        {
+            xdgBatches.Visibility = Visibility.Collapsed;
+            lblBatches.Visibility = Visibility.Collapsed;
+            lblCal1.Visibility = Visibility.Visible;
+            Viewbox1.Visibility = Visibility.Visible;
+            Viewbox2.Visibility = Visibility.Visible;
+            LeadAllocationReportBool = true;
+        }
 
+        private void LeadAllocationCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            xdgBatches.Visibility = Visibility.Visible;
+            lblBatches.Visibility = Visibility.Visible;
+            lblCal1.Visibility = Visibility.Collapsed;
+            Viewbox1.Visibility = Visibility.Collapsed;
+            Viewbox2.Visibility = Visibility.Collapsed;
+            LeadAllocationReportBool = false;
+        }
 
+        private void calStartDate_SelectedDatesChanged(object sender, Infragistics.Windows.Editors.Events.SelectedDatesChangedEventArgs e)
+        {
+
+        }
+
+        private void calEndDate_SelectedDatesChanged(object sender, Infragistics.Windows.Editors.Events.SelectedDatesChangedEventArgs e)
+        {
+
+        }
     }
 }

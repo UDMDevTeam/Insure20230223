@@ -250,6 +250,85 @@
                     <CheckBox x:Name="chkBothEmployee" Style="{DynamicResource INCheckboxStyle}" Grid.Row="5" Grid.Column="15" TabIndex="0" Checked="chkBothEmployee_Checked" VerticalAlignment="Center" Visibility="Visible" IsEnabled="True" Margin="0" HorizontalAlignment="Right" Height="16" Width="16" />
 
 
+                    <TextBlock x:Name="LeadAlocationlbl" 
+                               Style="{DynamicResource INLabelText3}" 
+                               Text="Lead Allocation batch"
+                               Grid.Row="3" 
+                               Grid.Column="18" 
+                               Grid.ColumnSpan="4"></TextBlock>
+
+                    <CheckBox x:Name="LeadAllocationCB"
+                              Grid.Row="3"
+                              Grid.Column="23"
+                              Style="{DynamicResource INCheckboxStyle}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right"
+                              Height="16"
+                              Width="16"
+                              Checked="LeadAllocationCB_Checked"
+                              Unchecked="LeadAllocationCB_Unchecked">
+
+                    </CheckBox>
+
+                    <Label
+                        x:Name="lblCal1"
+                        Grid.Row="6"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Select Date Range"
+                        Visibility="Collapsed" Width="247" />
+
+                    <Viewbox
+                        x:Name="Viewbox1"
+                        Grid.Row="7"
+                        Grid.RowSpan="6"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="6"
+                        Width="250"
+                        Height="250"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Stretch="Fill"
+                        Visibility="Collapsed">
+                        <igWPF:XamMonthCalendar
+                            x:Name="calStartDate"
+                            Margin="0"
+                            FontSize="16"
+                            SelectedDatesChanged="calStartDate_SelectedDatesChanged"
+                            Style="{DynamicResource INXamMonthCalendarStyle2}"
+                            TabIndex="0"
+                            Visibility="Visible" />
+                    </Viewbox>
+
+                    <Viewbox
+                        x:Name="Viewbox2"
+                        Grid.Row="7"
+                        Grid.RowSpan="6"
+                        Grid.Column="8"
+                        Grid.ColumnSpan="6"
+                        Width="250"
+                        Height="250"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Stretch="Fill"
+                        Visibility="Collapsed">
+                        <igWPF:XamMonthCalendar
+                    		x:Name="calEndDate"
+                    		Margin="0"
+                    		FontSize="16"
+                    		SelectedDatesChanged="calEndDate_SelectedDatesChanged"
+                    		Style="{DynamicResource INXamMonthCalendarStyle2}"
+                    		TabIndex="0"
+                    		Visibility="Visible" />
+                    </Viewbox>
+
+
                     <Button
                         x:Name="btnReport"
                         Grid.Row="15"

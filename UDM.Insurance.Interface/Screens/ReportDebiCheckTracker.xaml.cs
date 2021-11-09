@@ -473,11 +473,17 @@ namespace UDM.Insurance.Interface.Screens
                 try { dsDebiCheckTrackingTSRReportData.Clear(); } catch { };
                 if (_selectedAgents.Count > 0)
                 {
-                    foreach (System.Data.DataRow drAgent in _selectedAgents)
-                    {
-                        DataTable dtTempSalesData = null;
 
-                        long? agentID = drAgent.ItemArray[0] as long?;
+                    string CampaignIDStringSales = "";
+                    foreach (System.Data.DataRow item in _selectedAgents)
+                    {
+                        long? agentIDSales = item.ItemArray[0] as long?;
+                        CampaignIDStringSales = CampaignIDStringSales + agentIDSales.ToString() + ",";
+                    }
+                    CampaignIDStringSales = CampaignIDStringSales.Remove(CampaignIDStringSales.Length - 1, 1);
+
+                    DataTable dtTempSalesData = null;
+
                         DataSet ds = null;
                         var transactionOptions = new TransactionOptions
                         {
@@ -486,7 +492,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                         {
-                            ds = Business.Insure.INReportDebiChecKTrackingCampaignsUpgrades(_endDate, _startDate, agentID);
+                            ds = Business.Insure.INReportDebiChecKTrackingCampaignsUpgrades(_endDate, _startDate, CampaignIDStringSales);
                         }
 
                         dtTempSalesData = ds.Tables[0];
@@ -496,7 +502,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
 
-                    }
+                    
 
                     //foreach loop for the campiagns that dont have any sales
                     foreach(System.Data.DataRow drAgent in _campaignsWithNoSales)
