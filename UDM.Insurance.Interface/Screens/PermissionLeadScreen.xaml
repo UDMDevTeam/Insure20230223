@@ -18,6 +18,20 @@
             <Setter Property="FontFamily" Value="/UDM.Blush.Interface;component/Fonts/#Century Gothic" />
         </Style>
 
+        <Style x:Key="resizedCalendarItem" TargetType="{x:Type Calendar}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Calendar}">
+                        <Viewbox Height="400"
+                        Width="400">
+                            <CalendarItem x:Name="PART_CalendarItem"
+                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" />
+                        </Viewbox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </src:BaseControl.Resources>
 
@@ -201,18 +215,21 @@
                     Style="{StaticResource INLabelText2}"
                     Text="Date Of Birth" />
 
-                <DatePicker
+                <DatePicker 
                     x:Name="DateOfBirthDP"
                     Grid.Row="6"
                     Grid.Column="7"
                     Grid.ColumnSpan="7"
-                    Height="27"
+                    Height="30"
                     Margin="0,12,0,15"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     FontSize="14"
                     RenderTransformOrigin="0.482,0.539"
-                    Visibility="Visible" />
+                    Visibility="Visible"
+                    CalendarStyle="{StaticResource resizedCalendarItem}"
+                    />
+
 
 
                 <TextBlock
@@ -298,6 +315,7 @@
                     Grid.ColumnSpan="7"
                     >
                 </TextBox>
+
 
 
                 <TextBlock

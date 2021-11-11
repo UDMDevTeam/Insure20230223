@@ -156,33 +156,50 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if (medCellPhone.Text == null || medCellPhone.Text == "" || DateOfBirthDP.SelectedDate == null)
                 {
-                    ShowMessageBox(new INMessageBoxWindow1(), "Missing fields Required.\n", "Not saved.", ShowMessageType.Information);
+                    ShowMessageBox(new INMessageBoxWindow1(), "Missing fields Required.\n", "Not saved.", ShowMessageType.Exclamation);
                 }
                 else
                 {
-                    INNextOfKin nok = new INNextOfKin();
-                    long? ID = null;
-                    DataTable dtIsloaded;
-                    long IDReal;
-                    try
-                    {
-                        nok.FKINImportID = importID;
-                        nok.FirstName = medFirstName.Text;
-                        nok.Surname = medSurname.Text;
-                        nok.FKINRelationshipID = long.Parse(getNOKRelationship.Text);
-                        nok.TelContact = medCellPhone.Text;
-                        nok.Save(_validationResult);
 
-                        string strQueryIsLoaded;
-                        strQueryIsLoaded = "SELECT top 1 ID FROM INPermissionLead WHERE FKImportID = " + importID;
-                        dtIsloaded = Methods.GetTableData(strQueryIsLoaded);
-                        ID = dtIsloaded.Rows[0]["ID"] as long?;
-                        IDReal = long.Parse(ID.ToString());
-                    }
-                    catch
+
+                    long? IDPermLead = null;
+                    DataTable dtIsloadedPermLead;
+                    long IDRealPermLead;
+                    string strQueryIsLoadedPermLead;
+                    strQueryIsLoadedPermLead = "SELECT top 1 ID FROM INPermissionLead WHERE FKImportID = " + importID;
+                    dtIsloadedPermLead = Methods.GetTableData(strQueryIsLoadedPermLead);
+
+                    long? IDNOK = null;
+                    DataTable dtIsloadedNOK;
+                    long IDRealNOK;
+                    string strQueryIsLoadedNOK;
+                    strQueryIsLoadedNOK = "SELECT top 1 ID FROM INNextOfKin WHERE FKINImportID = " + importID;
+                    dtIsloadedNOK = Methods.GetTableData(strQueryIsLoadedNOK);
+                    INNextOfKin nok;
+                    INPermissionLead inpermissionlead;
+
+                    if (dtIsloadedNOK.Rows.Count > 0)
                     {
-                        IDReal = 0;
-                        dtIsloaded = null;
+                        IDNOK = dtIsloadedNOK.Rows[0]["ID"] as long?;
+                        IDRealNOK = long.Parse(IDNOK.ToString());
+                        nok = new INNextOfKin(IDRealNOK);
+                    }
+                    else
+                    {
+                        nok = new INNextOfKin();
+                    }
+
+
+                    if (dtIsloadedPermLead.Rows.Count > 0)
+                    {
+
+                        IDPermLead = dtIsloadedPermLead.Rows[0]["ID"] as long?;
+                        IDRealPermLead = long.Parse(IDPermLead.ToString());
+                        inpermissionlead = new INPermissionLead(IDRealPermLead);
+                    }
+                    else
+                    {
+                        inpermissionlead = new INPermissionLead();
                     }
 
 
@@ -194,16 +211,27 @@ namespace UDM.Insurance.Interface.Screens
                     strQueryDateSaved = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + importID;
                     DataTable dtPermissiondateSavedIsloaded = Methods.GetTableData(strQueryDateSaved);
 
-                    if(dtIsloaded == null)
+
+                    try
                     {
-                        INPermissionLead inpermissionlead = new INPermissionLead();
+
+                        try { inpermissionlead.FKINImportID = importID; } catch { }
+                        try { nok.FKINImportID = importID; } catch { }
+                        try { nok.FirstName = medFirstName.Text; } catch { }
+                        try { nok.Surname = medSurname.Text; } catch { }
+                        try { nok.FKINRelationshipID = long.Parse(getNOKRelationship.Text); } catch { }
+                        try { nok.TelContact = medCellPhone.Text; } catch { }
+                        try { nok.Save(_validationResult); } catch { }
+
+
+
                         try { inpermissionlead.FKINImportID = importID; } catch { }
                         try { inpermissionlead.Title = cmbTitle.Text.ToString(); } catch { }
                         try { inpermissionlead.Firstname = medFirstName.Text.ToString(); } catch { }
-                        try { inpermissionlead.Surname = medSurname.Text.ToString(); } catch {  }
+                        try { inpermissionlead.Surname = medSurname.Text.ToString(); } catch { }
                         try { inpermissionlead.Cellnumber = medCellPhone.Text.ToString(); } catch { }
-                        try { inpermissionlead.AltNumber = medAltPhone.Text.ToString(); } catch {  }
-                        try { inpermissionlead.DateOfBirth = DateOfBirthDP.SelectedDate; } catch {  }
+                        try { inpermissionlead.AltNumber = medAltPhone.Text.ToString(); } catch { }
+                        try { inpermissionlead.DateOfBirth = DateOfBirthDP.SelectedDate; } catch { }
 
                         if (dtPermissionSavedByIsloaded.Rows.Count == 0)
                         {
@@ -221,43 +249,21 @@ namespace UDM.Insurance.Interface.Screens
                                 try { inpermissionlead.DateSaved = DateTime.Now; } catch { }
                             }
                         }
-                        try { inpermissionlead.Occupation = medOccupation.Text.ToString(); } catch {  }
+                        try { inpermissionlead.Occupation = medOccupation.Text.ToString(); } catch { }
                         inpermissionlead.Save(_validationResult);
 
                         ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission successfully saved.\n", "Save Result", ShowMessageType.Information);
+
+
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        INPermissionLead inpermissionlead = new INPermissionLead(IDReal);
-                        try { inpermissionlead.FKINImportID = importID; } catch { }
-                        try { inpermissionlead.Title = cmbTitle.Text.ToString(); } catch { }
-                        try { inpermissionlead.Firstname = medFirstName.Text.ToString(); } catch { }
-                        try { inpermissionlead.Surname = medSurname.Text.ToString(); } catch { }
-                        try { inpermissionlead.Cellnumber = medCellPhone.Text.ToString(); } catch {}
-                        try { inpermissionlead.AltNumber = medAltPhone.Text.ToString(); } catch { }
-                        try { inpermissionlead.DateOfBirth = DateOfBirthDP.SelectedDate; } catch {}
+                        IDRealPermLead = 0;
+                        dtIsloadedPermLead = null;
+                        IDRealNOK = 0;
+                        dtIsloadedNOK = null;
+                    }
 
-                        if (dtPermissionSavedByIsloaded.Rows.Count == 0)
-                        {
-                            try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch {}
-                        }
-                        if (GlobalSettings.ApplicationUser.ID == 72 || GlobalSettings.ApplicationUser.ID == 174) //this is for Kashmira to edit the Date the reference was saved for report purposes.
-                        {
-                            try { inpermissionlead.DateSaved = DateSavedDP.SelectedDate; } catch { }
-
-                        }
-                        else
-                        {
-                            if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
-                            {
-                                try { inpermissionlead.DateSaved = DateTime.Now; } catch {  }
-                            }
-                        }
-                        try { inpermissionlead.Occupation = medOccupation.Text.ToString(); } catch {  }
-                        inpermissionlead.Save(_validationResult);
-
-                        ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission successfully saved.\n", "Save Result", ShowMessageType.Information);
-                        }
                 }
             }
             catch (Exception a)

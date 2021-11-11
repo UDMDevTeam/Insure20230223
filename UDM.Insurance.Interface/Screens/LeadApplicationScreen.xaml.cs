@@ -55,6 +55,7 @@ namespace UDM.Insurance.Interface.Screens
         private static extern bool SetCursorPos(int x, int y);
 
         bool DebiCheckSentTwice;
+        int checkBoxMoveToPermissionLeadsCounter = 0;// This is a counter for limiting the Permissions Lead from being displayed 
 
         #endregion
 
@@ -10330,10 +10331,6 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Popups
 
-
-
-
-
         #region Debug
 
         //void handler(object sender, RoutedEventArgs e)
@@ -15185,31 +15182,29 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     var name = medNOKName.Text;
                     var surname = medNOKSurname.Text;
-                    //string relationship = cmbNOKRelationship.SelectedValue.ToString();
+                    var relationship = cmbNOKRelationship.SelectedValue.ToString();
                     var contact = medNOKContactPhone.Text;
 
 
                     PermissionLeadScreen permissionLeadScreen = new PermissionLeadScreen(LaData.AppData.ImportID, null, name, surname, contact, null);
                     permissionLeadScreen.medFirstName.Text = name;
                     permissionLeadScreen.medSurname.Text = surname;
+                    permissionLeadScreen.getNOKRelationship.Text = relationship;
                     permissionLeadScreen.medCellPhone.Text = contact;
 
-                    ShowDialog(permissionLeadScreen, new INDialogWindow(permissionLeadScreen));
-
-
-
-
+                    if (checkBoxMoveToPermissionLeadsCounter == 0)
+                    {
+                        ShowDialog(permissionLeadScreen, new INDialogWindow(permissionLeadScreen));
+                        checkBoxMoveToPermissionLeadsCounter = 0;
+                    }
+                    checkBoxMoveToPermissionLeadsCounter = 0;
                 }
-                else
-                {
-
-                }
-
             }
             catch (Exception ex)
             {
 
             }
+
 
         }
 
