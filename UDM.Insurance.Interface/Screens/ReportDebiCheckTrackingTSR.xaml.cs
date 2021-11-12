@@ -119,6 +119,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Other Lead Statuses");
             dtSalesData.Columns.Add("Other Lead Statuses %");
             dtSalesData.Columns.Add("Sales where Debi-checks are N/A");
+            dtSalesData.Columns.Add("Accepted % after n/a sales were removed");
             dtSalesData.Columns.Add("Supervisor Name");
 
             #endregion
@@ -135,8 +136,8 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if ((calStartDate.SelectedDate != null && (calEndDate.SelectedDate != null))) //&& (calEndDate.SelectedDate >= Cal1.SelectedDate)
                 {
-                        btnReport.IsEnabled = true;
-                        return;
+                    btnReport.IsEnabled = true;
+                    return;
                 }
 
                 //btnReport.IsEnabled = false;
@@ -292,7 +293,7 @@ namespace UDM.Insurance.Interface.Screens
                         // to do: format datetime values before printing
                         for (var j = 0; j < dtSalesData.Columns.Count; j++)
                         {
-                            workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[ i - 1 ][ j ];
+                            workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
                         }
                     }
 
@@ -308,6 +309,7 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
 
                     workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 26]].Merge();
 
@@ -368,7 +370,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     int totalRowMinusOne = totalrows - 1;
 
-                    workSheet.Cells[totalrows, 2].Formula = string.Format("=SUM(B1:B"+ totalRowMinusOne.ToString() +")"); //B
+                    workSheet.Cells[totalrows, 2].Formula = string.Format("=SUM(B1:B" + totalRowMinusOne.ToString() + ")"); //B
                     workSheet.Cells[totalrows, 3].Formula = string.Format("=SUM(C1:C" + totalRowMinusOne.ToString() + ")"); //C
                     workSheet.Cells[totalrows, 4].Formula = string.Format("=SUM(D1:D" + totalRowMinusOne.ToString() + ")"); //D
                     workSheet.Cells[totalrows, 5].Formula = string.Format("=SUM(E1:E" + totalRowMinusOne.ToString() + ")"); //E
@@ -394,14 +396,15 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 22].Formula = string.Format("=U" + totalrows + "/B" + totalrows + "*100"); //V
                     workSheet.Cells[totalrows, 24].Formula = string.Format("=W" + totalrows + "/B" + totalrows + "*100"); //X
 
-                    for(int w = 3; w <= totalRowMinusOne; w++)
+                    for (int w = 3; w <= totalRowMinusOne; w++)
                     {
                         workSheet.Cells[w, 3].Formula = string.Format("=U" + w + "+Q" + w + "+S" + w + "+O" + w + "+W" + w);
                     }
 
-                    for(int r = 3; r <= totalRowMinusOne; r++)
+                    for (int r = 3; r <= totalRowMinusOne; r++)
                     {
                         workSheet.Cells[r, 2].Formula = string.Format("=D" + r + "+C" + r + "");
+                        workSheet.Cells[r, 26].Formula = string.Format("=E" + r + "/(B" + r + "-Y" + r + ") *100");
                     }
 
                     excelApp.Visible = true;
@@ -524,7 +527,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     int totalrows = dtSalesData.Rows.Count + 3;
 
-                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "00,00%"; // This sets the format of the column
                     (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
@@ -534,6 +537,8 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
+
 
                     workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 26]].Merge();
 
@@ -546,7 +551,7 @@ namespace UDM.Insurance.Interface.Screens
                     tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
                     // check file path
 
-                    workSheet.get_Range("A2", "Y2").BorderAround(
+                    workSheet.get_Range("A2", "Y2").BorderAround( // these apply borders on the report
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
@@ -628,6 +633,8 @@ namespace UDM.Insurance.Interface.Screens
                     for (int r = 3; r <= totalRowMinusOne; r++)
                     {
                         workSheet.Cells[r, 2].Formula = string.Format("=D" + r + "+C" + r + "");
+                        workSheet.Cells[r, 26].Formula = string.Format("=E" + r + "/(B" + r + "-Y" + r + ") *100");
+
                     }
 
                     excelApp.Visible = true;
@@ -768,12 +775,12 @@ namespace UDM.Insurance.Interface.Screens
 
             try
             {
-                 //_selectedAgents = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
+                //_selectedAgents = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
 
                 if (IsAllInputParametersSpecifiedAndValid())
                 {
 
-                    if(UpgradeCB.IsChecked == true)
+                    if (UpgradeCB.IsChecked == true)
                     {
                         btnClose.IsEnabled = false;
                         calStartDate.IsEnabled = false;
