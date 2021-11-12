@@ -6342,6 +6342,26 @@
                                         Value="{Binding PolicyData.TotalPremium, TargetNullValue='0.00'}" />
 
                                     <TextBlock
+                                        x:Name="lblTotalPremiumAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="New Annual Premium"
+                                        TextWrapping="NoWrap"
+                                        Visibility="Visible"/>
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCETotalPremiumAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}" 
+                                        Visibility="Visible"/>
+
+                                    <TextBlock
                                         x:Name="lblMoneyBack"
                                         Grid.Row="6"
                                         Grid.Column="13"

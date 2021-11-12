@@ -2004,13 +2004,11 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
-                #region Cancer R99 Annual Premium Adjustments
+                #region Cancer R99 & Base Annual Premium Adjustments
                 if(LaData.AppData.CampaignID == 342)
                 {
-
-
-                    lblTotalPremiumUpgAnnual.Visibility = Visibility.Visible;
-                    xamCETotalPremiumUpgAnnual.Visibility = Visibility.Visible;
+                    //lblTotalPremiumUpgAnnual.Visibility = Visibility.Visible;
+                    //xamCETotalPremiumUpgAnnual.Visibility = Visibility.Visible;
                     try
                     {
                         xamCETotalPremiumUpgAnnual.Text = (LaData.PolicyData.LoadedTotalPremium * 12).ToString();
@@ -2022,10 +2020,17 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-
                     lblTotalPremiumUpgAnnual.Visibility = Visibility.Collapsed;
                     xamCETotalPremiumUpgAnnual.Visibility = Visibility.Collapsed;
+                }
 
+                if(LaData.AppData.IsLeadUpgrade)
+                {
+
+                }
+                else
+                {
+                    xamCETotalPremiumAnnual.Text = (LaData.PolicyData.LoadedTotalPremium * 12).ToString();
                 }
 
                 #endregion
@@ -4191,10 +4196,14 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (LaData.AppData.IsLeadLoaded && checkBumpup) CalculateBumpUpOrReducedPremium();
 
-                if(LaData.AppData.CampaignID == 342)
-                {
-                    xamCETotalPremiumUpgAnnual.Text = (LaData.PolicyData.TotalPremium * 12).ToString();
-                }
+                //if(LaData.AppData.CampaignID == 342)
+                //{
+                //    xamCETotalPremiumUpgAnnual.Text = (LaData.PolicyData.TotalPremium * 12).ToString();
+                //    xamCETotalPremiumAnnual.Text = (LaData.PolicyData.TotalPremium * 12).ToString();
+
+                //}
+                xamCETotalPremiumAnnual.Text = (LaData.PolicyData.TotalPremium * 12).ToString();
+
             }
 
             catch (Exception ex)
@@ -14320,7 +14329,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
-                        try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
@@ -14343,16 +14352,8 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
                         try { data["AccountNumber"] = LaData.BankDetailsData.AccountNumber; } catch { data["AccountNumber"] = ""; }
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
-                        if(LaData.AppData.CampaignID == 342)
-                        {
-                            try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+                        try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
 
-                        }
-                        else
-                        {
-                            try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
-
-                        }
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
