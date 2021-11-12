@@ -422,10 +422,8 @@
                                 Style="{StaticResource INRadioButton}"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Checked="RadioButton_Checked"
                                 Content="DebiCheck Incentive"
                                 FontSize="16"
-                                GroupName="grpAgentMode"
                                 Grid.Row="0"
                             Grid.ColumnSpan="3"
                             ></RadioButton>
