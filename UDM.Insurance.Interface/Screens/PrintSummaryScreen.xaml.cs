@@ -435,27 +435,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             leadTemplateRowIndex = 40;
                         }
-                        else if (campaign.Code == "PLDMM6U")
-                        {
-                            uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
-                            TemplateLines = 15;//13;
-                            leadsPerPage = 3;
-                            leadColumnWidth = 54;
-                            coverColumns = 58;
-                            coverRows = 34; //51;
-
-                            if (uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx")
-                            {
-                                coverRows = 39;
-                            }
-
-                            upgradeCoverSheetColumnIndex = 26;
-                            upgradeCoverSheetRowIndex = 2;
-                            verticalSpacingBetweenLeads = 1;
-
-                            leadTemplateRowIndex = 40;
-                        }
-                        else if (campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM8U")
+                        else if (campaign.Code == "PLDMM6U" || campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM8U")
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgrade5.xlsx", UriKind.Relative);
                             TemplateLines = 15;//13;
@@ -598,7 +578,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (IsUpgradeCampaign)
                     {
-                        if (campaign.Code == "PLDMM5U" || campaign.Code == "PLDMM8U")
+                        if (campaign.Code == "PLDMM5U" || campaign.Code == "PLDMM8U" || campaign.Code == "PLDMM7U" || campaign.Code == "PLDMM6U")
                         {
                             ds = Methods.ExecuteStoredProcedure("spINGetLeadsForUserAndBatchPLDMM5U", parameters);
                         }
