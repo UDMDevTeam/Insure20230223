@@ -23,12 +23,12 @@ using Unity;
 namespace UDM.Insurance.Interface.Screens
 {
     public partial class MenuToolsScreen
-	{
+    {
 
         #region Constructor
 
         public MenuToolsScreen(ScreenDirection direction)
-		{
+        {
             try
             {
                 DataContext = this;
@@ -48,25 +48,25 @@ namespace UDM.Insurance.Interface.Screens
                 //    menuSB.Resume();
                 //}
 
-                #if TESTBUILD
+#if TESTBUILD
                     TestControl.Visibility = Visibility.Visible;
-                #elif DEBUG
+#elif DEBUG
                     DebugControl.Visibility = Visibility.Visible;
-                #elif TRAININGBUILD
+#elif TRAININGBUILD
                     TrainingControl.Visibility = Visibility.Visible;
-                #endif
+#endif
             }
 
             catch (Exception ex)
             {
                 HandleException(ex);
             }
-		}
+        }
 
         #endregion
 
         #region Event Handlers
-        
+
         private void btnSales_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -157,40 +157,40 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-	    public DelegateCommand EditClosureCommand { get; private set; }
-	    private bool EditClosureCommandCanExecute()
-	    {
-	        List<long> _lstUserIDsWithAccess;
+        public DelegateCommand EditClosureCommand { get; private set; }
+        private bool EditClosureCommandCanExecute()
+        {
+            List<long> _lstUserIDsWithAccess;
 
-	        string strResult = Methods.GetTableData("SELECT Setting FROM INConfiguration WHERE ID = 12", IsolationLevel.Snapshot).Rows[0][0].ToString();
-	        _lstUserIDsWithAccess = strResult.Split(',').Select(long.Parse).ToList();
+            string strResult = Methods.GetTableData("SELECT Setting FROM INConfiguration WHERE ID = 12", IsolationLevel.Snapshot).Rows[0][0].ToString();
+            _lstUserIDsWithAccess = strResult.Split(',').Select(long.Parse).ToList();
 
             return _lstUserIDsWithAccess != null && _lstUserIDsWithAccess.Contains(GlobalSettings.ApplicationUser.ID) ? true : false;
         }
-	    private void EditClosureCommandExecute()
-	    {
-	        try
-	        {
+        private void EditClosureCommandExecute()
+        {
+            try
+            {
                 UnityContainerExtension container = (UnityContainerExtension)Application.Current.Resources["IoC"];
                 IRegionManager regionManager = RegionManager.GetRegionManager(Application.Current.MainWindow);
 
-	            EditClosureScreen editClosureScreen = container.Resolve<EditClosureScreen>();
-	            editClosureScreen.Tag = "Active";
-                
+                EditClosureScreen editClosureScreen = container.Resolve<EditClosureScreen>();
+                editClosureScreen.Tag = "Active";
+
                 IRegionManager scopedRegionManager = regionManager.CreateRegionManager();
-	            RegionManager.SetRegionManager(editClosureScreen, scopedRegionManager);
+                RegionManager.SetRegionManager(editClosureScreen, scopedRegionManager);
 
                 ShowDialog(editClosureScreen, new INDialogWindow(editClosureScreen));
                 editClosureScreen.Tag = null;
             }
 
             catch (Exception ex)
-	        {
-	            HandleException(ex);
-	        }
-	    }
+            {
+                HandleException(ex);
+            }
+        }
 
-        
+
 
         private void btnMoveLeads_Click(object sender, RoutedEventArgs e)
         {
@@ -217,7 +217,7 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
-        
+
 
         private void btnCampaignTargets_Click(object sender, RoutedEventArgs e)
         {
@@ -335,6 +335,32 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnDebiCheckConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            if (GlobalSettings.ApplicationUser.ID == 105 || GlobalSettings.ApplicationUser.ID == 1)
+            {
+                try
+                {
+                    DebiCheckConfigurationPage mySuccessEditScreen = new DebiCheckConfigurationPage();
+                    ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+                }
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+            }
+            else
+            {
+                Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), @"You do not have permission to access this function!", "Access Denied", ShowMessageType.Error);
+                });
+            }
+
+        }
+        #endregion
+
     }
+
 }
-#endregion

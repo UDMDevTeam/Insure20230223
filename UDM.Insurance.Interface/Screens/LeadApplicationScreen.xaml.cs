@@ -574,8 +574,7 @@ namespace UDM.Insurance.Interface.Screens
                 Mandate1TB.Text = " ";
                 Mandate2TB.Text = " ";
 
-                #region DebiCheck Button Enabled
-                #endregion
+
 
                 SetCursor(Cursors.Wait);
                 CheckIfTemp();
@@ -1859,153 +1858,177 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region DebiCheck Workings
 
+
                 try
                 {
-                    StringBuilder strQuery = new StringBuilder();
-                    strQuery.Append("SELECT TOP 1 SMSBody [Response] ");
-                    strQuery.Append("FROM DebiCheckSent ");
-                    strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                    strQuery.Append(" ORDER BY ID DESC");
-                    DataTable dt = Methods.GetTableData(strQuery.ToString());
+                    #region DebiCheck On / Off
+                    int DebiCheckConfigBool;
 
-                    string responses = dt.Rows[0]["Response"].ToString();
-                    //string responses = "2";
+                    StringBuilder strQueryDebiCheckConfig = new StringBuilder();
+                    strQueryDebiCheckConfig.Append("SELECT TOP 1 DebiCheckPower [Response] ");
+                    strQueryDebiCheckConfig.Append("FROM DebiCheckConfiguration ");
+                    DataTable dtDebiCheckConfig = Methods.GetTableData(strQueryDebiCheckConfig.ToString());
 
-                    if (responses.Contains("1"))
+                    DebiCheckConfigBool = int.Parse(dtDebiCheckConfig.Rows[0]["Response"].ToString());
+                    #endregion
+                    if (DebiCheckConfigBool == 1)
                     {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "Record Created";
+                        try
+                        {
 
-                        btnDebiCheck.IsEnabled = false;
 
-                    }
-                    else if (responses.Contains("2"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "Record Submitted";
+                            StringBuilder strQuery = new StringBuilder();
+                            strQuery.Append("SELECT TOP 1 SMSBody [Response] ");
+                            strQuery.Append("FROM DebiCheckSent ");
+                            strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                            strQuery.Append(" ORDER BY ID DESC");
+                            DataTable dt = Methods.GetTableData(strQuery.ToString());
 
-                        btnDebiCheck.IsEnabled = false;
+                            string responses = dt.Rows[0]["Response"].ToString();
+                            //string responses = "2";
 
-                    }
-                    else if (responses.Contains("3"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "Results Received but no Further Details";
+                            if (responses.Contains("1"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "Record Created";
 
-                        btnDebiCheck.IsEnabled = false;
+                                btnDebiCheck.IsEnabled = false;
 
-                    }
-                    else if (responses.Contains("4"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Red;
-                        btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
-                        btnDebiCheck.IsEnabled = true;
+                            }
+                            else if (responses.Contains("2"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "Record Submitted";
 
-                    }
-                    else if (responses.Contains("5"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Red;
-                        btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
-                        btnDebiCheck.IsEnabled = true;
+                                btnDebiCheck.IsEnabled = false;
 
-                    }
-                    else if (responses.Contains("6"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "Mandate Approved";
+                            }
+                            else if (responses.Contains("3"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "Results Received but no Further Details";
 
-                        btnDebiCheck.IsEnabled = false;
+                                btnDebiCheck.IsEnabled = false;
 
-                    }
-                    else if (responses.Contains("7"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Red;
-                        btnDebiCheck.ToolTip = "Client Rejected";
+                            }
+                            else if (responses.Contains("4"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Red;
+                                btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
+                                btnDebiCheck.IsEnabled = true;
 
-                        btnDebiCheck.IsEnabled = false;
-                    }
-                    else if (responses.Contains("8"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
+                            }
+                            else if (responses.Contains("5"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Red;
+                                btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
+                                btnDebiCheck.IsEnabled = true;
 
-                        btnDebiCheck.IsEnabled = false;
-                    }
-                    else if (responses.Contains("9"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Yellow;
-                        btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
-                        btnDebiCheck.IsEnabled = true;
+                            }
+                            else if (responses.Contains("6"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "Mandate Approved";
 
-                    }
-                    else if (responses.Contains("10"))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
+                                btnDebiCheck.IsEnabled = false;
 
-                        btnDebiCheck.IsEnabled = false;
-                    }
-                    else if (responses.Contains(""))
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.Green;
-                        btnDebiCheck.ToolTip = "Sent";
+                            }
+                            else if (responses.Contains("7"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Red;
+                                btnDebiCheck.ToolTip = "Client Rejected";
 
-                        btnDebiCheck.IsEnabled = false;
-                    }
-                    else
-                    {
-                        DebiCheckBorder.BorderBrush = Brushes.White;
-                        btnDebiCheck.IsEnabled = true;
+                                btnDebiCheck.IsEnabled = false;
+                            }
+                            else if (responses.Contains("8"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
+
+                                btnDebiCheck.IsEnabled = false;
+                            }
+                            else if (responses.Contains("9"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Yellow;
+                                btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
+                                btnDebiCheck.IsEnabled = true;
+
+                            }
+                            else if (responses.Contains("10"))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
+
+                                btnDebiCheck.IsEnabled = false;
+                            }
+                            else if (responses.Contains(""))
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.Green;
+                                btnDebiCheck.ToolTip = "Sent";
+
+                                btnDebiCheck.IsEnabled = false;
+                            }
+                            else
+                            {
+                                DebiCheckBorder.BorderBrush = Brushes.White;
+                                btnDebiCheck.IsEnabled = true;
+                            }
+                        }
+                        catch
+                        {
+                            DebiCheckBorder.BorderBrush = Brushes.White;
+                            btnDebiCheck.IsEnabled = true;
+                        }
+
+                        if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
+                        {
+                            btnDebiCheck.SetValue(Grid.RowProperty, 16);
+                            DebiCheckBorder.SetValue(Grid.RowProperty, 16);
+
+                            if (LaData.AppData.CampaignID == 7
+                                    || LaData.AppData.CampaignID == 9
+                                    || LaData.AppData.CampaignID == 10
+                                    || LaData.AppData.CampaignID == 294
+                                    || LaData.AppData.CampaignID == 295
+                                    || LaData.AppData.CampaignID == 24
+                                    || LaData.AppData.CampaignID == 25
+                                    || LaData.AppData.CampaignID == 11
+                                    || LaData.AppData.CampaignID == 12
+                                    || LaData.AppData.CampaignID == 13
+                                    || LaData.AppData.CampaignID == 14
+                                    || LaData.AppData.CampaignID == 85
+                                    || LaData.AppData.CampaignID == 86
+                                    || LaData.AppData.CampaignID == 87
+                                    || LaData.AppData.CampaignID == 281
+                                    || LaData.AppData.CampaignID == 324
+                                    || LaData.AppData.CampaignID == 325
+                                    || LaData.AppData.CampaignID == 326
+                                    || LaData.AppData.CampaignID == 327
+                                    || LaData.AppData.CampaignID == 264
+                                    || LaData.AppData.CampaignID == 4)
+                            {
+                                GetBankingDetailLookup();
+                            }
+                        }
+                        else
+                        {
+                            btnDebiCheck.SetValue(Grid.RowProperty, 17);
+                            DebiCheckBorder.SetValue(Grid.RowProperty, 17);
+                            GetBankingDetailLookup();
+
+                        }
                     }
                 }
                 catch
                 {
-                    DebiCheckBorder.BorderBrush = Brushes.White;
-                    btnDebiCheck.IsEnabled = true;
-                }
-
-                if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
-                {
-                    btnDebiCheck.SetValue(Grid.RowProperty, 16);
-                    DebiCheckBorder.SetValue(Grid.RowProperty, 16);
-
-                    if (LaData.AppData.CampaignID == 7
-                            || LaData.AppData.CampaignID == 9
-                            || LaData.AppData.CampaignID == 10
-                            || LaData.AppData.CampaignID == 294
-                            || LaData.AppData.CampaignID == 295
-                            || LaData.AppData.CampaignID == 24
-                            || LaData.AppData.CampaignID == 25
-                            || LaData.AppData.CampaignID == 11
-                            || LaData.AppData.CampaignID == 12
-                            || LaData.AppData.CampaignID == 13
-                            || LaData.AppData.CampaignID == 14
-                            || LaData.AppData.CampaignID == 85
-                            || LaData.AppData.CampaignID == 86
-                            || LaData.AppData.CampaignID == 87
-                            || LaData.AppData.CampaignID == 281
-                            || LaData.AppData.CampaignID == 324
-                            || LaData.AppData.CampaignID == 325
-                            || LaData.AppData.CampaignID == 326
-                            || LaData.AppData.CampaignID == 327
-                            || LaData.AppData.CampaignID == 264
-                            || LaData.AppData.CampaignID == 4)
-                    {
-                        GetBankingDetailLookup();
-                    }
-                }
-                else
-                {
-                    btnDebiCheck.SetValue(Grid.RowProperty, 17);
-                    DebiCheckBorder.SetValue(Grid.RowProperty, 17);
-                    GetBankingDetailLookup();
 
                 }
+
 
                 #endregion
 
                 #region Cancer R99 & Base Annual Premium Adjustments
-                if(LaData.AppData.CampaignID == 342)
+                if (LaData.AppData.CampaignID == 342)
                 {
                     //lblTotalPremiumUpgAnnual.Visibility = Visibility.Visible;
                     //xamCETotalPremiumUpgAnnual.Visibility = Visibility.Visible;
@@ -2024,7 +2047,7 @@ namespace UDM.Insurance.Interface.Screens
                     xamCETotalPremiumUpgAnnual.Visibility = Visibility.Collapsed;
                 }
 
-                if(LaData.AppData.IsLeadUpgrade)
+                if (LaData.AppData.IsLeadUpgrade)
                 {
 
                 }
@@ -2913,7 +2936,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         bool failed = false;
 
-                        try { policy.CommenceDate = LaData.PolicyData.CommenceDate; } catch(Exception e) { failed = true; }
+                        try { policy.CommenceDate = LaData.PolicyData.CommenceDate; } catch (Exception e) { failed = true; }
                         policy.FKINBankDetailsID = LaData.BankDetailsData.BankDetailsID;
                         policy.FKINOptionID = LaData.PolicyData.OptionID;
                         policy.FKINOptionFeesID = LaData.PolicyData.OptionFeesID;
@@ -7772,179 +7795,202 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+
+            #region DebiCheck Workings
+
             try
             {
-                #region DebiCheck Workings
-                if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || GlobalSettings.ApplicationUser.ID == 199)
-                {
+                #region DebiCheck On / Off
+                int DebiCheckConfigBool;
 
-                }
-                else
+                StringBuilder strQueryDebiCheckConfig = new StringBuilder();
+                strQueryDebiCheckConfig.Append("SELECT TOP 1 DebiCheckPower [Response] ");
+                strQueryDebiCheckConfig.Append("FROM DebiCheckConfiguration ");
+                DataTable dtDebiCheckConfig = Methods.GetTableData(strQueryDebiCheckConfig.ToString());
+
+                DebiCheckConfigBool = int.Parse(dtDebiCheckConfig.Rows[0]["Response"].ToString());
+                #endregion
+                if (DebiCheckConfigBool == 1)
                 {
-                    if (cmbStatus.Text == "Sale")
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || GlobalSettings.ApplicationUser.ID == 199)
                     {
-                        if (LaData.AppData.CampaignID == 7
-                            || LaData.AppData.CampaignID == 9
-                            || LaData.AppData.CampaignID == 10
-                            || LaData.AppData.CampaignID == 294
-                            || LaData.AppData.CampaignID == 295
-                            || LaData.AppData.CampaignID == 24
-                            || LaData.AppData.CampaignID == 25
-                            || LaData.AppData.CampaignID == 11
-                            || LaData.AppData.CampaignID == 12
-                            || LaData.AppData.CampaignID == 13
-                            || LaData.AppData.CampaignID == 14
-                            || LaData.AppData.CampaignID == 85
-                            || LaData.AppData.CampaignID == 86
-                            || LaData.AppData.CampaignID == 87
-                            || LaData.AppData.CampaignID == 281
-                            || LaData.AppData.CampaignID == 324
-                            || LaData.AppData.CampaignID == 325
-                            || LaData.AppData.CampaignID == 326
-                            || LaData.AppData.CampaignID == 327
-                            || LaData.AppData.CampaignID == 264
-                            || LaData.AppData.CampaignID == 4)
+
+                    }
+                    else
+                    {
+                        if (cmbStatus.Text == "Sale")
                         {
-                            DateTime ImportDate;
-
-                            try
+                            if (LaData.AppData.CampaignID == 7
+                                || LaData.AppData.CampaignID == 9
+                                || LaData.AppData.CampaignID == 10
+                                || LaData.AppData.CampaignID == 294
+                                || LaData.AppData.CampaignID == 295
+                                || LaData.AppData.CampaignID == 24
+                                || LaData.AppData.CampaignID == 25
+                                || LaData.AppData.CampaignID == 11
+                                || LaData.AppData.CampaignID == 12
+                                || LaData.AppData.CampaignID == 13
+                                || LaData.AppData.CampaignID == 14
+                                || LaData.AppData.CampaignID == 85
+                                || LaData.AppData.CampaignID == 86
+                                || LaData.AppData.CampaignID == 87
+                                || LaData.AppData.CampaignID == 281
+                                || LaData.AppData.CampaignID == 324
+                                || LaData.AppData.CampaignID == 325
+                                || LaData.AppData.CampaignID == 326
+                                || LaData.AppData.CampaignID == 327
+                                || LaData.AppData.CampaignID == 264
+                                || LaData.AppData.CampaignID == 4)
                             {
-                                StringBuilder strQueryImportDate = new StringBuilder();
-                                strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
-                                strQueryImportDate.Append("FROM INImport ");
-                                strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                strQueryImportDate.Append(" ORDER BY ID DESC");
-                                DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
+                                DateTime ImportDate;
 
-                                ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
-
-                            }
-                            catch
-                            {
-                                ImportDate = DateTime.Now;
-                            }
-
-
-
-
-                            if (ImportDate > DateTime.Now.AddMonths(-3))
-                            {
                                 try
                                 {
-                                    StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
-                                    strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
-                                    strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
-                                    strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                                    strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
-                                    DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
-                                    string responses = dt.Rows[0]["Response"].ToString();
+                                    StringBuilder strQueryImportDate = new StringBuilder();
+                                    strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
+                                    strQueryImportDate.Append("FROM INImport ");
+                                    strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                    strQueryImportDate.Append(" ORDER BY ID DESC");
+                                    DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
 
+                                    ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
 
                                 }
                                 catch
                                 {
-                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                    messageBox.buttonOK.Content = "Yes";
-                                    var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                    bool result = showMessageBox != null && (bool)showMessageBox;
-                                    return;
+                                    ImportDate = DateTime.Now;
                                 }
-                            }
-                            else
-                            {
 
-                            }
-                        }
-                        else
-                        {
-                            if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
-                            {
-                                try
+
+
+
+                                if (ImportDate > DateTime.Now.AddMonths(-3))
                                 {
-                                    StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
-                                    strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
-                                    strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
-                                    strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                                    strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
-                                    DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
-                                    string responses = dt.Rows[0]["Response"].ToString();
-                                }
-                                catch
-                                {
-                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                    messageBox.buttonOK.Content = "Yes";
-                                    var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                    bool result = showMessageBox != null && (bool)showMessageBox;
-                                    return;
-                                }
-                            }
-                            else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
-                            {
-                                try
-                                {
-                                    StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
-                                    strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
-                                    strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
-                                    strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
-                                    strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
-                                    DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
-                                    string responses = dt.Rows[0]["Response"].ToString();
-                                }
-                                catch
-                                {
-                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                    messageBox.buttonOK.Content = "Yes";
-                                    var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                    bool result = showMessageBox != null && (bool)showMessageBox;
-                                    return;
-                                }
-                            }
-                        }
-                        #endregion
-
-
-
-
-                        if (chkLeadPermission.Visibility == Visibility.Visible)
-                        {
-                            if (chkLeadPermission.IsChecked == false)
-                            {
-                                string strQuery;
-                                strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
-
-                                DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
-                                if (dtPolicyPlanGroup.Rows.Count == 0)
-                                {
-                                    INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                    messageBox.buttonOK.Content = "Yes";
-                                    messageBox.buttonCancel.Content = "No";
-
-                                    var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
-                                    bool result = showMessageBox != null && (bool)showMessageBox;
-
-                                    if (result == true)
+                                    try
                                     {
-                                        PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
-                                        ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+                                        StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                        strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                        strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                        string responses = dt.Rows[0]["Response"].ToString();
 
+
+                                    }
+                                    catch
+                                    {
+                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                        messageBox.buttonOK.Content = "Yes";
+                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                        bool result = showMessageBox != null && (bool)showMessageBox;
                                         return;
                                     }
                                 }
                                 else
                                 {
+
                                 }
                             }
+                            else
+                            {
+                                if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
+                                {
+                                    try
+                                    {
+                                        StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                        strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                        strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                        string responses = dt.Rows[0]["Response"].ToString();
+                                    }
+                                    catch
+                                    {
+                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                        messageBox.buttonOK.Content = "Yes";
+                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                        bool result = showMessageBox != null && (bool)showMessageBox;
+                                        return;
+                                    }
+                                }
+                                else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
+                                {
+                                    try
+                                    {
+                                        StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                        strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                        strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                        string responses = dt.Rows[0]["Response"].ToString();
+                                    }
+                                    catch
+                                    {
+                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                        messageBox.buttonOK.Content = "Yes";
+                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                        bool result = showMessageBox != null && (bool)showMessageBox;
+                                        return;
+                                    }
+                                }
+                            }
+
                         }
 
                     }
-
                 }
+
+
             }
             catch
             {
 
             }
 
+            #endregion
+
+
+            #region INPermission Pop up message
+            try
+            {
+                if (chkLeadPermission.Visibility == Visibility.Visible)
+                {
+                    if (chkLeadPermission.IsChecked == false)
+                    {
+                        string strQuery;
+                        strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                        DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+                        if (dtPolicyPlanGroup.Rows.Count == 0)
+                        {
+                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                            messageBox.buttonOK.Content = "Yes";
+                            messageBox.buttonCancel.Content = "No";
+
+                            var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
+                            bool result = showMessageBox != null && (bool)showMessageBox;
+
+                            if (result == true)
+                            {
+                                PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
+                                ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+                                return;
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
 
 
             if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.ConfirmationAgent && (lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted && LaData.AppData.IsConfirmed == false)
@@ -14196,7 +14242,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
                         if (IDNumberDebiCheck == "2")
                         {
-                            try { data["IdentificationNumber"] = IDNumberPLLKP;} catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = IDNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
@@ -14613,7 +14659,7 @@ namespace UDM.Insurance.Interface.Screens
                     data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
                     data["ReferenceNumber"] = LaData.AppData.RefNo;
                     data["PassportNumber"] = LaData.LeadData.PassportNumber;
-                    data["FirstName"] = LaData.LeadData.Name; 
+                    data["FirstName"] = LaData.LeadData.Name;
                     data["LastName"] = LaData.LeadData.Surname;
                     data["MobileNumber"] = LaData.LeadData.TelCell;
                     data["HomeNumber"] = LaData.LeadData.TelHome;
@@ -14845,86 +14891,254 @@ namespace UDM.Insurance.Interface.Screens
 
             try
             {
-                if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
+                #region DebiCheck On / Off
+                int DebiCheckConfigBool;
+
+                StringBuilder strQueryDebiCheckConfig = new StringBuilder();
+                strQueryDebiCheckConfig.Append("SELECT TOP 1 DebiCheckPower [Response] ");
+                strQueryDebiCheckConfig.Append("FROM DebiCheckConfiguration ");
+                DataTable dtDebiCheckConfig = Methods.GetTableData(strQueryDebiCheckConfig.ToString());
+
+                DebiCheckConfigBool = int.Parse(dtDebiCheckConfig.Rows[0]["Response"].ToString());
+                #endregion
+                if (DebiCheckConfigBool == 1)
                 {
-
-                    //these banks dont accept DebiCheck Mandates Yet
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
+                    try
                     {
-                        btnDebiCheck.Visibility = Visibility.Collapsed;
-                        DebiCheckBorder.Visibility = Visibility.Collapsed;
-                        Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                        Mandate1TB.Visibility = Visibility.Collapsed;
-                        Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                        Mandate2TB.Visibility = Visibility.Collapsed;
-                        GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                        GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                        GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                        GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        if (ClosurePage.Visibility == Visibility.Visible)
+                        if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
                         {
-                            btnDebiCheck.Visibility = Visibility.Visible;
-                            DebiCheckBorder.Visibility = Visibility.Visible;
-                            Mandate1Lbl1.Visibility = Visibility.Visible;
-                            Mandate1TB.Visibility = Visibility.Visible;
-                            Mandate2Lbl1.Visibility = Visibility.Visible;
-                            Mandate2TB.Visibility = Visibility.Visible;
-                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
 
-                            IsDebiCheckValid();
-
-                            //this is for the resales campaign rule
-                            if (LaData.AppData.CampaignID == 7
-                                || LaData.AppData.CampaignID == 9
-                                || LaData.AppData.CampaignID == 10
-                                || LaData.AppData.CampaignID == 294
-                                || LaData.AppData.CampaignID == 295
-                                || LaData.AppData.CampaignID == 24
-                                || LaData.AppData.CampaignID == 25
-                                || LaData.AppData.CampaignID == 11
-                                || LaData.AppData.CampaignID == 12
-                                || LaData.AppData.CampaignID == 13
-                                || LaData.AppData.CampaignID == 14
-                                || LaData.AppData.CampaignID == 85
-                                || LaData.AppData.CampaignID == 86
-                                || LaData.AppData.CampaignID == 87
-                                || LaData.AppData.CampaignID == 281
-                                || LaData.AppData.CampaignID == 324
-                                || LaData.AppData.CampaignID == 325
-                                || LaData.AppData.CampaignID == 326
-                                || LaData.AppData.CampaignID == 327
-                                || LaData.AppData.CampaignID == 264
-                                || LaData.AppData.CampaignID == 4)
+                            //these banks dont accept DebiCheck Mandates Yet
+                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
                             {
-                                DateTime ImportDate;
-                                try
+                                btnDebiCheck.Visibility = Visibility.Collapsed;
+                                DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                Mandate1TB.Visibility = Visibility.Collapsed;
+                                Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                Mandate2TB.Visibility = Visibility.Collapsed;
+                                GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                            }
+                            else
+                            {
+                                if (ClosurePage.Visibility == Visibility.Visible)
                                 {
-                                    StringBuilder strQueryImportDate = new StringBuilder();
-                                    strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
-                                    strQueryImportDate.Append("FROM INImport ");
-                                    strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                    strQueryImportDate.Append(" ORDER BY ID DESC");
-                                    DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
-                                    ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
-                                }
-                                catch
-                                {
-                                    ImportDate = DateTime.Now;
-                                }
-                                if (ImportDate > DateTime.Now.AddMonths(-3))
-                                {
-                                    IsDebiCheckValidForResales();
+                                    btnDebiCheck.Visibility = Visibility.Visible;
+                                    DebiCheckBorder.Visibility = Visibility.Visible;
+                                    Mandate1Lbl1.Visibility = Visibility.Visible;
+                                    Mandate1TB.Visibility = Visibility.Visible;
+                                    Mandate2Lbl1.Visibility = Visibility.Visible;
+                                    Mandate2TB.Visibility = Visibility.Visible;
+                                    GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
 
+                                    IsDebiCheckValid();
+
+                                    //this is for the resales campaign rule
+                                    if (LaData.AppData.CampaignID == 7
+                                        || LaData.AppData.CampaignID == 9
+                                        || LaData.AppData.CampaignID == 10
+                                        || LaData.AppData.CampaignID == 294
+                                        || LaData.AppData.CampaignID == 295
+                                        || LaData.AppData.CampaignID == 24
+                                        || LaData.AppData.CampaignID == 25
+                                        || LaData.AppData.CampaignID == 11
+                                        || LaData.AppData.CampaignID == 12
+                                        || LaData.AppData.CampaignID == 13
+                                        || LaData.AppData.CampaignID == 14
+                                        || LaData.AppData.CampaignID == 85
+                                        || LaData.AppData.CampaignID == 86
+                                        || LaData.AppData.CampaignID == 87
+                                        || LaData.AppData.CampaignID == 281
+                                        || LaData.AppData.CampaignID == 324
+                                        || LaData.AppData.CampaignID == 325
+                                        || LaData.AppData.CampaignID == 326
+                                        || LaData.AppData.CampaignID == 327
+                                        || LaData.AppData.CampaignID == 264
+                                        || LaData.AppData.CampaignID == 4)
+                                    {
+                                        DateTime ImportDate;
+                                        try
+                                        {
+                                            StringBuilder strQueryImportDate = new StringBuilder();
+                                            strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
+                                            strQueryImportDate.Append("FROM INImport ");
+                                            strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                            strQueryImportDate.Append(" ORDER BY ID DESC");
+                                            DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
+                                            ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
+                                        }
+                                        catch
+                                        {
+                                            ImportDate = DateTime.Now;
+                                        }
+                                        if (ImportDate > DateTime.Now.AddMonths(-3))
+                                        {
+                                            IsDebiCheckValidForResales();
+
+                                            GotBankingDetailsPL.Visibility = Visibility.Visible;
+                                            GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
+                                            GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
+                                            GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+                                        }
+                                        else
+                                        {
+                                            btnDebiCheck.Visibility = Visibility.Collapsed;
+                                            DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                            Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                            Mandate1TB.Visibility = Visibility.Collapsed;
+                                            Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                            Mandate2TB.Visibility = Visibility.Collapsed;
+                                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                        }
+
+
+
+                                        //btnDebiCheck.Visibility = Visibility.Collapsed;
+                                        //DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                        //Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                        //Mandate1TB.Visibility = Visibility.Collapsed;
+                                        //Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                        //Mandate2TB.Visibility = Visibility.Collapsed;
+
+                                        //GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                        //GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                        //GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                        //GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                    }
+
+                                    //this enables the button depending on the Leadstatus the lead is saved as
+                                    try
+                                    {
+                                        StringBuilder strQuery = new StringBuilder();
+                                        strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
+                                        strQuery.Append("FROM INImport ");
+                                        strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                        strQuery.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                        string response = dt.Rows[0]["Response"].ToString();
+
+                                        if (response.Contains("19") || response.Contains("23"))
+                                        {
+                                            DebiCheckBorder.BorderBrush = Brushes.White;
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                        if (response.Contains("21"))
+                                        {
+                                            DebiCheckBorder.BorderBrush = Brushes.White;
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                    //this is for when there is a bump up
+                                    try
+                                    {
+                                        if (chkUDMBumpUp.IsChecked == true)
+                                        {
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    btnDebiCheck.Visibility = Visibility.Collapsed;
+                                    DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                    Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                    Mandate1TB.Visibility = Visibility.Collapsed;
+                                    Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                    Mandate2TB.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+
+                                }
+                            }
+
+
+                        }
+                        else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
+                        {
+                            //this enables the button depending on the Leadstatus the lead is saved as
+                            try
+                            {
+                                if (ClosurePage.Visibility == Visibility.Visible)
+                                {
+                                    btnDebiCheck.Visibility = Visibility.Visible;
+                                    DebiCheckBorder.Visibility = Visibility.Visible;
+                                    Mandate1Lbl1.Visibility = Visibility.Visible;
+                                    Mandate1TB.Visibility = Visibility.Visible;
+                                    Mandate2Lbl1.Visibility = Visibility.Visible;
+                                    Mandate2TB.Visibility = Visibility.Visible;
                                     GotBankingDetailsPL.Visibility = Visibility.Visible;
                                     GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
                                     GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
                                     GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+
+                                    //IsDebiCheckValid();
+
+                                    //this enables the button depending on the Leadstatus the lead is saved as
+                                    try
+                                    {
+                                        StringBuilder strQuery = new StringBuilder();
+                                        strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
+                                        strQuery.Append("FROM INImport ");
+                                        strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                        strQuery.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                        string response = dt.Rows[0]["Response"].ToString();
+
+                                        if (response.Contains("19"))
+                                        {
+                                            DebiCheckBorder.BorderBrush = Brushes.White;
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                        if (response.Contains("21"))
+                                        {
+                                            DebiCheckBorder.BorderBrush = Brushes.White;
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                        if (response.Contains("23"))
+                                        {
+                                            DebiCheckBorder.BorderBrush = Brushes.White;
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                    //this is for when there is a bump up
+                                    try
+                                    {
+                                        if (chkUDMBumpUp.IsChecked == true)
+                                        {
+                                            btnDebiCheck.IsEnabled = true;
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+
                                 }
                                 else
                                 {
@@ -14940,43 +15154,6 @@ namespace UDM.Insurance.Interface.Screens
                                     GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                                 }
 
-
-
-                                //btnDebiCheck.Visibility = Visibility.Collapsed;
-                                //DebiCheckBorder.Visibility = Visibility.Collapsed;
-                                //Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                                //Mandate1TB.Visibility = Visibility.Collapsed;
-                                //Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                                //Mandate2TB.Visibility = Visibility.Collapsed;
-
-                                //GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                                //GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                                //GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                                //GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
-                            }
-
-                            //this enables the button depending on the Leadstatus the lead is saved as
-                            try
-                            {
-                                StringBuilder strQuery = new StringBuilder();
-                                strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
-                                strQuery.Append("FROM INImport ");
-                                strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                strQuery.Append(" ORDER BY ID DESC");
-                                DataTable dt = Methods.GetTableData(strQuery.ToString());
-
-                                string response = dt.Rows[0]["Response"].ToString();
-
-                                if (response.Contains("19") || response.Contains("23"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.White;
-                                    btnDebiCheck.IsEnabled = true;
-                                }
-                                if (response.Contains("21"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.White;
-                                    btnDebiCheck.IsEnabled = true;
-                                }
                             }
                             catch
                             {
@@ -14994,8 +15171,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
 
                             }
-
                         }
+
                         else
                         {
                             btnDebiCheck.Visibility = Visibility.Collapsed;
@@ -15004,115 +15181,22 @@ namespace UDM.Insurance.Interface.Screens
                             Mandate1TB.Visibility = Visibility.Collapsed;
                             Mandate2Lbl1.Visibility = Visibility.Collapsed;
                             Mandate2TB.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
-
-                        }
-                    }
-
-
-                }
-                else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
-                {
-                    //this enables the button depending on the Leadstatus the lead is saved as
-                    try
-                    {
-                        if (ClosurePage.Visibility == Visibility.Visible)
-                        {
-                            btnDebiCheck.Visibility = Visibility.Visible;
-                            DebiCheckBorder.Visibility = Visibility.Visible;
-                            Mandate1Lbl1.Visibility = Visibility.Visible;
-                            Mandate1TB.Visibility = Visibility.Visible;
-                            Mandate2Lbl1.Visibility = Visibility.Visible;
-                            Mandate2TB.Visibility = Visibility.Visible;
-                            GotBankingDetailsPL.Visibility = Visibility.Visible;
-                            GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
-                            GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
-                            GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
-
-                            //IsDebiCheckValid();
-
-                            //this enables the button depending on the Leadstatus the lead is saved as
-                            try
-                            {
-                                StringBuilder strQuery = new StringBuilder();
-                                strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
-                                strQuery.Append("FROM INImport ");
-                                strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                strQuery.Append(" ORDER BY ID DESC");
-                                DataTable dt = Methods.GetTableData(strQuery.ToString());
-
-                                string response = dt.Rows[0]["Response"].ToString();
-
-                                if (response.Contains("19"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.White;
-                                    btnDebiCheck.IsEnabled = true;
-                                }
-                                if (response.Contains("21"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.White;
-                                    btnDebiCheck.IsEnabled = true;
-                                }
-                                if (response.Contains("23"))
-                                {
-                                    DebiCheckBorder.BorderBrush = Brushes.White;
-                                    btnDebiCheck.IsEnabled = true;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                            //this is for when there is a bump up
-                            try
-                            {
-                                if (chkUDMBumpUp.IsChecked == true)
-                                {
-                                    btnDebiCheck.IsEnabled = true;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-
-                        }
-                        else
-                        {
-                            btnDebiCheck.Visibility = Visibility.Collapsed;
-                            DebiCheckBorder.Visibility = Visibility.Collapsed;
-                            Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                            Mandate1TB.Visibility = Visibility.Collapsed;
-                            Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                            Mandate2TB.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
-                        }
-
-                    }
-                    catch
-                    {
-
-                    }
-                    //this is for when there is a bump up
-                    try
-                    {
-                        if (chkUDMBumpUp.IsChecked == true)
-                        {
-                            btnDebiCheck.IsEnabled = true;
                         }
                     }
                     catch
                     {
+                        DebiCheckBorder.BorderBrush = Brushes.White;
 
                     }
-                }
+                    //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
+                    if (GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 1)
+                    {
+                        btnDebiCheck.IsEnabled = true;
+                    }
 
+
+                    try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+                }
                 else
                 {
                     btnDebiCheck.Visibility = Visibility.Collapsed;
@@ -15121,21 +15205,19 @@ namespace UDM.Insurance.Interface.Screens
                     Mandate1TB.Visibility = Visibility.Collapsed;
                     Mandate2Lbl1.Visibility = Visibility.Collapsed;
                     Mandate2TB.Visibility = Visibility.Collapsed;
+                    GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                    GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                    GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                    GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                 }
             }
             catch
             {
-                DebiCheckBorder.BorderBrush = Brushes.White;
 
             }
-            //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
-            if (GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 1)
-            {
-                btnDebiCheck.IsEnabled = true;
-            }
 
 
-            try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+
 
         }
         private void btnAddContacts_Click(object sender, RoutedEventArgs e)
@@ -15265,7 +15347,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
-
+        #endregion
     }
 
     public class MyWebClient : WebClient

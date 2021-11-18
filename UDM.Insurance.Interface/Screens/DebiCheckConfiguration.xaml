@@ -1,0 +1,227 @@
+﻿<src:BaseControl
+    x:Class="UDM.Insurance.Interface.Screens.DebiCheckConfigurationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
+    <UserControl.Background>
+        <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+        <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+        <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+    </UserControl.Background>
+
+    <Border x:Name="DimBorder" Width="1200" Height="750" BorderBrush="Transparent" BorderThickness="0" CornerRadius="12" Opacity="1">
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Background" Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger Property="Border.IsEnabled" Value="False">
+                        <Setter Property="Border.Background" Value="Gray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border x:Name="MainBorder" Width="1200" Height="750" Background="Transparent" BorderBrush="{DynamicResource BrandedBrushIN}" BorderThickness="2" CornerRadius="12">
+            <Border.Style>
+                <Style>
+                    <Setter Property="Border.Opacity" Value="1" />
+                    <Style.Triggers>
+                        <Trigger Property="Border.IsEnabled" Value="False">
+                            <Setter Property="Border.Opacity" Value="0.7" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Viewbox>
+                <Grid
+                    x:Name="LayoutRoot"
+                    Width="1200"
+                    Height="750">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Button
+                        x:Name="btnClose"
+                        Grid.Column="27"
+                        Click="btnClose_Click"
+                        IsTabStop="True"
+                        Style="{DynamicResource INCloseButton}" />
+
+
+                    <Border
+                            Grid.Row="5"
+                            Grid.RowSpan="7"
+                            Grid.ColumnSpan="18"
+                            BorderBrush="LightBlue"
+                            BorderThickness="3"
+                            Background="Gray"
+                            CornerRadius="5"
+                            Opacity="0.5" 
+                            Margin="0,1,0,0" 
+                            Grid.Column="5"/>
+
+
+                    <Label 
+                           Grid.Column="8"
+                           Grid.Row="6"
+                           Grid.ColumnSpan="3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontSize="15"
+                           Content="PL Server Connection"
+                           ></Label>
+                    <Button x:Name="PLServerConnectionBtn"
+                           Grid.Column="15"
+                           Grid.Row="6"
+                            Click="PLServerConnectionBtn_Click" RenderTransformOrigin="4.016,0.558"
+                            >
+                        <Image Source="../Resources/reloadbanking.png"></Image>
+                    </Button>
+                    <Label
+                           x:Name="PLServerConnectionLbl"
+                           Grid.Column="20"
+                           Grid.Row="6"
+                           HorizontalAlignment="Center"
+                           Background="Gray"
+                           VerticalAlignment="Center"
+                           Width="20"
+                           Height="20"
+                           FontSize="15" Margin="13,16,10,6"/>
+
+                    <Label 
+                           Grid.Column="8"
+                           Grid.Row="8"
+                           Grid.ColumnSpan="3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontSize="15"
+                           Content="API Connection"
+                           ></Label>
+                    <Button x:Name="APIConnectionBtn"
+                           Grid.Column="15"
+                           Grid.Row="8"
+                            Click="APIConnectionBtn_Click"
+                            >
+                        <Image Source="../Resources/reloadbanking.png"></Image>
+                    </Button>
+                    <Label
+                           x:Name="APIConnectionLbl"
+                           Grid.Column="20"
+                           Grid.Row="8"
+                           HorizontalAlignment="Center"
+                           Background="Gray"
+                           VerticalAlignment="Center"
+                           Width="20"
+                           Height="20"
+                           FontSize="15" Margin="10,10,13,12"/>
+
+                    <Label 
+                           Grid.Column="8"
+                           Grid.Row="10"
+                           Grid.ColumnSpan="3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontSize="15"
+                           Content="DebiCheck On/Off"
+                           ></Label>
+
+                    <CheckBox x:Name="DebiCheckToggleBtn"
+                                  Grid.Column="15"
+                                  Grid.Row="10"
+                                  Checked="DebiCheckToggleBtn_Checked"
+                              Unchecked="DebiCheckToggleBtn_Unchecked"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                                  >
+
+                    </CheckBox>
+
+
+                    <TextBlock
+                        x:Name="hdrDiaryReport"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="7"
+                        Margin="0"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource INPageHeadingText1}"
+                        Text="DebiCheck Configuration" />
+
+                    <Path
+                        x:Name="hdrLine"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="6"
+                        Width="249.334"
+                        Margin="0,0,0,14"
+                        HorizontalAlignment="Left"
+                        Style="{DynamicResource INUnderlineText1}" Stretch="Fill" />
+
+
+
+
+
+
+
+
+
+
+
+                </Grid>
+            </Viewbox>
+        </Border>
+    </Border>
+
+</src:BaseControl>
