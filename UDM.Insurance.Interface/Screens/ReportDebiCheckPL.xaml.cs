@@ -492,14 +492,24 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             try
                             {
-                                TimeSpan ts = new TimeSpan(00, 00, 0);
-                                DateTime _endDate2 = DateTime.Now;
-                                _endDate2 = _endDate.Date + ts;
 
-                                TimeSpan ts1 = new TimeSpan(23, 00, 0);
-                                DateTime _startDat2 = DateTime.Now;
-                                _startDat2 = _startDate.Date + ts1;
-                                dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_startDat2, _endDate2);
+                                var transactionOptions = new TransactionOptions
+                                {
+                                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                                };
+
+                                using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                                {
+                                    TimeSpan ts = new TimeSpan(00, 00, 0);
+                                    DateTime _endDate2 = DateTime.Now;
+                                    _endDate2 = _endDate.Date + ts;
+
+                                    TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                                    DateTime _startDat2 = DateTime.Now;
+                                    _startDat2 = _startDate.Date + ts1;
+                                    dsDiaryReportData = Business.Insure.INGetDebiCheckPL( _endDate2, _startDat2);
+                                }
+
 
                             }
                             catch(Exception a)
