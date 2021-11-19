@@ -113,6 +113,7 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.Upgrade11,
             lkpINCampaignGroup.Upgrade12,
             lkpINCampaignGroup.Upgrade13,
+            lkpINCampaignGroup.Upgrade14,
             lkpINCampaignGroup.DoubleUpgrade1,
             lkpINCampaignGroup.DoubleUpgrade2,
             lkpINCampaignGroup.DoubleUpgrade3,
