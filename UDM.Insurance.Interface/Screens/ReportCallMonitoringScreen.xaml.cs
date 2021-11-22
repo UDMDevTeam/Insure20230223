@@ -163,14 +163,14 @@ namespace UDM.Insurance.Interface.Screens
 
         private void Report(object sender, DoWorkEventArgs e)
         {
-            try
+            try 
             {
                 SetCursor(Cursors.Wait);
 
                 #region Setup excel documents
 
-                string filePathAndName = String.Format("{0}Call Monitoring Query Report, {1} - {2} ~ {3}.xlsx",
-                    GlobalSettings.UserFolder,
+                string filePathAndName = String.Format("Call Monitoring Query Report, {0} - {1} ~ {2}.xlsx",
+                    //GlobalSettings.UserFolder,
                     _fromDate.ToString("yyyy-MM-dd HHmmdd"),
                     _toDate.ToString("yyyy-MM-dd HHmmdd"),
                     DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
