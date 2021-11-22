@@ -1964,7 +1964,10 @@ namespace UDM.Insurance.Interface.Screens
                 
                 string dateRange = (_fromDate.ToString("d") + " to " + _toDate.ToString("d")).Replace("/",  "-");
 
-                string filePathAndName = GlobalSettings.UserFolder + "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
+                //string filePathAndName = GlobalSettings.UserFolder + "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
+
+
+                string filePathAndName = "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
 
                 Uri uri = new Uri("/Templates/ReportTemplateSales.xlsx", UriKind.Relative);
 
@@ -2125,7 +2128,10 @@ namespace UDM.Insurance.Interface.Screens
 
                 string dateRange = (_fromDate.ToString("d") + " to " + _toDate.ToString("d")).Replace("/", "-");
 
-                string filePathAndName = GlobalSettings.UserFolder + "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
+                //string filePathAndName = GlobalSettings.UserFolder + "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
+
+
+                string filePathAndName = "Sales Report (" + dateRange + ") ~ " + DateTime.Now.Millisecond + ".xlsx";
 
                 Uri uri = new Uri("/Templates/ReportTemplateSales.xlsx", UriKind.Relative);
 
