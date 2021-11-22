@@ -9263,6 +9263,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         LaData.PolicyData.CommenceDate = new DateTime(2021, 02, 01);
                     }
+                    else if (date.Year == 2021 && date.Month == 11 && (date.Day >= 24 && date.Day <= 30))
+                    {
+                        LaData.PolicyData.CommenceDate = new DateTime(2021, 02, 01);
+                    }
                     else
                     {
                         LaData.PolicyData.CommenceDate = new DateTime(date.AddMonths(2).Year, date.AddMonths(2).Month, 1);
