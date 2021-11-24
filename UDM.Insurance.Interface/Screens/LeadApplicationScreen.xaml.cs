@@ -1123,7 +1123,14 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
                             ))
                         {
-                            LaData.PolicyData.PlatinumPlan = "1";
+                            if(LaData.AppData.CampaignID == 333 || LaData.AppData.CampaignID == 349)
+                            {
+                                LaData.PolicyData.PlatinumPlan = dtPolicy.Rows[0]["CancerOption"] as string;
+                            }
+                            else
+                            {
+                                LaData.PolicyData.PlatinumPlan = "1";
+                            }
                         }
                     }
                     else if (LaData.AppData.CampaignType == lkpINCampaignType.AccDis)
@@ -9265,7 +9272,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else if (date.Year == 2021 && date.Month == 11 && (date.Day >= 24 && date.Day <= 30))
                     {
-                        LaData.PolicyData.CommenceDate = new DateTime(2021, 02, 01);
+                        LaData.PolicyData.CommenceDate = new DateTime(2022, 02, 01);
                     }
                     else
                     {
