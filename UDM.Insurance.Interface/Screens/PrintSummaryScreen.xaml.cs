@@ -873,14 +873,6 @@ namespace UDM.Insurance.Interface.Screens
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
-
-                                    //if (campaign.Code == "PLDMM8U")
-                                    //{
-                                    //    wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
-                                    //    wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
-
-                                    //}
-
                                 }
 
                                 if (batch.Code.Contains("_R"))
@@ -928,10 +920,12 @@ namespace UDM.Insurance.Interface.Screens
                                     wsLeads.GetCell("LA2FuneralCoverTotal").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["LA2FuneralCoverTotal"], false);
                                 }
 
+
                                 #endregion Adding Currency Values
 
                                 #endregion Setting the values of the cells
                             }
+
                             else
                             {
                                 Methods.CopyExcelRegion(wsCoverAndLeadTemplate, leadTemplateRowIndex, 0, TemplateLines + 1, leadColumnWidth, wsLeads, leadRow, 0);
@@ -1043,12 +1037,13 @@ namespace UDM.Insurance.Interface.Screens
                                         if (str.Length > 4)
                                             wsLeads.GetCell("LA2Value" + (l + 1)).Value = str.Remove(str.Length - 2);
                                     }
-                                    //if (campaign.Code == "PLDMM8U")
-                                    //{
-                                    //    wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
-                                    //    wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
 
-                                    //}
+                                    if (campaign.Code == "PLMFM5U" || campaign.Code == "PLMFM6U")
+                                    {
+                                        wsLeads.GetCell("LA2Label2").Value = "LA2 Cancer";
+                                        wsLeads.GetCell("LA2Label3").Value = "LA2 Cancer";
+
+                                    }
                                 }
 
                                 if (batch.Code.Contains("_R"))
@@ -1061,7 +1056,7 @@ namespace UDM.Insurance.Interface.Screens
                                 // Because Excel is up to !@##$%$%^%^&$#%&^%$E^&&&&&&^%^&^%$ and doesn't want to copy the formatting from the template!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                                 wsLeads.GetCell("ContractPremium").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ContractPremium"], false);
-                                //wsLeads.GetCell("Offer").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["Offer"], false);
+                                wsLeads.GetCell("Offer").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["Offer"], false);
                                 wsLeads.GetCell("NewTotalPremium").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["NewTotalPremium"], false);
                                 wsLeads.GetCell("ChildCover").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ChildCover"], false);
                                 wsLeads.GetCell("ChildCover3").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ChildCover"], false);
