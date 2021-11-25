@@ -123,7 +123,9 @@
                     <Button x:Name="PLServerConnectionBtn"
                            Grid.Column="15"
                            Grid.Row="6"
-                            Click="PLServerConnectionBtn_Click" RenderTransformOrigin="4.016,0.558"
+                           Click="PLServerConnectionBtn_Click" 
+                           RenderTransformOrigin="4.016,0.558"
+                            Background="Black"
                             >
                         <Image Source="../Resources/reloadbanking.png"></Image>
                     </Button>
@@ -152,9 +154,40 @@
                            Grid.Column="15"
                            Grid.Row="8"
                             Click="APIConnectionBtn_Click"
+                            Background="Black"
                             >
                         <Image Source="../Resources/reloadbanking.png"></Image>
                     </Button>
+
+                    <Label 
+                           Grid.Column="8"
+                           Grid.Row="7"
+                           Grid.ColumnSpan="4"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontSize="15"
+                           Content="Banking API Connection"
+                           ></Label>
+                    <Button x:Name="BankingAPIConnectionBtn"
+                           Grid.Column="15"
+                           Grid.Row="7"
+                            Click="BankingAPIConnectionBtn_Click"
+                            Background="Black"
+                            >
+                        <Image Source="../Resources/reloadbanking.png"></Image>
+                    </Button>
+                    <Label
+                           x:Name="BankingConnectionLbl"
+                           Grid.Column="20"
+                           Grid.Row="7"
+                           HorizontalAlignment="Center"
+                           Background="Gray"
+                           VerticalAlignment="Center"
+                           Width="20"
+                           Height="20"
+                           FontSize="15" Margin="13,16,10,6"/>
+
                     <Label
                            x:Name="APIConnectionLbl"
                            Grid.Column="20"
@@ -164,7 +197,7 @@
                            VerticalAlignment="Center"
                            Width="20"
                            Height="20"
-                           FontSize="15" Margin="10,10,13,12"/>
+                           FontSize="15" Margin="13,16,10,6"/>
 
                     <Label 
                            Grid.Column="8"

@@ -101,7 +101,52 @@ namespace UDM.Insurance.Interface.Screens
                     token = (string)customObject["access_token"];
                 }
 
-                return true;
+                if(token != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        private bool CheckBankingAPIConnection()
+        {
+            try
+            {
+                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string Username = "udm@platinumlife.co.za";
+                string Password = "P@ssword1";
+                string token = "";
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection();
+                    data["username"] = Username;
+                    data["password"] = Password;
+                    data["grant_type"] = "password";
+
+                    var response = wb.UploadValues(auth_url, "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                    token = (string)customObject["access_token"];
+                }
+
+                if (token != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch
             {
@@ -201,6 +246,19 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void BankingAPIConnectionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            bool APIConnectionTest = CheckBankingAPIConnection();
 
+            if (APIConnectionTest == true)
+            {
+                BankingConnectionLbl.Background = System.Windows.Media.Brushes.Green;
+            }
+            else
+            {
+                BankingConnectionLbl.Background = System.Windows.Media.Brushes.Red;
+            }
+            
+        }
     }
 }
