@@ -7820,7 +7820,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || GlobalSettings.ApplicationUser.ID == 199)
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199)
                     {
 
                     }
@@ -14676,7 +14676,7 @@ namespace UDM.Insurance.Interface.Screens
                     data["MobileNumber"] = LaData.LeadData.TelCell;
                     data["HomeNumber"] = LaData.LeadData.TelHome;
                     data["WorkNumber"] = LaData.LeadData.TelWork;
-                    data["EmailAddress"] = LaData.LeadData.TelCell;
+                    data["EmailAddress"] = LaData.LeadData.Email;
 
                     wb.Headers.Add("Authorization", "Bearer " + token);
 
@@ -14764,7 +14764,7 @@ namespace UDM.Insurance.Interface.Screens
             btnDebiCheck.Visibility = Visibility.Visible;
             DebiCheckBorder.Visibility = Visibility.Visible;
             //DebiCheckBorder.BorderBrush = Brushes.White;
-            btnDebiCheck.IsEnabled = true;
+            //btnDebiCheck.IsEnabled = true;
             //}
         }
 
@@ -14921,7 +14921,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                             //these banks dont accept DebiCheck Mandates Yet
-                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267)
+                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261)
                             {
                                 btnDebiCheck.Visibility = Visibility.Collapsed;
                                 DebiCheckBorder.Visibility = Visibility.Collapsed;
