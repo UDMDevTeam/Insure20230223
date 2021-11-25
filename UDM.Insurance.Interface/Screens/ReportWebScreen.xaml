@@ -269,6 +269,27 @@
                               Unchecked="LeadAllocationCB_Unchecked">
 
                     </CheckBox>
+                    <TextBlock x:Name="Combinedlbl" 
+                               Style="{DynamicResource INLabelText3}" 
+                               Text="Combined Report"
+                               Grid.Row="4" 
+                               Grid.Column="18" 
+                               Grid.ColumnSpan="4"
+                               Visibility="Collapsed"></TextBlock>
+
+                    <CheckBox x:Name="CombinedCB"
+                              Grid.Row="4"
+                              Grid.Column="23"
+                              Style="{DynamicResource INCheckboxStyle}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right"
+                              Visibility="Collapsed"
+                              Height="16"
+                              Width="16"
+                              Checked="CombinedCB_Checked"
+                              Unchecked="CombinedCB_Unchecked">
+
+                    </CheckBox>
 
                     <Label
                         x:Name="lblCal1"

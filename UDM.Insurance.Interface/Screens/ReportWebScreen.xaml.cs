@@ -141,15 +141,52 @@ namespace UDM.Insurance.Interface.Screens
             {
                 try
                 {
+                    #region Combined workings
+                    int CombinedBool = 0;
+
+                    if (CombinedCB.IsChecked == true)
+                    {
+                        CombinedBool = 1;
+                    }
+                    else
+                    {
+                        CombinedBool = 0;
+                    }
+                    #endregion
+
+                    #region Temp/Perm Workings
+                    int TempPermAgentsBool = 0;
+                    if(chkTemporaryEmployee.IsChecked == true)
+                    {
+                        TempPermAgentsBool = 1;
+                    }
+                    else if(chkPermenantEmployee.IsChecked == true)
+                    {
+                        TempPermAgentsBool = 2;
+                    }
+                    else
+                    {
+                        TempPermAgentsBool = 3;
+                    }
+                    #endregion
+
                     DateTime _startDat2 = DateTime.Parse(calStartDate.SelectedDate.ToString());
                     DateTime _endDate2 = DateTime.Parse(calEndDate.SelectedDate.ToString());
+
+                    _endDate = _endDate2;
+                    _startDate = _startDat2;
+
                     try { dsDiaryReportData.Clear(); } catch { }
                     try { dsDiaryReportDataSummary.Clear(); } catch { }
 
                     long campaignID = Convert.ToInt64(cmbCampaign.SelectedValue);
 
-                    dsDiaryReportData = Business.Insure.INGetLeadAllocationBatch(campaignID, _endDate2, _startDat2);
-                    dsDiaryReportDataSummary = Business.Insure.INGetLeadAllocationBatchSummary(campaignID, _endDate2, _startDat2);
+
+                    TimeSpan ts1 = new TimeSpan(12, 59, 0);
+                    _endDate2 = _endDate2 + ts1;
+
+                    dsDiaryReportData = Business.Insure.INGetLeadAllocationBatch(campaignID, _endDate2, _startDat2, CombinedBool, TempPermAgentsBool);
+                    //dsDiaryReportDataSummary = Business.Insure.INGetLeadAllocationBatchSummary(campaignID, _endDate2, _startDat2, CombinedBool);
                 }
                 catch (Exception a)
                 {
@@ -220,7 +257,7 @@ namespace UDM.Insurance.Interface.Screens
                     Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
                     workSheet.Name = "Data Sheet";
 
-                    workSheet.Cells[1, 0 + 1] = "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
+                    workSheet.Cells[1, 0 + 1] = "Date Range : " + _startDate.ToShortDateString() + " to " + _endDate.ToShortDateString();
                     for (var i = 0; i < dtSalesData.Columns.Count; i++)
                     {
 
@@ -305,10 +342,10 @@ namespace UDM.Insurance.Interface.Screens
                     tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
 
-                    (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
 
                     //AddSummaryPage(excelApp);
 
@@ -932,6 +969,8 @@ namespace UDM.Insurance.Interface.Screens
             lblCal1.Visibility = Visibility.Visible;
             Viewbox1.Visibility = Visibility.Visible;
             Viewbox2.Visibility = Visibility.Visible;
+            Combinedlbl.Visibility = Visibility.Visible;
+            CombinedCB.Visibility = Visibility.Visible;
             LeadAllocationReportBool = true;
         }
 
@@ -942,6 +981,8 @@ namespace UDM.Insurance.Interface.Screens
             lblCal1.Visibility = Visibility.Collapsed;
             Viewbox1.Visibility = Visibility.Collapsed;
             Viewbox2.Visibility = Visibility.Collapsed;
+            Combinedlbl.Visibility = Visibility.Visible;
+            CombinedCB.Visibility = Visibility.Visible;
             LeadAllocationReportBool = false;
         }
 
@@ -951,6 +992,16 @@ namespace UDM.Insurance.Interface.Screens
         }
 
         private void calEndDate_SelectedDatesChanged(object sender, Infragistics.Windows.Editors.Events.SelectedDatesChangedEventArgs e)
+        {
+
+        }
+
+        private void CombinedCB_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CombinedCB_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }
