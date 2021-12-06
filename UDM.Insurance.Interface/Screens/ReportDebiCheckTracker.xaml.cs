@@ -95,6 +95,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Other Lead Statuses");
             dtSalesData.Columns.Add("Other Lead Statuses %");
             dtSalesData.Columns.Add("Sales where Debi-checks are N/A");
+            dtSalesData.Columns.Add("Accepted % after n/a sales were removed");
             dtSalesData.Columns.Add("Supervisor Name");
 
             #endregion
@@ -256,6 +257,9 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
+
 
                     workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 24]].Merge();
 
@@ -290,12 +294,12 @@ namespace UDM.Insurance.Interface.Screens
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A2", "Y27").BorderAround(
+                    workSheet.get_Range("A2", "Z27").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A27", "Y27").BorderAround(
+                    workSheet.get_Range("A27", "Z27").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
@@ -390,6 +394,17 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[27, 20].Formula = string.Format("=S27/B27*100"); //T
                     workSheet.Cells[27, 22].Formula = string.Format("=U27/B27*100"); //V
                     workSheet.Cells[27, 24].Formula = string.Format("=W27/B27*100"); //X
+                    workSheet.Cells[27, 26].Formula = string.Format("=E27/(B27-Y27)*100"); //X
+
+
+                    int totalrows = dtSalesData.Rows.Count + 3;
+                    int totalRowMinusOne = totalrows - 1;
+
+                    for (int r = 3; r <= totalRowMinusOne; r++)
+                    {
+                        workSheet.Cells[r, 2].Formula = string.Format("=D" + r + "+C" + r + "");
+                        workSheet.Cells[r, 26].Formula = string.Format("=E" + r + "/(B" + r + "-Y" + r + ") *100");
+                    }
 
                     #endregion
 
@@ -429,13 +444,19 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
 
+                TimeSpan ts = new TimeSpan(23, 00, 0);
+                DateTime DateEnd = _endDate.Date + ts;
+
+                TimeSpan ts1 = new TimeSpan(00, 00, 0);
+                DateTime DateStart = _startDate.Date + ts1;
+
 
                 //This gets all of the Campaign IDS that have sales attached
                 string strQuery;
                 strQuery = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
                 strQuery += "LEFT JOIN [INImport] AS [I] ON [I].[FKINCampaignID] = [C].[ID]";
                 strQuery += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' ";
-                strQuery += "AND [I].[FKINLeadStatusID] = 1 AND [I].DateOfSale BETWEEN '" + _startDate.ToString() + "' AND '" +  _endDate.ToString() + "'";
+                strQuery += "AND [I].[FKINLeadStatusID] = 1 AND [I].DateOfSale BETWEEN '" + DateStart.ToString() + "' AND '" + DateEnd.ToString() + "'";
 
                 DataTable dtAgents = Methods.GetTableData(strQuery);
                 DataSet dsAgents = new DataSet();
@@ -517,7 +538,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         string CampaignName = dtBranchCode.Rows[0]["Response"].ToString();
 
-                        dtSalesData.Rows.Add(CampaignName, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                        dtSalesData.Rows.Add(CampaignName, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                     }
                 }
 
@@ -578,8 +599,9 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 26]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 27]].Merge();
 
                     workSheet.Cells[totalrows, 1].Value = "Total :";
 
@@ -663,6 +685,8 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 20].Formula = string.Format("=S" + totalrows + "/B" + totalrows + "*100"); //T
                     workSheet.Cells[totalrows, 22].Formula = string.Format("=U" + totalrows + "/B" + totalrows + "*100"); //V
                     workSheet.Cells[totalrows, 24].Formula = string.Format("=W" + totalrows + "/B" + totalrows + "*100"); //X
+                    workSheet.Cells[totalrows, 26].Formula = string.Format("=E" + totalrows + "/(B" + totalrows + "-Y" + totalrows +")*100"); //X
+
 
                     workSheet.UsedRange.Select();
                     workSheet.Sort.SortFields.Clear();
@@ -683,6 +707,7 @@ namespace UDM.Insurance.Interface.Screens
                     for (int r = 3; r <= totalRowMinusOne; r++)
                     {
                         workSheet.Cells[r, 2].Formula = string.Format("=D" + r + "+C" + r + "");
+                        workSheet.Cells[r, 26].Formula = string.Format("=E" + r + "/(B" + r + "-Y" + r + ") *100");
                     }
 
                     excelApp.Visible = true;
