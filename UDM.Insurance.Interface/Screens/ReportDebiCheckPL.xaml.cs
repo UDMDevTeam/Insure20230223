@@ -500,14 +500,14 @@ namespace UDM.Insurance.Interface.Screens
 
                                 using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                                 {
-                                    TimeSpan ts = new TimeSpan(00, 00, 0);
+                                    TimeSpan ts = new TimeSpan(23, 00, 0);
                                     DateTime _endDate2 = DateTime.Now;
                                     _endDate2 = _endDate.Date + ts;
 
-                                    TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                                    TimeSpan ts1 = new TimeSpan(00, 00, 0);
                                     DateTime _startDat2 = DateTime.Now;
                                     _startDat2 = _startDate.Date + ts1;
-                                    dsDiaryReportData = Business.Insure.INGetDebiCheckPL( _endDate2, _startDat2);
+                                    dsDiaryReportData = Business.Insure.INGetDebiCheckPL(_startDat2, _endDate2);
                                 }
 
 
