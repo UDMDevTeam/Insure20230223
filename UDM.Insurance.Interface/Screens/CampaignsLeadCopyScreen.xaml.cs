@@ -1079,17 +1079,25 @@ namespace UDM.Insurance.Interface.Screens
 
                                     if (desImport.FKINPolicyID != null)
                                     {
-                                        long policyID = Convert.ToInt64(desImport.FKINPolicyID);
-
-                                        if (policyID > 0)
+                                        try
                                         {
-                                            INPolicy inPolicy = new INPolicy(policyID);
-                                            if (inPolicy.FKINOptionID != null)
+                                            long policyID = Convert.ToInt64(desImport.FKINPolicyID);
+
+                                            if (policyID > 0)
                                             {
-                                                inPolicy.FKINOptionID = null;
-                                                inPolicy.Save(_validationResult);
+                                                INPolicy inPolicy = new INPolicy(policyID);
+                                                if (inPolicy.FKINOptionID != null)
+                                                {
+                                                    inPolicy.FKINOptionID = null;
+                                                    inPolicy.Save(_validationResult);
+                                                }
                                             }
                                         }
+                                        catch
+                                        {
+
+                                        }
+
                                     }
 
                                     #endregion
