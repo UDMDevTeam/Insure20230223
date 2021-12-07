@@ -15442,14 +15442,14 @@
                     <Label
                         x:Name="Mandate1Lbl1"
                         Grid.Row="14"
-                        Grid.Column="17"
-                        Grid.ColumnSpan="3"
+                        Grid.Column="16"
+                        Grid.ColumnSpan="5"
                         Content="Mandate Details :"
                         Foreground="LightBlue"
                         VerticalContentAlignment="Top"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden">
+                        Visibility="Hidden" Margin="43.25,0.333,10.097,0.556">
 
                     </Label>
                     <TextBlock
@@ -15458,13 +15458,16 @@
                         Grid.RowSpan="2"
                         Grid.Column="17"
                         Grid.ColumnSpan="4"
-                        Height="35"
+                        Height="45"
                         TextWrapping="Wrap"
                         Foreground="White"
+                        Style="{DynamicResource MaterialDesignTitleTextBlock}"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden"/>
+                        Visibility="Hidden">
+
+                    </TextBlock>
 
                     <Label
                         x:Name="Mandate2Lbl1"
@@ -15481,17 +15484,19 @@
                     </Label>
                     <TextBlock
                         x:Name="Mandate2TB"
-                        Grid.Row="15"
+                        Grid.Row="14"
                         Grid.RowSpan="2"                        
-                        Grid.Column="13"
-                        Grid.ColumnSpan="4"
-                        Height="35"
+                        Grid.Column="12"
+                        Grid.ColumnSpan="5"
+                        Height="45"
                         TextWrapping="Wrap"
                         Foreground="White"
+                        Style="{DynamicResource MaterialDesignTitleTextBlock}"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden">
+                        Visibility="Hidden" Margin="24.611,44.333,1.083,0" Width="189">
+
                     </TextBlock>
                     <TextBlock
                         x:Name="GotBankingDetailsPLLBL"
@@ -15531,14 +15536,19 @@
 
                     <Button x:Name ="GotBankingDetailsPLBTN"
                             Grid.Column="8"
-                            Background="Black"
+                            Background="LightBlue"
                             Grid.Row="14"
+                            
                             Grid.RowSpan="2"
                             Visibility="Collapsed"
                             Click="GotBankingDetailsPLBTN_Click" Margin="0,22,0,23"
                             >
                         <Image Source="../Resources/reloadbanking.png"></Image>
-
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
                     </Button>
 
                     <StackPanel
