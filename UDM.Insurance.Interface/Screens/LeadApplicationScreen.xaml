@@ -836,6 +836,8 @@
                         <Condition Binding="{Binding Path=(data:TriggerManager.Flag5), RelativeSource={RelativeSource Self}}" Value="False" />
                         <Condition Binding="{Binding ElementName=medIDNumber, Path=Value}" Value="{x:Null}" />
                         <Condition Binding="{Binding ElementName=medPassportNumber, Path=Value}" Value="{x:Null}" />
+                        <Condition Binding="{Binding ElementName=medDCPassportNumber, Path=Value}" Value="{x:Null}" />
+
 
                         <Condition Value="{x:Static business:lkpINLeadStatus.Accepted}">
                             <Condition.Binding>
@@ -2882,6 +2884,7 @@
                         Text="{Binding ElementName=lblPage, Path=Text}" />
 
 
+
                     <TextBlock
                         x:Name="lblStatus"
                         Grid.Row="1"
@@ -4917,7 +4920,7 @@
                         Grid.Column="2"
                         Grid.ColumnSpan="24"
                         Background="Transparent"
-                        Visibility="Visible">
+                        Visibility="Hidden">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <!--  <RowDefinition />  -->
@@ -6823,7 +6826,7 @@
                         Grid.Column="2"
                         Grid.ColumnSpan="24"
                         Background="Transparent"
-                        Visibility="Collapsed">
+                        Visibility="visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -6937,6 +6940,27 @@
                                         Style="{StaticResource INSectionHeadingText1}"
                                         Text="Account Holder Details" />
 
+                                    <TextBlock x:Name="DCPassportLBL"
+                                        Grid.Row="0"
+                                        Grid.Column="5"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText1}"
+                                        Text="Passport Number">
+                                        
+                                    </TextBlock>
+
+                                    <CheckBox x:Name="DCPassportCB"
+                                              Grid.Row="0"
+                                              Grid.Column="8"
+                                              VerticalAlignment="Bottom"
+                                              HorizontalAlignment="Center"
+                                              Checked="DCPassportCB_Checked"
+                                              Unchecked="DCPassportCB_Unchecked">
+                                        
+                                    </CheckBox>
+
                                     <TextBlock
                                         x:Name="lblDOTitle"
                                         Grid.Row="1"
@@ -7041,6 +7065,16 @@
                                         VerticalAlignment="Bottom"
                                         Style="{StaticResource INLabelText2}"
                                         Text="ID Number" />
+                                    <TextBlock
+                                        x:Name="lblDCPassportNumber"
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,0,5"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Passport Number"
+                                        Visibility="Collapsed"/>
                                     <igWPF:XamMaskedEditor
                                         x:Name="medDOIDNumber"
                                         Grid.Row="4"
@@ -7051,6 +7085,18 @@
                                         Style="{StaticResource StyleXMEIDNumber}"
                                         TabIndex="33500"
                                         Text="{Binding BankDetailsData.IDNumber}" />
+
+                                    <igWPF:XamMaskedEditor
+                                        x:Name="medDCPassportNumber"
+                                        Grid.Row="4"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="7"
+                                        Visibility="Collapsed"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        Style="{StaticResource StyleXMEPassportNumber}"
+                                        TabIndex="33500"
+                                        Text="{Binding BankDetailsData.PassportNumber}" />
 
                                     <TextBlock
                                         x:Name="lblDOHomePhone"

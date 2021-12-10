@@ -2057,11 +2057,14 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (LaData.AppData.IsLeadUpgrade)
                 {
-
+                    DCPassportCB.Visibility = Visibility.Collapsed; // passport is automatic on Debug
+                    DCPassportLBL.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    xamCETotalPremiumAnnual.Text = (LaData.PolicyData.LoadedTotalPremium * 12).ToString();
+                    xamCETotalPremiumAnnual.Text = (LaData.PolicyData.LoadedTotalPremium * 12).ToString(); // This sets the Text fro the Annual Premium on Base
+                    DCPassportCB.Visibility = Visibility.Visible; // Makes sure these components are visible on base
+                    DCPassportLBL.Visibility = Visibility.Visible;
                 }
 
                 #endregion
@@ -14142,9 +14145,8 @@ namespace UDM.Insurance.Interface.Screens
             //this is for thw ID Number
             try
             {
-                string IDNumber = LaData.BankDetailsData.IDNumber;
-                int result = IDNumber.Count();
-                if (result == 13)
+
+                if (DCPassportCB.IsChecked == false)
                 {
                     IDNumberDebiCheck = "1";
                 }
@@ -14202,7 +14204,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     var data = new NameValueCollection();
 
-                    if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
+                    if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade) //Upgrade DebiCheck API
                     {
 
                         string AccountTypeNumber = " ";
@@ -14272,7 +14274,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     }
-                    else if (LaData.AppData.CampaignID == 7
+                    else if (LaData.AppData.CampaignID == 7 // Resales DebiCheck API Send
                             || LaData.AppData.CampaignID == 9
                             || LaData.AppData.CampaignID == 10
                             || LaData.AppData.CampaignID == 294
@@ -14400,7 +14402,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
                         if (IDNumberDebiCheck == "2")
                         {
-                            try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = LaData.BankDetailsData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
@@ -14923,7 +14925,7 @@ namespace UDM.Insurance.Interface.Screens
                             //these banks dont accept DebiCheck Mandates Yet
                             if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261)
                             {
-                                btnDebiCheck.Visibility = Visibility.Collapsed;
+                                btnDebiCheck.Visibility = Visibility.Collapsed; // this collapses the DebiChecks
                                 DebiCheckBorder.Visibility = Visibility.Collapsed;
                                 Mandate1Lbl1.Visibility = Visibility.Collapsed;
                                 Mandate1TB.Visibility = Visibility.Collapsed;
@@ -15360,6 +15362,22 @@ namespace UDM.Insurance.Interface.Screens
         #endregion
 
         #endregion
+
+        private void DCPassportCB_Checked(object sender, RoutedEventArgs e)
+        {
+            medDOIDNumber.Visibility = Visibility.Collapsed;
+            medDCPassportNumber.Visibility = Visibility.Visible;
+            lblDCPassportNumber.Visibility = Visibility.Visible;
+            lblDOIDNumber.Visibility = Visibility.Collapsed;
+        }
+
+        private void DCPassportCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            medDOIDNumber.Visibility = Visibility.Visible;
+            medDCPassportNumber.Visibility = Visibility.Collapsed;
+            lblDCPassportNumber.Visibility = Visibility.Collapsed;
+            lblDOIDNumber.Visibility = Visibility.Visible;
+        }
     }
 
     public class MyWebClient : WebClient
