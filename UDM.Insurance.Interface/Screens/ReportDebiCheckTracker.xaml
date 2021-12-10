@@ -208,11 +208,19 @@
                               Checked="UpgradeCB_Checked">
                     </CheckBox>
                     <CheckBox x:Name="BaseCB"
-                              Grid.Row="6"
+                              Grid.Row="5"
                               Grid.Column="3"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               Checked="BaseCB_Checked">
+                    </CheckBox>
+
+                    <CheckBox x:Name="AcceptedCB"
+                              Grid.Row="6"
+                              Grid.Column="3"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Center"
+                              Checked="AcceptedCB_Checked" Margin="14,13,13,0">
                     </CheckBox>
 
                     <Label
@@ -227,7 +235,7 @@
                         Visibility="Visible" Width="247" />
 
                     <Label
-                        Grid.Row="6"
+                        Grid.Row="5"
                         Grid.Column="5"
                         Grid.ColumnSpan="6"
                         Margin="11,0,0,6"
@@ -235,6 +243,17 @@
                         Foreground="White"
                         FontSize="15"
                         Content="Base"
+                        Visibility="Visible" Width="247" />
+
+                    <Label
+                        Grid.Row="6"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Accepted"
                         Visibility="Visible" Width="247" />
 
 

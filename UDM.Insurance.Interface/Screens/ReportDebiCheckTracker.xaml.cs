@@ -269,7 +269,7 @@ namespace UDM.Insurance.Interface.Screens
                     tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                     tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
-                    workSheet.get_Range("A2", "Y2").BorderAround(
+                    workSheet.get_Range("A2", "Z2").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
@@ -787,6 +787,11 @@ namespace UDM.Insurance.Interface.Screens
                         worker.DoWork += ReportConsolidated;
 
                     }
+                    else if (AcceptedCB.IsChecked == true)
+                    {
+                        dsDiaryReportData = Business.Insure.INGetDebiCheckTrackingAccepted(_startDat2, _endDate2);
+                        worker.DoWork += ReportConsolidatedAccepted;
+                    }
                     else
                     {
 
@@ -845,6 +850,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
+        #region CheckBoxes click events
         private void UpgradeCB_Checked(object sender, RoutedEventArgs e)
         {
             BaseCB.IsChecked = false;
@@ -854,5 +860,187 @@ namespace UDM.Insurance.Interface.Screens
         {
             UpgradeCB.IsChecked = false;
         }
+
+        private void AcceptedCB_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
+        private void ReportConsolidatedAccepted(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                #region Get the report data
+                DataTable dtSalesData;
+
+                dtSalesData = dsDiaryReportData.Tables[0];
+
+
+                #endregion Get the report data
+
+                try
+                {
+                    string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+                    string filePathAndName = String.Format("{0}DebiCheck Tracking Report Accepted ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    if (dtSalesData == null || dtSalesData.Columns.Count == 0)
+                        throw new Exception("ExportToExcel: Null or empty input table!\n");
+
+                    // load excel, and create a new workbook
+                    var excelApp = new Microsoft.Office.Interop.Excel.Application();
+                    excelApp.Workbooks.Add();
+
+                    // single worksheet
+                    Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
+
+                    workSheet.Cells[1, 0 + 1] = "Date Range : " + _startDate.ToLongDateString() + " to " + _endDate.ToLongDateString();
+                    for (var i = 0; i < dtSalesData.Columns.Count; i++)
+                    {
+
+                        workSheet.Cells[2, i + 1].Font.Bold = true;
+
+                        workSheet.Cells[2, i + 1].ColumnWidth = 30;
+
+                        workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                        //workSheet.get_Range("A4", "J1").Font.Bold = true;
+                    }
+
+
+                    // column headings
+                    for (var i = 0; i < dtSalesData.Columns.Count; i++)
+                    {
+                        workSheet.Cells[2, i + 1] = dtSalesData.Columns[i].ColumnName;
+                    }
+
+                    // rows
+                    for (var i = 1; i < dtSalesData.Rows.Count + 1; i++)
+                    {
+                        // to do: format datetime values before printing
+                        for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                        {
+                            workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
+
+
+                        }
+                    }
+
+                    var totalTable = dsDiaryReportData.Tables[1];
+
+                    workSheet.Cells[28, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
+                    workSheet.Cells[28, 1].Value = "Base DebiCheck Percentage :";
+
+                    workSheet.Cells[29, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
+                    workSheet.Cells[29, 1].Value = "Upgrade DebiCheck Percentage :";
+
+                    workSheet.Cells[30, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
+                    workSheet.Cells[30, 1].Value = "Combined DebiCheck Percentage :";
+
+                    (workSheet.Cells[28, 2]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 3]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 4]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 6]).EntireColumn.NumberFormat = "##%";
+
+                    (workSheet.Cells[29, 2]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 3]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 4]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 6]).EntireColumn.NumberFormat = "##%";
+
+                    (workSheet.Cells[30, 2]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 3]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 4]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 6]).EntireColumn.NumberFormat = "##%";
+
+
+
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 6]].Merge();
+
+                    workSheet.Rows[2].WrapText = true;
+
+                    Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+                    tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+                    workSheet.get_Range("A2", "F2").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+
+
+                    workSheet.get_Range("A2", "F27").BorderAround(
+                    Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+                    Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
+                    Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+
+
+                    workSheet.Range["B3", "B26"].Interior.Color = System.Drawing.Color.LightGray;
+                    workSheet.Range["C3", "C26"].Interior.Color = System.Drawing.Color.LightGray;
+                    workSheet.Range["D3", "D26"].Interior.Color = System.Drawing.Color.LightGray;
+                    workSheet.Range["E3", "E26"].Interior.Color = System.Drawing.Color.LightGray;
+                    workSheet.Range["F3", "F26"].Interior.Color = System.Drawing.Color.LightGray;
+
+                    workSheet.Range["B27", "F27"].Interior.Color = System.Drawing.Color.LightBlue;
+
+
+
+                    #region Page formulas
+
+
+                    workSheet.Cells[28, 2].Formula = string.Format("=ROUNDUP(AVERAGE(B1:B26),2)"); //B
+                    workSheet.Cells[28, 3].Formula = string.Format("=ROUNDUP(AVERAGE(C1:C26),2)"); //C
+                    workSheet.Cells[28, 4].Formula = string.Format("=ROUNDUP(AVERAGE(D1:D26),2)"); //D
+                    workSheet.Cells[28, 5].Formula = string.Format("=ROUNDUP(AVERAGE(E1:E26),2)"); //E
+                    workSheet.Cells[28, 6].Formula = string.Format("=ROUNDUP(AVERAGE(F1:F26),2)"); //G
+
+                    workSheet.Cells[29, 2].Formula = string.Format("=SUM(B27:B27)"); //B
+                    workSheet.Cells[29, 3].Formula = string.Format("=SUM(C27:C27)"); //C
+                    workSheet.Cells[29, 4].Formula = string.Format("=SUM(D27:D27)"); //D
+                    workSheet.Cells[29, 5].Formula = string.Format("=SUM(E27:E27)"); //E
+                    workSheet.Cells[29, 6].Formula = string.Format("=SUM(F27:F27)"); //G
+
+                    workSheet.Cells[30, 2].Formula = string.Format("=SUM(B28:B29)"); //B
+                    workSheet.Cells[30, 3].Formula = string.Format("=SUM(C28:C29)"); //C
+                    workSheet.Cells[30, 4].Formula = string.Format("=SUM(D28:D29)"); //D
+                    workSheet.Cells[30, 5].Formula = string.Format("=SUM(E28:E29)"); //E
+                    workSheet.Cells[30, 6].Formula = string.Format("=SUM(F28:F29)"); //G
+
+
+
+                    #endregion
+
+                    // check file path
+
+                    excelApp.Visible = true;
+                    excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
     }
 }
