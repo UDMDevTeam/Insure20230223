@@ -79,6 +79,7 @@ namespace UDM.Insurance.Interface.Screens
         string DebitDayPLLKP = "";
 
         string IDNumberPLLKP = "";
+        string PassportNumberPLLKP = "";
 
         #region BulkSMS
 
@@ -14256,7 +14257,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
                         if (IDNumberDebiCheck == "2")
                         {
-                            try { data["IdentificationNumber"] = IDNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = PassportNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
@@ -14341,7 +14342,23 @@ namespace UDM.Insurance.Interface.Screens
                             }
                         }
 
-
+                        try
+                        {
+                            string IDNumberUpgrades = IDNumberPLLKP;
+                            int resultResales2 = IDNumberUpgrades.Count();
+                            if (resultResales2 == 13)
+                            {
+                                IDNumberDebiCheck = "1";
+                            }
+                            else
+                            {
+                                IDNumberDebiCheck = "2";
+                            }
+                        }
+                        catch
+                        {
+                            IDNumberDebiCheck = "1";
+                        }
 
                         try
                         {
@@ -14351,9 +14368,9 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         catch
                         {
-                            DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
-                            CommencementDateDebiCheck = datevariable.AddMonths(2);
-                            CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(LaData.BankDetailsData.DebitDay.ToString()));
+                            //DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
+                            //CommencementDateDebiCheck = datevariable.AddMonths(2);
+                            //CommencementDateEdited = new DateTime(CommencementDateDebiCheck.Year, CommencementDateDebiCheck.Month, int.Parse(LaData.BankDetailsData.DebitDay.ToString()));
                         }
 
                         try { data["ClientName"] = LaData.LeadData.FullName; } catch { data["ClientName"] = ""; }
@@ -14362,7 +14379,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["DocumentTypeID"] = IDNumberDebiCheck; } catch { data["DocumentTypeID"] = ""; }
                         if (IDNumberDebiCheck == "2")
                         {
-                            try { data["IdentificationNumber"] = LaData.LeadData.PassportNumber; } catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = PassportNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
@@ -14690,8 +14707,9 @@ namespace UDM.Insurance.Interface.Screens
                     string ReferenceNumber = (string)customObject["ReferenceNumber"];
                     string ResponseDetail = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
                     string IDNumber = (string)customObject["IDNumber"];
-
+                    string PassportNumber = (string)customObject["PassportNumber"];
                     IDNumberPLLKP = IDNumber;
+                    PassportNumberPLLKP = PassportNumber;
 
                 }
                 #endregion
