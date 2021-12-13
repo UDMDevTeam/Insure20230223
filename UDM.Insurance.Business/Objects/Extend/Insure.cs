@@ -7,6 +7,23 @@ namespace UDM.Insurance.Business
 {
     public class Insure
     {
+        public static DataSet INGetDebiCheckAcceptedStatus(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckAcceptedStatus", paramArray, 600);
+        }
+
         public static DataSet INGetImportSummary()
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetImportSummary", null);
@@ -713,7 +730,7 @@ namespace UDM.Insurance.Business
 
             object[] paramArray = new[] { param1, param2, param3, param4 };
 
-            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryTemp", paramArray, 600);
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryTemp", paramArray, 1800);
         }
 
         public static DataSet INReportSalaryTempPostJune(string fkUserIDs, DateTime fromDate, DateTime toDate, bool includeInactiveAgents)
@@ -725,7 +742,7 @@ namespace UDM.Insurance.Business
 
             object[] paramArray = new[] { param1, param2, param3, param4 };
 
-            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryTempPostJune2021", paramArray, 600);
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryTempPostJune2021", paramArray, 1800);
         }
 
 
@@ -1048,7 +1065,7 @@ namespace UDM.Insurance.Business
 
             object[] paramArray = new[] { param1, param2, param3 };
 
-            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportBumpUp", paramArray).Tables[0];
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportBumpUp", paramArray, 1800).Tables[0];
         }
 
         public static DataTable INGetBumpUpReportSummaryData(string campaignIDs, DateTime fromDate, DateTime toDate)
@@ -1475,7 +1492,35 @@ namespace UDM.Insurance.Business
         }
         #endregion
 
+        #region LeadAllocationBatchReport
+        public static DataSet INGetLeadAllocationBatch(long CampaignID, DateTime fromDate, DateTime toDate, int combinedbool, int tempperm)
+        {
+            object param1 = Database.GetParameter("@CampaignId", CampaignID);
+            object param2 = Database.GetParameter("@_endDate", fromDate);
+            object param3 = Database.GetParameter("@_startDate", toDate);
+            object param4 = Database.GetParameter("@Combined", combinedbool);
+            object param5 = Database.GetParameter("@StaffType", tempperm);
 
+
+            object[] paramArray = new[] { param1, param2, param3, param4, param5 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportLeadAllocationBatchSummary", paramArray, 600);
+        }
+
+        public static DataSet INGetLeadAllocationBatchSummary(long CampaignID, DateTime fromDate, DateTime toDate, int combinedbool)
+        {
+            object param1 = Database.GetParameter("@CampaignId", CampaignID);
+            object param2 = Database.GetParameter("@_endDate", fromDate);
+            object param3 = Database.GetParameter("@_startDate", toDate);
+            object param4 = Database.GetParameter("@Combined", combinedbool);
+
+
+            object[] paramArray = new[] { param1, param2, param3, param4 };
+
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportLeadAllocationBatchSummary", paramArray, 600);
+        }
+        #endregion
 
         #region Debi-Check Report
         public static DataSet INGetDebiCheckPL(DateTime fromDate, DateTime toDate)
@@ -1495,6 +1540,19 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckPL", paramArray, 600);
         }
 
+        public static DataSet INGetDebiCheckTrackingAccepted(DateTime fromDate, DateTime toDate)
+        {
+
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTrackingAccepted", paramArray, 600);
+        }
+
+
         public static DataSet INGetDebiCheckLookupPL(string refNo)
         {
             //SqlParameter[] parameters = new SqlParameter[3];
@@ -1511,7 +1569,7 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetMandateLookupPL", paramArray, 600);
         }
 
-        public static DataSet INGetDebiCheckPLConsolidated(DateTime fromDate, DateTime toDate)
+        public static DataSet INGetDebiCheckPLConsolidated(DateTime fromDate, DateTime toDate, string baseupgrade)
         {
             //SqlParameter[] parameters = new SqlParameter[3];
             //parameters[0] = new SqlParameter("@CampaignID", campaignID);
@@ -1522,9 +1580,11 @@ namespace UDM.Insurance.Business
 
             object param1 = Database.GetParameter("@DateFrom", fromDate);
             object param2 = Database.GetParameter("@DateTo", toDate);
+            object param3 = Database.GetParameter("@BaseUpgradeBool", baseupgrade);
 
 
-            object[] paramArray = new[] { param1, param2 };
+
+            object[] paramArray = new[] { param1, param2, param3 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckPLCustom", paramArray, 600);
         }
@@ -1546,7 +1606,23 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTrackingByTSR", paramArray, 600);
         }
+        public static DataSet INGetDebiChecKTrackingTSRUpgrades(DateTime fromDate, DateTime toDate, long? userID)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
 
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", toDate);
+            object param2 = Database.GetParameter("@DateTo", fromDate);
+            object param3 = Database.GetParameter("@FKUserID", userID);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTrackingByTSRUpgrades", paramArray, 600);
+        }
         public static DataSet INGetDebiChecKTrackingTSRAgents(DateTime fromDate, DateTime toDate)
         {
             //SqlParameter[] parameters = new SqlParameter[3];
@@ -1564,7 +1640,69 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetDebiCheckTrackingByTSR", paramArray, 600);
         }
 
+        public static DataSet INGetDebiChecKTrackingTSRAgentsUpgrades(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
 
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", toDate);
+            object param2 = Database.GetParameter("@DateTo", fromDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetDebiCheckTrackingByTSRUpgrades", paramArray, 600);
+        }
+
+        public static DataSet INGetDebiChecKTrackingTSRAgentsTeam(string fkuserid)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@FKUserID", fkuserid);
+
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetDebiCheckTrackingByTSRTeam", paramArray, 600);
+        }
+
+        public static DataSet INReportDebiChecKTrackingCampaignsUpgrades(DateTime fromDate, DateTime toDate, string campaignID)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", toDate);
+            object param2 = Database.GetParameter("@DateTo", fromDate);
+            object param3 = Database.GetParameter("@FKUserID", campaignID);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTrackingUpgrades", paramArray, 200000);
+        }
+        #endregion
+
+        #region DebiCheck Configuration
+        public static DataSet INGetPLServerConnectionTest(string refno)
+        {
+            object param1 = Database.GetParameter("@RefNo", refno);
+
+
+
+            object[] paramArray = new[] { param1};
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "PLServerConnectionTest", paramArray, 600);
+        }
         #endregion
 
         #region DebiCheck Tracking Report
@@ -2042,6 +2180,49 @@ namespace UDM.Insurance.Business
         #endregion Bump-Up Stats Report - Specific Functionalities 
 
         #region Turnover Report - Specific Functionalities
+
+        public static DataSet INReportTurnover(string campaignIDs, string fkUserIDs, DateTime fromDate, DateTime toDate, bool includeBumpUps, bool includeElevationTeam, lkpINTurnoverCompanyMode? company, byte staffType/*, byte campaignType*/, bool allSalesAgents, string QAIDs)
+        {
+
+
+            object param1 = Database.GetParameter("@CampaignIDList", campaignIDs);
+            object param2 = Database.GetParameter("@SalesAgentIDList", fkUserIDs);
+            object param3 = Database.GetParameter("@FromDate", fromDate);
+            object param4 = Database.GetParameter("@ToDate", toDate);
+            object param5 = Database.GetParameter("@IncludeBumpUps", includeBumpUps);
+            object param6 = Database.GetParameter("@IncludeElevation", includeElevationTeam);
+            object param7 = Database.GetParameter("@Company", (byte)company);
+            object param8 = Database.GetParameter("@StaffType", staffType);
+            //object param6 = Database.GetParameter("@CampaignType", campaignType);
+            object param9 = Database.GetParameter("@AllSalesAgents", allSalesAgents);
+            object param10 = Database.GetParameter("@QAIDList", QAIDs);
+
+            object[] paramArray = new[] { param1, param2, param3, param4, param5, param6, param7, param8, param9, param10 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportTurnover", paramArray, 600);
+        }
+        public static DataSet INReportTurnoverElevation(string campaignIDs, string fkUserIDs, DateTime fromDate, DateTime toDate, bool includeBumpUps, bool includeElevationTeam, lkpINTurnoverCompanyMode? company, byte staffType/*, byte campaignType*/, bool allSalesAgents, string QAIDs)
+        {
+
+
+            object param1 = Database.GetParameter("@CampaignIDList", campaignIDs);
+            object param2 = Database.GetParameter("@SalesAgentIDList", fkUserIDs);
+            object param3 = Database.GetParameter("@FromDate", fromDate);
+            object param4 = Database.GetParameter("@ToDate", toDate);
+            object param5 = Database.GetParameter("@IncludeBumpUps", includeBumpUps);
+            object param6 = Database.GetParameter("@IncludeElevation", includeElevationTeam);
+            object param7 = Database.GetParameter("@Company", (byte)company);
+            object param8 = Database.GetParameter("@StaffType", staffType);
+            //object param6 = Database.GetParameter("@CampaignType", campaignType);
+            object param9 = Database.GetParameter("@AllSalesAgents", allSalesAgents);
+            object param10 = Database.GetParameter("@QAIDList", QAIDs);
+
+            object[] paramArray = new[] { param1, param2, param3, param4, param5, param6, param7, param8, param9, param10 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportTurnoverElevation", paramArray, 600);
+        }
+
+
         public static DataSet INGetTurnoverScreenLookups()
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetTurnoverScreenLookups", null, 600);
@@ -2197,6 +2378,16 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetPossibleBumpUpsAssignedToBUAgent", paramArray);
         }
+        public static DataSet INGetBatchExportDebiCheckRefNo(DateTime fromDate, long campaignID)
+        {
+            object param1 = Database.GetParameter("@DateOfSale", fromDate);
+            object param2 = Database.GetParameter("@CampaignID", campaignID);
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetDebiCheckRefNo", paramArray);
+
+        }
+
 
         public static DataTable GetBUAllocationsNotWorkedOn(DateTime dateOfSale, string campaignIDs, long bUUserID)
         {

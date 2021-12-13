@@ -99,6 +99,9 @@ namespace UDM.Insurance.Business.Mapping
                 {
                     calldata.IsLoaded = true;
                     calldata.DebiCheckPower = reader["DebiCheckPower"] != DBNull.Value ? (int)reader["DebiCheckPower"] : (int?)null;
+                    calldata.IsBusyReports = reader["IsBusyReports"] != DBNull.Value ? (int)reader["IsBusyReports"] : (int?)null;
+                    calldata.BusyBy = reader["BusyBy"] != DBNull.Value ? (long)reader["BusyBy"] : (long?)null;
+
                     //calldata.StampDate = DateTime.Parse(reader["StampDate"].ToString());
                     calldata.HasChanged = false;
                 }
@@ -310,12 +313,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="recref">The recref search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static DebiCheckConfigurationCollection Search(int? debicheckpower , string connectionName)
+        public static DebiCheckConfigurationCollection Search(int? debicheckpower, int? isbusyreports, long? busyby , string connectionName)
         {
             DebiCheckConfigurationCollection collection = new DebiCheckConfigurationCollection();
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, DebiCheckConfigurationQueries.Search(debicheckpower), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, DebiCheckConfigurationQueries.Search(debicheckpower, isbusyreports, busyby), null);
                 while (reader.Read())
                 {
                     DebiCheckConfiguration calldata = new DebiCheckConfiguration((long)reader["ID"]);
@@ -344,11 +347,11 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="recref">The recref search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A data set containing the results of the search.</returns>
-        public static DataSet SearchData(int? debicheckpower, string connectionName)
+        public static DataSet SearchData(int? debicheckpower, int? isbusyreports, long? busyby, string connectionName)
         {
             try
             {
-                return Database.ExecuteDataSet(connectionName, DebiCheckConfigurationQueries.Search(debicheckpower), null);
+                return Database.ExecuteDataSet(connectionName, DebiCheckConfigurationQueries.Search(debicheckpower, isbusyreports, busyby), null);
             }
             catch (Exception ex)
             {
@@ -365,12 +368,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="recref">The recref search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static DebiCheckConfiguration SearchOne(int? Ddebicheckpower, string connectionName)
+        public static DebiCheckConfiguration SearchOne(int? Ddebicheckpower, int? isbusyreports, long? busyby, string connectionName)
         {
             DebiCheckConfiguration calldata = null;
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, DebiCheckConfigurationQueries.Search(Ddebicheckpower), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, DebiCheckConfigurationQueries.Search(Ddebicheckpower, isbusyreports, busyby), null);
                 if (reader.Read())
                 {
                     calldata = new DebiCheckConfiguration((long)reader["ID"]);

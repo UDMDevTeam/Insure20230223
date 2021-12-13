@@ -15,6 +15,8 @@ namespace UDM.Insurance.Business
     {
         #region Members
         private int? _debicheckpower = null;
+        private int? _isbusyreports = null;
+        private long? _busyby = null;
 
         #endregion
 
@@ -55,6 +57,41 @@ namespace UDM.Insurance.Business
             }
         }
 
+        public int? IsBusyReports
+        {
+            get
+            {
+                Fill();
+                return _isbusyreports;
+            }
+            set
+            {
+                Fill();
+                if (value != _isbusyreports)
+                {
+                    _isbusyreports = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
+        public long? BusyBy
+        {
+            get
+            {
+                Fill();
+                return _busyby;
+            }
+            set
+            {
+                Fill();
+                if (value != _busyby)
+                {
+                    _busyby = value;
+                    _hasChanged = true;
+                }
+            }
+        }
         #endregion
 
         #region Override Methods
@@ -121,6 +158,8 @@ namespace UDM.Insurance.Business
             StringBuilder xml = new StringBuilder();
             xml.Append("<DebiCheckConfiguration>");
             xml.Append("<debicheckpower>" + DebiCheckPower.ToString() + "</debicheckpower>");
+            xml.Append("<isbusyreports>" + IsBusyReports.ToString() + "</isbusyreports>");
+            xml.Append("<busyby>" + BusyBy.ToString() + "</busyby>");
             xml.Append("</DebiCheckConfiguration>");
             return xml.ToString();
         }
@@ -133,13 +172,15 @@ namespace UDM.Insurance.Business
         /// <param name="debicheckpower"></param>
 
         /// <returns>A Validation Result object with the result of the fill opertation.</returns>
-        public ValidationResult Fill(int? debicheckpower)
+        public ValidationResult Fill(int? debicheckpower, int? isbusyreports, long? busyby)
         {
             ValidationResult result = new ValidationResult();
 
             try
             {
                 this.DebiCheckPower = debicheckpower;
+                this.IsBusyReports = isbusyreports;
+                this.BusyBy = busyby;
 
             }
             catch (Exception ex)
