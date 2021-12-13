@@ -6826,7 +6826,7 @@
                         Grid.Column="2"
                         Grid.ColumnSpan="24"
                         Background="Transparent"
-                        Visibility="visible">
+                        Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -6948,7 +6948,7 @@
                                         VerticalAlignment="Bottom"
                                         Style="{StaticResource INLabelText1}"
                                         Text="Passport Number">
-                                        
+
                                     </TextBlock>
 
                                     <CheckBox x:Name="DCPassportCB"
@@ -6958,7 +6958,7 @@
                                               HorizontalAlignment="Center"
                                               Checked="DCPassportCB_Checked"
                                               Unchecked="DCPassportCB_Unchecked">
-                                        
+
                                     </CheckBox>
 
                                     <TextBlock
@@ -13757,7 +13757,7 @@
                         Grid.Column="2"
                         Grid.ColumnSpan="24"
                         Background="Transparent"
-                        Visibility="Collapsed">
+                        Visibility="Hidden">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -15495,55 +15495,70 @@
                         VerticalContentAlignment="Top"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden" Margin="43.25,0.333,10.097,0.556">
+                        Visibility="Hidden" Margin="43.25,0.333,0.097,0.556">
 
                     </Label>
-                    <TextBlock
+                    <TextBox
                         x:Name="Mandate1TB"
-                        Grid.Row="15"
+                        Grid.Row="14"
                         Grid.RowSpan="2"
-                        Grid.Column="17"
-                        Grid.ColumnSpan="4"
+                        Grid.Column="16"
+                        Grid.ColumnSpan="5"
                         Height="45"
+                        Width="173"
+                        IsEnabled="False"
                         TextWrapping="Wrap"
-                        Foreground="White"
+                        Foreground="Black"
                         Style="{DynamicResource MaterialDesignTitleTextBlock}"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden">
+                        Visibility="Hidden" Margin="43.25,44.333,0.097,0">
 
-                    </TextBlock>
+                        >
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
 
                     <Label
                         x:Name="Mandate2Lbl1"
                         Grid.Row="14"
-                        Grid.Column="13"
-                        Grid.ColumnSpan="3"
+                        Grid.Column="11"
+                        Grid.ColumnSpan="6"
                         Content="Mandate Details :"
                         Foreground="LightBlue"
                         VerticalContentAlignment="Top"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden">
+                        Visibility="Hidden" Margin="42.625,0.333,43.083,0.556">
 
                     </Label>
-                    <TextBlock
+                    <TextBox
                         x:Name="Mandate2TB"
                         Grid.Row="14"
                         Grid.RowSpan="2"                        
-                        Grid.Column="12"
+                        Grid.Column="11"
                         Grid.ColumnSpan="5"
                         Height="45"
                         TextWrapping="Wrap"
-                        Foreground="White"
+                        IsEnabled="False"
+                        Foreground="Black"
                         Style="{DynamicResource MaterialDesignTitleTextBlock}"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden" Margin="24.611,44.333,1.083,0" Width="189">
+                        Visibility="Hidden" Margin="43,44.333,0.333,0" Width="172">
 
-                    </TextBlock>
+                        >
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
                     <TextBlock
                         x:Name="GotBankingDetailsPLLBL"
                         Grid.Row="14" 
