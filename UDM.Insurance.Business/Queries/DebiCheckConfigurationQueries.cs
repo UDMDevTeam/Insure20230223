@@ -23,7 +23,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [zHstDebiCheckConfiguration] ([ID], [DebiCheckPower], [StampDate], [StampUserID]) SELECT [ID], [DebiCheckPower], [StampDate], [StampUserID] FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID; ";
+                query = "INSERT INTO [zHstDebiCheckConfiguration] ([ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID]) SELECT [ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID] FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID; ";
                 query += "DELETE FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -58,7 +58,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [DebiCheckConfiguration] ([ID], [DebiCheckPower], [StampDate], [StampUserID]) SELECT [ID], [DebiCheckPower], [StampDate], [StampUserID] FROM [zHstDebiCheckConfigurationa] WHERE [zHstDebiCheckConfiguration].[ID] = @ID AND [zHstDebiCheckConfiguration].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstDebiCheckConfiguration] WHERE [zHstDebiCheckConfiguration].[ID] = @ID) AND (SELECT COUNT(ID) FROM [DebiCheckConfiguration] WHERE [ID] = @ID) = 0; ";
+                query = "INSERT INTO [DebiCheckConfiguration] ([ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID]) SELECT [ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID] FROM [zHstDebiCheckConfigurationa] WHERE [zHstDebiCheckConfiguration].[ID] = @ID AND [zHstDebiCheckConfiguration].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstDebiCheckConfiguration] WHERE [zHstDebiCheckConfiguration].[ID] = @ID) AND (SELECT COUNT(ID) FROM [DebiCheckConfiguration] WHERE [ID] = @ID) = 0; ";
                 query += "DELETE FROM [zHstDebiCheckConfiguration] WHERE [zHstDebiCheckConfiguration].[ID] = @ID AND [zHstDebiCheckConfiguration].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstDebiCheckConfiguration] WHERE [zHstDebiCheckConfiguration].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [DebiCheckConfiguration] WHERE [ID] = @ID) = 0; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -78,7 +78,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [DebiCheckPower], [StampDate], [StampUserID] FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID";
+                query = "SELECT [ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID] FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
             }
@@ -95,7 +95,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [DebiCheckConfiguration].[ID], [DebiCheckConfiguration].[DebiCheckPower], [DebiCheckConfiguration].[StampDate], [DebiCheckConfiguration].[StampUserID]");
+            query.Append("SELECT [DebiCheckConfiguration].[ID], [DebiCheckConfiguration].[DebiCheckPower], [DebiCheckConfiguration].[IsBusyReports], [DebiCheckConfiguration].[BusyBy], [DebiCheckConfiguration].[StampDate], [DebiCheckConfiguration].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [DebiCheckConfiguration].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [DebiCheckConfiguration] ");
                 query.Append(" WHERE [DebiCheckConfiguration].[ID] = @ID");
@@ -117,7 +117,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [DebiCheckPower], [StampDate], [StampUserID] FROM [zHstDebiCheckConfiguration] WHERE [zHstDebiCheckConfiguration].[ID] = @ID AND [zHstDebiCheckConfiguration].[StampUserID] = @StampUserID AND [zHstDebiCheckConfiguration].[StampDate] = @StampDate";
+                query = "SELECT [ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID] FROM [zHstDebiCheckConfiguration] WHERE [zHstDebiCheckConfiguration].[ID] = @ID AND [zHstDebiCheckConfiguration].[StampUserID] = @StampUserID AND [zHstDebiCheckConfiguration].[StampDate] = @StampDate";
                 parameters = new object[3];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
                 parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
@@ -135,7 +135,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string List()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [DebiCheckConfiguration].[ID], [DebiCheckConfiguration].[DebiCheckPower], [DebiCheckConfiguration].[StampDate], [DebiCheckConfiguration].[StampUserID]");
+            query.Append("SELECT [DebiCheckConfiguration].[ID], [DebiCheckConfiguration].[DebiCheckPower], [DebiCheckConfiguration].[IsBusyReports], [DebiCheckConfiguration].[BusyBy], [DebiCheckConfiguration].[StampDate], [DebiCheckConfiguration].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [DebiCheckConfiguration].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [DebiCheckConfiguration] ");
             return query.ToString();
@@ -148,7 +148,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string ListDeleted()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [zHstDebiCheckConfiguration].[ID], [zHstDebiCheckConfiguration].[DebiCheckPower], [zHstDebiCheckConfiguration].[StampDate], [zHstDebiCheckConfiguration].[StampUserID]");
+            query.Append("SELECT [zHstDebiCheckConfiguration].[ID], [zHstDebiCheckConfiguration].[DebiCheckPower], [zHstDebiCheckConfiguration].[IsBusyReports], [zHstDebiCheckConfiguration].[BusyBy], [zHstDebiCheckConfiguration].[StampDate], [zHstDebiCheckConfiguration].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstDebiCheckConfiguration].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstDebiCheckConfiguration] ");
             query.Append("INNER JOIN (SELECT [zHstDebiCheckConfiguration].[ID], MAX([zHstDebiCheckConfiguration].[StampDate]) AS 'StampDate' ");
@@ -170,7 +170,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [zHstDebiCheckConfiguration].[ID], [zHstDebiCheckConfiguration].[DebiCheckPower], [zHstDebiCheckConfiguration].[StampDate], [zHstDebiCheckConfiguration].[StampUserID]");
+            query.Append("SELECT [zHstDebiCheckConfiguration].[ID], [zHstDebiCheckConfiguration].[DebiCheckPower], [zHstDebiCheckConfiguration].[IsBusyReports], [zHstDebiCheckConfiguration].[BusyBy], [zHstDebiCheckConfiguration].[StampDate], [zHstDebiCheckConfiguration].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstDebiCheckConfiguration].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstDebiCheckConfiguration] ");
                 query.Append(" WHERE [zHstDebiCheckConfiguration].[ID] = @ID");
@@ -195,21 +195,26 @@ namespace UDM.Insurance.Business.Queries
             {
                 if (calldata.IsLoaded)
                 {
-                    query.Append("INSERT INTO [zHstDebiCheckConfiguration] ([ID], [DebiCheckPower], [StampDate], [StampUserID]) SELECT [ID], [DebiCheckPower], [StampDate], [StampUserID] FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID; ");
+                    query.Append("INSERT INTO [zHstDebiCheckConfiguration] ([ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID]) SELECT [ID], [DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID] FROM [DebiCheckConfiguration] WHERE [DebiCheckConfiguration].[ID] = @ID; ");
                     query.Append("UPDATE [DebiCheckConfiguration]");
-                    parameters = new object[2];
+                    parameters = new object[4];
                     query.Append(" SET [DebiCheckPower] = @DebiCheckPower");
                     parameters[0] = Database.GetParameter("@DebiCheckPower", calldata.DebiCheckPower.HasValue ? (object)calldata.DebiCheckPower.Value : DBNull.Value);
+                    query.Append(", [IsBusyReports] = @IsBusyReports");
+                    parameters[1] = Database.GetParameter("@IsBusyReports", calldata.IsBusyReports.HasValue ? (object)calldata.IsBusyReports.Value : DBNull.Value);
+                    query.Append(", [BusyBy] = @BusyBy");
+                    parameters[2] = Database.GetParameter("@BusyBy", calldata.BusyBy.HasValue ? (object)calldata.BusyBy.Value : DBNull.Value);
                     query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
                     query.Append(" WHERE [DebiCheckConfiguration].[ID] = @ID"); 
-                    parameters[1] = Database.GetParameter("@ID", calldata.ID);
+                    parameters[3] = Database.GetParameter("@ID", calldata.ID);
                 }
                 else
                 {
-                    query.Append("INSERT INTO [DebiCheckConfiguration] ([DebiCheckPower],  [StampDate], [StampUserID]) VALUES(@DebiCheckPower, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                    parameters = new object[1];
+                    query.Append("INSERT INTO [DebiCheckConfiguration] ([DebiCheckPower], [IsBusyReports], [BusyBy], [StampDate], [StampUserID]) VALUES(@DebiCheckPower, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                    parameters = new object[3];
                     parameters[0] = Database.GetParameter("@DebiCheckPower", calldata.DebiCheckPower.HasValue ? (object)calldata.DebiCheckPower.Value : DBNull.Value);
-
+                    parameters[1] = Database.GetParameter("@IsBusyReports", calldata.IsBusyReports.HasValue ? (object)calldata.IsBusyReports.Value : DBNull.Value);
+                    parameters[2] = Database.GetParameter("@BusyBy", calldata.BusyBy.HasValue ? (object)calldata.BusyBy.Value : DBNull.Value);
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
             }
@@ -226,7 +231,7 @@ namespace UDM.Insurance.Business.Queries
         /// <param name="extension">The extension search criteria.</param>
         /// <param name="recref">The recref search criteria.</param>
         /// <returns>A query that can be used to search for calldatas based on the search criteria.</returns>
-        internal static string Search(int? debicheckpower)
+        internal static string Search(int? debicheckpower, int? isreportbusy, long? busyby)
         {
             StringBuilder whereQuery = new StringBuilder();
             StringBuilder query = new StringBuilder();
