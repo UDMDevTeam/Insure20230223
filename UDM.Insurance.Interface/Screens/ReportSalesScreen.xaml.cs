@@ -709,7 +709,7 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtDebiCheckCallBacks = ds.Tables[18];
                 DataTable dtDebiCheckCallBacksCampaignTotals = ds.Tables[19];
                 DataTable dtDebiCheckcallBackGrandTotals = ds.Tables[20];
-                wsReport = wbReport.Worksheets.Add(string.Join("", ("Debi Check Call Backs -" + agentName).Take(31)));
+                wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs -" + agentName).Take(31)));
                
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
