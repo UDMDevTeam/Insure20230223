@@ -15533,7 +15533,8 @@
                         VerticalContentAlignment="Top"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden" Margin="42.625,0.333,43.083,0.556">
+                        Visibility="Hidden" 
+                        Margin="42.625,0.333,43.083,0.556">
 
                     </Label>
                     <TextBox
@@ -15550,7 +15551,7 @@
                         VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden" Margin="43,44.333,0.333,0" Width="172">
+                        Visibility="Collapsed" Margin="43,44.333,0.333,0" Width="172">
 
                         >
                         <TextBox.Resources>
@@ -15559,15 +15560,29 @@
                             </Style>
                         </TextBox.Resources>
                     </TextBox>
-                    <TextBlock
+                    <!--<TextBlock
                         x:Name="GotBankingDetailsPLLBL"
                         Grid.Row="14" 
-                        Grid.Column="8"
+                        Grid.Column="7"
                         Text="Banking Details Retrieved:"
                         Foreground="LightBlue"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Visibility="Collapsed" Grid.ColumnSpan="4" Height="22" Margin="0,0,26,23" Width="145"/>
+                        FontSize="13"
+                        Visibility="Visible" 
+                        Margin="42.625,0.333,43.083,0.556"
+                        Grid.ColumnSpan="5"></TextBlock>-->
+                    <Label
+                        x:Name="GotBankingDetailsPLLBL"
+                        Grid.Row="14"
+                        Grid.Column="6"
+                        Grid.ColumnSpan="6"
+                        Content="Banking Details Retrieved:"
+                        Foreground="LightBlue"
+                        VerticalContentAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        FontSize="13"
+                        Visibility="Hidden" 
+                        Margin="41.667,0.333,1.333,0.556"></Label>
+
                     <TextBlock
                         x:Name="GotBankingDetailsPLLBL2"
                         Grid.Row="15"
@@ -15577,7 +15592,7 @@
                         TextWrapping="Wrap"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        Visibility="Collapsed" 
+                        Visibility="Hidden" 
                         Grid.ColumnSpan="4" 
                         Height="45" 
                         Margin="0,0,40,0" 
@@ -15586,23 +15601,19 @@
 
                     <Border
                         x:Name="GotBankingDetailsPL"
-                        Grid.Row="14"
-                        Margin="2,27,2,23"
+                        Grid.Row="15"
+                        Margin="2,4.444,1.667,0.222"
                         Grid.Column="10"       
-                        Visibility="Collapsed"
+                        Visibility="Hidden"
                         CornerRadius="20"
-                        Background="Gray"
-                        Grid.RowSpan="2">
-                    </Border>
+                        Background="Gray"/>
 
                     <Button x:Name ="GotBankingDetailsPLBTN"
-                            Grid.Column="8"
+                            Grid.Column="7"
                             Background="LightBlue"
-                            Grid.Row="14"
-                            
-                            Grid.RowSpan="2"
-                            Visibility="Collapsed"
-                            Click="GotBankingDetailsPLBTN_Click" Margin="0,22,0,23"
+                            Grid.Row="15"
+                            Visibility="Hidden"
+                            Click="GotBankingDetailsPLBTN_Click" Margin="41.667,0.444,0.333,0.222" Grid.ColumnSpan="2"
                             >
                         <Image Source="../Resources/reloadbanking.png"></Image>
                         <Button.Resources>
