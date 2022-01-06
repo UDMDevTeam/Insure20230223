@@ -51,6 +51,8 @@ namespace UDM.Insurance.Interface.Screens
         DataSet dsDiaryReportData;
         DataSet dsDiaryReportDataSummary;
 
+        private bool CombinedBool = false;
+
         #endregion
 
         #region Constructor
@@ -262,9 +264,9 @@ namespace UDM.Insurance.Interface.Screens
                     {
 
                         workSheet.Cells[2, i + 1].Font.Bold = true;
-                        if (i == 0)
+                        if (i == 1)
                         {
-                            workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                            workSheet.Cells[2, i + 1].ColumnWidth = 30;
                         }
                         else
                         {
@@ -290,30 +292,68 @@ namespace UDM.Insurance.Interface.Screens
                         for (var j = 0; j < dtSalesData.Columns.Count; j++)
                         {
                             workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
+                            workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                         }
 
                         countForNonRedeemed = countForNonRedeemed + 1;
                     }
 
-                    countForNonRedeemed = countForNonRedeemed + 2;
+                    #region Totals for Grid 1
+                    workSheet.Cells[countForNonRedeemed + 3 , 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //D TotalLeads
+                    workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E TotalContacts
+                    workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=E" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //F TotalContact%
+                    workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=SUM(G3:G" + (countForNonRedeemed + 2).ToString() + ")"); //G TotalSales
+                    workSheet.Cells[countForNonRedeemed + 3, 8].Formula = string.Format("=G" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //H Sale to Contact %
+                    workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=G" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //I Conversion %
+                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //J Sales to Go 
+                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //K Declines
+                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //L Decline %
+                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M Diaries
+                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=M" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //N Diarie %
+                    #endregion
 
+                    countForNonRedeemed = countForNonRedeemed + 3;
+                    int CountSecondGridTotals = countForNonRedeemed;
 
-                    for (var i = 0; i < dtSalesData2.Columns.Count; i++)
+                    if(CombinedBool == false)
                     {
-                        workSheet.Cells[countForNonRedeemed + 2, i + 1].Font.Bold = true;
-
-                        workSheet.Cells[2 + countForNonRedeemed, i + 1] = dtSalesData2.Columns[i].ColumnName;
-                    }
-
-                    // rows
-                    for (var i = 1; i < dtSalesData2.Rows.Count + 1; i++)
-                    {
-                        // to do: format datetime values before printing
-                        for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                        for (var i = 0; i < dtSalesData2.Columns.Count; i++)
                         {
-                            workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
+                            workSheet.Cells[countForNonRedeemed + 2, i + 1].Font.Bold = true;
+
+                            workSheet.Cells[2 + countForNonRedeemed, i + 1] = dtSalesData2.Columns[i].ColumnName;
                         }
+
+                        // rows
+                        for (var i = 1; i < dtSalesData2.Rows.Count + 1; i++)
+                        {
+                            // to do: format datetime values before printing
+                            for (var j = 0; j < dtSalesData.Columns.Count; j++)
+                            {
+                                workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
+                                workSheet.Cells[i + 2 + countForNonRedeemed, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                            }
+
+                            CountSecondGridTotals = CountSecondGridTotals + 1;
+                        }
+                        #region Totals for Grid 2
+                        workSheet.Cells[CountSecondGridTotals + 3, 4].Formula = string.Format("=SUM(D" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":D" + (CountSecondGridTotals + 2).ToString() + ")"); //D TotalLeads
+                        workSheet.Cells[CountSecondGridTotals + 3, 5].Formula = string.Format("=SUM(E" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":E" + (CountSecondGridTotals + 2).ToString() + ")"); //E TotalContacts
+                        workSheet.Cells[CountSecondGridTotals + 3, 6].Formula = string.Format("=E" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //F TotalContact%
+                        workSheet.Cells[CountSecondGridTotals + 3, 7].Formula = string.Format("=SUM(G" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":G" + (CountSecondGridTotals + 2).ToString() + ")"); //G TotalSales
+                        workSheet.Cells[CountSecondGridTotals + 3, 8].Formula = string.Format("=G" + (CountSecondGridTotals + 3).ToString() + "/E" + (CountSecondGridTotals + 3).ToString()); //H Sale to Contact %
+                        workSheet.Cells[CountSecondGridTotals + 3, 9].Formula = string.Format("=G" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //I Conversion %
+                        workSheet.Cells[CountSecondGridTotals + 3, 10].Formula = string.Format("=SUM(J" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":J" + (CountSecondGridTotals + 2).ToString() + ")"); //J Sales to Go 
+                        workSheet.Cells[CountSecondGridTotals + 3, 11].Formula = string.Format("=SUM(K" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":K" + (CountSecondGridTotals + 2).ToString() + ")"); //K Declines
+                        workSheet.Cells[CountSecondGridTotals + 3, 12].Formula = string.Format("=K" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //L Decline %
+                        workSheet.Cells[CountSecondGridTotals + 3, 13].Formula = string.Format("=SUM(M" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":M" + (CountSecondGridTotals + 2).ToString() + ")"); //M Diaries
+                        workSheet.Cells[CountSecondGridTotals + 3, 14].Formula = string.Format("=M" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //N Diarie %
+                        #endregion
                     }
+
+
+
 
                     //var totalTable = dsDiaryReportData.Tables[1];
 
@@ -342,12 +382,14 @@ namespace UDM.Insurance.Interface.Screens
                     tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
 
-                    (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 9]).EntireColumn.NumberFormat = "##%";
 
-                    //AddSummaryPage(excelApp);
+                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
+
+                    AddSummaryPage(excelApp);
 
 
                     // check file path
@@ -383,11 +425,13 @@ namespace UDM.Insurance.Interface.Screens
         {
 
             #region Get the report data
-            DataTable dtSalesData;
-            DataTable dtSalesData2;
+            DataTable dtSalesData = null;
+            DataTable dtSalesData2 = null;
 
-            dtSalesData = dsDiaryReportDataSummary.Tables[0];
-            dtSalesData2 = dsDiaryReportDataSummary.Tables[1];
+
+
+            dtSalesData = dsDiaryReportData.Tables[2];
+            dtSalesData2 = dsDiaryReportData.Tables[3];
 
 
             #endregion Get the report data
@@ -400,9 +444,9 @@ namespace UDM.Insurance.Interface.Screens
             {
 
                 workSheet.Cells[2, i + 1].Font.Bold = true;
-                if (i == 0)
+                if (i == 2)
                 {
-                    workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                    workSheet.Cells[2, i + 1].ColumnWidth = 30;
                 }
                 else
                 {
@@ -428,30 +472,71 @@ namespace UDM.Insurance.Interface.Screens
                 for (var j = 0; j < dtSalesData.Columns.Count; j++)
                 {
                     workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
+                    workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
                 }
 
                 countForNonRedeemed = countForNonRedeemed + 1;
             }
 
-            countForNonRedeemed = countForNonRedeemed + 2;
+            #region Totals for Grid 1
+            workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //D TotalLeads
+            workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E TotalContacts
+            workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=E" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //F TotalContact%
+            workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=SUM(G3:G" + (countForNonRedeemed + 2).ToString() + ")"); //G TotalSales
+            workSheet.Cells[countForNonRedeemed + 3, 8].Formula = string.Format("=G" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //H Sale to Contact %
+            workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=G" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //I Conversion %
+            workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //J Sales to Go 
+            workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //K Declines
+            workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //L Decline %
+            workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M Diaries
+            workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=M" + (countForNonRedeemed + 3).ToString() + "/D" + (countForNonRedeemed + 3).ToString()); //N Diarie %
+            #endregion
+
+            countForNonRedeemed = countForNonRedeemed + 3;
+            int CountSecondGridTotals = countForNonRedeemed;
 
 
-            for (var i = 0; i < dtSalesData2.Columns.Count; i++)
+            if (CombinedBool == false)
             {
-                workSheet.Cells[countForNonRedeemed + 2, i + 1].Font.Bold = true;
-
-                workSheet.Cells[2 + countForNonRedeemed, i + 1] = dtSalesData2.Columns[i].ColumnName;
-            }
-
-            // rows
-            for (var i = 1; i < dtSalesData2.Rows.Count + 1; i++)
-            {
-                // to do: format datetime values before printing
-                for (var j = 0; j < dtSalesData2.Columns.Count; j++)
+                for (var i = 0; i < dtSalesData2.Columns.Count; i++)
                 {
-                    workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
+                    workSheet.Cells[countForNonRedeemed + 2, i + 1].Font.Bold = true;
+
+                    workSheet.Cells[2 + countForNonRedeemed, i + 1] = dtSalesData2.Columns[i].ColumnName;
                 }
+
+                // rows
+                for (var i = 1; i < dtSalesData2.Rows.Count + 1; i++)
+                {
+                    // to do: format datetime values before printing
+                    for (var j = 0; j < dtSalesData2.Columns.Count; j++)
+                    {
+                        workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
+                        workSheet.Cells[i + 2 + countForNonRedeemed, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                    }
+                    CountSecondGridTotals = CountSecondGridTotals + 1;
+                }
+
+                #region Totals for Grid 2
+                workSheet.Cells[CountSecondGridTotals + 3, 4].Formula = string.Format("=SUM(D" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":D" + (CountSecondGridTotals + 2).ToString() + ")"); //D TotalLeads
+                workSheet.Cells[CountSecondGridTotals + 3, 5].Formula = string.Format("=SUM(E" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":E" + (CountSecondGridTotals + 2).ToString() + ")"); //E TotalContacts
+                workSheet.Cells[CountSecondGridTotals + 3, 6].Formula = string.Format("=E" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //F TotalContact%
+                workSheet.Cells[CountSecondGridTotals + 3, 7].Formula = string.Format("=SUM(G" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":G" + (CountSecondGridTotals + 2).ToString() + ")"); //G TotalSales
+                workSheet.Cells[CountSecondGridTotals + 3, 8].Formula = string.Format("=G" + (CountSecondGridTotals + 3).ToString() + "/E" + (CountSecondGridTotals + 3).ToString()); //H Sale to Contact %
+                workSheet.Cells[CountSecondGridTotals + 3, 9].Formula = string.Format("=G" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //I Conversion %
+                workSheet.Cells[CountSecondGridTotals + 3, 10].Formula = string.Format("=SUM(J" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":J" + (CountSecondGridTotals + 2).ToString() + ")"); //J Sales to Go 
+                workSheet.Cells[CountSecondGridTotals + 3, 11].Formula = string.Format("=SUM(K" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":K" + (CountSecondGridTotals + 2).ToString() + ")"); //K Declines
+                workSheet.Cells[CountSecondGridTotals + 3, 12].Formula = string.Format("=K" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //L Decline %
+                workSheet.Cells[CountSecondGridTotals + 3, 13].Formula = string.Format("=SUM(M" + (CountSecondGridTotals + 1 - dtSalesData2.Rows.Count) + ":M" + (CountSecondGridTotals + 2).ToString() + ")"); //M Diaries
+                workSheet.Cells[CountSecondGridTotals + 3, 14].Formula = string.Format("=M" + (CountSecondGridTotals + 3).ToString() + "/D" + (CountSecondGridTotals + 3).ToString()); //N Diarie %
+                #endregion
             }
+
+
+
+
 
             //var totalTable = dsDiaryReportData.Tables[1];
 
@@ -479,11 +564,11 @@ namespace UDM.Insurance.Interface.Screens
             tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
             tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
-
-            (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "00,00%";
-            (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "00,00%";
-            (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
-            (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
+            (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 9]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
         }
 
         private void Report(object sender, DoWorkEventArgs e)
@@ -998,12 +1083,12 @@ namespace UDM.Insurance.Interface.Screens
 
         private void CombinedCB_Checked(object sender, RoutedEventArgs e)
         {
-
+            CombinedBool = true;
         }
 
         private void CombinedCB_Unchecked(object sender, RoutedEventArgs e)
         {
-
+            CombinedBool = false;
         }
     }
 }
