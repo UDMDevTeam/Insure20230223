@@ -84,15 +84,21 @@
     </Window.Resources>
 
     <Viewbox
-        Stretch="Uniform">
-        <Border
+        Stretch="Uniform">           
+            
+            <Border
             x:Name="MainBorder"
             Width="1200"
             Height="800"
-            Background="Black"
             BorderBrush="{StaticResource BrandedBrushIN}"
             BorderThickness="2"
             CornerRadius="12">
+
+            <Border.Background>
+                <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+            </Border.Background>
+
+
             <Grid
                 x:Name="LayoutRoot">
                 <Grid.RowDefinitions>

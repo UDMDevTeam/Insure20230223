@@ -22,7 +22,15 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        <Border x:Name="MainBorder" Width="1200" Height="750" Background="Black" BorderBrush="{DynamicResource BrandedBrushIN}" BorderThickness="2" CornerRadius="12">
+        <Border x:Name="MainBorder"
+                Width="1200" Height="750" 
+                BorderBrush="{DynamicResource BrandedBrushIN}"
+                BorderThickness="2"
+                CornerRadius="12">
+
+                <Border.Background>
+                <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+            </Border.Background>
             <Border.Style>
                 <Style>
                     <Setter Property="Border.Opacity" Value="1" />
@@ -33,7 +41,11 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <Viewbox>
+
+
+
+
+                <Viewbox>
                 <Grid
                     x:Name="LayoutRoot"
                     Width="1200"
