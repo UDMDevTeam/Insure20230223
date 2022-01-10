@@ -54,7 +54,6 @@ namespace UDM.Insurance.Interface.Screens
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int x, int y);
 
-        bool DebiCheckSentTwice;
         int checkBoxMoveToPermissionLeadsCounter = 0;// This is a counter for limiting the Permissions Lead from being displayed 
 
         #endregion
@@ -65,9 +64,10 @@ namespace UDM.Insurance.Interface.Screens
         private const string mercUsername = "SOAP";
         private const string mercInstCode = "UDM1";
         private const string mercPassword = "Password1";
-
         private const string debiCheckURL = "http://plhqweb.platinumlife.co.za:8081/";
 
+        #region DebiCheck Variables
+        bool DebiCheckSentTwice;
         string PolicyNumberPLLKP = "";
         string ReferenceNumberPLLKP = "";
         string ResponseDetailPLLKP = ""; // WILL RETURN "OK" OR "No Data Found"
@@ -77,9 +77,10 @@ namespace UDM.Insurance.Interface.Screens
         string BranchCodePLLKP = "";
         string AccountTypePLLKP = "";
         string DebitDayPLLKP = "";
-
         string IDNumberPLLKP = "";
         string PassportNumberPLLKP = "";
+        bool PolicyHolderBoolDC = true;
+        #endregion
 
         #region BulkSMS
 
@@ -2016,6 +2017,7 @@ namespace UDM.Insurance.Interface.Screens
                                     || LaData.AppData.CampaignID == 264
                                     || LaData.AppData.CampaignID == 4)
                             {
+                                PolicyHolderBoolDC = true;
                                 GetBankingDetailLookup();
                             }
                         }
@@ -2023,6 +2025,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             btnDebiCheck.SetValue(Grid.RowProperty, 17);
                             DebiCheckBorder.SetValue(Grid.RowProperty, 17);
+                            PolicyHolderBoolDC = true;
                             GetBankingDetailLookup();
 
                         }
@@ -7824,7 +7827,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199)
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199 || PolicyHolderBoolDC == false)
                     {
 
                     }
@@ -14747,6 +14750,19 @@ namespace UDM.Insurance.Interface.Screens
                     BranchCodePLLKP = (string)customObject["BranchCode"];
                     AccountTypePLLKP = (string)customObject["AccountType"];
                     DebitDayPLLKP = (string)customObject["DebitDay"];
+                    string policyHolderBool = (string)customObject["PolicyOwner"];
+                    //string policyHolderBool = "0";
+
+
+                    if (policyHolderBool == "1")
+                    {
+                        PolicyHolderBoolDC = true;
+                    }
+                    else
+                    {
+                        PolicyHolderBoolDC = false;
+                    }
+
 
                     if (BankPLLKP == null || BankPLLKP == "")
                     {
@@ -14941,7 +14957,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                             //these banks dont accept DebiCheck Mandates Yet
-                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261)
+                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || PolicyHolderBoolDC == false)
                             {
                                 btnDebiCheck.Visibility = Visibility.Collapsed; // this collapses the DebiChecks
                                 DebiCheckBorder.Visibility = Visibility.Collapsed;
@@ -14956,153 +14972,155 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             else
                             {
-                                if (ClosurePage.Visibility == Visibility.Visible)
-                                {
-                                    btnDebiCheck.Visibility = Visibility.Visible;
-                                    DebiCheckBorder.Visibility = Visibility.Visible;
-                                    Mandate1Lbl1.Visibility = Visibility.Visible;
-                                    Mandate1TB.Visibility = Visibility.Visible;
-                                    Mandate2Lbl1.Visibility = Visibility.Visible;
-                                    Mandate2TB.Visibility = Visibility.Visible;
-                                    GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
-
-                                    IsDebiCheckValid();
-
-                                    //this is for the resales campaign rule
-                                    if (LaData.AppData.CampaignID == 7
-                                        || LaData.AppData.CampaignID == 9
-                                        || LaData.AppData.CampaignID == 10
-                                        || LaData.AppData.CampaignID == 294
-                                        || LaData.AppData.CampaignID == 295
-                                        || LaData.AppData.CampaignID == 24
-                                        || LaData.AppData.CampaignID == 25
-                                        || LaData.AppData.CampaignID == 11
-                                        || LaData.AppData.CampaignID == 12
-                                        || LaData.AppData.CampaignID == 13
-                                        || LaData.AppData.CampaignID == 14
-                                        || LaData.AppData.CampaignID == 85
-                                        || LaData.AppData.CampaignID == 86
-                                        || LaData.AppData.CampaignID == 87
-                                        || LaData.AppData.CampaignID == 281
-                                        || LaData.AppData.CampaignID == 324
-                                        || LaData.AppData.CampaignID == 325
-                                        || LaData.AppData.CampaignID == 326
-                                        || LaData.AppData.CampaignID == 327
-                                        || LaData.AppData.CampaignID == 264
-                                        || LaData.AppData.CampaignID == 4)
+                                    if (ClosurePage.Visibility == Visibility.Visible)
                                     {
-                                        DateTime ImportDate;
+                                        btnDebiCheck.Visibility = Visibility.Visible;
+                                        DebiCheckBorder.Visibility = Visibility.Visible;
+                                        Mandate1Lbl1.Visibility = Visibility.Visible;
+                                        Mandate1TB.Visibility = Visibility.Visible;
+                                        Mandate2Lbl1.Visibility = Visibility.Visible;
+                                        Mandate2TB.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+
+                                        IsDebiCheckValid();
+
+                                        //this is for the resales campaign rule
+                                        if (LaData.AppData.CampaignID == 7
+                                            || LaData.AppData.CampaignID == 9
+                                            || LaData.AppData.CampaignID == 10
+                                            || LaData.AppData.CampaignID == 294
+                                            || LaData.AppData.CampaignID == 295
+                                            || LaData.AppData.CampaignID == 24
+                                            || LaData.AppData.CampaignID == 25
+                                            || LaData.AppData.CampaignID == 11
+                                            || LaData.AppData.CampaignID == 12
+                                            || LaData.AppData.CampaignID == 13
+                                            || LaData.AppData.CampaignID == 14
+                                            || LaData.AppData.CampaignID == 85
+                                            || LaData.AppData.CampaignID == 86
+                                            || LaData.AppData.CampaignID == 87
+                                            || LaData.AppData.CampaignID == 281
+                                            || LaData.AppData.CampaignID == 324
+                                            || LaData.AppData.CampaignID == 325
+                                            || LaData.AppData.CampaignID == 326
+                                            || LaData.AppData.CampaignID == 327
+                                            || LaData.AppData.CampaignID == 264
+                                            || LaData.AppData.CampaignID == 4)
+                                        {
+                                            DateTime ImportDate;
+                                            try
+                                            {
+                                                StringBuilder strQueryImportDate = new StringBuilder();
+                                                strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
+                                                strQueryImportDate.Append("FROM INImport ");
+                                                strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                                strQueryImportDate.Append(" ORDER BY ID DESC");
+                                                DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
+                                                ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
+                                            }
+                                            catch
+                                            {
+                                                ImportDate = DateTime.Now;
+                                            }
+                                            if (ImportDate > DateTime.Now.AddMonths(-3))
+                                            {
+                                                IsDebiCheckValidForResales();
+
+                                                GotBankingDetailsPL.Visibility = Visibility.Visible;
+                                                GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
+                                                GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
+                                                GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+                                            }
+                                            else
+                                            {
+                                                btnDebiCheck.Visibility = Visibility.Collapsed;
+                                                DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                                Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                                Mandate1TB.Visibility = Visibility.Collapsed;
+                                                Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                                Mandate2TB.Visibility = Visibility.Collapsed;
+                                                GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                                GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                                GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                                GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                            }
+
+
+
+                                            //btnDebiCheck.Visibility = Visibility.Collapsed;
+                                            //DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                            //Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                            //Mandate1TB.Visibility = Visibility.Collapsed;
+                                            //Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                            //Mandate2TB.Visibility = Visibility.Collapsed;
+
+                                            //GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                            //GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                            //GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                            //GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                        }
+
+                                        //this enables the button depending on the Leadstatus the lead is saved as
                                         try
                                         {
-                                            StringBuilder strQueryImportDate = new StringBuilder();
-                                            strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
-                                            strQueryImportDate.Append("FROM INImport ");
-                                            strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                            strQueryImportDate.Append(" ORDER BY ID DESC");
-                                            DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
-                                            ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
+                                            StringBuilder strQuery = new StringBuilder();
+                                            strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
+                                            strQuery.Append("FROM INImport ");
+                                            strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                            strQuery.Append(" ORDER BY ID DESC");
+                                            DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                            string response = dt.Rows[0]["Response"].ToString();
+
+                                            if (response.Contains("19") || response.Contains("23"))
+                                            {
+                                                DebiCheckBorder.BorderBrush = Brushes.White;
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
+                                            if (response.Contains("21"))
+                                            {
+                                                DebiCheckBorder.BorderBrush = Brushes.White;
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
                                         }
                                         catch
                                         {
-                                            ImportDate = DateTime.Now;
+
                                         }
-                                        if (ImportDate > DateTime.Now.AddMonths(-3))
+                                        //this is for when there is a bump up
+                                        try
                                         {
-                                            IsDebiCheckValidForResales();
-
-                                            GotBankingDetailsPL.Visibility = Visibility.Visible;
-                                            GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
-                                            GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
-                                            GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+                                            if (chkUDMBumpUp.IsChecked == true)
+                                            {
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
                                         }
-                                        else
+                                        catch
                                         {
-                                            btnDebiCheck.Visibility = Visibility.Collapsed;
-                                            DebiCheckBorder.Visibility = Visibility.Collapsed;
-                                            Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                                            Mandate1TB.Visibility = Visibility.Collapsed;
-                                            Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                                            Mandate2TB.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+
                                         }
 
-
-
-                                        //btnDebiCheck.Visibility = Visibility.Collapsed;
-                                        //DebiCheckBorder.Visibility = Visibility.Collapsed;
-                                        //Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                                        //Mandate1TB.Visibility = Visibility.Collapsed;
-                                        //Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                                        //Mandate2TB.Visibility = Visibility.Collapsed;
-
-                                        //GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                                        //GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                                        //GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                                        //GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                                     }
-
-                                    //this enables the button depending on the Leadstatus the lead is saved as
-                                    try
+                                    else
                                     {
-                                        StringBuilder strQuery = new StringBuilder();
-                                        strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
-                                        strQuery.Append("FROM INImport ");
-                                        strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                        strQuery.Append(" ORDER BY ID DESC");
-                                        DataTable dt = Methods.GetTableData(strQuery.ToString());
-
-                                        string response = dt.Rows[0]["Response"].ToString();
-
-                                        if (response.Contains("19") || response.Contains("23"))
-                                        {
-                                            DebiCheckBorder.BorderBrush = Brushes.White;
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                        if (response.Contains("21"))
-                                        {
-                                            DebiCheckBorder.BorderBrush = Brushes.White;
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                    }
-                                    catch
-                                    {
+                                        btnDebiCheck.Visibility = Visibility.Collapsed;
+                                        DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                        Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                        Mandate1TB.Visibility = Visibility.Collapsed;
+                                        Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                        Mandate2TB.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
 
                                     }
-                                    //this is for when there is a bump up
-                                    try
-                                    {
-                                        if (chkUDMBumpUp.IsChecked == true)
-                                        {
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                    }
-                                    catch
-                                    {
-
-                                    }
-
                                 }
-                                else
-                                {
-                                    btnDebiCheck.Visibility = Visibility.Collapsed;
-                                    DebiCheckBorder.Visibility = Visibility.Collapsed;
-                                    Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                                    Mandate1TB.Visibility = Visibility.Collapsed;
-                                    Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                                    Mandate2TB.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                                    GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
 
-                                }
-                            }
+                            
 
 
                         }
@@ -15111,68 +15129,7 @@ namespace UDM.Insurance.Interface.Screens
                             //this enables the button depending on the Leadstatus the lead is saved as
                             try
                             {
-                                if (ClosurePage.Visibility == Visibility.Visible)
-                                {
-                                    btnDebiCheck.Visibility = Visibility.Visible;
-                                    DebiCheckBorder.Visibility = Visibility.Visible;
-                                    Mandate1Lbl1.Visibility = Visibility.Visible;
-                                    Mandate1TB.Visibility = Visibility.Visible;
-                                    Mandate2Lbl1.Visibility = Visibility.Visible;
-                                    Mandate2TB.Visibility = Visibility.Visible;
-                                    GotBankingDetailsPL.Visibility = Visibility.Visible;
-                                    GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
-                                    GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
-                                    GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
-
-                                    //IsDebiCheckValid();
-
-                                    //this enables the button depending on the Leadstatus the lead is saved as
-                                    try
-                                    {
-                                        StringBuilder strQuery = new StringBuilder();
-                                        strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
-                                        strQuery.Append("FROM INImport ");
-                                        strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
-                                        strQuery.Append(" ORDER BY ID DESC");
-                                        DataTable dt = Methods.GetTableData(strQuery.ToString());
-
-                                        string response = dt.Rows[0]["Response"].ToString();
-
-                                        if (response.Contains("19"))
-                                        {
-                                            DebiCheckBorder.BorderBrush = Brushes.White;
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                        if (response.Contains("21"))
-                                        {
-                                            DebiCheckBorder.BorderBrush = Brushes.White;
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                        if (response.Contains("23"))
-                                        {
-                                            DebiCheckBorder.BorderBrush = Brushes.White;
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                                    //this is for when there is a bump up
-                                    try
-                                    {
-                                        if (chkUDMBumpUp.IsChecked == true)
-                                        {
-                                            btnDebiCheck.IsEnabled = true;
-                                        }
-                                    }
-                                    catch
-                                    {
-
-                                    }
-
-                                }
-                                else
+                                if(PolicyHolderBoolDC == false)
                                 {
                                     btnDebiCheck.Visibility = Visibility.Collapsed;
                                     DebiCheckBorder.Visibility = Visibility.Collapsed;
@@ -15185,7 +15142,83 @@ namespace UDM.Insurance.Interface.Screens
                                     GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                     GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                                 }
+                                else
+                                {
+                                    if (ClosurePage.Visibility == Visibility.Visible)
+                                    {
+                                        btnDebiCheck.Visibility = Visibility.Visible;
+                                        DebiCheckBorder.Visibility = Visibility.Visible;
+                                        Mandate1Lbl1.Visibility = Visibility.Visible;
+                                        Mandate1TB.Visibility = Visibility.Visible;
+                                        Mandate2Lbl1.Visibility = Visibility.Visible;
+                                        Mandate2TB.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPL.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
 
+                                        //IsDebiCheckValid();
+
+                                        //this enables the button depending on the Leadstatus the lead is saved as
+                                        try
+                                        {
+                                            StringBuilder strQuery = new StringBuilder();
+                                            strQuery.Append("SELECT TOP 1 FKINLeadStatusID [Response] ");
+                                            strQuery.Append("FROM INImport ");
+                                            strQuery.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                            strQuery.Append(" ORDER BY ID DESC");
+                                            DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                            string response = dt.Rows[0]["Response"].ToString();
+
+                                            if (response.Contains("19"))
+                                            {
+                                                DebiCheckBorder.BorderBrush = Brushes.White;
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
+                                            if (response.Contains("21"))
+                                            {
+                                                DebiCheckBorder.BorderBrush = Brushes.White;
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
+                                            if (response.Contains("23"))
+                                            {
+                                                DebiCheckBorder.BorderBrush = Brushes.White;
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
+                                        }
+                                        catch
+                                        {
+
+                                        }
+                                        //this is for when there is a bump up
+                                        try
+                                        {
+                                            if (chkUDMBumpUp.IsChecked == true)
+                                            {
+                                                btnDebiCheck.IsEnabled = true;
+                                            }
+                                        }
+                                        catch
+                                        {
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        btnDebiCheck.Visibility = Visibility.Collapsed;
+                                        DebiCheckBorder.Visibility = Visibility.Collapsed;
+                                        Mandate1Lbl1.Visibility = Visibility.Collapsed;
+                                        Mandate1TB.Visibility = Visibility.Collapsed;
+                                        Mandate2Lbl1.Visibility = Visibility.Collapsed;
+                                        Mandate2TB.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPL.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
+                                        GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                    }
+                                }
                             }
                             catch
                             {
@@ -15270,6 +15303,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+                PolicyHolderBoolDC = true;
                 GetBankingDetailLookup();
             }
             catch
