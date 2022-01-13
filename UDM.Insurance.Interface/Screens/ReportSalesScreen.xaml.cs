@@ -233,7 +233,16 @@ namespace UDM.Insurance.Interface.Screens
 
                 string newWorksheetDescription = Methods.ParseWorksheetName(wbReport, agentName, " ", "Overtime");
                 Worksheet wsNewWorksheetTemplate = wbTemplate.Worksheets["Overtime"];
-                Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                //Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                Worksheet wsNewWorksheet;
+                try
+                {
+                     wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                }
+                catch
+                {
+                     wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription + "2");
+                }
 
                 #endregion Add the new worksheet
 
@@ -313,7 +322,22 @@ namespace UDM.Insurance.Interface.Screens
 
             string newWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Redeemed Gifts", agentName));
             Worksheet wsNewWorksheetTemplate = wbTemplate.Worksheets["RedeemedGifts"];
-            Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+
+
+            //Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+
+            Worksheet wsNewWorksheet;
+
+            try
+            {
+                wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+            }
+            catch
+            {
+                wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription + "2");
+            }
+
+
             Methods.CopyWorksheetOptionsFromTemplate(wsNewWorksheetTemplate, wsNewWorksheet, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, false, false);
             wsNewWorksheet.Workbook.NamedReferences.Clear();
 
@@ -469,8 +493,19 @@ namespace UDM.Insurance.Interface.Screens
 
             //WorksheetCell wsCell;
             Worksheet wsTemplate = wbTemplate.Worksheets["Report"];
-            Worksheet wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
+            //Worksheet wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
 
+            Worksheet wsReport;
+
+            try
+            {
+                 wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
+            }
+            catch
+            {
+                 wsReport = wbReport.Worksheets.Add(string.Join("", agentName + "a".Take(31)));
+            }
+            
             wsReport.DisplayOptions.View = WorksheetView.Normal;
 
             wsReport.PrintOptions.PaperSize = PaperSize.A4;
@@ -613,7 +648,17 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtCancellations = ds.Tables[5];
                 DataTable dtCancellationCampaignTotals = ds.Tables[6];
                 DataTable dtCancellationGrandTotals = ds.Tables[7];
-                wsReport = wbReport.Worksheets.Add(string.Join("",("Cancellations-"+ agentName).Take(31)));
+                //wsReport = wbReport.Worksheets.Add(string.Join("",("Cancellations-"+ agentName).Take(31)));
+
+                try
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations-" + agentName).Take(31)));
+                }
+                catch
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations " + agentName + "a").Take(31)));
+                }
+
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
 
@@ -709,8 +754,17 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtDebiCheckCallBacks = ds.Tables[18];
                 DataTable dtDebiCheckCallBacksCampaignTotals = ds.Tables[19];
                 DataTable dtDebiCheckcallBackGrandTotals = ds.Tables[20];
-                wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs -" + agentName).Take(31)));
-               
+                //wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs -" + agentName).Take(31)));
+
+                try
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs -" + agentName).Take(31)));
+                }
+                catch
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs   " + agentName + "a").Take(31)));
+                }
+
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
 
@@ -814,7 +868,16 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtReducedPremiumGrandTotals = ds.Tables[16];
                 //wsReport = wbReport.Worksheets.Add(string.Join("", ("Reduced Premiums - " + agentName).Take(31)));
                 string newReducedPremiumWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Reduced Premiums", agentName));
-                wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+                //wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+
+                try
+                {
+                    wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+                }
+                catch
+                {
+                    wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription + "2");
+                }
 
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
@@ -923,7 +986,16 @@ namespace UDM.Insurance.Interface.Screens
                         strAgentName = (new string(strAgentName.Take(31).ToArray()));
                         strAgentName = strAgentName.Remove(strAgentName.Length - 3, 3) + "...";
                     }
-                    wsReport = wbReport.Worksheets.Add(strAgentName);
+                    //wsReport = wbReport.Worksheets.Add(strAgentName);
+
+                    try
+                    {
+                        wsReport = wbReport.Worksheets.Add(strAgentName);
+                    }
+                    catch
+                    {
+                        wsReport = wbReport.Worksheets.Add(strAgentName + "2");
+                    }
 
                     wsReport.DisplayOptions.View = WorksheetView.Normal;
 
@@ -1062,7 +1134,16 @@ namespace UDM.Insurance.Interface.Screens
                     DataTable dtCarriedForwardGrandTotals = ds.Tables[12];
                     //wsReport = wbReport.Worksheets.Add(string.Join("", ("Carried Forwards - " + agentName).Take(31)));
                     string newCarriedForwardsWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Carried Forwards", agentName));
-                    wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription);
+                    //wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription);
+
+                    try
+                    {
+                        wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription);
+                    }
+                    catch
+                    {
+                        wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription + "a");
+                    }
 
                     rowIndex = 4;
                     wsReport.DisplayOptions.View = WorksheetView.Normal;
@@ -1228,7 +1309,18 @@ namespace UDM.Insurance.Interface.Screens
 
             //WorksheetCell wsCell;
             Worksheet wsTemplate = wbTemplate.Worksheets["Report"];
-            Worksheet wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
+            //Worksheet wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
+
+            Worksheet wsReport;
+
+            try
+            {
+                 wsReport = wbReport.Worksheets.Add(string.Join("", agentName.Take(31)));
+            }
+            catch
+            {
+                 wsReport = wbReport.Worksheets.Add(string.Join("", agentName + "a".Take(31)));
+            }
 
             wsReport.DisplayOptions.View = WorksheetView.Normal;
 
@@ -1372,7 +1464,17 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtCancellations = ds.Tables[5];
                 DataTable dtCancellationCampaignTotals = ds.Tables[6];
                 DataTable dtCancellationGrandTotals = ds.Tables[7];
-                wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations-" + agentName).Take(31)));
+                //wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations-" + agentName).Take(31)));
+
+                try
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations-" + agentName).Take(31)));
+                }
+                catch
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("Cancellations    " + agentName + "a").Take(31)));
+                }
+
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
 
@@ -1388,7 +1490,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 {
                     wsReport.GetCell("AgentName").Value = agentName;
-                    wsReport.GetCell("SalesDates").Value = "Cancellations: " + dateRange;
+                    wsReport.GetCell("SalesDates").Value = "Cancellations- " + dateRange;
 
                     //wsReport.GetCell("Batches").Value = batchCodes + ((char)65279);
                 }
@@ -1468,7 +1570,16 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtDebiCheckCallBacks = ds.Tables[18];
                 DataTable dtDebiCheckCallBacksCampaignTotals = ds.Tables[19];
                 DataTable dtDebiCheckcallBackGrandTotals = ds.Tables[20];
-                wsReport = wbReport.Worksheets.Add(string.Join("", ("Debi Check Call Backs -" + agentName).Take(31)));
+                //wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs -" + agentName).Take(31)));
+
+                try
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs -" + agentName).Take(31)));
+                }
+                catch
+                {
+                    wsReport = wbReport.Worksheets.Add(string.Join("", ("DC Call Backs   " + agentName + "a").Take(31)));
+                }
 
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
@@ -1573,7 +1684,16 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtReducedPremiumGrandTotals = ds.Tables[16];
                 //wsReport = wbReport.Worksheets.Add(string.Join("", ("Reduced Premiums - " + agentName).Take(31)));
                 string newReducedPremiumWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Reduced Premiums", agentName));
-                wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+                //wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+
+                try
+                {
+                    wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription);
+                }
+                catch
+                {
+                    wsReport = wbReport.Worksheets.Add(newReducedPremiumWorksheetDescription + "2");
+                }
 
                 rowIndex = 4;
                 wsReport.DisplayOptions.View = WorksheetView.Normal;
@@ -1682,7 +1802,16 @@ namespace UDM.Insurance.Interface.Screens
                         strAgentName = (new string(strAgentName.Take(31).ToArray()));
                         strAgentName = strAgentName.Remove(strAgentName.Length - 3, 3) + "...";
                     }
-                    wsReport = wbReport.Worksheets.Add(strAgentName);
+                    //wsReport = wbReport.Worksheets.Add(strAgentName);
+
+                    try
+                    {
+                        wsReport = wbReport.Worksheets.Add(strAgentName);
+                    }
+                    catch
+                    {
+                        wsReport = wbReport.Worksheets.Add(strAgentName + "2");
+                    }
 
                     wsReport.DisplayOptions.View = WorksheetView.Normal;
 
@@ -1821,7 +1950,14 @@ namespace UDM.Insurance.Interface.Screens
                     DataTable dtCarriedForwardGrandTotals = ds.Tables[12];
                     //wsReport = wbReport.Worksheets.Add(string.Join("", ("Carried Forwards - " + agentName).Take(31)));
                     string newCarriedForwardsWorksheetDescription = Methods.ParseWorksheetName(wbReport, String.Format("{0} Carried Forwards", agentName));
-                    wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription);
+
+                    try
+                    {
+                        wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription);
+                    }
+                    catch {
+                        wsReport = wbReport.Worksheets.Add(newCarriedForwardsWorksheetDescription + "2");
+                    }
 
                     rowIndex = 4;
                     wsReport.DisplayOptions.View = WorksheetView.Normal;
