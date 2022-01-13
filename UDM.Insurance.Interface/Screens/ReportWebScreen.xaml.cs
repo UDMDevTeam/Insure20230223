@@ -293,6 +293,8 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
                             workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                            workSheet.Cells[i + 2, 10].Formula = string.Format("= (D" + (i + 2) + " * 30 %) - G" + (i + 2));
+
                         }
 
                         countForNonRedeemed = countForNonRedeemed + 1;
@@ -332,7 +334,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
                                 workSheet.Cells[i + 2 + countForNonRedeemed, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-
+                                workSheet.Cells[i + 2 + countForNonRedeemed, 10].Formula = string.Format("= (D" + (i + 2 + countForNonRedeemed) + " * 30 %) - G" + (i + 2 + countForNonRedeemed));
                             }
 
                             CountSecondGridTotals = CountSecondGridTotals + 1;
@@ -385,9 +387,10 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "##%";
                     (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
                     (workSheet.Cells[1, 9]).EntireColumn.NumberFormat = "##%";
-
                     (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
                     (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "#";
+
 
                     AddSummaryPage(excelApp);
 
@@ -473,6 +476,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
                     workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                    workSheet.Cells[i + 2, 10].Formula = string.Format("= (D" + (i+2) + " * 30 %) - G" + (i+2));
 
                 }
 
@@ -514,6 +518,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         workSheet.Cells[i + 2 + countForNonRedeemed, j + 1] = dtSalesData2.Rows[i - 1][j];
                         workSheet.Cells[i + 2 + countForNonRedeemed, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                        workSheet.Cells[i + 2 + countForNonRedeemed, 10].Formula = string.Format("= (D" + (i+2+countForNonRedeemed) + " * 30 %) - G" + (i+2+countForNonRedeemed));
 
                     }
                     CountSecondGridTotals = CountSecondGridTotals + 1;
@@ -535,19 +540,11 @@ namespace UDM.Insurance.Interface.Screens
             }
 
 
+            //for (int w = 3; w <= CountSecondGridTotals; w++)
+            //{
+                
+            //}
 
-
-
-            //var totalTable = dsDiaryReportData.Tables[1];
-
-            //workSheet.Cells[24, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
-
-
-
-            //workSheet.get_Range("A2", "C23").BorderAround(
-            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
             workSheet.get_Range("A2", "C2").BorderAround(
             Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
@@ -569,6 +566,8 @@ namespace UDM.Insurance.Interface.Screens
             (workSheet.Cells[1, 9]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "#";
+
         }
 
         private void Report(object sender, DoWorkEventArgs e)
