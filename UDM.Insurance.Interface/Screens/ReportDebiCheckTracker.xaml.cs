@@ -981,13 +981,13 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-                    workSheet.Range["B3", "B26"].Interior.Color = System.Drawing.Color.LightGray;
+                    //workSheet.Range["B3", "B26"].Interior.Color = System.Drawing.Color.LightGray;
                     workSheet.Range["C3", "C26"].Interior.Color = System.Drawing.Color.LightGray;
                     workSheet.Range["D3", "D26"].Interior.Color = System.Drawing.Color.LightGray;
                     workSheet.Range["E3", "E26"].Interior.Color = System.Drawing.Color.LightGray;
                     workSheet.Range["F3", "F26"].Interior.Color = System.Drawing.Color.LightGray;
 
-                    workSheet.Range["B27", "F27"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C27", "F27"].Interior.Color = System.Drawing.Color.LightBlue;
 
 
 
