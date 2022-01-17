@@ -96,77 +96,7 @@
                         IsTabStop="True"
                         Style="{DynamicResource INCloseButton}" />
 
-                    <igWPF:XamDataGrid
-                            x:Name="xdgAgents"
-                            Grid.Row="3"
-                            Grid.RowSpan="10"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="8"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            AutoFit="False"
-                        Visibility="Collapsed"
-                            GroupByAreaLocation="None"
-                            Style="{DynamicResource INXamDataGridStyle1}"
-                            TabIndex="0">
-                        <igWPF:XamDataGrid.Resources>
-                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
-                                            <CheckBox
-                                                    x:Name="HeaderPrefixAreaCheckbox"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Checked="HeaderPrefixAreaCheckbox_Checked"
-                                                    IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=AllRecordsChecked}"
-                                                    Style="{DynamicResource INCheckboxStyle}"
-                                                    Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                            <Style TargetType="{x:Type igWPF:RecordSelector}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
-                                            <CheckBox
-                                                    x:Name="RecordSelectorCheckbox"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Click="RecordSelectorCheckbox_Click"
-                                                    Focusable="False"
-                                                    IsChecked="{Binding Path=DataItem.IsChecked, Mode=TwoWay}"
-                                                    Style="{DynamicResource INCheckboxStyle}" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </igWPF:XamDataGrid.Resources>
-                        <igWPF:XamDataGrid.FieldLayouts>
-                            <igWPF:FieldLayout>
-                                <igWPF:Field
-                                        Name="ID"
-                                        Label="AgentID"
-                                        Visibility="Collapsed" />
-                                <igWPF:Field
-                                        Name="Description"
-                                        Width="280"
-                                        Label="Name"
-                                        Visibility="Visible" />
-                                <igWPF:Field
-                                        Name="FKStaffTypeID"
-                                        Label="FKStaffTypeID"
-                                        Visibility="Collapsed" />
-                                <igWPF:Field
-                                        Name="IsChecked"
-                                        Label="IsChecked"
-                                        Visibility="Collapsed" />
-                            </igWPF:FieldLayout>
-                        </igWPF:XamDataGrid.FieldLayouts>
-                    </igWPF:XamDataGrid>
-                    
+
 
 
                     <TextBlock
@@ -223,37 +153,125 @@
                     </Viewbox>
 
                     <Border x:Name="BorderCB"
-                            Grid.Column="1"
-                            Grid.Row="3"
-                            Grid.RowSpan="5"
-                            Grid.ColumnSpan="8"
+                            Grid.Column="12"
+                            Grid.Row="13"
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="5"
                             CornerRadius="10"
                             BorderThickness="2"
                             Background="Gray"
-                            Opacity="0.5">
-                        
+                            Opacity="0.5" Margin="12.333,0.333,0.333,0.333">
+
                     </Border>
 
+
+                    <igWPF:XamDataGrid
+                            x:Name="xdgAgents"
+                            Grid.Row="3"
+                            Grid.RowSpan="13"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="8"
+                            SelectedItemsChanged="xdgAgents_SelectedItemsChanged"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            AutoFit="False"
+                            GroupByAreaLocation="None"
+                            Style="{DynamicResource INXamDataGridStyle1}"
+                            TabIndex="0">
+                        <igWPF:XamDataGrid.Resources>
+                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                            <CheckBox
+                                                    x:Name="HeaderPrefixAreaCheckbox"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Checked="HeaderPrefixAreaCheckbox_Checked_1"
+                                                    IsChecked="{Binding ElementName=ctrlReportSalesScreen, Path=AllRecordsChecked}"
+                                                    Style="{DynamicResource INCheckboxStyle}"
+                                                    Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style TargetType="{x:Type igWPF:RecordSelector}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                            <CheckBox
+                                                    x:Name="RecordSelectorCheckbox"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Click="RecordSelectorCheckbox_Click_1"
+                                                    Focusable="False"
+                                                    IsChecked="{Binding Path=DataItem.IsChecked, Mode=TwoWay}"
+                                                    Style="{DynamicResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </igWPF:XamDataGrid.Resources>
+                        <igWPF:XamDataGrid.FieldLayouts>
+                            <igWPF:FieldLayout>
+                                <igWPF:Field
+                                        Name="ID"
+                                        Label="AgentID"
+                                        Visibility="Collapsed" />
+                                <igWPF:Field
+                                        Name="Description"
+                                        Width="280"
+                                        Label="Name"
+                                        Visibility="Visible" />
+                                <igWPF:Field
+                                        Name="FKStaffTypeID"
+                                        Label="FKStaffTypeID"
+                                        Visibility="Collapsed" />
+                                <igWPF:Field
+                                        Name="IsChecked"
+                                        Label="IsChecked"
+                                        Visibility="Collapsed" />
+                            </igWPF:FieldLayout>
+                        </igWPF:XamDataGrid.FieldLayouts>
+                    </igWPF:XamDataGrid>
+
+                    <CheckBox x:Name="TrainerCB"
+                              Grid.Row="12"
+                              Grid.Column="13"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="TrainerCB_Checked"
+                              Visibility="Collapsed">
+                    </CheckBox>
+                    <CheckBox x:Name="TeamCB"
+                              Grid.Row="13"
+                              Grid.Column="13"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="TeamCB_Checked">
+                    </CheckBox>
+
                     <CheckBox x:Name="UpgradeCB"
-                              Grid.Row="4"
-                              Grid.Column="3"
+                              Grid.Row="15"
+                              Grid.Column="13"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               Checked="UpgradeCB_Checked">
                     </CheckBox>
                     <CheckBox x:Name="BaseCB"
-                              Grid.Row="6"
-                              Grid.Column="3"
+                              Grid.Row="14"
+                              Grid.Column="13"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               Checked="BaseCB_Checked">
                     </CheckBox>
 
                     <Label
-                        Grid.Row="4"
-                        Grid.Column="5"
+                        Grid.Row="15"
+                        Grid.Column="15"
                         Grid.ColumnSpan="6"
-                        Margin="11,0,0,6"
+                        Margin="0,0,10.333,11.667"
                         VerticalAlignment="Bottom"
                         Foreground="White"
                         FontSize="15"
@@ -261,15 +279,37 @@
                         Visibility="Visible" Width="247" />
 
                     <Label
-                        Grid.Row="6"
-                        Grid.Column="5"
+                        Grid.Row="14"
+                        Grid.Column="15"
                         Grid.ColumnSpan="6"
-                        Margin="11,0,0,6"
+                        Margin="0,0,10.333,11.333"
                         VerticalAlignment="Bottom"
                         Foreground="White"
                         FontSize="15"
                         Content="Base"
                         Visibility="Visible" Width="247" />
+
+                    <Label
+                        Grid.Row="13"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="6"
+                        Margin="0,0,10.333,11.333"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Team"
+                        Visibility="Visible" Width="247" />
+
+                    <Label
+                        Grid.Row="12"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="6"
+                        Margin="0,0,10.333,11.333"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Trainer"
+                        Visibility="Collapsed" Width="247" />
 
 
                     <Button

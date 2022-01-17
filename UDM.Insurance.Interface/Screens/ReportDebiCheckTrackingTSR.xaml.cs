@@ -59,8 +59,14 @@ namespace UDM.Insurance.Interface.Screens
         #region Constants
         DataSet dsDebiCheckTrackingTSRReportData;
         private List<System.Data.DataRow> _selectedAgents;
+        private List<DataRecord> _selectedTeams;
+
         DataTable dtSalesData = new DataTable();
 
+        bool TeamBool = false;
+        bool TrainerBool = false;
+        long SelectedTeamID;
+        string TeamIDs;
         #endregion Constants
 
         #region Private Members
@@ -130,6 +136,9 @@ namespace UDM.Insurance.Interface.Screens
         #endregion Constructors
 
         #region Private Methods
+
+
+
         private void EnableDisableExportButton()
         {
             try
@@ -214,11 +223,32 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
 
+                if (TrainerBool == true)
+                {
 
-                var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgents(_endDate, _startDate);
+                    var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsTeam(TeamIDs);
 
 
-                _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                    _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                }
+                else if (TeamBool == true)
+                {
+
+                    //_selectedTeams = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
+
+                    var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsTeam(TeamIDs);
+
+
+                    _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                }
+                else
+                {
+                    var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgents(_endDate, _startDate);
+
+
+                    _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                }
+
 
 
                 try { dtSalesData.Clear(); } catch { };
@@ -442,11 +472,35 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
 
+                try { _selectedAgents.Clear(); } catch { }
 
-                var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsUpgrades(_endDate, _startDate);
+                if (TrainerBool == true)
+                {
+
+                    var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsTeam(TeamIDs);
 
 
-                _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                    _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                }
+                else if (TeamBool == true)
+                {
+
+                    //_selectedTeams = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
+
+                    var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsTeam(TeamIDs);
+
+
+                    _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                }
+                else
+                {
+                    var dsAgents = Business.Insure.INGetDebiChecKTrackingTSRAgentsUpgrades(_endDate, _startDate);
+
+
+                    _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+                }
+
+
 
 
                 try { dtSalesData.Clear(); } catch { };
@@ -537,6 +591,7 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
 
 
@@ -682,17 +737,17 @@ namespace UDM.Insurance.Interface.Screens
 
         private void LoadDatagrid()
         {
-            SqlParameter[] parameters = new SqlParameter[1];
-            parameters[0] = new SqlParameter("@AgentMode", 1);
-            DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4", parameters).Tables[0];
+            //SqlParameter[] parameters = new SqlParameter[1];
+            //parameters[0] = new SqlParameter("@AgentMode", (int)1);
+            //DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4", parameters).Tables[0];
 
-            DataColumn column = new DataColumn("IsChecked", typeof(bool));
-            column.DefaultValue = false;
-            dt.Columns.Add(column);
+            //DataColumn column = new DataColumn("IsChecked", typeof(bool));
+            //column.DefaultValue = false;
+            //dt.Columns.Add(column);
 
-            xdgAgents.DataSource = dt.DefaultView;
+            //xdgAgents.DataSource = dt.DefaultView;
 
-            AllRecordsChecked = false;
+            //AllRecordsChecked = false;
         }
         private bool? IsAllRecordsChecked()
         {
@@ -786,6 +841,50 @@ namespace UDM.Insurance.Interface.Screens
                         calStartDate.IsEnabled = false;
                         calEndDate.IsEnabled = false;
 
+                        if (TrainerCB.IsChecked == true)
+                        {
+                            TrainerBool = true;
+                            TeamBool = false;
+                            _selectedTeams = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
+
+                            try { _selectedTeams.Clear(); } catch { }
+                            TeamIDs = "";
+                            foreach (DataRecord drAgent in _selectedTeams)
+                            {
+                                string agentName = drAgent.Cells["Description"].Value as string;
+                                long? agentID = drAgent.Cells["ID"].Value as long?;
+
+                                TeamIDs = TeamIDs + " ," + agentID.ToString();
+                            }
+
+                            TeamIDs = TeamIDs.Remove(0, 2);
+
+                        }
+                        else if (TeamCB.IsChecked == true)
+                        {
+                            TrainerBool = false;
+                            TeamBool = true;
+
+                            try { _selectedTeams.Clear(); } catch { }
+                            _selectedTeams = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
+                            TeamIDs = "";
+
+                            foreach (DataRecord drAgent in _selectedTeams)
+                            {
+                                string agentName = drAgent.Cells["Description"].Value as string;
+                                long? agentID = drAgent.Cells["ID"].Value as long?;
+
+                                TeamIDs = TeamIDs + " ," + agentID.ToString();
+                            }
+
+                            TeamIDs = TeamIDs.Remove(0, 2);
+
+                        }
+                        else
+                        {
+                            TrainerBool = false;
+                            TeamBool = false;
+                        }
 
 
                         BackgroundWorker worker = new BackgroundWorker();
@@ -803,7 +902,50 @@ namespace UDM.Insurance.Interface.Screens
                         calStartDate.IsEnabled = false;
                         calEndDate.IsEnabled = false;
 
+                        if (TrainerCB.IsChecked == true)
+                        {
+                            TrainerBool = true;
+                            TeamBool = false;
+                            _selectedTeams = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
 
+                            try { _selectedTeams.Clear(); } catch { }
+                            TeamIDs = "";
+                            foreach (DataRecord drAgent in _selectedTeams)
+                            {
+                                string agentName = drAgent.Cells["Description"].Value as string;
+                                long? agentID = drAgent.Cells["ID"].Value as long?;
+
+                                TeamIDs = TeamIDs + " ," + agentID.ToString();
+                            }
+
+                            TeamIDs = TeamIDs.Remove(0, 2);
+
+                        }
+                        else if (TeamCB.IsChecked == true)
+                        {
+                            TrainerBool = false;
+                            TeamBool = true;
+
+                            try { _selectedTeams.Clear(); } catch { }
+                            _selectedTeams = (xdgAgents.Records.Select(r => (DataRecord)r).Where(r => (bool)r.Cells["IsChecked"].Value)).ToList();
+                            TeamIDs = "";
+
+                            foreach (DataRecord drAgent in _selectedTeams)
+                            {
+                                string agentName = drAgent.Cells["Description"].Value as string;
+                                long? agentID = drAgent.Cells["ID"].Value as long?;
+
+                                TeamIDs = TeamIDs + " ," + agentID.ToString();
+                            }
+
+                            TeamIDs = TeamIDs.Remove(0, 2);
+
+                        }
+                        else
+                        {
+                            TrainerBool = false;
+                            TeamBool = false;
+                        }
 
                         BackgroundWorker worker = new BackgroundWorker();
 
@@ -869,6 +1011,67 @@ namespace UDM.Insurance.Interface.Screens
         private void BaseCB_Checked(object sender, RoutedEventArgs e)
         {
             UpgradeCB.IsChecked = false;
+        }
+
+        private void HeaderPrefixAreaCheckbox_Checked_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RecordSelectorCheckbox_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TrainerCB_Checked(object sender, RoutedEventArgs e)
+        {
+
+            if (TrainerCB.IsChecked == true)
+            {
+                TeamCB.IsChecked = false;
+            }
+
+            DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesTrainingSupervisors", null).Tables[0];
+
+            DataColumn column = new DataColumn("IsChecked", typeof(bool));
+            column.DefaultValue = false;
+            dt.Columns.Add(column);
+
+            DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
+            column2.DefaultValue = 1;
+            dt.Columns.Add(column2);
+
+            xdgAgents.DataSource = dt.DefaultView;
+
+            AllRecordsChecked = false;
+
+        }
+
+        private void TeamCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if (TeamCB.IsChecked == true)
+            {
+                TrainerCB.IsChecked = false;
+            }
+
+            DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesSupervisors", null).Tables[0];
+
+            DataColumn column = new DataColumn("IsChecked", typeof(bool));
+            column.DefaultValue = false;
+            dt.Columns.Add(column);
+
+            DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
+            column2.DefaultValue = 1;
+            dt.Columns.Add(column2);
+
+            xdgAgents.DataSource = dt.DefaultView;
+
+            AllRecordsChecked = false;
+        }
+
+        private void xdgAgents_SelectedItemsChanged(object sender, Infragistics.Windows.DataPresenter.Events.SelectedItemsChangedEventArgs e)
+        {
+
         }
     }
 }
