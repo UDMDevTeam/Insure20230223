@@ -2014,7 +2014,7 @@ namespace UDM.Insurance.Interface.Screens
                                     || LaData.AppData.CampaignID == 325
                                     || LaData.AppData.CampaignID == 326
                                     || LaData.AppData.CampaignID == 327
-                                    || LaData.AppData.CampaignID == 264
+                                    //|| LaData.AppData.CampaignID == 264
                                     || LaData.AppData.CampaignID == 4)
                             {
                                 PolicyHolderBoolDC = true;
@@ -7854,7 +7854,7 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.AppData.CampaignID == 325
                                 || LaData.AppData.CampaignID == 326
                                 || LaData.AppData.CampaignID == 327
-                                || LaData.AppData.CampaignID == 264
+                                //|| LaData.AppData.CampaignID == 264
                                 || LaData.AppData.CampaignID == 4)
                             {
                                 DateTime ImportDate;
@@ -14085,6 +14085,17 @@ namespace UDM.Insurance.Interface.Screens
             string IDNumberDebiCheck = "1";
             #endregion
 
+            #region DebiCheck Button Control
+
+            if (DebiCheckSentTwice == true)
+            {
+                btnDebiCheck.IsEnabled = false;
+            }
+
+            DebiCheckSentTwice = true;
+
+            #endregion
+
             #region variable workings
             // this is for the branch code
             try
@@ -14297,7 +14308,7 @@ namespace UDM.Insurance.Interface.Screens
                             || LaData.AppData.CampaignID == 325
                             || LaData.AppData.CampaignID == 326
                             || LaData.AppData.CampaignID == 327
-                            || LaData.AppData.CampaignID == 264
+                            //|| LaData.AppData.CampaignID == 264
                             || LaData.AppData.CampaignID == 4)
                     {
                         string AccountTypeNumber = " ";
@@ -14538,98 +14549,98 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Record Created";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
 
                 }
                 else if (responses.Contains("2"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Record Submitted";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
 
                 }
                 else if (responses.Contains("3"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Results Received but no Further Details";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
 
                 }
                 else if (responses.Contains("4"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Red;
                     btnDebiCheck.ToolTip = "Bank Returned Authentication Failure";
-                    btnDebiCheck.IsEnabled = true;
+                    //btnDebiCheck.IsEnabled = true;
 
                 }
                 else if (responses.Contains("5"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Red;
                     btnDebiCheck.ToolTip = "Bank Returned Error With File Submitted";
-                    btnDebiCheck.IsEnabled = true;
+                    //btnDebiCheck.IsEnabled = true;
 
                 }
                 else if (responses.Contains("6"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Mandate Approved";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
 
                 }
                 else if (responses.Contains("7"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Red;
                     btnDebiCheck.ToolTip = "Client Rejected";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
                 }
                 else if (responses.Contains("8"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "No Response From Client Sent Mandate";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
                 }
                 else if (responses.Contains("9"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Yellow;
                     btnDebiCheck.ToolTip = "Timeout on Submission. Please Re-Submit";
-                    btnDebiCheck.IsEnabled = true;
+                    //btnDebiCheck.IsEnabled = true;
 
                 }
                 else if (responses.Contains("10"))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "File delivered to XCOM for processing";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
                 }
                 else if (responses.Contains(""))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
                     btnDebiCheck.ToolTip = "Sent";
-                    if (DebiCheckSentTwice == true)
-                    {
-                        btnDebiCheck.IsEnabled = false;
-                    }
+                    //if (DebiCheckSentTwice == true)
+                    //{
+                    //    btnDebiCheck.IsEnabled = false;
+                    //}
                 }
                 else
                 {
@@ -14637,7 +14648,6 @@ namespace UDM.Insurance.Interface.Screens
                     btnDebiCheck.IsEnabled = true;
                 }
 
-                DebiCheckSentTwice = true;
                 GetMandateInfo();
             }
             catch
@@ -15007,7 +15017,7 @@ namespace UDM.Insurance.Interface.Screens
                                             || LaData.AppData.CampaignID == 325
                                             || LaData.AppData.CampaignID == 326
                                             || LaData.AppData.CampaignID == 327
-                                            || LaData.AppData.CampaignID == 264
+                                            //|| LaData.AppData.CampaignID == 264
                                             || LaData.AppData.CampaignID == 4)
                                         {
                                             DateTime ImportDate;
