@@ -1122,8 +1122,16 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                    StartScreen startScreen = new StartScreen();
-                    OnClose(startScreen);
+                    if((_agent?.FKUserType == (long)lkpUserType.SalesAgent))
+                    {
+                        StartScreen startScreen = new StartScreen();
+                        OnClose(startScreen);
+                    }
+                    else
+                    {
+                        MenuManagementScreen menuManagementScreen = new MenuManagementScreen(ScreenDirection.Reverse);
+                        OnClose(menuManagementScreen);
+                    }
                 }
             }
             catch (Exception ex)
@@ -1157,7 +1165,7 @@ namespace UDM.Insurance.Interface.Screens
                                     int count = record.ParentRecord.ViewableChildRecords.Count;
                                     xdgSales.ActiveRecord = drLead;
                                     var recordIndex = xdgSales.ActiveRecord.Index;
-
+                            
                                     if (recordIndex >= 0)
                                     {
                                         if (recordIndex < 11)
