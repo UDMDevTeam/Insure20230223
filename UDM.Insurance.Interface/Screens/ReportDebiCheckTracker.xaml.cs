@@ -783,7 +783,16 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (BaseCB.IsChecked == true)
                     {
-                        dsDiaryReportData = Business.Insure.INGetDebiCheckTracking(_startDat2, _endDate2);
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
+
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            dsDiaryReportData = Business.Insure.INGetDebiCheckTracking(_startDat2, _endDate2);
+                        }
+
                         worker.DoWork += ReportConsolidated;
 
                     }
