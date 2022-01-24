@@ -15264,7 +15264,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     }
                     //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
-                    if (GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 1)
+                    if ( GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 3165 || GlobalSettings.ApplicationUser.ID == 2232)
                     {
                         btnDebiCheck.IsEnabled = true;
                     }
