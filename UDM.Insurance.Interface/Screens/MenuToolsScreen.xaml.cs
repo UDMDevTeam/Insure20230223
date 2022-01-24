@@ -361,6 +361,18 @@ namespace UDM.Insurance.Interface.Screens
         }
         #endregion
 
+        private void btnDebiCheckBulkSend_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                BulkMandateSend mySuccessEditScreen = new BulkMandateSend();
+                ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 
 }
