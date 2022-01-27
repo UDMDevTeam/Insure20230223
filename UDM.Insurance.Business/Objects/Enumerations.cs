@@ -25,7 +25,8 @@
         DataCapturer = 5,
         StatusLoader = 6,
         SeniorAdministrator = 7,
-        CallMonitoringAgent = 8
+        CallMonitoringAgent = 8,
+        Preserver = 10
     }
 
     public enum lkpCompany
@@ -92,7 +93,9 @@
         Lite = 40,
         Upgrade13 = 41, 
         R99 = 42,
-        SpouseLite = 43
+        SpouseLite = 43,
+        Upgrade14 = 44,
+        DoubleUpgrade15 = 45
     }
 
     public enum lkpINCampaignType

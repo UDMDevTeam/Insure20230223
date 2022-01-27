@@ -1705,6 +1705,26 @@ namespace UDM.Insurance.Business
         }
         #endregion
 
+        #region DebiCheck Bulk Send
+        public static DataSet INGetDebiCheckBulkNoResponses(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetBulkNoResponses", paramArray, 600);
+        }
+        #endregion
+
         #region DebiCheck Tracking Report
         public static DataSet INGetDebiCheckTracking(DateTime fromDate, DateTime toDate)
         {
