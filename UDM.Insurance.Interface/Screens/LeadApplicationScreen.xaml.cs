@@ -7570,6 +7570,14 @@ namespace UDM.Insurance.Interface.Screens
                     Keyboard.Focus(cmbAgent);
                     lblPage.Text = "(Lead)";
                 }
+
+                #region Set CardLayoutPage 
+
+                CardLayoutPage.Visibility = Visibility.Collapsed;
+                Page2.Visibility = Visibility.Visible;
+
+                #endregion
+
             }
             else
             {
@@ -7708,6 +7716,14 @@ namespace UDM.Insurance.Interface.Screens
                     Keyboard.Focus(cmbLA2Title);
                     lblPage.Text = "(LA + Beneficiary)";
                 }
+
+                #region Set CardLayoutPage 
+
+                CardLayoutPage.Visibility = Visibility.Collapsed;
+                Page2.Visibility = Visibility.Visible;
+
+                #endregion
+
             }
             else
             {
