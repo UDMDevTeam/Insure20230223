@@ -113,8 +113,8 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if ((calStartDate.SelectedDate != null && (calEndDate.SelectedDate != null))) //&& (calEndDate.SelectedDate >= Cal1.SelectedDate)
                 {
-                        btnReport.IsEnabled = true;
-                        return;
+                    btnReport.IsEnabled = true;
+                    return;
                 }
 
                 //btnReport.IsEnabled = false;
@@ -202,7 +202,7 @@ namespace UDM.Insurance.Interface.Screens
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 
-                    string filePathAndName = String.Format("{0}DebiCheck Tracking Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    string filePathAndName = String.Format("{0}DebiCheck Tracking Report Base ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
 
@@ -219,7 +219,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         workSheet.Cells[2, i + 1].Font.Bold = true;
 
-                            workSheet.Cells[2, i + 1].ColumnWidth = 10;
+                        workSheet.Cells[2, i + 1].ColumnWidth = 10;
 
                         workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                         //workSheet.get_Range("A4", "J1").Font.Bold = true;
@@ -467,7 +467,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 //This adds it to a usable format for the query to get all campaign IDs that dont have sales attached
                 string CampaignIDString = "(";
-                foreach(System.Data.DataRow item in _selectedAgents)
+                foreach (System.Data.DataRow item in _selectedAgents)
                 {
                     long? agentID = item.ItemArray[0] as long?;
                     CampaignIDString = CampaignIDString + agentID.ToString() + ",";
@@ -505,28 +505,28 @@ namespace UDM.Insurance.Interface.Screens
 
                     DataTable dtTempSalesData = null;
 
-                        DataSet ds = null;
-                        var transactionOptions = new TransactionOptions
-                        {
-                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-                        };
+                    DataSet ds = null;
+                    var transactionOptions = new TransactionOptions
+                    {
+                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    };
 
-                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                        {
-                            ds = Business.Insure.INReportDebiChecKTrackingCampaignsUpgrades(_endDate, _startDate, CampaignIDStringSales);
-                        }
+                    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                    {
+                        ds = Business.Insure.INReportDebiChecKTrackingCampaignsUpgrades(_endDate, _startDate, CampaignIDStringSales);
+                    }
 
-                        dtTempSalesData = ds.Tables[0];
-                        foreach (DataRow row in dtTempSalesData.Rows)
-                        {
-                            dtSalesData.Rows.Add(row.ItemArray);
-                        }
+                    dtTempSalesData = ds.Tables[0];
+                    foreach (DataRow row in dtTempSalesData.Rows)
+                    {
+                        dtSalesData.Rows.Add(row.ItemArray);
+                    }
 
 
-                    
+
 
                     //foreach loop for the campiagns that dont have any sales
-                    foreach(System.Data.DataRow drAgent in _campaignsWithNoSales)
+                    foreach (System.Data.DataRow drAgent in _campaignsWithNoSales)
                     {
                         long? campaignID = drAgent.ItemArray[0] as long?;
 
@@ -549,7 +549,7 @@ namespace UDM.Insurance.Interface.Screens
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 
-                    string filePathAndName = String.Format("{0}DebiCheck Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    string filePathAndName = String.Format("{0}DebiCheck Report Upgrades ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
 
@@ -685,7 +685,7 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 20].Formula = string.Format("=S" + totalrows + "/B" + totalrows + "*100"); //T
                     workSheet.Cells[totalrows, 22].Formula = string.Format("=U" + totalrows + "/B" + totalrows + "*100"); //V
                     workSheet.Cells[totalrows, 24].Formula = string.Format("=W" + totalrows + "/B" + totalrows + "*100"); //X
-                    workSheet.Cells[totalrows, 26].Formula = string.Format("=E" + totalrows + "/(B" + totalrows + "-Y" + totalrows +")*100"); //X
+                    workSheet.Cells[totalrows, 26].Formula = string.Format("=E" + totalrows + "/(B" + totalrows + "-Y" + totalrows + ")*100"); //X
 
 
                     workSheet.UsedRange.Select();
@@ -773,7 +773,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     TimeSpan ts1 = new TimeSpan(00, 00, 0);
                     DateTime _startDat2 = DateTime.Now;
-                   _startDat2 = _startDate.Date + ts1;
+                    _startDat2 = _startDate.Date + ts1;
 
 
 
@@ -783,6 +783,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (BaseCB.IsChecked == true)
                     {
+
                         var transactionOptions = new TransactionOptions
                         {
                             IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
@@ -791,15 +792,25 @@ namespace UDM.Insurance.Interface.Screens
                         using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                         {
                             dsDiaryReportData = Business.Insure.INGetDebiCheckTracking(_startDat2, _endDate2);
+                            worker.DoWork += ReportConsolidated;
                         }
 
-                        worker.DoWork += ReportConsolidated;
 
                     }
                     else if (AcceptedCB.IsChecked == true)
                     {
-                        dsDiaryReportData = Business.Insure.INGetDebiCheckTrackingAccepted(_startDat2, _endDate2);
-                        worker.DoWork += ReportConsolidatedAccepted;
+
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
+
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            dsDiaryReportData = Business.Insure.INGetDebiCheckTrackingAccepted(_startDat2, _endDate2);
+                            worker.DoWork += ReportConsolidatedAccepted;
+                        }
+
                     }
                     else
                     {
@@ -884,9 +895,10 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
                 DataTable dtSalesData;
+                DataTable dtTotalSalesData;
 
                 dtSalesData = dsDiaryReportData.Tables[0];
-
+                dtTotalSalesData = dsDiaryReportData.Tables[2];
 
                 #endregion Get the report data
 
@@ -939,32 +951,65 @@ namespace UDM.Insurance.Interface.Screens
 
                     var totalTable = dsDiaryReportData.Tables[1];
 
-                    workSheet.Cells[28, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
-                    workSheet.Cells[28, 1].Value = "Base DebiCheck Percentage :";
 
-                    workSheet.Cells[29, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
-                    workSheet.Cells[29, 1].Value = "Upgrade DebiCheck Percentage :";
 
-                    workSheet.Cells[30, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
-                    workSheet.Cells[30, 1].Value = "Combined DebiCheck Percentage :";
+                    //workSheet.Cells[28, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
+                    //workSheet.Cells[28, 1].Value = "Base DebiCheck Percentage :";
 
-                    (workSheet.Cells[28, 2]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[28, 3]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[28, 4]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[28, 5]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[28, 6]).EntireColumn.NumberFormat = "##%";
+                    //workSheet.Cells[29, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
+                    //workSheet.Cells[29, 1].Value = "Upgrade DebiCheck Percentage :";
 
-                    (workSheet.Cells[29, 2]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[29, 3]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[29, 4]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[29, 5]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[29, 6]).EntireColumn.NumberFormat = "##%";
+                    //workSheet.Cells[30, 2].Value = int.Parse(totalTable.Rows[0][0].ToString());
+                    //workSheet.Cells[30, 1].Value = "Combined DebiCheck Percentage :";
 
-                    (workSheet.Cells[30, 2]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[30, 3]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[30, 4]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[30, 5]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[30, 6]).EntireColumn.NumberFormat = "##%";
+                    //for (var i = 0; i < dtTotalSalesData.Columns.Count; i++)
+                    //{
+
+                    //    workSheet.Cells[28, i + 1].Font.Bold = true;
+
+                    //    workSheet.Cells[2, i + 1].ColumnWidth = 30;
+
+                    //    workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    //    //workSheet.get_Range("A4", "J1").Font.Bold = true;
+                    //}
+
+
+                    // column headings
+                    //for (var i = 0; i < dtTotalSalesData.Columns.Count; i++)
+                    //{
+                    //    workSheet.Cells[28, i + 1] = dtTotalSalesData.Columns[i].ColumnName;
+                    //}
+
+                    // rows
+                    for (var i = 1; i < dtTotalSalesData.Rows.Count + 1; i++)
+                    {
+                        // to do: format datetime values before printing
+                        for (var j = 0; j < dtTotalSalesData.Columns.Count; j++)
+                        {
+                            workSheet.Cells[i + 27, j + 1] = dtTotalSalesData.Rows[i - 1][j];
+
+
+                        }
+                    }
+
+
+                    (workSheet.Cells[28, 2]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[28, 3]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[28, 4]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[28, 5]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[28, 6]).EntireColumn.NumberFormat = "00,00%";
+
+                    (workSheet.Cells[29, 2]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[29, 3]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[29, 4]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[29, 5]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[29, 6]).EntireColumn.NumberFormat = "00,00%";
+
+                    (workSheet.Cells[30, 2]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[30, 3]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[30, 4]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[30, 5]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[30, 6]).EntireColumn.NumberFormat = "00,00%";
 
 
 
@@ -1003,23 +1048,23 @@ namespace UDM.Insurance.Interface.Screens
                     #region Page formulas
 
 
-                    workSheet.Cells[28, 2].Formula = string.Format("=ROUNDUP(AVERAGE(B1:B26),2)"); //B
-                    workSheet.Cells[28, 3].Formula = string.Format("=ROUNDUP(AVERAGE(C1:C26),2)"); //C
-                    workSheet.Cells[28, 4].Formula = string.Format("=ROUNDUP(AVERAGE(D1:D26),2)"); //D
-                    workSheet.Cells[28, 5].Formula = string.Format("=ROUNDUP(AVERAGE(E1:E26),2)"); //E
-                    workSheet.Cells[28, 6].Formula = string.Format("=ROUNDUP(AVERAGE(F1:F26),2)"); //G
+                    //workSheet.Cells[28, 2].Formula = string.Format("=ROUNDUP(AVERAGE(B1:B26),2)"); //B
+                    //workSheet.Cells[28, 3].Formula = string.Format("=ROUNDUP(AVERAGE(C1:C26),2)"); //C
+                    //workSheet.Cells[28, 4].Formula = string.Format("=ROUNDUP(AVERAGE(D1:D26),2)"); //D
+                    //workSheet.Cells[28, 5].Formula = string.Format("=ROUNDUP(AVERAGE(E1:E26),2)"); //E
+                    //workSheet.Cells[28, 6].Formula = string.Format("=ROUNDUP(AVERAGE(F1:F26),2)"); //G
 
-                    workSheet.Cells[29, 2].Formula = string.Format("=SUM(B27:B27)"); //B
-                    workSheet.Cells[29, 3].Formula = string.Format("=SUM(C27:C27)"); //C
-                    workSheet.Cells[29, 4].Formula = string.Format("=SUM(D27:D27)"); //D
-                    workSheet.Cells[29, 5].Formula = string.Format("=SUM(E27:E27)"); //E
-                    workSheet.Cells[29, 6].Formula = string.Format("=SUM(F27:F27)"); //G
+                    //workSheet.Cells[29, 2].Formula = string.Format("=SUM(B27:B27)"); //B
+                    //workSheet.Cells[29, 3].Formula = string.Format("=SUM(C27:C27)"); //C
+                    //workSheet.Cells[29, 4].Formula = string.Format("=SUM(D27:D27)"); //D
+                    //workSheet.Cells[29, 5].Formula = string.Format("=SUM(E27:E27)"); //E
+                    //workSheet.Cells[29, 6].Formula = string.Format("=SUM(F27:F27)"); //G
 
-                    workSheet.Cells[30, 2].Formula = string.Format("=SUM(B28:B29)"); //B
-                    workSheet.Cells[30, 3].Formula = string.Format("=SUM(C28:C29)"); //C
-                    workSheet.Cells[30, 4].Formula = string.Format("=SUM(D28:D29)"); //D
-                    workSheet.Cells[30, 5].Formula = string.Format("=SUM(E28:E29)"); //E
-                    workSheet.Cells[30, 6].Formula = string.Format("=SUM(F28:F29)"); //G
+                    //workSheet.Cells[30, 2].Formula = string.Format("=SUM(B28:B29)"); //B
+                    //workSheet.Cells[30, 3].Formula = string.Format("=SUM(C28:C29)"); //C
+                    //workSheet.Cells[30, 4].Formula = string.Format("=SUM(D28:D29)"); //D
+                    //workSheet.Cells[30, 5].Formula = string.Format("=SUM(E28:E29)"); //E
+                    //workSheet.Cells[30, 6].Formula = string.Format("=SUM(F28:F29)"); //G
 
 
 
