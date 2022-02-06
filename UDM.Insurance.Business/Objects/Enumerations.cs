@@ -171,7 +171,8 @@
         DiaryGT7Weeks = 10,
         DoNotContactClient = 11,
         CallMonitoringCancellation = 16,
-        CallMonitoringCarriedForward = 17
+        CallMonitoringCarriedForward = 17,
+        ForwardToCMAgent = 24
     }
 
     public enum lkpPaymentType

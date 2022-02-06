@@ -3610,7 +3610,14 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                SetCursor(Cursors.Wait);
+                try
+                {
+                    SetCursor(Cursors.Wait);
+                }
+                catch
+                {
+
+                }
 
                 SqlParameter[] parameters = new SqlParameter[1];
                 parameters[0] = new SqlParameter("@UserTypeID", LaData.UserData.UserTypeID);
@@ -6973,10 +6980,37 @@ namespace UDM.Insurance.Interface.Screens
                 }
             }
 
-            //CloseCTPhone();
-            CloseScriptWindows();
+            List<long> CMAgentListLong = new List<long>();
+
+            DataTable dtAgentList = Methods.GetTableData("SELECT FKUserID FROM INCMAgentsOnline");
+            List<DataRow> CMAgentList = dtAgentList.AsEnumerable().ToList();
+
+            try { CMAgentListLong.Clear(); } catch { }
+
+
+            foreach (var row in CMAgentList)
+            {
+                long userIDrow = long.Parse(row["FKUserID"].ToString());
+                CMAgentListLong.Add(userIDrow);
+            }
+
+
+            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            {
+                //SalesScreen ss = new SalesScreen();
+                //ss.timer.Start();
+                //ss.SetAgentOnline();
+
+                _ssGlobalData.SalesScreen.timer.Start();
+                _ssGlobalData.SalesScreen.SetAgentOnline();
+            }
+
+                //CloseCTPhone();
+                CloseScriptWindows();
             OnDialogClose(_dialogResult);
         }
+
+        
 
         private void xamEditor_Loaded(object sender, RoutedEventArgs e)
         {
@@ -8824,6 +8858,36 @@ namespace UDM.Insurance.Interface.Screens
                         break;
 
                     #endregion Declines
+
+                    #region Forward To Call Monitoring Agent
+                    case lkpINLeadStatus.ForwardToCMAgent:
+                        //see if this can be selected
+                        if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+                        {
+                            //if (LaData.AppData.LoadedLeadStatus == (long?)lkpINLeadStatus.Accepted)
+                            //{
+                            //    if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
+                            //    {
+                            //        break;
+                            //    }
+                            //}
+                        }
+
+                        LaData.AppData.DeclineReasonID = null;
+                        SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                        selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                        ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                        long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                        if (AgentFKUserID == null)
+                        {
+                            cmbStatus.SelectedIndex = -1;
+                        }
+
+                        Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+                        break;
+                    #endregion
 
                     #region Diaries
 
@@ -15279,7 +15343,7 @@ namespace UDM.Insurance.Interface.Screens
                         DebiCheckBorder.BorderBrush = Brushes.White;
 
                     }
-                    //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
+                    //This is for Admin Rights on the DebiCheck Button
                     if ( GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 3165 || GlobalSettings.ApplicationUser.ID == 2232)
                     {
                         btnDebiCheck.IsEnabled = true;

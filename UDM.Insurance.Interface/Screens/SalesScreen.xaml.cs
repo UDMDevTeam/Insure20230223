@@ -21,6 +21,7 @@ using UDM.Insurance.Interface.Data;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Collections.Generic;
 //using Infragistics.Controls.Editors;
 
 namespace UDM.Insurance.Interface.Screens
@@ -37,14 +38,15 @@ namespace UDM.Insurance.Interface.Screens
 
 
         #region Constants
-
-
+        public DispatcherTimer timer = new DispatcherTimer();
+        public long? FKImportID = null;
+        string CMToSReferenceNumber;
 
         #endregion
 
 
         #region Private Members
-        
+
         private readonly long _agentID = GlobalSettings.ApplicationUser.ID;
         private User _agent;
 
@@ -64,6 +66,7 @@ namespace UDM.Insurance.Interface.Screens
         }
 
         private readonly SalesScreenGlobalData _ssGlobalData = new SalesScreenGlobalData();
+        List<long> CMAgentListLong = new List<long>();
 
         #endregion
 
@@ -106,11 +109,40 @@ namespace UDM.Insurance.Interface.Screens
             }
             #endregion
 
+            #region Call Monitoring From Sales Pop up background thread
+
+            DataTable dtAgentList = Methods.GetTableData("SELECT FKUserID FROM INCMAgentsOnline");
+            List<DataRow> CMAgentList = dtAgentList.AsEnumerable().ToList();
+
+            try { CMAgentListLong.Clear(); } catch { }
+
+
+            foreach (var row in CMAgentList)
+            {
+                long userIDrow = long.Parse(row["FKUserID"].ToString());
+                CMAgentListLong.Add(userIDrow);
+            }
+
+            if(CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            {
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.DoWork += worker_DoWork;
+
+                worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+                worker.RunWorkerAsync();
+
+                SetAgentOnline();
+            }
+
+
+            #endregion
+
+
 
 #if TESTBUILD
                 TestControl.Visibility = Visibility.Visible;
 #elif DEBUG
-                DebugControl.Visibility = Visibility.Visible;
+            DebugControl.Visibility = Visibility.Visible;
 #elif TRAININGBUILD
                 TrainingControl.Visibility = Visibility.Visible;
 #endif
@@ -126,7 +158,23 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 SetCursor(Cursors.Wait);
-                
+
+                #region Restart The Counter
+                try
+                {
+                    if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                    {
+                        //SetAgentOnline();
+                        //timer.Start();
+                    }
+                }
+                catch 
+                {
+
+                }
+
+                #endregion
+
                 LoadSalesGrid();
                 xdgSales.DataSource = null;
 
@@ -296,12 +344,29 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
-                    LeadApplicationScreen leadApplicationScreen = new LeadApplicationScreen(ImportID, _ssGlobalData, true);
-                    ShowDialog(leadApplicationScreen, new INDialogWindow(leadApplicationScreen));
+                    if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                    {
+                        SetAgentOffline();
+                        timer.Stop();
+                    }
+
+
+                        LeadApplicationScreen leadApplicationScreen = new LeadApplicationScreen(ImportID, _ssGlobalData, true);
+                        ShowDialog(leadApplicationScreen, new INDialogWindow(leadApplicationScreen));
+                    
+
+
+
 
                 }
                 else
                 {
+                    if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                    {
+                        SetAgentOffline();
+                        timer.Stop();
+                    }
+
                     LeadApplicationScreen leadApplicationScreen = new LeadApplicationScreen(ImportID, _ssGlobalData);
                     ShowDialog(leadApplicationScreen, new INDialogWindow(leadApplicationScreen));
                 }
@@ -1117,25 +1182,36 @@ namespace UDM.Insurance.Interface.Screens
 
                 if ((_agent?.FKUserType == (long) lkpUserType.Administrator) || (_agent?.FKUserType == (long) lkpUserType.Manager))
                 {
-                    MenuToolsScreen menuToolsScreen = new MenuToolsScreen(ScreenDirection.Reverse);
+                    if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                    {
+                        SetAgentOffline();
+                        timer.Stop();
+                    }
+
+                    MenuManagementScreen menuToolsScreen = new MenuManagementScreen(ScreenDirection.Reverse);
                     OnClose(menuToolsScreen);
                 }
                 else
                 {
-                    if((_agent?.FKUserType == (long)lkpUserType.SalesAgent))
+                    if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
                     {
-                        StartScreen startScreen = new StartScreen();
+                        SetAgentOffline();
+                        timer.Stop();
+                    }
+
+                    StartScreen startScreen = new StartScreen();
                         OnClose(startScreen);
-                    }
-                    else
-                    {
-                        MenuManagementScreen menuManagementScreen = new MenuManagementScreen(ScreenDirection.Reverse);
-                        OnClose(menuManagementScreen);
-                    }
+
+
                 }
             }
             catch (Exception ex)
             {
+                if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                {
+                    SetAgentOffline();
+                    timer.Stop();
+                }
                 HandleException(ex);
             }
         }
@@ -1216,12 +1292,28 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             else
                             {
-                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                                {
+                                    SetAgentOffline();
+                                    timer.Stop();
+                                }
+
+                                    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+
+
                             }                            
                         }
                         else
                         {
+
+                            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                            {
+                                SetAgentOffline();
+                                timer.Stop();
+                            }
+
                             ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+ 
                         }
                         
                     }
@@ -1325,6 +1417,12 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+                //if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                //{
+                //    SetAgentOffline();
+                //    timer.Stop();
+                //}
+
                 StatusLoadingScreen StatusLoadingScreen = new StatusLoadingScreen();
                 ShowDialog(StatusLoadingScreen, new INDialogWindow(StatusLoadingScreen));
             }
@@ -1339,6 +1437,11 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
+                if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                {
+                    SetAgentOffline();
+                    timer.Stop();
+                }
                 SearchLeadsScreen SearchLeadScreen = new SearchLeadsScreen(_ssGlobalData);
                 OnClose(SearchLeadScreen);
             }
@@ -1372,6 +1475,7 @@ namespace UDM.Insurance.Interface.Screens
                 message = dtMessages.Rows[messageId]["TextMessage"].ToString();
             }
             # endregion
+
             #region User Loggin information
             SqlParameter[] parameters =
                 {
@@ -1409,6 +1513,7 @@ namespace UDM.Insurance.Interface.Screens
                 userLoggedOn = true;
 
             # endregion
+
             if (userLoggedOn == false)
             {
                 //ShowMessageBox(new InSureWelcomeMessage(), message, "Hi " + UserFirstName, ShowMessageType.Other);
@@ -1458,7 +1563,7 @@ namespace UDM.Insurance.Interface.Screens
                 scheduleScreenThread.Start();
 
                 //ScheduleScreen scheduleScreen = new ScheduleScreen();
-                
+
 
                 //scheduleScreen.Show();
                 //scheduleScreen.Visibility = Visibility.Hidden;
@@ -1471,23 +1576,152 @@ namespace UDM.Insurance.Interface.Screens
 
                 //scheduleScreen.Left = left - width / 2;
                 //scheduleScreen.Top = top - height / 2;
+
+
             }
         }
 
+        #region Call Monitoring Sales PopUps Settings
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            timer.Interval = new TimeSpan(0, 0, 5);
+            timer.Tick += saleTick_Tick;
+            timer.Start();
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void saleTick_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                timer.Stop();
+                FKImportID = null;
+                long? FKUserID = GlobalSettings.ApplicationUser.ID;
+                DataTable dtStatus = Methods.GetTableData("SELECT Top 1 FKImportID, ID FROM INSalesToCallMonitoring WHERE FKUserID = " + FKUserID + " AND IsDisplayed = 0");
+                FKImportID = long.Parse(dtStatus.Rows[0]["FKImportID"].ToString());
+                long PopUpID = long.Parse(dtStatus.Rows[0]["ID"].ToString());
+
+                DataTable dtReferenceNumber = Methods.GetTableData("SELECT Top 1 RefNo FROM INImport WHERE ID = " + FKImportID );
+                CMToSReferenceNumber = dtReferenceNumber.Rows[0]["RefNo"].ToString();
+
+                if(FKImportID == null)
+                {
+
+                }
+                else
+                {
+                    try
+                    {
+                        SalesToCallMonitoring stc = new SalesToCallMonitoring(PopUpID);
+                        stc.IsDisplayed = "1";
+                        stc.Save(_validationResult);
+
+                        if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                        {
+                            timer.Stop();
+                            SetAgentOffline();
+                        }
+
+                        ShowMessageBox(new Windows.INSalesToCallMonitoringWindow(), CMToSReferenceNumber, "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
+                        LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, _ssGlobalData);
+                        ShowDialog(las, new INDialogWindow(las));
+
+
+
+                    }
+                    catch(Exception g)
+                    {
+                        timer.Interval = new TimeSpan(0, 0, 5);
+                        timer.Start();
+                        SetAgentOnline();
+                    }
+                }
+
+                //timer.Interval = new TimeSpan(0, 0, 10);
+                //timer.Start();
+                //SetAgentOnline();
+            }
+            catch
+            {
+                timer.Interval = new TimeSpan(0, 0, 5);
+                timer.Start();
+                SetAgentOnline();
+            }
+        }
+
+        public void SetAgentOnline()
+        {
+            try
+            {
+                DataTable dtAgentOnlineID = Methods.GetTableData("SELECT ID FROM INCMAgentsOnline WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
+                long AgentOnlineID = long.Parse(dtAgentOnlineID.Rows[0]["ID"].ToString());
+
+                INCMAgentsOnline cmo = new INCMAgentsOnline(AgentOnlineID);
+                cmo.Online = "1";
+                cmo.Save(_validationResult);
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        public void SetAgentOffline()
+        {
+            try
+            {
+                DataTable dtAgentOnlineID = Methods.GetTableData("SELECT ID FROM INCMAgentsOnline WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
+                long AgentOnlineID = long.Parse(dtAgentOnlineID.Rows[0]["ID"].ToString());
+
+                INCMAgentsOnline cmo = new INCMAgentsOnline(AgentOnlineID);
+                cmo.Online = "0";
+                cmo.Save(_validationResult);
+            }
+            catch(Exception W)
+            {
+
+            }
+
+        }
+        #endregion
+
         private void btnCaptureHours_Click(object sender, RoutedEventArgs e)
         {
+            //if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            //{
+            //    SetAgentOffline();
+            //    timer.Stop();
+            //}
+
             CaptureSalesAgentHoursScreen captureSalesAgentHoursScreen = new CaptureSalesAgentHoursScreen(0);
             ShowDialog(captureSalesAgentHoursScreen, new INDialogWindow(captureSalesAgentHoursScreen));
         }
 
         private void btnSalesReport_Click(object sender, RoutedEventArgs e)
         {
+            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            {
+                SetAgentOffline();
+                timer.Stop();
+            }
+
             ReportSalesScreen reportSalesScreen = new ReportSalesScreen();
             ShowDialog(reportSalesScreen, new INDialogWindow(reportSalesScreen));
         }
 
         private void btnConfirmationStats_Click(object sender, RoutedEventArgs e)
         {
+            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            {
+                SetAgentOffline();
+                timer.Stop();
+            }
+
             DataTable dtUserType = Methods.GetTableData("select FKUserType from dbo.[User] where ID = " + GlobalSettings.ApplicationUser.ID);
             long UserTypeID = long.Parse(dtUserType.Rows[0]["FKUserType"].ToString());
             ReportConfirmationStatsScreen reportConfirmationStats = new ReportConfirmationStatsScreen(UserTypeID);
@@ -1496,6 +1730,12 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnCallMonitoringTrackingReport_Click(object sender, RoutedEventArgs e)
         {
+            //if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            //{
+            //    SetAgentOffline();
+            //    timer.Stop();
+            //}
+
             DataTable dtUserType = Methods.GetTableData("select FKUserType from dbo.[User] where ID = " + GlobalSettings.ApplicationUser.ID);
             long UserTypeID = long.Parse(dtUserType.Rows[0]["FKUserType"].ToString());
             ReportCarriedForwardScreen reportCarriedForwardScreen = new ReportCarriedForwardScreen(UserTypeID);
@@ -1504,6 +1744,12 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnBumpUpStatsReport_Click(object sender, RoutedEventArgs e)
         {
+            //if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            //{
+            //    SetAgentOffline();
+            //    timer.Stop();
+            //}
+
             ReportBumpUpStatsScreen reportBumpUpStatsScreen = new ReportBumpUpStatsScreen(GlobalSettings.ApplicationUser.ID);
             ShowDialog(reportBumpUpStatsScreen, new INDialogWindow(reportBumpUpStatsScreen));
         }
