@@ -247,18 +247,18 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[27, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
                     workSheet.Cells[27, 1].Value = "Total :";
 
-                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 16]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 18]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 16]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 18]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 22]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "##%";
 
 
                     workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 24]].Merge();
@@ -993,23 +993,23 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
 
-                    (workSheet.Cells[28, 2]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[28, 3]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[28, 4]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[28, 5]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[28, 6]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[28, 2]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 3]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 4]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[28, 6]).EntireColumn.NumberFormat = "##%";
 
-                    (workSheet.Cells[29, 2]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[29, 3]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[29, 4]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[29, 5]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[29, 6]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[29, 2]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 3]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 4]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[29, 6]).EntireColumn.NumberFormat = "##%";
 
-                    (workSheet.Cells[30, 2]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[30, 3]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[30, 4]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[30, 5]).EntireColumn.NumberFormat = "00,00%";
-                    (workSheet.Cells[30, 6]).EntireColumn.NumberFormat = "00,00%";
+                    (workSheet.Cells[30, 2]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 3]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 4]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 5]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[30, 6]).EntireColumn.NumberFormat = "##%";
 
 
 
