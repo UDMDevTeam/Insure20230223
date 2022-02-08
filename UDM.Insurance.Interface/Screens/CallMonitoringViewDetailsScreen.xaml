@@ -1,0 +1,1172 @@
+﻿<Window
+    x:Class="UDM.Insurance.Interface.Screens.CallMonitoringViewDetailsScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:content="clr-namespace:UDM.Insurance.Interface.Content"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+       xmlns:business="clr-namespace:UDM.Insurance.Business;assembly=UDM.Insurance.Business"
+    xmlns:commands="clr-namespace:UDM.Insurance.Interface.Commands"
+    xmlns:controls="clr-namespace:UDM.Insurance.Interface.Controls"
+    xmlns:converters="clr-namespace:UDM.WPF.Converters;assembly=UDM.WPF"
+    xmlns:data="clr-namespace:UDM.Insurance.Interface.Data"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:ig="http://schemas.infragistics.com/xaml"
+    xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+    xmlns:library="clr-namespace:UDM.Insurance.Interface.Library"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    Background="{x:Null}"
+    BorderThickness="0"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d" 
+    
+    AllowsTransparency="True"
+    ResizeMode="CanMinimize"
+    ShowInTaskbar="False"
+        
+    WindowStartupLocation="CenterScreen"
+    WindowState="Normal"
+    WindowStyle="None" Topmost="True">
+    <Window.Resources>
+
+        <Style
+            x:Key="StyleSelectButton"
+            BasedOn="{StaticResource INFlatButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True">
+            </Setter>
+            <Setter Property="ToolTip" Value="{x:Null}">
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger
+                    Binding="{Binding ElementName=cmbCarriedForwardReason,
+                                               Path=SelectedValue}"
+                    Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ToolTip" Value="Carried Forward Reason not Selected" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <Viewbox
+        Stretch="Uniform">
+        <Grid
+            Width="1920"
+            Height="1080">
+            <Grid
+                x:Name="Size"
+                Width="750"
+                Height="500">
+                <Viewbox
+                    Stretch="Fill">
+
+                    <!--<Rectangle
+                            x:Name="BGRectangle"
+                            VerticalAlignment="Stretch"
+                            Fill="Black"
+                            RadiusX="12"
+                            RadiusY="12"
+                            Stroke="{StaticResource BrandedBrushIN}" />-->
+                    <Border
+            x:Name="DimBorder"
+            Width="850"
+            Height="600"
+            Background="Black"
+            BorderBrush="{StaticResource BrandedBrushIN}"
+            BorderThickness="2"
+            CornerRadius="12">
+                        <Grid
+                        x:Name="LayoutRoot"
+                        Width="850"
+                        Height="600">
+                            <Grid.RowDefinitions>
+                                <!--  <RowDefinition />  -->
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="40*" />
+                                <RowDefinition Height="41" />
+                                <RowDefinition Height="41*" />
+                                <RowDefinition Height="40*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+
+                            <TextBlock
+                            x:Name="headingSaleDetailNotes"
+                            Grid.Row="1"
+                            Grid.RowSpan="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="20"
+                            Margin="0"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource INPageHeadingText1}"
+                            Text="Sale Details" />
+
+                            <TextBlock
+                                  x:Name="lblFirstName"
+                                  Grid.Row="3"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="4"
+                                  VerticalAlignment="Bottom"
+                                  Style="{StaticResource INLabelText2}"
+                                  Text="First Name :"
+                                  TextDecorations="Underline"
+                                  TextWrapping="NoWrap" />
+                            <TextBlock
+                                  x:Name="lblFirstNameFill"
+                                  Grid.Row="3"
+                                  Grid.Column="3"
+                                  Grid.ColumnSpan="4"
+                                  VerticalAlignment="Bottom"
+                                  Style="{StaticResource INLabelText2}"
+                                  TextDecorations="Underline"
+                                  TextWrapping="NoWrap" />
+                            <TextBlock
+                                  x:Name="lblSurName"
+                                  Grid.Row="4"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="4"
+                                  VerticalAlignment="Bottom"
+                                  Style="{StaticResource INLabelText2}"
+                                  Text="Surame :"
+                                  TextDecorations="Underline"
+                                  TextWrapping="NoWrap" />
+                            <TextBlock
+                                  x:Name="lblSurNameFill"
+                                  Grid.Row="4"
+                                  Grid.Column="3"
+                                  Grid.ColumnSpan="4"
+                                  VerticalAlignment="Bottom"
+                                  Style="{StaticResource INLabelText2}"
+                                  TextDecorations="Underline"
+                                  TextWrapping="NoWrap" />
+
+                            <Path
+                            Height="2"
+                            Stretch="Fill"
+                            HorizontalAlignment="Left"
+                            Data="M372,132 L512.19752,132"
+                            Width="117.333"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                Grid.Row="1"
+                                Grid.RowSpan="1"
+                            Stroke="Silver" Margin="0,29,0,9" />
+
+                            <!--<DataGrid
+                                x:Name="tbxNotes"
+                                Grid.Row="3"
+                                Grid.RowSpan="5"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="8"
+                                Margin="0,0,0,36"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                TabIndex="54500"
+                                FontSize="20"/>-->
+
+
+
+                            <Border
+                                x:Name="FuneralDetails"
+                                Grid.Row="7"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="12"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="2"
+                                CornerRadius="4">
+                                <Grid Margin="-1,0,0,0" Visibility="Visible">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <!--<TextBlock
+                                        x:Name="lblCheckFuneral"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Funeral" />
+                                    <CheckBox
+                                        x:Name="chkFuneral"
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Width="16"
+                                        Height="16"
+                                        Margin="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Click="chkFuneral_Click"
+                                        IsChecked="{Binding PolicyData.IsFuneralChecked}"
+                                        IsEnabled="True"
+                                        Style="{StaticResource INCheckboxStyle}"
+                                        TabIndex="25000" />-->
+
+                                    <TextBlock
+                                        x:Name="lblFuneralCostCoverLA1"
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="Funeral LA1"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEFuneralCostLA1"
+                                        Grid.Row="4"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,-1,0"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEFuneralCoverLA1"
+                                        Grid.Row="4"
+                                        Grid.Column="8"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,-2,0"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+
+                                    <TextBlock
+                                        x:Name="lblFuneralCostCoverLA2"
+                                        Grid.Row="5"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0,0,-1,8"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Funeral LA2"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEFuneralCostLA2"
+                                        Grid.Row="5"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,-1,8"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEFuneralCoverLA2"
+                                        Grid.Row="5"
+                                        Grid.Column="8"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,-2,8"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+
+
+
+
+                                </Grid>
+
+
+
+                            </Border>
+
+                            <Border
+                                x:Name="PolicyDetailsBase"
+                                Grid.Row="8"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="24"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                Visibility="Collapsed">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock
+                                        x:Name="lblCost"
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Cost" />
+                                    <TextBlock
+                                        x:Name="lblCover"
+                                        Grid.Row="0"
+                                        Grid.Column="8"
+                                        Grid.ColumnSpan="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Cover" />
+
+
+                                    <ScrollViewer
+                                        x:Name="scvBasePolicyDetails"
+                                        Grid.Row="1"
+                                        Grid.RowSpan="3"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="11"
+                                        Margin="0,0,0,0"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <StackPanel>
+                                            <Grid x:Name="grdBaseLine1" Visibility="Visible">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    x:Name="lblLA1CostCover"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    VerticalAlignment="Bottom"
+                                                    Style="{StaticResource INLabelText4}"
+                                                    Text="Life Assured 1" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA1Cost"
+                                                    Grid.Row="0"
+                                                    Grid.Column="5"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,0,0,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA1Cover"
+                                                    Grid.Row="0"
+                                                    Grid.Column="8"
+                                                    Grid.ColumnSpan="3"
+                                                    Margin="0,0,1,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                            </Grid>
+                                            <Grid x:Name="grdBaseLine2" Visibility="Visible">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    x:Name="lblLA2CostCover"
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    VerticalAlignment="Bottom"
+                                                    Style="{StaticResource INLabelText4}"
+                                                    Text="Life Assured 2" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA2Cost"
+                                                    Grid.Row="1"
+                                                    Grid.Column="5"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,0,0,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA2Cover"
+                                                    Grid.Row="1"
+                                                    Grid.Column="8"
+                                                    Grid.ColumnSpan="3"
+                                                    Margin="0,0,1,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                            </Grid>
+                                            <Grid x:Name="grdBaseLine3" Visibility="Collapsed">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    x:Name="lblLA1CostCoverOther"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    VerticalAlignment="Bottom"
+                                                    Style="{StaticResource INLabelText4}"
+                                                    Text="Life Assured 1" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA1CostOther"
+                                                    Grid.Row="0"
+                                                    Grid.Column="5"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,0,0,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA1CoverOther"
+                                                    Grid.Row="0"
+                                                    Grid.Column="8"
+                                                    Grid.ColumnSpan="3"
+                                                    Margin="0,0,1,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                            </Grid>
+                                            <Grid x:Name="grdBaseLine4" Visibility="Collapsed">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    x:Name="lblLA2CostCoverOther"
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    VerticalAlignment="Bottom"
+                                                    Style="{StaticResource INLabelText4}"
+                                                    Text="Life Assured 2" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA2CostOther"
+                                                    Grid.Row="1"
+                                                    Grid.Column="5"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,0,0,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCELA2CoverOther"
+                                                    Grid.Row="1"
+                                                    Grid.Column="8"
+                                                    Grid.ColumnSpan="3"
+                                                    Margin="0,0,1,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                            </Grid>
+                                            <Grid x:Name="grdBaseLine5" Visibility="Visible">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    x:Name="lblChildCostCover"
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    VerticalAlignment="Bottom"
+                                                    Style="{StaticResource INLabelText4}"
+                                                    Text="Child" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCEChildCost"
+                                                    Grid.Row="2"
+                                                    Grid.Column="5"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,0,0,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                                <igWPF:XamCurrencyEditor
+                                                    x:Name="xamCEChildCover"
+                                                    Grid.Row="2"
+                                                    Grid.Column="8"
+                                                    Grid.ColumnSpan="3"
+                                                    Margin="0,0,1,0"
+                                                    VerticalAlignment="Bottom"
+                                                    HorizontalContentAlignment="Right"
+                                                    Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                                    Text="0.00" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </ScrollViewer>
+
+
+                                    <TextBlock
+                                        x:Name="lblLA1LA2TotalCover"
+                                        Grid.Row="1"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="LA1 + LA2 Total Cover" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCELA1LA2TotalCover"
+                                        Grid.Row="1"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00" />
+
+                                    <TextBlock
+                                        x:Name="lblIGLA1FreeCover"
+                                        Grid.Row="2"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="IG LA1 Free Cover"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEIGLA1FreeCover"
+                                        Grid.Row="2"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+
+                                    <TextBlock
+                                        x:Name="lbl50PercViolenceBenefit"
+                                        Grid.Row="5"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="50% Violence Benefit"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCE50PercViolenceBenefit"
+                                        Grid.Row="5"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+
+                                    <TextBlock
+                                        x:Name="lblTotalPremium"
+                                        Grid.Row="6"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="Total Premium" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCETotalPremium"
+                                        Grid.Row="6"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        ToolTip="{Binding PolicyData.LoadedTotalPremium}"
+                                        Value="{Binding PolicyData.TotalPremium, TargetNullValue='0.00'}" />
+
+                                    <TextBlock
+                                        x:Name="lblTotalPremiumAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="New Annual Premium"
+                                        TextWrapping="NoWrap"
+                                        Visibility="Visible"/>
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCETotalPremiumAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}" 
+                                        Visibility="Visible"/>
+
+                                    <!--<TextBlock
+                                        x:Name="lblMoneyBack"
+                                        Grid.Row="6"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="Money Back Payout" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEMoneyBack"
+                                        Grid.Row="6"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Value="{Binding PolicyData.MoneyBackPayout, TargetNullValue='0.00'}" />-->
+
+                                    <TextBlock
+                                        x:Name="lblMoneyBackPayoutAge"
+                                        Grid.Row="7"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="Payout Age"
+                                        Visibility="Hidden" />
+                                    <TextBlock
+                                        x:Name="tbMoneyBackPayoutAge"
+                                        Grid.Row="7"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        Foreground="Silver"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="{Binding PolicyData.MoneyBackPayoutAge}"
+                                        TextWrapping="NoWrap"
+                                        Visibility="Hidden" />
+
+                                    <TextBlock
+                                        x:Name="lblTotalPremiumUpgAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText4}"
+                                        Text="New Annual Premium"
+                                        TextWrapping="NoWrap"
+                                        Visibility="Collapsed"/>
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCETotalPremiumUpgAnnual"
+                                        Grid.Row="10"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}" 
+                                        Visibility="Collapsed"/>
+
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                x:Name="PolicyDetailsUpgrade"
+                                Grid.Row="8"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="24"
+                                Margin="0,-30,0,0"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                Visibility="Visible">
+                                <Grid x:Name="grdPolicyDetailsUpgrade">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <ScrollViewer
+                                        Grid.Row="0"
+                                        Grid.RowSpan="8"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="11"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <Grid
+                                            x:Name="grdPolicyDetailsUpgradeA"
+                                            Margin="0,0,0,0"
+                                            VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="21" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                x:Name="lblUpgradePolicyUpg"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="6"
+                                                VerticalAlignment="Bottom"
+                                                Style="{StaticResource INLabelText2}"
+                                                Text="Upgrade"
+                                                TextDecorations="Underline"
+                                                TextWrapping="NoWrap" />
+                                            <TextBlock
+                                                x:Name="lblCoverUpg"
+                                                Grid.Row="0"
+                                                Grid.Column="7"
+                                                Grid.ColumnSpan="4"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Style="{StaticResource INLabelText2}"
+                                                Text="Cover" />
+                                        </Grid>
+                                    </ScrollViewer>
+
+                                    <!--
+                                        <TextBlock x:Name="lblCostUpg"
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Cost"
+                                        Visibility="Visible" />
+                                    -->
+
+                                    <TextBlock
+                                        x:Name="lblCurrentPolicyUpg"
+                                        Grid.Row="0"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Current"
+                                        TextDecorations="Underline"
+                                        TextWrapping="NoWrap" />
+
+                                    <!--
+                                        <TextBlock x:Name="lblCurrentPolicyCostUpg"
+                                        Grid.Row="0"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Cost"
+                                        TextWrapping="NoWrap" />
+                                    -->
+
+                                    <TextBlock
+                                        x:Name="lblCurrentPolicyCoverUpg"
+                                        Grid.Row="0"
+                                        Grid.Column="20"
+                                        Grid.ColumnSpan="4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Cover"
+                                        TextWrapping="NoWrap" />
+
+
+                                    <TextBlock
+                                        x:Name="lblUpgradePremiumUpg"
+                                        Grid.Row="9"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Upgrade Premium"
+                                        TextWrapping="NoWrap" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEUpgradePremiumUpg"
+                                        Grid.Row="9"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"/>
+
+                                    <TextBlock
+                                        x:Name="lblChildPremiumUpg"
+                                        Grid.Row="9"
+                                        Grid.Column="8"
+                                        Grid.ColumnSpan="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Child Premium"
+                                        TextWrapping="NoWrap" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEChildPremiumUpg"
+                                        Grid.Row="10"
+                                        Grid.Column="8"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="{Binding PolicyData.UpgradeChildPremium}"/>
+
+                                    <TextBlock
+                                        x:Name="lblCurrentPremiumUpg"
+                                        Grid.Row="8"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Current Premium"
+                                        TextWrapping="NoWrap" />
+
+
+
+
+                                    <!--
+                                        <TextBlock
+                                        x:Name="lblTotalPremiumUpg"
+                                        Grid.Row="6"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="5"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Total Upgrade Premium"
+                                        TextWrapping="NoWrap" />
+                                    -->
+
+
+                                    <!--
+                                        <TextBlock
+                                        x:Name="lblLA1LA2TotalCoverUpg"
+                                        Grid.Row="1"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="LA1 + LA2 Total Cover"
+                                        TextWrapping="NoWrap" />
+                                    -->
+                                    <!--
+                                        <igWPF:XamCurrencyEditor
+                                        x:Name="xamCELA1LA2TotalCoverUpg"
+                                        Grid.Row="1"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00" />
+                                    -->
+
+                                    <!--
+                                        <TextBlock
+                                        x:Name="lblIGLA1FreeCoverUpg"
+                                        Grid.Row="2"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="IG LA1 Free Cover"
+                                        Visibility="Collapsed" />
+                                    -->
+                                    <!--
+                                        <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEIGLA1FreeCoverUpg"
+                                        Grid.Row="2"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+                                    -->
+
+                                    <!--
+                                        <TextBlock
+                                        x:Name="lbl50PercViolenceBenefitUpg"
+                                        Grid.Row="5"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="50% Violence Benefit"
+                                        Visibility="Collapsed" />
+                                    -->
+                                    <!--
+                                        <igWPF:XamCurrencyEditor
+                                        x:Name="xamCE50PercViolenceBenefitUpg"
+                                        Grid.Row="5"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+                                    -->
+
+
+                                    <TextBlock
+                                        x:Name="lblMoneyBackUpg"
+                                        Grid.Row="8"
+                                        Grid.Column="13"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Money Back Payout"
+                                        Visibility="Collapsed" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEOriginalPremiumUpg"
+                                        Grid.Row="8"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="{Binding ImportedPolicyData.ContractPremium}" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCEMoneyBackUpg"
+                                        Grid.Row="9"
+                                        Grid.Column="17"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Left"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}"
+                                        Text="0.00"
+                                        Visibility="Collapsed" />
+
+                                    <TextBlock
+                                        x:Name="lblTotalPremiumUpg"
+                                        Grid.Row="10"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="New Total Premium"
+                                        TextWrapping="NoWrap" />
+                                    <igWPF:XamCurrencyEditor
+                                        x:Name="xamCETotalPremiumUpg"
+                                        Grid.Row="10"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource INXamCurrencyEditorLabelStyle1}" />
+
+
+
+                                </Grid>
+                            </Border>
+
+
+   
+                            <Button
+                                x:Name="btnClose"
+                                Width="18"
+                                Height="18"
+                                Grid.Column="24"
+                                Click="btnClose_Click"
+                                Style="{StaticResource INCloseButton}" />
+                            <!--</Grid>-->
+                        </Grid>
+                    </Border>
+
+
+
+
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Viewbox>
+
+</Window>

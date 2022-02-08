@@ -53,7 +53,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #region Private Members
 
-        private CallMonitoringData _screenData = new CallMonitoringData();
+        public CallMonitoringData _screenData = new CallMonitoringData();
         private CallMonitoringData _loadedScreenData = new CallMonitoringData();
         private DataTable _dtAllBankBranches;
         private DataTable _dtAllBankAccountNumberPatterns;
@@ -79,7 +79,7 @@ namespace UDM.Insurance.Interface.Screens
         }
 
 
-        //private LeadApplicationData _leadApplicationScreenData;
+        public LeadApplicationData _leadApplicationScreenData;
 
         #endregion Private Members
 
@@ -97,11 +97,11 @@ namespace UDM.Insurance.Interface.Screens
             set { _loadedScreenData = value; }
         }
 
-        //public LeadApplicationData LeadApplicationScreenData
-        //{
-        //    get { return _leadApplicationScreenData; }
-        //    set { _leadApplicationScreenData = value; }
-        //}
+        public LeadApplicationData LeadApplicationScreenData
+        {
+            get { return _leadApplicationScreenData; }
+            set { _leadApplicationScreenData = value; }
+        }
 
         #endregion Publicly-Exposed Properties
 
@@ -111,7 +111,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
 
-            //_leadApplicationScreenData = leadApplicationData;
+           _leadApplicationScreenData = leadApplicationData;
 
 
             userID = ((User)GlobalSettings.ApplicationUser).ID;
@@ -1112,6 +1112,12 @@ namespace UDM.Insurance.Interface.Screens
         private void btnNotes_Click(object sender, RoutedEventArgs e)
         {
             SaleDetailNotesScreen noteScreen = new SaleDetailNotesScreen(this);
+            noteScreen.ShowDialog();
+        }
+
+        private void btnDetails_Click(object sender, RoutedEventArgs e)
+        {
+            CallMonitoringViewDetailsScreen noteScreen = new CallMonitoringViewDetailsScreen(this);
             noteScreen.ShowDialog();
         }
 

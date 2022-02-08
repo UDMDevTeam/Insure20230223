@@ -1314,6 +1314,28 @@
                         Visibility="Visible" />
                 </Button>
 
+                <Button
+                    x:Name="btnDetails"
+                    Grid.RowSpan="2"
+                    Grid.Column="16"
+                    Grid.ColumnSpan="3"
+                    Width="Auto"
+                    Height="34"
+                    Margin="13,0,7,0"
+                    VerticalAlignment="Bottom"
+                    Click="btnDetails_Click"
+                    IsEnabled="{Binding AppData.IsLeadLoaded}"
+                    Style="{StaticResource INFlatButton}"
+                    TabIndex="98200">
+                    <AccessText
+                        x:Name="acDetails"
+                        Margin="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="Details"
+                        Visibility="Visible" />
+                </Button>
+
                 <!--<Button
                     x:Name="btnDebiCheckStatus"
                     Grid.RowSpan="2"
