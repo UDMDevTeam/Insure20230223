@@ -36,19 +36,21 @@ namespace UDM.Insurance.Interface.Screens
         private void buttonSelect_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
-                
-
+            {               
                 SelectedDeclineReasonID = Convert.ToInt32(cmbDeclineReason.SelectedValue);
-                OnDialogClose(_dialogResult);
+
 
                 SalesToCallMonitoring scm = new SalesToCallMonitoring();
                 scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
                 scm.FKUserID = SelectedDeclineReasonID;
                 scm.IsDisplayed = "0";
-                scm.Save(_validationResult);
 
                 _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+
+                scm.Save(_validationResult);
+
+                OnDialogClose(_dialogResult);
+
             }
             catch (Exception ex)
             {
