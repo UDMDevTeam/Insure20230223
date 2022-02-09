@@ -2057,6 +2057,15 @@ namespace UDM.Insurance.Business
 
         #region Call Monitoring Report - Specific Functionalities
 
+        public static DataSet INGetCallMonitoringExtraDetails(long? fkinimportid)
+        {
+            object param1 = Database.GetParameter("@FKINImport", fkinimportid);
+
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetCMExtraDetails", paramArray, 600);
+        }
+
         public static DataSet INReportCallMonitoring(DateTime fromDate, DateTime toDate, byte staffType)
         {
             object param1 = Database.GetParameter("@FromDate", fromDate);
