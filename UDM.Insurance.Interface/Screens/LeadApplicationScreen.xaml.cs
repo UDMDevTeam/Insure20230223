@@ -14454,6 +14454,17 @@ namespace UDM.Insurance.Interface.Screens
                             IDNumberDebiCheck = "1";
                         }
 
+                        bool IsUDMAcquiredDetails = false;
+
+                        if(medDOAccountNumber.Text == "")
+                        {
+                            IsUDMAcquiredDetails = false;
+                        }
+                        else
+                        {
+                            IsUDMAcquiredDetails = true;
+                        }
+
                         try
                         {
                             DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
@@ -14504,6 +14515,14 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
+                        if (IsUDMAcquiredDetails == true)
+                        {
+                            try { data["CustomField2"] = "1"; } catch { data["CustomField2"] = " "; }
+                        }
+                        else
+                        {
+                            try { data["CustomField2"] = "0"; } catch { data["CustomField2"] = " "; }
+                        }
                     }
                     else
                     {
@@ -14528,6 +14547,8 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
+
+
 
                     }
 
