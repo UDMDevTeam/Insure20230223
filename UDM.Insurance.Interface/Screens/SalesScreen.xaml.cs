@@ -1490,7 +1490,7 @@ namespace UDM.Insurance.Interface.Screens
 
             if (UserType.Value == lkpUserType.ConfirmationAgent)
             {
-                btnSalesReport.Visibility = Visibility.Collapsed;
+                btnSalesReport.Visibility = Visibility.Visible;
                 btnConfirmationStats.Visibility = Visibility.Visible;
                 btnCallMonitoringTrackingReport.Visibility = Visibility.Collapsed;
                 btnBumpUpStatsReport.Visibility = Visibility.Visible;
