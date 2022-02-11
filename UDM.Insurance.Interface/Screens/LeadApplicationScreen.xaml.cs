@@ -467,7 +467,7 @@ namespace UDM.Insurance.Interface.Screens
         //    return result;
         //}
 
-        private string UppercaseFirst(string s)
+        public static string UppercaseFirst(string s)
         {
 
             char[] a = new char[] { ' ' };

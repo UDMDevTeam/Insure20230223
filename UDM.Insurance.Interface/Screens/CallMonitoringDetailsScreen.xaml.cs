@@ -53,6 +53,8 @@ namespace UDM.Insurance.Interface.Screens
 
         #region Private Members
 
+
+        private LeadApplicationData _laData = new LeadApplicationData();
         public CallMonitoringData _screenData = new CallMonitoringData();
         private CallMonitoringData _loadedScreenData = new CallMonitoringData();
         private DataTable _dtAllBankBranches;
@@ -84,6 +86,12 @@ namespace UDM.Insurance.Interface.Screens
         #endregion Private Members
 
         #region Publicly-Exposed Properties
+
+        public LeadApplicationData LaData
+        {
+            get { return _laData; }
+            set { _laData = value; }
+        }
 
         public CallMonitoringData ScreenData
         {
@@ -889,6 +897,45 @@ namespace UDM.Insurance.Interface.Screens
                 inImportCallMonitoring.ExclusionsExplainedBumpUpClosure = ScreenData.ExclusionsExplainedBumpUpClosure;
 
                 inImportCallMonitoring.Save(null);
+
+                try
+                {
+                  
+                    INBankDetails inBankDetails = (ScreenData.LeadApplicationScreenData.BankDetailsData.BankDetailsID == null) ? new INBankDetails() : new INBankDetails((long)ScreenData.LeadApplicationScreenData.BankDetailsData.BankDetailsID);
+ 
+                    if (ScreenData.LeadApplicationScreenData.BankDetailsData.BankID != null)
+                    {
+                        inBankDetails.FKPaymentMethodID = ScreenData.LeadApplicationScreenData.BankDetailsData.PaymentTypeID;
+
+                        inBankDetails.FKAHTitleID = ScreenData.LeadApplicationScreenData.BankDetailsData.TitleID;
+                        inBankDetails.AHInitials = ScreenData.LeadApplicationScreenData.BankDetailsData.Initials;
+                        inBankDetails.AHFirstName = LeadApplicationScreen.UppercaseFirst(ScreenData.LeadApplicationScreenData.BankDetailsData.Name);
+                        inBankDetails.AHSurname = LeadApplicationScreen.UppercaseFirst(ScreenData.LeadApplicationScreenData.BankDetailsData.Surname);
+                        inBankDetails.AHIDNo = LeadApplicationScreen.UppercaseFirst(ScreenData.LeadApplicationScreenData.BankDetailsData.IDNumber);
+                        inBankDetails.AHTelHome = ScreenData.LeadApplicationScreenData.BankDetailsData.TelHome;
+                        inBankDetails.AHTelCell = ScreenData.LeadApplicationScreenData.BankDetailsData.TelCell;
+                        inBankDetails.AHTelWork = ScreenData.LeadApplicationScreenData.BankDetailsData.TelWork;
+
+                        inBankDetails.FKSigningPowerID = ScreenData.LeadApplicationScreenData.BankDetailsData.SigningPowerID;
+
+                        inBankDetails.AccountHolder = LeadApplicationScreen.UppercaseFirst(ScreenData.LeadApplicationScreenData.BankDetailsData.AccountHolder);
+                        inBankDetails.FKBankID = ScreenData.LeadApplicationScreenData.BankDetailsData.BankID;
+                        inBankDetails.FKBankBranchID = ScreenData.LeadApplicationScreenData.BankDetailsData.BankBranchCodeID;
+                        inBankDetails.AccountNo = ScreenData.LeadApplicationScreenData.BankDetailsData.AccountNumber;
+                        inBankDetails.FKAccountTypeID = ScreenData.LeadApplicationScreenData.BankDetailsData.AccountTypeID;
+                        inBankDetails.DebitDay = ScreenData.LeadApplicationScreenData.BankDetailsData.DebitDay;
+                        inBankDetails.AccNumCheckStatus = Convert.ToByte(ScreenData.LeadApplicationScreenData.BankDetailsData.lkpAccNumCheckStatus);
+                        inBankDetails.AccNumCheckMsg = ScreenData.LeadApplicationScreenData.BankDetailsData.AccNumCheckMsg;
+                        inBankDetails.AccNumCheckMsgFull = ScreenData.LeadApplicationScreenData.BankDetailsData.AccNumCheckMsgFull;
+
+                        inBankDetails.Save(null);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
 
                 MessageBox.Show("The call monitoring details have been saved successfully.", "Save Successful", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.None, MessageBoxOptions.DefaultDesktopOnly);
 
