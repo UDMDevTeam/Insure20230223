@@ -252,6 +252,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+                    
 
                     string filePathAndName = String.Format("{0}DebiCheck Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
@@ -427,6 +428,9 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         try
                         {
+
+                            campaign = "Consolidated Report";
+
                             #region Parameter workings
                             TimeSpan ts = new TimeSpan(23, 00, 0);
                             DateTime _endDate2 = DateTime.Now;
@@ -492,6 +496,8 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             try
                             {
+
+                                campaign = "Daily Report";
 
                                 var transactionOptions = new TransactionOptions
                                 {

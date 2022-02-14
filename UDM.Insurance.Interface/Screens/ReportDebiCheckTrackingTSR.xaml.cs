@@ -289,7 +289,7 @@ namespace UDM.Insurance.Interface.Screens
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 
-                    string filePathAndName = String.Format("{0}DebiCheck Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    string filePathAndName = String.Format("{0}DebiCheck Report TSR Base {1}, {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
 
@@ -541,7 +541,7 @@ namespace UDM.Insurance.Interface.Screens
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 
-                    string filePathAndName = String.Format("{0}DebiCheck Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    string filePathAndName = String.Format("{0}DebiCheck Report TSR Upgrades {1}, {2}.xlsx", GlobalSettings.UserFolder, campaign, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
 
