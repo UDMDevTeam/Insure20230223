@@ -310,6 +310,7 @@ namespace UDM.Insurance.Interface.Screens
                         //workSheet.get_Range("A4", "J1").Font.Bold = true;
                     }
 
+                    workSheet.Cells[2, 27].ColumnWidth = 20;
 
                     // column headings
                     for (var i = 0; i < dtSalesData.Columns.Count; i++)
@@ -414,6 +415,7 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 21].Formula = string.Format("=SUM(U1:U" + totalRowMinusOne.ToString() + ")"); //U
                     workSheet.Cells[totalrows, 23].Formula = string.Format("=SUM(W1:W" + totalRowMinusOne.ToString() + ")"); //W
                     workSheet.Cells[totalrows, 25].Formula = string.Format("=SUM(Y1:Y" + totalRowMinusOne.ToString() + ")"); //y
+                    workSheet.Cells[totalrows, 26].Formula = string.Format("=E" + totalrows + "/(B" + totalrows + " - Y" + totalrows + ") * 100"); //Z
 
                     workSheet.Cells[totalrows, 6].Formula = string.Format("=E" + totalrows + "/B" + totalrows + "*100"); //F
                     workSheet.Cells[totalrows, 8].Formula = string.Format("=G" + totalrows + "/B" + totalrows + "*100"); //H
@@ -425,6 +427,7 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 20].Formula = string.Format("=S" + totalrows + "/B" + totalrows + "*100"); //T
                     workSheet.Cells[totalrows, 22].Formula = string.Format("=U" + totalrows + "/B" + totalrows + "*100"); //V
                     workSheet.Cells[totalrows, 24].Formula = string.Format("=W" + totalrows + "/B" + totalrows + "*100"); //X
+                    
 
                     for (int w = 3; w <= totalRowMinusOne; w++)
                     {
@@ -562,6 +565,7 @@ namespace UDM.Insurance.Interface.Screens
                         //workSheet.get_Range("A4", "J1").Font.Bold = true;
                     }
 
+                    workSheet.Cells[2, 27].ColumnWidth = 30;
 
                     // column headings
                     for (var i = 0; i < dtSalesData.Columns.Count; i++)
@@ -668,6 +672,7 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 21].Formula = string.Format("=SUM(U1:U" + totalRowMinusOne.ToString() + ")"); //U
                     workSheet.Cells[totalrows, 23].Formula = string.Format("=SUM(W1:W" + totalRowMinusOne.ToString() + ")"); //W
                     workSheet.Cells[totalrows, 25].Formula = string.Format("=SUM(Y1:Y" + totalRowMinusOne.ToString() + ")"); //y
+                    workSheet.Cells[totalrows, 26].Formula = string.Format("=E" + totalrows + "/(B" + totalrows + " - Y" + totalrows + ") * 100"); //Z
 
                     workSheet.Cells[totalrows, 6].Formula = string.Format("=E" + totalrows + "/B" + totalrows + "*100"); //F
                     workSheet.Cells[totalrows, 8].Formula = string.Format("=G" + totalrows + "/B" + totalrows + "*100"); //H
