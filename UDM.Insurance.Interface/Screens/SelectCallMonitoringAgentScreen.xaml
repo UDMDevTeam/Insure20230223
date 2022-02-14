@@ -61,6 +61,15 @@
                             Stroke="{StaticResource BrandedBrushIN}" />
 
                         <Button
+                            x:Name="btnReload"
+                            Margin="168,0,169,200"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="btnReload_Click"
+                            Content="Reload Agents"
+                            Style="{StaticResource INFlatButton}"
+                            TabIndex="5" />                        
+                        <Button
                             x:Name="btnSelect"
                             Margin="168,0,169,40"
                             HorizontalAlignment="Center"

@@ -89,5 +89,17 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                cmbDeclineReason.ItemsSource = null;
+            }
+            catch { }
+
+
+            DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID]");
+            cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+        }
     }
 }

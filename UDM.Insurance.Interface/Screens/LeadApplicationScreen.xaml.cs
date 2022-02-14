@@ -7945,11 +7945,18 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     catch
                                     {
-                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                        messageBox.buttonOK.Content = "Yes";
-                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                        bool result = showMessageBox != null && (bool)showMessageBox;
-                                        return;
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
                                     }
                                 }
                                 else
@@ -7973,11 +7980,18 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     catch
                                     {
-                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                        messageBox.buttonOK.Content = "Yes";
-                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                        bool result = showMessageBox != null && (bool)showMessageBox;
-                                        return;
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
                                     }
                                 }
                                 else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
@@ -7994,11 +8008,18 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     catch
                                     {
-                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                        messageBox.buttonOK.Content = "Yes";
-                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                        bool result = showMessageBox != null && (bool)showMessageBox;
-                                        return;
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
                                     }
                                 }
                             }
@@ -8031,6 +8052,7 @@ namespace UDM.Insurance.Interface.Screens
                         DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
                         if (dtPolicyPlanGroup.Rows.Count == 0)
                         {
+
                             INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
                             messageBox.buttonOK.Content = "Yes";
                             messageBox.buttonCancel.Content = "No";
