@@ -8,6 +8,8 @@ using UDM.Insurance.Business.Mapping;
 using Embriant.Framework.Configuration;
 using Embriant.Framework;
 using Embriant.Framework.Validation;
+using System.Data;
+using Embriant.Framework.Data;
 
 namespace UDM.Insurance.Business
 {
@@ -333,6 +335,27 @@ namespace UDM.Insurance.Business
                 return false;
             }
         }
+        #endregion
+
+
+        #region Version Check
+
+        public static DataTable INGetVersionInfo(string userName)
+        {
+
+            object param1 = Database.GetParameter("@UserName", userName);
+
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetVersionInfo", paramArray).Tables[0];
+        }
+
+        public static DataTable INGetLatestVersion()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetLatestVersion", null).Tables[0];
+        }
+
+
         #endregion
     }
 

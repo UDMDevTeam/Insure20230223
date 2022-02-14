@@ -164,6 +164,55 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
+        private void CheckUserVersion(string Username)
+        {
+
+            try
+            {
+
+                string LatestVersion;
+                string Version;
+
+                Username = ((User)GlobalSettings.ApplicationUser).LoginName;
+
+                DataTable dtVersionData = User.INGetVersionInfo(Username);
+
+                DataTable dtLatestVersionData = User.INGetLatestVersion();
+
+                LatestVersion = dtLatestVersionData.Rows[0]["Version"].ToString();
+
+                Version = dtVersionData.Rows[0]["Version"].ToString();
+
+                if (LatestVersion != Version)
+                {
+
+                    MessageBox.Show("This version of Insure is outdated. It will update now.", MessageBoxButton.OK.ToString());
+
+                    //ShowMessageBox(new INMessageBoxWindow1(), "This version of Insure is outdated. It will now update.", "Incorrect Version", ShowMessageType.Error);
+
+                    //Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+                    //{
+                    //    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
+                    //});
+
+
+                    //ShowMessageBox(new Windows.INMessageBoxWindow1(), @"This version of Insure is outdated. Please close and re-open the application.", "Incorrect Version", Embriant.Framework.ShowMessageType.Error);
+                    System.Windows.Application.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
+
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+
+        }
 
 
         #region Event Handlers
@@ -173,6 +222,8 @@ namespace UDM.Insurance.Interface.Screens
             {
                 _user = UserMapper.SearchOne(null, null, null, txtUsername.Text, null, null, null, null, null);
                 GlobalSettings.ApplicationUser = _user;
+
+                string Username = ((User)GlobalSettings.ApplicationUser).LoginName;
 
                 #region Get Message
                 DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_GetWellComeMessages", null);
@@ -233,10 +284,16 @@ namespace UDM.Insurance.Interface.Screens
                                     case (int) lkpUserType.SeniorAdministrator:
                                     case (int) lkpUserType.Administrator:
                                     case (int) lkpUserType.Manager:
+
+                                        CheckUserVersion(Username);
+
                                         nextControl = new MenuManagementScreen(ScreenDirection.Forward);
                                         break;
                                     case (int) lkpUserType.SalesAgent:
                                     case (int) lkpUserType.DataCapturer:
+
+                                        CheckUserVersion(Username);
+
                                         nextControl = new SalesScreen();
                                         //ShowMessage = false;
                                         break;
@@ -245,6 +302,9 @@ namespace UDM.Insurance.Interface.Screens
                                     case (int) lkpUserType.CallMonitoringAgent:
                                     case (int)lkpUserType.Preserver:
                                         //nextControl = new ConfirmScreen();
+
+                                        CheckUserVersion(Username);
+
                                         nextControl = new SalesScreen();
                                         break;
 
