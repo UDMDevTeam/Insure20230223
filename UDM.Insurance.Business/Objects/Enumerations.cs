@@ -95,7 +95,8 @@
         R99 = 42,
         SpouseLite = 43,
         Upgrade14 = 44,
-        DoubleUpgrade15 = 45
+        DoubleUpgrade15 = 45,
+        R99NG = 46
     }
 
     public enum lkpINCampaignType
