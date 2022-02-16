@@ -167,49 +167,49 @@ namespace UDM.Insurance.Interface.Screens
         private void CheckUserVersion(string Username)
         {
 
-            try
-            {
+            //try
+            //{
 
-                string LatestVersion;
-                string Version;
+            //    string LatestVersion;
+            //    string Version;
 
-                Username = ((User)GlobalSettings.ApplicationUser).LoginName;
+            //    Username = ((User)GlobalSettings.ApplicationUser).LoginName;
 
-                DataTable dtVersionData = User.INGetVersionInfo(Username);
+            //    DataTable dtVersionData = User.INGetVersionInfo(Username);
 
-                DataTable dtLatestVersionData = User.INGetLatestVersion();
+            //    DataTable dtLatestVersionData = User.INGetLatestVersion();
 
-                LatestVersion = dtLatestVersionData.Rows[0]["Version"].ToString();
+            //    LatestVersion = dtLatestVersionData.Rows[0]["Version"].ToString();
 
-                Version = dtVersionData.Rows[0]["Version"].ToString();
+            //    Version = dtVersionData.Rows[0]["Version"].ToString();
 
-                if (LatestVersion != Version)
-                {
+            //    if (LatestVersion != Version)
+            //    {
 
-                    MessageBox.Show("This version of Insure is outdated. It will update now.", MessageBoxButton.OK.ToString());
+            //        MessageBox.Show("This version of Insure is outdated. It will update now.", MessageBoxButton.OK.ToString());
 
-                    //ShowMessageBox(new INMessageBoxWindow1(), "This version of Insure is outdated. It will now update.", "Incorrect Version", ShowMessageType.Error);
+            //        //ShowMessageBox(new INMessageBoxWindow1(), "This version of Insure is outdated. It will now update.", "Incorrect Version", ShowMessageType.Error);
 
-                    //Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
-                    //{
-                    //    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
-                    //});
+            //        //Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+            //        //{
+            //        //    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
+            //        //});
 
 
-                    //ShowMessageBox(new Windows.INMessageBoxWindow1(), @"This version of Insure is outdated. Please close and re-open the application.", "Incorrect Version", Embriant.Framework.ShowMessageType.Error);
-                    System.Windows.Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+            //        //ShowMessageBox(new Windows.INMessageBoxWindow1(), @"This version of Insure is outdated. Please close and re-open the application.", "Incorrect Version", Embriant.Framework.ShowMessageType.Error);
+            //        System.Windows.Application.Current.Shutdown();
+            //        System.Windows.Forms.Application.Restart();
 
-                }
-                else
-                {
+            //    }
+            //    else
+            //    {
 
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    HandleException(ex);
+            //}
 
 
         }
@@ -285,14 +285,14 @@ namespace UDM.Insurance.Interface.Screens
                                     case (int) lkpUserType.Administrator:
                                     case (int) lkpUserType.Manager:
 
-                                        CheckUserVersion(Username);
+                                        //CheckUserVersion(Username);
 
                                         nextControl = new MenuManagementScreen(ScreenDirection.Forward);
                                         break;
                                     case (int) lkpUserType.SalesAgent:
                                     case (int) lkpUserType.DataCapturer:
 
-                                        CheckUserVersion(Username);
+                                        //CheckUserVersion(Username);
 
                                         nextControl = new SalesScreen();
                                         //ShowMessage = false;
@@ -303,7 +303,7 @@ namespace UDM.Insurance.Interface.Screens
                                     case (int)lkpUserType.Preserver:
                                         //nextControl = new ConfirmScreen();
 
-                                        CheckUserVersion(Username);
+                                        //CheckUserVersion(Username);
 
                                         nextControl = new SalesScreen();
                                         break;
