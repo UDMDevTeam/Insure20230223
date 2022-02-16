@@ -11,6 +11,29 @@ namespace UDM.Insurance.Interface.Data
     {
         #region Public Properties
 
+        #region Call Monitoring Query Specific Properties
+
+
+
+        private lkpINCampTSRReportMode? _callMonitoringReportMode = lkpINCampTSRReportMode.ByTSR;
+
+        public lkpINCampTSRReportMode? CallMonitoringQueryMode
+        {
+            get { return _callMonitoringReportMode; }
+            set { SetProperty(ref _callMonitoringReportMode, value, () => CallMonitoringQueryMode); }
+        }
+
+        private lkpINTurnoverCompanyMode? _callMonitoringCompanyMode = lkpINTurnoverCompanyMode.Insurance;
+
+        public lkpINTurnoverCompanyMode? CallMonitoringQueryCompanyMode
+        {
+            get { return _callMonitoringCompanyMode; }
+            set { SetProperty(ref _callMonitoringCompanyMode, value, () => CallMonitoringQueryCompanyMode); }
+        }
+
+
+        #endregion
+
         #region Turnover Specific Properties
 
         private lkpINCampTSRReportMode? _turnoverReportMode = lkpINCampTSRReportMode.ByCampaign;

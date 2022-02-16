@@ -1,6 +1,7 @@
 ﻿<src:BaseControl
     x:Class="UDM.Insurance.Interface.Screens.ReportCallMonitoringScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:business="clr-namespace:UDM.Insurance.Business;assembly=UDM.Insurance.Business"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF">
@@ -300,6 +301,205 @@
                         Style="{DynamicResource cmbINHighlightBorder}"
                         TabIndex="0" />
 
+                    <igWPF:XamDataGrid
+                        x:Name="xdgCampaigns"
+                        Grid.Row="4"
+                        Grid.RowSpan="12"
+                        Grid.Column="16"
+                        Grid.ColumnSpan="8"
+                        Margin="0"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        AutoFit="False"
+                        FieldLayoutInitialized="xdgCampaigns_FieldLayoutInitialized"
+                        GroupByAreaLocation="None"
+                        Style="{DynamicResource INXamDataGridStyle1}"
+                        TabIndex="0">
+                        <igWPF:XamDataGrid.Resources>
+                            <Style TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:HeaderPrefixArea}">
+                                            <CheckBox
+                                                x:Name="HeaderPrefixAreaCheckbox"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Checked="HeaderPrefixAreaCheckbox_Checked"
+                                                IsChecked="False"
+                                                Loaded="HeaderPrefixAreaCheckbox_Loaded"
+                                                Style="{DynamicResource INCheckboxStyle}"
+                                                Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style TargetType="{x:Type igWPF:RecordSelector}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type igWPF:RecordSelector}">
+                                            <CheckBox
+                                                x:Name="RecordSelectorCheckbox"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Click="RecordSelectorCheckbox_Click"
+                                                Focusable="False"
+                                                IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                                Style="{DynamicResource INCheckboxStyle}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </igWPF:XamDataGrid.Resources>
+                    </igWPF:XamDataGrid>
+
+                    <StackPanel
+                        Grid.Row="10"
+                        Grid.RowSpan="4"
+                        Grid.Column="8"
+                        Grid.ColumnSpan="5"
+                        Margin="10.2,39.667,32.8,2.333"
+                        Orientation="Vertical">
+
+                        <Grid Height="12" />
+                        <Viewbox Height="20" HorizontalAlignment="Left">
+                            <RadioButton
+                                x:Name="radByTSR"
+                                Margin="0,0,10,0"
+                                Checked="radByTSR_Checked"
+                                GroupName="rbgReportMode"
+                                IsChecked="{Binding Path=CallMonitoringQueryMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.ByTSR}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54300">
+                                <TextBlock Margin="-4,0,0,0">
+                                    By TSR
+                                </TextBlock>
+                            </RadioButton>
+                        </Viewbox>
+                        <Grid Height="12" />
+                        <Viewbox Height="20" HorizontalAlignment="Left">
+                            <RadioButton
+                                x:Name="radByQA"
+                                Margin="0,0,10,0"
+                                Checked="radByQA_Checked"
+                                GroupName="rbgReportMode"
+                                IsChecked="{Binding Path=CallMonitoringQueryMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.ByQA}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54300">
+                                <TextBlock Margin="-4,0,0,0">
+                                    By Team
+                                </TextBlock>
+                            </RadioButton>
+                        </Viewbox>
+                        <Grid Height="12" />
+                        <Viewbox Height="20" HorizontalAlignment="Left">
+                            <RadioButton
+                                x:Name="radBySalesCoach"
+                                Margin="0,0,10,0"
+                                Checked="radBySalesCoach_Checked"
+                                GroupName="rbgReportMode"
+                                IsChecked="{Binding Path=CallMonitoringQueryMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.SalesCoaches}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54300">
+                                <TextBlock Margin="-4,0,0,0">
+                                    By Training Supervisor
+                                </TextBlock>
+                            </RadioButton>
+                        </Viewbox>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="11"
+                        Grid.RowSpan="3"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Orientation="Vertical" Margin="0,10.667,0,31.333">
+                        <Viewbox Height="20" HorizontalAlignment="Left">
+                            <RadioButton
+                                x:Name="radInsurance"
+                                Margin="0,0,10,0"
+                                Checked="radCompanyType_Checked"
+                                GroupName="rbgCompanyType"
+                                IsChecked="{Binding Path=CallMonitoringQueryCompanyMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINTurnoverCompanyMode.Insurance}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54200">
+                                <TextBlock Margin="-4,0,0,0">
+                                    Insurance
+                                </TextBlock>
+                            </RadioButton>
+                        </Viewbox>
+                        <Grid Height="12" />
+                        <Viewbox Height="20" HorizontalAlignment="Left">
+                            <RadioButton
+                                x:Name="radIG"
+                                Margin="0,0,10,0"
+                                Checked="radCompanyType_Checked"
+                                GroupName="rbgCompanyType"
+                                IsChecked="{Binding Path=CallMonitoringQueryCompanyMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINTurnoverCompanyMode.IG}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54300">
+                                <TextBlock Margin="-4,0,0,0">
+                                    IG
+                                </TextBlock>
+                            </RadioButton>
+                        </Viewbox>
+                        <Grid Height="12" />
+                        <Viewbox Height="20" HorizontalAlignment="Left">
+                            <RadioButton
+                                x:Name="radBoth"
+                                Margin="0,0,10,0"
+                                Checked="radCompanyType_Checked"
+                                GroupName="rbgCompanyType"
+                                IsChecked="{Binding Path=CallMonitoringQueryCompanyMode, Converter={StaticResource rbCheckedConverter}, ConverterParameter={x:Static business:lkpINTurnoverCompanyMode.Both}}"
+                                Style="{StaticResource INRadioButton}"
+                                TabIndex="54300">
+                                <TextBlock Margin="-4,0,0,0">
+                                    Both
+                                </TextBlock>
+                            </RadioButton>
+                        </Viewbox>
+                    </StackPanel>
+
+                    <CheckBox
+                                    x:Name="CallMonReportCB"
+                                    Grid.Row="14"
+                                    Grid.Column="3"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Checked="CallMonReportCB_Checked"
+                                    IsChecked="{Binding PolicyData.IsLA2Checked}"
+                                    TabIndex="23200"
+                                    Visibility="Visible" />
+
+                    <TextBlock
+                        x:Name="tbOldReportType"
+                        Grid.Row="14"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="7"
+                        Margin="41,0,0,14.333"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Call Monitoring Report (Previous)"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" Width="250" />
+
+                    <TextBlock
+                        x:Name="lblSaffType"
+                        Grid.Row="2"
+                        Grid.Column="16"
+                        Grid.ColumnSpan="4"
+                        Margin="0,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Select Staff Type"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" />
+
+
+
                     <!--<TextBlock
                         x:Name="lblBeneficiaryPercentage1"
                         Grid.Row="10"
@@ -324,16 +524,39 @@
 
                     <Button
                         x:Name="btnReport"
-                        Grid.Row="15"
-                        Grid.Column="22"
-                        Grid.ColumnSpan="4"
-                        Margin="0"
+                        Grid.Row="16"
+                        Grid.Column="20"
+                        Grid.ColumnSpan="5"
+                        Margin="0,0,42.8,31.333"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Click="btnReport_Click"
                         Content="Report"
+                        IsEnabled="False"
                         Style="{DynamicResource INFlatButton}"
-                        TabIndex="0" />
+                        TabIndex="0" Grid.RowSpan="2" />
+                    <TextBlock
+                        x:Name="tbStaffType"
+                        Grid.Row="10"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="4"
+                        Margin="0,0,0,12.333"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Select Staff Type"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" Width="157" />
+                    <TextBlock
+                        x:Name="tbCompanyType"
+                        Grid.Row="10"
+                        Grid.Column="8"
+                        Grid.ColumnSpan="5"
+                        Margin="10.2,0,0,1.333"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Select Company Type"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" Height="30" Width="179" />
 
                     <!--<Button
                         x:Name="btnUpgradeReport"
