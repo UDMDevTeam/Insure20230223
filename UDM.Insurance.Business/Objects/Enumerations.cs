@@ -332,6 +332,15 @@
         Invalid = 2//Red X Symbol
     }
 
+    public enum lkpINSalesNotTransferrdReason
+    {
+        DebiCheckAgentNotAvailable = 1,
+        OvertimeSale = 2,
+        DifficultClient = 3,
+        DebiCheckNotApplicable = 4,
+        RemoteShift = 5
+    }
+
     public enum lkpINCampTSRReportMode
     {
         ByCampaign = 0,
