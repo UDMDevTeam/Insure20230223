@@ -2549,7 +2549,7 @@ namespace UDM.Insurance.Business
 
             //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
 
-            object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
+            object param1 = Database.GetParameter("@FKUserID", fkINCampaignIDs);
             object param2 = Database.GetParameter("@DateFrom", fromDate);
             object param3 = Database.GetParameter("@DateTo", toDate);
 
