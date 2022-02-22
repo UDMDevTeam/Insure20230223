@@ -1,6 +1,7 @@
 ﻿using Embriant.Framework.Configuration;
 using System;
 using System.Data;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -36,20 +37,40 @@ namespace UDM.Insurance.Interface.Screens
         private void buttonSelect_Click(object sender, RoutedEventArgs e)
         {
             try
-            {               
+            {
+
+
+
                 SelectedDeclineReasonID = Convert.ToInt32(cmbDeclineReason.SelectedValue);
 
+                StringBuilder strQueryAgentOnline = new StringBuilder();
+                strQueryAgentOnline.Append("SELECT TOP 1 Online [Response] ");
+                strQueryAgentOnline.Append("FROM INCMAgentsOnline ");
+                strQueryAgentOnline.Append("WHERE FKUserID = " + SelectedDeclineReasonID.ToString());
+                DataTable dtOnline = Methods.GetTableData(strQueryAgentOnline.ToString());
 
-                SalesToCallMonitoring scm = new SalesToCallMonitoring();
-                scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
-                scm.FKUserID = SelectedDeclineReasonID;
-                scm.IsDisplayed = "0";
+                string CampaignName = dtOnline.Rows[0]["Response"].ToString();
 
-                _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                if(CampaignName == "1         " || CampaignName == "1")
+                {
+                    SalesToCallMonitoring scm = new SalesToCallMonitoring();
+                    scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
+                    scm.FKUserID = SelectedDeclineReasonID;
+                    scm.IsDisplayed = "0";
 
-                scm.Save(_validationResult);
+                    _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
 
-                OnDialogClose(_dialogResult);
+                    scm.Save(_validationResult);
+
+                    OnDialogClose(_dialogResult);
+                }
+                else
+                {
+                    cmbDeclineReason.SelectedIndex = -1;
+                    Reload();
+                }
+
+
 
             }
             catch (Exception ex)
@@ -101,5 +122,19 @@ namespace UDM.Insurance.Interface.Screens
             DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID]");
             cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
         }
+
+        private void Reload()
+        {
+            try
+            {
+                cmbDeclineReason.ItemsSource = null;
+            }
+            catch { }
+
+
+            DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID]");
+            cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+        }
+
     }
 }
