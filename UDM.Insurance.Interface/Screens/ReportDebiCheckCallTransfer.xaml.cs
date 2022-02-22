@@ -60,10 +60,17 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("TSR Name");
             dtSalesData.Columns.Add("Employment Status");
             dtSalesData.Columns.Add("Total Sales");
-            dtSalesData.Columns.Add("Less Sales Not Transferred");
+            dtSalesData.Columns.Add("Less Sales where Debi-checks are N/A");
             dtSalesData.Columns.Add("Sales to Be Transferred");
             dtSalesData.Columns.Add("Actual Sales Transferred");
             dtSalesData.Columns.Add("% Transferred");
+            dtSalesData.Columns.Add("Total Calls Not Transferred");
+            dtSalesData.Columns.Add("%  Total calls not transferred");
+            dtSalesData.Columns.Add("Debi-Check agent not available");
+            dtSalesData.Columns.Add("Overtime Sale");
+            dtSalesData.Columns.Add("Difficult client");
+            dtSalesData.Columns.Add("Remote shift");
+
 
             dispatcherTimer1.Tick += Timer1;
             dispatcherTimer1.Interval = new TimeSpan(0, 0, 1);
@@ -198,6 +205,31 @@ namespace UDM.Insurance.Interface.Screens
                 UserIDs.Add(41525);
                 UserIDs.Add(441);
                 UserIDs.Add(43297);
+                UserIDs.Add(43622);
+                UserIDs.Add(43090);
+                UserIDs.Add(43527);
+                UserIDs.Add(43574);
+                UserIDs.Add(43621);
+                UserIDs.Add(43640);
+                UserIDs.Add(43039);
+                UserIDs.Add(41708);
+                UserIDs.Add(40690);
+                UserIDs.Add(43070);
+                UserIDs.Add(40464);
+                UserIDs.Add(43577);
+                UserIDs.Add(40487);
+                UserIDs.Add(43632);
+                UserIDs.Add(43601);
+                UserIDs.Add(43471);
+                UserIDs.Add(43368);
+                UserIDs.Add(40705);
+                UserIDs.Add(43580);
+                UserIDs.Add(445);
+                UserIDs.Add(43581);
+                UserIDs.Add(43442);
+                UserIDs.Add(43523);
+
+
 
                 DataSet dsDiaryReportData;
                 try { dtSalesData.Clear(); } catch { }
@@ -223,13 +255,14 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion Get the report data
 
+                int countForNonRedeemed = 0;
 
 
                 try
                 {
                         string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-                        string filePathAndName = String.Format("TSRDebiCheckCallTransferStats_" + DateTime.Now.ToString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                        string filePathAndName = String.Format("TSRDebiCheckCallTransferStats" + DateTime.Now.ToString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
 
                         if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                             throw new Exception("ExportToExcel: Null or empty input table!\n");
@@ -266,38 +299,52 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                         // rows
-                        for (var i = 2; i < dtSalesData.Rows.Count + 1; i++)
+                        for (var i = 1; i < dtSalesData.Rows.Count + 1; i++)
                         {
                             // to do: format datetime values before printing
                             for (var j = 0; j < dtSalesData.Columns.Count; j++)
                             {
-                                workSheet.Cells[i + 1, j + 1] = dtSalesData.Rows[i - 1][j];
+                                workSheet.Cells[i + 2, j + 1] = dtSalesData.Rows[i - 1][j];
                             }
+
+                            countForNonRedeemed = countForNonRedeemed + 1;
+
                         }
 
 
-                    Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
-                    tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                    tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
 
                     workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["C2", "G2"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C2", "M2"].Interior.Color = System.Drawing.Color.LightBlue;
 
                     #region Totals for Grid 1
-                    //workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
-                    //workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
-                    //workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
-                    //workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
+                    workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
+                    workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
+                    workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
+                    workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
+                    workSheet.Cells[countForNonRedeemed + 3, 8].Formula = string.Format("=SUM(H3:H" + (countForNonRedeemed + 2).ToString() + ")"); //H
+                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //J
+                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //K
+                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(L3:L" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=F" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=H" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
 
                     #endregion
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 7]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 13]].Merge();
                     workSheet.Cells[1,  1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
 
                     (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Rows[2]).EntireRow.RowHeight = 30;
+                    (workSheet.Cells[1, 9]).EntireColumn.NumberFormat = "##%";
+
+                    (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                     workSheet.Rows[2].WrapText = true;
+
+                    Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+                    tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
                     AddSummaryPages(excelApp);
 
@@ -467,10 +514,16 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData2.Columns.Add("TSR Name");
             dtSalesData2.Columns.Add("Employment Status");
             dtSalesData2.Columns.Add("Total Sales");
-            dtSalesData2.Columns.Add("Less Sales Not Transferred");
+            dtSalesData2.Columns.Add("Less Sales where Debi-checks are N/A");
             dtSalesData2.Columns.Add("Sales to Be Transferred");
             dtSalesData2.Columns.Add("Actual Sales Transferred");
             dtSalesData2.Columns.Add("% Transferred");
+            dtSalesData2.Columns.Add("Total Calls Not Transferred");
+            dtSalesData2.Columns.Add("%  Total calls not transferred");
+            dtSalesData2.Columns.Add("Debi-Check agent not available");
+            dtSalesData2.Columns.Add("Overtime Sale");
+            dtSalesData2.Columns.Add("Difficult client");
+            dtSalesData2.Columns.Add("Remote shift");
 
             try { dtSalesData2.Clear(); } catch { }
 
@@ -544,13 +597,21 @@ namespace UDM.Insurance.Interface.Screens
             workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
             workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
             workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
+            workSheet.Cells[countForNonRedeemed + 3, 8].Formula = string.Format("=SUM(H3:H" + (countForNonRedeemed + 2).ToString() + ")"); //H
+            workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //J
+            workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //K
+            workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(L3:L" + (countForNonRedeemed + 2).ToString() + ")"); //L
+            workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+
+            workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=F" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
+            workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=H" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
 
             #endregion
 
             countForNonRedeemed = countForNonRedeemed + 3;
             int CountSecondGridTotals = countForNonRedeemed;
 
-            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 7]].Merge();
+            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 13]].Merge();
             workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
 
@@ -570,11 +631,13 @@ namespace UDM.Insurance.Interface.Screens
             tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
             workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-            workSheet.Range["C2", "G2"].Interior.Color = System.Drawing.Color.LightBlue;
+            workSheet.Range["C2", "M2"].Interior.Color = System.Drawing.Color.LightBlue;
 
 
             (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
-            (workSheet.Rows[2]).EntireRow.RowHeight = 30;
+            (workSheet.Cells[1, 9]).EntireColumn.NumberFormat = "##%";
+
+            (workSheet.Rows[2]).EntireRow.RowHeight = 40;
             workSheet.Rows[2].WrapText = true;
 
             //(workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
