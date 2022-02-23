@@ -26,7 +26,8 @@
         StatusLoader = 6,
         SeniorAdministrator = 7,
         CallMonitoringAgent = 8,
-        Preserver = 10
+        Preserver = 10, 
+        DebiCheckAgent = 11
     }
 
     public enum lkpCompany
