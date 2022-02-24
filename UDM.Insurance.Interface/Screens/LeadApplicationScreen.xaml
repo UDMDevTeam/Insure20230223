@@ -2647,6 +2647,8 @@
                         <RowDefinition Height="45*" />
                         <RowDefinition Height="44" />
                         <RowDefinition Height="44*" />
+                        <RowDefinition Height="44*" />
+
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="43*" />
@@ -2677,6 +2679,7 @@
                         <ColumnDefinition Width="43*" />
                         <ColumnDefinition Width="43*" />
                         <ColumnDefinition Width="43*" />
+
                     </Grid.ColumnDefinitions>
 
                     <Popup
@@ -2692,21 +2695,6 @@
                             Loaded="PopupContentControl_Loaded"
                             Style="{StaticResource PopupComboContentStyle}"
                             Tag="Life Assured 2 Cover" />
-                    </Popup>
-
-                    <Popup
-                        x:Name="PopupChkChild"
-                        Closed="Popup_Closed"
-                        KeyDown="Popup_KeyDown"
-                        Loaded="Popup_Loaded"
-                        Opened="Popup_Opened"
-                        Placement="Right"
-                        PlacementTarget="{Binding ElementName=chkChildUpgrade}"
-                        Style="{StaticResource PopupComboStyle}">
-                        <ContentControl
-                            Loaded="PopupContentControl_Loaded"
-                            Style="{StaticResource PopupComboContentStyle}"
-                            Tag="Child Cover" />
                     </Popup>
 
                     <Button
@@ -5793,7 +5781,6 @@
                                     VerticalAlignment="Bottom"
                                     Style="{StaticResource INLabelText2}"
                                     Text="Children" />
-
                                 <CheckBox
                                     x:Name="chkChildUpgrade"
                                     Grid.Row="1"
@@ -5803,8 +5790,7 @@
                                     Margin="0,0,0,5"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    Checked="chkChildUpgrade_Checked"
-                                    Unchecked="chkChildUpgrade_Unchecked"
+                                    Click="chkChild_Click"
                                     IsChecked="{Binding PolicyData.IsChildUpgradeChecked}"
                                     IsEnabled="True"
                                     Style="{StaticResource INCheckboxStyle}"
@@ -6833,8 +6819,6 @@
 
                         </Grid>
                     </Border>
-
-
 
                     <Border
                         x:Name="Page3"
@@ -12851,7 +12835,6 @@
 
                         </Grid>
                     </Border>
-
                     <!--<Viewbox >-->
                     <Border
                         x:Name="Page5"
@@ -13831,7 +13814,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="50" />
                                     </Grid.RowDefinitions>
                                     <StackPanel
                                         Grid.Column="0"
@@ -13894,19 +13877,18 @@
                                         Orientation="Horizontal">
                                         <TextBlock
                                             x:Name="lblPermissionQuestion"
-                                            Width="Auto"
-                                            Height="Auto"
-                                            Margin="0,1,6,0"
+                                            Width="209"
+                                            Height="50"
                                             Style="{StaticResource INLabelText2}"
                                             Text="Permission Granted by Client" />
                                         <CheckBox
                                             x:Name="chkPermissionQuestion"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
                                             IsChecked="{Binding ClosureData.PermissionQuestionAsked}"
-                                            IsEnabled="True">
+                                            IsEnabled="True"
+                                            Height="44"
+                                            Width="20">
                                             <CheckBox.Style>
-                                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="CheckBox">
+                                                <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}">
                                                     <!--<Setter Property="IsEnabled" Value="True" />-->
                                                     <!--<Setter Property="Opacity" Value="0.4" />-->
                                                     <!--<Style.Triggers>
@@ -15462,16 +15444,38 @@
 
                     <Button
                         x:Name="btnSave"
-                        Grid.Row="15"
+                        Grid.Row="17"
                         Grid.Column="22"
                         Grid.ColumnSpan="4"
                         Height="Auto"
-                        Margin="0,11,0,0"
+                        Margin="0,8,0,0"
                         HorizontalAlignment="Right"
                         Click="btnSave_Click"
                         Command="commands:CustomCommands.Save"
                         Style="{StaticResource SaveButton}"
                         TabIndex="98600" />
+
+                    <src:EmbriantComboBox
+                                        x:Name="cmbSalesNotTransferredReasons"
+                                        Grid.Row="17"
+                                        Grid.Column="15"
+                                        Grid.ColumnSpan="7"
+                                        Margin="0,8,0,0"
+                                        PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                                        SelectionChanged="SalesNotTransferredCB_SelectionChanged"
+                                        Style="{StaticResource StyleCMBStatus}"
+                                        TabIndex="33900"
+                                        Visibility="Hidden"/>
+                    <TextBlock
+                                        x:Name="lblSalesNotTransferredReasons"
+                                        Grid.Row="17"
+                                        Grid.Column="9"
+                                        Grid.ColumnSpan="6"
+                                        Margin="0,8,0,0"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Reasons for Call Not Transferred"
+                                        Visibility="Hidden"/>
 
                     <Border x:Name ="DebiCheckBorder"
                         Grid.Row="16"
@@ -15505,7 +15509,7 @@
                     <Label
                         x:Name="Mandate1Lbl1"
                         Grid.Row="14"
-                        Grid.Column="16"
+                        Grid.Column="15"
                         Grid.ColumnSpan="5"
                         Content="Mandate Details :"
                         Foreground="LightBlue"
@@ -15519,7 +15523,7 @@
                         x:Name="Mandate1TB"
                         Grid.Row="14"
                         Grid.RowSpan="2"
-                        Grid.Column="16"
+                        Grid.Column="15"
                         Grid.ColumnSpan="5"
                         Height="45"
                         Width="173"
@@ -15530,7 +15534,7 @@
                         VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Hidden" Margin="43.25,44.333,0.097,0">
+                        Visibility="Hidden" Margin="43.25,30.333,0.097,0">
 
                         >
                         <TextBox.Resources>
@@ -15568,7 +15572,7 @@
                         VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Center"
                         FontSize="13"
-                        Visibility="Collapsed" Margin="43,44.333,0.333,0" Width="172">
+                        Visibility="Collapsed" Margin="43,30.333,0.333,0" Width="172">
 
                         >
                         <TextBox.Resources>
@@ -15642,7 +15646,7 @@
 
                     <StackPanel
                         x:Name="spMessage"
-                        Grid.Row="17"
+                        Grid.Row="18"
                         Grid.Column="2"
                         Grid.ColumnSpan="24"
                         Margin="0"

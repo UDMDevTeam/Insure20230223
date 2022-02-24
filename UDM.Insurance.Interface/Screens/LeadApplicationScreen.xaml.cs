@@ -183,6 +183,8 @@ namespace UDM.Insurance.Interface.Screens
         private readonly SalesScreenGlobalData _ssGlobalData;
         private LeadApplicationData _laData = new LeadApplicationData();
 
+        bool LeadLoadingBool = false;
+
         private int _la1FuneralCover = 0;
         private int _la1AccidentalDeathCover = 0;
         private int _funeralCover;
@@ -467,7 +469,7 @@ namespace UDM.Insurance.Interface.Screens
         //    return result;
         //}
 
-        private string UppercaseFirst(string s)
+        public static string UppercaseFirst(string s)
         {
 
             char[] a = new char[] { ' ' };
@@ -572,6 +574,9 @@ namespace UDM.Insurance.Interface.Screens
                 {
 
                 }
+
+                LeadLoadingBool = true;
+
 
                 DebiCheckSentTwice = false;
                 Mandate1TB.Text = " ";
@@ -1857,14 +1862,17 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 //ShowNotes(importID.Value);
 
-                if (LaData.AppData.IsLeadUpgrade)
-                {
-                    btnSave.SetValue(Grid.RowProperty, 16);
-                }
-                else
-                {
-                    btnSave.SetValue(Grid.RowProperty, 15);
-                }
+                //if (LaData.AppData.IsLeadUpgrade)
+                //{
+                //    btnSave.SetValue(Grid.RowProperty, 16);
+                //    cmbSalesNotTransferredReasons.SetValue(Grid.RowProperty, 17);
+                //}
+                //else
+                //{
+                //    btnSave.SetValue(Grid.RowProperty, 15);
+                //    cmbSalesNotTransferredReasons.SetValue(Grid.RowProperty, 16);
+
+                //}
 
                 #region DebiCheck Workings
 
@@ -2023,8 +2031,8 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else
                         {
-                            btnDebiCheck.SetValue(Grid.RowProperty, 17);
-                            DebiCheckBorder.SetValue(Grid.RowProperty, 17);
+                            btnDebiCheck.SetValue(Grid.RowProperty, 16);
+                            DebiCheckBorder.SetValue(Grid.RowProperty, 16);
                             PolicyHolderBoolDC = true;
                             GetBankingDetailLookup();
 
@@ -2073,7 +2081,40 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
+                #region Load SaleNotTransferredReason
 
+                try
+                {
+                    if (LaData.AppData.LeadStatus != 1)
+                    {
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                    }
+
+                    StringBuilder strQueryINSalesNotTransferredDetails = new StringBuilder();
+                    strQueryINSalesNotTransferredDetails.Append("SELECT FKSalesNotTransferredReason [Response] ");
+                    strQueryINSalesNotTransferredDetails.Append("FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                    DataTable dtINSalesNotTransferredDetails = Methods.GetTableData(strQueryINSalesNotTransferredDetails.ToString());
+
+                    StringBuilder strQueryINSalesNotTransferredResponse = new StringBuilder();
+                    strQueryINSalesNotTransferredResponse.Append("SELECT FKSalesNotTransferredReason [Response] ");
+                    strQueryINSalesNotTransferredResponse.Append("FROM INSalesNotTransferredDetails WHERE FKImportID = " + dtINSalesNotTransferredDetails.Rows[0]["Response"].ToString());
+                    DataTable dtINSalesNotTransferredReason = Methods.GetTableData(strQueryINSalesNotTransferredResponse.ToString());
+
+                    cmbSalesNotTransferredReasons.SelectedValue = long.Parse(dtINSalesNotTransferredDetails.Rows[0]["Response"].ToString());
+                }
+                catch (Exception t)
+                {
+                    cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                }
+
+                LeadLoadingBool = false;
+                #endregion
 
             }
 
@@ -2083,6 +2124,7 @@ namespace UDM.Insurance.Interface.Screens
                 LaData.AppData.ImportID = null;
                 LaData.AppData.IsLeadLoaded = false;
                 _flagLeadIsBusyLoading = false;
+                LeadLoadingBool = false;
             }
 
             finally
@@ -3610,7 +3652,14 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                SetCursor(Cursors.Wait);
+                try
+                {
+                    SetCursor(Cursors.Wait);
+                }
+                catch
+                {
+
+                }
 
                 SqlParameter[] parameters = new SqlParameter[1];
                 parameters[0] = new SqlParameter("@UserTypeID", LaData.UserData.UserTypeID);
@@ -3744,6 +3793,20 @@ namespace UDM.Insurance.Interface.Screens
                 //{
                 //    cmbPaymentType.SelectedIndex = 0;
                 //}
+
+                #region Sales Not Transferred reasons ComboBox
+
+                try
+                {
+                    DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason");
+                    cmbSalesNotTransferredReasons.Populate(dtSalesNoteTranferredReasons, DescriptionField, IDField);
+                }
+                catch
+                {
+
+                }
+
+                #endregion
             }
 
             catch (Exception ex)
@@ -4269,17 +4332,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-
-
-                long? optionID = null;
-                decimal? LA1Cover;
-                decimal? LA2Cover = 0.00m;
-                decimal? ChildCover = 0.00m;
-
-                string strQuery;
-                DataTable dt;
-
-
                 if (LaData.AppData.IsLeadSaving || !LaData.AppData.IsLeadLoaded) return;
 
                 #region Initialize
@@ -4298,1310 +4350,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
-
-
-                if (LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                {
-
-                    try
-                    {
-                        string CoverValue = GlobalSettings.CoverDisplay;
-
-                        try { CoverValue = CoverValue.Substring(0, 27); } catch { };
-
-                        try { CoverValue = CoverValue.Replace(" R ", ""); } catch { };
-
-                        //char[] MyChar = { ' ' };
-
-                        try { CoverValue.Trim(); } catch { };
-
-                        //try { CoverValue.TrimStart(MyChar); } catch { };
-                        //CoverValue.TrimEnd(MyChar);
-
-
-                        strQuery = "SELECT TOP 1 ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ChildCover = '" + Convert.ToString(GlobalSettings.ChildCoverMM) + "' AND IsActive = '1' AND Display like '%" + CoverValue + "%'";
-
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count == 1)
-                        {
-                            optionID = dt.Rows[0].ItemArray[0] as long?;
-                        }
-
-
-                        //try { optionID = LaData.PolicyData.OptionID; } catch { }
-
-
-                        if (optionID != null)
-                        {
-                            DataTable dtOption = Methods.GetTableData("SELECT * FROM INOption WHERE ID = '" + optionID + "'");
-                            //DataTable dtOptionFees = Methods.GetTableData("SELECT * FROM INOptionFees WHERE FKINOptionID = '" + LaData.PolicyData.Option)
-
-                            LaData.PolicyData.TotalPremium = 0;
-                            int gridRow = 1;
-                            FrameworkElement control;
-
-                            if (grdPolicyDetailsUpgradeA.RowDefinitions.Count > 1)
-                            {
-                                grdPolicyDetailsUpgradeA.RowDefinitions.RemoveRange(1, grdPolicyDetailsUpgradeA.RowDefinitions.Count - 1);
-                            }
-                            if (grdPolicyDetailsUpgradeA.Children.Count > 2)
-                            {
-                                grdPolicyDetailsUpgradeA.Children.RemoveRange(2, grdPolicyDetailsUpgradeA.Children.Count - 2);
-                            }
-
-                            #region LA1 Cover
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1Cover"], 0)) != 0)
-                            {
-                                grdPolicyDetailsUpgradeA.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(21) }); // continue with the scrollviewer when needed
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgradeA, gridRow, 0, 6);
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                                            &&
-                                                            (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                                            ||
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                                            ||
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                                            ||
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                                            ||
-                                                            (LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                                            &&
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9)
-
-                                                            )))
-
-                                {
-                                    ((TextBlock)control).Text = "LA1 Cancer";
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    ((TextBlock)control).Text = "LA1 Cancer";
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    ((TextBlock)control).Text = "LA1 Disability";
-                                }
-                                else
-                                {
-                                    ((TextBlock)control).Text = "LA1";
-                                }
-
-                                cmbOptionCode.SelectedValue = optionID;
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1Cost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1Cost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgradeA, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]).ToString(CultureInfo.CurrentCulture);
-
-                                _la1Cover = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]).ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                    ||
-                                    LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                                    )
-                                    )
-                                    ))
-
-                                {
-                                    ((TextBlock)control).Text = "Total LA1 Cancer";
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    ((TextBlock)control).Text = "Total LA1 Cancer";
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    ((TextBlock)control).Text = "Total LA1 Disability";
-                                }
-                                else
-                                {
-                                    ((TextBlock)control).Text = "Total LA1";
-                                }
-                                //else
-                                //{
-                                //    ((TextBlock)control).Text = campaignTypesCancer.Contains(LaData.AppData.CampaignType) ? "Total LA1 Cancer" : "Total LA1";
-                                //    ((TextBlock)control).Text = campaignTypesMacc.Contains(LaData.AppData.CampaignType) ? "Total LA1 Acc Disability" : "Total LA1";
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                decimal total = 0.00m;
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                                            &&
-                                                            (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                                            ||
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                                            ||
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                                            ||
-                                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                                            ||
-                                                            (LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                                            &&
-                                                            (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-                                                            )
-                                                            ))))
-
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[0].Cover);
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[0].Cover);
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[1].Cover);
-                                }
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                                _totalLa1Cover = total.ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-                            }
-                            else
-                            {
-                                _la1Cover = "0.0";
-                                _totalLa1Cover = "0.0";
-                            }
-
-                            #endregion
-
-                            #region LA2 Cover
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2Cover"], 0)) != 0)
-                            {
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                    ||
-                                    LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                                    )
-                                    )))
-                                {
-                                    ((TextBlock)control).Text = "LA2 Cancer";
-                                }
-
-
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    ((TextBlock)control).Text = "LA2 Cancer";
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    ((TextBlock)control).Text = "LA2 Disability";
-                                }
-                                else
-                                {
-                                    ((TextBlock)control).Text = "LA2";
-                                }
-                                //else
-                                //{
-                                //    ((TextBlock)control).Text = campaignTypesCancer.Contains(LaData.AppData.CampaignType) ? "LA2 Cancer" : "LA2";
-                                //    ((TextBlock)control).Text = campaignTypesMacc.Contains(LaData.AppData.CampaignType) ? "LA2 Acc Disability" : "LA2";
-                                //}
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2Cost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2Cost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]).ToString(CultureInfo.CurrentCulture);
-
-                                _la2Cover = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]).ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                    ||
-                                    LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                    &&
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                               )
-                               ))
-                                {
-                                    ((TextBlock)control).Text = "Total LA2 Cancer";
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    ((TextBlock)control).Text = "Total LA2 Cancer";
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    ((TextBlock)control).Text = "Total LA2 Disability";
-                                }
-                                else
-                                {
-                                    ((TextBlock)control).Text = "Total LA2";
-                                }
-                                //else
-                                //{
-                                //    ((TextBlock)control).Text = campaignTypesCancer.Contains(LaData.AppData.CampaignType) ? "Total LA2 Cancer" : "Total LA2";
-                                //    ((TextBlock)control).Text = campaignTypesMacc.Contains(LaData.AppData.CampaignType) ? "Total LA2 Acc Disability" : "Total LA2";
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                decimal total = 0.00m;
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                    ||
-                                    LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                    &&
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                                    )
-                                    ))
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[4].Cover);
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[4].Cover);
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[5].Cover);
-                                }
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                                _totalLa2Cover = total.ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-                            }
-                            else
-                            {
-                                _la2Cover = "0.0";
-                                _totalLa2Cover = "0.0";
-                            }
-
-                            #endregion
-
-                            #region LA1 Death Cover
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCover"], 0)) != 0)
-                            {
-                                _la1AccidentalDeathCover = Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCover"], 0));
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                                ((TextBlock)control).Text = "LA1 Acc Death";
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                                _la1AccDeathCover = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                ((TextBlock)control).Text = "Total LA1 Acc Death";
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                var total = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCover"]) + Convert.ToDecimal(LaData.ImportedCovers[2].Cover);
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                                _totalLa1AccDeathCover = total.ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-                            }
-                            else
-                            {
-                                _la1AccidentalDeathCover = 0;
-                                _la1AccDeathCover = "0.0";
-                                _totalLa1AccDeathCover = "0.0";
-                            }
-
-                            #endregion
-
-                            #region LA2 Death Cover
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2AccidentalDeathCover"], 0)) != 0)
-                            {
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                                ((TextBlock)control).Text = "LA2 Acc Death";
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2AccidentalDeathCost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                                _la2AccDeathCover = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                ((TextBlock)control).Text = "Total LA2 Acc Death";
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                var total = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCover"]) + Convert.ToDecimal(LaData.ImportedCovers[6].Cover);
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                                _totalLa2AccDeathCover = total.ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-                            }
-                            else
-                            {
-                                _la2AccDeathCover = "0.0";
-                                _totalLa2AccDeathCover = "0.0";
-                            }
-
-                            #endregion
-
-                            #region Funeral Cover
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["FuneralCover"], 0)) != 0)
-                            {
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                                ((TextBlock)control).Text = "Funeral";
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["FuneralCover"]).ToString(CultureInfo.CurrentCulture);
-
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                ((TextBlock)control).Text = "Total Funeral";
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                var total = Convert.ToDecimal(dtOption.Rows[0]["FuneralCover"]) + Convert.ToDecimal(LaData.ImportedCovers[3].Cover);
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                                gridRow++;
-                            }
-                            #endregion Funeral Cover
-
-                            #region LA1 Funeral cover
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1FuneralCover"], 0)) != 0)
-                            {
-                                _la1FuneralCover = Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1FuneralCover"], 0));
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                                ((TextBlock)control).Text = "LA1 Funeral";
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1FuneralCover"]).ToString(CultureInfo.CurrentCulture);
-
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                ((TextBlock)control).Text = "Total LA1 Funeral";
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                var total = Convert.ToDecimal(dtOption.Rows[0]["LA1FuneralCover"]) + Convert.ToDecimal(LaData.ImportedCovers[3].Cover);
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                                gridRow++;
-                            }
-                            else
-                            {
-                                _la1FuneralCover = 0;
-                            }
-
-                            #endregion
-
-                            #region LA2 Funeral cover
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2FuneralCover"], 0)) != 0)
-                            {
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                                ((TextBlock)control).Text = "LA2 Funeral";
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2FuneralCover"]).ToString(CultureInfo.CurrentCulture);
-
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                ((TextBlock)control).Text = "Total LA2 Funeral";
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                var total = Convert.ToDecimal(dtOption.Rows[0]["LA2FuneralCover"]) + Convert.ToDecimal(LaData.ImportedCovers[3].Cover);
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                                gridRow++;
-                            }
-
-                            #endregion
-
-                            #region Child Cover
-
-                            if (LaData.PolicyData.IsChildUpgradeChecked)
-                            {
-
-
-                                if (Convert.ToInt32(NoNull(dtOption.Rows[0]["ChildCover"], 0)) != 0)
-                                {
-                                    control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-
-                                    if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
-                                    ))
-                                    {
-                                        ((TextBlock)control).Text = "Child Cancer";
-                                    }
-                                    else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                    {
-                                        ((TextBlock)control).Text = "Child Cancer";
-                                    }
-                                    else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                    {
-                                        ((TextBlock)control).Text = "Child Disability";
-                                    }
-                                    else
-                                    {
-                                        ((TextBlock)control).Text = "Child";
-                                    }
-
-                                    cmbOptionCode.SelectedValue = optionID;
-
-                                    //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["ChildCost"], 0)) != 0)
-                                    //{
-                                    //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                    //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["ChildCost"]).ToString();
-                                    //}
-
-                                    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]).ToString(CultureInfo.CurrentCulture);
-
-                                    //Child Premium
-                                    LaData.PolicyData.UpgradeChildPremium = Convert.ToDecimal(dtOption.Rows[0]["ChildCost"]);
-
-
-                                    _childCover = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]).ToString(CultureInfo.CurrentCulture);
-                                    gridRow++;
-
-                                    control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                    //((TextBlock)control).Text = "Total Child";
-                                    if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                    &&
-                                    (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                    ||
-                                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
-                                    ))
-                                    {
-                                        ((TextBlock)control).Text = "Total Child Cancer";
-                                    }
-                                    else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                    {
-                                        ((TextBlock)control).Text = "Total Child Cancer";
-                                    }
-                                    else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                    {
-                                        ((TextBlock)control).Text = "Total Child Disability";
-                                    }
-                                    else
-                                    {
-                                        ((TextBlock)control).Text = "Total Child";
-                                    }
-
-                                    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                    decimal total = 0.00m;
-
-                                    if (campaignTypesCancer.Contains(LaData.AppData.CampaignType))
-                                    {
-                                        total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[8].Cover);
-                                    }
-                                    else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                    {
-                                        if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                            &&
-                                            (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                            ||
-                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                            ||
-                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                            ||
-                                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
-                                            ))
-                                        {
-                                            total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[8].Cover);
-                                        }
-                                        else
-                                        {
-                                            total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[9].Cover);
-                                        }
-                                    }
-
-                                    ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                                }
-                                else
-                                {
-                                    LaData.PolicyData.IsChildUpgradeChecked = false;
-                                    _childCover = "0.0";
-                                }
-                            }
-                            else
-                            {
-                                _childCover = "0.0";
-                            }
-
-                            #endregion
-
-                            #region Total Upgrade Premium
-
-                            LaData.PolicyData.UpgradePremium = LaData.PolicyData.IsChildUpgradeChecked ? dtOption.Rows[0]["TotalPremium2"] as decimal? : dtOption.Rows[0]["TotalPremium1"] as decimal?;
-
-                            SqlParameter[] parameters = new SqlParameter[5];
-                            parameters[0] = new SqlParameter("@ImportID", LaData.AppData.ImportID);
-                            parameters[1] = new SqlParameter("@NewOptionID", LaData.PolicyData.OptionID);
-                            parameters[2] = new SqlParameter("@NewOptionLA2", LaData.PolicyData.IsLA2Checked);
-                            parameters[3] = new SqlParameter("@NewOptionChild", LaData.PolicyData.IsChildChecked);
-                            parameters[4] = new SqlParameter("@NewPremium", LaData.PolicyData.UpgradePremium);
-                            LaData.PolicyData.TotalInvoiceFee = Convert.ToDecimal(Methods.ExecuteFunction("fnGetTotalFeeByOptions", parameters));
-
-                            #endregion
-
-                            #region Total Premium
-
-                            LaData.PolicyData.TotalPremium = LaData.ImportedPolicyData.ContractPremium + LaData.PolicyData.UpgradePremium;
-
-                            #endregion
-
-                            #region Moneyback Payout
-
-                            //if (dteDateOfBirth.Value != DBNull.Value && dteDateOfBirth.DateValue != null && dteDateOfBirth.IsValueValid)
-                            //{
-                            //    int birthYear = ((DateTime)dteDateOfBirth.DateValue).Year;
-                            //    int policyYear;
-
-                            //    if (dteDateOfSale.DateValue != null && dteDateOfSale.IsValueValid)
-                            //    {
-                            //        policyYear = ((DateTime)dteDateOfSale.DateValue).Year;
-                            //    }
-                            //    else
-                            //    {
-                            //        policyYear = DateTime.Now.Year;
-                            //    }
-
-                            //    xamCEMoneyBackUpg.Value = GetMoneyBackPayout(policyYear, birthYear, LaData.PolicyData.TotalPremium);
-                            //}
-                            //else
-                            //{
-                            //    xamCEMoneyBackUpg.Value = 0.00m;
-                            //}
-
-                            #endregion
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        HandleException(ex);
-                    }
-
-                }
-
-
-                else if (LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                {
-
-                    string CoverValue = GlobalSettings.CoverDisplay;
-
-                    try { CoverValue = CoverValue.Replace(" R ", ""); } catch { };
-
-                    strQuery = "SELECT TOP 1 ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ChildCover = '" + Convert.ToString(GlobalSettings.ChildCoverMM) + "' AND IsActive = '1' AND Display like '%" + CoverValue + "%'";
-
-                    dt = Methods.GetTableData(strQuery);
-                    if (dt.Rows.Count == 1)
-                    {
-                        optionID = dt.Rows[0].ItemArray[0] as long?;
-                    }
-
-
-                    //try { optionID = LaData.PolicyData.OptionID; } catch { }
-
-
-
-                    if (optionID != null)
-                    {
-                        DataTable dtOption = Methods.GetTableData("SELECT * FROM INOption WHERE ID = '" + optionID + "'");
-                        //DataTable dtOptionFees = Methods.GetTableData("SELECT * FROM INOptionFees WHERE FKINOptionID = '" + LaData.PolicyData.Option)
-
-                        LaData.PolicyData.TotalPremium = 0;
-                        int gridRow = 1;
-                        FrameworkElement control;
-
-                        if (grdPolicyDetailsUpgradeA.RowDefinitions.Count > 1)
-                        {
-                            grdPolicyDetailsUpgradeA.RowDefinitions.RemoveRange(1, grdPolicyDetailsUpgradeA.RowDefinitions.Count - 1);
-                        }
-                        if (grdPolicyDetailsUpgradeA.Children.Count > 2)
-                        {
-                            grdPolicyDetailsUpgradeA.Children.RemoveRange(2, grdPolicyDetailsUpgradeA.Children.Count - 2);
-                        }
-
-                        #region LA1 Cover
-
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1Cover"], 0)) != 0)
-                        {
-                            grdPolicyDetailsUpgradeA.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(21) }); // continue with the scrollviewer when needed
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgradeA, gridRow, 0, 6);
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                                        &&
-                                                        (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                                        ||
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                                        ||
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                                        ||
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                                        ||
-                                                        (LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                                        &&
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9)
-
-                                                        )))
-
-                            {
-                                ((TextBlock)control).Text = "LA1 Cancer";
-                            }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                            {
-                                ((TextBlock)control).Text = "LA1 Cancer";
-                            }
-                            else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                            {
-                                ((TextBlock)control).Text = "LA1 Disability";
-                            }
-                            else
-                            {
-                                ((TextBlock)control).Text = "LA1";
-                            }
-
-
-                            cmbOptionCode.SelectedValue = optionID;
-
-                            //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1Cost"], 0)) != 0)
-                            //{
-                            //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                            //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1Cost"]).ToString();
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgradeA, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]).ToString(CultureInfo.CurrentCulture);
-
-                            _la1Cover = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]).ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                ||
-                                LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                                )
-                                )
-                                ))
-
-                            {
-                                ((TextBlock)control).Text = "Total LA1 Cancer";
-                            }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                            {
-                                ((TextBlock)control).Text = "Total LA1 Cancer";
-                            }
-                            else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                            {
-                                ((TextBlock)control).Text = "Total LA1 Disability";
-                            }
-                            else
-                            {
-                                ((TextBlock)control).Text = "Total LA1";
-                            }
-                            //else
-                            //{
-                            //    ((TextBlock)control).Text = campaignTypesCancer.Contains(LaData.AppData.CampaignType) ? "Total LA1 Cancer" : "Total LA1";
-                            //    ((TextBlock)control).Text = campaignTypesMacc.Contains(LaData.AppData.CampaignType) ? "Total LA1 Acc Disability" : "Total LA1";
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            decimal total = 0.00m;
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                                        &&
-                                                        (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                                        ||
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                                        ||
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                                        ||
-                                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                                        ||
-                                                        (LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                                        &&
-                                                        (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-                                                        )
-                                                        ))))
-
-                            {
-                                total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[0].Cover);
-                            }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                            {
-                                total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[0].Cover);
-                            }
-                            else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                            {
-                                total = Convert.ToDecimal(dtOption.Rows[0]["LA1Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[1].Cover);
-                            }
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                            _totalLa1Cover = total.ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-                        }
-                        else
-                        {
-                            _la1Cover = "0.0";
-                            _totalLa1Cover = "0.0";
-                        }
-
-                        #endregion
-
-                        #region LA2 Cover
-
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2Cover"], 0)) != 0)
-                        {
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                ||
-                                LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                                )
-                                )))
-                            {
-                                ((TextBlock)control).Text = "LA2 Cancer";
-                            }
-
-
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                            {
-                                ((TextBlock)control).Text = "LA2 Cancer";
-                            }
-                            else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                            {
-                                ((TextBlock)control).Text = "LA2 Disability";
-                            }
-                            else
-                            {
-                                ((TextBlock)control).Text = "LA2";
-                            }
-                            //else
-                            //{
-                            //    ((TextBlock)control).Text = campaignTypesCancer.Contains(LaData.AppData.CampaignType) ? "LA2 Cancer" : "LA2";
-                            //    ((TextBlock)control).Text = campaignTypesMacc.Contains(LaData.AppData.CampaignType) ? "LA2 Acc Disability" : "LA2";
-                            //}
-
-                            //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2Cost"], 0)) != 0)
-                            //{
-                            //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                            //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2Cost"]).ToString();
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]).ToString(CultureInfo.CurrentCulture);
-
-                            _la2Cover = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]).ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                ||
-                                LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                &&
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                           )
-                           ))
-                            {
-                                ((TextBlock)control).Text = "Total LA2 Cancer";
-                            }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                            {
-                                ((TextBlock)control).Text = "Total LA2 Cancer";
-                            }
-                            else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                            {
-                                ((TextBlock)control).Text = "Total LA2 Disability";
-                            }
-                            else
-                            {
-                                ((TextBlock)control).Text = "Total LA2";
-                            }
-                            //else
-                            //{
-                            //    ((TextBlock)control).Text = campaignTypesCancer.Contains(LaData.AppData.CampaignType) ? "Total LA2 Cancer" : "Total LA2";
-                            //    ((TextBlock)control).Text = campaignTypesMacc.Contains(LaData.AppData.CampaignType) ? "Total LA2 Acc Disability" : "Total LA2";
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            decimal total = 0.00m;
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
-                                ||
-                                LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                &&
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-
-                                )
-                                ))
-                            {
-                                total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[4].Cover);
-                            }
-                            else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                            {
-                                total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[4].Cover);
-                            }
-                            else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                            {
-                                total = Convert.ToDecimal(dtOption.Rows[0]["LA2Cover"]) + Convert.ToDecimal(LaData.ImportedCovers[5].Cover);
-                            }
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                            _totalLa2Cover = total.ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-                        }
-                        else
-                        {
-                            _la2Cover = "0.0";
-                            _totalLa2Cover = "0.0";
-                        }
-
-                        #endregion
-
-                        #region LA1 Death Cover
-
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCover"], 0)) != 0)
-                        {
-                            _la1AccidentalDeathCover = Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCover"], 0));
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                            ((TextBlock)control).Text = "LA1 Acc Death";
-
-                            //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCost"], 0)) != 0)
-                            //{
-                            //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                            //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCost"]).ToString();
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                            _la1AccDeathCover = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            ((TextBlock)control).Text = "Total LA1 Acc Death";
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            var total = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCover"]) + Convert.ToDecimal(LaData.ImportedCovers[2].Cover);
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                            _totalLa1AccDeathCover = total.ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-                        }
-                        else
-                        {
-                            _la1AccidentalDeathCover = 0;
-                            _la1AccDeathCover = "0.0";
-                            _totalLa1AccDeathCover = "0.0";
-                        }
-
-                        #endregion
-
-                        #region LA2 Death Cover
-
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2AccidentalDeathCover"], 0)) != 0)
-                        {
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                            ((TextBlock)control).Text = "LA2 Acc Death";
-
-                            //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2AccidentalDeathCost"], 0)) != 0)
-                            //{
-                            //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                            //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCost"]).ToString();
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                            _la2AccDeathCover = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCover"]).ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            ((TextBlock)control).Text = "Total LA2 Acc Death";
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            var total = Convert.ToDecimal(dtOption.Rows[0]["LA2AccidentalDeathCover"]) + Convert.ToDecimal(LaData.ImportedCovers[6].Cover);
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-                            _totalLa2AccDeathCover = total.ToString(CultureInfo.CurrentCulture);
-                            gridRow++;
-                        }
-                        else
-                        {
-                            _la2AccDeathCover = "0.0";
-                            _totalLa2AccDeathCover = "0.0";
-                        }
-
-                        #endregion
-
-                        #region Funeral Cover
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["FuneralCover"], 0)) != 0)
-                        {
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                            ((TextBlock)control).Text = "Funeral";
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["FuneralCover"]).ToString(CultureInfo.CurrentCulture);
-
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            ((TextBlock)control).Text = "Total Funeral";
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            var total = Convert.ToDecimal(dtOption.Rows[0]["FuneralCover"]) + Convert.ToDecimal(LaData.ImportedCovers[3].Cover);
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                            gridRow++;
-                        }
-                        #endregion Funeral Cover
-
-                        #region LA1 Funeral cover
-
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1FuneralCover"], 0)) != 0)
-                        {
-                            _la1FuneralCover = Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1FuneralCover"], 0));
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                            ((TextBlock)control).Text = "LA1 Funeral";
-
-                            //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCost"], 0)) != 0)
-                            //{
-                            //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                            //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCost"]).ToString();
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1FuneralCover"]).ToString(CultureInfo.CurrentCulture);
-
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            ((TextBlock)control).Text = "Total LA1 Funeral";
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            var total = Convert.ToDecimal(dtOption.Rows[0]["LA1FuneralCover"]) + Convert.ToDecimal(LaData.ImportedCovers[3].Cover);
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                            gridRow++;
-                        }
-                        else
-                        {
-                            _la1FuneralCover = 0;
-                        }
-
-                        #endregion
-
-                        #region LA2 Funeral cover
-
-                        if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA2FuneralCover"], 0)) != 0)
-                        {
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 4);
-                            ((TextBlock)control).Text = "LA2 Funeral";
-
-                            //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1AccidentalDeathCost"], 0)) != 0)
-                            //{
-                            //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                            //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA1AccidentalDeathCost"]).ToString();
-                            //}
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["LA2FuneralCover"]).ToString(CultureInfo.CurrentCulture);
-
-                            gridRow++;
-
-                            control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                            ((TextBlock)control).Text = "Total LA2 Funeral";
-
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                            var total = Convert.ToDecimal(dtOption.Rows[0]["LA2FuneralCover"]) + Convert.ToDecimal(LaData.ImportedCovers[3].Cover);
-                            ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                            gridRow++;
-                        }
-
-                        #endregion
-
-                        #region Child Cover
-
-                        if (LaData.PolicyData.IsChildUpgradeChecked)
-                        {
-
-
-                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["ChildCover"], 0)) != 0)
-                            {
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
-                                ))
-                                {
-                                    ((TextBlock)control).Text = "Child Cancer";
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    ((TextBlock)control).Text = "Child Cancer";
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    ((TextBlock)control).Text = "Child Disability";
-                                }
-                                else
-                                {
-                                    ((TextBlock)control).Text = "Child";
-                                }
-
-                                //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["ChildCost"], 0)) != 0)
-                                //{
-                                //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 4, 3);
-                                //    ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["ChildCost"]).ToString();
-                                //}
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                ((XamCurrencyEditor)control).Text = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]).ToString(CultureInfo.CurrentCulture);
-
-                                //Child Premium
-                                LaData.PolicyData.UpgradeChildPremium = Convert.ToDecimal(dtOption.Rows[0]["ChildCost"]);
-
-
-                                _childCover = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]).ToString(CultureInfo.CurrentCulture);
-                                gridRow++;
-
-                                control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
-                                //((TextBlock)control).Text = "Total Child";
-                                if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                &&
-                                (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                ||
-                                LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
-                                ))
-                                {
-                                    ((TextBlock)control).Text = "Total Child Cancer";
-                                }
-                                else if (campaignTypesCancer.Contains(LaData.AppData.CampaignType) || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
-                                {
-                                    ((TextBlock)control).Text = "Total Child Cancer";
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    ((TextBlock)control).Text = "Total Child Disability";
-                                }
-                                else
-                                {
-                                    ((TextBlock)control).Text = "Total Child";
-                                }
-
-                                control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 7, 4);
-                                decimal total = 0.00m;
-
-                                if (campaignTypesCancer.Contains(LaData.AppData.CampaignType))
-                                {
-                                    total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[8].Cover);
-                                }
-                                else if (campaignTypesMacc.Contains(LaData.AppData.CampaignType))
-                                {
-                                    if ((LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion
-                                        &&
-                                        (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5
-                                        ||
-                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6
-                                        ||
-                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7
-                                        ||
-                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8)
-                                        ))
-                                    {
-                                        total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[8].Cover);
-                                    }
-                                    else
-                                    {
-                                        total = Convert.ToDecimal(dtOption.Rows[0]["ChildCover"]) + Convert.ToDecimal(LaData.ImportedCovers[9].Cover);
-                                    }
-                                }
-
-                                ((XamCurrencyEditor)control).Text = total.ToString(CultureInfo.CurrentCulture);
-
-                            }
-                            else
-                            {
-                                LaData.PolicyData.IsChildUpgradeChecked = false;
-                                _childCover = "0.0";
-                            }
-                        }
-                        else
-                        {
-                            _childCover = "0.0";
-                        }
-
-                        #endregion
-
-                        #region Total Upgrade Premium
-
-                        LaData.PolicyData.UpgradePremium = LaData.PolicyData.IsChildUpgradeChecked ? dtOption.Rows[0]["TotalPremium2"] as decimal? : dtOption.Rows[0]["TotalPremium1"] as decimal?;
-
-                        SqlParameter[] parameters = new SqlParameter[5];
-                        parameters[0] = new SqlParameter("@ImportID", LaData.AppData.ImportID);
-                        parameters[1] = new SqlParameter("@NewOptionID", LaData.PolicyData.OptionID);
-                        parameters[2] = new SqlParameter("@NewOptionLA2", LaData.PolicyData.IsLA2Checked);
-                        parameters[3] = new SqlParameter("@NewOptionChild", LaData.PolicyData.IsChildChecked);
-                        parameters[4] = new SqlParameter("@NewPremium", LaData.PolicyData.UpgradePremium);
-                        LaData.PolicyData.TotalInvoiceFee = Convert.ToDecimal(Methods.ExecuteFunction("fnGetTotalFeeByOptions", parameters));
-
-                        #endregion
-
-                        #region Total Premium
-
-                        LaData.PolicyData.TotalPremium = LaData.ImportedPolicyData.ContractPremium + LaData.PolicyData.UpgradePremium;
-
-                        #endregion
-
-                        #region Moneyback Payout
-
-                        //if (dteDateOfBirth.Value != DBNull.Value && dteDateOfBirth.DateValue != null && dteDateOfBirth.IsValueValid)
-                        //{
-                        //    int birthYear = ((DateTime)dteDateOfBirth.DateValue).Year;
-                        //    int policyYear;
-
-                        //    if (dteDateOfSale.DateValue != null && dteDateOfSale.IsValueValid)
-                        //    {
-                        //        policyYear = ((DateTime)dteDateOfSale.DateValue).Year;
-                        //    }
-                        //    else
-                        //    {
-                        //        policyYear = DateTime.Now.Year;
-                        //    }
-
-                        //    xamCEMoneyBackUpg.Value = GetMoneyBackPayout(policyYear, birthYear, LaData.PolicyData.TotalPremium);
-                        //}
-                        //else
-                        //{
-                        //    xamCEMoneyBackUpg.Value = 0.00m;
-                        //}
-
-                        #endregion
-
-                    }
-
-                }
-
-
-                else if (LaData.PolicyData.OptionID != null)
+                if (LaData.PolicyData.OptionID != null)
                 {
                     DataTable dtOption = Methods.GetTableData("SELECT * FROM INOption WHERE ID = '" + LaData.PolicyData.OptionID + "'");
                     //DataTable dtOptionFees = Methods.GetTableData("SELECT * FROM INOptionFees WHERE FKINOptionID = '" + LaData.PolicyData.Option)
@@ -6050,8 +4799,6 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (LaData.PolicyData.IsChildUpgradeChecked)
                     {
-
-
                         if (Convert.ToInt32(NoNull(dtOption.Rows[0]["ChildCover"], 0)) != 0)
                         {
                             control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 0, 6);
@@ -6081,8 +4828,6 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 ((TextBlock)control).Text = "Child";
                             }
-
-                            cmbOptionCode.SelectedValue = optionID;
 
                             //if (Convert.ToInt32(NoNull(dtOption.Rows[0]["ChildCost"], 0)) != 0)
                             //{
@@ -6219,16 +4964,11 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
 
-
                 if ((!_flagLeadIsBusyLoading) && checkBumpUp)
                 {
                     CalculateBumpUpOrReducedPremium();
                 }
-
-                GlobalSettings.ChildCoverMM = 0.00m;
             }
-
-
 
             catch (Exception ex)
             {
@@ -6240,7 +4980,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if (LaData.AppData.IsLeadLoaded && !LaData.AppData.IsLeadSaving && !PopupChkLA2.IsOpen && !PopupChkChild.IsOpen && LaData.AppData.LeadStatus == 1 && LaData.PolicyData.LoadedTotalPremium != null)
+                if (LaData.AppData.IsLeadLoaded && !LaData.AppData.IsLeadSaving && !PopupChkLA2.IsOpen && LaData.AppData.LeadStatus == 1 && LaData.PolicyData.LoadedTotalPremium != null)
                 {
                     if (LaData.UserData.UserTypeID != Convert.ToInt32(lkpUserType.DataCapturer) && LaData.UserData.UserTypeID != Convert.ToInt32(lkpUserType.SalesAgent))
                     //if (LaData.UserData.UserTypeID == Convert.ToInt32(lkpUserType.ConfirmationAgent))
@@ -7871,24 +6611,7 @@ namespace UDM.Insurance.Interface.Screens
         private long? GetOptionID()
         {
             if (!LaData.AppData.IsLeadLoaded || LaData.AppData.IsLeadSaving) return LaData.PolicyData.OptionID;
-
-            if (LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-            {
-                //enabled untill possibly proved otherwise down below
-                chkLA2.IsEnabled = true;
-                chkChild.IsEnabled = true;
-                chkChildUpgrade.IsEnabled = true;
-            }
-
-            else if (LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-            {
-                //enabled untill possibly proved otherwise down below
-                chkLA2.IsEnabled = true;
-                chkChild.IsEnabled = true;
-                chkChildUpgrade.IsEnabled = true;
-            }
-
-            else if (LaData.PolicyData.LA1Cover == null)
+            if (LaData.PolicyData.LA1Cover == null)
             {
                 chkFuneral.IsChecked = false;
                 chkFuneral.IsEnabled = true;
@@ -7896,23 +6619,18 @@ namespace UDM.Insurance.Interface.Screens
                 chkChild.IsEnabled = true;
                 chkLA2.IsChecked = false;
                 chkLA2.IsEnabled = true;
-                chkChild.IsEnabled = true;
-                chkChildUpgrade.IsEnabled = true;
                 return null;
             }
 
             {
                 //enabled untill possibly proved otherwise down below
                 chkLA2.IsEnabled = true;
-                chkChild.IsEnabled = true;
-                chkChildUpgrade.IsEnabled = true;
             }
 
 
             long? optionID = null;
             decimal? LA1Cover;
             decimal? LA2Cover = 0.00m;
-            decimal? ChildCover = 0.00m;
             string strQuery;
             DataTable dt;
 
@@ -7924,75 +6642,10 @@ namespace UDM.Insurance.Interface.Screens
                 LA2Cover = Convert.ToDecimal(cmb.SelectedValue);
             }
 
-            EmbriantComboBox cmbchild = Methods.FindChild<EmbriantComboBox>(PopupChkChild.Child, "");
-            if (cmbchild != null)
-            {
-                ChildCover = Convert.ToDecimal(cmbchild.SelectedValue);
-            }
-
-
             //disable LA2 checkbox if LA2Cover is 0 for the current option
             {
                 if (LA1Cover > 0)
                 {
-                    strQuery = "SELECT LA2Cover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND LA2Cover != 0";
-                    dt = Methods.GetTableData(strQuery);
-                    if (dt.Rows.Count == 0)
-                    {
-                        LaData.PolicyData.IsLA2Checked = false;
-                        chkLA2.IsEnabled = false;
-                    }
-
-                    strQuery = "SELECT LA2Cover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND LA2Cover = 0";
-                    dt = Methods.GetTableData(strQuery);
-                    if (dt.Rows.Count == 0)
-                    {
-                        LaData.PolicyData.IsLA2Checked = true;
-                        chkLA2.IsEnabled = false;
-                    }
-
-                    if (LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                    {
-                        strQuery = "SELECT ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND ChildCover != 0";
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count == 0)
-                        {
-                            LaData.PolicyData.IsChildChecked = false;
-                            chkChild.IsEnabled = false;
-                        }
-
-                        strQuery = "SELECT ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND ChildCover = 0";
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count == 0)
-                        {
-                            LaData.PolicyData.IsChildChecked = true;
-                            chkChild.IsEnabled = false;
-                        }
-
-
-                    }
-
-                    else if (LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                    {
-                        strQuery = "SELECT ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND ChildCover != 0";
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count == 0)
-                        {
-                            LaData.PolicyData.IsChildChecked = false;
-                            chkChild.IsEnabled = false;
-                        }
-
-                        strQuery = "SELECT ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND ChildCover = 0";
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count == 0)
-                        {
-                            LaData.PolicyData.IsChildChecked = true;
-                            chkChild.IsEnabled = false;
-                        }
-
-
-                    }
-
                     strQuery = "SELECT LA2Cover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'" + "AND LA2Cover != 0";
                     dt = Methods.GetTableData(strQuery);
                     if (dt.Rows.Count == 0)
@@ -8070,178 +6723,32 @@ namespace UDM.Insurance.Interface.Screens
                         PopupChkLA2.IsOpen = true;
                     }
                 }
-
-
             }
 
-            else if (LaData.PolicyData.IsChildUpgradeChecked)
+            strQuery = "SELECT ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND LA2Cover = '" + LA2Cover + "' AND IsActive = '1'";
+            dt = Methods.GetTableData(strQuery);
+            if (dt.Rows.Count == 1)
             {
-
-                if (LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                {
-                    strQuery = "SELECT DISTINCT ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'" + "AND ChildCover != 0";
-                    dt = Methods.GetTableData(strQuery);
-
-                    if (dt.Rows.Count == 1)
-                    {
-                        ChildCover = Convert.ToDecimal(dt.Rows[0].ItemArray[0]);
-                    }
-                    else if (dt.Rows.Count > 1)
-                    {
-                        if (ChildCover == 0)
-                        {
-                            PopupChkChild.IsOpen = true;
-                        }
-                    }
-
-
-                    strQuery = "SELECT TOP 1 ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ChildCover = '" + Convert.ToString(GlobalSettings.ChildCoverMM) + "' AND IsActive = '1'";
-                    dt = Methods.GetTableData(strQuery);
-                    if (dt.Rows.Count == 1)
-                    {
-                        optionID = dt.Rows[0].ItemArray[0] as long?;
-                    }
-
-                    //strQuery = "SELECT ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ChildCover = '" + ChildCover + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1'";
-                    //    dt = Methods.GetTableData(strQuery);
-                    //    if (dt.Rows.Count == 1)
-                    //    {
-                    //        optionID = dt.Rows[0].ItemArray[0] as long?;
-                    //    }
-
-                    else if (dt.Rows.Count == 0)
-                    {
-                        strQuery = "SELECT DISTINCT ID, ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1'";
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count > 0)
-                        {
-                            optionID = dt.Rows[0].ItemArray[0] as long?;
-                            ChildCover = Convert.ToDecimal(dt.Rows[0].ItemArray[1]);
-                            //GlobalSettings.ChildCoverMM = Convert.ToDecimal(ChildCover);
-                        }
-
-                        if (ChildCover > 0)
-                        {
-                            LaData.PolicyData.IsChildUpgradeChecked = true;
-
-                        }
-                    }
-                    //}
-
-                    cmbOptionCode.SelectedValue = optionID;
-                    //return optionID;
-
-                }
-
-                else if (LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                {
-                    strQuery = "SELECT DISTINCT ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'" + "AND ChildCover != 0";
-                    dt = Methods.GetTableData(strQuery);
-
-                    if (dt.Rows.Count == 1)
-                    {
-                        ChildCover = Convert.ToDecimal(dt.Rows[0].ItemArray[0]);
-                    }
-                    else if (dt.Rows.Count > 1)
-                    {
-                        if (ChildCover == 0)
-                        {
-                            PopupChkChild.IsOpen = true;
-                        }
-                    }
-
-                    strQuery = "SELECT TOP 1 ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ChildCover = '" + Convert.ToString(GlobalSettings.ChildCoverMM) + "' AND IsActive = '1'";
-                    dt = Methods.GetTableData(strQuery);
-                    if (dt.Rows.Count == 1)
-                    {
-                        optionID = dt.Rows[0].ItemArray[0] as long?;
-                    }
-
-                    //strQuery = "SELECT ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ChildCover = '" + ChildCover + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1'";
-                    //dt = Methods.GetTableData(strQuery);
-                    //if (dt.Rows.Count == 1)
-                    //{
-                    //    optionID = dt.Rows[0].ItemArray[0] as long?;
-                    //}
-                    else if (dt.Rows.Count == 0)
-                    {
-                        strQuery = "SELECT DISTINCT ID, ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1'";
-                        dt = Methods.GetTableData(strQuery);
-                        if (dt.Rows.Count > 0)
-                        {
-                            optionID = dt.Rows[0].ItemArray[0] as long?;
-                            ChildCover = Convert.ToDecimal(dt.Rows[0].ItemArray[1]);
-                            //GlobalSettings.ChildCoverMM = Convert.ToDecimal(ChildCover);
-                        }
-
-                        if (ChildCover > 0)
-                        {
-                            LaData.PolicyData.IsChildUpgradeChecked = true;
-                        }
-                    }
-                    //}
-
-                    cmbOptionCode.SelectedValue = optionID;
-                    //return optionID;
-
-                }
+                optionID = dt.Rows[0].ItemArray[0] as long?;
             }
-
-            else
+            else if (dt.Rows.Count == 0)
             {
-                strQuery = "SELECT ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND LA2Cover = '" + LA2Cover + "' AND IsActive = '1'";
+                strQuery = "SELECT ID, LA2Cover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'";
                 dt = Methods.GetTableData(strQuery);
-                if (dt.Rows.Count == 1)
+                if (dt.Rows.Count > 0)
                 {
                     optionID = dt.Rows[0].ItemArray[0] as long?;
+                    LA2Cover = Convert.ToDecimal(dt.Rows[0].ItemArray[1]);
                 }
-                else if (dt.Rows.Count == 0)
+
+                if (LA2Cover > 0)
                 {
-                    strQuery = "SELECT ID, LA2Cover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'";
-                    dt = Methods.GetTableData(strQuery);
-                    if (dt.Rows.Count > 0)
-                    {
-                        optionID = dt.Rows[0].ItemArray[0] as long?;
-                        LA2Cover = Convert.ToDecimal(dt.Rows[0].ItemArray[1]);
-                    }
-
-                    if (LA2Cover > 0)
-                    {
-                        LaData.PolicyData.IsLA2Checked = true;
-                    }
+                    LaData.PolicyData.IsLA2Checked = true;
                 }
-
-
-                //strQuery = "SELECT ID FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND ChildCover = '" + ChildCover + "' AND IsActive = '1'";
-                //dt = Methods.GetTableData(strQuery);
-                //if (dt.Rows.Count == 1)
-                //{
-                //    optionID = dt.Rows[0].ItemArray[0] as long?;
-                //}
-                //else if (dt.Rows.Count == 0)
-                //{
-                //    strQuery = "SELECT ID, ChildCover FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND LA1Cover = '" + LA1Cover + "' AND IsActive = '1'";
-                //    dt = Methods.GetTableData(strQuery);
-                //    if (dt.Rows.Count > 0)
-                //    {
-                //        optionID = dt.Rows[0].ItemArray[0] as long?;
-                //        ChildCover = Convert.ToDecimal(dt.Rows[0].ItemArray[1]);
-                //    }
-
-                //    if (ChildCover > 0)
-                //    {
-                //        LaData.PolicyData.IsChildChecked = true;
-                //    }
-                //}
-
-                cmbOptionCode.SelectedValue = optionID;
-                return optionID;
-
             }
 
+            cmbOptionCode.SelectedValue = optionID;
             return optionID;
-
-            GlobalSettings.ChildCoverMM = 0.00m;
         }
 
 
@@ -8529,10 +7036,37 @@ namespace UDM.Insurance.Interface.Screens
                 }
             }
 
+            List<long> CMAgentListLong = new List<long>();
+
+            DataTable dtAgentList = Methods.GetTableData("SELECT FKUserID FROM INCMAgentsOnline");
+            List<DataRow> CMAgentList = dtAgentList.AsEnumerable().ToList();
+
+            try { CMAgentListLong.Clear(); } catch { }
+
+
+            foreach (var row in CMAgentList)
+            {
+                long userIDrow = long.Parse(row["FKUserID"].ToString());
+                CMAgentListLong.Add(userIDrow);
+            }
+
+
+            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            {
+                //SalesScreen ss = new SalesScreen();
+                //ss.timer.Start();
+                //ss.SetAgentOnline();
+
+                _ssGlobalData.SalesScreen.timer.Start();
+                _ssGlobalData.SalesScreen.SetAgentOnline();
+            }
+
             //CloseCTPhone();
             CloseScriptWindows();
             OnDialogClose(_dialogResult);
         }
+
+
 
         private void xamEditor_Loaded(object sender, RoutedEventArgs e)
         {
@@ -9467,11 +8001,18 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     catch
                                     {
-                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                        messageBox.buttonOK.Content = "Yes";
-                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                        bool result = showMessageBox != null && (bool)showMessageBox;
-                                        return;
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
                                     }
                                 }
                                 else
@@ -9495,11 +8036,18 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     catch
                                     {
-                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                        messageBox.buttonOK.Content = "Yes";
-                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                        bool result = showMessageBox != null && (bool)showMessageBox;
-                                        return;
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
                                     }
                                 }
                                 else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
@@ -9516,11 +8064,18 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     catch
                                     {
-                                        INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                                        messageBox.buttonOK.Content = "Yes";
-                                        var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
-                                        bool result = showMessageBox != null && (bool)showMessageBox;
-                                        return;
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
                                     }
                                 }
                             }
@@ -9553,6 +8108,7 @@ namespace UDM.Insurance.Interface.Screens
                         DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
                         if (dtPolicyPlanGroup.Rows.Count == 0)
                         {
+
                             INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
                             messageBox.buttonOK.Content = "Yes";
                             messageBox.buttonCancel.Content = "No";
@@ -9746,84 +8302,23 @@ namespace UDM.Insurance.Interface.Screens
         {
             if (LaData.AppData.IsLeadUpgrade)
             {
-
-                if (LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U")
+                if (cmbUpgradeCover.SelectedValue == null)
                 {
-
-                    EmbriantComboBox cmb = Methods.FindChild<EmbriantComboBox>(PopupChkChild.Child, "");
-                    if (cmb != null) cmb.SelectedIndex = -1;
-                    LaData.PolicyData.OptionID = GetOptionID();
-                    CalculateCost(true);
-                }
-                else if (LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                {
-
-                    EmbriantComboBox cmb = Methods.FindChild<EmbriantComboBox>(PopupChkChild.Child, "");
-                    if (cmb != null) cmb.SelectedIndex = -1;
-                    LaData.PolicyData.OptionID = GetOptionID();
-                    CalculateCost(true);
-                }
-                else
-                {
-                    if (cmbUpgradeCover.SelectedValue == null)
-                    {
-                        LaData.PolicyData.IsChildUpgradeChecked = false;
-                    }
-
-                    CalculateCostUpgrade(true);
-
+                    LaData.PolicyData.IsChildUpgradeChecked = false;
                 }
 
+                CalculateCostUpgrade(true);
             }
             else
             {
                 if (LaData.PolicyData.LA1Cover == null)
                 {
-                    LaData.PolicyData.IsChildUpgradeChecked = false;
+                    LaData.PolicyData.IsChildChecked = false;
                 }
 
                 CalculateCost(true);
             }
         }
-
-
-        private void chkChildUpgrade_Checked(object sender, RoutedEventArgs e)
-        {
-            //if (LaData.PolicyData.LA1Cover == null)
-            //{
-            //    LaData.PolicyData.IsChildUpgradeChecked = false;
-            //    e.Handled = true;
-            //    return;
-            //}
-
-            EmbriantComboBox cmb = Methods.FindChild<EmbriantComboBox>(PopupChkChild.Child, "");
-            if (cmb != null) cmb.SelectedIndex = -1;
-            LaData.PolicyData.OptionID = GetOptionID();
-            CalculateCostUpgrade(true);
-        }
-
-        private void chkChildUpgrade_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (LaData.PolicyData.LA1Cover == null)
-            {
-                LaData.PolicyData.IsChildUpgradeChecked = false;
-                e.Handled = true;
-                return;
-
-            }
-
-            {
-                xamCELA2Cost.Value = 0.00m;
-                xamCELA2Cover.Value = 0.00m;
-            }
-
-            EmbriantComboBox cmb = Methods.FindChild<EmbriantComboBox>(PopupChkChild.Child, "");
-            if (cmb != null) cmb.SelectedIndex = -1;
-            LaData.PolicyData.OptionID = GetOptionID();
-            CalculateCostUpgrade(true);
-
-        }
-
 
         private void cmbPolicyPlanGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -9868,7 +8363,6 @@ namespace UDM.Insurance.Interface.Screens
 
                     DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
                     cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
-
 
                     //LaData.PolicyData.OptionID = GetOptionID();
 
@@ -9917,26 +8411,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (LaData.AppData.IsLeadUpgrade)
                     {
-
-                        if (LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                        {
-                            cmbLA1Cover.Populate(dtCover, "Description", "Value");
-                            LaData.PolicyData.LA1Cover = selectedLA1Cover;
-
-                            //cmbUpgradeCover.Populate(dtCover, "Description", "Value");
-                            //LaData.PolicyData.OptionID = selectedUpgradeCover;
-
-                        }
-
-                        else if (LaData.AppData.CampaignCode == "PLMFM5U" || LaData.AppData.CampaignCode == "PLMFM6U")
-                        {
-                            cmbLA1Cover.Populate(dtCover, "Description", "Value");
-                            LaData.PolicyData.LA1Cover = selectedLA1Cover;
-
-                        }
-
-                        //cmbUpgradeCover.Populate(dtCover, "Description", "Value");
-                        //LaData.PolicyData.OptionID = selectedUpgradeCover;
+                        cmbUpgradeCover.Populate(dtCover, "Description", "Value");
+                        LaData.PolicyData.OptionID = selectedUpgradeCover;
                     }
                     else
                     {
@@ -10014,7 +8490,6 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         LaData.PolicyData.IsLA2Checked = false;
                         LaData.PolicyData.IsChildChecked = false;
-                        //LaData.PolicyData.IsChildUpgradeChecked = false;
                     }
                 }
 
@@ -10030,7 +8505,6 @@ namespace UDM.Insurance.Interface.Screens
             {
                 LaData.PolicyData.IsLA2Checked = false;
                 LaData.PolicyData.IsChildChecked = false;
-                //LaData.PolicyData.IsChildUpgradeChecked = false;
             }
             if (LaData.AppData.IsLeadUpgrade) CalculateCostUpgrade(true); else CalculateCost(true);
 
@@ -10357,6 +8831,9 @@ namespace UDM.Insurance.Interface.Screens
                         dteSaleTime.Value = time;
 
                         chkClosureChecked();
+
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
                         break;
 
                     #endregion Sales
@@ -10392,6 +8869,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         cmbStatus_ToolTip(null);
 
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Cancellations
@@ -10427,6 +8906,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         cmbStatus_ToolTip(null);
 
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Carried Forwards
@@ -10459,9 +8940,45 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Declines
+
+                    #region Forward To Call Monitoring Agent
+                    case lkpINLeadStatus.ForwardToCMAgent:
+                        //see if this can be selected
+                        if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+                        {
+                            //if (LaData.AppData.LoadedLeadStatus == (long?)lkpINLeadStatus.Accepted)
+                            //{
+                            //    if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
+                            //    {
+                            //        break;
+                            //    }
+                            //}
+                        }
+
+                        LaData.AppData.DeclineReasonID = null;
+                        SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                        selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                        ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                        long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                        if (AgentFKUserID == null)
+                        {
+                            cmbStatus.SelectedIndex = -1;
+                        }
+
+                        Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        break;
+                    #endregion
 
                     #region Diaries
 
@@ -10496,6 +9013,9 @@ namespace UDM.Insurance.Interface.Screens
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
                         LaData.AppData.DiaryStatusHandled = true;
+
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Diaries
@@ -10510,6 +9030,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
                                 {
+                                    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                                     break;
                                 }
                             }
@@ -10528,6 +9050,8 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             cmbStatus.SelectedIndex = -1;
                         }
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Diaries ( > 7 Weeks)
@@ -10542,6 +9066,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
                                 {
+                                    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                                     break;
                                 }
                             }
@@ -10562,7 +9088,8 @@ namespace UDM.Insurance.Interface.Screens
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
                         cmbStatus_ToolTip(null);
-
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Call Monitoring Cancellation
@@ -10577,6 +9104,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
                                 {
+                                    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                                     break;
                                 }
                             }
@@ -10597,13 +9126,16 @@ namespace UDM.Insurance.Interface.Screens
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
                         cmbStatus_ToolTip(null);
-
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Call Monitoring Carried Forward
 
                     default:
                         LaData.PolicyData.CommenceDate = null;
+                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
                 }
 
@@ -11978,382 +10510,6 @@ namespace UDM.Insurance.Interface.Screens
                             cmb.SelectedValuePath = DescriptionField;
                         }
                         break;
-
-                    case "PopupChkChild":
-                        if (cmb != null)
-                        {
-
-                            long?[] singleDualOptionsMMMDMM5U = new long?[6] { 53295, 53296, 53297, 53298, 53299, 53300 };
-
-                            long?[] singleDualOptionsNNNDMM5U = new long?[6] { 53301, 53302, 53303, 53304, 53305, 53306 };
-
-                            long?[] singleDualOptionsOOODMM5U = new long?[6] { 53307, 53308, 53309, 53310, 53311, 53312 };
-
-                            long?[] doubleDualOptionsPPPDMM5U = new long?[6] { 53313, 53314, 53315, 53316, 53317, 53318 };
-
-                            long?[] doubleDualOptionsQQQDMM5U = new long?[6] { 53319, 53320, 53321, 53322, 53323, 53324 };
-
-                            long?[] doubleDualOptionsRRRDMM5U = new long?[6] { 53325, 53326, 53327, 53328, 53329, 53330 };
-
-                            long?[] singleDualOptionsMMMDMM6U = new long?[6] { 53331, 53332, 53333, 53334, 53335, 53336 };
-
-                            long?[] singleDualOptionsNNNDMM6U = new long?[6] { 53337, 53338, 53339, 53340, 53341, 53342 };
-
-                            long?[] singleDualOptionsOOODMM6U = new long?[6] { 53343, 53344, 53345, 53346, 53347, 53348 };
-
-                            long?[] doubleDualOptionsPPPDMM6U = new long?[6] { 53349, 53350, 53351, 53352, 53353, 53354 };
-
-                            long?[] doubleDualOptionsQQQDMM6U = new long?[6] { 53355, 53356, 53357, 53358, 53359, 53360 };
-
-                            long?[] doubleDualOptionsRRRDMM6U = new long?[6] { 53361, 53362, 53363, 53364, 53365, 53366 };
-
-                            long?[] singleDualOptionsMMMDMM7U = new long?[6] { 53367, 53368, 53369, 53370, 53371, 53372 };
-
-                            long?[] singleDualOptionsNNNDMM7U = new long?[6] { 53373, 53374, 53375, 53376, 53377, 53378 };
-
-                            long?[] singleDualOptionsOOODMM7U = new long?[6] { 53379, 53380, 53381, 53382, 53383, 53384 };
-
-                            long?[] doubleDualOptionsPPPDMM7U = new long?[6] { 53385, 53386, 53387, 53388, 53389, 53390 };
-
-                            long?[] doubleDualOptionsQQQDMM7U = new long?[6] { 53391, 53392, 53393, 53394, 53395, 53396 };
-
-                            long?[] doubleDualOptionsRRRDMM7U = new long?[6] { 53397, 53398, 53399, 53400, 53401, 53402 };
-
-                            long?[] singleDualOptionsMMMDMM8U = new long?[6] { 53403, 53404, 53405, 53406, 53407, 53408 };
-
-                            long?[] singleDualOptionsNNNDMM8U = new long?[6] { 53409, 53410, 53411, 53412, 53413, 53414 };
-
-                            long?[] singleDualOptionsOOODMM8U = new long?[6] { 53415, 53416, 53417, 53418, 53419, 53420 };
-
-                            long?[] doubleDualOptionsPPPDMM8U = new long?[6] { 53421, 53422, 53423, 53424, 53425, 53426 };
-
-                            long?[] doubleDualOptionsQQQDMM8U = new long?[6] { 53427, 53428, 53429, 53430, 53431, 53432 };
-
-                            long?[] doubleDualOptionsRRRDMM8U = new long?[6] { 53433, 53434, 53435, 53436, 53437, 53438 };
-
-
-                            long?[] singleDualOptionsMMMMFM5U = new long?[6] { 53440, 53441, 53442, 53443, 53444, 53445 };
-
-                            long?[] singleDualOptionsNNNMFM5U = new long?[6] { 53446, 53447, 53448, 53449, 53450, 53451 };
-
-                            long?[] singleDualOptionsOOOMFM5U = new long?[6] { 53452, 53453, 53454, 53455, 53456, 53457 };
-
-                            long?[] singleDualOptionsMMMMFM6U = new long?[6] { 53458, 53459, 53460, 53461, 53462, 53463 };
-
-                            long?[] singleDualOptionsNNNMFM6U = new long?[6] { 53464, 53465, 53466, 53467, 53468, 53469 };
-
-                            long?[] singleDualOptionsOOOMFM6U = new long?[6] { 53470, 53471, 53472, 53473, 53474, 53475 };
-
-
-                            if (singleDualOptionsMMMDMM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                //string strQuery = "SELECT DISTINCT ChildCover [Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' ";
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%MMM%' OR OptionCode like '%SSS%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsNNNDMM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%NNN%' OR OptionCode like '%TTT%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsOOODMM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%OOO%' OR OptionCode like '%UUU%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (doubleDualOptionsPPPDMM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%PPP%' OR OptionCode like '%VVV%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (doubleDualOptionsQQQDMM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%QQQ%' OR OptionCode like '%WWW%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (doubleDualOptionsRRRDMM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%RRR%' OR OptionCode like '%XXX%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsMMMDMM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%MMM%' OR OptionCode like '%SSS%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsNNNDMM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%NNN%' OR OptionCode like '%TTT%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsOOODMM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%OOO%' OR OptionCode like '%UUU%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (doubleDualOptionsPPPDMM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%PPP%' OR OptionCode like '%VVV%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (doubleDualOptionsQQQDMM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%QQQ%' OR OptionCode like '%WWW%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (doubleDualOptionsRRRDMM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%RRR%' OR OptionCode like '%XXX%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (singleDualOptionsMMMDMM7U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%MMM%' OR OptionCode like '%SSS%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (singleDualOptionsNNNDMM7U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%NNN%' OR OptionCode like '%TTT%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (singleDualOptionsOOODMM7U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%OOO%' OR OptionCode like '%UUU%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (doubleDualOptionsPPPDMM7U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%PPP%' OR OptionCode like '%VVV%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (doubleDualOptionsQQQDMM7U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%QQQ%' OR OptionCode like '%WWW%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (doubleDualOptionsRRRDMM7U.Contains(LaData.PolicyData.OptionID))
-                            {
-
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%RRR%' OR OptionCode like '%XXX%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (singleDualOptionsMMMDMM8U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%MMM%' OR OptionCode like '%SSS%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-
-                            }
-                            else if (singleDualOptionsNNNDMM8U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%NNN%' OR OptionCode like '%TTT%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-
-                            }
-                            else if (singleDualOptionsOOODMM8U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%OOO%' OR OptionCode like '%UUU%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-
-                            }
-                            else if (doubleDualOptionsPPPDMM8U.Contains(LaData.PolicyData.OptionID))
-                            {
-
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%PPP%' OR OptionCode like '%VVV%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-                            else if (doubleDualOptionsQQQDMM8U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%QQQ%' OR OptionCode like '%WWW%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-
-                            }
-                            else if (doubleDualOptionsRRRDMM8U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%RRR%' OR OptionCode like '%XXX%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-
-                            }
-
-                            else if (singleDualOptionsMMMMFM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%MMM%' OR OptionCode like '%SSS%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsNNNMFM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%NNN%' OR OptionCode like '%TTT%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsOOOMFM5U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%OOO%' OR OptionCode like '%UUU%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsMMMMFM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%MMM%' OR OptionCode like '%SSS%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsNNNMFM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%NNN%' OR OptionCode like '%TTT%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                            else if (singleDualOptionsOOOMFM6U.Contains(LaData.PolicyData.OptionID))
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover[Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' AND OptionCode like '%OOO%' OR OptionCode like '%UUU%' AND ChildCover NOT IN('50000.00')";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-
-                            else
-                            {
-                                string strQuery = "SELECT DISTINCT ChildCover [Description] FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND ID = '" + LaData.PolicyData.OptionID + "' AND IsActive = '1' ";
-                                strQuery = strQuery + "AND ChildCover != 0";
-
-                                DataTable dt = Methods.GetTableData(strQuery);
-                                cmb.Populate(dt, DescriptionField, null);
-                                cmb.SelectedValuePath = DescriptionField;
-                            }
-
-                        }
-                        break;
                 }
             }
         }
@@ -12394,38 +10550,6 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                         break;
-
-                    case "PopupChkChild":
-                        if (cmb != null)
-                        {
-                            if (cmb.SelectedIndex == -1)
-                            {
-                                LaData.PolicyData.IsChildUpgradeChecked = false;
-                            }
-                            else
-                            {
-
-                                //LaData.PolicyData.OptionID = GetOptionID();
-                                GlobalSettings.ChildCoverMM = Convert.ToDecimal(cmb.SelectedValue);
-
-                                CalculateCostUpgrade(true);
-                                //CalculateCost(true);
-
-                            }
-                        }
-
-                        switch (_popupKey)
-                        {
-                            case Key.Tab:
-                                chkChild.Focus();
-                                break;
-
-                            default:
-                                chkChildUpgrade.Focus();
-                                break;
-                        }
-
-                        break;
                 }
 
             }
@@ -12446,27 +10570,6 @@ namespace UDM.Insurance.Interface.Screens
 
                     case Key.Escape:
                         EmbriantComboBox cmb = Methods.FindChild<EmbriantComboBox>(PopupChkLA2.Child, "");
-                        if (cmb != null) cmb.SelectedIndex = -1;
-                        _popupKey = Key.Escape;
-                        popup.IsOpen = false;
-                        break;
-
-                    case Key.Enter:
-                        _popupKey = Key.Enter;
-                        popup.IsOpen = false;
-                        break;
-                }
-
-
-                switch (e.Key)
-                {
-                    case Key.Tab:
-                        _popupKey = Key.Tab;
-                        popup.IsOpen = false;
-                        break;
-
-                    case Key.Escape:
-                        EmbriantComboBox cmb = Methods.FindChild<EmbriantComboBox>(PopupChkChild.Child, "");
                         if (cmb != null) cmb.SelectedIndex = -1;
                         _popupKey = Key.Escape;
                         popup.IsOpen = false;
@@ -15868,7 +13971,6 @@ namespace UDM.Insurance.Interface.Screens
             //cmbUpgradeCover.SelectedValue = card1ID;
             ButtonUpgradeCalculations(card1ID);
             UpgradeBtnOptionSelection.Content = Card1TB.Text;
-            GlobalSettings.CoverDisplay = Card1TB.Text;
         }
 
         private void Card2_Click(object sender, RoutedEventArgs e)
@@ -15876,7 +13978,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card2ID);
             UpgradeBtnOptionSelection.Content = Card2TB.Text;
-            GlobalSettings.CoverDisplay = Card2TB.Text;
         }
 
         private void Card3_Click(object sender, RoutedEventArgs e)
@@ -15884,7 +13985,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card3ID);
             UpgradeBtnOptionSelection.Content = Card3TB.Text;
-            GlobalSettings.CoverDisplay = Card3TB.Text;
         }
 
         private void Card4_Click(object sender, RoutedEventArgs e)
@@ -15892,7 +13992,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card4ID);
             UpgradeBtnOptionSelection.Content = Card4TB.Text;
-            GlobalSettings.CoverDisplay = Card4TB.Text;
         }
 
         private void Card5_Click(object sender, RoutedEventArgs e)
@@ -15900,7 +13999,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card5ID);
             UpgradeBtnOptionSelection.Content = Card5TB.Text;
-            GlobalSettings.CoverDisplay = Card5TB.Text;
         }
 
         private void Card6_Click(object sender, RoutedEventArgs e)
@@ -15908,7 +14006,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card6ID);
             UpgradeBtnOptionSelection.Content = Card6TB.Text;
-            GlobalSettings.CoverDisplay = Card6TB.Text;
         }
 
         private void Card7_Click(object sender, RoutedEventArgs e)
@@ -15916,7 +14013,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card7ID);
             UpgradeBtnOptionSelection.Content = Card7TB.Text;
-            GlobalSettings.CoverDisplay = Card7TB.Text;
         }
 
         private void Card8_Click(object sender, RoutedEventArgs e)
@@ -15924,7 +14020,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card8ID);
             UpgradeBtnOptionSelection.Content = Card8TB.Text;
-            GlobalSettings.CoverDisplay = Card8TB.Text;
         }
 
         private void Card9_Click(object sender, RoutedEventArgs e)
@@ -15932,7 +14027,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card9ID);
             UpgradeBtnOptionSelection.Content = Card9TB.Text;
-            GlobalSettings.CoverDisplay = Card9TB.Text;
         }
 
         private void Card10_Click(object sender, RoutedEventArgs e)
@@ -15940,7 +14034,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card10ID);
             UpgradeBtnOptionSelection.Content = Card10TB.Text;
-            GlobalSettings.CoverDisplay = Card10TB.Text;
         }
 
         private void Card11_Click(object sender, RoutedEventArgs e)
@@ -15948,7 +14041,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card11ID);
             UpgradeBtnOptionSelection.Content = Card11TB.Text;
-            GlobalSettings.CoverDisplay = Card11TB.Text;
         }
 
         private void Card12_Click(object sender, RoutedEventArgs e)
@@ -15956,14 +14048,12 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card12ID);
             UpgradeBtnOptionSelection.Content = Card12TB.Text;
-            GlobalSettings.CoverDisplay = Card12TB.Text;
         }
         private void Card13_Click(object sender, RoutedEventArgs e)
         {
             ReturnToPage2();
             ButtonUpgradeCalculations(card13ID);
             UpgradeBtnOptionSelection.Content = Card13TB.Text;
-            GlobalSettings.CoverDisplay = Card13TB.Text;
         }
 
         private void Card15_Click(object sender, RoutedEventArgs e)
@@ -15971,7 +14061,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card15ID);
             UpgradeBtnOptionSelection.Content = Card15TB.Text;
-            GlobalSettings.CoverDisplay = Card15TB.Text;
         }
 
         private void Card14_Click(object sender, RoutedEventArgs e)
@@ -15979,7 +14068,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card14ID);
             UpgradeBtnOptionSelection.Content = Card14TB.Text;
-            GlobalSettings.CoverDisplay = Card14TB.Text;
         }
 
         private void Card16_Click(object sender, RoutedEventArgs e)
@@ -15987,7 +14075,6 @@ namespace UDM.Insurance.Interface.Screens
             ReturnToPage2();
             ButtonUpgradeCalculations(card16ID);
             UpgradeBtnOptionSelection.Content = Card16TB.Text;
-            GlobalSettings.CoverDisplay = Card16TB.Text;
         }
 
         #endregion
@@ -16473,6 +14560,17 @@ namespace UDM.Insurance.Interface.Screens
                             IDNumberDebiCheck = "1";
                         }
 
+                        bool IsUDMAcquiredDetails = false;
+
+                        if (medDOAccountNumber.Text == "")
+                        {
+                            IsUDMAcquiredDetails = false;
+                        }
+                        else
+                        {
+                            IsUDMAcquiredDetails = true;
+                        }
+
                         try
                         {
                             DateTime datevariable = DateTime.Parse(LaData.AppData.DateOfSale.ToString());
@@ -16523,6 +14621,14 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
+                        if (IsUDMAcquiredDetails == true)
+                        {
+                            try { data["CustomField2"] = "1"; } catch { data["CustomField2"] = " "; }
+                        }
+                        else
+                        {
+                            try { data["CustomField2"] = "0"; } catch { data["CustomField2"] = " "; }
+                        }
                     }
                     else
                     {
@@ -16547,6 +14653,8 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
+
+
 
                     }
 
@@ -17362,8 +15470,8 @@ namespace UDM.Insurance.Interface.Screens
                         DebiCheckBorder.BorderBrush = Brushes.White;
 
                     }
-                    //thia is for Janelle Naidoo and Gizelle Frazer & Nthabiseng Dhlomo to try boost the Accepted rates
-                    if (GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 3165 || GlobalSettings.ApplicationUser.ID == 2232)
+                    //This is for Admin Rights on the DebiCheck Button
+                    if (GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 3165 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 19555 || GlobalSettings.ApplicationUser.ID == 8613 || GlobalSettings.ApplicationUser.ID == 42947 || GlobalSettings.ApplicationUser.ID == 42978)
                     {
                         btnDebiCheck.IsEnabled = true;
                     }
@@ -17522,8 +15630,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
-        #endregion
-
+        #region DebiCheck Passport Workings
         private void DCPassportCB_Checked(object sender, RoutedEventArgs e)
         {
             medDOIDNumber.Visibility = Visibility.Collapsed;
@@ -17539,6 +15646,46 @@ namespace UDM.Insurance.Interface.Screens
             lblDCPassportNumber.Visibility = Visibility.Collapsed;
             lblDOIDNumber.Visibility = Visibility.Visible;
         }
+        #endregion
+
+        private void SalesNotTransferredCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (LeadLoadingBool == true)
+                {
+
+                }
+                else
+                {
+                    DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                    DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                    if (value.Rows.Count == 0)
+                    {
+                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                        details.FKImportID = LaData.AppData.ImportID;
+                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                        details.Save(_validationResult);
+                    }
+                    else
+                    {
+                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                        details.Save(_validationResult);
+                    }
+                }
+
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        #endregion
+
 
     }
 

@@ -26,7 +26,7 @@
         StatusLoader = 6,
         SeniorAdministrator = 7,
         CallMonitoringAgent = 8,
-        Preserver = 10, 
+        Preserver = 10,
         DebiCheckAgent = 11
     }
 
@@ -77,7 +77,7 @@
         DoubleUpgrade8 = 23,
         ReDefrost = 24,
         Mining = 25,
-        Admin =26,
+        Admin = 26,
         Upgrade8 = 27,
         Upgrade9 = 28,
         DoubleUpgrade9 = 29,
@@ -92,7 +92,7 @@
         DoubleUpgrade14 = 38,
         DefrostR99 = 39,
         Lite = 40,
-        Upgrade13 = 41, 
+        Upgrade13 = 41,
         R99 = 42,
         SpouseLite = 43,
         Upgrade14 = 44,
