@@ -2335,6 +2335,15 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetSalesAssignedToCMAgent", paramArray);
         }
 
+        public static DataSet INGetSalesAssignedToDCAgent(long agentID)
+        {
+            object param1 = Database.GetParameter("@UserID", agentID);
+
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetSalesAssignedToDCAgent", paramArray);
+        }
+
         public static DataTable GetCMAllocationsNotWorkedOn(DateTime dateOfSale, long campaignGroupType, long cmUserID)
         {
             object param1 = Database.GetParameter("@DateOfSale", dateOfSale);
