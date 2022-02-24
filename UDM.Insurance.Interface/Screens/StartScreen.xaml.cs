@@ -300,7 +300,8 @@ namespace UDM.Insurance.Interface.Screens
                                     case (int) lkpUserType.ConfirmationAgent:
                                     case (int) lkpUserType.StatusLoader:
                                     case (int) lkpUserType.CallMonitoringAgent:
-                                    case (int)lkpUserType.Preserver:
+                                    case (int) lkpUserType.Preserver:
+                                    case (int)lkpUserType.DebiCheckAgent:
                                         //nextControl = new ConfirmScreen();
 
                                         //CheckUserVersion(Username);
