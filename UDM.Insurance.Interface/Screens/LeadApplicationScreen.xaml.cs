@@ -15471,7 +15471,15 @@ namespace UDM.Insurance.Interface.Screens
 
                     }
                     //This is for Admin Rights on the DebiCheck Button
-                    if (GlobalSettings.ApplicationUser.ID == 1 || GlobalSettings.ApplicationUser.ID == 3165 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 19555 || GlobalSettings.ApplicationUser.ID == 8613 || GlobalSettings.ApplicationUser.ID == 42947 || GlobalSettings.ApplicationUser.ID == 42978)
+                    if (GlobalSettings.ApplicationUser.ID == 1 ||
+                        GlobalSettings.ApplicationUser.ID == 43504 ||
+                        GlobalSettings.ApplicationUser.ID == 43636 ||
+                        GlobalSettings.ApplicationUser.ID == 2767 ||
+                        GlobalSettings.ApplicationUser.ID == 43527 ||
+                        GlobalSettings.ApplicationUser.ID == 19555 ||
+                        GlobalSettings.ApplicationUser.ID == 8613 ||
+                        GlobalSettings.ApplicationUser.ID == 42947 ||
+                        GlobalSettings.ApplicationUser.ID == 42978)
                     {
                         btnDebiCheck.IsEnabled = true;
                     }

@@ -2549,15 +2549,8 @@ namespace UDM.Insurance.Business
         #endregion Upgrade Lead Premium Report - Specific Functionalities
 
         #region Call Transfer Report
-        public static DataSet INGetReportCallTransfer(int? fkINCampaignIDs, DateTime fromDate, DateTime toDate)
+        public static DataSet INGetReportCallTransfer( int? fkINCampaignIDs, DateTime fromDate, DateTime toDate)
         {
-            //SqlParameter[] parameters = new SqlParameter[3];
-            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
-            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
-            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
-
-            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
-
             object param1 = Database.GetParameter("@FKUserID", fkINCampaignIDs);
             object param2 = Database.GetParameter("@DateFrom", fromDate);
             object param3 = Database.GetParameter("@DateTo", toDate);
@@ -2567,5 +2560,19 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDCCallTransferStats", paramArray, 600);
         }
         #endregion
+
+        #region DC Transfer Sales
+        public static DataSet INGetReportDCTransferSales(string selectedagents, DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@FKUserID", selectedagents);
+            object param2 = Database.GetParameter("@FromDate", fromDate);
+            object param3 = Database.GetParameter("@ToDate", toDate);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportDebiCheckSpecialist", paramArray, 600);
+        }
+        #endregion
+
     }
 }
