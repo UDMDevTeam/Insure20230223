@@ -1837,6 +1837,8 @@
                         <Condition Binding="{Binding UserData.UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,4'}" Value="True" />
                         <Condition Binding="{Binding UserData.UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,7'}" Value="True" />
                         <Condition Binding="{Binding UserData.UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,8'}" Value="True" />
+                        <Condition Binding="{Binding UserData.UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,12'}" Value="True" />
+
                         <Condition Binding="{Binding AppData.LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,2'}" Value="True" />
                         <Condition Binding="{Binding AppData.LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,3'}" Value="True" />
                         <Condition Binding="{Binding AppData.LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,4'}" Value="True" />
