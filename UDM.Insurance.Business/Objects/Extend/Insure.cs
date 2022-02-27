@@ -2562,11 +2562,12 @@ namespace UDM.Insurance.Business
         #endregion
 
         #region DC Transfer Sales
-        public static DataSet INGetReportDCTransferSales(string selectedagents, DateTime fromDate, DateTime toDate)
+        public static DataSet INGetReportDCTransferSales(string selectedagents, DateTime fromDate, DateTime toDate, string type)
         {
             object param1 = Database.GetParameter("@FKUserID", selectedagents);
             object param2 = Database.GetParameter("@FromDate", fromDate);
             object param3 = Database.GetParameter("@ToDate", toDate);
+            object param4 = Database.GetParameter("@Type", type);
 
             object[] paramArray = new[] { param1, param2, param3 };
 

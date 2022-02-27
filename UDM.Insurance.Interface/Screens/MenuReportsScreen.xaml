@@ -1145,7 +1145,21 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
-        </Storyboard> 
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTSRDebiCheckStatisticsReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL4X2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTSRDebiCheckStatisticsReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTSRDebiCheckStatisticsReport" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
 
         <Storyboard x:Key="MenuReportStory">
             <!--  Translation animations  -->
@@ -3615,7 +3629,37 @@
                                                         Margin="0,10,10,0"
                                                         VerticalAlignment="Top"
                                                         Style="{StaticResource INSquareButtonReportText}"
-                                                        Text="Debi-check Transfer Report" Width="70" />
+                                                        Text="Debi-Check Transfer Report" Width="70" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+
+                                        <Button
+                                            x:Name="btnTSRDebiCheckStatisticsReport"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnTSRDebiCheckStatisticsReport_Click"
+                                            Style="{StaticResource INMenuButton}"
+                                            TabIndex="0"
+                                            ToolTip="{Binding ToolTipData[47].Tip}"
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                    <TextBlock
+                                                        x:Name="lblTSRDebiCHeckStatisticsReport"
+                                                        Margin="0,10,10,0"
+                                                        VerticalAlignment="Top"
+                                                        Style="{StaticResource INSquareButtonReportText}"
+                                                        Text="Debi-Check Statistics Report" Width="70" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>

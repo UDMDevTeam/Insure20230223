@@ -1657,6 +1657,10 @@ namespace UDM.Insurance.Interface.Screens
                 btnBumpUpStatsReport.Visibility = Visibility.Collapsed;
                 btnSchedule.Visibility = Visibility.Collapsed;
                 btnCaptureHours.Visibility = Visibility.Collapsed;
+
+                //comment this back to add it to the DebiCheck Agent screen
+                //btnStatusLoading.Visibility = Visibility.Collapsed;
+                //btnTransferSalesReport.Visibility = Visibility.Visible;
             }
 
             DataSet dsUserInfo = Methods.ExecuteStoredProcedure("sp_GetUserName", parameters);
@@ -2145,6 +2149,20 @@ namespace UDM.Insurance.Interface.Screens
             {
                 MySuccess mySuccess = new MySuccess();
                 ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void btnTransferSalesReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportDCTransferSales reportDCTransferSales = new ReportDCTransferSales();
+                ShowDialog(reportDCTransferSales, new INDialogWindow(reportDCTransferSales));
             }
 
             catch (Exception ex)

@@ -848,6 +848,17 @@
                                             </Style>
                                         </Button.Style>
                                     </Button>
+                                    <Button
+                                        x:Name="btnTransferSalesReport"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Click="btnTransferSalesReport_Click"
+                                        Content="DC Sales Report"
+                                        IsEnabled="True"
+                                        IsTabStop="True"
+                                        Style="{DynamicResource INFlatButton}"
+                                        TabIndex="0"
+                                        Visibility="Collapsed" />
                                     <Grid Width="{StaticResource Space}" />
                                     <Button
                                         x:Name="btnApplication"
