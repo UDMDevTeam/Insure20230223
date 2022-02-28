@@ -2569,7 +2569,7 @@ namespace UDM.Insurance.Business
             object param3 = Database.GetParameter("@ToDate", toDate);
             object param4 = Database.GetParameter("@Type", type);
 
-            object[] paramArray = new[] { param1, param2, param3 };
+            object[] paramArray = new[] { param1, param2, param3, param4 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportDebiCheckSpecialist", paramArray, 600);
         }
