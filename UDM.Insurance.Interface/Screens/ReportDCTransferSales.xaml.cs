@@ -855,8 +855,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     foreach (DataRecord item in _selectedAgents)
                     {
-                        SelectedAgentsString = item.Cells["FKUserID"].Value + "," + SelectedAgentsString;
-                        selectedAgentString.Add(item.Cells["FKUserID"].Value.ToString());
+                        SelectedAgentsString = item.Cells["ID"].Value + "," + SelectedAgentsString;
+                        selectedAgentString.Add(item.Cells["ID"].Value.ToString());
                     }
                 }
                 catch

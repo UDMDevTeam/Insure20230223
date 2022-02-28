@@ -1657,10 +1657,8 @@ namespace UDM.Insurance.Interface.Screens
                 btnBumpUpStatsReport.Visibility = Visibility.Collapsed;
                 btnSchedule.Visibility = Visibility.Collapsed;
                 btnCaptureHours.Visibility = Visibility.Collapsed;
-
-                //comment this back to add it to the DebiCheck Agent screen
-                //btnStatusLoading.Visibility = Visibility.Collapsed;
-                //btnTransferSalesReport.Visibility = Visibility.Visible;
+                btnStatusLoading.Visibility = Visibility.Collapsed;
+                btnTransferSalesReport.Visibility = Visibility.Visible;
             }
 
             DataSet dsUserInfo = Methods.ExecuteStoredProcedure("sp_GetUserName", parameters);
