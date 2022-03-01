@@ -53,14 +53,45 @@ namespace UDM.Insurance.Interface.Screens
 
                 if(CampaignName == "1         " || CampaignName == "1")
                 {
-                    SalesToCallMonitoring scm = new SalesToCallMonitoring();
-                    scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
-                    scm.FKUserID = SelectedDeclineReasonID;
-                    scm.IsDisplayed = "0";
+                    string ID;
+                    try
+                    {
+                        StringBuilder strSaletoCMID = new StringBuilder();
+                        strSaletoCMID.Append("SELECT TOP 1 ID [Response] ");
+                        strSaletoCMID.Append("FROM INSalesToCallMonitoring ");
+                        strSaletoCMID.Append("WHERE FKImportID = " + _LeadApplicationScreen.LaData.AppData.ImportID.ToString());
+                        DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
 
-                    _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        ID = dtSAlestoCMID.Rows[0]["Response"].ToString();
+                    }
+                    catch
+                    {
+                        ID = null;
+                    }
 
-                    scm.Save(_validationResult);
+                    if(ID == null || ID == "")
+                    {
+                        SalesToCallMonitoring scm = new SalesToCallMonitoring();
+                        scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
+                        scm.FKUserID = SelectedDeclineReasonID;
+                        scm.IsDisplayed = "0";
+
+                        _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+
+                        scm.Save(_validationResult);
+                    }
+                    else
+                    {
+                        SalesToCallMonitoring scm = new SalesToCallMonitoring(long.Parse(ID));
+                        scm.FKUserID = SelectedDeclineReasonID;
+                        scm.IsDisplayed = "0";
+
+                        _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+
+                        scm.Save(_validationResult);
+                    }
+
+
 
                     OnDialogClose(_dialogResult);
                 }
