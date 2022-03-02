@@ -2699,6 +2699,21 @@
                             Tag="Life Assured 2 Cover" />
                     </Popup>
 
+                    <Popup
+                        x:Name="PopupChkChild"
+                        Closed="Popup_Closed"
+                        KeyDown="Popup_KeyDown"
+                        Loaded="Popup_Loaded"
+                        Opened="Popup_Opened"
+                        Placement="Right"
+                        PlacementTarget="{Binding ElementName=chkChildUpgrade}"
+                        Style="{StaticResource PopupComboStyle}">
+                        <ContentControl
+                            Loaded="PopupContentControl_Loaded"
+                            Style="{StaticResource PopupComboContentStyle}"
+                            Tag="Child Cover" />
+                    </Popup>
+
                     <Button
                         x:Name="btnHamburgerMenu"
                         Grid.Row="0"
@@ -5783,7 +5798,7 @@
                                     VerticalAlignment="Bottom"
                                     Style="{StaticResource INLabelText2}"
                                     Text="Children" />
-                                <CheckBox
+                                <!--<CheckBox
                                     x:Name="chkChildUpgrade"
                                     Grid.Row="1"
                                     Grid.Column="4"
@@ -5793,6 +5808,23 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Click="chkChild_Click"
+                                    IsChecked="{Binding PolicyData.IsChildUpgradeChecked}"
+                                    IsEnabled="True"
+                                    Style="{StaticResource INCheckboxStyle}"
+                                    TabIndex="24100"
+                                    Visibility="Visible" />-->
+
+                                <CheckBox
+                                    x:Name="chkChildUpgrade"
+                                    Grid.Row="1"
+                                    Grid.Column="4"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Checked="chkChildUpgrade_Checked"
+                                    Unchecked="chkChildUpgrade_Unchecked"
                                     IsChecked="{Binding PolicyData.IsChildUpgradeChecked}"
                                     IsEnabled="True"
                                     Style="{StaticResource INCheckboxStyle}"
