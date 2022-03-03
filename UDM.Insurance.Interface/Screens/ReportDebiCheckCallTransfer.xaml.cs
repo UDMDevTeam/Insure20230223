@@ -228,7 +228,20 @@ namespace UDM.Insurance.Interface.Screens
                 UserIDs.Add(43581);
                 UserIDs.Add(43442);
                 UserIDs.Add(43523);
-
+                UserIDs.Add(8009);
+                UserIDs.Add(19530);
+                UserIDs.Add(421);
+                UserIDs.Add(42938);
+                UserIDs.Add(5199);
+                UserIDs.Add(263);
+                UserIDs.Add(460);
+                UserIDs.Add(42);
+                UserIDs.Add(7313);
+                UserIDs.Add(371);
+                UserIDs.Add(3363);
+                UserIDs.Add(40123);
+                UserIDs.Add(41607);
+                UserIDs.Add(267);
 
 
                 DataSet dsDiaryReportData;
