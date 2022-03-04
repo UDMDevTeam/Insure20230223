@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using UDM.Insurance.Business;
 using System.Text;
 using System.Transactions;
+using Infragistics.Documents.Excel;
+
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -646,6 +648,84 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+        private void AddDataSheetDCAgent(Workbook excelApp)
+        {
+            //this is the All Data Sheet
+
+            #region Get the report data
+
+            #endregion Get the report data
+
+            int countForNonRedeemed = 0;
+            Worksheet workSheet = excelApp.Worksheets.Add("Sheet 2");
+            //Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.Worksheets.Add();
+            workSheet.Name = "Data Sheet";
+            workSheet.Rows[0].Cells[0].Value = "Call Monitoring Tracking Report Data Sheet - Combined";
+            workSheet.Rows[0].Cells[0].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+            //workSheet.Rows[1].Cells[1].Font.Size = 50;
+            //workSheet.Cells[1, 0 + 1].ColumnWidth = 60;
+            for (var i = 0; i < dtDataSheet.Columns.Count; i++)
+            {
+
+                workSheet.Rows[2].Cells[i].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+
+                if (i == 0)
+                {
+                    //workSheet.Rows[2].Cells[i + 1].ColumnWidth = 30;
+                    workSheet.Columns[i].Width = 5500;
+                }
+                else
+                {
+                    workSheet.Columns[i].Width = 5500;
+
+                    //workSheet.Cells[2, i + 1].ColumnWidth = 30;
+                }
+
+                //workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            }
+
+
+            // column headings
+            for (var i = 0; i < dtDataSheet.Columns.Count; i++)
+            {
+
+                workSheet.Rows[2].Cells[i].Value = dtDataSheet.Columns[i].ColumnName;
+            }
+
+            // rows
+            for (var i = 1; i < dtDataSheet.Rows.Count + 1; i++)
+            {
+                // to do: format datetime values before printing
+                for (var j = 0; j < dtDataSheet.Columns.Count; j++)
+                {
+                    workSheet.Rows[i + 2].Cells[j].Value = dtDataSheet.Rows[i - 1][j];
+                    //workSheet.Rows[i + 2].Cells, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                }
+
+                countForNonRedeemed = countForNonRedeemed + 1;
+            }
+
+            #region Totals for Grid 1
+
+
+            //workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 7]].Merge();
+            //workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            #endregion
+
+            countForNonRedeemed = countForNonRedeemed + 3;
+            int CountSecondGridTotals = countForNonRedeemed;
+
+
+
+            //Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+            //tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+            //tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+
+        }
+
         private void AddDebiCheckSpecialist(Microsoft.Office.Interop.Excel.Application excelApp)
         {
             //this is the All Data Sheet
@@ -748,6 +828,110 @@ namespace UDM.Insurance.Interface.Screens
             //(workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "#";
 
         }
+
+        private void AddDebiCheckSpecialistDCAgents(Workbook excelApp)
+        {
+            //this is the All Data Sheet
+
+            #region Get the report data
+
+
+            #endregion Get the report data
+
+
+
+            int countForNonRedeemed = 0;
+            Worksheet workSheet = excelApp.Worksheets.Add("Sheet 3");
+
+            workSheet.Name = "By DebiCheck Specialist";
+            workSheet.Rows[1].Cells[0].Value = "Debi-Check Tracking Report";
+            workSheet.Rows[1].Cells[0].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+            //workSheet.Cells[1, 0 + 1].Font.Size = 50;
+            //workSheet.Cells[1, 0 + 1].ColumnWidth = 60;
+            for (var i = 0; i < dtByDebiCheckSpecialist.Columns.Count; i++)
+            {
+
+                workSheet.Rows[2].Cells[i].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                if (i == 0)
+                {
+                    workSheet.Columns[i].Width = 5500;
+                }
+                else
+                {
+                    workSheet.Columns[i].Width = 5500;
+                }
+
+                //workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                //workSheet.get_Range("A4", "J1").Font.Bold = true;
+            }
+
+
+            // column headings
+            for (var i = 0; i < dtByDebiCheckSpecialist.Columns.Count; i++)
+            {
+
+                workSheet.Rows[2].Cells[i].Value = dtByDebiCheckSpecialist.Columns[i].ColumnName;
+            }
+
+            // rows
+            for (var i = 1; i < dtByDebiCheckSpecialist.Rows.Count + 1; i++)
+            {
+                // to do: format datetime values before printing
+                for (var j = 0; j < dtByDebiCheckSpecialist.Columns.Count; j++)
+                {
+                    workSheet.Rows[i + 2].Cells[j].Value = dtByDebiCheckSpecialist.Rows[i - 1][j];
+                    //workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                }
+
+                countForNonRedeemed = countForNonRedeemed + 1;
+            }
+
+            #region Totals for Grid 1
+            //workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
+            //workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
+            //workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
+            //workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
+
+            //workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 10]].Merge();
+            //workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+            #endregion
+
+            countForNonRedeemed = countForNonRedeemed + 3;
+            int CountSecondGridTotals = countForNonRedeemed;
+
+
+            //workSheet.get_Range("A2", "C2").BorderAround(
+            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+            //workSheet.get_Range("A24", "C24").BorderAround(
+            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
+            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
+            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
+
+
+            //Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+            //tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+            //tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+            //workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+            //workSheet.Range["C2", "G2"].Interior.Color = System.Drawing.Color.LightBlue;
+
+
+            //(workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
+            //(workSheet.Rows[2]).EntireRow.RowHeight = 30;
+            //workSheet.Rows[2].WrapText = true;
+
+            workSheet.Columns[4].CellFormat.FormatString = "0.00%";
+            workSheet.Columns[9].CellFormat.FormatString = "0.00%";
+            workSheet.Columns[7].CellFormat.FormatString = "0.00%";
+
+
+
+        }
         private void PrintDCAgentReport()
         {
             try 
@@ -773,38 +957,29 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
 
-                //foreach (var item in selectedAgentString)
-                //{
-                //    string agentID = item;
-                //    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                //    {
-                //        var dsDebiCheckSpecialistdata = Business.Insure.INGetReportDCTransferSales(agentID, _startDate, enddate);
-                //        DataTable dtSalesRow = dsDebiCheckSpecialistdata.Tables[1];
 
-                //        foreach (DataRow items in dtSalesRow.Rows)
-                //        {
-                //            dtByDebiCheckSpecialist.Rows.Add(items.ItemArray);
-                //        }
-                //    }
-                //}
+                string filePathAndName = GlobalSettings.UserFolder + "DC Agents Sales Report ( ) ~ " + DateTime.Now.Millisecond + ".xls";
 
+                //if (dtSummaryDataData == null || dtSummaryDataData.Columns.Count == 0)
+                //    throw new Exception("ExportToExcel: Null or empty input table!\n");
 
-                string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                //// load excel, and create a new workbook
+                //var excelApp = new Microsoft.Office.Interop.Excel.Application();
+                //excelApp.Workbooks.Add();
 
-                string filePathAndName = String.Format("TSRDebiCheckCallTransferStats" + DateTime.Now.ToString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                //AddDataSheet(excelApp);
+                //AddDebiCheckSpecialist(excelApp);
 
-                if (dtSummaryDataData == null || dtSummaryDataData.Columns.Count == 0)
-                    throw new Exception("ExportToExcel: Null or empty input table!\n");
+                //excelApp.Visible = true;
+                //excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                Workbook workbook1 = new Workbook();
+                //Worksheet worksheet1 = workbook1.Worksheets.Add("Sheet 1");
 
-                // load excel, and create a new workbook
-                var excelApp = new Microsoft.Office.Interop.Excel.Application();
-                excelApp.Workbooks.Add();
+                AddDataSheetDCAgent(workbook1);
+                AddDebiCheckSpecialistDCAgents(workbook1);
 
-                AddDataSheet(excelApp);
-                AddDebiCheckSpecialist(excelApp);
-
-                excelApp.Visible = true;
-                excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                workbook1.Save(filePathAndName);
+                Process.Start(filePathAndName);
 
             }
             catch 
