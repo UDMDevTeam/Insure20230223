@@ -2559,6 +2559,16 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDCCallTransferStats", paramArray, 600);
         }
+
+        public static DataSet INGetReportCallTransferAgents( DateTime fromDate, DateTime toDate)
+        {
+            object param2 = Database.GetParameter("@DateFrom", fromDate);
+            object param3 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetTransferAgentsIDs", paramArray, 600);
+        }
         #endregion
 
         #region DC Transfer Sales
