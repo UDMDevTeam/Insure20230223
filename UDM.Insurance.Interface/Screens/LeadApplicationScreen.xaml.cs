@@ -14612,7 +14612,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
-                            try { data["IdentificationNumber"] = LaData.LeadData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
+                            try { data["IdentificationNumber"] = LaData.BankDetailsData.IDNumber; } catch { data["IdentificationNumber"] = ""; }
                         }
                         try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
 
