@@ -77,6 +77,8 @@ namespace UDM.Insurance.Interface.Screens
             cmbCampaign.Items.Add("2019");
             cmbCampaign.Items.Add("2020");
             cmbCampaign.Items.Add("2021");
+            cmbCampaign.Items.Add("2022");
+
         }
 
         #endregion Constructors
