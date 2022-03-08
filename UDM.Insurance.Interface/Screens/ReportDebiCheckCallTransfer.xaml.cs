@@ -70,6 +70,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Overtime Sale");
             dtSalesData.Columns.Add("Difficult client");
             dtSalesData.Columns.Add("Remote shift");
+            dtSalesData.Columns.Add("Actual Transferred");
 
 
             dispatcherTimer1.Tick += Timer1;
@@ -261,18 +262,25 @@ namespace UDM.Insurance.Interface.Screens
                 foreach (var item in UserIDs)
                 {
                     #region Get the report data
-
-                    TimeSpan ts11 = new TimeSpan(23, 00, 0);
-                    DateTime enddate = _endDate.Date + ts11;
-
-                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate);
-
-                    DataTable dtSalesRow = dsDiaryReportData.Tables[0];
-
-                    foreach (DataRow items in dtSalesRow.Rows)
+                    try
                     {
-                        dtSalesData.Rows.Add(items.ItemArray);
+                        TimeSpan ts11 = new TimeSpan(23, 00, 0);
+                        DateTime enddate = _endDate.Date + ts11;
+
+                        dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate);
+
+                        DataTable dtSalesRow = dsDiaryReportData.Tables[0];
+
+                        foreach (DataRow items in dtSalesRow.Rows)
+                        {
+                            dtSalesData.Rows.Add(items.ItemArray);
+                        }
                     }
+                    catch
+                    {
+
+                    }
+
 
                 }
 
@@ -338,7 +346,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["C2", "M2"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C2", "N2"].Interior.Color = System.Drawing.Color.LightBlue;
 
                     #region Totals for Grid 1
                     workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
@@ -350,12 +358,14 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //K
                     workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(L3:L" + (countForNonRedeemed + 2).ToString() + ")"); //L
                     workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
+
                     workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=F" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
                     workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=H" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
 
                     #endregion
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 13]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 14]].Merge();
                     workSheet.Cells[1,  1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
 
@@ -418,17 +428,25 @@ namespace UDM.Insurance.Interface.Screens
 
             foreach (var item in UserIDs)
             {
-                TimeSpan ts1 = new TimeSpan(23, 00, 0);
-                DateTime enddate = _endDate.Date + ts1;
-
-                DataSet dsDiaryReportData = new DataSet();
-                dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate);
-
-                DataTable dtSalesRow = dsDiaryReportData.Tables[1];
-                foreach (DataRow items in dtSalesRow.Rows)
+                try
                 {
-                    dtSalesData3.Rows.Add(items.ItemArray);
+                    TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                    DateTime enddate = _endDate.Date + ts1;
+
+                    DataSet dsDiaryReportData = new DataSet();
+                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate);
+
+                    DataTable dtSalesRow = dsDiaryReportData.Tables[1];
+                    foreach (DataRow items in dtSalesRow.Rows)
+                    {
+                        dtSalesData3.Rows.Add(items.ItemArray);
+                    }
                 }
+                catch
+                {
+
+                }
+
 
             }
 
@@ -547,22 +565,31 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData2.Columns.Add("Overtime Sale");
             dtSalesData2.Columns.Add("Difficult client");
             dtSalesData2.Columns.Add("Remote shift");
+            dtSalesData2.Columns.Add("Actual Transferred");
 
             try { dtSalesData2.Clear(); } catch { }
 
             foreach (var item in UserIDs)
             {
-                TimeSpan ts1 = new TimeSpan(23, 00, 0);
-                DateTime enddate = dateselected.Date + ts1;
-
-                DataSet dsDiaryReportData = new DataSet();
-                dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, dateselected, enddate);
-
-                DataTable dtSalesRow = dsDiaryReportData.Tables[0];
-                foreach (DataRow items in dtSalesRow.Rows)
+                try
                 {
-                    dtSalesData2.Rows.Add(items.ItemArray);
+                    TimeSpan ts1 = new TimeSpan(23, 00, 0);
+                    DateTime enddate = dateselected.Date + ts1;
+
+                    DataSet dsDiaryReportData = new DataSet();
+                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, dateselected, enddate);
+
+                    DataTable dtSalesRow = dsDiaryReportData.Tables[0];
+                    foreach (DataRow items in dtSalesRow.Rows)
+                    {
+                        dtSalesData2.Rows.Add(items.ItemArray);
+                    }
                 }
+                catch
+                {
+
+                }
+
 
             }
 
@@ -625,6 +652,7 @@ namespace UDM.Insurance.Interface.Screens
             workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //K
             workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(L3:L" + (countForNonRedeemed + 2).ToString() + ")"); //L
             workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+            workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
 
             workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=F" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
             workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=H" + (countForNonRedeemed + 3).ToString() + "/E" + (countForNonRedeemed + 3).ToString()); //M
@@ -634,7 +662,7 @@ namespace UDM.Insurance.Interface.Screens
             countForNonRedeemed = countForNonRedeemed + 3;
             int CountSecondGridTotals = countForNonRedeemed;
 
-            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 13]].Merge();
+            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 14]].Merge();
             workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
 
@@ -654,7 +682,7 @@ namespace UDM.Insurance.Interface.Screens
             tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
             workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-            workSheet.Range["C2", "M2"].Interior.Color = System.Drawing.Color.LightBlue;
+            workSheet.Range["C2", "N2"].Interior.Color = System.Drawing.Color.LightBlue;
 
 
             (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
