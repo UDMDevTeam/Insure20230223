@@ -254,6 +254,8 @@ namespace UDM.Insurance.Interface.Screens
                     UserIDs.Add(int.Parse(item[0].ToString()));
                 }
 
+                UserIDs.Add(40539);
+                UserIDs.Add(40530);
 
                 DataSet dsDiaryReportData;
                 try { dtSalesData.Clear(); } catch { }
