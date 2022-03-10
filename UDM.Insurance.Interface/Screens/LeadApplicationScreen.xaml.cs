@@ -15050,6 +15050,9 @@ namespace UDM.Insurance.Interface.Screens
             //DataTable dt = Methods.GetTableData(strQuery.ToString());
             DataSet dsDiaryReportData = null;
 
+            Mandate2TB.Text = "";
+            Mandate1TB.Text = "";
+
             try
             {
 
