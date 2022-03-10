@@ -115,6 +115,9 @@ namespace UDM.Insurance.Interface.Screens
 
                     //Cal2.IsEnabled = false;
 
+                    TimeSpan ts11 = new TimeSpan(23, 00, 0);
+                    DateTime enddate = _endDate.Date + ts11;
+
                     var transactionOptions = new TransactionOptions
                     {
                         IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
@@ -122,7 +125,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                     {
-                        dsDebiCheckAcceptedReportData = Business.Insure.INGetDebiCheckAcceptedStatus(_startDate, _endDate);
+                        dsDebiCheckAcceptedReportData = Business.Insure.INGetDebiCheckAcceptedStatus(_startDate, enddate);
                     }
 
                     BackgroundWorker worker = new BackgroundWorker();
