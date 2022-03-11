@@ -690,6 +690,10 @@ namespace UDM.Insurance.Interface.Screens
             {
 
                 workSheet.Rows[2].Cells[i].Value = dtDataSheet.Columns[i].ColumnName;
+                workSheet.Rows[2].Cells[i].CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
+                workSheet.Rows[2].Cells[i].CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
+                workSheet.Rows[2].Cells[i].CellFormat.LeftBorderStyle = CellBorderLineStyle.Thin;
+                workSheet.Rows[2].Cells[i].CellFormat.RightBorderStyle = CellBorderLineStyle.Thin;
             }
 
             // rows
@@ -700,7 +704,10 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     workSheet.Rows[i + 2].Cells[j].Value = dtDataSheet.Rows[i - 1][j];
                     //workSheet.Rows[i + 2].Cells, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.LeftBorderStyle = CellBorderLineStyle.Thin;
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.RightBorderStyle = CellBorderLineStyle.Thin;
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
                 }
 
                 countForNonRedeemed = countForNonRedeemed + 1;
@@ -718,10 +725,11 @@ namespace UDM.Insurance.Interface.Screens
             int CountSecondGridTotals = countForNonRedeemed;
 
 
+            WorksheetMergedCellsRegion mergedRegion1 = workSheet.MergedCellsRegions.Add(0, 0, 0, 6);
+            // Set the value of the merged region
+            mergedRegion1.Value = "Call Monitoring Tracking Report Data Sheet - Combined";
+            workSheet.Rows[0].Cells[2].CellFormat.Alignment = HorizontalCellAlignment.Center;
 
-            //Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
-            //tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-            //tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
 
         }
@@ -844,8 +852,7 @@ namespace UDM.Insurance.Interface.Screens
             Worksheet workSheet = excelApp.Worksheets.Add("Sheet 3");
 
             workSheet.Name = "By DebiCheck Specialist";
-            workSheet.Rows[1].Cells[0].Value = "Debi-Check Tracking Report";
-            workSheet.Rows[1].Cells[0].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+            workSheet.Rows[0].Cells[0].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
             //workSheet.Cells[1, 0 + 1].Font.Size = 50;
             //workSheet.Cells[1, 0 + 1].ColumnWidth = 60;
             for (var i = 0; i < dtByDebiCheckSpecialist.Columns.Count; i++)
@@ -871,6 +878,10 @@ namespace UDM.Insurance.Interface.Screens
             {
 
                 workSheet.Rows[2].Cells[i].Value = dtByDebiCheckSpecialist.Columns[i].ColumnName;
+                workSheet.Rows[2].Cells[i].CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
+                workSheet.Rows[2].Cells[i].CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
+                workSheet.Rows[2].Cells[i].CellFormat.LeftBorderStyle = CellBorderLineStyle.Thin;
+                workSheet.Rows[2].Cells[i].CellFormat.RightBorderStyle = CellBorderLineStyle.Thin;
             }
 
             // rows
@@ -881,55 +892,31 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     workSheet.Rows[i + 2].Cells[j].Value = dtByDebiCheckSpecialist.Rows[i - 1][j];
                     //workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.LeftBorderStyle = CellBorderLineStyle.Thin;
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.RightBorderStyle = CellBorderLineStyle.Thin;
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.TopBorderStyle = CellBorderLineStyle.Thin;
+                    workSheet.Rows[i + 2].Cells[j].CellFormat.BottomBorderStyle = CellBorderLineStyle.Thin;
                 }
 
                 countForNonRedeemed = countForNonRedeemed + 1;
             }
 
             #region Totals for Grid 1
-            //workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
-            //workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
-            //workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
-            //workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
 
-            //workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 10]].Merge();
-            //workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
             #endregion
 
             countForNonRedeemed = countForNonRedeemed + 3;
             int CountSecondGridTotals = countForNonRedeemed;
 
-
-            //workSheet.get_Range("A2", "C2").BorderAround(
-            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
-
-            //workSheet.get_Range("A24", "C24").BorderAround(
-            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
-
-
-            //Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
-            //tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-            //tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
-
-            //workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-            //workSheet.Range["C2", "G2"].Interior.Color = System.Drawing.Color.LightBlue;
-
-
-            //(workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
-            //(workSheet.Rows[2]).EntireRow.RowHeight = 30;
-            //workSheet.Rows[2].WrapText = true;
-
             workSheet.Columns[4].CellFormat.FormatString = "0.00%";
             workSheet.Columns[9].CellFormat.FormatString = "0.00%";
             workSheet.Columns[7].CellFormat.FormatString = "0.00%";
 
-
+            WorksheetMergedCellsRegion mergedRegion1 = workSheet.MergedCellsRegions.Add(0, 0, 0, 9);
+            // Set the value of the merged region
+            mergedRegion1.Value = "Debi-Check Tracking Report";
+            workSheet.Rows[0].Cells[2].CellFormat.Alignment = HorizontalCellAlignment.Center;
 
         }
         private void PrintDCAgentReport()
