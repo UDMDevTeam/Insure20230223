@@ -15207,6 +15207,7 @@ namespace UDM.Insurance.Interface.Screens
                                 GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
                                 GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                 GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+
                             }
                             else
                             {
@@ -15284,6 +15285,7 @@ namespace UDM.Insurance.Interface.Screens
                                             GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
                                             GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                             GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+
                                         }
 
 
@@ -15508,6 +15510,8 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+
+
                 }
                 else
                 {
@@ -15528,10 +15532,27 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
-
-
+            if(ClosurePage.Visibility == Visibility.Visible)
+            {
+                AutoPopulateNADCReason();
+            }
 
         }
+
+        private void AutoPopulateNADCReason()
+        {
+            #region Auto Populate N/A DC 
+            if (btnDebiCheck.Visibility == Visibility.Visible)
+            {
+
+            }
+            else
+            {
+                cmbSalesNotTransferredReasons.SelectedIndex = 3;
+            }
+            #endregion
+        }
+
         private void btnAddContacts_Click(object sender, RoutedEventArgs e)
         {
             try
