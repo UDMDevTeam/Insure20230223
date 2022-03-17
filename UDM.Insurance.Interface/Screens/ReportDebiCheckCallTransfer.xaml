@@ -152,6 +152,56 @@
                             Visibility="Visible" />
                     </Viewbox>
 
+                    <Border x:Name="BorderCB"
+                            Grid.Column="12"
+                            Grid.Row="14"
+                            Grid.RowSpan="2"
+                            Grid.ColumnSpan="5"
+                            CornerRadius="10"
+                            BorderThickness="2"
+                            Background="Gray"
+                            Opacity="0.5" Margin="12.333,0.333,0.333,0.333">
+
+                    </Border>
+
+
+
+                    <CheckBox x:Name="UpgradeCB"
+                              Grid.Row="15"
+                              Grid.Column="13"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="UpgradeCB_Checked">
+                    </CheckBox>
+                    <CheckBox x:Name="BaseCB"
+                              Grid.Row="14"
+                              Grid.Column="13"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="BaseCB_Checked">
+                    </CheckBox>
+                    <Label
+                        Grid.Row="15"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="6"
+                        Margin="0,0,10.333,11.667"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Upgrades"
+                        Visibility="Visible" Width="247" />
+
+                    <Label
+                        Grid.Row="14"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="6"
+                        Margin="0,0,10.333,11.333"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Base"
+                        Visibility="Visible" Width="247" />
+
 
 
 

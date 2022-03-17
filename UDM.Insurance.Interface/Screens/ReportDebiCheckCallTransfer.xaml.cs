@@ -39,7 +39,7 @@ namespace UDM.Insurance.Interface.Screens
         //private System.Collections.Generic.List<Record> _campaigns;
         private List<Record> _lstSelectedCampaigns;
         private int? _campaignIDList = null;
-
+        string IsUpgrade = "0";
         private DateTime _startDate;
         private DateTime _endDate;
         DataTable dtSalesData = new DataTable();
@@ -180,74 +180,9 @@ namespace UDM.Insurance.Interface.Screens
 
                 try { UserIDs.Clear(); } catch { }
 
-                //UserIDs.Add(43082);
-                //UserIDs.Add(5508);
-                //UserIDs.Add(42387);
-                //UserIDs.Add(516);
-                //UserIDs.Add(365);
-                //UserIDs.Add(43565);
-                //UserIDs.Add(40333);
-                //UserIDs.Add(6425);
-                //UserIDs.Add(43544);
-                //UserIDs.Add(42858);
-                //UserIDs.Add(2476);
-                //UserIDs.Add(41821);
-                //UserIDs.Add(376);
-                //UserIDs.Add(41687);
-                //UserIDs.Add(40516);
-                //UserIDs.Add(43119);
-                //UserIDs.Add(43543);
-                //UserIDs.Add(42153);
-                //UserIDs.Add(43440);
-                //UserIDs.Add(41855);
-                //UserIDs.Add(42743);
-                //UserIDs.Add(8086);
-                //UserIDs.Add(42235);
-                //UserIDs.Add(41525);
-                //UserIDs.Add(441);
-                //UserIDs.Add(43297);
-                //UserIDs.Add(43622);
-                //UserIDs.Add(43090);
-                //UserIDs.Add(43527);
-                //UserIDs.Add(43574);
-                //UserIDs.Add(43621);
-                //UserIDs.Add(43640);
-                //UserIDs.Add(43039);
-                //UserIDs.Add(41708);
-                //UserIDs.Add(40690);
-                //UserIDs.Add(43070);
-                //UserIDs.Add(40464);
-                //UserIDs.Add(43577);
-                //UserIDs.Add(40487);
-                //UserIDs.Add(43632);
-                //UserIDs.Add(43601);
-                //UserIDs.Add(43471);
-                //UserIDs.Add(43368);
-                //UserIDs.Add(40705);
-                //UserIDs.Add(43580);
-                //UserIDs.Add(445);
-                //UserIDs.Add(43581);
-                //UserIDs.Add(43442);
-                //UserIDs.Add(43523);
-                //UserIDs.Add(8009);
-                //UserIDs.Add(19530);
-                //UserIDs.Add(421);
-                //UserIDs.Add(42938);
-                //UserIDs.Add(5199);
-                //UserIDs.Add(263);
-                //UserIDs.Add(460);
-                //UserIDs.Add(42);
-                //UserIDs.Add(7313);
-                //UserIDs.Add(371);
-                //UserIDs.Add(535);
-                //UserIDs.Add(40123);
-                //UserIDs.Add(41607);
-                //UserIDs.Add(267);
-                //UserIDs.Add(41942);
                 DataSet dsAgentIDs ;
 
-
-                dsAgentIDs = Business.Insure.INGetReportCallTransferAgents(_startDate, _endDate);
+                dsAgentIDs = Business.Insure.INGetReportCallTransferAgents(_startDate, _endDate, IsUpgrade);
                 DataTable dtAgentIDs = dsAgentIDs.Tables[0];
 
                 foreach (DataRow item in dtAgentIDs.Rows)
@@ -255,8 +190,10 @@ namespace UDM.Insurance.Interface.Screens
                     UserIDs.Add(int.Parse(item[0].ToString()));
                 }
 
-                UserIDs.Add(40539);
-                UserIDs.Add(40530);
+                //#region Added additional upgrades
+                //UserIDs.Add(40539);
+                //UserIDs.Add(40530);
+                //#endregion
 
                 DataSet dsDiaryReportData;
                 try { dtSalesData.Clear(); } catch { }
@@ -270,7 +207,7 @@ namespace UDM.Insurance.Interface.Screens
                         TimeSpan ts11 = new TimeSpan(23, 00, 0);
                         DateTime enddate = _endDate.Date + ts11;
 
-                        dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate);
+                        dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade);
 
                         DataTable dtSalesRow = dsDiaryReportData.Tables[0];
 
@@ -437,7 +374,7 @@ namespace UDM.Insurance.Interface.Screens
                     DateTime enddate = _endDate.Date + ts1;
 
                     DataSet dsDiaryReportData = new DataSet();
-                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate);
+                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade);
 
                     DataTable dtSalesRow = dsDiaryReportData.Tables[1];
                     foreach (DataRow items in dtSalesRow.Rows)
@@ -517,17 +454,6 @@ namespace UDM.Insurance.Interface.Screens
             int CountSecondGridTotals = countForNonRedeemed;
 
 
-            //workSheet.get_Range("A2", "C2").BorderAround(
-            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
-
-            //workSheet.get_Range("A24", "C24").BorderAround(
-            //Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-            //Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin,
-            //Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
-
-
             Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
             tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
             tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
@@ -581,7 +507,7 @@ namespace UDM.Insurance.Interface.Screens
                     DateTime enddate = dateselected.Date + ts1;
 
                     DataSet dsDiaryReportData = new DataSet();
-                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, dateselected, enddate);
+                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, dateselected, enddate, IsUpgrade);
 
                     DataTable dtSalesRow = dsDiaryReportData.Tables[0];
                     foreach (DataRow items in dtSalesRow.Rows)
@@ -758,8 +684,17 @@ namespace UDM.Insurance.Interface.Screens
             EnableDisableExportButton();
         }
 
+        private void UpgradeCB_Checked(object sender, RoutedEventArgs e)
+        {
+            BaseCB.IsChecked = false;
+            IsUpgrade = "1";
+        }
 
-
+        private void BaseCB_Checked(object sender, RoutedEventArgs e)
+        {
+            UpgradeCB.IsChecked = false;
+            IsUpgrade = "0";
+        }
 
 
         #endregion
