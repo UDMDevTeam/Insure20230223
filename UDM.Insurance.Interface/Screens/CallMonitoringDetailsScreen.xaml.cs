@@ -146,28 +146,28 @@ namespace UDM.Insurance.Interface.Screens
 
             #region Call Monitoring From Sales Pop up background thread
 
-            DataTable dtAgentList = Methods.GetTableData("SELECT FKUserID FROM INCMAgentsOnline");
-            List<DataRow> CMAgentList = dtAgentList.AsEnumerable().ToList();
+            //DataTable dtAgentList = Methods.GetTableData("SELECT FKUserID FROM INCMAgentsOnline");
+            //List<DataRow> CMAgentList = dtAgentList.AsEnumerable().ToList();
 
-            try { CMAgentListLong.Clear(); } catch { }
+            //try { CMAgentListLong.Clear(); } catch { }
 
 
-            foreach (var row in CMAgentList)
-            {
-                long userIDrow = long.Parse(row["FKUserID"].ToString());
-                CMAgentListLong.Add(userIDrow);
-            }
+            //foreach (var row in CMAgentList)
+            //{
+            //    long userIDrow = long.Parse(row["FKUserID"].ToString());
+            //    CMAgentListLong.Add(userIDrow);
+            //}
 
-            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
-            {
-                BackgroundWorker worker = new BackgroundWorker();
-                worker.DoWork += worker_DoWork;
+            //if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            //{
+            //    BackgroundWorker worker = new BackgroundWorker();
+            //    worker.DoWork += worker_DoWork;
 
-                worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-                worker.RunWorkerAsync();
+            //    worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            //    worker.RunWorkerAsync();
 
-                SetAgentOnline();
-            }
+            //    SetAgentOnline();
+            //}
 
 
             #endregion
@@ -176,128 +176,130 @@ namespace UDM.Insurance.Interface.Screens
         #endregion Constructors
 
         #region Private Methods
-        private void SetAgentOnline()
-        {
-            try
-            {
-                DataTable dtAgentOnlineID = Methods.GetTableData("SELECT ID FROM INCMAgentsOnline WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
-                long AgentOnlineID = long.Parse(dtAgentOnlineID.Rows[0]["ID"].ToString());
+        //private void SetAgentOnline()
+        //{
+        //    try
+        //    {
+        //        DataTable dtAgentOnlineID = Methods.GetTableData("SELECT ID FROM INCMAgentsOnline WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
+        //        long AgentOnlineID = long.Parse(dtAgentOnlineID.Rows[0]["ID"].ToString());
 
-                INCMAgentsOnline cmo = new INCMAgentsOnline(AgentOnlineID);
-                cmo.Online = "1";
-                cmo.Save(null);
-            }
-            catch
-            {
+        //        INCMAgentsOnline cmo = new INCMAgentsOnline(AgentOnlineID);
+        //        cmo.Online = "1";
+        //        cmo.Save(null);
+        //    }
+        //    catch
+        //    {
 
-            }
+        //    }
 
-        }
+        //}
 
-        private void SetAgentOffline()
-        {
-            try
-            {
-                DataTable dtAgentOnlineID = Methods.GetTableData("SELECT ID FROM INCMAgentsOnline WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
-                long AgentOnlineID = long.Parse(dtAgentOnlineID.Rows[0]["ID"].ToString());
+        //private void SetAgentOffline()
+        //{
+        //    try
+        //    {
+        //        DataTable dtAgentOnlineID = Methods.GetTableData("SELECT ID FROM INCMAgentsOnline WHERE FKUserID = " + GlobalSettings.ApplicationUser.ID);
+        //        long AgentOnlineID = long.Parse(dtAgentOnlineID.Rows[0]["ID"].ToString());
 
-                INCMAgentsOnline cmo = new INCMAgentsOnline(AgentOnlineID);
-                cmo.Online = "0";
-                cmo.Save(null);
-            }
-            catch (Exception W)
-            {
+        //        INCMAgentsOnline cmo = new INCMAgentsOnline(AgentOnlineID);
+        //        cmo.Online = "0";
+        //        cmo.Save(null);
+        //    }
+        //    catch (Exception W)
+        //    {
 
-            }
+        //    }
 
-        }
-        private void saleTick_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                timer.Stop();
-                FKImportID = null;
-                long? FKUserID = GlobalSettings.ApplicationUser.ID;
-                DataTable dtStatus = Methods.GetTableData("SELECT Top 1 FKImportID, ID FROM INSalesToCallMonitoring WHERE FKUserID = " + FKUserID + " AND IsDisplayed = 0");
-                FKImportID = long.Parse(dtStatus.Rows[0]["FKImportID"].ToString());
-                long PopUpID = long.Parse(dtStatus.Rows[0]["ID"].ToString());
+        //}
+        //private void saleTick_Tick(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        timer.Stop();
+        //        FKImportID = null;
+        //        long? FKUserID = GlobalSettings.ApplicationUser.ID;
+        //        DataTable dtStatus = Methods.GetTableData("SELECT Top 1 FKImportID, ID FROM INSalesToCallMonitoring WHERE FKUserID = " + FKUserID + " AND IsDisplayed = 0");
+        //        FKImportID = long.Parse(dtStatus.Rows[0]["FKImportID"].ToString());
+        //        long PopUpID = long.Parse(dtStatus.Rows[0]["ID"].ToString());
 
-                DataTable dtReferenceNumber = Methods.GetTableData("SELECT Top 1 RefNo FROM INImport WHERE ID = " + FKImportID);
-                CMToSReferenceNumber = dtReferenceNumber.Rows[0]["RefNo"].ToString();
+        //        DataTable dtReferenceNumber = Methods.GetTableData("SELECT Top 1 RefNo FROM INImport WHERE ID = " + FKImportID);
+        //        CMToSReferenceNumber = dtReferenceNumber.Rows[0]["RefNo"].ToString();
 
-                if (FKImportID == null)
-                {
+        //        if (FKImportID == null)
+        //        {
 
-                }
-                else
-                {
-                    try
-                    {
-
-
-                        //_ssGlobalData.SalesScreen.
+        //        }
+        //        else
+        //        {
+        //            try
+        //            {
 
 
-
-                        SalesToCallMonitoring stc = new SalesToCallMonitoring(PopUpID);
-                        stc.IsDisplayed = "1";
-                        stc.Save(null);
-
-                        MessageBox.Show(CMToSReferenceNumber + " - ReferenceNumber has been copied, Please paste into Reference Block", "Incoming Sale to complete!" , MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.None, MessageBoxOptions.DefaultDesktopOnly);
-
-                        Save();
-
-                        if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
-                        {
-                            timer.Stop();
-                            SetAgentOffline();
-                        }
-
-                        Close();
-
-                        Clipboard.SetText(CMToSReferenceNumber);
+        //                //_ssGlobalData.SalesScreen.
 
 
 
-                        //LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, new Data.SalesScreenGlobalData());
-                        //las.LaData.AppData.ImportID = FKImportID;
+        //                SalesToCallMonitoring stc = new SalesToCallMonitoring(PopUpID);
+        //                stc.IsDisplayed = "1";
+        //                stc.Save(null);
 
-                        //SalesScreen ss = new SalesScreen();
-                        //ss.FKImportID = FKImportID;
+        //                MessageBox.Show(CMToSReferenceNumber + " - ReferenceNumber has been copied, Please paste into Reference Block", "Incoming Sale to complete!" , MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.None, MessageBoxOptions.DefaultDesktopOnly);
 
-                        //var y = new INDialogWindow(las);
-                        //y.Show();
-                    }
-                    catch (Exception g)
-                    {
-                        timer.Interval = new TimeSpan(0, 0, 5);
-                        timer.Start();
-                        SetAgentOnline();
-                    }
-                }
+        //                Save();
 
-                //timer.Interval = new TimeSpan(0, 0, 10);
-                //timer.Start();
-                //SetAgentOnline();
-            }
-            catch
-            {
-                timer.Interval = new TimeSpan(0, 0, 5);
-                timer.Start();
-                SetAgentOnline();
-            }
-        }
+        //                if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+        //                {
+        //                    timer.Stop();
+        //                    SetAgentOffline();
+        //                }
 
-        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
 
-        }
-        void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            timer.Interval = new TimeSpan(0, 0, 5);
-            timer.Tick += saleTick_Tick;
-            timer.Start();
-        }
+
+        //                Close();
+
+        //                Clipboard.SetText(CMToSReferenceNumber);
+
+
+
+        //                //LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, new Data.SalesScreenGlobalData());
+        //                //las.LaData.AppData.ImportID = FKImportID;
+
+        //                //SalesScreen ss = new SalesScreen();
+        //                //ss.FKImportID = FKImportID;
+
+        //                //var y = new INDialogWindow(las);
+        //                //y.Show();
+        //            }
+        //            catch (Exception g)
+        //            {
+        //                timer.Interval = new TimeSpan(0, 0, 5);
+        //                timer.Start();
+        //                SetAgentOnline();
+        //            }
+        //        }
+
+        //        //timer.Interval = new TimeSpan(0, 0, 10);
+        //        //timer.Start();
+        //        //SetAgentOnline();
+        //    }
+        //    catch
+        //    {
+        //        timer.Interval = new TimeSpan(0, 0, 5);
+        //        timer.Start();
+        //        SetAgentOnline();
+        //    }
+        //}
+
+        //void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+
+        //}
+        //void worker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    timer.Interval = new TimeSpan(0, 0, 5);
+        //    timer.Tick += saleTick_Tick;
+        //    timer.Start();
+        //}
         private void LoadLookupData()
         {
 
@@ -1006,8 +1008,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
                         {
-                            timer.Stop();
-                            SetAgentOffline();
+                            //timer.Stop();
+                            //SetAgentOffline();
                         }
 
                         Close();
@@ -1017,8 +1019,8 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
                     {
-                        timer.Stop();
-                        SetAgentOffline();
+                        //timer.Stop();
+                        //SetAgentOffline();
                     }
 
                     Close();
@@ -1032,8 +1034,8 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
                 {
-                    timer.Stop();
-                    SetAgentOffline();
+                    //timer.Stop();
+                    //SetAgentOffline();
                 }
 
                 Close();
