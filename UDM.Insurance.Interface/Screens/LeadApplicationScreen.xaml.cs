@@ -3355,7 +3355,7 @@ namespace UDM.Insurance.Interface.Screens
                 Database.CancelTransactions();
                 HandleException(ex);
 
-                ClearApplicationScreen();
+                //ClearApplicationScreen();
                 medReference.Focus();
             }
 
