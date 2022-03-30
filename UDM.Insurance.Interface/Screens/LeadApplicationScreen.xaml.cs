@@ -130,7 +130,8 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.DoubleUpgrade12,
             lkpINCampaignGroup.DoubleUpgrade13,
             lkpINCampaignGroup.DoubleUpgrade14,
-            lkpINCampaignGroup.DoubleUpgrade15
+            lkpINCampaignGroup.DoubleUpgrade15,
+            lkpINCampaignGroup.R99Upgrade
 
         };
         //lkpINCampaignType.BlackMaccMillion

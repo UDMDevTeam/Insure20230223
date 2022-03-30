@@ -614,7 +614,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6,
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
-                                lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Lite
+                                lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Lite, lkpINCampaignGroup.R99Upgrade
                             };
                         if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                         {
@@ -637,7 +637,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade3, lkpINCampaignGroup.DoubleUpgrade4, lkpINCampaignGroup.DoubleUpgrade5, lkpINCampaignGroup.DoubleUpgrade6,
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
-                                lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Lite
+                                lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Lite, lkpINCampaignGroup.R99Upgrade
                             };
                         if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                         {
