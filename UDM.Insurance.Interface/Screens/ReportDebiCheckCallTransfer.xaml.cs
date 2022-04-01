@@ -311,6 +311,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
                     (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 14]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 13]).EntireColumn.Hidden = true;
 
                     (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                     workSheet.Rows[2].WrapText = true;
@@ -618,6 +620,7 @@ namespace UDM.Insurance.Interface.Screens
             (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 14]).EntireColumn.Hidden = true;
+            (workSheet.Cells[1, 13]).EntireColumn.Hidden = true;
 
             (workSheet.Rows[2]).EntireRow.RowHeight = 40;
             workSheet.Rows[2].WrapText = true;
