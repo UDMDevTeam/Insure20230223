@@ -79,6 +79,8 @@ namespace UDM.Insurance.Interface.Screens
         string DebitDayPLLKP = "";
         string IDNumberPLLKP = "";
         string PassportNumberPLLKP = "";
+        string MandateRequired;
+
         bool PolicyHolderBoolDC = true;
         #endregion
 
@@ -3460,32 +3462,32 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     if (cmbLeadFeedback.SelectedIndex == -1)
                     {
-                        if (!LaData.AppData.IsLeadUpgrade)
-                        {
-                            if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)
-                            {
-                                bool? result = ShowMessageBox(new INMessageBoxWindow2(), "Would you like to provide Lead Feedback?", "Lead Feedback", ShowMessageType.Information);
+                        //if (!LaData.AppData.IsLeadUpgrade)
+                        //{
+                        //    if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)
+                        //    {
+                        //        bool? result = ShowMessageBox(new INMessageBoxWindow2(), "Would you like to provide Lead Feedback?", "Lead Feedback", ShowMessageType.Information);
 
-                                if (Convert.ToBoolean(result))
-                                {
-                                    GotoPage(Page5);
-                                    cmbLeadFeedback.Focus();
+                        //        if (Convert.ToBoolean(result))
+                        //        {
+                        //            GotoPage(Page5);
+                        //            cmbLeadFeedback.Focus();
 
-                                    ToolTip cmbLeadFeedbackToolTip = (ToolTip)cmbLeadFeedback.ToolTip;
+                        //            ToolTip cmbLeadFeedbackToolTip = (ToolTip)cmbLeadFeedback.ToolTip;
 
-                                    cmbLeadFeedbackToolTip.Content = "lead feedback required";
-                                    cmbLeadFeedbackToolTip.PlacementTarget = cmbLeadFeedback;
-                                    cmbLeadFeedbackToolTip.Placement = PlacementMode.Right;
-                                    cmbLeadFeedbackToolTip.VerticalOffset = -80;
-                                    cmbLeadFeedbackToolTip.HorizontalOffset = -120;
+                        //            cmbLeadFeedbackToolTip.Content = "lead feedback required";
+                        //            cmbLeadFeedbackToolTip.PlacementTarget = cmbLeadFeedback;
+                        //            cmbLeadFeedbackToolTip.Placement = PlacementMode.Right;
+                        //            cmbLeadFeedbackToolTip.VerticalOffset = -80;
+                        //            cmbLeadFeedbackToolTip.HorizontalOffset = -120;
 
-                                    ShowToolTip(cmbLeadFeedbackToolTip);
-                                    return false;
-                                }
+                        //            ShowToolTip(cmbLeadFeedbackToolTip);
+                        //            return false;
+                        //        }
 
-                                LaData.SaleData.LeadFeedbackID = (long)lkpLeadFeedback.NoFeedback;
-                            }
-                        }
+                        //        LaData.SaleData.LeadFeedbackID = (long)lkpLeadFeedback.NoFeedback;
+                        //    }
+                        //}
                     }
                 }
 
@@ -7952,7 +7954,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199 || PolicyHolderBoolDC == false)
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199 || PolicyHolderBoolDC == false || MandateRequired == "False")
                     {
 
                     }
@@ -8115,44 +8117,44 @@ namespace UDM.Insurance.Interface.Screens
 
 
             #region INPermission Pop up message
-            try
-            {
-                if (chkLeadPermission.Visibility == Visibility.Visible)
-                {
-                    if (chkLeadPermission.IsChecked == false)
-                    {
-                        string strQuery;
-                        strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+            //try
+            //{
+            //    if (chkLeadPermission.Visibility == Visibility.Visible)
+            //    {
+            //        if (chkLeadPermission.IsChecked == false)
+            //        {
+            //            string strQuery;
+            //            strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
 
-                        DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
-                        if (dtPolicyPlanGroup.Rows.Count == 0)
-                        {
+            //            DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+            //            if (dtPolicyPlanGroup.Rows.Count == 0)
+            //            {
 
-                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
-                            messageBox.buttonOK.Content = "Yes";
-                            messageBox.buttonCancel.Content = "No";
+            //                INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+            //                messageBox.buttonOK.Content = "Yes";
+            //                messageBox.buttonCancel.Content = "No";
 
-                            var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
-                            bool result = showMessageBox != null && (bool)showMessageBox;
+            //                var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
+            //                bool result = showMessageBox != null && (bool)showMessageBox;
 
-                            if (result == true)
-                            {
-                                PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
-                                ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+            //                if (result == true)
+            //                {
+            //                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
+            //                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
 
-                                return;
-                            }
-                        }
-                        else
-                        {
-                        }
-                    }
-                }
-            }
-            catch
-            {
+            //                    return;
+            //                }
+            //            }
+            //            else
+            //            {
+            //            }
+            //        }
+            //    }
+            //}
+            //catch
+            //{
 
-            }
+            //}
 
 
             if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.ConfirmationAgent && (lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted && LaData.AppData.IsConfirmed == false)
@@ -14486,7 +14488,20 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
                         try { data["AccountNumber"] = AccountNumberPLLKP; } catch { data["AccountNumber"] = ""; }
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
-                        try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
+                            LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+                        {
+                            try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+
+                        }
+                        else
+                        {
+                            try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                        }
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
@@ -14885,7 +14900,6 @@ namespace UDM.Insurance.Interface.Screens
 
         private void GetBankingDetailLookup()
         {
-            #region AuthToken
             try
             {
                 #region Reset PL Lookup Variables
@@ -14900,6 +14914,8 @@ namespace UDM.Insurance.Interface.Screens
                 DebitDayPLLKP = "";
                 IDNumberPLLKP = "";
                 #endregion
+
+                #region AuthToken
 
                 string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
                 string Username = "udm@platinumlife.co.za";
@@ -14952,7 +14968,6 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
                 #endregion
-
 
                 #region SumbitBankingDetailRequest
                 string submitRequest_url = "http://plhqweb.platinumlife.co.za:999/api/BD/PL_Request";
@@ -15012,13 +15027,14 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                 }
+                #endregion
+
             }
             catch (Exception r)
             {
 
             }
 
-            #endregion
 
 
         }
@@ -15174,8 +15190,11 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void ClosurePage_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            //DebiCheck Check is only for Base campaigns
 
+            //this sets the mandate required to default no matter what
+            MandateRequired = "True";
+
+            //DebiCheck Check is only for Base campaigns
             try
             {
                 #region DebiCheck On / Off
@@ -15196,7 +15215,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                             //these banks dont accept DebiCheck Mandates Yet
-                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || PolicyHolderBoolDC == false)
+                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || PolicyHolderBoolDC == false || MandateRequired == "False")
                             {
                                 btnDebiCheck.Visibility = Visibility.Collapsed; // this collapses the DebiChecks
                                 DebiCheckBorder.Visibility = Visibility.Collapsed;
@@ -15367,10 +15386,65 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
                         {
-                            //this enables the button depending on the Leadstatus the lead is saved as
+                            //This determines whether the Upgrades are supposed to get 
+
+                            #region AuthToken
+
+                            string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                            string Username = "udm@platinumlife.co.za";
+                            string Password = "P@ssword1";
+                            string token = "";
+
+                            using (var wb = new WebClient())
+                            {
+                                var data = new NameValueCollection();
+                                data["username"] = Username;
+                                data["password"] = Password;
+                                data["grant_type"] = "password";
+
+                                var response = wb.UploadValues(auth_url, "POST", data);
+                                string responseInString = Encoding.UTF8.GetString(response);
+                                var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                                token = (string)customObject["access_token"];
+                            }
+                            #endregion
+
+                            #region MandateRequired
+                            string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/MandateRequired";
                             try
                             {
-                                if (PolicyHolderBoolDC == false)
+                                using (var wb = new WebClient())
+                                {
+                                    var data = new NameValueCollection();
+                                    data["ReferenceNumber"] = LaData.AppData.RefNo;
+                                    data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString();
+                                    wb.Headers.Add("Authorization", "Bearer " + token);
+                                    wb.Headers["Accept"] = "application/json";
+
+                                    System.Uri uri = new System.Uri(submitMandate_url);
+
+                                    var response = wb.UploadValues(uri, "POST", data);
+                                    string responseInString = Encoding.UTF8.GetString(response);
+                                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                                    MandateRequired = (string)customObject["MandateRequired"];
+
+                                }
+                            }
+                            catch
+                            {
+                                MandateRequired = "True";
+                            }
+
+                            #endregion
+
+                            //this enables the button depending on the Leadstatus the lead is saved as
+
+                            try
+                            {
+                                if (PolicyHolderBoolDC == false || MandateRequired == "False")
+                                //if (PolicyHolderBoolDC == false)
+
                                 {
                                     btnDebiCheck.Visibility = Visibility.Collapsed;
                                     DebiCheckBorder.Visibility = Visibility.Collapsed;
@@ -15504,7 +15578,11 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 8613 ||
                         GlobalSettings.ApplicationUser.ID == 42947 ||
                         GlobalSettings.ApplicationUser.ID == 42978 ||
-                        GlobalSettings.ApplicationUser.ID == 42022)
+                        GlobalSettings.ApplicationUser.ID == 42022 ||
+                        GlobalSettings.ApplicationUser.ID == 43565 ||
+                        GlobalSettings.ApplicationUser.ID == 42170 || 
+                        GlobalSettings.ApplicationUser.ID == 2232 ||
+                        GlobalSettings.ApplicationUser.ID == 3165)
                     {
                         btnDebiCheck.IsEnabled = true;
                     }
@@ -15549,7 +15627,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             else
             {
-                cmbSalesNotTransferredReasons.SelectedIndex = 3;
+                cmbSalesNotTransferredReasons.SelectedIndex = 2;
             }
             #endregion
         }
