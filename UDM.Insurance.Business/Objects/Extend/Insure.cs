@@ -2549,23 +2549,26 @@ namespace UDM.Insurance.Business
         #endregion Upgrade Lead Premium Report - Specific Functionalities
 
         #region Call Transfer Report
-        public static DataSet INGetReportCallTransfer( int? fkINCampaignIDs, DateTime fromDate, DateTime toDate)
+        public static DataSet INGetReportCallTransfer( int? fkINCampaignIDs, DateTime fromDate, DateTime toDate, string isupgrade)
         {
             object param1 = Database.GetParameter("@FKUserID", fkINCampaignIDs);
             object param2 = Database.GetParameter("@DateFrom", fromDate);
             object param3 = Database.GetParameter("@DateTo", toDate);
+            object param4 = Database.GetParameter("@IsUpgrade", isupgrade);
 
-            object[] paramArray = new[] { param1, param2, param3 };
+
+            object[] paramArray = new[] { param1, param2, param3, param4 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDCCallTransferStats", paramArray, 600);
         }
 
-        public static DataSet INGetReportCallTransferAgents( DateTime fromDate, DateTime toDate)
+        public static DataSet INGetReportCallTransferAgents( DateTime fromDate, DateTime toDate, string isupgrade)
         {
             object param2 = Database.GetParameter("@DateFrom", fromDate);
             object param3 = Database.GetParameter("@DateTo", toDate);
+            object param4 = Database.GetParameter("@IsUpgrade", isupgrade);
 
-            object[] paramArray = new[] { param2, param3 };
+            object[] paramArray = new[] { param2, param3, param4 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetTransferAgentsIDs", paramArray, 600);
         }
