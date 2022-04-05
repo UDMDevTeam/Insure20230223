@@ -9,6 +9,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ig="http://schemas.infragistics.com/xaml"
     xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf"
+    xmlns:igEditors="http://infragistics.com/Editors"
+    xmlns:igDP="http://infragistics.com/DataPresenter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -507,6 +509,9 @@
                                     TabIndex="0">
                                     <!--  DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"  -->
                                     <igWPF:XamDataGrid.Resources>
+                                        <Style TargetType="igEditors:XamCheckEditor">
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="XamCheckEditor_PreviewMouseLeftButtonDown"/>
+                                        </Style>
                                         <Style TargetType="{x:Type igWPF:DataRecordCellArea}">
                                             <Setter Property="Background" Value="{Binding Path=Record.Tag, RelativeSource={RelativeSource Self}}" />
                                         </Style>
@@ -516,10 +521,6 @@
                                     </igWPF:XamDataGrid.FieldLayoutSettings>
                                     <igWPF:XamDataGrid.FieldSettings>
                                         <igWPF:FieldSettings AllowEdit="false">
-
-
-
-
                                             <igWPF:FieldSettings.FilterCellEditorStyle>
 
                                                 <Style TargetType="{x:Type igWPF:XamComboEditor}">
@@ -543,6 +544,7 @@
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
+
                                             </igWPF:FieldSettings.FilterCellEditorStyle>
                                             <!--<igWPF:FieldSettings.CellPresenterStyle>-->
                                             <!--<Style TargetType="{x:Type igWPF:CellPresenter}">
@@ -570,6 +572,21 @@
                                             </igWPF:FieldSettings.EditorStyle>-->
                                         </igWPF:FieldSettings>
                                     </igWPF:XamDataGrid.FieldSettings>
+                                    <igDP:XamDataGrid.FieldLayouts>
+                                        <igDP:FieldLayout  Key="productLayout">
+                                            <igDP:FieldLayout.Fields>
+                                                <igDP:Field Name="IsChecked" Label="Active Status">
+                                                    <igDP:Field.Settings>
+                                                        <igDP:FieldSettings AllowEdit="True"
+					                                        EditAsType="{x:Type system:Boolean}" 
+					                                        EditorType="{x:Type igEditors:XamCheckEditor}"/>
+                                                    </igDP:Field.Settings>
+                                                </igDP:Field>
+
+                                            </igDP:FieldLayout.Fields>
+                                        </igDP:FieldLayout>
+                                    </igDP:XamDataGrid.FieldLayouts>
+
                                     <!--<igWPF:XamDataGrid.FieldLayouts>
                                         <igWPF:FieldLayout Key="Campaign">
                                             <igWPF:Field Name="CampaignID"
