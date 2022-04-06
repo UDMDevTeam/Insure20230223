@@ -40,10 +40,8 @@ namespace UDM.Insurance.Interface.Screens
         #region Constants
         public DispatcherTimer timer = new DispatcherTimer();
         public long? FKImportID = null;
-        public long? ImportID = null;
-        public string CallBackChecked = null; 
         string CMToSReferenceNumber;
-        private LeadApplicationData _laData = new LeadApplicationData();
+
         #endregion
 
 
@@ -67,19 +65,11 @@ namespace UDM.Insurance.Interface.Screens
             set { _jobTitle = value; OnPropertyChanged("JobTitle"); }
         }
 
-        public LeadApplicationData LaData
-        {
-            get { return _laData; }
-            set { _laData = value; }
-        }
-
         private readonly SalesScreenGlobalData _ssGlobalData = new SalesScreenGlobalData();
         List<long> CMAgentListLong = new List<long>();
 
-        string Username = ((User)GlobalSettings.ApplicationUser).LoginName;
-
-
         #endregion
+
 
         #region Constructors
 
@@ -93,10 +83,6 @@ namespace UDM.Insurance.Interface.Screens
             UserType = lkpUserType.SalesAgent;
 
             //JobTitle = 21;
-
-            
-
-            //CheckUserVersion(Username);
 
             InitializeComponent();
 
@@ -251,7 +237,7 @@ namespace UDM.Insurance.Interface.Screens
                     ds.Relations.Add(relBatchAgent);
 
                     xdgSales.DataSource = ds.Tables[0].DefaultView;
-                    
+
                 }
                 else
                 {
@@ -267,11 +253,7 @@ namespace UDM.Insurance.Interface.Screens
                     DataRelation relBatchAgent = new DataRelation("BatchLead", ds.Tables[1].Columns["LeadBookID"], ds.Tables[2].Columns["LeadBookID"]);
                     ds.Relations.Add(relBatchAgent);
 
-                    //ds.Tables[2].Columns.Add("CallBack", Type.GetType("System.Boolean"));
-
                     xdgSales.DataSource = ds.Tables[0].DefaultView;
-
-
 
                 }
             }
@@ -283,139 +265,6 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Arrow);
             }
-        }
-
-        private void LoadSalesCallBack() 
-        {
-
-            try
-            {
-                SetCursor(Cursors.Wait);
-
-                #region Restart The Counter
-                try
-                {
-                    if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
-                    {
-                        //SetAgentOnline();
-                        //timer.Start();
-                    }
-                }
-                catch
-                {
-
-                }
-
-                #endregion
-
-                LoadSalesGrid();
-                xdgSales.DataSource = null;
-
-                //if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
-                //{
-                //    DataSet ds = Insure.INGetSalesAssignedToCMAgent(_agentID);
-
-                //    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
-                //    ds.Relations.Add(relCampaignBatch);
-
-                //    DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroupType"] };
-                //    DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroupType"] };
-
-                //    DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
-                //    ds.Relations.Add(relBatchAgent);
-
-                //    xdgSales.DataSource = ds.Tables[0].DefaultView;
-
-                //}
-                //else if (UserType == lkpUserType.ConfirmationAgent)
-                //{
-                //    DataSet ds = Insure.INGetPossibleBumpUpsAssignedToBUAgent(_agentID);
-
-                //    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroup"], ds.Tables[1].Columns["CampaignGroup"]);
-                //    ds.Relations.Add(relCampaignBatch);
-
-                //    DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroup"] };
-                //    DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroup"] };
-
-                //    DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
-                //    ds.Relations.Add(relBatchAgent);
-
-                //    xdgSales.DataSource = ds.Tables[0].DefaultView;
-                //    //foreach (Field field in xdgSales.FieldLayouts[2].Fields)
-                //    //{
-                //    //    string fieldName = field.Name;
-                //    //    if (fieldName == "CallBackDate")
-                //    //    {
-
-                //    //        xdgSales.FieldLayouts[2].Fields[fieldName].Settings.AllowEdit = true;
-                //    //    }
-                //    //    else
-                //    //    {
-                //    //        continue;
-                //    //    }
-                //    //}
-                //}
-                //else if (UserType == lkpUserType.DebiCheckAgent)
-                //{
-
-                //    DataSet ds = Insure.INGetSalesAssignedToDCAgent(_agentID);
-
-                //    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
-                //    ds.Relations.Add(relCampaignBatch);
-
-                //    DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroupType"] };
-                //    DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroupType"] };
-
-                //    DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
-                //    ds.Relations.Add(relBatchAgent);
-
-                //    xdgSales.DataSource = ds.Tables[0].DefaultView;
-
-                //}
-                if (UserType == lkpUserType.SalesAgent)
-                {
-#if TRAININGBUILD
-                        DataSet ds = Insure.INGetLeadsAssignedToUserTraining(_agentID);
-#else
-                    DataSet ds = Insure.INGetLeadsAssignedToUser(_agentID);
-#endif
-
-                    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignID"], ds.Tables[1].Columns["CampaignID"]);
-                    ds.Relations.Add(relCampaignBatch);
-
-                    DataRelation relBatchAgent = new DataRelation("BatchLead", ds.Tables[1].Columns["LeadBookID"], ds.Tables[2].Columns["LeadBookID"]);
-                    ds.Relations.Add(relBatchAgent);
-
-                    //ds.Tables[2].Columns.Add("CallBack", Type.GetType("System.Boolean"));
-
-                    xdgSales.DataSource = ds.Tables[0].DefaultView;
-
-                    foreach (var r in xdgSales.Records)
-                    {
-                        r.IsExpanded = true;
-                        foreach (var c in r.ViewableChildRecords)
-                        {
-                            c.IsExpanded = true;
-                            foreach (var c1 in c.ViewableChildRecords)
-                            {
-                                c1.IsExpanded = true;
-                            }
-                        }
-
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-            finally
-            {
-                SetCursor(Cursors.Arrow);
-            }
-
-
         }
 
         private void LoadAgentDetails()
@@ -464,9 +313,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-
-                //CheckUserVersion(Username); 
-
                 DataRecord record = (DataRecord)xdgSales.ActiveRecord;
                 DataRecord drBatch = null;
                 DataRecord drCampaign = null;
@@ -513,7 +359,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Determining whether or not the lead has a status of cancelled
 
 
-                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver )
+                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
                     if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
                     {
@@ -643,7 +489,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver )
+                if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
                     #region Campaign
 
@@ -854,7 +700,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     #endregion Lead
 
-  
+
                 }
                 else if (UserType == lkpUserType.ConfirmationAgent)
                 {
@@ -1062,7 +908,7 @@ namespace UDM.Insurance.Interface.Screens
                     //    }
                     //}
                 }
-                else if(UserType == lkpUserType.DebiCheckAgent)
+                else if (UserType == lkpUserType.DebiCheckAgent)
                 {
                     #region Campaign
 
@@ -1392,7 +1238,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldReferrer = new Field("Referrer");
                     fieldReferrer.Visibility = Visibility.Visible;
-                    fieldReferrer.Width = new FieldLength(160);
+                    fieldReferrer.Width = new FieldLength(260);
                     fieldReferrer.Label = "Referrer";
 
                     Field fieldStatus = new Field("Status");
@@ -1402,42 +1248,26 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldDiaryReason = new Field("DiaryReason");
                     fieldDiaryReason.Visibility = Visibility.Visible;
-                    fieldDiaryReason.Width = new FieldLength(160);
+                    fieldDiaryReason.Width = new FieldLength(260);
                     fieldDiaryReason.Label = "Diary Reason";
 
-                    //XamCheckEditor cmb = new XamCheckEditor();
-                    //cmb.IsChecked = false;
-                    //cmb.Visibility = Visibility.Visible;
-                    //cmb.MouseDown += Cmb_MouseDown;
-
-                    Field fieldCallBack = new Field("CallBack");
-                    fieldCallBack.Visibility = Visibility.Visible;
-                    fieldCallBack.Width = new FieldLength(160);
-                    fieldCallBack.Label = "Call Back?";
-                    fieldCallBack.Settings.EditorType = typeof(XamCheckEditor);
-
-                    //XamCheckEditor cmb = new XamCheckEditor();
-                    //cmb.IsChecked = false;
-                    //cmb.Visibility = Visibility.Visible;
-                    //cmb.MouseDown += Cmb_MouseDown;
+                    Field fieldLeadBookRank = new Field("LeadBookRank");
+                    fieldLeadBookRank.Visibility = Visibility.Collapsed;
+                    fieldLeadBookRank.Width = new FieldLength(160);
+                    fieldLeadBookRank.Label = "LeadBookRank";
 
                     //List<string> Statuses = new List<string>();
                     //Statuses.Add("Call Back");
 
-
-
-                    //cmb.IsChecked = false;
+                    //XamCheckEditor cmb = new XamCheckEditor();
+                    //cmb.IsEnabled = true;
                     //cmb.IsReadOnly = false;
-                    //cmb.MouseDown += Cmb_MouseDown;
+                    //cmb.MouseDown += Cmb_MouseDown; 
 
-                    //Field fieldLeadBookRank = new Field("LeadBookRank");
-                    //fieldLeadBookRank.Visibility = Visibility.Collapsed;
-                    //fieldLeadBookRank.Width = new FieldLength(160);
-                    //fieldLeadBookRank.Label = "LeadBookRank";
-
-
-
-
+                    //Field fieldCallBack = new Field("CallBack");
+                    //fieldCallBack.Visibility = Visibility.Visible;
+                    //fieldCallBack.Width = new FieldLength(160);
+                    //fieldCallBack.Label = "Call Back?";
                     //fieldCallBack.Settings.EditorType = typeof(XamCheckEditor);
 
                     flLead.Fields.Add(fieldLeadBatchID);
@@ -1456,9 +1286,9 @@ namespace UDM.Insurance.Interface.Screens
 
                     flLead.Fields.Add(fieldDiaryReason);
 
-                    //flLead.Fields.Add(fieldLeadBookRank);
+                    flLead.Fields.Add(fieldLeadBookRank);
 
-                    flLead.Fields.Add(fieldCallBack);
+                    //flLead.Fields.Add(fieldCallBack);
 
                     xdgSales.FieldLayouts.Add(flLead);
                     #endregion Lead
@@ -1471,47 +1301,10 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        private void CheckUserVersion(string Username)
+        private void Cmb_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-            try
-            {
-
-                string LatestVersion;
-                string Version;
-
-                Username = ((User)GlobalSettings.ApplicationUser).LoginName;
-
-                DataTable dtVersionData = User.INGetVersionInfo(Username);
-
-                DataTable dtLatestVersionData = User.INGetLatestVersion();
-
-                LatestVersion = dtLatestVersionData.Rows[0]["Version"].ToString();
-
-                Version = dtVersionData.Rows[0]["Version"].ToString();
-
-                if (LatestVersion != Version)
-                {
-
-                    MessageBox.Show("This version of Insure is outdated. It will update now.", MessageBoxButton.OK.ToString());
-
-                    System.Windows.Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
-
-                }
-                else
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-
-
         }
-
 
         #endregion
 
@@ -1533,7 +1326,7 @@ namespace UDM.Insurance.Interface.Screens
                     _ssGlobalData.ScheduleScreen.Close();
                 });
 
-                if ((_agent?.FKUserType == (long) lkpUserType.Administrator) || (_agent?.FKUserType == (long) lkpUserType.Manager))
+                if ((_agent?.FKUserType == (long)lkpUserType.Administrator) || (_agent?.FKUserType == (long)lkpUserType.Manager))
                 {
                     if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
                     {
@@ -1553,7 +1346,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                     StartScreen startScreen = new StartScreen();
-                        OnClose(startScreen);
+                    OnClose(startScreen);
 
 
                 }
@@ -1594,7 +1387,7 @@ namespace UDM.Insurance.Interface.Screens
                                     int count = record.ParentRecord.ViewableChildRecords.Count;
                                     xdgSales.ActiveRecord = drLead;
                                     var recordIndex = xdgSales.ActiveRecord.Index;
-                            
+
                                     if (recordIndex >= 0)
                                     {
                                         if (recordIndex < 11)
@@ -1612,7 +1405,7 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                     //xdgSales.BringRecordIntoView(drLead);
 
-                                    
+
                                     return;
                                 }
                             }
@@ -1651,10 +1444,10 @@ namespace UDM.Insurance.Interface.Screens
                                     timer.Stop();
                                 }
 
-                                    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
 
 
-                            }                            
+                            }
                         }
                         else
                         {
@@ -1666,9 +1459,9 @@ namespace UDM.Insurance.Interface.Screens
                             }
 
                             ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
- 
+
                         }
-                        
+
                     }
                 }
             }
@@ -1683,7 +1476,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             IInputElement focusedElement = Keyboard.FocusedElement;
 
-            XamComboEditor xce = Utilities.GetAncestorFromType((DependencyObject) focusedElement, typeof(XamComboEditor), true) as XamComboEditor;
+            XamComboEditor xce = Utilities.GetAncestorFromType((DependencyObject)focusedElement, typeof(XamComboEditor), true) as XamComboEditor;
 
             ScrollViewer sv = Utilities.GetDescendantFromType(xdgSales, typeof(ScrollViewer), true) as ScrollViewer;
             if (sv != null) sv.ScrollToVerticalOffset(0);
@@ -1856,7 +1649,7 @@ namespace UDM.Insurance.Interface.Screens
                 btnCallMonitoringTrackingReport.Visibility = Visibility.Visible;
                 btnBumpUpStatsReport.Visibility = Visibility.Visible;
             }
-            else if(UserType.Value == lkpUserType.DebiCheckAgent)
+            else if (UserType.Value == lkpUserType.DebiCheckAgent)
             {
                 btnSalesReport.Visibility = Visibility.Collapsed;
                 btnConfirmationStats.Visibility = Visibility.Collapsed;
@@ -1970,10 +1763,10 @@ namespace UDM.Insurance.Interface.Screens
                 FKImportID = long.Parse(dtStatus.Rows[0]["FKImportID"].ToString());
                 long PopUpID = long.Parse(dtStatus.Rows[0]["ID"].ToString());
 
-                DataTable dtReferenceNumber = Methods.GetTableData("SELECT Top 1 RefNo FROM INImport WHERE ID = " + FKImportID );
+                DataTable dtReferenceNumber = Methods.GetTableData("SELECT Top 1 RefNo FROM INImport WHERE ID = " + FKImportID);
                 CMToSReferenceNumber = dtReferenceNumber.Rows[0]["RefNo"].ToString();
 
-                if(FKImportID == null)
+                if (FKImportID == null)
                 {
 
                 }
@@ -1998,7 +1791,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     }
-                    catch(Exception g)
+                    catch (Exception g)
                     {
                         timer.Interval = new TimeSpan(0, 0, 5);
                         timer.Start();
@@ -2047,7 +1840,7 @@ namespace UDM.Insurance.Interface.Screens
                 cmo.Online = "0";
                 cmo.Save(_validationResult);
             }
-            catch(Exception W)
+            catch (Exception W)
             {
 
             }
@@ -2139,7 +1932,7 @@ namespace UDM.Insurance.Interface.Screens
             //        }
             //    }
             //}
-            
+
 
         }
 
@@ -2161,7 +1954,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     activeTextEditor.Value = DateTime.Now;
                 }
-                
+
             }
         }
 
@@ -2172,10 +1965,10 @@ namespace UDM.Insurance.Interface.Screens
                 if (UserType == lkpUserType.ConfirmationAgent)
                 {
 
-                
+
                     long _possibleBumpUpID;
                     DataRecord currentRecord = (DataRecord)xdgSales.ActiveRecord;
-                
+
                     if (currentRecord.Cells.Count >= 13)
                     {
 
@@ -2192,7 +1985,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
@@ -2374,37 +2167,6 @@ namespace UDM.Insurance.Interface.Screens
             {
                 HandleException(ex);
             }
-        }
-
-
-        private void XamCheckEditor_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            string LeadStatus;
-            long? DiaryReason;
-
-
-            LaData.AppData.ImportID = Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString());
-
-            LaData.AppData.DiaryReasonID = 1;
-
-            LaData.AppData.LeadStatus = 9;
-
-
-            INImport import = new INImport((long)LaData.AppData.ImportID);
-
-            import.FKINLeadStatusID = LaData.AppData.LeadStatus;
-
-            import.FKINDiaryReasonID = LaData.AppData.DiaryReasonID;
-
-            import.Save(_validationResult);
-
-            //MessageBox.Show("The Diary Reason and Lead Status have been updated.");
-
-            LoadSalesCallBack(); 
-
-
-
         }
     }
 
