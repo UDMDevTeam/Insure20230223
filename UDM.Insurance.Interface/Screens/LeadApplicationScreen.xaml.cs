@@ -566,8 +566,18 @@ namespace UDM.Insurance.Interface.Screens
 
         private void LoadLead(long? importID)
         {
+
             try
             {
+                ClearApplicationScreen();
+            }
+            catch
+            {
+
+            }
+            try
+            {
+
                 try
                 {
                     chkMoveToLeadPermissions.IsChecked = false;
@@ -580,11 +590,10 @@ namespace UDM.Insurance.Interface.Screens
 
                 LeadLoadingBool = true;
 
-
+                btnForwardToDCAgent.Visibility = Visibility.Collapsed;
                 DebiCheckSentTwice = false;
                 Mandate1TB.Text = " ";
                 Mandate2TB.Text = " ";
-
 
 
                 SetCursor(Cursors.Wait);
@@ -3371,6 +3380,691 @@ namespace UDM.Insurance.Interface.Screens
                 //    _axCtPhone.RescheduleDialerLeadExUCID("19000", null, LaData.AppData.RefNo, null, null, 100, LaData.AppData.LeadStatus, null, null);
                 //}
 
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
+        public void ForwardToDCSave()
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                if (LogInfo())
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), "Inconsistent policy options found\nPlease correct and try saving again\nLead not saved\n", "Save Result", ShowMessageType.Exclamation);
+                    return;
+                }
+
+                LaData.AppData.IsLeadSaving = true;
+
+
+
+                Database.BeginTransaction(null, System.Data.IsolationLevel.Snapshot);
+
+                #region Import
+                if (LaData.AppData.ImportID.HasValue)
+                {
+                    INImport import = new INImport((long)LaData.AppData.ImportID);
+                    import.FKINLeadStatusID = LaData.AppData.LeadStatus;
+
+                    import.FKUserID = LaData.AppData.AgentID;
+                    import.DateOfSale = LaData.AppData.DateOfSale;
+
+                    #region Sale Data (page5)
+
+                    import.FKBankCallRefUserID = LaData.SaleData.BankCallRefID;
+                    import.BankStationNo = LaData.SaleData.BankStationNo;
+                    import.BankDate = LaData.SaleData.BankDate;
+                    import.BankTime = LaData.SaleData.BankTime;
+                    import.FKBankTelNumberTypeID = (long?)LaData.SaleData.BankTelNumberType;
+
+                    import.FKSaleCallRefUserID = LaData.SaleData.SaleCallRefID;
+                    import.SaleStationNo = medSaleStationNo.Value as string;
+                    import.SaleDate = dteSaleDate.DateValue;
+                    import.SaleTime = (dteSaleTime.DateValue == null) ? (TimeSpan?)null : (DateTime.Parse(dteSaleTime.DateValue.ToString())).TimeOfDay;
+                    import.FKSaleTelNumberTypeID = (long?)LaData.SaleData.SaleTelNumberType;
+
+                    import.FKConfCallRefUserID = (long?)cmbConfCallRef.SelectedValue;
+                    import.FKBatchCallRefUserID = (long?)cmbBatchCallRef.SelectedValue;
+                    import.ConfStationNo = medConfStationNo.Value as string;
+                    import.ConfDate = dteConfDate.DateValue;
+                    import.ConfWorkDate = dteConfWorkDate.DateValue;
+                    import.ConfTime = (dteConfTime.DateValue == null) ? (TimeSpan?)null : (DateTime.Parse(dteConfTime.DateValue.ToString())).TimeOfDay;
+                    import.FKConfTelNumberTypeID = (long?)LaData.SaleData.ConfTelNumberType;
+
+                    import.Notes = LaData.SaleData.Notes;
+
+                    import.Feedback = LaData.SaleData.Feedback;
+                    import.FeedbackDate = LaData.SaleData.FeedbackDate;
+                    import.FKINLeadFeedbackID = LaData.SaleData.LeadFeedbackID;
+
+                    import.FKINConfirmationFeedbackID = LaData.SaleData.ConfirmationFeedbackID;
+
+                    #endregion
+
+                    import.FKClosureID = Convert.ToBoolean(chkClosure.IsChecked) ? LaData.ClosureData.ClosureID : null;
+                    import.IsConfirmed = LaData.AppData.IsConfirmed;
+                    import.IsMining = LaData.AppData.IsMining;
+                    //Change: Pheko
+                    //if (_declineReasonID == -1)
+                    //{
+                    //    _declineReasonID = LaData.AppData.DeclineReasonID;
+                    //}
+                    //if (_cancellationReasonID == -1)
+                    //{
+                    //    _cancellationReasonID = LaData.AppData.CancellationReasonID;
+                    //}
+
+                    import.FKINDeclineReasonID = LaData.AppData.DeclineReasonID;
+                    import.FKINCancellationReasonID = LaData.AppData.CancellationReasonID;
+                    import.FKINCarriedForwardReasonID = LaData.AppData.CarriedForwardReasonID;
+                    import.FKINCallMonitoringCarriedForwardReasonID = LaData.AppData.FKINCallMonitoringCarriedForwardReasonID; // https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/222494520/comments
+                    import.FKINCallMonitoringCancellationReasonID = LaData.AppData.FKINCallMonitoringCancellationReasonID;
+                    import.FKINDiaryReasonID = LaData.AppData.DiaryReasonID;
+                    import.FutureContactDate = LaData.AppData.FutureContactDate;
+                    import.CancerOption = LaData.PolicyData.PlatinumPlan;
+                    import.PermissionQuestionAsked = LaData.ClosureData.PermissionQuestionAsked;
+
+                    import.Save(_validationResult);
+
+                }
+                else
+                {
+                    throw new Exception("importID Error");
+                }
+                #endregion
+
+                #region Permission Lead
+                try
+                {
+                    if (chkLeadPermission.IsChecked == true)
+                    {
+                        string strQuery;
+                        strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                        DataTable dtPermissionLeadIsloaded = Methods.GetTableData(strQuery);
+                        if (dtPermissionLeadIsloaded.Rows.Count == 0)
+                        {
+                            GlobalSettings.IsLoadedPermission = 0;
+                        }
+                        else
+                        {
+                            GlobalSettings.IsLoadedPermission = 1;
+
+                        }
+
+                        if (medLA2ContactPhone.Text == null || medLA2ContactPhone.Text == "")
+                        {
+
+                        }
+                        else
+                        {
+
+                            long? ID = null;
+                            DataTable dtIsloaded;
+                            long IDReal;
+                            try
+                            {
+                                string strQueryIsLoaded;
+                                strQueryIsLoaded = "SELECT top 1 ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID; ;
+                                dtIsloaded = Methods.GetTableData(strQueryIsLoaded);
+                                ID = dtIsloaded.Rows[0]["ID"] as long?;
+                                IDReal = long.Parse(ID.ToString());
+                            }
+                            catch
+                            {
+                                IDReal = 0;
+                                dtIsloaded = null;
+                            }
+
+                            string strQuerySavedBy;
+                            strQuerySavedBy = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+                            DataTable dtPermissionSavedByIsloaded = Methods.GetTableData(strQuerySavedBy);
+
+                            string strQueryDateSaved;
+                            strQueryDateSaved = "SELECT top 1 SavedBy FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+                            DataTable dtPermissiondateSavedIsloaded = Methods.GetTableData(strQueryDateSaved);
+
+                            if (dtIsloaded == null)
+                            {
+                                string dateString = "";
+                                DateTime resultingDate;
+                                try
+                                {
+                                    dateString = dteLA2DateOfBirth.Text;
+                                    var fr = new System.Globalization.CultureInfo("fr-FR");
+                                    resultingDate = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
+                                }
+                                catch
+                                {
+                                    resultingDate = DateTime.Parse("0000/00/00");
+                                }
+
+                                INPermissionLead inpermissionlead = new INPermissionLead();
+                                try { inpermissionlead.FKINImportID = LaData.AppData.ImportID; } catch { }
+                                try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch { }
+                                try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch { }
+                                try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { }
+                                try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { }
+                                try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { }
+
+                                try { inpermissionlead.DateOfBirth = resultingDate; } catch { }
+
+                                if (dtPermissionSavedByIsloaded.Rows.Count == 0)
+                                {
+                                    try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { }
+                                }
+                                if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                                {
+                                    try { inpermissionlead.DateSaved = DateTime.Now; } catch { }
+                                }
+
+                                inpermissionlead.Save(_validationResult);
+
+                                ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission successfully saved.\n", "Save Result", ShowMessageType.Information);
+                            }
+                            else
+                            {
+                                string dateString = "";
+                                DateTime resultingDate;
+                                try
+                                {
+                                    dateString = dteLA2DateOfBirth.Text;
+                                    var fr = new System.Globalization.CultureInfo("fr-FR");
+                                    resultingDate = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
+                                }
+                                catch
+                                {
+                                    resultingDate = DateTime.Parse("0000/00/00");
+                                }
+
+
+                                INPermissionLead inpermissionlead = new INPermissionLead(IDReal);
+                                try { inpermissionlead.FKINImportID = LaData.AppData.ImportID; } catch { }
+                                try { inpermissionlead.Title = cmbLA2Title.Text.ToString(); } catch { }
+                                try { inpermissionlead.Firstname = medLA2Name.Text.ToString(); } catch { }
+                                try { inpermissionlead.Surname = medLA2Surname.Text.ToString(); } catch { }
+                                try { inpermissionlead.Cellnumber = medLA2ContactPhone.Text.ToString(); } catch { }
+                                try { inpermissionlead.AltNumber = medAltContactPhone.Text.ToString(); } catch { }
+
+
+                                try { inpermissionlead.DateOfBirth = resultingDate; } catch { }
+
+                                if (dtPermissionSavedByIsloaded.Rows.Count == 0)
+                                {
+                                    try { inpermissionlead.SavedBy = GlobalSettings.ApplicationUser.ID.ToString(); } catch { }
+                                }
+
+                                if (dtPermissiondateSavedIsloaded.Rows.Count == 0)
+                                {
+                                    try { inpermissionlead.DateSaved = DateTime.Now; } catch { }
+                                }
+
+                                inpermissionlead.Save(_validationResult);
+
+                                //ShowMessageBox(new INMessageBoxWindow1(), "Lead Permission successfully saved.\n", "Save Result", ShowMessageType.Information);
+                            }
+
+
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+
+
+                #endregion
+
+                #region Lead
+
+                if (LaData.LeadData.LeadID.HasValue)
+                {
+                    INLead lead = new INLead((long)LaData.LeadData.LeadID);
+
+                    lead.FKINTitleID = LaData.LeadData.TitleID;
+                    lead.Initials = LaData.LeadData.Initials;
+                    lead.FirstName = UppercaseFirst(LaData.LeadData.Name);
+                    lead.Surname = UppercaseFirst(LaData.LeadData.Surname);
+                    lead.IDNo = UppercaseFirst(LaData.LeadData.IDNumber);
+                    lead.PassportNo = UppercaseFirst(LaData.LeadData.PassportNumber);
+                    lead.DateOfBirth = LaData.LeadData.DateOfBirth;
+                    lead.FKGenderID = LaData.LeadData.GenderID;
+                    lead.TelHome = LaData.LeadData.TelHome;
+                    lead.TelCell = LaData.LeadData.TelCell;
+                    lead.TelWork = LaData.LeadData.TelWork;
+                    lead.TelOther = LaData.LeadData.TelOther;
+                    lead.Address1 = UppercaseFirst(LaData.LeadData.Address1);
+                    lead.Address2 = UppercaseFirst(LaData.LeadData.Address2);
+                    lead.Address3 = UppercaseFirst(LaData.LeadData.Address3);
+                    lead.Address4 = UppercaseFirst(LaData.LeadData.Address4);
+                    lead.Address5 = UppercaseFirst(LaData.LeadData.Address5);
+                    lead.PostalCode = LaData.LeadData.PostalCode;
+                    lead.Email = LaData.LeadData.Email;
+                    lead.Save(_validationResult);
+                }
+                else
+                {
+                    throw new Exception("leadID Error");
+                }
+
+                #endregion
+
+                #region ImportExtra
+
+                INImportExtra inImportExtra = INImportExtraMapper.SearchOne(LaData.AppData.ImportID, null, null, null, null, null, null, null, null) ?? new INImportExtra();
+
+                inImportExtra.FKINImportID = LaData.AppData.ImportID;
+                inImportExtra.Extension1 = GetUserExtension(LaData.AppData.AgentID);
+                inImportExtra.NotPossibleBumpUp = LaData.ImportExtraData.NotPossibleBumpUp;
+                inImportExtra.FKCMCallRefUserID = LaData.SaleData.FKCMCallRefUserID;
+                inImportExtra.EMailRequested = LaData.AppData.EMailRequested;
+                inImportExtra.CustomerCareRequested = LaData.AppData.CustomerCareRequested;
+                inImportExtra.IsGoldenLead = LaData.AppData.IsGoldenLead;
+                inImportExtra.Save(_validationResult);
+
+                #endregion
+
+                if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)//no need for extension
+                {
+                    #region Bank Details
+
+                    {
+                        INBankDetails inBankDetails = (LaData.BankDetailsData.BankDetailsID == null) ? new INBankDetails() : new INBankDetails((long)LaData.BankDetailsData.BankDetailsID);
+
+                        if (LaData.BankDetailsData.PaymentTypeID >= 0)
+                        {
+                            switch (LaData.BankDetailsData.PaymentType)
+                            {
+                                case lkpPaymentType.DebitOrder:
+                                    inBankDetails.FKPaymentMethodID = LaData.BankDetailsData.PaymentTypeID;
+
+                                    inBankDetails.FKAHTitleID = LaData.BankDetailsData.TitleID;
+                                    inBankDetails.AHInitials = LaData.BankDetailsData.Initials;
+                                    inBankDetails.AHFirstName = UppercaseFirst(LaData.BankDetailsData.Name);
+                                    inBankDetails.AHSurname = UppercaseFirst(LaData.BankDetailsData.Surname);
+                                    inBankDetails.AHIDNo = UppercaseFirst(LaData.BankDetailsData.IDNumber);
+                                    inBankDetails.AHTelHome = LaData.BankDetailsData.TelHome;
+                                    inBankDetails.AHTelCell = LaData.BankDetailsData.TelCell;
+                                    inBankDetails.AHTelWork = LaData.BankDetailsData.TelWork;
+
+                                    inBankDetails.FKSigningPowerID = LaData.BankDetailsData.SigningPowerID;
+
+                                    inBankDetails.AccountHolder = UppercaseFirst(LaData.BankDetailsData.AccountHolder);
+                                    inBankDetails.FKBankID = LaData.BankDetailsData.BankID;
+                                    inBankDetails.FKBankBranchID = LaData.BankDetailsData.BankBranchCodeID;
+                                    inBankDetails.AccountNo = LaData.BankDetailsData.AccountNumber;
+                                    inBankDetails.FKAccountTypeID = LaData.BankDetailsData.AccountTypeID;
+                                    inBankDetails.DebitDay = LaData.BankDetailsData.DebitDay;
+                                    inBankDetails.AccNumCheckStatus = Convert.ToByte(LaData.BankDetailsData.lkpAccNumCheckStatus);
+                                    inBankDetails.AccNumCheckMsg = LaData.BankDetailsData.AccNumCheckMsg;
+                                    inBankDetails.AccNumCheckMsgFull = LaData.BankDetailsData.AccNumCheckMsgFull;
+                                    break;
+                            }
+                            inBankDetails.Save(_validationResult);
+                            LaData.BankDetailsData.BankDetailsID = inBankDetails.ID;
+                        }
+                    }
+                    #endregion
+                }
+
+                if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)//no need for extension
+                {
+                    #region Policy
+                    if (LaData.PolicyData.PolicyID.HasValue)
+                    {
+                        int policyID = Convert.ToInt32(LaData.PolicyData.PolicyID);
+                        INPolicy policy = new INPolicy(policyID);
+
+                        bool failed = false;
+
+                        try { policy.CommenceDate = LaData.PolicyData.CommenceDate; } catch (Exception e) { failed = true; }
+                        policy.FKINBankDetailsID = LaData.BankDetailsData.BankDetailsID;
+                        policy.FKINOptionID = LaData.PolicyData.OptionID;
+                        policy.FKINOptionFeesID = LaData.PolicyData.OptionFeesID;
+                        if (inImportCallMonitoring != null && policy.UDMBumpUpOption == false && LaData.PolicyData.UDMBumpUpOption == true)
+                        {
+                            inImportCallMonitoring.IsCallMonitored = false;
+                        }
+                        policy.UDMBumpUpOption = LaData.PolicyData.UDMBumpUpOption;
+
+                        policy.BumpUpAmount = LaData.PolicyData.UDMBumpUpOption ? LaData.PolicyData.BumpUpAmount : null;
+                        policy.ReducedPremiumOption = LaData.PolicyData.ReducedPremiumOption;
+                        policy.ReducedPremiumAmount = LaData.PolicyData.ReducedPremiumOption ? LaData.PolicyData.ReducedPremiumAmount : null;
+
+                        //policy.FKINBumpUpOptionID = cmbPlatinumBumpUp.SelectedValue as long?;
+
+                        policy.OptionLA2 = LaData.PolicyData.IsLA2Checked;
+                        policy.OptionFuneral = LaData.PolicyData.IsFuneralChecked;
+                        policy.TotalPremium = LaData.AppData.IsLeadUpgrade ? LaData.PolicyData.UpgradePremium : LaData.PolicyData.TotalPremium;
+                        policy.TotalInvoiceFee = LaData.PolicyData.TotalInvoiceFee;
+                        policy.FKINOptionFeesID = LaData.PolicyData.OptionFeesID;
+                        policy.OptionChild = LaData.AppData.IsLeadUpgrade ? LaData.PolicyData.IsChildUpgradeChecked : LaData.PolicyData.IsChildChecked;
+
+                        policy.BumpUpOffered = LaData.PolicyData.BumpUpOffered;
+                        try
+                        {
+                            if (failed == true)
+                            {
+                                policy.CommenceDate = LaData.PolicyData.CommenceDate;
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+
+                        //LaData.PolicyData.BumpUpOffered = Convert.ToBoolean(dtPolicy.Rows[0]["BumpUpOffered"]);
+                        //LaData.PolicyData.CanOfferBumpUp = Convert.ToBoolean(dtPolicy.Rows[0]["CanOfferBumpUp"]);
+
+                        policy.Save(_validationResult);
+                    }
+                    else
+                    {
+                        throw new Exception("policyID Error");
+                    }
+                    #endregion
+                }
+
+                if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)//no need for extension
+                {
+                    #region LA
+
+                    {
+                        for (int i = 0; i < LeadApplicationData.MaxLA; i++)
+                        {
+                            LeadApplicationData.LA LAData = LaData.LAData[i];
+
+                            if (HasEntriesLA(LAData))
+                            {
+                                INLifeAssured inLifeAssured = (LAData.LifeAssuredID == null) ? new INLifeAssured() : new INLifeAssured((long)LAData.LifeAssuredID);
+
+                                inLifeAssured.FKINTitleID = LAData.TitleID;
+                                inLifeAssured.FKGenderID = LAData.GenderID;
+                                inLifeAssured.FirstName = UppercaseFirst(LAData.Name);
+                                inLifeAssured.Surname = UppercaseFirst(LAData.Surname);
+                                inLifeAssured.IDNo = LAData.IDNumber;
+                                inLifeAssured.DateOfBirth = LAData.DateOfBirth;
+                                inLifeAssured.FKINRelationshipID = LAData.RelationshipID;
+                                inLifeAssured.TelContact = LAData.TelContact;
+                                inLifeAssured.Save(_validationResult);
+
+                                if (LAData.LifeAssuredID == null) //only if new LA create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINLifeAssured (ID) VALUES ('" + inLifeAssured.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                LAData.LifeAssuredID = inLifeAssured.ID;
+
+                                INPolicyLifeAssured inPolicyLifeAssured = (LAData.PolicyLifeAssuredID == null) ? new INPolicyLifeAssured() : new INPolicyLifeAssured((long)LAData.PolicyLifeAssuredID);
+                                inPolicyLifeAssured.FKINPolicyID = LaData.PolicyData.PolicyID;
+                                inPolicyLifeAssured.FKINLifeAssuredID = LAData.LifeAssuredID;
+                                inPolicyLifeAssured.LifeAssuredRank = i + 1;
+                                inPolicyLifeAssured.Save(_validationResult);
+
+                                if (LAData.PolicyLifeAssuredID == null) //only if new LA create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINPolicyLifeAssured (ID, FKINPolicyID, FKINLifeAssuredID, LifeAssuredRank) VALUES (";
+                                    strQuery += "'" + inPolicyLifeAssured.ID + "',";
+                                    strQuery += "'" + LaData.PolicyData.PolicyID + "',";
+                                    strQuery += "'" + LAData.LifeAssuredID + "',";
+                                    strQuery += "'" + inPolicyLifeAssured.LifeAssuredRank + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                LAData.PolicyLifeAssuredID = inPolicyLifeAssured.ID;
+                            }
+                            else
+                            {
+                                if (LAData.LifeAssuredID != null)
+                                {
+                                    INPolicyLifeAssuredCollection inPolicyLifeAssuredCollection = INPolicyLifeAssuredMapper.Search(LaData.PolicyData.PolicyID, LAData.LifeAssuredID, i + 1, null);
+
+                                    foreach (INPolicyLifeAssured inPolicyLifeAssured in inPolicyLifeAssuredCollection)
+                                    {
+                                        inPolicyLifeAssured.Delete(_validationResult);
+                                    }
+
+                                    INLifeAssured inLifeAssured = new INLifeAssured((long)LAData.LifeAssuredID);
+                                    inLifeAssured.Delete(_validationResult);
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion
+                }
+
+                if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)//no need for extension
+                {
+                    #region Beneficiaries
+
+                    {
+                        for (int i = 0; i < LeadApplicationData.MaxBeneficiaries; i++)
+                        {
+                            LeadApplicationData.Beneficiary BeneficiaryData = LaData.BeneficiaryData[i];
+                            if (HasEntriesBeneficiary(BeneficiaryData))
+                            {
+                                INBeneficiary inBeneficiary = (BeneficiaryData.BeneficiaryID == null) ? new INBeneficiary() : new INBeneficiary((long)BeneficiaryData.BeneficiaryID);
+
+                                inBeneficiary.FKINTitleID = BeneficiaryData.TitleID;
+                                inBeneficiary.FKGenderID = BeneficiaryData.GenderID;
+                                inBeneficiary.FirstName = UppercaseFirst(BeneficiaryData.Name);
+                                inBeneficiary.Surname = UppercaseFirst(BeneficiaryData.Surname);
+                                inBeneficiary.DateOfBirth = BeneficiaryData.DateOfBirth;
+                                inBeneficiary.FKINRelationshipID = BeneficiaryData.RelationshipID;
+                                inBeneficiary.Notes = UppercaseFirst(BeneficiaryData.Notes);
+                                inBeneficiary.TelContact = BeneficiaryData.TelContact;
+                                inBeneficiary.Save(_validationResult);
+
+                                if (BeneficiaryData.BeneficiaryID == null) //only if new beneficiary create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINBeneficiary (ID) VALUES ('" + inBeneficiary.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                BeneficiaryData.BeneficiaryID = inBeneficiary.ID;
+
+                                INPolicyBeneficiary inPolicyBeneficiary = (BeneficiaryData.PolicyBeneficiaryID == null) ? new INPolicyBeneficiary() : new INPolicyBeneficiary((long)BeneficiaryData.PolicyBeneficiaryID);
+                                inPolicyBeneficiary.FKINPolicyID = LaData.PolicyData.PolicyID;
+                                inPolicyBeneficiary.FKINBeneficiaryID = BeneficiaryData.BeneficiaryID;
+                                inPolicyBeneficiary.BeneficiaryRank = i + 1;
+                                inPolicyBeneficiary.BeneficiaryPercentage = BeneficiaryData.Percentage;
+                                inPolicyBeneficiary.Save(_validationResult);
+
+                                if (BeneficiaryData.PolicyBeneficiaryID == null) //only if new beneficiary create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINPolicyBeneficiary (ID, FKINPolicyID, FKINBeneficiaryID, BeneficiaryRank) VALUES (";
+                                    strQuery += "'" + inPolicyBeneficiary.ID + "',";
+                                    strQuery += "'" + LaData.PolicyData.PolicyID + "',";
+                                    strQuery += "'" + BeneficiaryData.BeneficiaryID + "',";
+                                    strQuery += "'" + inPolicyBeneficiary.BeneficiaryRank + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                BeneficiaryData.PolicyBeneficiaryID = inPolicyBeneficiary.ID;
+                            }
+                            else
+                            {
+                                if (BeneficiaryData.BeneficiaryID != null)
+                                {
+                                    INPolicyBeneficiaryCollection inPolicyBeneficiaryCollection = INPolicyBeneficiaryMapper.Search(LaData.PolicyData.PolicyID, BeneficiaryData.BeneficiaryID, i + 1, null, null);
+
+                                    foreach (INPolicyBeneficiary inPolicyBeneficiary in inPolicyBeneficiaryCollection)
+                                    {
+                                        inPolicyBeneficiary.Delete(_validationResult);
+                                    }
+
+                                    INBeneficiary inBeneficiary = new INBeneficiary((long)BeneficiaryData.BeneficiaryID);
+                                    inBeneficiary.Delete(_validationResult);
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion
+                }
+
+                if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)//no need for extension
+                {
+                    #region Children
+
+                    {
+                        for (int i = 0; i < LeadApplicationData.MaxChildren; i++)
+                        {
+                            LeadApplicationData.Child ChildData = LaData.ChildData[i];
+
+                            if (HasEntriesChild(ChildData))
+                            {
+                                INChild inChild = (ChildData.ChildID == null) ? new INChild() : new INChild((long)ChildData.ChildID);
+                                inChild.DateOfBirth = ChildData.DateOfBirth;
+                                inChild.Save(_validationResult);
+
+                                if (ChildData.ChildID == null) //only if new child create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINChild (ID) VALUES ('" + inChild.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                ChildData.ChildID = inChild.ID;
+
+                                INPolicyChild inPolicyChild = (ChildData.PolicyChildID == null) ? new INPolicyChild() : new INPolicyChild((long)ChildData.PolicyChildID);
+                                inPolicyChild.FKINPolicyID = LaData.PolicyData.PolicyID;
+                                inPolicyChild.FKINChildID = inChild.ID;
+                                inPolicyChild.ChildRank = i + 1;
+                                inPolicyChild.Save(_validationResult);
+
+                                if (ChildData.PolicyChildID == null) //only if new child create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINPolicyChild (ID, FKINPolicyID, FKINChildID, ChildRank) VALUES (";
+                                    strQuery += "'" + inPolicyChild.ID + "',";
+                                    strQuery += "'" + LaData.PolicyData.PolicyID + "',";
+                                    strQuery += "'" + ChildData.ChildID + "',";
+                                    strQuery += "'" + inPolicyChild.ChildRank + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+                                ChildData.PolicyChildID = inPolicyChild.ID;
+                            }
+                            else
+                            {
+                                if (ChildData.PolicyChildID != null)
+                                {
+                                    INPolicyChild inPolicyChild = new INPolicyChild((long)ChildData.PolicyChildID);
+                                    inPolicyChild.Delete(_validationResult);
+                                }
+                                if (ChildData.ChildID != null)
+                                {
+                                    INChild inChild = new INChild((long)ChildData.ChildID);
+                                    inChild.Delete(_validationResult);
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion
+                }
+
+                #region NextOfKin
+
+                {
+                    for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                    {
+                        LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+
+                        INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+
+                        inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                        inNextOfKin.FirstName = UppercaseFirst(NextOfKinData.Name);
+                        inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
+                        inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
+                        inNextOfKin.TelContact = NextOfKinData.TelContact;
+                        inNextOfKin.Save(_validationResult);
+
+                        if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                        {
+                            string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                            Methods.ExecuteSQLNonQuery(strQuery);
+                        }
+
+                        NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                    }
+                }
+
+                #endregion
+
+
+
+                #region Call Monitoring Details
+                if (inImportCallMonitoring != null)
+                {
+                    inImportCallMonitoring.Save(_validationResult);
+                }
+
+
+
+                #endregion
+
+
+                CommitTransaction("");
+
+
+
+                switch (LaData.AppData.LeadStatus)
+                {
+                    case 1:
+                        if (LaData.UserData.UserTypeID == 2)
+                        {
+                            //CommitTransaction("");
+
+                            INMessageBoxWindow1 inMessageBoxWindow = new INMessageBoxWindow1();
+
+                            SolidColorBrush brush = new SolidColorBrush((Color)FindResource("BrandedColourIN"));
+                            inMessageBoxWindow.txtDescription.Foreground = brush;
+
+                            ColorAnimation anima = new ColorAnimation((Color)FindResource("BrandedColourIN"), Colors.White, new Duration(TimeSpan.FromMilliseconds(300)));
+                            anima.AutoReverse = true;
+                            anima.RepeatBehavior = RepeatBehavior.Forever;
+                            brush.BeginAnimation(SolidColorBrush.ColorProperty, anima);
+
+                            DoubleAnimation siz = new DoubleAnimation(18, 24, new Duration(TimeSpan.FromSeconds(2)));
+                            siz.AutoReverse = true;
+                            siz.RepeatBehavior = RepeatBehavior.Forever;
+                            inMessageBoxWindow.txtDescription.BeginAnimation(FontSizeProperty, siz);
+
+                            //inMessageBoxWindow.txtDescription.FontSize = 24;
+                            inMessageBoxWindow.txtDescription.FontFamily = new FontFamily("Arial");
+                            ShowMessageBox(inMessageBoxWindow, "Great job! This is a completed sale.\n", "Save Result", ShowMessageType.Information);
+                        }
+                        else
+                        {
+                            ShowMessageBox(new INMessageBoxWindow1(), "Lead successfully saved.\n", "Save Result", ShowMessageType.Information);
+                        }
+                        break;
+
+                    default:
+                        CommitTransaction("");
+                        ShowMessageBox(new INMessageBoxWindow1(), "Lead successfully saved.\n", "Save Result", ShowMessageType.Information);
+                        break;
+                }
+
+                //ClearApplicationScreen();
+                medReference.Focus();
+            }
+
+            catch (Exception ex)
+            {
+                Database.CancelTransactions();
+                HandleException(ex);
+
+                //ClearApplicationScreen();
+                medReference.Focus();
+            }
+
+            finally
+            {
                 SetCursor(Cursors.Arrow);
             }
         }
@@ -8998,6 +9692,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        btnForwardToDCAgent.Visibility = Visibility.Visible;
                         break;
                     #endregion
 
@@ -14099,6 +14794,8 @@ namespace UDM.Insurance.Interface.Screens
         }
 
         #endregion
+
+        #region Override Button
         private void btnOverrideBumpUp_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -14163,6 +14860,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
         }
+        #endregion
 
         #region Permission Lead
         private void btnPermissionLead_Click(object sender, RoutedEventArgs e)
@@ -14268,7 +14966,6 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
         #endregion
-
 
         private void btnDebiCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -15003,8 +15700,6 @@ namespace UDM.Insurance.Interface.Screens
                     DebitDayPLLKP = (string)customObject["DebitDay"];
                     string policyHolderBool = (string)customObject["PolicyOwner"];
                     //string policyHolderBool = "0";
-
-
                     if (policyHolderBool == "1")
                     {
                         PolicyHolderBoolDC = true;
@@ -15013,19 +15708,19 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         PolicyHolderBoolDC = false;
                     }
+                }
+                #endregion
 
-
-                    if (BankPLLKP == null || BankPLLKP == "")
-                    {
-                        GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
-                        GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
-                    }
-                    else
-                    {
-                        GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
-                        GotBankingDetailsPLLBL2.Text = " ";
-                    }
-
+                #region Additional Rules
+                if (BankPLLKP == null || BankPLLKP == "")
+                {
+                    GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                    GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
+                }
+                else
+                {
+                    GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
+                    GotBankingDetailsPLLBL2.Text = " ";
                 }
                 #endregion
 
@@ -15580,9 +16275,10 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 42978 ||
                         GlobalSettings.ApplicationUser.ID == 42022 ||
                         GlobalSettings.ApplicationUser.ID == 43565 ||
-                        GlobalSettings.ApplicationUser.ID == 42170 || 
+                        GlobalSettings.ApplicationUser.ID == 42170 ||
                         GlobalSettings.ApplicationUser.ID == 2232 ||
-                        GlobalSettings.ApplicationUser.ID == 3165)
+                        GlobalSettings.ApplicationUser.ID == 3165 ||
+                        GlobalSettings.ApplicationUser.ID == 43744)
                     {
                         btnDebiCheck.IsEnabled = true;
                     }
@@ -15611,7 +16307,7 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
-            if(ClosurePage.Visibility == Visibility.Visible)
+            if (ClosurePage.Visibility == Visibility.Visible)
             {
                 AutoPopulateNADCReason();
             }
@@ -15778,33 +16474,155 @@ namespace UDM.Insurance.Interface.Screens
         }
         #endregion
 
+        #region Sale Transfer Reasons Workings
         private void SalesNotTransferredCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                if (LeadLoadingBool == true)
+                //if the selected value 2 is "Overtime Shift"
+                if(int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 2)
                 {
+                    if (DateTime.Now.DayOfWeek.ToString() == "Friday")
+                    {
+                        if (DateTime.Now.Hour >= 15)
+                        {
+
+                                if (LeadLoadingBool == true)
+                                {
+
+                                }
+                                else
+                                {
+                                    DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                                    DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                                    if (value.Rows.Count == 0)
+                                    {
+                                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                        details.FKImportID = LaData.AppData.ImportID;
+                                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                        details.Save(_validationResult);
+                                    }
+                                    else
+                                    {
+                                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                        details.Save(_validationResult);
+                                    }
+                                }
+                        }
+                        else
+                        {
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "Reminder that the Overtime shift ends at 15h30", "Reminder - Overtime", ShowMessageType.Exclamation);
+                            cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                        }
+                    }
+                    else if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
+                    {
+                        if(DateTime.Now.Hour >= 14)
+                        {
+                            if (LeadLoadingBool == true)
+                            {
+
+                            }
+                            else
+                            {
+                                DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                                DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                                if (value.Rows.Count == 0)
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                    details.FKImportID = LaData.AppData.ImportID;
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
+                                }
+                                else
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "Reminder that the Overtime shift ends at 14h00", "Reminder - Overtime", ShowMessageType.Exclamation);
+                            cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                        }
+                    }
+                    else
+                    {
+                        if (DateTime.Now.Hour >= 18)
+                        {
+                            if (LeadLoadingBool == true)
+                            {
+
+                            }
+                            else
+                            {
+                                DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                                DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                                if (value.Rows.Count == 0)
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                    details.FKImportID = LaData.AppData.ImportID;
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
+                                }
+                                else
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "Reminder that the Overtime shift ends at 18h00", "Reminder - Overtime", ShowMessageType.Exclamation);
+                            cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                        }
+                    }
+
+
+
+
+
 
                 }
                 else
                 {
-                    DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
-                    DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
-
-                    if (value.Rows.Count == 0)
+                    if (LeadLoadingBool == true)
                     {
-                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
-                        details.FKImportID = LaData.AppData.ImportID;
-                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
-                        details.Save(_validationResult);
+
                     }
                     else
                     {
-                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
-                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
-                        details.Save(_validationResult);
+                        DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                        DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                        if (value.Rows.Count == 0)
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                            details.FKImportID = LaData.AppData.ImportID;
+                            details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                            details.Save(_validationResult);
+                        }
+                        else
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                            details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                            details.Save(_validationResult);
+                        }
                     }
                 }
+
+
 
             }
             catch
@@ -15813,9 +16631,29 @@ namespace UDM.Insurance.Interface.Screens
             }
 
         }
-
         #endregion
 
+        #region Forward To DC Agent extra button
+        private void btnForwardToDCAgent_Click(object sender, RoutedEventArgs e)
+        {
+            LaData.AppData.DeclineReasonID = null;
+            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+            if (AgentFKUserID == null)
+            {
+                cmbStatus.SelectedIndex = -1;
+            }
+
+            //cmbStatus.SelectedValue = 24;
+
+            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+        }
+        #endregion
+        #endregion
 
     }
 

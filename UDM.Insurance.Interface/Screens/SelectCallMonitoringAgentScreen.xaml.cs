@@ -51,7 +51,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 string CampaignName = dtOnline.Rows[0]["Response"].ToString();
 
-                if(CampaignName == "1         " || CampaignName == "1")
+                if (CampaignName == "1         " || CampaignName == "1")
                 {
                     string ID;
                     try
@@ -69,14 +69,15 @@ namespace UDM.Insurance.Interface.Screens
                         ID = null;
                     }
 
-                    if(ID == null || ID == "")
+                    if (ID == null || ID == "")
                     {
                         SalesToCallMonitoring scm = new SalesToCallMonitoring();
                         scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
                         scm.FKUserID = SelectedDeclineReasonID;
                         scm.IsDisplayed = "0";
 
-                        _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        //_LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        _LeadApplicationScreen.ForwardToDCSave();
 
                         scm.Save(_validationResult);
                     }
@@ -86,7 +87,8 @@ namespace UDM.Insurance.Interface.Screens
                         scm.FKUserID = SelectedDeclineReasonID;
                         scm.IsDisplayed = "0";
 
-                        _LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        //_LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        _LeadApplicationScreen.ForwardToDCSave();
 
                         scm.Save(_validationResult);
                     }
@@ -133,7 +135,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     btnSelect.ToolTip = _LeadApplicationScreen.btnSave.ToolTip;
                 }
-                
+
             }
             catch (Exception ex)
             {
