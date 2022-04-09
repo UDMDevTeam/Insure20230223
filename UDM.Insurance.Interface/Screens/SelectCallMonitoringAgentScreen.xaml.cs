@@ -38,9 +38,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-
-
-
                 SelectedDeclineReasonID = Convert.ToInt32(cmbDeclineReason.SelectedValue);
 
                 StringBuilder strQueryAgentOnline = new StringBuilder();

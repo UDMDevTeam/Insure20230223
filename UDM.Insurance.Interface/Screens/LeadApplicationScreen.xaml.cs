@@ -3386,6 +3386,316 @@ namespace UDM.Insurance.Interface.Screens
 
         public void ForwardToDCSave()
         {
+
+            #region DebiCheck Workings
+
+            try
+            {
+                #region DebiCheck On / Off
+                int DebiCheckConfigBool;
+
+                StringBuilder strQueryDebiCheckConfig = new StringBuilder();
+                strQueryDebiCheckConfig.Append("SELECT TOP 1 DebiCheckPower [Response] ");
+                strQueryDebiCheckConfig.Append("FROM DebiCheckConfiguration ");
+                DataTable dtDebiCheckConfig = Methods.GetTableData(strQueryDebiCheckConfig.ToString());
+
+                DebiCheckConfigBool = int.Parse(dtDebiCheckConfig.Rows[0]["Response"].ToString());
+                #endregion
+                if (DebiCheckConfigBool == 1)
+                {
+                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199 || PolicyHolderBoolDC == false || MandateRequired == "False")
+                    {
+
+                    }
+                    else
+                    {
+                        if (cmbStatus.Text == "Sale")
+                        {
+                            if (LaData.AppData.CampaignID == 7
+                                || LaData.AppData.CampaignID == 9
+                                || LaData.AppData.CampaignID == 10
+                                || LaData.AppData.CampaignID == 294
+                                || LaData.AppData.CampaignID == 295
+                                || LaData.AppData.CampaignID == 24
+                                || LaData.AppData.CampaignID == 25
+                                || LaData.AppData.CampaignID == 11
+                                || LaData.AppData.CampaignID == 12
+                                || LaData.AppData.CampaignID == 13
+                                || LaData.AppData.CampaignID == 14
+                                || LaData.AppData.CampaignID == 85
+                                || LaData.AppData.CampaignID == 86
+                                || LaData.AppData.CampaignID == 87
+                                || LaData.AppData.CampaignID == 281
+                                || LaData.AppData.CampaignID == 324
+                                || LaData.AppData.CampaignID == 325
+                                || LaData.AppData.CampaignID == 326
+                                || LaData.AppData.CampaignID == 327
+                                //|| LaData.AppData.CampaignID == 264
+                                || LaData.AppData.CampaignID == 4)
+                            {
+                                DateTime ImportDate;
+
+                                try
+                                {
+                                    StringBuilder strQueryImportDate = new StringBuilder();
+                                    strQueryImportDate.Append("SELECT TOP 1 ImportDate [Response] ");
+                                    strQueryImportDate.Append("FROM INImport ");
+                                    strQueryImportDate.Append("WHERE ID = " + LaData.AppData.ImportID);
+                                    strQueryImportDate.Append(" ORDER BY ID DESC");
+                                    DataTable dtImportDate = Methods.GetTableData(strQueryImportDate.ToString());
+
+                                    ImportDate = DateTime.Parse(dtImportDate.Rows[0]["Response"].ToString());
+
+                                }
+                                catch
+                                {
+                                    ImportDate = DateTime.Now;
+                                }
+
+
+
+
+                                if (ImportDate > DateTime.Now.AddMonths(-3))
+                                {
+                                    try
+                                    {
+                                        StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                        strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                        strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                        string responses = dt.Rows[0]["Response"].ToString();
+
+
+                                    }
+                                    catch
+                                    {
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            else
+                            {
+                                if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Base)
+                                {
+                                    try
+                                    {
+                                        StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                        strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                        strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                        string responses = dt.Rows[0]["Response"].ToString();
+                                    }
+                                    catch
+                                    {
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
+                                    }
+                                }
+                                else if (LaData.AppData.CampaignGroupType == lkpINCampaignGroupType.Upgrade)
+                                {
+                                    try
+                                    {
+                                        StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
+                                        strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                                        strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
+                                        DataTable dt = Methods.GetTableData(strQueryDerbiCheckCheckSave.ToString());
+                                        string responses = dt.Rows[0]["Response"].ToString();
+                                    }
+                                    catch
+                                    {
+                                        if (LaData.AppData.LeadStatus == 24)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                                            messageBox.buttonOK.Content = "Yes";
+                                            var showMessageBox = ShowMessageBox(messageBox, "Please send a Debi-Check.", "Debi-Check", ShowMessageType.Information);
+                                            bool result = showMessageBox != null && (bool)showMessageBox;
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+
+
+            }
+            catch
+            {
+
+            }
+
+            #endregion
+
+
+            #region INPermission Pop up message
+            //try
+            //{
+            //    if (chkLeadPermission.Visibility == Visibility.Visible)
+            //    {
+            //        if (chkLeadPermission.IsChecked == false)
+            //        {
+            //            string strQuery;
+            //            strQuery = "SELECT ID FROM INPermissionLead WHERE FKImportID = " + LaData.AppData.ImportID;
+
+            //            DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
+            //            if (dtPolicyPlanGroup.Rows.Count == 0)
+            //            {
+
+            //                INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+            //                messageBox.buttonOK.Content = "Yes";
+            //                messageBox.buttonCancel.Content = "No";
+
+            //                var showMessageBox = ShowMessageBox(messageBox, "Add Permission Lead?", "Permission Lead", ShowMessageType.Information);
+            //                bool result = showMessageBox != null && (bool)showMessageBox;
+
+            //                if (result == true)
+            //                {
+            //                    PermissionLeadScreen mySuccess = new PermissionLeadScreen(LaData.AppData.ImportID, cmbLA2Title.Text, medLA2Name.Text, medLA2Surname.Text, medLA2ContactPhone.Text, medAltContactPhone.Text);
+            //                    ShowDialog(mySuccess, new INDialogWindow(mySuccess));
+
+            //                    return;
+            //                }
+            //            }
+            //            else
+            //            {
+            //            }
+            //        }
+            //    }
+            //}
+            //catch
+            //{
+
+            //}
+            #endregion
+
+            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.ConfirmationAgent && (lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted && LaData.AppData.IsConfirmed == false)
+            {
+                //INMessageBoxWindow2 messageWindow = new INMessageBoxWindow2();
+                //ShowMessageBox(messageWindow, )
+                if (LaData.SaleData.ConfCallRefID == null)
+                {
+                    LaData.SaleData.ConfCallRefID = LaData.SaleData.AutoPopulateConfirmationAgentFKUserID;
+                }
+                //else if (LaData.SaleData.ConfCallRefID != null)
+                //{
+                //    LaData.SaleData.BatchCallRefID = LaData.SaleData.AutoPopulateConfirmationAgentFKUserID;
+                //}
+            }
+
+#if !TRAININGBUILD
+            if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+            {
+                if (!LaData.AppData.IsLeadUpgrade &&
+                    LaData.AppData.LeadStatus == 1 &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Defrosted &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Reactivation &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.ReDefrost &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Rejuvenation &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
+                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.SpouseLite &&
+                    LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
+                    LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
+                    (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid ||
+                    LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.UnChecked))
+                {
+                    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+                    string message;
+                    if (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid)
+                    {
+                        message = "The Bank Details Account Number is Invalid.";
+                    }
+                    else
+                    {
+                        message = "The Bank Details Account Number has not been Verified.";
+                    }
+                    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+                    return;
+                }
+
+                LaData.AppData.AgentID = LaData.UserData.UserID;
+            }
+#endif
+
+            if (IsValidData())
+            {
+                if ((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.DoNotContactClient)
+                {
+                    string message;
+
+                    if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
+                    {
+                        message = "WARNING: If you save this lead with this status selected, no further changes will be possible. Are you sure you want to continue?";
+                    }
+                    else
+                    {
+                        message = "WARNING: If you save this lead with this status selected, no further changes will be possible by the sales agent to whom this lead is allocated. Are you sure you want to continue?";
+                    }
+
+                    INMessageBoxWindow2 messageWindow = new INMessageBoxWindow2();
+                    messageWindow.buttonOK.Content = "Yes";
+                    messageWindow.buttonCancel.Content = "Cancel";
+
+                    bool? confirmSave = ShowMessageBox(messageWindow, message, "Confirm Lead Status", ShowMessageType.Exclamation);
+
+                    if (confirmSave.HasValue)
+                    {
+                        if (confirmSave.Value)
+                        {
+                            ForwardToDCSaveStep2();
+                        }
+                    }
+                }
+                else
+                {
+                    ForwardToDCSaveStep2();
+                }
+            }
+
+            BumpUpSelected = 0;
+        }
+
+        public void ForwardToDCSaveStep2()
+        {
             try
             {
                 SetCursor(Cursors.Wait);
@@ -15185,6 +15495,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
                         try { data["AccountNumber"] = AccountNumberPLLKP; } catch { data["AccountNumber"] = ""; }
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
+
                         if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
@@ -15193,12 +15504,27 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
                         {
                             try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
-
                         }
                         else
                         {
-                            try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                            if(LaData.PolicyData.TotalPremium < 1000)
+                            {
+                                try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+                            }
+                            else if(LaData.PolicyData.TotalPremium > 1001 && LaData.PolicyData.TotalPremium < 2000)
+                            {
+                                try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 6).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+                            }
+                            else if(LaData.PolicyData.TotalPremium > 2001 )
+                            {
+                                try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 3).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+                            }
+                            else
+                            {
+                                try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
+                            }
                         }
+
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }

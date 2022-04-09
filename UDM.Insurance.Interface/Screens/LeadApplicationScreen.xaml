@@ -455,7 +455,7 @@
                 <EventSetter Event="GotFocus" Handler="xamEditor_GotFocus" />
                 <EventSetter Event="LostFocus" Handler="xamEditor_LostFocus" />
                 <EventSetter Event="TextChanged" Handler="xamEditor_TextChanged" />
-                <Setter Property="Mask" Value="aaaa999999999999" />
+                <Setter Property="Mask" Value="aaaaaa999999999999" />
                 <Setter Property="PromptChar" Value="" />
                 <Setter Property="ValueConstraint">
                     <Setter.Value>
