@@ -16921,6 +16921,41 @@ namespace UDM.Insurance.Interface.Screens
 
 
                 }
+                else if(int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 6)
+                {
+                    if(DateTime.Now.Hour <= 9)
+                    {
+                        if (LeadLoadingBool == true)
+                        {
+
+                        }
+                        else
+                        {
+                            DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                            DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                            if (value.Rows.Count == 0)
+                            {
+                                INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                details.FKImportID = LaData.AppData.ImportID;
+                                details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                details.Save(_validationResult);
+                            }
+                            else
+                            {
+                                INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                details.Save(_validationResult);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                        ShowMessageBox(messageWindow, "Reminder that Manual Sales must be completed by 9am.", "Reminder - Manual Sale", ShowMessageType.Exclamation);
+                        cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                    }
+                }
                 else
                 {
                     if (LeadLoadingBool == true)
