@@ -2917,6 +2917,21 @@
               SelectionChanged="cmbStatus_SelectionChanged"
               Style="{StaticResource StyleCMBStatus}"
               TabIndex="98000" />
+
+
+                    <Label x:Name="TransferReminderLbl"
+                            Grid.Row="0"
+                            Grid.Column="8"
+                            Grid.ColumnSpan="11"
+                            Content="Reminder: Transfer sale to Debi-check Specialist"
+                            Foreground="Green"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Visibility="Collapsed"
+                            FontSize="20"
+                           >
+                        
+                    </Label>
                     <!--  SelectedItem="{Binding AppData.LeadStatus}"  -->
 
                     <StackPanel

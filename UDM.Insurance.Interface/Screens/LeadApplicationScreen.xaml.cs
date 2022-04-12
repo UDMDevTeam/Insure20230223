@@ -575,6 +575,7 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
+
             try
             {
 
@@ -2126,6 +2127,28 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 LeadLoadingBool = false;
+                #endregion
+
+                #region Upgrades 1 2 3 Reminders
+                if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
+                   LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
+                   LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
+                   LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
+                   LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2 ||
+                   LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                        MainBorder.BorderBrush = Brushes.Green;
+                        TransferReminderLbl.Visibility = Visibility.Visible;
+                    }));
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                        MainBorder.BorderBrush = Brushes.LightBlue;
+                        TransferReminderLbl.Visibility = Visibility.Collapsed;
+                    }));
+                }
                 #endregion
 
             }
