@@ -1009,5 +1009,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnDebiCheckSpecialistLogsReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportDCSpecialistLogs reportDebiCheckAccepted = new ReportDCSpecialistLogs();
+                ShowDialog(reportDebiCheckAccepted, new INDialogWindow(reportDebiCheckAccepted));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
