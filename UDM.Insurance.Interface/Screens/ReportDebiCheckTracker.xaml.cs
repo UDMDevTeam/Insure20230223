@@ -460,7 +460,7 @@ namespace UDM.Insurance.Interface.Screens
                 string strQuery;
                 strQuery = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
                 strQuery += "LEFT JOIN [INImport] AS [I] ON [I].[FKINCampaignID] = [C].[ID]";
-                strQuery += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' ";
+                strQuery += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' and [C].[Name] != 'Bump-Up Base' and[C].[Name] != 'Call Monitoring Upgrades' and [C].[Name] != 'Confirmation Upgrades' and [C].[Name] != 'PL Cancer Base Spouse'";
                 strQuery += "AND [I].[FKINLeadStatusID] = 1 AND [I].DateOfSale BETWEEN '" + DateStart.ToString() + "' AND '" + DateEnd.ToString() + "'";
 
                 DataTable dtAgents = Methods.GetTableData(strQuery);
@@ -483,7 +483,7 @@ namespace UDM.Insurance.Interface.Screens
                 // query for campiagns that dont have sales
                 string strQuery2;
                 strQuery2 = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
-                strQuery2 += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' ";
+                strQuery2 += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' and [C].[Name] != 'Bump-Up Base' and[C].[Name] != 'Call Monitoring Upgrades' and [C].[Name] != 'Confirmation Upgrades' and [C].[Name] != 'PL Cancer Base Spouse'";
                 strQuery2 += "AND [C].[IsActive] = 1 AND [C].[ID] NOT IN " + CampaignIDString;
 
                 DataTable dtNoSaleCampaignIDs = Methods.GetTableData(strQuery2);
