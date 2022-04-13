@@ -168,6 +168,35 @@
                             Visibility="Visible" />
                     </Viewbox>
 
+                    <Border x:Name="BorderCB"
+                            Grid.Column="2"
+                            Grid.Row="3"
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="9"
+                            CornerRadius="10"
+                            BorderThickness="2"
+                            Background="Gray"
+                            Opacity="0.5" Margin="10,0,42,0"></Border>
+
+                    <CheckBox x:Name="DCAgentCB"
+                              Grid.Row="4"
+                              Grid.Column="3"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="DCAgentCB_Checked"></CheckBox>
+
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="DC Agent Not Available"
+                        Visibility="Visible" Width="247" />
+
+
                     <Button
                         x:Name="btnReport"
                         Grid.Row="15"

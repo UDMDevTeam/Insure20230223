@@ -32,6 +32,7 @@ namespace UDM.Insurance.Interface.Screens
         #region Constants
 
         DataSet dsDebiCheckSpecialistLogsData;
+        bool DCOverriden = false;
 
         #endregion Constants
 
@@ -119,9 +120,18 @@ namespace UDM.Insurance.Interface.Screens
                     TimeSpan ts11 = new TimeSpan(23, 00, 0);
                     DateTime enddate = _endDate.Date + ts11;
 
+                    if(DCOverriden == true)
+                    {
+                        
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INGetDCagentNotAvailableOverridenReport(_startDate, enddate);
 
-                    dsDebiCheckSpecialistLogsData = Business.Insure.INGetDebiCheckSpecialistLogs(_startDate, enddate);
-                    
+                    }
+                    else
+                    {
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INGetDebiCheckSpecialistLogs(_startDate, enddate);
+
+                    }
+
 
                     BackgroundWorker worker = new BackgroundWorker();
                     
@@ -164,9 +174,17 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+                    string filePathAndName = "";
 
+                    if(DCOverriden == true)
+                    {
+                        filePathAndName = String.Format("{0}DC Agent Not Available Overriden Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    }
+                    else
+                    {
+                        filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    }
 
-                    string filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
 
@@ -177,7 +195,15 @@ namespace UDM.Insurance.Interface.Screens
 
                     // single worksheet
                     Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
-                    workSheet.Name = "DC Specialist Logs"; 
+                    
+                    if(DCOverriden == true)
+                    {
+                        workSheet.Name = "DC Agent Overriden";
+                    }
+                    else
+                    {
+                        workSheet.Name = "DC Specialist Logs";
+                    }
 
                     workSheet.Cells[1, 0 + 1] = "Date Range : " + _startDate.ToShortDateString() + " to " + _endDate.ToShortDateString();
                     for (var i = 0; i < dtSalesData.Columns.Count; i++)
@@ -287,6 +313,18 @@ namespace UDM.Insurance.Interface.Screens
         {
             DateTime.TryParse(calStartDate.SelectedDate.ToString(), out _startDate);
             EnableDisableExportButton();
+        }
+
+        private void DCAgentCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if(DCAgentCB.IsChecked == true)
+            {
+                DCOverriden = true;
+            }
+            else
+            {
+                DCOverriden = false;
+            }
         }
     }
 }
