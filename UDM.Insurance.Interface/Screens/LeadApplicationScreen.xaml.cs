@@ -570,6 +570,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 ClearApplicationScreen();
+                PolicyHolderBoolDC = true;
             }
             catch
             {
@@ -16053,9 +16054,13 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         PolicyHolderBoolDC = true;
                     }
-                    else
+                    else if(policyHolderBool == "0")
                     {
                         PolicyHolderBoolDC = false;
+                    }
+                    else
+                    {
+                        PolicyHolderBoolDC = true;
                     }
                 }
                 #endregion
@@ -16977,6 +16982,114 @@ namespace UDM.Insurance.Interface.Screens
                         INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
                         ShowMessageBox(messageWindow, "Reminder that Manual Sales must be completed by 9am.", "Reminder - Manual Sale", ShowMessageType.Exclamation);
                         cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                    }
+                }
+                else if(int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 1)
+                {
+                    if (LeadLoadingBool == true)
+                    {
+
+                    }
+                    else
+                    {
+                        DataTable AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1" );
+
+                        List<long> DCSpecialistIDs = new List<long>();
+                        string DCSpecialistIDsString = "";
+                        string DCSpecialistNamesString = "";
+
+
+                        try
+                        {
+                            foreach (DataRow row in AgentsAvailable.Rows)
+                            {
+                                DCSpecialistIDs.Add(long.Parse(row.ItemArray[0].ToString()));
+                                DCSpecialistIDsString = DCSpecialistIDsString + row.ItemArray[0].ToString() + ",";
+                                DCSpecialistNamesString = DCSpecialistNamesString + row.ItemArray[1].ToString() + ", ";
+                            }
+
+                            DCSpecialistIDsString = DCSpecialistIDsString.Remove(DCSpecialistIDsString.Length - 1, 1);
+                            DCSpecialistNamesString = DCSpecialistNamesString.Remove(DCSpecialistNamesString.Length - 2, 1);
+                        }
+                        catch
+                        {
+                            DCSpecialistIDsString = "";
+                            DCSpecialistNamesString = "";
+                        }
+
+
+                        if (AgentsAvailable.Rows.Count == 0)
+                        {
+                            DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                            DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                            if (value.Rows.Count == 0)
+                            {
+                                INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                details.FKImportID = LaData.AppData.ImportID;
+                                details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                details.Save(_validationResult);
+                            }
+                            else
+                            {
+                                INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                details.Save(_validationResult);
+                            }
+                        }
+                        else
+                        {
+                            INMessageBoxWindow2 messageBox = new INMessageBoxWindow2();
+                            messageBox.buttonOK.Content = "Override";
+                            messageBox.buttonCancel.Content = "Re-Transfer";
+                            var showMessageBox = ShowMessageBox(messageBox, "The following Agents are online: " + DCSpecialistNamesString, "Agents Available !", ShowMessageType.Information);
+                            bool result = bool.Parse(showMessageBox.ToString());
+
+                            if (result)
+                            {
+                                DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                                DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                                if (value.Rows.Count == 0)
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                    details.FKImportID = LaData.AppData.ImportID;
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
+                                }
+                                else
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
+                                }
+
+                                DataTable value2 = Methods.GetTableData("SELECT ID FROM INDCNotAvailableOverride WHERE FKImportID = " + LaData.AppData.ImportID);
+
+                                if (value2.Rows.Count == 0)
+                                {
+                                    INDCNotAvailableOverride dcnotavailable = new INDCNotAvailableOverride();
+                                    dcnotavailable.FKImportID = LaData.AppData.ImportID;
+                                    dcnotavailable.AgentsAvailable = DCSpecialistIDsString;
+                                    dcnotavailable.Save(_validationResult);
+                                }
+                                else
+                                {
+                                    INDCNotAvailableOverride dcnotavailable = new INDCNotAvailableOverride(long.Parse(value2.Rows[0][0].ToString()));
+                                    dcnotavailable.FKImportID = LaData.AppData.ImportID;
+                                    dcnotavailable.AgentsAvailable = DCSpecialistIDsString;
+                                    dcnotavailable.Save(_validationResult);
+                                }
+
+                            }
+                            else
+                            {
+                                cmbSalesNotTransferredReasons.SelectedIndex = -1;
+                                return;
+                            }
+                        }
+
+
                     }
                 }
                 else
