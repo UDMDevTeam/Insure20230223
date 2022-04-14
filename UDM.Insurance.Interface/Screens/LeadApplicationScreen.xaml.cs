@@ -2036,7 +2036,7 @@ namespace UDM.Insurance.Interface.Screens
                                     || LaData.AppData.CampaignID == 325
                                     || LaData.AppData.CampaignID == 326
                                     || LaData.AppData.CampaignID == 327
-                                    //|| LaData.AppData.CampaignID == 264
+                                    || LaData.AppData.CampaignID == 264
                                     || LaData.AppData.CampaignID == 4)
                             {
                                 PolicyHolderBoolDC = true;
@@ -3454,7 +3454,7 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.AppData.CampaignID == 325
                                 || LaData.AppData.CampaignID == 326
                                 || LaData.AppData.CampaignID == 327
-                                //|| LaData.AppData.CampaignID == 264
+                                || LaData.AppData.CampaignID == 264
                                 || LaData.AppData.CampaignID == 4)
                             {
                                 DateTime ImportDate;
@@ -9009,7 +9009,7 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.AppData.CampaignID == 325
                                 || LaData.AppData.CampaignID == 326
                                 || LaData.AppData.CampaignID == 327
-                                //|| LaData.AppData.CampaignID == 264
+                                || LaData.AppData.CampaignID == 264
                                 || LaData.AppData.CampaignID == 4)
                             {
                                 DateTime ImportDate;
@@ -15575,7 +15575,7 @@ namespace UDM.Insurance.Interface.Screens
                             || LaData.AppData.CampaignID == 325
                             || LaData.AppData.CampaignID == 326
                             || LaData.AppData.CampaignID == 327
-                            //|| LaData.AppData.CampaignID == 264
+                            || LaData.AppData.CampaignID == 264
                             || LaData.AppData.CampaignID == 4)
                     {
                         string AccountTypeNumber = " ";
@@ -16315,7 +16315,7 @@ namespace UDM.Insurance.Interface.Screens
                                         || LaData.AppData.CampaignID == 325
                                         || LaData.AppData.CampaignID == 326
                                         || LaData.AppData.CampaignID == 327
-                                        //|| LaData.AppData.CampaignID == 264
+                                        || LaData.AppData.CampaignID == 264
                                         || LaData.AppData.CampaignID == 4)
                                     {
                                         DateTime ImportDate;
