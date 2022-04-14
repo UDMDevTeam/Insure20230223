@@ -33,6 +33,8 @@ namespace UDM.Insurance.Interface.Screens
 
         DataSet dsDebiCheckSpecialistLogsData;
         bool DCOverriden = false;
+        bool DCLogs = false;
+
 
         #endregion Constants
 
@@ -126,10 +128,14 @@ namespace UDM.Insurance.Interface.Screens
                         dsDebiCheckSpecialistLogsData = Business.Insure.INGetDCagentNotAvailableOverridenReport(_startDate, enddate);
 
                     }
-                    else
+                    else if(DCLogs == true)
                     {
                         dsDebiCheckSpecialistLogsData = Business.Insure.INGetDebiCheckSpecialistLogs(_startDate, enddate);
 
+                    }
+                    else
+                    {
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INGetDebiCheckSpecialistLogs(_startDate, enddate);
                     }
 
 
@@ -180,6 +186,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         filePathAndName = String.Format("{0}DC Agent Not Available Overriden Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     }
+                    else if(DCLogs == true)
+                    {
+                        filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    }
                     else
                     {
                         filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
@@ -199,6 +209,10 @@ namespace UDM.Insurance.Interface.Screens
                     if(DCOverriden == true)
                     {
                         workSheet.Name = "DC Agent Overriden";
+                    }
+                    else if(DCLogs == true)
+                    {
+                        workSheet.Name = "DC Specialist Logs";
                     }
                     else
                     {
@@ -320,10 +334,26 @@ namespace UDM.Insurance.Interface.Screens
             if(DCAgentCB.IsChecked == true)
             {
                 DCOverriden = true;
+                DCLogs = false;
+                DCAgentLogsCB.IsChecked = false;
             }
             else
             {
                 DCOverriden = false;
+            }
+        }
+
+        private void DCAgentLogsCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if (DCAgentCB.IsChecked == true)
+            {
+                DCOverriden = false;
+                DCLogs = true;
+                DCAgentCB.IsChecked = false;
+            }
+            else
+            {
+                DCLogs = false;
             }
         }
     }

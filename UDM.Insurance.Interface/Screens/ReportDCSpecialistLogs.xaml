@@ -171,12 +171,12 @@
                     <Border x:Name="BorderCB"
                             Grid.Column="2"
                             Grid.Row="3"
-                            Grid.RowSpan="3"
+                            Grid.RowSpan="5"
                             Grid.ColumnSpan="9"
                             CornerRadius="10"
                             BorderThickness="2"
                             Background="Gray"
-                            Opacity="0.5" Margin="10,0,42,0"></Border>
+                            Opacity="0.5" Margin="10,0,42,0" Height="198" VerticalAlignment="Top"></Border>
 
                     <CheckBox x:Name="DCAgentCB"
                               Grid.Row="4"
@@ -184,6 +184,24 @@
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               Checked="DCAgentCB_Checked"></CheckBox>
+
+                    <Label
+                        Grid.Row="6"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="DC Agent Logs"
+                        Visibility="Visible" Width="247" />
+
+                    <CheckBox x:Name="DCAgentLogsCB"
+                              Grid.Row="6"
+                              Grid.Column="3"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="DCAgentLogsCB_Checked"></CheckBox>
 
                     <Label
                         Grid.Row="4"
