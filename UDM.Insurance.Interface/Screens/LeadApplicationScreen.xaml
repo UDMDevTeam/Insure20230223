@@ -2810,6 +2810,21 @@
 
                                         <ig:XamMenuItem
                         Click="XamMenuItem_Click"
+                        GotFocus="XamMenuItem_GotFocus"
+                        Header="Debi-check Agent Overtime"
+                        IsEnabled="True"
+                        LostFocus="XamMenuItem_LostFocus"
+                        PreviewGotKeyboardFocus="XamMenuItem_PreviewGotKeyboardFocus">
+                                            <ig:XamMenuItem.Icon>
+                                                <Image
+                            Width="24"
+                            Height="24"
+                            Source="../Resources/Icons/blog.png" />
+                                            </ig:XamMenuItem.Icon>
+                                        </ig:XamMenuItem>
+
+                                        <ig:XamMenuItem
+                        Click="XamMenuItem_Click"
                         Header="Exclusion Information"
                         IsEnabled="{Binding AppData.IsLeadLoaded}">
                                             <ig:XamMenuItem.Icon>

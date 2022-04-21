@@ -2139,15 +2139,15 @@ namespace UDM.Insurance.Interface.Screens
                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
-                        MainBorder.BorderBrush = Brushes.Green;
+                        //MainBorder.BorderBrush = Brushes.Green;
                         TransferReminderLbl.Visibility = Visibility.Visible;
                     }));
                 }
                 else
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
-                        MainBorder.BorderBrush = Brushes.LightBlue;
-                        TransferReminderLbl.Visibility = Visibility.Collapsed;
+                    //    MainBorder.BorderBrush = Brushes.LightBlue;
+                    TransferReminderLbl.Visibility = Visibility.Collapsed;
                     }));
                 }
                 #endregion
@@ -11251,6 +11251,29 @@ namespace UDM.Insurance.Interface.Screens
                             break;
 
                         #endregion Debi-check Statuses
+
+                        #region Debi-check Overtime    
+
+                        case "Debi-check Agent Overtime":
+                            foreach (Window window in Application.Current.Windows)
+                            {
+                                if (window.Title == "Debi-check Agent Overtime")
+                                {
+                                    window.WindowState = WindowState.Normal;
+                                    return;
+                                }
+                            }
+                            ScriptScreen scriptScreenDebiCheckOvertime = new ScriptScreen();
+                            scriptScreenDebiCheckOvertime.chkAfrikaans.Visibility = Visibility.Hidden;
+                            scriptScreenDebiCheckOvertime.lblAfrikaans.Visibility = Visibility.Hidden;
+                            scriptScreenDebiCheckOvertime.Title = "Debi-check Agent Overtime";
+                            scriptScreenDebiCheckOvertime.hdrScriptScreen.Text = "Debi-check Agent Overtime";
+                            scriptScreenDebiCheckOvertime.ScriptType = lkpScriptType.DebiCheckOvertime;
+                            scriptScreenDebiCheckOvertime.LaData = LaData;
+                            scriptScreenDebiCheckOvertime.Show();
+                            break;
+
+                        #endregion Debi-check Overtime
 
 
                         #region RAM Service Test
