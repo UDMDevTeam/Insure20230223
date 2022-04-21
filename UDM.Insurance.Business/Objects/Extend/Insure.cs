@@ -77,6 +77,16 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDCSpecialistLogs", paramArray, 600);
         }
+
+        public static DataSet INGetDCagentNotAvailableOverridenReport(DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportOverridenReason", paramArray, 600);
+        }
         #endregion
 
         #region Lead Printing - Specific Functionalities

@@ -295,7 +295,8 @@
         ObjectionInformation = 2,
         ClaimInformation = 3,
         ExclusionInformation = 4,
-        DebicheckInformation = 5
+        DebicheckInformation = 5,
+        DebiCheckOvertime = 6
     }
 
     public enum lkpINCampaignGroupType
