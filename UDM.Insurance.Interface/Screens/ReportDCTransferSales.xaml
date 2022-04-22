@@ -99,11 +99,11 @@
                         x:Name="hdrDiaryReport"
                         Grid.Row="1"
                         Grid.Column="2"
-                        Grid.ColumnSpan="7"
+                        Grid.ColumnSpan="8"
                         Margin="0"
                         VerticalAlignment="Top"
                         Style="{DynamicResource INPageHeadingText1}"
-                        Text="TSR Debi-check Call Transfer" />
+                        Text="TSR Debi-check Statistics Report" />
 
                     <Path
                         x:Name="hdrLine"
