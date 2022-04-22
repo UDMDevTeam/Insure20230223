@@ -2099,16 +2099,16 @@ namespace UDM.Insurance.Interface.Screens
 
                 try
                 {
-                    if (LaData.AppData.LeadStatus != 1)
-                    {
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
-                    }
+                    //if (LaData.AppData.LeadStatus != 1)
+                    //{
+                    //    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                    //    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                    //}
+                    //else
+                    //{
+                    //    cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                    //    lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                    //}
 
                     StringBuilder strQueryINSalesNotTransferredDetails = new StringBuilder();
                     strQueryINSalesNotTransferredDetails.Append("SELECT FKSalesNotTransferredReason [Response] ");
@@ -9881,8 +9881,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         chkClosureChecked();
 
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
                         break;
 
                     #endregion Sales
@@ -9918,8 +9918,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         cmbStatus_ToolTip(null);
 
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Cancellations
@@ -9955,8 +9955,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         cmbStatus_ToolTip(null);
 
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Carried Forwards
@@ -9990,8 +9990,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Declines
@@ -10024,8 +10024,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         btnForwardToDCAgent.Visibility = Visibility.Visible;
                         break;
                     #endregion
@@ -10064,8 +10064,8 @@ namespace UDM.Insurance.Interface.Screens
 
                         LaData.AppData.DiaryStatusHandled = true;
 
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Diaries
@@ -10080,8 +10080,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
                                 {
-                                    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                                    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                                     break;
                                 }
                             }
@@ -10100,8 +10100,8 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             cmbStatus.SelectedIndex = -1;
                         }
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Diaries ( > 7 Weeks)
@@ -10116,8 +10116,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
                                 {
-                                    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                                    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                                     break;
                                 }
                             }
@@ -10138,8 +10138,8 @@ namespace UDM.Insurance.Interface.Screens
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
                         cmbStatus_ToolTip(null);
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Call Monitoring Cancellation
@@ -10154,8 +10154,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
                                 {
-                                    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                                    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                                    //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                                     break;
                                 }
                             }
@@ -10176,16 +10176,16 @@ namespace UDM.Insurance.Interface.Screens
                         Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
                         cmbStatus_ToolTip(null);
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
 
                     #endregion Call Monitoring Carried Forward
 
                     default:
                         LaData.PolicyData.CommenceDate = null;
-                        cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
                         break;
                 }
 

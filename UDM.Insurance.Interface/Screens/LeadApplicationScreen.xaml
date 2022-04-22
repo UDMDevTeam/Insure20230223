@@ -15511,7 +15511,7 @@
                               SelectionChanged="SalesNotTransferredCB_SelectionChanged"
                               Style="{StaticResource StyleCMBStatus}"
                               TabIndex="33900"
-                              Visibility="Hidden"/>
+                              Visibility="Visible"/>
                     <TextBlock
                               x:Name="lblSalesNotTransferredReasons"
                               Grid.Row="17"
@@ -15521,7 +15521,7 @@
                               VerticalAlignment="Bottom"
                               Style="{StaticResource INLabelText2}"
                               Text="Reasons for Call Not Transferred"
-                              Visibility="Hidden"/>
+                              Visibility="Visible"/>
 
                     <Border x:Name ="DebiCheckBorder"
               Grid.Row="16"
