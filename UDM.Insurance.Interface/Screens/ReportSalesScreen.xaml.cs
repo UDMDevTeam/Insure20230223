@@ -130,6 +130,12 @@ namespace UDM.Insurance.Interface.Screens
             InitializeComponent();
             LoadAgentInfo();
 
+            lblFoundation.Visibility = Visibility.Collapsed;
+            lblPrePerm.Visibility = Visibility.Collapsed;
+
+            chkFoundation.Visibility = Visibility.Collapsed;
+            chkPrePerm.Visibility = Visibility.Collapsed;
+
             _reportTimer.Tick += ReportTimer;
             _reportTimer.Interval = new TimeSpan(0, 0, 1);
 
@@ -148,7 +154,23 @@ namespace UDM.Insurance.Interface.Screens
             {
                 Cursor = Cursors.Wait;
 
-                if (grdAgents.IsEnabled)
+
+                if (chkFoundation.IsChecked == true) 
+                {
+                    SqlParameter[] parameters = new SqlParameter[1];
+                    if (AgentMode != null) parameters[0] = new SqlParameter("@AgentMode", (int)AgentMode);
+                    DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4Foundation", parameters).Tables[0];
+
+                    DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                    column.DefaultValue = false;
+                    dt.Columns.Add(column);
+
+                    xdgAgents.DataSource = dt.DefaultView;
+
+                    AllRecordsChecked = false;
+                }
+
+                else if (grdAgents.IsEnabled)
                 {
                     SqlParameter[] parameters = new SqlParameter[1];
                     if (AgentMode != null) parameters[0] = new SqlParameter("@AgentMode", (int)AgentMode);
@@ -2616,24 +2638,86 @@ namespace UDM.Insurance.Interface.Screens
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
+
             if (Convert.ToBoolean(grdAgents?.IsEnabled))
             {
+
+
                 if (ReportMode == lkpINCampTSRReportMode.ByTSR)
                 {
-                    SqlParameter[] parameters = new SqlParameter[1];
-                    if (AgentMode != null) parameters[0] = new SqlParameter("@AgentMode", (int)AgentMode);
-                    DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4", parameters).Tables[0];
 
-                    DataColumn column = new DataColumn("IsChecked", typeof(bool));
-                    column.DefaultValue = false;
-                    dt.Columns.Add(column);
+                    if (AgentMode == lkpAgentMode.Temporary)
+                    {
 
-                    xdgAgents.DataSource = dt.DefaultView;
+                        lblFoundation.Visibility = Visibility.Visible;
+                        lblPrePerm.Visibility = Visibility.Visible;
 
-                    AllRecordsChecked = false;
+                        chkFoundation.Visibility = Visibility.Visible;
+                        chkPrePerm.Visibility = Visibility.Visible;
+
+                        if (chkFoundation.IsChecked == true)
+                        {
+                           
+                            SqlParameter[] parameters = new SqlParameter[1];
+                            if (AgentMode != null) parameters[0] = new SqlParameter("@AgentMode", (int)AgentMode);
+                            DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4Foundation", parameters).Tables[0];
+
+                            DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                            column.DefaultValue = false;
+                            dt.Columns.Add(column);
+
+                            xdgAgents.DataSource = dt.DefaultView;
+
+                            AllRecordsChecked = false;
+                        }
+                        else if (chkPrePerm.IsChecked == true)
+                        {
+                            DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesTrainingSupervisorsPrePerm", null).Tables[0];
+
+                            DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                            column.DefaultValue = false;
+                            dt.Columns.Add(column);
+
+                            DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
+                            column2.DefaultValue = 1;
+                            dt.Columns.Add(column2);
+
+                            xdgAgents.DataSource = dt.DefaultView;
+
+                            AllRecordsChecked = false;
+                        }
+                        else 
+                        {
+                           
+                            SqlParameter[] parameters = new SqlParameter[1];
+                            if (AgentMode != null) parameters[0] = new SqlParameter("@AgentMode", (int)AgentMode);
+                            DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4", parameters).Tables[0];
+
+                            DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                            column.DefaultValue = false;
+                            dt.Columns.Add(column);
+
+                            xdgAgents.DataSource = dt.DefaultView;
+
+                            AllRecordsChecked = false;
+                        }
+
+                    }
+                   
+
+
+                    
                 }
                 else if (ReportMode == lkpINCampTSRReportMode.ByQA)
                 {
+
+                    lblFoundation.Visibility = Visibility.Collapsed;
+                    lblPrePerm.Visibility = Visibility.Collapsed;
+
+                    chkFoundation.Visibility = Visibility.Collapsed;
+                    chkPrePerm.Visibility = Visibility.Collapsed;
+
+
                     DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesSupervisors", null).Tables[0];
 
                     DataColumn column = new DataColumn("IsChecked", typeof(bool));
@@ -2650,19 +2734,47 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else if (ReportMode == lkpINCampTSRReportMode.TrainingSupervisor)
                 {
-                    DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesTrainingSupervisors", null).Tables[0];
 
-                    DataColumn column = new DataColumn("IsChecked", typeof(bool));
-                    column.DefaultValue = false;
-                    dt.Columns.Add(column);
+                    lblFoundation.Visibility = Visibility.Visible;
+                    lblPrePerm.Visibility = Visibility.Visible;
 
-                    DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
-                    column2.DefaultValue = 1;
-                    dt.Columns.Add(column2);
+                    chkFoundation.Visibility = Visibility.Visible;
+                    chkPrePerm.Visibility = Visibility.Visible;
 
-                    xdgAgents.DataSource = dt.DefaultView;
+                    if (chkPrePerm.IsChecked == true)
+                    {
+                        DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesTrainingSupervisorsPrePerm", null).Tables[0];
 
-                    AllRecordsChecked = false;
+                        DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                        column.DefaultValue = false;
+                        dt.Columns.Add(column);
+
+                        DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
+                        column2.DefaultValue = 1;
+                        dt.Columns.Add(column2);
+
+                        xdgAgents.DataSource = dt.DefaultView;
+
+                        AllRecordsChecked = false;
+                    }
+                    else 
+                    {
+                        DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesTrainingSupervisors", null).Tables[0];
+
+                        DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                        column.DefaultValue = false;
+                        dt.Columns.Add(column);
+
+                        DataColumn column2 = new DataColumn("FKStaffTypeID", typeof(long));
+                        column2.DefaultValue = 1;
+                        dt.Columns.Add(column2);
+
+                        xdgAgents.DataSource = dt.DefaultView;
+
+                        AllRecordsChecked = false;
+                    }
+
+                   
                 }
             }
         }
@@ -2765,6 +2877,15 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+        private void chkPrePerm_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadAgentInfo();
+        }
+
+        private void chkFoundation_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadAgentInfo();
+        }
     }
 
 }

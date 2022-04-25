@@ -427,6 +427,45 @@
                                 Grid.Row="0"
                             Grid.ColumnSpan="3"
                             ></RadioButton>
+
+                        <CheckBox x:Name="chkFoundation"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="chkFoundation_Checked"  RenderTransformOrigin="-0.506,-0.572" Margin="0,0,49,27">
+                        </CheckBox>
+
+                        <Label
+                        x:Name="lblFoundation"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="16,0,61,19"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Foundation"
+                        Visibility="Visible" Width="247" Grid.RowSpan="2" />
+
+                        <CheckBox x:Name="chkPrePerm"
+                              Grid.Row="1"
+                              Grid.Column="2"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="chkPrePerm_Checked"  RenderTransformOrigin="-0.506,-0.572" Margin="0,0,49,27">
+                        </CheckBox>
+
+                        <Label
+                        x:Name="lblPrePerm"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="5"
+                        Margin="16,0,61,19"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Pre-Perm"
+                        Visibility="Visible" Width="247" Grid.RowSpan="2" />
+
                     </Grid>
 
                     <Grid

@@ -424,15 +424,15 @@
 
                     <CheckBox
                         Name="chkIncludeBumpups"
-                        Grid.Row="10"
-                        Grid.Column="19"
-                        Grid.ColumnSpan="3"
+                        Grid.Row="9"
+                        Grid.Column="18"
+                        Grid.ColumnSpan="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontFamily="Arial"
                         FontSize="14"
                         Foreground="{DynamicResource BrandedBrushIN}"
-                        IsChecked="{Binding IncludeBumpups}">
+                        IsChecked="{Binding IncludeBumpups}" Margin="40,40.667,0,0" Grid.RowSpan="2">
                         <TextBlock>
                             Include Bumpups
                         </TextBlock>
@@ -440,15 +440,15 @@
 
                     <CheckBox
                         Name="chkIncludeElevation"
-                        Grid.Row="11"
-                        Grid.Column="19"
+                        Grid.Row="10"
+                        Grid.Column="18"
                         Grid.ColumnSpan="5"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontFamily="Arial"
                         FontSize="14"
                         Foreground="{DynamicResource BrandedBrushIN}"
-                        IsChecked="{Binding IncludeElevationTeam}">
+                        IsChecked="{Binding IncludeElevationTeam}" Margin="40,29.667,0,0" Grid.RowSpan="2">
                         <TextBlock>
                             Include Elevation Team
                         </TextBlock>
@@ -456,18 +456,78 @@
 
                     <CheckBox
                         Name="chkIncludeAdmin"
-                        Grid.Row="12"
-                        Grid.Column="19"
-                        Grid.ColumnSpan="3"
+                        Grid.Row="11"
+                        Grid.Column="18"
+                        Grid.ColumnSpan="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Checked="chkIncludeAdmin_Checked"
                         FontFamily="Arial"
                         FontSize="14"
                         Foreground="{DynamicResource BrandedBrushIN}"
-                        IsChecked="{Binding IncludeAdmin}">
+                        IsChecked="{Binding IncludeAdmin}" Margin="40,17.167,0,0">
                         <TextBlock>
                             Include Admin
+                        </TextBlock>
+                        <CheckBox.Style>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Path=TurnoverReportMode, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.ByTSR}}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+
+                    </CheckBox>
+
+                    <CheckBox
+                        Name="chkFoundation"
+                        Grid.Row="13"
+                        Grid.Column="19"
+                        Grid.ColumnSpan="3"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Checked="chkFoundation_Checked"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="{DynamicResource BrandedBrushIN}"
+                        IsChecked="False" Margin="0,0.167,38,0">
+                        <TextBlock>
+                            Foundation
+                        </TextBlock>
+                        <CheckBox.Style>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Path=TurnoverReportMode, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpINCampTSRReportMode.ByTSR}}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+
+                    </CheckBox>
+
+                    <CheckBox
+                        Name="chkPrePerm"
+                        Grid.Row="13"
+                        Grid.Column="22"
+                        Grid.ColumnSpan="3"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Checked="chkPrePerm_Checked"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="{DynamicResource BrandedBrushIN}"
+                        IsChecked="False">
+                        <TextBlock>
+                            Pre-Perm
                         </TextBlock>
                         <CheckBox.Style>
                             <Style TargetType="{x:Type CheckBox}">

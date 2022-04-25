@@ -2284,6 +2284,11 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetTurnoverScreenLookupsSalesCoach", null, 600);
         }
 
+        public static DataSet INGetTurnoverScreenLookupsPrePermSalesCoaches()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetTurnoverScreenLookupsPrePermSalesCoach", null, 600);
+        }
+
         public static DataSet INGetTurnoverAgents(lkpINTurnoverCompanyMode? company, byte staffType, bool includeAdmin/*, byte campaignType*/)
         {
 
@@ -2296,6 +2301,20 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetSalesAgents3", paramArray, 600);
         }
+
+        public static DataSet INGetTurnoverAgentsFoundation(lkpINTurnoverCompanyMode? company, byte staffType, bool includeAdmin/*, byte campaignType*/)
+        {
+
+
+            object param1 = Database.GetParameter("@StaffType", staffType);
+            object param2 = Database.GetParameter("@CompanyType", (byte)company);
+            object param3 = Database.GetParameter("@IncludeAdmin", includeAdmin);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetSalesAgents3Foundation", paramArray, 600);
+        }
+
 
         public static DataSet INReportTurnover(string campaignIDs, string fkUserIDs, DateTime fromDate, DateTime toDate, bool includeBumpUps, lkpINTurnoverCompanyMode? company, byte staffType/*, byte campaignType*/, bool allSalesAgents, string QAIDs)
         {

@@ -111,6 +111,10 @@ namespace UDM.Insurance.Interface.Screens
             dispatcherTimer1.Tick += Timer1;
             dispatcherTimer1.Interval = new TimeSpan(0, 0, 1);
             isLookupsLoaded = true;
+
+            chkFoundation.Visibility = Visibility.Collapsed;
+            chkPrePerm.Visibility = Visibility.Collapsed;
+
         }
 
         #endregion
@@ -236,14 +240,41 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Wait);
                 if (RData.TurnoverReportMode == lkpINCampTSRReportMode.ByTSR)
                 {
-                    DataSet ds = Insure.INGetTurnoverAgents(RData.TurnoverCompanyMode, _staffType, RData.IncludeAdmin);
 
-                    DataTable dt = ds.Tables[0];
-                    DataColumn column = new DataColumn("Select", typeof(bool));
-                    column.DefaultValue = false;
-                    dt.Columns.Add(column);
+                    if (chkFoundation.IsChecked == true)
+                    {
+                        DataSet ds = Insure.INGetTurnoverAgentsFoundation(RData.TurnoverCompanyMode, _staffType, RData.IncludeAdmin);
 
-                    xdgCampaigns.DataSource = dt.DefaultView;
+                        DataTable dt = ds.Tables[0];
+                        DataColumn column = new DataColumn("Select", typeof(bool));
+                        column.DefaultValue = false;
+                        dt.Columns.Add(column);
+
+                        xdgCampaigns.DataSource = dt.DefaultView;
+                    }
+                    else if (chkPrePerm.IsChecked == true)
+                    {
+
+                        DataSet dsTurnoverLookupsPrePermSalesCoaches = Insure.INGetTurnoverScreenLookupsPrePermSalesCoaches();
+                        //_dtAllSalesCoach.Clear();
+                        _dtAllSalesCoach = dsTurnoverLookupsPrePermSalesCoaches.Tables[0];
+
+                        xdgCampaigns.DataSource = _dtAllSalesCoach.DefaultView;
+
+                    }
+                    else
+                    {
+                        DataSet ds = Insure.INGetTurnoverAgents(RData.TurnoverCompanyMode, _staffType, RData.IncludeAdmin);
+
+                        DataTable dt = ds.Tables[0];
+                        DataColumn column = new DataColumn("Select", typeof(bool));
+                        column.DefaultValue = false;
+                        dt.Columns.Add(column);
+
+                        xdgCampaigns.DataSource = dt.DefaultView;
+                    }
+
+                    
                 }
                 //DataSet ds = Methods.ExecuteStoredProcedure("spGetSalesAgents2", null);
 
@@ -1343,11 +1374,31 @@ namespace UDM.Insurance.Interface.Screens
         private void cmbStaffType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //_staffType = Convert.ToByte(cmbStaffType.SelectedValue);
-            if (cmbStaffType.SelectedIndex != -1)
+
+            //if (cmbStaffType.SelectedIndex != -1)
+            //{
+            //    _staffType = Convert.ToByte(cmbStaffType.SelectedIndex);
+            //    LoadAgentInfo();
+            //}
+
+            if (cmbStaffType.SelectedIndex == 0)
             {
+                chkFoundation.Visibility = Visibility.Visible;
+                chkPrePerm.Visibility = Visibility.Visible; 
+
+                LoadAgentInfo();
+
+            }
+            else 
+            {
+
+                chkFoundation.Visibility = Visibility.Collapsed;
+                chkPrePerm.Visibility = Visibility.Collapsed;
+
                 _staffType = Convert.ToByte(cmbStaffType.SelectedIndex);
                 LoadAgentInfo();
             }
+
         }
 
         private void cmbCampaignType_DropDownClosed(object sender, EventArgs e)
@@ -1405,6 +1456,16 @@ namespace UDM.Insurance.Interface.Screens
             _dtAllSalesCoach = dsTurnoverLookupsSalesCoaches.Tables[0];
 
             xdgCampaigns.DataSource = _dtAllSalesCoach.DefaultView;
+        }
+
+        private void chkFoundation_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadAgentInfo();
+        }
+
+        private void chkPrePerm_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadAgentInfo();
         }
     }
 }
