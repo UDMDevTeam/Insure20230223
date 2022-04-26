@@ -7183,7 +7183,11 @@ namespace UDM.Insurance.Interface.Screens
                                         DataTable dtOption = Methods.GetTableData(String.Format("SELECT * FROM [INOption] WHERE [ID] = {0}", LaData.PolicyData.OptionID));
                                         if (dtOption.Rows.Count > 0)
                                         {
-                                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1FuneralCover"], 0)) != 0)
+                                            if (Convert.ToInt32(NoNull(dtOption.Rows[0]["FuneralCover"], 0)) != 0)
+                                            {
+                                                la1FuneralCover = Convert.ToDecimal(dtOption.Rows[0]["FuneralCover"]).ToString(CultureInfo.CurrentCulture);
+                                            }
+                                            else if (Convert.ToInt32(NoNull(dtOption.Rows[0]["LA1FuneralCover"], 0)) != 0)
                                             {
                                                 la1FuneralCover = Convert.ToDecimal(dtOption.Rows[0]["LA1FuneralCover"]).ToString(CultureInfo.CurrentCulture);
                                             }
