@@ -97,7 +97,8 @@ namespace UDM.Insurance.Interface.Screens
         private string _fkSalesCoachesIDs = "";
         #endregion
 
-
+        bool foundationStaff = false;
+        bool prePermStaff = false;
 
         #region Constructors
 
@@ -489,7 +490,16 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (allRecordsSelected && (RData.TurnoverReportMode == lkpINCampTSRReportMode.ByTSR || RData.TurnoverReportMode == lkpINCampTSRReportMode.ByQA || RData.TurnoverReportMode == lkpINCampTSRReportMode.SalesCoaches))
                 {
-                    allSalesAgents = true;
+
+                    if (foundationStaff == true)
+                    {
+                        allSalesAgents = false;
+                    }
+                    else if(prePermStaff == true)
+                    {
+                        allSalesAgents = false;
+                    }
+
                 }
                 else
                 {
@@ -1461,11 +1471,13 @@ namespace UDM.Insurance.Interface.Screens
         private void chkFoundation_Checked(object sender, RoutedEventArgs e)
         {
             LoadAgentInfo();
+            foundationStaff = true; 
         }
 
         private void chkPrePerm_Checked(object sender, RoutedEventArgs e)
         {
             LoadAgentInfo();
+            prePermStaff = true; 
         }
     }
 }
