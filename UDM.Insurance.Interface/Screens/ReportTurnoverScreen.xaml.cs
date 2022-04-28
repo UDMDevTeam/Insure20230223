@@ -495,9 +495,13 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         allSalesAgents = false;
                     }
-                    else if(prePermStaff == true)
+                    else if (prePermStaff == true)
                     {
                         allSalesAgents = false;
+                    }
+                    else
+                    {
+                        allSalesAgents = true;
                     }
 
                 }
@@ -514,6 +518,7 @@ namespace UDM.Insurance.Interface.Screens
                 //{
                 //    allCampaigns = false;
                 //}
+
                 DataSet dsTurnoverReport = null;
 
                 if(RData.IncludeElevationTeam == true)
@@ -1394,8 +1399,8 @@ namespace UDM.Insurance.Interface.Screens
             if (cmbStaffType.SelectedIndex == 0)
             {
                 chkFoundation.Visibility = Visibility.Visible;
-                chkPrePerm.Visibility = Visibility.Visible; 
-
+                chkPrePerm.Visibility = Visibility.Visible;
+                 _staffType = Convert.ToByte(cmbStaffType.SelectedIndex);
                 LoadAgentInfo();
 
             }
