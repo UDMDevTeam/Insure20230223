@@ -1874,19 +1874,6 @@ namespace UDM.Insurance.Interface.Screens
                     LblLeadPermission.Visibility = Visibility.Collapsed;
                 }
                 #endregion
-                //ShowNotes(importID.Value);
-
-                //if (LaData.AppData.IsLeadUpgrade)
-                //{
-                //    btnSave.SetValue(Grid.RowProperty, 16);
-                //    cmbSalesNotTransferredReasons.SetValue(Grid.RowProperty, 17);
-                //}
-                //else
-                //{
-                //    btnSave.SetValue(Grid.RowProperty, 15);
-                //    cmbSalesNotTransferredReasons.SetValue(Grid.RowProperty, 16);
-
-                //}
 
                 #region DebiCheck Workings
 
@@ -2099,17 +2086,6 @@ namespace UDM.Insurance.Interface.Screens
 
                 try
                 {
-                    //if (LaData.AppData.LeadStatus != 1)
-                    //{
-                    //    cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                    //    lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                    //}
-                    //else
-                    //{
-                    //    cmbSalesNotTransferredReasons.Visibility = Visibility.Visible;
-                    //    lblSalesNotTransferredReasons.Visibility = Visibility.Visible;
-                    //}
-
                     StringBuilder strQueryINSalesNotTransferredDetails = new StringBuilder();
                     strQueryINSalesNotTransferredDetails.Append("SELECT FKSalesNotTransferredReason [Response] ");
                     strQueryINSalesNotTransferredDetails.Append("FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
@@ -2131,7 +2107,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region Upgrades 1 2 3 Reminders
-                if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
+                if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1 ||
                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2 ||
                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3 ||
                    LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1 ||
@@ -2146,9 +2122,36 @@ namespace UDM.Insurance.Interface.Screens
                 else
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
-                    //    MainBorder.BorderBrush = Brushes.LightBlue;
-                    TransferReminderLbl.Visibility = Visibility.Collapsed;
+                        //    MainBorder.BorderBrush = Brushes.LightBlue;
+                        TransferReminderLbl.Visibility = Visibility.Collapsed;
                     }));
+                }
+                #endregion
+
+                #region Upgrades Lead ID Change
+
+                if (LaData.AppData.IsLeadUpgrade == true)
+                {
+
+                    UpgradeIDUpdateCB.IsChecked = false;
+
+                    if (LaData.UserData.UserTypeID == 12) //DebiCheck Agents
+                    {
+                        medIDNumber.IsEnabled = true;
+                        lblUpgradeIDUpdate.Visibility = Visibility.Hidden;
+                        UpgradeIDUpdateCB.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        lblUpgradeIDUpdate.Visibility = Visibility.Visible;
+                        UpgradeIDUpdateCB.Visibility = Visibility.Visible;
+                        medIDNumber.IsEnabled = false;
+                    }
+                }
+                else
+                {
+                    lblUpgradeIDUpdate.Visibility = Visibility.Hidden;
+                    UpgradeIDUpdateCB.Visibility = Visibility.Hidden;
                 }
                 #endregion
 
@@ -15530,6 +15533,26 @@ namespace UDM.Insurance.Interface.Screens
                             CommencementDateEdited = DateTime.Now;
                         }
 
+                        bool WasChanged = false;
+                        try
+                        {
+
+                            string strQueryHistoryID;
+                            strQueryHistoryID = "SELECT top 1 IDNo FROM zHstINLead WHERE ID = " + LaData.LeadData.LeadID + " Order By StampDate Asc";
+                            DataTable dtHistoryID = Methods.GetTableData(strQueryHistoryID);
+                            string IDHistory = dtHistoryID.Rows[0]["IDNo"].ToString();
+
+                            if (IDHistory != LaData.LeadData.IDNumber)
+                            {
+                                WasChanged = true;
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+
                         try { data["ClientName"] = LaData.LeadData.FullName; } catch { data["ClientName"] = ""; }
                         try { data["CellNumber"] = LaData.LeadData.TelCell; } catch { data["CellNumber"] = ""; }
                         try { data["Email"] = LaData.LeadData.Email; } catch { data["Email"] = ""; }
@@ -15540,7 +15563,15 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
-                            try { data["IdentificationNumber"] = IDNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
+                            if(WasChanged == true)
+                            {
+                                try { data["IdentificationNumber"] = LaData.LeadData.IDNumber.ToString(); } catch { data["IdentificationNumber"] = ""; }
+
+                            }
+                            else
+                            {
+                                try { data["IdentificationNumber"] = IDNumberPLLKP; } catch { data["IdentificationNumber"] = ""; }
+                            }
                         }
                         try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
                         try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
@@ -15558,15 +15589,15 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else
                         {
-                            if(LaData.PolicyData.TotalPremium < 1000)
+                            if (LaData.PolicyData.TotalPremium < 1000)
                             {
                                 try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
                             }
-                            else if(LaData.PolicyData.TotalPremium > 1001 && LaData.PolicyData.TotalPremium < 2000)
+                            else if (LaData.PolicyData.TotalPremium > 1001 && LaData.PolicyData.TotalPremium < 2000)
                             {
                                 try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 6).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
                             }
-                            else if(LaData.PolicyData.TotalPremium > 2001 )
+                            else if (LaData.PolicyData.TotalPremium > 2001)
                             {
                                 try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 3).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
                             }
@@ -15580,6 +15611,19 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
 
+                        #region Upgrades ID Number Update
+
+                            if (WasChanged == true)
+                            {
+                                try { data["CustomField2"] = "1"; } catch { data["CustomField1"] = " "; }
+                            }
+                            else
+                            {
+                                try { data["CustomField2"] = "0"; } catch { data["CustomField1"] = " "; }
+
+                            }
+
+                        #endregion
 
 
                     }
@@ -15729,14 +15773,14 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
-                        if (IsUDMAcquiredDetails == true)
-                        {
-                            try { data["CustomField2"] = "1"; } catch { data["CustomField2"] = " "; }
-                        }
-                        else
-                        {
-                            try { data["CustomField2"] = "0"; } catch { data["CustomField2"] = " "; }
-                        }
+                        //if (IsUDMAcquiredDetails == true)
+                        //{
+                        //    try { data["CustomField2"] = "1"; } catch { data["CustomField2"] = " "; }
+                        //}
+                        //else
+                        //{
+                        //    try { data["CustomField2"] = "0"; } catch { data["CustomField2"] = " "; }
+                        //}
                     }
                     else
                     {
@@ -16081,7 +16125,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         PolicyHolderBoolDC = true;
                     }
-                    else if(policyHolderBool == "0")
+                    else if (policyHolderBool == "0")
                     {
                         PolicyHolderBoolDC = false;
                     }
@@ -16861,36 +16905,36 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 //if the selected value 2 is "Overtime Shift"
-                if(int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 2)
+                if (int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 2)
                 {
                     if (DateTime.Now.DayOfWeek.ToString() == "Friday")
                     {
                         if (DateTime.Now.Hour >= 15)
                         {
 
-                                if (LeadLoadingBool == true)
-                                {
+                            if (LeadLoadingBool == true)
+                            {
 
+                            }
+                            else
+                            {
+                                DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                                DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                                if (value.Rows.Count == 0)
+                                {
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                                    details.FKImportID = LaData.AppData.ImportID;
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
                                 }
                                 else
                                 {
-                                    DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
-                                    DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
-
-                                    if (value.Rows.Count == 0)
-                                    {
-                                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
-                                        details.FKImportID = LaData.AppData.ImportID;
-                                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
-                                        details.Save(_validationResult);
-                                    }
-                                    else
-                                    {
-                                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
-                                        details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
-                                        details.Save(_validationResult);
-                                    }
+                                    INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                                    details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.Save(_validationResult);
                                 }
+                            }
                         }
                         else
                         {
@@ -16901,7 +16945,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                     {
-                        if(DateTime.Now.Hour >= 14)
+                        if (DateTime.Now.Hour >= 14)
                         {
                             if (LeadLoadingBool == true)
                             {
@@ -16976,9 +17020,9 @@ namespace UDM.Insurance.Interface.Screens
 
 
                 }
-                else if(int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 6)
+                else if (int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 6)
                 {
-                    if(DateTime.Now.Hour <= 9)
+                    if (DateTime.Now.Hour <= 9)
                     {
                         if (LeadLoadingBool == true)
                         {
@@ -17011,7 +17055,7 @@ namespace UDM.Insurance.Interface.Screens
                         cmbSalesNotTransferredReasons.SelectedIndex = -1;
                     }
                 }
-                else if(int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 1)
+                else if (int.Parse(cmbSalesNotTransferredReasons.SelectedValue.ToString()) == 1)
                 {
                     if (LeadLoadingBool == true)
                     {
@@ -17019,7 +17063,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
-                        DataTable AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1" );
+                        DataTable AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
 
                         List<long> DCSpecialistIDs = new List<long>();
                         string DCSpecialistIDsString = "";
@@ -17177,7 +17221,38 @@ namespace UDM.Insurance.Interface.Screens
             Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
         }
         #endregion
+        private void UpgradeIDUpdateCB_Checked(object sender, RoutedEventArgs e)
+        {
+            medIDNumber.IsEnabled = true;
+
+            try
+            {
+
+                string strQueryID;
+                strQueryID = "SELECT top 1 ID FROM INUpgradeIDUpdate WHERE FKImportID = " + LaData.AppData.ImportID;
+                DataTable dtID = Methods.GetTableData(strQueryID);
+                long IDLong = long.Parse(dtID.Rows[0]["ID"].ToString());
+
+                INUpgradeIDUpdate idupdate = new INUpgradeIDUpdate(IDLong);
+                idupdate.FKImportID = LaData.AppData.ImportID;
+                idupdate.Save(_validationResult);
+            }
+            catch
+            {
+                INUpgradeIDUpdate idupdate = new INUpgradeIDUpdate();
+                idupdate.FKImportID = LaData.AppData.ImportID;
+                idupdate.Save(_validationResult);
+            }
+
+        }
+
+        private void UpgradeIDUpdateCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
+
 
     }
 

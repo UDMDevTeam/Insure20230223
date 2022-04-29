@@ -374,9 +374,9 @@
                         <Condition Binding="{Binding AppData.IsLeadUpgrade}" Value="True" />
                         <Condition Binding="{Binding AppData.SolutionConfiguration, Converter={StaticResource EnumCompareConverter}, ConverterParameter={x:Static business:lkpSolutionConfiguration.Training}}" Value="False" />
                     </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{StaticResource BrandedBrushIN_DisabledBackground}" />
-                    <Setter Property="Foreground" Value="{StaticResource BrandedBrushIN_DisabledForeground}" />
-                    <Setter Property="IsEnabled" Value="False" />
+                    <!--<Setter Property="Background" Value="{StaticResource BrandedBrushIN_DisabledBackground}" />-->
+                    <!--<Setter Property="Foreground" Value="{StaticResource BrandedBrushIN_DisabledForeground}" />-->
+                    <Setter Property="IsEnabled" Value="True" />
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -2945,7 +2945,7 @@
                             Visibility="Collapsed"
                             FontSize="20"
                            >
-                        
+
                     </Label>
                     <!--  SelectedItem="{Binding AppData.LeadStatus}"  -->
 
@@ -3114,7 +3114,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Collapsed">
+              Visibility="Hidden">
 
                         <Grid x:Name="grdPage1">
                             <Grid.RowDefinitions>
@@ -3267,6 +3267,25 @@
                   TabIndex="16530"
                   Text="{Binding ImportedPolicyData.ContractPremium}"
                   Visibility="Collapsed" />
+
+                            <TextBlock
+                  x:Name="lblUpgradeIDUpdate"
+                  Grid.Row="2"
+                  Grid.Column="5"
+                  Grid.ColumnSpan="6"
+                  Margin="5,0,0,5"
+                  VerticalAlignment="Bottom"
+                  Style="{StaticResource INLabelText2}"
+                  Text="Update ID Number for DC?" />
+                            <CheckBox x:Name="UpgradeIDUpdateCB"
+                                      Grid.Row="2"
+                                      Grid.Column="4"
+                                      Checked="UpgradeIDUpdateCB_Checked"
+                                      Unchecked="UpgradeIDUpdateCB_Unchecked"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center">
+
+                            </CheckBox>
 
                             <TextBlock
                   x:Name="lblTitle"
