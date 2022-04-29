@@ -2703,10 +2703,25 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                     }
-                   
+                    else
+                    {
+
+                        SqlParameter[] parameters = new SqlParameter[1];
+                        if (AgentMode != null) parameters[0] = new SqlParameter("@AgentMode", (int)AgentMode);
+                        DataTable dt = Methods.ExecuteStoredProcedure("spGetSalesAgents4", parameters).Tables[0];
+
+                        DataColumn column = new DataColumn("IsChecked", typeof(bool));
+                        column.DefaultValue = false;
+                        dt.Columns.Add(column);
+
+                        xdgAgents.DataSource = dt.DefaultView;
+
+                        AllRecordsChecked = false;
+                    }
 
 
-                    
+
+
                 }
                 else if (ReportMode == lkpINCampTSRReportMode.ByQA)
                 {

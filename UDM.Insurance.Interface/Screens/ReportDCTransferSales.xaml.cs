@@ -123,6 +123,8 @@ namespace UDM.Insurance.Interface.Screens
             dtSummaryDataData.Columns.Add("Debi-Checks Rejected");
             dtSummaryDataData.Columns.Add("No Response / Other");
             dtSummaryDataData.Columns.Add("No Response / Other %");
+            dtSummaryDataData.Columns.Add("Failed Transfer");
+            dtSummaryDataData.Columns.Add("Failed Transfer %");
 
             dtDataSheet.Columns.Add("DebiCheck Agent");
             dtDataSheet.Columns.Add("Campaign Code"); 
@@ -142,6 +144,8 @@ namespace UDM.Insurance.Interface.Screens
             dtByDebiCheckSpecialist.Columns.Add("Debi-Checks Rejected %");
             dtByDebiCheckSpecialist.Columns.Add("No Response / Other");
             dtByDebiCheckSpecialist.Columns.Add("No Response / Other %");
+            dtByDebiCheckSpecialist.Columns.Add("Failed Transfer");
+            dtByDebiCheckSpecialist.Columns.Add("Failed Transfer %");
             #endregion
 
 
@@ -421,6 +425,7 @@ namespace UDM.Insurance.Interface.Screens
                     var dsDebiCheckSpecialistdata = Business.Insure.INGetReportDCTransferSales(agentID, _startDate, enddate, TypeBool);
                     DataTable dtSalesRow = dsDebiCheckSpecialistdata.Tables[1];
 
+
                     foreach (DataRow items in dtSalesRow.Rows)
                     {
                         dtByDebiCheckSpecialist.Rows.Add(items.ItemArray);
@@ -514,6 +519,7 @@ namespace UDM.Insurance.Interface.Screens
                 (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "##%";
                 (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
                 (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
+                (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
 
                 (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                 workSheet.Rows[2].WrapText = true;
@@ -832,6 +838,7 @@ namespace UDM.Insurance.Interface.Screens
             (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
             //(workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
             //(workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "#";
 
