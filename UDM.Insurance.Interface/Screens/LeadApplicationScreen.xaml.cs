@@ -3430,7 +3430,14 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199 || PolicyHolderBoolDC == false || MandateRequired == "False")
+                    if (LaData.BankDetailsData.BankID == 266 
+                        || LaData.BankDetailsData.BankID == 245 
+                        || LaData.BankDetailsData.BankID == 267 
+                        || LaData.BankDetailsData.BankID == 249
+                        || LaData.BankDetailsData.BankID == 261 
+                        || GlobalSettings.ApplicationUser.ID == 199 
+                        || PolicyHolderBoolDC == false 
+                        || MandateRequired == "False")
                     {
 
                     }
@@ -8989,7 +8996,14 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || GlobalSettings.ApplicationUser.ID == 199 || PolicyHolderBoolDC == false || MandateRequired == "False")
+                    if (LaData.BankDetailsData.BankID == 266 
+                        || LaData.BankDetailsData.BankID == 245 
+                        || LaData.BankDetailsData.BankID == 267
+                        || LaData.BankDetailsData.BankID == 249
+                        || LaData.BankDetailsData.BankID == 261 
+                        || GlobalSettings.ApplicationUser.ID == 199 
+                        || PolicyHolderBoolDC == false 
+                        || MandateRequired == "False")
                     {
 
                     }
@@ -16335,7 +16349,13 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                             //these banks dont accept DebiCheck Mandates Yet
-                            if (LaData.BankDetailsData.BankID == 266 || LaData.BankDetailsData.BankID == 245 || LaData.BankDetailsData.BankID == 267 || LaData.BankDetailsData.BankID == 261 || PolicyHolderBoolDC == false || MandateRequired == "False")
+                            if (LaData.BankDetailsData.BankID == 266 
+                                || LaData.BankDetailsData.BankID == 245 
+                                || LaData.BankDetailsData.BankID == 267 
+                                || LaData.BankDetailsData.BankID == 249
+                                || LaData.BankDetailsData.BankID == 261 
+                                || PolicyHolderBoolDC == false 
+                                || MandateRequired == "False")
                             {
                                 btnDebiCheck.Visibility = Visibility.Collapsed; // this collapses the DebiChecks
                                 DebiCheckBorder.Visibility = Visibility.Collapsed;
