@@ -15538,7 +15538,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                             string strQueryHistoryID;
-                            strQueryHistoryID = "SELECT top 1 IDNo FROM zHstINLead WHERE ID = " + LaData.LeadData.LeadID + " Order By StampDate Asc";
+                            strQueryHistoryID = "SELECT top 1 IDNo FROM zHstINLead WHERE ID = " + LaData.LeadData.LeadID + " and IDNo is not null";
                             DataTable dtHistoryID = Methods.GetTableData(strQueryHistoryID);
                             string IDHistory = dtHistoryID.Rows[0]["IDNo"].ToString();
 
