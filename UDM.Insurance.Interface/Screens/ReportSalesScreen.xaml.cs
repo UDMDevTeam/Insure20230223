@@ -355,7 +355,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Copy the template formatting and add the details
 
-                Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 1, wsNewWorksheet, 0, 0);
+                //Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 1, wsNewWorksheet, 0, 0);
 
                 if (fromDate.Date == toDate.Date)
                 {
