@@ -332,6 +332,9 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         workSheet.Cells[w, 8].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w);
                         workSheet.Cells[w, 11].Formula = string.Format("=H" + w + "-I" + w);
+                        workSheet.Cells[w, 10].Formula = string.Format("=I" + w + "/H" + w);
+                        workSheet.Cells[w, 12].Formula = string.Format("=K" + w + "/H" + w);
+
                     }
                     #endregion
 
@@ -652,6 +655,9 @@ namespace UDM.Insurance.Interface.Screens
             {
                 workSheet.Cells[w, 8].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w);
                 workSheet.Cells[w, 11].Formula = string.Format("=H" + w + "-I" + w);
+                workSheet.Cells[w, 10].Formula = string.Format("=I" + w + "/H" + w);
+                workSheet.Cells[w, 12].Formula = string.Format("=K" + w + "/H" + w);
+
             }
             #endregion
 
