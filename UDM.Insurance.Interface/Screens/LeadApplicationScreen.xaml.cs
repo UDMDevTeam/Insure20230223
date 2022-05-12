@@ -2027,7 +2027,15 @@ namespace UDM.Insurance.Interface.Screens
                                     || LaData.AppData.CampaignID == 4)
                             {
                                 PolicyHolderBoolDC = true;
-                                GetBankingDetailLookup();
+                                if (LaData.AppData.CampaignID == 264)
+                                {
+                                    GetBankingDetailLookupIG();
+                                }
+                                else
+                                {
+                                    GetBankingDetailLookup();
+                                }
+
                             }
                         }
                         else
@@ -3430,13 +3438,13 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 
-                        || LaData.BankDetailsData.BankID == 245 
-                        || LaData.BankDetailsData.BankID == 267 
+                    if (LaData.BankDetailsData.BankID == 266
+                        || LaData.BankDetailsData.BankID == 245
+                        || LaData.BankDetailsData.BankID == 267
                         || LaData.BankDetailsData.BankID == 249
-                        || LaData.BankDetailsData.BankID == 261 
-                        || GlobalSettings.ApplicationUser.ID == 199 
-                        || PolicyHolderBoolDC == false 
+                        || LaData.BankDetailsData.BankID == 261
+                        || GlobalSettings.ApplicationUser.ID == 199
+                        || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
                     {
 
@@ -8996,13 +9004,13 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
                 if (DebiCheckConfigBool == 1)
                 {
-                    if (LaData.BankDetailsData.BankID == 266 
-                        || LaData.BankDetailsData.BankID == 245 
+                    if (LaData.BankDetailsData.BankID == 266
+                        || LaData.BankDetailsData.BankID == 245
                         || LaData.BankDetailsData.BankID == 267
                         || LaData.BankDetailsData.BankID == 249
-                        || LaData.BankDetailsData.BankID == 261 
-                        || GlobalSettings.ApplicationUser.ID == 199 
-                        || PolicyHolderBoolDC == false 
+                        || LaData.BankDetailsData.BankID == 261
+                        || GlobalSettings.ApplicationUser.ID == 199
+                        || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
                     {
 
@@ -15577,7 +15585,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else if (IDNumberDebiCheck == "1")
                         {
-                            if(WasChanged == true)
+                            if (WasChanged == true)
                             {
                                 try { data["IdentificationNumber"] = LaData.LeadData.IDNumber.ToString(); } catch { data["IdentificationNumber"] = ""; }
 
@@ -15627,15 +15635,15 @@ namespace UDM.Insurance.Interface.Screens
 
                         #region Upgrades ID Number Update
 
-                            if (WasChanged == true)
-                            {
-                                try { data["CustomField2"] = "1"; } catch { data["CustomField1"] = " "; }
-                            }
-                            else
-                            {
-                                try { data["CustomField2"] = "0"; } catch { data["CustomField1"] = " "; }
+                        if (WasChanged == true)
+                        {
+                            try { data["CustomField2"] = "1"; } catch { data["CustomField1"] = " "; }
+                        }
+                        else
+                        {
+                            try { data["CustomField2"] = "0"; } catch { data["CustomField1"] = " "; }
 
-                            }
+                        }
 
                         #endregion
 
@@ -15661,8 +15669,7 @@ namespace UDM.Insurance.Interface.Screens
                             || LaData.AppData.CampaignID == 326
                             || LaData.AppData.CampaignID == 327
                             || LaData.AppData.CampaignID == 264
-                            || LaData.AppData.CampaignID == 4
-                            || LaData.AppData.CampaignID == 374)
+                            || LaData.AppData.CampaignID == 4)
                     {
                         string AccountTypeNumber = " ";
                         if (AccountTypePLLKP == "Current")
@@ -16174,6 +16181,159 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+        private void GetBankingDetailLookupIG()
+        {
+            #region AuthToken
+            try
+            {
+                #region constants
+                string PolicyIDSendDebiCheck;
+                string PolicyNumber;
+                string ReferenceNumber;
+                string ResponseDetail; // WILL RETURN "OK" OR "No Data Found"
+                IDNumberPLLKP = "";
+                #endregion
+
+                ReferenceNumberPLLKP = "";
+
+                try
+                {
+                    StringBuilder strQuery = new StringBuilder();
+                    strQuery.Append("SELECT ReferrorPolicyID [Code] ");
+                    strQuery.Append("FROM INImport ");
+                    strQuery.Append($"WHERE ID = {LaData.AppData.ImportID}");
+
+                    DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                    ReferenceNumberPLLKP = dt.Rows[0]["Code"].ToString();
+
+                    //if (PolicyIDSendDebiCheck == "")
+                    //{
+                    PolicyIDSendDebiCheck = "0";
+                    //}
+                }
+                catch
+                {
+                    PolicyIDSendDebiCheck = "0";
+                }
+
+                PolicyNumberPLLKP = "";
+                ResponseDetailPLLKP = "";
+                BankPLLKP = "";
+                AccountNumberPLLKP = "";
+                AccountHolderPLLKP = "";
+                BranchCodePLLKP = "";
+                AccountTypePLLKP = "";
+                DebitDayPLLKP = "";
+
+
+                #endregion
+
+                string PolicyNumberReplace;
+                string IDNumberReplace;
+                string ReferenceNumberReplace;
+                string PassportNumberReplace;
+                string FirstNameReplace;
+                string LastNameReplace;
+                string MobileNumberReplace;
+                string HomeNumberReplace;
+                string EmailAddressReplace;
+                string WorkNumberReplace;
+                string response;
+                string DebiCheckURLBD = "https://collectionmandate.isabella-garcia.com:9443/ocpu/user/sprite/library/igclientbankingdetaillookup/R/ig_banking_detail_lkup_func/json/";
+                string DebiCheckURLID = "https://collectionmandate.isabella-garcia.com:9443/ocpu/user/sprite/library/igclientbankingdetaillookup/R/ig_client_detail_lkup_func/json/";
+
+                string JSONString = @"{""Organization"": ""PL-UDM"",""AccessCode"": ""Spo0O0HUfripEstotHIF"",""PolicyNumber"": ""#PolicyNumber#"",""IDNumber"": ""#IDNumber#"",""ReferenceNumber"": ""#ReferenceNumber#"",""PassportNumber"": ""#PassportNumber#"",""FirstName"": ""#FirstName#"",""LastName"": ""#LastName#"",""MobileNumber"": ""#MobileNumber#"",""HomeNumber"": ""#HomeNumber#"",""WorkNumber"": ""#WorkNumber#"",""EmailAddress"": ""#EmailAddress#""}";
+                try { PolicyNumberReplace = JSONString.Replace("#PolicyNumber#", "0"); } catch { PolicyNumberReplace = JSONString.Replace("#PolicyNumber#", "0"); }
+                try { IDNumberReplace = PolicyNumberReplace.Replace("#IDNumber#", LaData.LeadData.IDNumber.ToString()); } catch { IDNumberReplace = PolicyNumberReplace.Replace("#IDNumber#", ""); }
+                try { ReferenceNumberReplace = IDNumberReplace.Replace("#ReferenceNumber#", ReferenceNumberPLLKP); } catch { ReferenceNumberReplace = IDNumberReplace.Replace("#ReferenceNumber#", ""); }
+                try { PassportNumberReplace = ReferenceNumberReplace.Replace("#PassportNumber#", LaData.LeadData.PassportNumber.ToString()); } catch { PassportNumberReplace = ReferenceNumberReplace.Replace("#PassportNumber#", ""); }
+                try { FirstNameReplace = PassportNumberReplace.Replace("#FirstName#", LaData.LeadData.Name); } catch { FirstNameReplace = PassportNumberReplace.Replace("#FirstName#", ""); }
+                try { LastNameReplace = FirstNameReplace.Replace("#LastName#", LaData.LeadData.Surname); } catch { LastNameReplace = FirstNameReplace.Replace("#LastName#", ""); }
+                try { MobileNumberReplace = LastNameReplace.Replace("#MobileNumber#", LaData.LeadData.TelCell); } catch { MobileNumberReplace = LastNameReplace.Replace("#MobileNumber#", ""); }
+                try { HomeNumberReplace = MobileNumberReplace.Replace("#HomeNumber#", LaData.LeadData.TelHome); } catch { HomeNumberReplace = MobileNumberReplace.Replace("#HomeNumber#", ""); }
+                try { WorkNumberReplace = HomeNumberReplace.Replace("#WorkNumber#", LaData.LeadData.TelWork); } catch { WorkNumberReplace = HomeNumberReplace.Replace("#WorkNumber#", ""); }
+                try { EmailAddressReplace = WorkNumberReplace.Replace("#EmailAddress#", LaData.LeadData.Email); } catch { EmailAddressReplace = WorkNumberReplace.Replace("#EmailAddress#", ""); }
+
+                #region ID Details
+                HttpWebRequest requestID = (HttpWebRequest)WebRequest.Create(DebiCheckURLID);
+                requestID.Method = "POST";
+                requestID.ContentType = "application/json";
+                requestID.ContentLength = EmailAddressReplace.Length;
+                requestID.Timeout = 180000;
+                using (Stream webStream = requestID.GetRequestStream())
+                using (StreamWriter requestWriter = new StreamWriter(webStream, System.Text.Encoding.ASCII))
+                {
+                    requestWriter.Write(EmailAddressReplace);
+                }
+
+                string IGIDresponse = "";
+
+                WebResponse webResponseID = requestID.GetResponse();
+                using (Stream webStreamID = webResponseID.GetResponseStream() ?? Stream.Null)
+                using (StreamReader responseReader = new StreamReader(webStreamID))
+                {
+                    IGIDresponse = responseReader.ReadToEnd();
+                }
+
+                var customObjectID = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(IGIDresponse);
+                var customObjectID2 = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>((string)customObjectID[0]["data"]);
+
+                IDNumberPLLKP = (string)customObjectID2[0]["IDNumber"];
+                #endregion
+
+                #region BD Banking Details
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(DebiCheckURLBD);
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = EmailAddressReplace.Length;
+                request.Timeout = 180000;
+                using (Stream webStream = request.GetRequestStream())
+                using (StreamWriter requestWriter = new StreamWriter(webStream, System.Text.Encoding.ASCII))
+                {
+                    requestWriter.Write(EmailAddressReplace);
+                }
+
+                string IGresponse = "";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream() ?? Stream.Null)
+                using (StreamReader responseReader = new StreamReader(webStream))
+                {
+                   IGresponse = responseReader.ReadToEnd();
+                }
+
+                var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(IGresponse);
+                var customObject2 = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>((string)customObject[0]["data"]);
+
+                BankPLLKP = (string)customObject2[0]["Bank"];
+                AccountNumberPLLKP = (string)customObject2[0]["AccountNumber"];
+                AccountHolderPLLKP = (string)customObject2[0]["AccountHolder"];
+                BranchCodePLLKP = (string)customObject2[0]["BranchCode"];
+                AccountTypePLLKP = (string)customObject2[0]["AccountType"];
+                DebitDayPLLKP = (string)customObject2[0]["DebitDay"];
+                #endregion
+
+                #region Additional Rules
+                if (BankPLLKP == null || BankPLLKP == "")
+                {
+                    GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                    GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
+                }
+                else
+                {
+                    GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
+                    GotBankingDetailsPLLBL2.Text = " ";
+                }
+                #endregion
+            }
+            catch (Exception r)
+            {
+                GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
+            }
+        }
+
         public void IsDebiCheckValidForResales()
         {
             //btnDebiCheck.Visibility = Visibility.Collapsed;
@@ -16350,12 +16510,12 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                             //these banks dont accept DebiCheck Mandates Yet
-                            if (LaData.BankDetailsData.BankID == 266 
-                                || LaData.BankDetailsData.BankID == 245 
-                                || LaData.BankDetailsData.BankID == 267 
+                            if (LaData.BankDetailsData.BankID == 266
+                                || LaData.BankDetailsData.BankID == 245
+                                || LaData.BankDetailsData.BankID == 267
                                 || LaData.BankDetailsData.BankID == 249
-                                || LaData.BankDetailsData.BankID == 261 
-                                || PolicyHolderBoolDC == false 
+                                || LaData.BankDetailsData.BankID == 261
+                                || PolicyHolderBoolDC == false
                                 || MandateRequired == "False")
                             {
                                 btnDebiCheck.Visibility = Visibility.Collapsed; // this collapses the DebiChecks
@@ -16410,6 +16570,9 @@ namespace UDM.Insurance.Interface.Screens
                                         || LaData.AppData.CampaignID == 264
                                         || LaData.AppData.CampaignID == 4)
                                     {
+                                        btnDebiCheck.Opacity = 1;
+                                        btnDebiCheck.ToolTip = null;
+
                                         DateTime ImportDate;
                                         try
                                         {
