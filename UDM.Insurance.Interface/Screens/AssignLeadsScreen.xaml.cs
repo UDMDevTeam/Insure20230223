@@ -401,7 +401,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         arrCount[0]++;
                         strQuery = new StringBuilder();
-                        strQuery.AppendFormat($"SELECT COUNT(INImportOther.ID) [Count] FROM INImportOther WHERE FKINImportID = '{inImport.ID}' AND (TimesRemarketed IS NULL) ");
+                        strQuery.AppendFormat($"SELECT COUNT(INImportOther.ID) [Count] FROM INImportOther WHERE FKINImportID = '{inImport.ID}' AND (TimesRemarketed IS NOT NULL) ");
 
                         if (Convert.ToInt32(Methods.GetTableData(strQuery.ToString()).Rows[0]["Count"]) == 1)
                         {
