@@ -81,7 +81,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
-                if (tbCampaign.Text == "PL Cancer Base Elite" || tbCampaign.Text == "PL Macc Million Base Elite")
+                if (tbCampaign.Text == "PL Cancer Base Elite" || tbCampaign.Text == "PM Cancer Base Elite" || tbCampaign.Text == "PL Macc Million Base Elite" || tbCampaign.Text == "PM Macc Million Base Elite")
                 {
                     tbUnMarketedLeads.Visibility = Visibility.Visible;
                     chkPreMarketedLeads.Visibility = Visibility.Visible;
