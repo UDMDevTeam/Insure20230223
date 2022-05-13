@@ -88,6 +88,57 @@ namespace UDM.Insurance.Business.Mapping
             return collection;
         }
 
+        //public static INImportCollection SearchUnMarketed(long? fkuserid, long? fkbatchid, bool? isprinted, string connectionName)
+        //{
+        //    INImportCollection collection = new INImportCollection();
+        //    try
+        //    {
+        //        IDataReader reader = Database.ExecuteReader(connectionName, INImportQueries.SearchUnMarketed(fkuserid, fkbatchid, isprinted), null);
+        //        while (reader.Read())
+        //        {
+        //            INImport inImport = new INImport((long)reader["ID"]);
+        //            inImport.ConnectionName = connectionName;
+        //            collection.Add(inImport);
+        //        }
+        //        if (!reader.IsClosed)
+        //        {
+        //            reader.Close();
+        //            reader.Dispose();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new MapperException("Failed to search for INImport objects in the database", ex);
+        //    }
+        //    return collection;
+        //}
+
+
+        public static INImportCollection SearchUnMarketed(long? fkuserid, bool? isCopied, long? fkbatchid, string connectionName)
+        {
+            INImportCollection collection = new INImportCollection();
+            try
+            {
+                IDataReader reader = Database.ExecuteReader(connectionName, INImportQueries.SearchUnMarketed(fkuserid, isCopied, fkbatchid), null);
+                while (reader.Read())
+                {
+                    INImport inImport = new INImport((long)reader["ID"]);
+                    inImport.ConnectionName = connectionName;
+                    collection.Add(inImport);
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MapperException("Failed to search for INImport objects in the database", ex);
+            }
+            return collection;
+        }
+
         #endregion
     }
 }

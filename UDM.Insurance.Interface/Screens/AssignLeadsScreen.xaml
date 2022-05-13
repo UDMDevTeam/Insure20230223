@@ -409,6 +409,18 @@
                         Text="Active, Employed"
                         TextWrapping="NoWrap"
                         d:LayoutOverrides="GridBox" />
+                    <TextBlock
+                        x:Name="tbUnMarketedLeads"
+                        Grid.Row="9"
+                        Grid.Column="7"
+                        Grid.ColumnSpan="4"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Visibility="Collapsed"
+                        Style="{DynamicResource INLabelText3}"
+                        Text="Active, Employed"
+                        TextWrapping="NoWrap"
+                        d:LayoutOverrides="GridBox" />
                     <Button
                         x:Name="btnAgents"
                         Grid.Row="12"
@@ -497,6 +509,31 @@
                         </StackPanel>
 
                     </Border>
+                    <TextBlock
+                        x:Name="lblUnMarketedLeads"
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="5"
+                        Margin="0,0,0,43"
+                        VerticalAlignment="Bottom"
+                        Visibility="Collapsed"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Prioritize Un-marketed to Leads" Grid.RowSpan="2" />
+
+                    <CheckBox
+                        x:Name="chkPreMarketedLeads"
+                        Grid.Row="9"
+                        Grid.Column="6"
+                        Width="16"
+                        Height="16"
+                        Margin="12,0,0,43"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Checked="chkPreMarketedLeads_Checked"
+                        Unchecked="chkPreMarketedLeads_Unchecked"
+                        Style="{StaticResource INCheckboxStyle}"
+                        TabIndex="0"
+                        Visibility="Collapsed" RenderTransformOrigin="-0.708,0.667" Grid.RowSpan="2" />
 
                 </Grid>
             </Viewbox>
