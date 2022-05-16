@@ -2091,7 +2091,16 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region Load SaleNotTransferredReason
+                try
+                {
+                    cmbSalesNotTransferredReasons.ItemsSource = null;
+                    DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason WHERE ID != 4");
+                    cmbSalesNotTransferredReasons.Populate(dtSalesNoteTranferredReasons, DescriptionField, IDField);
+                }
+                catch
+                {
 
+                }
                 try
                 {
                     StringBuilder strQueryINSalesNotTransferredDetails = new StringBuilder();
@@ -4847,7 +4856,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 try
                 {
-                    DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason");
+                    DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason WHERE ID != 4");
                     cmbSalesNotTransferredReasons.Populate(dtSalesNoteTranferredReasons, DescriptionField, IDField);
                 }
                 catch
@@ -16936,7 +16945,44 @@ namespace UDM.Insurance.Interface.Screens
             }
             else
             {
-                cmbSalesNotTransferredReasons.SelectedIndex = 2;
+                cmbSalesNotTransferredReasons.ItemsSource = null;
+                DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason");
+
+                cmbSalesNotTransferredReasons.Populate(dtSalesNoteTranferredReasons, DescriptionField, IDField);
+
+                cmbSalesNotTransferredReasons.SelectedValue = 4;
+
+                try
+                {
+                    if (LeadLoadingBool == true)
+                    {
+
+                    }
+                    else
+                    {
+                        DataTable value = Methods.GetTableData("SELECT ID FROM INSalesNotTransferredDetails WHERE FKImportID = " + LaData.AppData.ImportID);
+                        DataTable dtSalesNoteTransferredReasonID = Methods.GetTableData("SELECT ID FROM lkpSalesNotTransferredReason WHERE Description = '" + cmbSalesNotTransferredReasons.SelectedValue + "'");
+
+                        if (value.Rows.Count == 0)
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                            details.FKImportID = LaData.AppData.ImportID;
+                            details.FKSalesNotTransferredReason = "4";
+                            details.Save(_validationResult);
+                        }
+                        else
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                            details.FKSalesNotTransferredReason = "4";
+                            details.Save(_validationResult);
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+
             }
             #endregion
         }
