@@ -15736,7 +15736,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         bool IsUDMAcquiredDetails = false;
 
-                        if (medDOAccountNumber.Text == "")
+                        if (medDOAccountNumber.Text == "" || medDOAccountNumber.Text == null)
                         {
                             IsUDMAcquiredDetails = false;
                         }
@@ -15772,22 +15772,26 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         try { data["ReferenceNumber"] = LaData.AppData.RefNo; } catch { data["ReferenceNumber"] = ""; }
 
-                        if (medDOAccountNumber.Text != "")
-                        {
-                            try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
-                        }
-                        else
+                        if (medDOAccountNumber.Text == null || medDOAccountNumber.Text == "")
                         {
                             try { data["BranchCode"] = BranchCodePLLKP; } catch { data["BranchCode"] = ""; }
-                        }
 
-                        if (medDOAccountNumber.Text != "")
-                        {
-                            try { data["AccountNumber"] = medDOAccountNumber.Text; } catch { data["AccountNumber"] = ""; }
                         }
                         else
                         {
+                            try { data["BranchCode"] = responsesBranchCode; } catch { data["BranchCode"] = ""; }
+
+                        }
+
+                        if (medDOAccountNumber.Text == null || medDOAccountNumber.Text == "")
+                        {
                             try { data["AccountNumber"] = AccountNumberPLLKP; } catch { data["AccountNumber"] = ""; }
+
+                        }
+                        else
+                        {
+                            try { data["AccountNumber"] = medDOAccountNumber.Text; } catch { data["AccountNumber"] = ""; }
+
                         }
 
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
@@ -17234,8 +17238,8 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
-                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                        ShowMessageBox(messageWindow, "Reminder that Manual Sales must be completed by 9am.", "Reminder - Manual Sale", ShowMessageType.Exclamation);
+                        //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                        //ShowMessageBox(messageWindow, "Reminder that Manual Sales must be completed by 9am.", "Reminder - Manual Sale", ShowMessageType.Exclamation);
                         cmbSalesNotTransferredReasons.SelectedIndex = -1;
                     }
                 }
