@@ -485,13 +485,53 @@ namespace UDM.Insurance.Interface.Screens
                     for (var j = 0; j < dtSummaryDataData.Columns.Count; j++)
                     {
                         workSheet.Cells[i + 2, j + 1] = dtSummaryDataData.Rows[i - 1][j];
+                        workSheet.Cells[i + 2, j + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                     }
 
                     countForNonRedeemed = countForNonRedeemed + 1;
 
                 }
 
+                int totalrows = dtSummaryDataData.Rows.Count + 3;
 
+                int totalRowMinusOne = totalrows - 1;
+
+                workSheet.Cells[totalrows, 1].Value = "Total :";
+                workSheet.Cells[totalrows, 1].Font.Bold = true;
+
+                workSheet.Cells[totalrows, 2].Formula = string.Format("=SUM(B1:B" + totalRowMinusOne.ToString() + ")"); //B
+                workSheet.Cells[totalrows, 2].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 2].Font.Bold = true;
+                workSheet.Cells[totalrows, 3].Formula = string.Format("=SUM(C1:C" + totalRowMinusOne.ToString() + ")"); //C
+                workSheet.Cells[totalrows, 3].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 3].Font.Bold = true;
+                workSheet.Cells[totalrows, 4].Formula = string.Format("=AVERAGE(D1:D" + totalRowMinusOne.ToString() + ")"); //D
+                workSheet.Cells[totalrows, 4].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 4].Font.Bold = true;
+                workSheet.Cells[totalrows, 5].Formula = string.Format("=AVERAGE(E1:E" + totalRowMinusOne.ToString() + ")"); //E
+                workSheet.Cells[totalrows, 5].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 5].Font.Bold = true;
+                workSheet.Cells[totalrows, 6].Formula = string.Format("=AVERAGE(F1:F" + totalRowMinusOne.ToString() + ")"); //F
+                workSheet.Cells[totalrows, 6].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 6].Font.Bold = true;
+                workSheet.Cells[totalrows, 7].Formula = string.Format("=SUM(G1:G" + totalRowMinusOne.ToString() + ")"); //G
+                workSheet.Cells[totalrows, 7].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 7].Font.Bold = true;
+                workSheet.Cells[totalrows, 8].Formula = string.Format("=AVERAGE(H1:H" + totalRowMinusOne.ToString() + ")"); //H
+                workSheet.Cells[totalrows, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 8].Font.Bold = true;
+                workSheet.Cells[totalrows, 9].Formula = string.Format("=SUM(I1:I" + totalRowMinusOne.ToString() + ")"); //I
+                workSheet.Cells[totalrows, 9].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 9].Font.Bold = true;
+                workSheet.Cells[totalrows, 10].Formula = string.Format("=AVERAGE(J1:J" + totalRowMinusOne.ToString() + ")"); //J
+                workSheet.Cells[totalrows, 10].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 10].Font.Bold = true;
+                workSheet.Cells[totalrows, 11].Formula = string.Format("=SUM(K1:K" + totalRowMinusOne.ToString() + ")"); //K
+                workSheet.Cells[totalrows, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 11].Font.Bold = true;
+                workSheet.Cells[totalrows, 12].Formula = string.Format("=AVERAGE(L1:L" + totalRowMinusOne.ToString() + ")"); //L
+                workSheet.Cells[totalrows, 12].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Cells[totalrows, 12].Font.Bold = true;
 
 
                 //workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
@@ -512,7 +552,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
-                workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 10]].Merge();
+                workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 12]].Merge();
                 workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
 
@@ -608,6 +648,8 @@ namespace UDM.Insurance.Interface.Screens
                 countForNonRedeemed = countForNonRedeemed + 1;
             }
 
+            
+
             #region Totals for Grid 1
             //workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
             //workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
@@ -640,6 +682,22 @@ namespace UDM.Insurance.Interface.Screens
 
             //workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
             //workSheet.Range["C2", "G2"].Interior.Color = System.Drawing.Color.LightBlue;
+
+
+            //workSheet.Cells[30, 2].Formula = string.Format("=SUM(B1:B29)"); //B
+            //workSheet.Cells[30, 3].Formula = string.Format("=SUM(C1:C29)"); //C
+            //workSheet.Cells[30, 4].Formula = string.Format("=SUM(D1:D29)"); //D
+            //workSheet.Cells[30, 5].Formula = string.Format("=SUM(E1:E29)"); //E
+            //workSheet.Cells[30, 7].Formula = string.Format("=SUM(G1:G29)"); //G
+            //workSheet.Cells[30, 9].Formula = string.Format("=SUM(I1:I29)"); //I
+            //workSheet.Cells[30, 11].Formula = string.Format("=SUM(K1:K29)"); //K
+            //workSheet.Cells[30, 13].Formula = string.Format("=SUM(M1:M29)"); //M
+            //workSheet.Cells[30, 15].Formula = string.Format("=SUM(O1:O29)"); //O
+            //workSheet.Cells[30, 17].Formula = string.Format("=SUM(Q1:Q29)"); //Q
+            //workSheet.Cells[30, 19].Formula = string.Format("=SUM(S1:S29)"); //S
+            //workSheet.Cells[30, 21].Formula = string.Format("=SUM(U1:U29)"); //U
+            //workSheet.Cells[30, 23].Formula = string.Format("=SUM(W1:W29)"); //W
+            //workSheet.Cells[30, 25].Formula = string.Format("=SUM(Y1:Y29)"); //y
 
 
             //(workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
@@ -757,18 +815,22 @@ namespace UDM.Insurance.Interface.Screens
             workSheet.Cells[1, 0 + 1] = "Debi-Check Tracking Report";
             workSheet.Cells[1, 0 + 1].Font.Bold = true;
             workSheet.Cells[1, 0 + 1].Font.Size = 50;
-            workSheet.Cells[1, 0 + 1].ColumnWidth = 60;
+            workSheet.Cells[1, 0 + 1].ColumnWidth = 20;
             for (var i = 0; i < dtByDebiCheckSpecialist.Columns.Count; i++)
             {
 
                 workSheet.Cells[2, i + 1].Font.Bold = true;
+                workSheet.Cells[2, i + 1].WrapText = true;
+
                 if (i == 0)
                 {
-                    workSheet.Cells[2, i + 1].ColumnWidth = 30;
+                    workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                    workSheet.Cells[2, i + 1].WrapText = true;
                 }
                 else
                 {
-                    workSheet.Cells[2, i + 1].ColumnWidth = 30;
+                    workSheet.Cells[2, i + 1].ColumnWidth = 20;
+                    workSheet.Cells[2, i + 1].WrapText = true;
                 }
 
                 workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
@@ -781,6 +843,7 @@ namespace UDM.Insurance.Interface.Screens
             {
 
                 workSheet.Cells[2, i + 1] = dtByDebiCheckSpecialist.Columns[i].ColumnName;
+
             }
 
             // rows
@@ -797,13 +860,55 @@ namespace UDM.Insurance.Interface.Screens
                 countForNonRedeemed = countForNonRedeemed + 1;
             }
 
+            int totalrows = dtByDebiCheckSpecialist.Rows.Count + 3;
+
+            int totalRowMinusOne = totalrows - 1;
+
+            workSheet.Cells[totalrows, 1].Value = "Total :";
+            workSheet.Cells[totalrows, 1].Font.Bold = true;
+
+            workSheet.Cells[totalrows, 2].Formula = string.Format("=SUM(B1:B" + totalRowMinusOne.ToString() + ")"); //B
+            workSheet.Cells[totalrows, 2].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 2].Font.Bold = true;
+            workSheet.Cells[totalrows, 3].Formula = string.Format("=SUM(C1:C" + totalRowMinusOne.ToString() + ")"); //C
+            workSheet.Cells[totalrows, 3].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 3].Font.Bold = true;
+            workSheet.Cells[totalrows, 4].Formula = string.Format("=AVERAGE(D1:D" + totalRowMinusOne.ToString() + ")"); //D
+            workSheet.Cells[totalrows, 4].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 4].Font.Bold = true;
+            workSheet.Cells[totalrows, 5].Formula = string.Format("=AVERAGE(E1:E" + totalRowMinusOne.ToString() + ")"); //E
+            workSheet.Cells[totalrows, 5].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 5].Font.Bold = true;
+            workSheet.Cells[totalrows, 6].Formula = string.Format("=AVERAGE(F1:F" + totalRowMinusOne.ToString() + ")"); //F
+            workSheet.Cells[totalrows, 6].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 6].Font.Bold = true;
+            workSheet.Cells[totalrows, 7].Formula = string.Format("=SUM(G1:G" + totalRowMinusOne.ToString() + ")"); //G
+            workSheet.Cells[totalrows, 7].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 7].Font.Bold = true;
+            workSheet.Cells[totalrows, 8].Formula = string.Format("=AVERAGE(H1:H" + totalRowMinusOne.ToString() + ")"); //H
+            workSheet.Cells[totalrows, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 8].Font.Bold = true;
+            workSheet.Cells[totalrows, 9].Formula = string.Format("=SUM(I1:I" + totalRowMinusOne.ToString() + ")"); //I
+            workSheet.Cells[totalrows, 9].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 9].Font.Bold = true;
+            workSheet.Cells[totalrows, 10].Formula = string.Format("=AVERAGE(J1:J" + totalRowMinusOne.ToString() + ")"); //J
+            workSheet.Cells[totalrows, 10].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 10].Font.Bold = true;
+            workSheet.Cells[totalrows, 11].Formula = string.Format("=SUM(K1:K" + totalRowMinusOne.ToString() + ")"); //K
+            workSheet.Cells[totalrows, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 11].Font.Bold = true;
+            workSheet.Cells[totalrows, 12].Formula = string.Format("=AVERAGE(L1:L" + totalRowMinusOne.ToString() + ")"); //L
+            workSheet.Cells[totalrows, 12].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            workSheet.Cells[totalrows, 12].Font.Bold = true;
+
+
             #region Totals for Grid 1
             //workSheet.Cells[countForNonRedeemed + 3, 3].Formula = string.Format("=SUM(C3:C" + (countForNonRedeemed + 2).ToString() + ")"); //D
             //workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
             //workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
             //workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
 
-            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 10]].Merge();
+            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 12]].Merge();
             workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
             #endregion
@@ -832,8 +937,8 @@ namespace UDM.Insurance.Interface.Screens
 
 
             //(workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
-            //(workSheet.Rows[2]).EntireRow.RowHeight = 30;
-            //workSheet.Rows[2].WrapText = true;
+            (workSheet.Rows[2]).EntireRow.RowHeight = 30;
+            workSheet.Rows[2].WrapText = true;
 
             (workSheet.Cells[1, 5]).EntireColumn.NumberFormat = "##%";
             (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
