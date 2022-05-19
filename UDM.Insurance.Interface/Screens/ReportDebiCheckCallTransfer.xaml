@@ -154,8 +154,8 @@
 
                     <Border x:Name="BorderCB"
                             Grid.Column="12"
-                            Grid.Row="14"
-                            Grid.RowSpan="2"
+                            Grid.Row="12"
+                            Grid.RowSpan="4"
                             Grid.ColumnSpan="5"
                             CornerRadius="10"
                             BorderThickness="2"
@@ -180,6 +180,40 @@
                               HorizontalAlignment="Center"
                               Checked="BaseCB_Checked">
                     </CheckBox>
+                    <CheckBox x:Name="DefaultCB"
+                              Grid.Row="13"
+                              Grid.Column="13"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="DefaultCB_Checked">
+                    </CheckBox>
+                    <CheckBox x:Name="SummaryCB"
+                              Grid.Row="12"
+                              Grid.Column="13"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="SummaryCB_Checked">
+                    </CheckBox>
+                    <Label
+                        Grid.Row="12"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="6"
+                        Margin="0,0,10.333,11.667"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Summary"
+                        Visibility="Visible" Width="247" />
+                    <Label
+                        Grid.Row="13"
+                        Grid.Column="15"
+                        Grid.ColumnSpan="6"
+                        Margin="0,0,10.333,11.667"
+                        VerticalAlignment="Bottom"
+                        Foreground="White"
+                        FontSize="15"
+                        Content="Default"
+                        Visibility="Visible" Width="247" />
                     <Label
                         Grid.Row="15"
                         Grid.Column="15"

@@ -43,7 +43,11 @@ namespace UDM.Insurance.Interface.Screens
         private DateTime _startDate;
         private DateTime _endDate;
         DataTable dtSalesData = new DataTable();
+        DataTable dtSalesDataSummary = new DataTable();
+
         List<int> UserIDs = new List<int>();
+        private bool _isDefault = true;
+        private bool _isSummary = false;
 
 
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
@@ -76,8 +80,32 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Debi-Check agent not available - Invalid");
             dtSalesData.Columns.Add("Total Sales Hidden");
 
+            dtSalesDataSummary.Columns.Add("TSR Name");
+            dtSalesDataSummary.Columns.Add("Employment Status");
+            dtSalesDataSummary.Columns.Add("Supervisor");
+            dtSalesDataSummary.Columns.Add("Total Sales");
+            dtSalesDataSummary.Columns.Add("Less Sales where Debi-checks are N/A");
+            dtSalesDataSummary.Columns.Add("Less DC Agent not available - valid");
+            dtSalesDataSummary.Columns.Add("Overtime Sale");
+            dtSalesDataSummary.Columns.Add("Sales to Be Transferred");
+            dtSalesDataSummary.Columns.Add("Actual Sales Transferred");
+            dtSalesDataSummary.Columns.Add("% Transferred");
+            dtSalesDataSummary.Columns.Add("Total Calls Not Transferred");
+            dtSalesDataSummary.Columns.Add("%  Total calls not transferred");
+            dtSalesDataSummary.Columns.Add("Debi-Check agent not available");
+            dtSalesDataSummary.Columns.Add("Difficult client");
+            dtSalesDataSummary.Columns.Add("Remote shift");
+            dtSalesDataSummary.Columns.Add("Actual Transferred");
+            dtSalesDataSummary.Columns.Add("Debi-Check agent not available - Invalid");
+            dtSalesDataSummary.Columns.Add("Total Sales Hidden");
+            dtSalesDataSummary.Columns.Add("MTD Transfer %");
+
+
             dispatcherTimer1.Tick += Timer1;
             dispatcherTimer1.Interval = new TimeSpan(0, 0, 1);
+
+            DefaultCB.IsChecked = true;
+
         }
 
         #endregion Constructors
@@ -184,6 +212,8 @@ namespace UDM.Insurance.Interface.Screens
 
                 DataSet dsAgentIDs ;
 
+
+
                 dsAgentIDs = Business.Insure.INGetReportCallTransferAgents(_startDate, _endDate, IsUpgrade);
                 DataTable dtAgentIDs = dsAgentIDs.Tables[0];
 
@@ -208,8 +238,16 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         TimeSpan ts11 = new TimeSpan(23, 00, 0);
                         DateTime enddate = _endDate.Date + ts11;
-
-                        dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade);
+                        string summaryBool;
+                        if (_isSummary == true)
+                        {
+                            summaryBool = "1";
+                        }
+                        else
+                        {
+                            summaryBool = "0";
+                        }
+                        dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade, summaryBool);
 
                         DataTable dtSalesRow = dsDiaryReportData.Tables[0];
 
@@ -392,6 +430,242 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Arrow);
             }
         }
+        private void ReportSummary(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                List<DateTime> datesSelectedList = new List<DateTime>();
+
+                DateTime startdate = _startDate;
+                datesSelectedList.Add(startdate);
+
+                for (int x = 0; startdate < _endDate; x++)
+                {
+                    startdate = startdate.AddDays(1);
+                    datesSelectedList.Add(startdate);
+                }
+
+                try { UserIDs.Clear(); } catch { }
+
+                DataSet dsAgentIDs;
+
+
+                dsAgentIDs = Business.Insure.INGetReportCallTransferAgents(_startDate, _endDate, IsUpgrade.ToString());
+                DataTable dtAgentIDs = dsAgentIDs.Tables[0];
+
+                foreach (DataRow item in dtAgentIDs.Rows)
+                {
+                    UserIDs.Add(int.Parse(item[0].ToString()));
+                }
+
+                //#region Added additional upgrades
+                //UserIDs.Add(40539);
+                //UserIDs.Add(40530);
+                //#endregion
+
+                DataSet dsDiaryReportData;
+                try { dtSalesDataSummary.Clear(); } catch { }
+                //DataTable dtSalesData = new DataTable();
+
+                foreach (var item in UserIDs)
+                {
+                    #region Get the report data
+                    try
+                    {
+                        TimeSpan ts11 = new TimeSpan(23, 00, 0);
+                        DateTime enddate = _endDate.Date + ts11;
+                        string summaryBool;
+                        if (_isSummary == true)
+                        {
+                            summaryBool = "1";
+                        }
+                        else
+                        {
+                            summaryBool = "0";
+                        }
+                        dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade, summaryBool);
+
+                        DataTable dtSalesRow = dsDiaryReportData.Tables[0];
+
+                        foreach (DataRow items in dtSalesRow.Rows)
+                        {
+                            dtSalesDataSummary.Rows.Add(items.ItemArray);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+
+                }
+
+                #endregion Get the report data
+
+                int countForNonRedeemed = 0;
+
+
+                try
+                {
+                    string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                    string filePathAndName = String.Format("TSRDebiCheckCallTransferStats" + DateTime.Now.ToString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+
+                    if (dtSalesDataSummary == null || dtSalesDataSummary.Columns.Count == 0)
+                        throw new Exception("ExportToExcel: Null or empty input table!\n");
+
+                    // load excel, and create a new workbook
+                    var excelApp = new Microsoft.Office.Interop.Excel.Application();
+                    excelApp.Workbooks.Add();
+
+
+                    // single worksheet
+                    Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
+                    workSheet.Name = "Summary Page";
+                    //    workSheet.Cells[1, 0 + 1] =  "Date Range : " + _endDate.ToShortDateString() + " to " + _startDate.ToShortDateString();
+                    for (var i = 0; i < dtSalesDataSummary.Columns.Count; i++)
+                    {
+
+                        workSheet.Cells[2, i + 1].Font.Bold = true;
+                        if (i == 0)
+                        {
+                            workSheet.Cells[2, i + 1].ColumnWidth = 30;
+                            workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                        }
+                        else
+                        {
+                            workSheet.Cells[2, i + 1].ColumnWidth = 15;
+                            workSheet.Cells[2, i + 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                        }
+                        //workSheet.get_Range("A4", "J1").Font.Bold = true;
+                    }
+
+
+                    // column headings
+                    for (var i = 0; i < dtSalesDataSummary.Columns.Count; i++)
+                    {
+                        workSheet.Cells[2, i + 1] = dtSalesDataSummary.Columns[i].ColumnName;
+                    }
+
+                    // rows
+                    for (var i = 1; i < dtSalesDataSummary.Rows.Count + 1; i++)
+                    {
+                        // to do: format datetime values before printing
+                        for (var j = 0; j < dtSalesDataSummary.Columns.Count; j++)
+                        {
+                            workSheet.Cells[i + 2, j + 1] = dtSalesDataSummary.Rows[i - 1][j];
+
+                        }
+
+                        countForNonRedeemed = countForNonRedeemed + 1;
+
+                    }
+
+
+
+
+                    workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["C2", "S2"].Interior.Color = System.Drawing.Color.LightBlue;
+
+                    #region Totals for Grid 1
+
+
+                    workSheet.Cells[countForNonRedeemed + 3, 4].Formula = string.Format("=SUM(D3:D" + (countForNonRedeemed + 2).ToString() + ")"); //E
+                    workSheet.Cells[countForNonRedeemed + 3, 4].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 5].Formula = string.Format("=SUM(E3:E" + (countForNonRedeemed + 2).ToString() + ")"); //E
+                    workSheet.Cells[countForNonRedeemed + 3, 5].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 6].Formula = string.Format("=SUM(F3:F" + (countForNonRedeemed + 2).ToString() + ")"); //F
+                    workSheet.Cells[countForNonRedeemed + 3, 6].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 7].Formula = string.Format("=SUM(G3:G" + (countForNonRedeemed + 2).ToString() + ")"); //H
+                    workSheet.Cells[countForNonRedeemed + 3, 7].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 8].Formula = string.Format("=SUM(H3:H" + (countForNonRedeemed + 2).ToString() + ")"); //J
+                    workSheet.Cells[countForNonRedeemed + 3, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=SUM(I3:I" + (countForNonRedeemed + 2).ToString() + ")"); //K
+                    workSheet.Cells[countForNonRedeemed + 3, 9].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
+                    workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 10].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 12].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                    for (int w = 3; w <= countForNonRedeemed + 3; w++)
+                    {
+                        workSheet.Cells[w, 8].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w);
+                        workSheet.Cells[w, 11].Formula = string.Format("=H" + w + "-I" + w);
+                        workSheet.Cells[w, 10].Formula = string.Format("=I" + w + "/H" + w);
+                        workSheet.Cells[w, 12].Formula = string.Format("=K" + w + "/H" + w);
+
+                    }
+                    #endregion
+
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 17]].Merge();
+                    workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 19]).EntireColumn.NumberFormat = "##%";
+
+                    (workSheet.Cells[1, 15]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 14]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 13]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
+
+
+                    (workSheet.Rows[2]).EntireRow.RowHeight = 40;
+                    workSheet.Rows[2].WrapText = true;
+
+                    Microsoft.Office.Interop.Excel.Range tRange = workSheet.UsedRange;
+                    tRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+
+                    //AddSummaryPages(excelApp);
+
+                    // check file path                    
+
+
+
+
+                    excelApp.Visible = true;
+                    excelApp.Workbooks.Item[1].SaveAs(filePathAndName, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+                    //excelApp.Workbooks.
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
 
         private void AddSummaryPages(Microsoft.Office.Interop.Excel.Application excelApp)
         {
@@ -414,9 +688,17 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     TimeSpan ts1 = new TimeSpan(23, 00, 0);
                     DateTime enddate = _endDate.Date + ts1;
-
+                    string summaryBool;
+                    if (_isSummary == true)
+                    {
+                        summaryBool = "1";
+                    }
+                    else
+                    {
+                        summaryBool = "0";
+                    }
                     DataSet dsDiaryReportData = new DataSet();
-                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade);
+                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, _startDate, enddate, IsUpgrade, summaryBool);
 
                     DataTable dtSalesRow = dsDiaryReportData.Tables[1];
                     foreach (DataRow items in dtSalesRow.Rows)
@@ -551,9 +833,17 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     TimeSpan ts1 = new TimeSpan(23, 00, 0);
                     DateTime enddate = dateselected.Date + ts1;
-
+                    string summaryBool;
+                    if (_isSummary == true)
+                    {
+                        summaryBool = "1";
+                    }
+                    else
+                    {
+                        summaryBool = "0";
+                    }
                     DataSet dsDiaryReportData = new DataSet();
-                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, dateselected, enddate, IsUpgrade);
+                    dsDiaryReportData = Business.Insure.INGetReportCallTransfer(item, dateselected, enddate, IsUpgrade, summaryBool);
 
                     DataTable dtSalesRow = dsDiaryReportData.Tables[0];
                     foreach (DataRow items in dtSalesRow.Rows)
@@ -737,7 +1027,14 @@ namespace UDM.Insurance.Interface.Screens
                     //Cal2.IsEnabled = false;
 
                     BackgroundWorker worker = new BackgroundWorker();
-                    worker.DoWork += Report;
+                    if(_isDefault == true)
+                    {
+                        worker.DoWork += Report;
+                    }
+                    else
+                    {
+                        worker.DoWork += ReportSummary;
+                    }
                     worker.RunWorkerCompleted += ReportCompleted;
                     worker.RunWorkerAsync();
 
@@ -775,8 +1072,21 @@ namespace UDM.Insurance.Interface.Screens
         }
 
 
+
         #endregion
 
+        private void DefaultCB_Checked(object sender, RoutedEventArgs e)
+        {
+            _isDefault = true;
+            _isSummary = false;
+            SummaryCB.IsChecked = false;
+        }
 
+        private void SummaryCB_Checked(object sender, RoutedEventArgs e)
+        {
+            _isDefault = false;
+            _isSummary = true;
+            DefaultCB.IsChecked = false;
+        }
     }
 }
