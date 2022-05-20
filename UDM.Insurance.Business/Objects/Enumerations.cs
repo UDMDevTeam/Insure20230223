@@ -99,7 +99,8 @@
         DoubleUpgrade15 = 45,
         R99NG = 46,
         R99Upgrade = 47,
-        Tier3 = 48
+        Tier3 = 48,
+        Upgrade15 = 49
     }
 
     public enum lkpINCampaignType
