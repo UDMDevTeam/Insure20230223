@@ -2120,7 +2120,6 @@ namespace UDM.Insurance.Interface.Screens
                     cmbSalesNotTransferredReasons.SelectedIndex = -1;
                 }
 
-                LeadLoadingBool = false;
                 #endregion
 
                 #region Upgrades 1 2 3 Reminders
@@ -2145,12 +2144,42 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 #endregion
 
-                #region Upgrades Lead ID Change
+                #region Upgrades Lead ID Change & Confirmation
+
+                try
+                {
+                    StringBuilder strQueryINIDConfirmed = new StringBuilder();
+                    strQueryINIDConfirmed.Append("SELECT Confirmed [Response] ");
+                    strQueryINIDConfirmed.Append("FROM INIDConfirmed WHERE FKImportID = " + LaData.AppData.ImportID.ToString());
+                    DataTable dtINIDConfirmed = Methods.GetTableData(strQueryINIDConfirmed.ToString());
+
+                    string IDNumberConfirmed = dtINIDConfirmed.Rows[0]["Response"].ToString();
+
+                    if(IDNumberConfirmed == "1")
+                    {
+                        IDConfirmedCB.IsChecked = true;
+                    }
+                    else
+                    {
+                        IDConfirmedCB.IsChecked = false;
+                    }
+                }
+                catch
+                {
+                    IDConfirmedCB.IsChecked = false;
+                }
+
+
 
                 if (LaData.AppData.IsLeadUpgrade == true)
                 {
 
                     UpgradeIDUpdateCB.IsChecked = false;
+
+                    lblIDConfirmed.Visibility = Visibility.Visible;
+                    IDConfirmedCB.Visibility = Visibility.Visible;
+                    DebiCheckBorder.SetValue(Grid.RowProperty, 16);
+                    IDNumberGrid.SetValue(Grid.ColumnSpanProperty, 6);
 
                     if (LaData.UserData.UserTypeID == 12) //DebiCheck Agents
                     {
@@ -2169,8 +2198,15 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     lblUpgradeIDUpdate.Visibility = Visibility.Hidden;
                     UpgradeIDUpdateCB.Visibility = Visibility.Hidden;
+
+                    lblIDConfirmed.Visibility = Visibility.Hidden;
+                    IDConfirmedCB.Visibility = Visibility.Hidden;
+                    IDNumberGrid.SetValue(Grid.ColumnSpanProperty, 7);
+
                 }
                 #endregion
+
+
 
             }
 
@@ -2287,7 +2323,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 cmbStatus.ToolTip = GetSavedLeadStatusToolTip(LaData.AppData.ImportID);
 
-
+                LeadLoadingBool = false;
 
                 _flagLeadIsBusyLoading = false;
             }
@@ -17485,9 +17521,89 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+
         #endregion
 
+        private void IDConfirmedCB_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(LeadLoadingBool == false)
+                {
+                    string IsSavedString;
+                    try
+                    {
+                        DataTable dtIsSaved = Methods.GetTableData(string.Format("SELECT [ID] FROM [INIDConfirmed] WHERE [FKImportID] = {0}", LaData.AppData.ImportID));
+                        IsSavedString = dtIsSaved.Rows[0]["ID"].ToString();
+                    }
+                    catch
+                    {
+                        IsSavedString = null;
+                    }
 
+                    if (IsSavedString == null || IsSavedString == "")
+                    {
+
+
+                        INIDConfirmed con = new INIDConfirmed();
+                        con.FKImportID = LaData.AppData.ImportID;
+                        con.Confirmed = "1";
+                        con.Save(_validationResult);
+                    }
+                    else
+                    {
+                        INIDConfirmed con = new INIDConfirmed(long.Parse(IsSavedString));
+                        con.FKImportID = LaData.AppData.ImportID;
+                        con.Confirmed = "1";
+                        con.Save(_validationResult);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void IDConfirmedCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(LeadLoadingBool == false)
+                {
+                                    string IsSavedString;
+                try
+                {
+                    DataTable dtIsSaved = Methods.GetTableData(string.Format("SELECT [ID] FROM [INIDConfirmed] WHERE [FKImportID] = {0}", LaData.AppData.ImportID));
+                    IsSavedString = dtIsSaved.Rows[0]["ID"].ToString();
+                }
+                catch
+                {
+                    IsSavedString = null;
+                }
+
+                if (IsSavedString == null || IsSavedString == "")
+                {
+                        INIDConfirmed con = new INIDConfirmed();
+                        con.FKImportID = LaData.AppData.ImportID;
+                        con.Confirmed = "0";
+                        con.Save(_validationResult);
+                }
+                else
+                {
+                        INIDConfirmed con = new INIDConfirmed(long.Parse(IsSavedString));
+                        con.FKImportID = LaData.AppData.ImportID;
+                        con.Confirmed = "0";
+                        con.Save(_validationResult);
+
+                }
+                }
+            }
+            catch
+            {
+
+            }
+        }
     }
 
     public class MyWebClient : WebClient

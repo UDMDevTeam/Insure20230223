@@ -3424,9 +3424,10 @@
                     Text=" No." />
                             </StackPanel>
                             <Grid
+                  x:Name="IDNumberGrid"
                   Grid.Row="6"
                   Grid.Column="4"
-                  Grid.ColumnSpan="7"
+                  Grid.ColumnSpan="6"
                   Margin="0"
                   VerticalAlignment="Bottom">
 
@@ -3451,6 +3452,30 @@
                     Text="{Binding LeadData.PassportNumber}"
                     Visibility="Hidden" />
                             </Grid>
+                            <TextBlock
+                                x:Name="lblIDConfirmed"
+                                Grid.Row="6"
+                                Grid.Column="10"
+                                FontSize="10"
+                                Grid.ColumnSpan="2"
+                                Margin="17,0,0,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Confirmed?" />
+
+                            <CheckBox x:Name="IDConfirmedCB"
+                                      Grid.Row="6"
+                                      Grid.Column="10"
+                                      Margin="2,0,0,0"
+                                      Grid.ColumnSpan="1"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      Checked="IDConfirmedCB_Checked"
+                                      Unchecked="IDConfirmedCB_Unchecked"
+                                      Content="Confirmed?">
+                                
+                            </CheckBox>
 
                             <TextBlock
                   x:Name="lblDateOfBirth"
