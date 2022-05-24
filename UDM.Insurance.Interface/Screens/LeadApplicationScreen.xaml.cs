@@ -1825,8 +1825,6 @@ namespace UDM.Insurance.Interface.Screens
                 if (!LaData.AppData.IsLeadUpgrade) CalculateCost(false);
                 LaData.AppData.IsLeadLoaded = true;
 
-
-
                 #region lead Permission Navigation
                 if (LaData.AppData.CampaignID == 102 ||
                     LaData.AppData.CampaignID == 2 ||
@@ -4584,6 +4582,147 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 #endregion
+
+                #region Confirmation Feedback
+
+                if (LaData.SaleData.ConfirmationFeedbackID == null)
+                {
+                    if (LaData.UserData.UserType == lkpUserType.ConfirmationAgent)
+                    {
+                        if (LaData.AppData.CampaignGroup != lkpINCampaignGroup.Extension)
+                        {
+                            bool? result = ShowMessageBox(new INMessageBoxWindow2(), "Would you like to provide Confirmation Feedback?", "Confirmation Feedback", ShowMessageType.Information);
+
+                            if (Convert.ToBoolean(result))
+                            {
+                                GotoPage(Page5);
+                                cmbConfirmationFeedback.Focus();
+
+                                ToolTip cmbConfirmationFeedbackToolTip = (ToolTip)cmbConfirmationFeedback.ToolTip;
+
+                                cmbConfirmationFeedbackToolTip.Content = "confirmation feedback required";
+                                cmbConfirmationFeedbackToolTip.PlacementTarget = cmbConfirmationFeedback;
+                                cmbConfirmationFeedbackToolTip.Placement = PlacementMode.Right;
+                                cmbConfirmationFeedbackToolTip.VerticalOffset = -80;
+                                cmbConfirmationFeedbackToolTip.HorizontalOffset = -120;
+
+                                ShowToolTip(cmbConfirmationFeedbackToolTip);
+                                return false;
+                            }
+
+                            LaData.SaleData.ConfirmationFeedbackID = (long)lkpConfirmationFeedback.NoFeedback;
+                        }
+                    }
+                }
+
+                #endregion
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+                return false;
+            }
+        }
+
+        private bool IsValidDataForwardToDC()
+        {
+            try
+            {
+                //validation: also done in xaml save button style
+                if (LaData.AppData.LeadStatus == 24)
+                {
+                    #region Beneficiaries Percentages Total
+
+                    if (!Convert.ToBoolean(lblBeneficiaryPercentageTotalUpg.Tag) || !Convert.ToBoolean(lblBeneficiaryPercentageTotalBase.Tag))
+                    {
+                        ShowMessageBox(new INMessageBoxWindow1(), "The beneficiary percentages do not add up to 100%.\n\nLead not Transferred.", "Beneficiary Percentages", ShowMessageType.Error);
+                        return false;
+                    }
+
+                    #endregion Beneficiaries Percentages Total
+
+                    #region Rule: Any option that includes Funeral cover () LA1 Funeral cover or LA1 Accidental Death cover (Upgrades) must have a beneficiary percentage of 100%
+
+                    decimal beneficiaryTotalPercentage = 0;
+
+                    if (LaData.AppData.IsLeadUpgrade)
+                    {
+                        if ((_la1AccidentalDeathCover + _la1FuneralCover) > 0)
+                        {
+                            //if (!Convert.ToBoolean(lblBeneficiaryPercentageTotalUpg.Tag) || !Convert.ToBoolean(lblBeneficiaryPercentageTotalBase.Tag))
+
+                            beneficiaryTotalPercentage = Convert.ToDecimal(lblBeneficiaryPercentageTotalUpg.Text);
+                            if (beneficiaryTotalPercentage != 100m)
+                            {
+                                ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because a Life Assured 1 Cover option was selected that includes LA1 Funeral and/or LA1 Accidental Death cover, but the beneficiary percentages do not add up to 100%.", "Beneficiary Percentages", ShowMessageType.Error);
+                                return false;
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (_funeralCover > 0)
+                        {
+
+                            //if (!Convert.ToBoolean(lblBeneficiaryPercentageTotalUpg.Tag) || !Convert.ToBoolean(lblBeneficiaryPercentageTotalBase.Tag))
+                            beneficiaryTotalPercentage = Convert.ToDecimal(lblBeneficiaryPercentageTotalBase.Text);
+                            if (beneficiaryTotalPercentage != 100m)
+                            {
+                                ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because a Life Assured 1 Cover option was selected that includes Funeral cover, but the beneficiary percentages do not add up to 100%.", "Beneficiary Percentages", ShowMessageType.Error);
+                                return false;
+                            }
+                        }
+
+                        //This is for the banking details on Base only excluding all resales
+                        if(LaData.AppData.CampaignID == 7
+                                    || LaData.AppData.CampaignID == 9
+                                    || LaData.AppData.CampaignID == 10
+                                    || LaData.AppData.CampaignID == 294
+                                    || LaData.AppData.CampaignID == 295
+                                    || LaData.AppData.CampaignID == 24
+                                    || LaData.AppData.CampaignID == 25
+                                    || LaData.AppData.CampaignID == 11
+                                    || LaData.AppData.CampaignID == 12
+                                    || LaData.AppData.CampaignID == 13
+                                    || LaData.AppData.CampaignID == 14
+                                    || LaData.AppData.CampaignID == 85
+                                    || LaData.AppData.CampaignID == 86
+                                    || LaData.AppData.CampaignID == 87
+                                    || LaData.AppData.CampaignID == 281
+                                    || LaData.AppData.CampaignID == 324
+                                    || LaData.AppData.CampaignID == 325
+                                    || LaData.AppData.CampaignID == 326
+                                    || LaData.AppData.CampaignID == 327
+                                    || LaData.AppData.CampaignID == 264
+                                    || LaData.AppData.CampaignID == 4)
+                        {
+                            // Do Nothing if Resales
+                        }
+                        else if(LaData.BankDetailsData.AccountNumber == null)
+                        {
+                            ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because there is no account number attached.", "Banking Details", ShowMessageType.Error);
+                            return false;
+                        }
+
+                        if (chkLA2.IsChecked == true)
+                        {
+                            if(medLA2IDNumber.Text == null || medLA2IDNumber.Text == "")
+                            {
+                                ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because there are missing LA2 details.", "LA2 Details", ShowMessageType.Error);
+                                return false;
+                            }
+
+                        }
+
+                    }
+
+                    #endregion Rule: Any option that includes Funeral cover () LA1 Funeral cover or LA1 Accidental Death cover (Upgrades) must have a beneficiary percentage of 100%
+                }
 
                 #region Confirmation Feedback
 
@@ -10074,35 +10213,35 @@ namespace UDM.Insurance.Interface.Screens
                     #region Forward To Call Monitoring Agent
                     case lkpINLeadStatus.ForwardToCMAgent:
                         //see if this can be selected
-                        if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+
+                        if(IsValidDataForwardToDC())
                         {
-                            //if (LaData.AppData.LoadedLeadStatus == (long?)lkpINLeadStatus.Accepted)
-                            //{
-                            //    if (LaData.AppData.LoadedDateOfSale < DateTime.Now.AddHours(-24))
-                            //    {
-                            //        break;
-                            //    }
-                            //}
+                            LaData.AppData.DeclineReasonID = null;
+                            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                            if (AgentFKUserID == null)
+                            {
+                                cmbStatus.SelectedIndex = -1;
+                            }
+
+                            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
+                            //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                            //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
+                            btnForwardToDCAgent.Visibility = Visibility.Visible;
+                            break;
                         }
-
-                        LaData.AppData.DeclineReasonID = null;
-                        SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-                        selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-                        ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
-
-                        long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
-
-                        if (AgentFKUserID == null)
+                        else
                         {
                             cmbStatus.SelectedIndex = -1;
+                            break;
                         }
 
-                        Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
 
-                        //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                        btnForwardToDCAgent.Visibility = Visibility.Visible;
-                        break;
                     #endregion
 
                     #region Diaries
@@ -17572,32 +17711,31 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if(LeadLoadingBool == false)
                 {
-                                    string IsSavedString;
-                try
-                {
-                    DataTable dtIsSaved = Methods.GetTableData(string.Format("SELECT [ID] FROM [INIDConfirmed] WHERE [FKImportID] = {0}", LaData.AppData.ImportID));
-                    IsSavedString = dtIsSaved.Rows[0]["ID"].ToString();
-                }
-                catch
-                {
-                    IsSavedString = null;
-                }
+                    string IsSavedString;
+                    try
+                    {
+                        DataTable dtIsSaved = Methods.GetTableData(string.Format("SELECT [ID] FROM [INIDConfirmed] WHERE [FKImportID] = {0}", LaData.AppData.ImportID));
+                        IsSavedString = dtIsSaved.Rows[0]["ID"].ToString();
+                    }
+                    catch
+                    {
+                        IsSavedString = null;
+                    }
 
-                if (IsSavedString == null || IsSavedString == "")
-                {
+                    if (IsSavedString == null || IsSavedString == "")
+                    {
                         INIDConfirmed con = new INIDConfirmed();
                         con.FKImportID = LaData.AppData.ImportID;
                         con.Confirmed = "0";
                         con.Save(_validationResult);
-                }
-                else
-                {
+                    }
+                    else
+                    {
                         INIDConfirmed con = new INIDConfirmed(long.Parse(IsSavedString));
                         con.FKImportID = LaData.AppData.ImportID;
                         con.Confirmed = "0";
                         con.Save(_validationResult);
-
-                }
+                    }
                 }
             }
             catch

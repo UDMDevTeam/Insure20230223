@@ -1981,6 +1981,10 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     try
                     {
+                        string TSRName;
+                        string Extension;
+                        string Extension2;
+
                         SalesToCallMonitoring stc = new SalesToCallMonitoring(PopUpID);
                         stc.IsDisplayed = "1";
                         stc.Save(_validationResult);
@@ -1991,7 +1995,39 @@ namespace UDM.Insurance.Interface.Screens
                             SetAgentOffline();
                         }
 
-                        ShowMessageBox(new Windows.INSalesToCallMonitoringWindow(), CMToSReferenceNumber, "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
+                        try
+                        {
+
+                            DataTable dtTSRName = Methods.GetTableData("SELECT [U].[FirstName] + ' ' + [U].[LastName] AS [RefNo]  FROM [Insure].[dbo].[User] AS [U] WHERE [ID] = (SELECT FKUserID FROM INImport WHERE ID = " + FKImportID + ")");
+                            TSRName = dtTSRName.Rows[0]["RefNo"].ToString();
+                            
+                        }
+                        catch
+                        {
+                            TSRName = "Sales Agent";
+                        }
+
+                        try
+                        {
+                            DataTable dtExtensions = Methods.GetTableData("SELECT [E].[Extension] FROM [Blush].[dbo].[lkpHRExtension] AS [E] WHERE [E].[ID] IN (SELECT [HE].[FKHRExtensionID] FROM [Blush].[dbo].[HRStaffExtension] AS [HE] WHERE [HE].[FKHRStaffID] = (SELECT  [H].[ID] FROM [Blush].[dbo].[HRStaff] AS [H] WHERE [FKUserID] = (SELECT [FKUserID] FROM [INImport] WHERE [ID] = " + FKImportID + ")))");
+                            Extension = dtExtensions.Rows[0]["Extension"].ToString();
+
+                            try
+                            {
+                                Extension2 = dtExtensions.Rows[1]["Extension"].ToString();
+                            }
+                            catch
+                            {
+                                Extension2 = "";
+                            }
+                        }
+                        catch
+                        {
+                            Extension = "";
+                            Extension2 = ""; 
+                        }
+
+                        ShowMessageBox(new Windows.INSalesToCallMonitoringWindow(), CMToSReferenceNumber  + " - " + TSRName + " ( " + Extension + " " + Extension2 + ")", "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
                         LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, _ssGlobalData);
                         ShowDialog(las, new INDialogWindow(las));
 
