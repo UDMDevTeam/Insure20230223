@@ -4869,6 +4869,8 @@ namespace UDM.Insurance.Interface.Screens
                 SetDialHoursGraph(stpOtherPhone, string.Empty);
 
                 MainBorder.BorderBrush = (Brush)FindResource("BrandedBrushIN");
+
+                btnForwardToDCAgent.ToolTip = "";
             }
 
             catch (Exception ex)
@@ -10214,32 +10216,54 @@ namespace UDM.Insurance.Interface.Screens
                     case lkpINLeadStatus.ForwardToCMAgent:
                         //see if this can be selected
 
-                        if(IsValidDataForwardToDC())
+                        if (GlobalSettings.ApplicationUser.ID == 1732
+                            || GlobalSettings.ApplicationUser.ID == 40539
+                            || GlobalSettings.ApplicationUser.ID == 510
+                            || GlobalSettings.ApplicationUser.ID == 40530
+                            || GlobalSettings.ApplicationUser.ID == 1)
                         {
-                            LaData.AppData.DeclineReasonID = null;
-                            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-                            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-                            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
-
-                            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
-
-                            if (AgentFKUserID == null)
+                            if (IsValidDataForwardToDC())
+                            {
+                                ChooseDCSpecialist();
+                                btnForwardToDCAgent.Visibility = Visibility.Visible;
+                            }
+                            else
                             {
                                 cmbStatus.SelectedIndex = -1;
+                                break;
                             }
-
-                            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
-
-                            //cmbSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                            //lblSalesNotTransferredReasons.Visibility = Visibility.Collapsed;
-                            btnForwardToDCAgent.Visibility = Visibility.Visible;
                             break;
                         }
                         else
                         {
-                            cmbStatus.SelectedIndex = -1;
-                            break;
+                            if (IsValidDataForwardToDC())
+                            {
+                                LaData.AppData.DeclineReasonID = null;
+                                SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                                selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                                ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                                long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                                if (AgentFKUserID == null)
+                                {
+                                    cmbStatus.SelectedIndex = -1;
+                                }
+
+                                Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
+                                btnForwardToDCAgent.Visibility = Visibility.Visible;
+                                break;
+                            }
+                            else
+                            {
+                                cmbStatus.SelectedIndex = -1;
+                                break;
+                            }
+
+
                         }
+
 
 
                     #endregion
@@ -10406,6 +10430,176 @@ namespace UDM.Insurance.Interface.Screens
                 cmbStatus_ToolTip(null);
                 LaData.AppData.DiaryStatusHandled = false;
             }
+        }
+
+        private void ChooseDCSpecialist()
+        {
+            #region Variables
+            long SelectedDCSpecialist;
+            DateTime _startDate = DateTime.Now;
+            DateTime _endDate = DateTime.Now;
+            #endregion
+
+            #region Selecting the DebiCheck Specialist
+
+            TimeSpan ts = new TimeSpan(23, 00, 0);
+            DateTime _endDate2 = DateTime.Now;
+            _endDate2 = _endDate.Date + ts;
+
+            TimeSpan ts1 = new TimeSpan(00, 00, 0);
+            DateTime _startDat2 = DateTime.Now;
+            _startDat2 = _startDate.Date + ts1;
+
+            try
+            {
+                DataSet dsRetreiveDCAgents = Insure.INGetRetreiveDCAgents(_startDat2, _endDate2);
+                DataTable dtRetreiveDCAgents = dsRetreiveDCAgents.Tables[0];
+                SelectedDCSpecialist = long.Parse(dtRetreiveDCAgents.Rows[0]["FKUserID"].ToString());
+            }
+            catch
+            {
+                SelectedDCSpecialist = 0;
+            }
+
+            #endregion
+
+            #region Saving the details
+
+            if (SelectedDCSpecialist == 0)
+            {
+                ShowMessageBox(new INMessageBoxWindow1(), "This lead hasnt been transferred\n Please click the 'Forward to DC Agent' at the bottom right of the screen \n or add a transfer reason.", "Transfer Result", ShowMessageType.Information);
+            }
+            else
+            {
+                try
+                {
+                    SelectedDCSpecialist = Convert.ToInt32(SelectedDCSpecialist);
+
+                    StringBuilder strQueryAgentOnline = new StringBuilder();
+                    strQueryAgentOnline.Append("SELECT TOP 1 Online [Response] ");
+                    strQueryAgentOnline.Append("FROM INCMAgentsOnline ");
+                    strQueryAgentOnline.Append("WHERE FKUserID = " + SelectedDCSpecialist.ToString());
+                    DataTable dtOnline = Methods.GetTableData(strQueryAgentOnline.ToString());
+
+                    string CampaignName = dtOnline.Rows[0]["Response"].ToString();
+
+                    if (CampaignName == "1         " || CampaignName == "1")
+                    {
+                        string ID;
+                        try
+                        {
+                            StringBuilder strSaletoCMID = new StringBuilder();
+                            strSaletoCMID.Append("SELECT TOP 1 ID [Response] ");
+                            strSaletoCMID.Append("FROM INSalesToCallMonitoring ");
+                            strSaletoCMID.Append("WHERE FKImportID = " + LaData.AppData.ImportID.ToString());
+                            DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
+
+                            ID = dtSAlestoCMID.Rows[0]["Response"].ToString();
+                        }
+                        catch
+                        {
+                            ID = null;
+                        }
+
+                        if (ID == null || ID == "")
+                        {
+                            SalesToCallMonitoring scm = new SalesToCallMonitoring();
+                            scm.FKImportID = LaData.AppData.ImportID;
+                            scm.FKUserID = SelectedDCSpecialist;
+                            scm.IsDisplayed = "0";
+
+                            string Extension = DisplayExtensionNumber(SelectedDCSpecialist);
+
+                            ForwardToDCSave();
+                            scm.Save(_validationResult);
+                            ShowMessageBox(new INMessageBoxWindow1(), "This lead has been successfully transferred\nTransfer client to " + Extension, "Transfer Result", ShowMessageType.Information);
+                            btnForwardToDCAgent.ToolTip = Extension;
+
+                        }
+                        else
+                        {
+                            SalesToCallMonitoring scm = new SalesToCallMonitoring(long.Parse(ID));
+                            scm.FKUserID = SelectedDCSpecialist;
+                            scm.IsDisplayed = "0";
+
+                            string Extension = DisplayExtensionNumber(SelectedDCSpecialist);
+
+                            ForwardToDCSave();
+                            scm.Save(_validationResult);
+                            ShowMessageBox(new INMessageBoxWindow1(), "This lead has been successfully transferred\nTransfer client to  " + Extension, "Transfer Result", ShowMessageType.Information);
+                            btnForwardToDCAgent.ToolTip = Extension;
+                        }
+                    }
+                    else
+                    {
+                        //cmbDeclineReason.SelectedIndex = -1;
+                        //Reload();
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
+            }
+            #endregion
+
+        }
+
+        private static string DisplayExtensionNumber(long userid)
+        {
+            //DataTable dtExtensions = Methods.GetTableData("SELECT [E].[Extension] FROM [Blush].[dbo].[lkpHRExtension] AS [E] WHERE [E].[ID] IN (SELECT [HE].[FKHRExtensionID] FROM [Blush].[dbo].[HRStaffExtension] AS [HE] WHERE [HE].[FKHRStaffID] = (SELECT  [H].[ID] FROM [Blush].[dbo].[HRStaff] AS [H] WHERE [FKUserID] = " + userid + "))");
+            //string Extension = dtExtensions.Rows[0]["Extension"].ToString();
+            string Extension = "";
+            if(userid == 2767)
+            {
+                Extension = "Gizelle - 2123";
+            }
+            else if(userid == 19555)
+            {
+                Extension = "Michael - 2114";
+            }
+            else if(userid == 8613)
+            {
+                Extension = "Promise - 2217";
+            }
+            else if (userid == 42947)
+            {
+                Extension = "Jason - 2221";
+            }
+            else if (userid == 42978)
+            {
+                Extension = "Hanri - 2231";
+            }
+            else if (userid == 43504)
+            {
+                Extension = "Angelique - 2031";
+            }
+            else if (userid == 43636)
+            {
+                Extension = "Tarryn - 2070";
+            }
+            else if (userid == 43527)
+            {
+                Extension = "Allison - 2072";
+            }
+            else if (userid == 42022)
+            {
+                Extension = "Cheri-Lee - 2124";
+            }
+            else if (userid == 43565)
+            {
+                Extension = "Eloise - 2038";
+            }
+            else if (userid == 43744)
+            {
+                Extension = "Nikita - 2127";
+            }
+
+
+            return Extension;
         }
 
         private void cmbStatus_DropDownClosed(object sender, EventArgs e)
@@ -17614,21 +17808,35 @@ namespace UDM.Insurance.Interface.Screens
         #region Forward To DC Agent extra button
         private void btnForwardToDCAgent_Click(object sender, RoutedEventArgs e)
         {
-            LaData.AppData.DeclineReasonID = null;
-            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
-
-            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
-
-            if (AgentFKUserID == null)
+            if(GlobalSettings.ApplicationUser.ID == 1732 
+                || GlobalSettings.ApplicationUser.ID == 40539
+                || GlobalSettings.ApplicationUser.ID == 510
+                || GlobalSettings.ApplicationUser.ID == 40530
+                || GlobalSettings.ApplicationUser.ID == 1)
             {
-                cmbStatus.SelectedIndex = -1;
+                ChooseDCSpecialist();
+
+            }
+            else
+            {
+
+                LaData.AppData.DeclineReasonID = null;
+                SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                if (AgentFKUserID == null)
+                {
+                    cmbStatus.SelectedIndex = -1;
+                }
+
+                //cmbStatus.SelectedValue = 24;
+
+                Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
             }
 
-            //cmbStatus.SelectedValue = 24;
-
-            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
         }
         #endregion
         private void UpgradeIDUpdateCB_Checked(object sender, RoutedEventArgs e)

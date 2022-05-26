@@ -2630,5 +2630,18 @@ namespace UDM.Insurance.Business
         }
         #endregion
 
+        #region DC Specialist retreive online
+        public static DataSet INGetRetreiveDCAgents(DateTime datefrom, DateTime dateto)
+        {
+            object param1 = Database.GetParameter("@DateFrom", datefrom);
+            object param2 = Database.GetParameter("@DateTo", dateto);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINRetreiveOnlineDCAgents", paramArray, 1200);
+        }
+        #endregion
+
+
     }
 }
