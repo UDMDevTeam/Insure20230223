@@ -442,7 +442,7 @@
                         Grid.ColumnSpan="5"
                         Margin="16,0,61,19"
                         VerticalAlignment="Bottom"
-                        Foreground="White"
+                        Foreground="#429DCC"
                         FontSize="15"
                         Content="Foundation"
                         Visibility="Visible" Width="247" Grid.RowSpan="2" />
@@ -461,7 +461,7 @@
                         Grid.ColumnSpan="5"
                         Margin="16,0,61,19"
                         VerticalAlignment="Bottom"
-                        Foreground="White"
+                        Foreground="#429DCC"
                         FontSize="15"
                         Content="Pre-Perm"
                         Visibility="Visible" Width="247" Grid.RowSpan="2" />
