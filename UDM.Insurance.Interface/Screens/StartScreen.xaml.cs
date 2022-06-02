@@ -18,8 +18,8 @@ using UDM.WPF.Library;
 namespace UDM.Insurance.Interface.Screens
 {
 
-	public partial class StartScreen
-	{
+    public partial class StartScreen
+    {
 
         #region Private Variables
 
@@ -32,16 +32,16 @@ namespace UDM.Insurance.Interface.Screens
         #region Constructor
 
         public StartScreen()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
 
-            #if TESTBUILD
+#if TESTBUILD
                 TestControl.Visibility = Visibility.Visible;
-            #elif DEBUG
-                DebugControl.Visibility = Visibility.Visible;
-            #elif TRAININGBUILD
+#elif DEBUG
+            DebugControl.Visibility = Visibility.Visible;
+#elif TRAININGBUILD
                 TrainingControl.Visibility = Visibility.Visible;
-            #endif
+#endif
         }
 
         #endregion
@@ -112,7 +112,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 string decrypt = "";
                 if (_user != null && _user.Password != null)
-                {                                          
+                {
                     decrypt = SecurityLib.DecryptString(_user.Password);
                 }
 
@@ -132,84 +132,84 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-	    private void GetSystemInfo()
-	    {
-	        try
-	        {
-	            SystemInfo systemInfo = new SystemInfo();
+        private void GetSystemInfo()
+        {
+            try
+            {
+                SystemInfo systemInfo = new SystemInfo();
 
-	            systemInfo.FKSystemID =  2; //Insure
-	            systemInfo.SystemVersion = GlobalSettings.ApplicationVersion?.ToString();
-	            systemInfo.ComputerName = Environment.MachineName;
-	            systemInfo.UserName = Environment.UserName;
-	            systemInfo.UserDomainName = Environment.UserDomainName;
+                systemInfo.FKSystemID = 2; //Insure
+                systemInfo.SystemVersion = GlobalSettings.ApplicationVersion?.ToString();
+                systemInfo.ComputerName = Environment.MachineName;
+                systemInfo.UserName = Environment.UserName;
+                systemInfo.UserDomainName = Environment.UserDomainName;
 
-	            systemInfo.SimpleOSName = Methods.GetSimpleOSName();
+                systemInfo.SimpleOSName = Methods.GetSimpleOSName();
 
-	            systemInfo.OSDescription = RuntimeInformation.OSDescription;
-	            systemInfo.OSArchitecture = RuntimeInformation.OSArchitecture.ToString();
-	            systemInfo.ProcessArchitecture = RuntimeInformation.ProcessArchitecture.ToString();
-	            systemInfo.FrameworkDescription = RuntimeInformation.FrameworkDescription;
+                systemInfo.OSDescription = RuntimeInformation.OSDescription;
+                systemInfo.OSArchitecture = RuntimeInformation.OSArchitecture.ToString();
+                systemInfo.ProcessArchitecture = RuntimeInformation.ProcessArchitecture.ToString();
+                systemInfo.FrameworkDescription = RuntimeInformation.FrameworkDescription;
 
-	            systemInfo.IPAddresses = Methods.GetIPAddresses();
+                systemInfo.IPAddresses = Methods.GetIPAddresses();
 
-	            systemInfo.Save(_validationResult);
-	        }
+                systemInfo.Save(_validationResult);
+            }
 
-	        catch (Exception ex)
-	        {
-	            HandleException(ex);
-	        }
-	    }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
 
         #endregion
 
         private void CheckUserVersion(string Username)
         {
 
-            try
-            {
+            //try
+            //{
 
-                string LatestVersion;
-                string Version;
+            //    string LatestVersion;
+            //    string Version;
 
-                Username = ((User)GlobalSettings.ApplicationUser).LoginName;
+            //    Username = ((User)GlobalSettings.ApplicationUser).LoginName;
 
-                DataTable dtVersionData = User.INGetVersionInfo(Username);
+            //    DataTable dtVersionData = User.INGetVersionInfo(Username);
 
-                DataTable dtLatestVersionData = User.INGetLatestVersion();
+            //    DataTable dtLatestVersionData = User.INGetLatestVersion();
 
-                LatestVersion = dtLatestVersionData.Rows[0]["Version"].ToString();
+            //    LatestVersion = dtLatestVersionData.Rows[0]["Version"].ToString();
 
-                Version = dtVersionData.Rows[0]["Version"].ToString();
+            //    Version = dtVersionData.Rows[0]["Version"].ToString();
 
-                if (LatestVersion != Version)
-                {
+            //    if (LatestVersion != Version)
+            //    {
 
-                    MessageBox.Show("This version of Insure is outdated. It will update now.", MessageBoxButton.OK.ToString());
+            //        MessageBox.Show("This version of Insure is outdated. It will update now.", MessageBoxButton.OK.ToString());
 
-                    //ShowMessageBox(new INMessageBoxWindow1(), "This version of Insure is outdated. It will now update.", "Incorrect Version", ShowMessageType.Error);
+            //        //ShowMessageBox(new INMessageBoxWindow1(), "This version of Insure is outdated. It will now update.", "Incorrect Version", ShowMessageType.Error);
 
-                    //Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
-                    //{
-                    //    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
-                    //});
+            //        //Dispatcher.Invoke(DispatcherPriority.Normal, (System.Threading.ThreadStart)delegate
+            //        //{
+            //        //    ShowMessageBox(new Windows.INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", Embriant.Framework.ShowMessageType.Information);
+            //        //});
 
 
-                    //ShowMessageBox(new Windows.INMessageBoxWindow1(), @"This version of Insure is outdated. Please close and re-open the application.", "Incorrect Version", Embriant.Framework.ShowMessageType.Error);
-                    System.Windows.Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+            //        //ShowMessageBox(new Windows.INMessageBoxWindow1(), @"This version of Insure is outdated. Please close and re-open the application.", "Incorrect Version", Embriant.Framework.ShowMessageType.Error);
+            //        System.Windows.Application.Current.Shutdown();
+            //        System.Windows.Forms.Application.Restart();
 
-                }
-                else
-                {
+            //    }
+            //    else
+            //    {
 
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    HandleException(ex);
+            //}
 
 
         }
@@ -279,32 +279,32 @@ namespace UDM.Insurance.Interface.Screens
                             if (authenticated)
                             {
                                 BaseControl nextControl = null;
-                                switch (((User) GlobalSettings.ApplicationUser).FKUserType)
+                                switch (((User)GlobalSettings.ApplicationUser).FKUserType)
                                 {
-                                    case (int) lkpUserType.SeniorAdministrator:
-                                    case (int) lkpUserType.Administrator:
-                                    case (int) lkpUserType.Manager:
+                                    case (int)lkpUserType.SeniorAdministrator:
+                                    case (int)lkpUserType.Administrator:
+                                    case (int)lkpUserType.Manager:
 
-                                        CheckUserVersion(Username);
+                                        //CheckUserVersion(Username);
 
                                         nextControl = new MenuManagementScreen(ScreenDirection.Forward);
                                         break;
-                                    case (int) lkpUserType.SalesAgent:
-                                    case (int) lkpUserType.DataCapturer:
+                                    case (int)lkpUserType.SalesAgent:
+                                    case (int)lkpUserType.DataCapturer:
 
-                                        CheckUserVersion(Username);
+                                        //CheckUserVersion(Username);
 
                                         nextControl = new SalesScreen();
                                         //ShowMessage = false;
                                         break;
-                                    case (int) lkpUserType.ConfirmationAgent:
-                                    case (int) lkpUserType.StatusLoader:
-                                    case (int) lkpUserType.CallMonitoringAgent:
-                                    case (int) lkpUserType.Preserver:
+                                    case (int)lkpUserType.ConfirmationAgent:
+                                    case (int)lkpUserType.StatusLoader:
+                                    case (int)lkpUserType.CallMonitoringAgent:
+                                    case (int)lkpUserType.Preserver:
                                     case (int)lkpUserType.DebiCheckAgent:
                                         //nextControl = new ConfirmScreen();
 
-                                        CheckUserVersion(Username);
+                                        //CheckUserVersion(Username);
 
                                         nextControl = new SalesScreen();
                                         break;
@@ -329,7 +329,7 @@ namespace UDM.Insurance.Interface.Screens
                                     var ids = birthdayUserIDs.ToString().Split(',').Select(long.Parse).AsEnumerable();
                                     if (ids.Contains(_user.ID))
                                     {
-                                        ShowMessageBox(new INBirthDayMessage(), string.Empty,  UserFirstName, ShowMessageType.Other);
+                                        ShowMessageBox(new INBirthDayMessage(), string.Empty, UserFirstName, ShowMessageType.Other);
 
                                         BirthdayMessageDisplayed = true;
                                     }
@@ -384,15 +384,15 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        
+
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             OnClose(null);
-        }   
+        }
 
         private void StartScreen_OnLoaded(object sender, RoutedEventArgs e)
-	    {
+        {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(500);
 
@@ -403,10 +403,10 @@ namespace UDM.Insurance.Interface.Screens
             };
 
             timer.Start();
-	    }
+        }
 
         #endregion
-	    
-	}
+
+    }
 
 }
