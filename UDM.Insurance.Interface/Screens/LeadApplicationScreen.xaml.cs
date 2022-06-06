@@ -4662,6 +4662,17 @@ namespace UDM.Insurance.Interface.Screens
                             }
                         }
 
+                        string isLA2 = UpgradeBtnOptionSelection.Content.ToString();
+
+                        if (isLA2.Contains("LA2"))
+                        {
+                            if (cmbLA2RelationshipUpg.Text == null || cmbLA2RelationshipUpg.Text == "")
+                            {
+                                ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because there are missing LA2 Relationship details.", "LA2 Details", ShowMessageType.Error);
+                                return false;
+                            }
+                        }
+
 
                     }
                     else
