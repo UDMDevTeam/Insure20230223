@@ -799,9 +799,9 @@ namespace UDM.Insurance.Interface.Screens
                         using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                         {
                             dsDiaryReportData = Business.Insure.INGetDebiCheckTracking(_startDat2, _endDate2);
-                            worker.DoWork += ReportConsolidated;
                         }
 
+                        worker.DoWork += ReportConsolidated;
 
                     }
                     else if (AcceptedCB.IsChecked == true)
@@ -815,8 +815,8 @@ namespace UDM.Insurance.Interface.Screens
                         using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                         {
                             dsDiaryReportData = Business.Insure.INGetDebiCheckTrackingAccepted(_startDat2, _endDate2);
-                            worker.DoWork += ReportConsolidatedAccepted;
                         }
+                        worker.DoWork += ReportConsolidatedAccepted;
 
                     }
                     else
