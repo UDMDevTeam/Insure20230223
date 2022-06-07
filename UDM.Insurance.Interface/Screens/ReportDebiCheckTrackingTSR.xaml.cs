@@ -126,7 +126,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Other Lead Statuses %");
             dtSalesData.Columns.Add("Sales where Debi-checks are N/A");
             dtSalesData.Columns.Add("Accepted % after n/a sales were removed");
-            dtSalesData.Columns.Add("Supervisor Name");
+            //dtSalesData.Columns.Add("Supervisor Name");
 
             #endregion
 
