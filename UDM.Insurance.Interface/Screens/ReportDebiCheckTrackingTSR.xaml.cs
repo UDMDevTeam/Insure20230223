@@ -126,7 +126,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Other Lead Statuses %");
             dtSalesData.Columns.Add("Sales where Debi-checks are N/A");
             dtSalesData.Columns.Add("Accepted % after n/a sales were removed");
-            //dtSalesData.Columns.Add("Supervisor Name");
+            dtSalesData.Columns.Add("Supervisor Name");
 
             #endregion
 
@@ -427,7 +427,7 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 20].Formula = string.Format("=S" + totalrows + "/B" + totalrows + "*100"); //T
                     workSheet.Cells[totalrows, 22].Formula = string.Format("=U" + totalrows + "/B" + totalrows + "*100"); //V
                     workSheet.Cells[totalrows, 24].Formula = string.Format("=W" + totalrows + "/B" + totalrows + "*100"); //X
-                    
+
 
                     for (int w = 3; w <= totalRowMinusOne; w++)
                     {
