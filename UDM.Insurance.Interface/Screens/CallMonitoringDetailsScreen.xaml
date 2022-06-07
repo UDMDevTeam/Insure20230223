@@ -1208,6 +1208,18 @@
                     Header="Assessment Overview" />
 
                 <TextBlock
+                    x:Name="tbDebiCheckAgentName"
+                    Grid.Row="1"
+                    Grid.Column="7"
+                    Grid.ColumnSpan="5"
+                    Margin="42,0,0,0"
+                    Foreground="Silver"
+                    Style="{StaticResource INLabelText2}"
+                    Text="{Binding DebiCheckAgentName}"
+                    Visibility="Visible" />
+
+
+                <TextBlock
                     x:Name="hdrCallMonitoringDetails"
                     Grid.Row="1"
                     Grid.Column="1"

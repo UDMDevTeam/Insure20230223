@@ -18,6 +18,7 @@ using UDM.Insurance.Interface.Windows;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows.Navigation;
+using System.Text;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -503,6 +504,33 @@ namespace UDM.Insurance.Interface.Screens
                     ScreenData.NextOfKinDetails += " TelContact: " + leadApplicationData.NextOfKinData[0].TelContact;
                 }
                 //ScreenData.NextOfKinDetails = leadApplicationData.NextOfKinData[0].FullName + "(" + relationship + ") TelContact: " + leadApplicationData.NextOfKinData[0].TelContact;
+            }
+
+            if (leadApplicationData.AppData.RefNo != null)
+            {
+                
+                string DebiCheckAgentName = "";
+                //DebiCheckAgentName = Methods.GetTableData("SELECT [Description] FROM lkpINCMAgentForwardedSale AS [CMAFS]" +
+                //                    "LEFT JOIN INSalesToCallMonitoring AS[STCM] ON [CMAFS].[FKUserID] = [STCM].[FKUserID]" +
+                //                    "LEFT JOIN INImport AS [I] ON[STCM].[FKImportID] = [I].[ID] WHERE [I].[ID] = " + ScreenData.FKINImportID.ToString()).ToString();
+
+                try
+                {
+                    StringBuilder strSaletoCMID = new StringBuilder();
+                    strSaletoCMID.Append("SELECT [Description] FROM lkpINCMAgentForwardedSale AS [CMAFS] ");
+                    strSaletoCMID.Append("LEFT JOIN INSalesToCallMonitoring AS[STCM] ON[CMAFS].[FKUserID] = [STCM].[FKUserID]");
+                    strSaletoCMID.Append("LEFT JOIN INImport AS [I] ON[STCM].[FKImportID] = [I].[ID] WHERE [I].[ID] = " + leadApplicationData.AppData.ImportID.ToString());
+                    DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
+
+                    DebiCheckAgentName = dtSAlestoCMID.Rows[0]["Description"].ToString();
+                }
+                catch
+                {
+                    DebiCheckAgentName = null;
+                }
+
+                ScreenData.DebiCheckAgentName += DebiCheckAgentName;
+ 
             }
 
 

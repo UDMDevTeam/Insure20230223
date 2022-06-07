@@ -58,6 +58,7 @@ namespace UDM.Insurance.Interface.Data
         private decimal _totalCost;
         private DateTime? _callMonitoredDate;
         private string _nextOfKinDetails;
+        private string _debiCheckAgentName;
 
 
         #endregion Private Members
@@ -109,6 +110,18 @@ namespace UDM.Insurance.Interface.Data
             set
             {
                 SetProperty(ref _refNo, value, () => RefNo);
+            }
+        }
+
+        public string DebiCheckAgentName
+        {
+            get
+            {
+                return _debiCheckAgentName;
+            }
+            set
+            {
+                SetProperty(ref _debiCheckAgentName, value, () => DebiCheckAgentName);
             }
         }
 
