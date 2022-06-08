@@ -1023,5 +1023,33 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnUpgradeIDUpdateReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportUpgradeIDUpdate reportDebiCheckAccepted = new ReportUpgradeIDUpdate();
+                ShowDialog(reportDebiCheckAccepted, new INDialogWindow(reportDebiCheckAccepted));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void btnResalesAcquiredUpdateReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportResalesAcquiredAccountDetails reportDebiCheckAccepted = new ReportResalesAcquiredAccountDetails();
+                ShowDialog(reportDebiCheckAccepted, new INDialogWindow(reportDebiCheckAccepted));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
