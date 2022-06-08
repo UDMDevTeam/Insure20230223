@@ -70,7 +70,7 @@ namespace UDM.Insurance.Interface.Screens
             InitializeComponent();
 
             #region Report Columns
-            dtSalesData.Columns.Add("Agent Name");
+            dtSalesData.Columns.Add("Campaign Name");
             dtSalesData.Columns.Add("Original Sales Sold");
             dtSalesData.Columns.Add("Less Debi-checks still outstanding");
             dtSalesData.Columns.Add("Sales on System");
@@ -96,7 +96,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Other Lead Statuses %");
             dtSalesData.Columns.Add("Sales where Debi-checks are N/A");
             dtSalesData.Columns.Add("Accepted % after n/a sales were removed");
-            dtSalesData.Columns.Add("Supervisor Name");
+            //dtSalesData.Columns.Add("Supervisor Name");
 
             #endregion
 
@@ -545,7 +545,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         string CampaignName = dtBranchCode.Rows[0]["Response"].ToString();
 
-                        dtSalesData.Rows.Add(CampaignName, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                        dtSalesData.Rows.Add(CampaignName, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                     }
                 }
 
@@ -608,7 +608,7 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 24]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 26]).EntireColumn.NumberFormat = "00,00%";
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 27]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 26]].Merge();
 
                     workSheet.Cells[totalrows, 1].Value = "Total :";
 
@@ -695,16 +695,16 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[totalrows, 26].Formula = string.Format("=E" + totalrows + "/(B" + totalrows + "-Y" + totalrows + ")*100"); //X
 
 
-                    workSheet.UsedRange.Select();
-                    workSheet.Sort.SortFields.Clear();
-                    workSheet.Sort.SortFields.Add(workSheet.UsedRange.Columns["A"], Microsoft.Office.Interop.Excel.XlSortOn.xlSortOnValues, Microsoft.Office.Interop.Excel.XlSortOrder.xlAscending, System.Type.Missing, Microsoft.Office.Interop.Excel.XlSortDataOption.xlSortNormal);
-                    var sort = workSheet.Sort;
-                    sort.SetRange(workSheet.UsedRange);
-                    sort.Header = Microsoft.Office.Interop.Excel.XlYesNoGuess.xlYes;
-                    sort.MatchCase = false;
-                    sort.Orientation = Microsoft.Office.Interop.Excel.XlSortOrientation.xlSortColumns;
-                    sort.SortMethod = Microsoft.Office.Interop.Excel.XlSortMethod.xlPinYin;
-                    sort.Apply();
+                    //workSheet.UsedRange.Select();
+                    //workSheet.Sort.SortFields.Clear();
+                    //workSheet.Sort.SortFields.Add(workSheet.UsedRange.Columns["A"], Microsoft.Office.Interop.Excel.XlSortOn.xlSortOnValues, Microsoft.Office.Interop.Excel.XlSortOrder.xlAscending, System.Type.Missing, Microsoft.Office.Interop.Excel.XlSortDataOption.xlSortNormal);
+                    //var sort = workSheet.Sort;
+                    //sort.SetRange(workSheet.UsedRange);
+                    //sort.Header = Microsoft.Office.Interop.Excel.XlYesNoGuess.xlYes;
+                    //sort.MatchCase = false;
+                    //sort.Orientation = Microsoft.Office.Interop.Excel.XlSortOrientation.xlSortColumns;
+                    //sort.SortMethod = Microsoft.Office.Interop.Excel.XlSortMethod.xlPinYin;
+                    //sort.Apply();
 
                     for (int w = 3; w <= totalRowMinusOne; w++)
                     {
