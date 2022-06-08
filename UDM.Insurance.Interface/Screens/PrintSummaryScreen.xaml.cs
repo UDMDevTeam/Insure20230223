@@ -2,7 +2,9 @@
 using Embriant.Framework.Configuration;
 using Embriant.Framework.Data;
 using Infragistics.Documents.Excel;
+using Infragistics.Windows.DataPresenter;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -28,6 +30,9 @@ namespace UDM.Insurance.Interface.Screens
         private CheckBox _xdgHeaderPrefixAreaCheckbox;
         private int _PrintTime;
         private readonly DispatcherTimer _TimerPrint = new DispatcherTimer();
+        private List<Record> _lstSelectedEmployees;
+        private RecordCollectionBase _records;
+        private string _userIDs = String.Empty;
         #endregion
 
         #region Constructors
@@ -37,6 +42,8 @@ namespace UDM.Insurance.Interface.Screens
             InitializeComponent();
 
             LoadSummaryData();
+
+            LoadAdministrators();
 
             _TimerPrint.Tick += TimerPrint;
             _TimerPrint.Interval = new TimeSpan(0, 0, 1);
@@ -76,6 +83,32 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Arrow);
             }
         }
+
+        private void LoadAdministrators() 
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                DataSet ds = Methods.ExecuteStoredProcedure("spINGetPrintSummaryAdministrators", null);
+
+                var column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                ds.Tables[0].Columns.Add(column);
+
+                xdgAdminstrator.DataSource = ds.Tables[0].DefaultView;
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
 
         private void TimerPrint(object sender, EventArgs e)
         {
@@ -2955,5 +2988,99 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
+        private void HeaderPrefixAreaCheckbox_Checked_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dt = ((DataView)xdgAdminstrator.DataSource).Table;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Select"] = true;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void HeaderPrefixAreaCheckbox_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dt = ((DataView)xdgAdminstrator.DataSource).Table;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Select"] = false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void HeaderPrefixAreaCheckbox_Unchecked_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dt = ((DataView)xdgAdminstrator.DataSource).Table;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Select"] = false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void RecordSelectorCheckbox_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var lstTemp = (from r in xdgAdminstrator.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
+                _lstSelectedEmployees = new List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["Name"].Value));
+
+                if (_lstSelectedEmployees.Count == 0)
+                {
+                    //ShowMessageBox(new INMessageBoxWindow1(), "Please select at least 1 employee from the list.", "No employees selected", ShowMessageType.Error);
+                    //EnableAllControls(true);
+                    return;
+                }
+
+                _records = xdgAdminstrator.Records;
+                _userIDs = _records.Cast<DataRecord>().Where(record => (bool)record.Cells["Select"].Value).Aggregate(String.Empty, (current, record) => current + record.Cells["ID"].Value + ",");
+                _userIDs = _userIDs.Substring(0, _userIDs.Length - 1);
+
+                SqlParameter[] parameters = new SqlParameter[1];
+                parameters[0] = new SqlParameter("@UserID", _userIDs);
+
+                DataSet ds = Methods.ExecuteStoredProcedure("spINGetAgentsWithLeadsToPrintWithAdministrator", parameters);
+
+                var column = new DataColumn("Select", typeof(bool)) { DefaultValue = false };
+                ds.Tables[0].Columns.Add(column);
+
+                xdgPrintLeads.DataSource = ds.Tables[0].DefaultView;
+
+            }
+            catch (Exception ex) 
+            {
+                HandleException(ex); 
+            }
+
+        }
+
+        private void AllAllocationsCB_Checked(object sender, RoutedEventArgs e)
+        {
+            LoadSummaryData(); 
+        }
     }
 }

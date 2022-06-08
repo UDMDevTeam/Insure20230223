@@ -289,11 +289,11 @@
         <Viewbox x:Name="Content1"
                  Grid.Row="4"
                  Grid.RowSpan="17"
-                 Grid.Column="8"
+                 Grid.Column="4"
                  Grid.ColumnSpan="24"
                  Margin="0">
             <Grid x:Name="ContentLayout"
-                  Width="1152"
+                  Width="1352"
                   Height="737">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.1*" />
@@ -339,10 +339,16 @@
                     <ColumnDefinition Width="0.1*" />
                     <ColumnDefinition Width="0.1*" />
                     <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.1*" />
                 </Grid.ColumnDefinitions>
                 <igDP:XamDataGrid x:Name="xdgPrintLeads"
                                   Grid.RowSpan="16"
-                                  Grid.ColumnSpan="24"
+                                  Grid.ColumnSpan="30"
                                   Margin="0"
                                   HorizontalContentAlignment="Stretch"
                                   VerticalContentAlignment="Stretch"
@@ -485,10 +491,158 @@
                         </igDP:FieldLayout>
                     </igDP:XamDataGrid.FieldLayouts>
                 </igDP:XamDataGrid>
+
+                <!--<igDP:XamDataGrid x:Name="xdgAdminstrator"
+                                  Grid.RowSpan="16"
+                                  Grid.Column=""
+                                  Grid.ColumnSpan="30"
+                                  Margin="0"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch"
+                                  AutoFit="False"
+                                  GroupByAreaLocation="None"
+                                  Style="{DynamicResource INXamDataGridStyle1}"
+                                  TabIndex="0">
+                    <igDP:XamDataGrid.Resources>
+                        <Style TargetType="{x:Type igDP:HeaderPrefixArea}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igDP:HeaderPrefixArea}">
+                                        <CheckBox x:Name="HeaderPrefixAreaCheckbox"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Checked="HeaderPrefixAreaCheckbox_Checked"
+                                                  IsChecked="False"
+                                                  Loaded="HeaderPrefixAreaCheckbox_Loaded"
+                                                  Style="{DynamicResource INCheckboxStyle}"
+                                                  Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="{x:Type igDP:RecordSelector}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igDP:RecordSelector}">
+                                        <CheckBox x:Name="RecordSelectorCheckbox"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Click="RecordSelectorCheckbox_Click"
+                                                  Focusable="False"
+                                                  IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                                  Style="{DynamicResource INCheckboxStyle}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </igDP:XamDataGrid.Resources>
+                    <igDP:XamDataGrid.FieldLayouts>
+                        <igDP:FieldLayout>
+                            <igDP:Field Name="CampaignID"
+                                        Label="CampaignID"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CampaignCode"
+                                        Width="250"
+                                        Label="Campaign Code" />
+                            <igDP:Field Name="CampaignName"
+                                        Width="250"
+                                        Label="Campaign Name"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="BatchID"
+                                        Label="BatchID"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="BatchCode"
+                                        Width="140"
+                                        Label="Batch" />
+                            <igDP:Field Name="UDMBatchCode"
+                                        Width="140"
+                                        Label="UDM Batch" />
+                            <igDP:Field Name="AgentID"
+                                        Label="AgentID"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="SalesAgent"
+                                        Width="250"
+                                        Label="Sales Agent" />
+                            <igDP:Field Name="FirstName"
+                                        Width="250"
+                                        Label="First Name"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="LastName"
+                                        Width="250"
+                                        Label="Last Name"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="AllocationDate"
+                                        Width="160"
+                                        Label="Allocation Date" />
+                            <igDP:Field Name="SalesStartDate"
+                                        Width="160"
+                                        Label="Sales Start Date" />
+                            <igDP:Field Name="Leads2Print"
+                                        Width="130"
+                                        Label="Leads to Print" />
+                            <igDP:Field Name="Select"
+                                        Label="Select"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="Conversion2"
+                                        Label="Conversion2"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="Conversion4"
+                                        Label="Conversion4"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="Conversion6"
+                                        Label="Conversion6"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek1"
+                                        Label="CountingWeek1"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek2"
+                                        Label="CountingWeek2"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek3"
+                                        Label="CountingWeek3"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek1TargetPercentage"
+                                        Label="CountingWeek1TargetPercentage"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek2TargetPercentage"
+                                        Label="CountingWeek2TargetPercentage"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek3TargetPercentage"
+                                        Label="CountingWeek3TargetPercentage"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="TargetPercentage"
+                                        Label="TargetPercentage"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek1TargetSales"
+                                        Label="CountingWeek1TargetSales"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek2TargetSales"
+                                        Label="CountingWeek2TargetSales"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="CountingWeek3TargetSales"
+                                        Label="CountingWeek3TargetSales"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="ExpiryDate"
+                                        Label="ExpiryDate"
+                                        Visibility="Visible" />
+                            <igDP:Field Name="IsRedeemedGiftBatch"
+                                        Label="IsRedeemedGiftBatch"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="RedeemTarget"
+                                        Label="RedeemTarget"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="ContactRateTarget"
+                                        Label="ContactRateTarget"
+                                        Visibility="Collapsed" />
+                        </igDP:FieldLayout>
+                    </igDP:XamDataGrid.FieldLayouts>
+                </igDP:XamDataGrid>-->
+
                 <Button x:Name="btnPrint"
                         Grid.Row="16"
-                        Grid.Column="15"
-                        Margin="0,0,-384,0"
+                        Grid.Column="26"
+                        Margin="0,0,2,2"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Click="btnPrint_Click"
@@ -497,7 +651,7 @@
                         IsTabStop="True"
                         Style="{DynamicResource INFlatButton}"
                         TabIndex="0"
-                        Visibility="Visible" />
+                        Visibility="Visible" Grid.ColumnSpan="4" />
 
                 <TextBlock x:Name="lblAgent"
                            Grid.Row="16"
@@ -521,6 +675,120 @@
                            d:LayoutOverrides="GridBox" />
 
             </Grid>
+        </Viewbox>
+
+        <TextBlock
+                            x:Name="lblAgents"
+                            Grid.Row="6"
+                            Grid.Column="28"
+                            Grid.ColumnSpan="5"
+                            Margin="38,0,0,5"
+                            VerticalAlignment="Bottom"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="Select Administrator(s)"
+                            TextWrapping="NoWrap"/>
+
+        <CheckBox x:Name="AllAllocationsCB"
+                              Grid.Row="6"
+                              Grid.Column="33"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Checked="AllAllocationsCB_Checked" Grid.ColumnSpan="2" Margin="40,22,0,0">
+        </CheckBox>
+
+        <TextBlock
+                            x:Name="lblAllAllocations"
+                            Grid.Row="6"
+                            Grid.Column="34"
+                            Grid.ColumnSpan="5"
+                            Margin="38,0,0,5"
+                            VerticalAlignment="Bottom"
+                            Style="{DynamicResource INLabelText2}"
+                            Text="All Allocations"
+                            TextWrapping="NoWrap"/>
+
+        <Viewbox x:Name="Content2"
+                 Grid.Row="7"
+                 Grid.RowSpan="10"
+                 Grid.Column="28"
+                 Grid.ColumnSpan="14"
+                 Margin="0">
+
+            <Grid x:Name="ContentLayout2"
+                  Width="652"
+                  Height="537">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="0.5*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+
+                </Grid.ColumnDefinitions>
+
+
+                <igDP:XamDataGrid x:Name="xdgAdminstrator"
+                                  Grid.RowSpan="4"
+                                  Grid.ColumnSpan="4"
+                                  Margin="-10,22,10,-22"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch"
+                                  AutoFit="True"
+                                  GroupByAreaLocation="None"
+                                  Style="{DynamicResource INXamDataGridStyle1}"
+                                  TabIndex="0">
+                    <igDP:XamDataGrid.Resources>
+                        <Style TargetType="{x:Type igDP:HeaderPrefixArea}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igDP:HeaderPrefixArea}">
+                                        <CheckBox x:Name="HeaderPrefixAreaCheckbox"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Checked="HeaderPrefixAreaCheckbox_Checked_1"
+                                                  IsChecked="False"
+                                                  Loaded="HeaderPrefixAreaCheckbox_Loaded_1"
+                                                  Style="{DynamicResource INCheckboxStyle}"
+                                                  Unchecked="HeaderPrefixAreaCheckbox_Unchecked_1" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="{x:Type igDP:RecordSelector}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type igDP:RecordSelector}">
+                                        <CheckBox x:Name="RecordSelectorCheckbox"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Click="RecordSelectorCheckbox_Click_1"
+                                                  Focusable="False"
+                                                  IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
+                                                  Style="{DynamicResource INCheckboxStyle}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </igDP:XamDataGrid.Resources>
+                    <igDP:XamDataGrid.FieldLayouts>
+                        <igDP:FieldLayout>
+                            <igDP:Field Name="ID"
+                                        Label="ID"
+                                        Visibility="Collapsed" />
+                            <igDP:Field Name="Name"
+                                        Width="450"
+                                        Label="Administrator Name" />
+                            <igDP:Field Name="Select"
+                                        Label="Select"
+                                        Visibility="Collapsed" />
+                        </igDP:FieldLayout>
+                    </igDP:XamDataGrid.FieldLayouts>
+                </igDP:XamDataGrid>
+
+            </Grid>
+
         </Viewbox>
 
         <Path x:Name="Footer_Line"
