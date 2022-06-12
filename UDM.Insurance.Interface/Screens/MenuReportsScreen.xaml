@@ -2357,7 +2357,7 @@
                                                     <TextBlock
                                                         x:Name="lblResalesAcquiredUpdateReport"
                                                         Style="{StaticResource INSquareButtonReportText}"
-                                                        Text="Resales Account&#x0d;Aqcuired Details&#x0d;" />
+                                                        Text="Resales Account&#x0d;Acquired Details&#x0d;" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>
