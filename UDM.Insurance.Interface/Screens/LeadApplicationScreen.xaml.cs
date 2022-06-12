@@ -572,6 +572,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 ClearApplicationScreen();
                 PolicyHolderBoolDC = true;
+                btnDebiCheck.ToolTip = "";
             }
             catch
             {
