@@ -13125,6 +13125,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
+
         #region Mercantile
 
         private void btnVerifyAccNum_Click(object sender, RoutedEventArgs e)
@@ -15750,6 +15751,9 @@ namespace UDM.Insurance.Interface.Screens
             DateTime CommencementDateEdited;
 
             string IDNumberDebiCheck = "1";
+
+            var dataAsync = new NameValueCollection();
+
             #endregion
 
             #region DebiCheck Button Control
@@ -16213,7 +16217,9 @@ namespace UDM.Insurance.Interface.Screens
 
                     }
 
-
+                    try { dataAsync.Clear(); } catch { }
+                    try { dataAsync = data; } catch { }
+                    
 
                     wb.Headers.Add("Authorization", "Bearer " + token);
 
@@ -16236,6 +16242,7 @@ namespace UDM.Insurance.Interface.Screens
                     ClientResponseStatus = (string)customObject["ClientResponseStatus"];
                     ClientsBankResponseStatusCode = (string)customObject["ClientsBankResponseStatusCode"];
                     SubmittingBankResponseStatusCode = (string)customObject["SubmittingBankResponseStatusCode"];
+
                 }
             }
             catch (Exception q)
@@ -16243,10 +16250,56 @@ namespace UDM.Insurance.Interface.Screens
                 MandateStatusCode = null;
                 ClientResponseStatus = null;
                 ClientsBankResponseStatusCode = null;
+                MandateRequestID = null;
             }
 
 
             #endregion
+
+
+            try
+            {
+
+
+                #region Async Call
+                if (MandateStatusCode == null || MandateStatusCode == "")
+                {
+                    using (var wb = new MyWebClient(180000))
+                    {
+                        string submitMandate_urlAsync = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequestAsync";
+
+                        wb.Headers.Add("Authorization", "Bearer " + token);
+
+                        var response = wb.UploadValues(submitMandate_urlAsync, "POST", dataAsync);
+                        string responseInString;
+
+                        try
+                        {
+                            responseInString = Encoding.UTF8.GetString(response);
+                        }
+                        catch
+                        {
+                            responseInString = null;
+                        }
+
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                        MandateRequestID = (string)customObject["MandateRequestID"];
+                        MandateStatusCode = (string)customObject["MandateStatusCode"];
+                        ClientResponseStatus = (string)customObject["ClientResponseStatus"];
+                        ClientsBankResponseStatusCode = "Async Call";
+                        SubmittingBankResponseStatusCode = (string)customObject["SubmittingBankResponseStatusCode"];
+                    }
+                }
+
+                #endregion
+            }
+            catch (Exception w)
+            {
+
+            }
+
+
 
             #region Save Debi Chek on our side
             try
@@ -16256,7 +16309,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 DebiCheckSentData.FKSystemID = (long?)lkpSystem.Insurance;
                 DebiCheckSentData.FKImportID = LaData.AppData.ImportID;
-                DebiCheckSentData.SMSID = ClientResponseStatus;
+                DebiCheckSentData.SMSID = MandateRequestID;
                 DebiCheckSentData.FKlkpSMSTypeID = 2;
                 DebiCheckSentData.RecipientCellNum = LaData.BankDetailsData.TelCell;
                 DebiCheckSentData.SMSBody = MandateStatusCode;
@@ -16801,6 +16854,80 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
+            string RequestID;
+            string MethodType;
+            try
+            {
+                StringBuilder strQuery = new StringBuilder();
+                strQuery.Append("SELECT TOP 1 SMSID [RequestID], SubmissionID [MethodType]  ");
+                strQuery.Append("FROM DebiCheckSent ");
+                strQuery.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
+                strQuery.Append(" ORDER BY ID DESC");
+                DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                RequestID = dt.Rows[0]["RequestID"].ToString();
+                MethodType = dt.Rows[0]["MethodType"].ToString();
+
+            }
+            catch (Exception r)
+            {
+                RequestID = null;
+                MethodType = null;
+            }
+
+            if(MethodType == "Async Call")
+            {
+                #region AuthToken
+
+                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string Username = "udm@platinumlife.co.za";
+                string Password = "P@ssword1";
+                string token = "";
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection();
+                    data["username"] = Username;
+                    data["password"] = Password;
+                    data["grant_type"] = "password";
+
+                    var response = wb.UploadValues(auth_url, "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                    token = (string)customObject["access_token"];
+                }
+                #endregion
+
+                #region MandateRequestView
+                string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/UDM/MandateRequestViewID/";
+                try
+                {
+                    using (var wb = new WebClient())
+                    {
+                        var data = new NameValueCollection();
+                        data["MandateRequestID"] = RequestID;
+                        wb.Headers.Add("Authorization", "Bearer " + token);
+                        wb.Headers["Accept"] = "application/json";
+
+                        System.Uri uri = new System.Uri(submitMandate_url);
+
+                        var response = wb.UploadValues(uri, "POST", data);
+                        string responseInString = Encoding.UTF8.GetString(response);
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                        string result = (string)customObject["result"];
+                        string CreatedDate = (string)customObject["CreatedDate"];
+                        Mandate1TB.Text = "";
+                        Mandate2TB.Text = "";
+                        Mandate1TB.Text = result + " " + CreatedDate;
+                    }
+                }
+                catch
+                {
+                }
+
+                #endregion
+            }
 
 
         }
