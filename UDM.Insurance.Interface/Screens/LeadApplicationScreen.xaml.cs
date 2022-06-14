@@ -16918,7 +16918,6 @@ namespace UDM.Insurance.Interface.Screens
                         string result = (string)customObject["result"];
                         string CreatedDate = (string)customObject["CreatedDate"];
                         Mandate1TB.Text = "";
-                        Mandate2TB.Text = "";
                         Mandate1TB.Text = result + " " + CreatedDate;
                     }
                 }
