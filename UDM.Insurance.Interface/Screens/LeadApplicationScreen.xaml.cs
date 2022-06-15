@@ -161,6 +161,8 @@ namespace UDM.Insurance.Interface.Screens
         int? card14ID = null;
         int? card15ID = null;
         int? card16ID = null;
+        int? card17ID = null;
+        int? card18ID = null;
 
 
         List<Uri> ImageURLString = new List<Uri>();
@@ -13522,6 +13524,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
 
             }
@@ -13567,6 +13571,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 3)
@@ -13623,6 +13629,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 4)
@@ -13691,6 +13699,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 5)
@@ -13771,6 +13781,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 6)
@@ -13863,6 +13875,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 7)
@@ -13967,6 +13981,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 8)
@@ -14083,6 +14099,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 9)
@@ -14211,6 +14229,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 10)
@@ -14351,6 +14371,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 11)
@@ -14503,6 +14525,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 12)
@@ -14667,6 +14691,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 13)
@@ -14843,6 +14869,8 @@ namespace UDM.Insurance.Interface.Screens
                 Card14.Visibility = Visibility.Hidden;
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 14)
@@ -15031,6 +15059,8 @@ namespace UDM.Insurance.Interface.Screens
 
                 Card15.Visibility = Visibility.Hidden;
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 15)
@@ -15231,6 +15261,8 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 Card16.Visibility = Visibility.Hidden;
+                Card17.Visibility = Visibility.Hidden;
+                Card18.Visibility = Visibility.Hidden;
 
             }
             else if (CountOptions == 16)
@@ -15443,6 +15475,472 @@ namespace UDM.Insurance.Interface.Screens
                     Card16.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
                 }
             }
+
+            else if (CountOptions == 17)
+            {
+                Card1.Visibility = Visibility.Visible;
+                Card1TB.Text = CountCoverList[0];
+                card1ID = CountIDList[0];
+                CardImage1.Source = new BitmapImage(ImageURLString[0]);
+                if (DefaultOptionIDCards == card1ID)
+                {
+                    Card1.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card1.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card2.Visibility = Visibility.Visible;
+                Card2TB.Text = CountCoverList[1];
+                card2ID = CountIDList[1];
+                CardImage2.Source = new BitmapImage(ImageURLString[1]);
+                if (DefaultOptionIDCards == card2ID)
+                {
+                    Card2.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card2.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card3.Visibility = Visibility.Visible;
+                Card3TB.Text = CountCoverList[2];
+                card3ID = CountIDList[2];
+                CardImage3.Source = new BitmapImage(ImageURLString[2]);
+                if (DefaultOptionIDCards == card3ID)
+                {
+                    Card3.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card3.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card4.Visibility = Visibility.Visible;
+                Card4TB.Text = CountCoverList[3];
+                card4ID = CountIDList[3];
+                CardImage4.Source = new BitmapImage(ImageURLString[3]);
+                if (DefaultOptionIDCards == card4ID)
+                {
+                    Card4.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card4.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card5.Visibility = Visibility.Visible;
+                Card5TB.Text = CountCoverList[4];
+                card5ID = CountIDList[4];
+                CardImage5.Source = new BitmapImage(ImageURLString[4]);
+                if (DefaultOptionIDCards == card5ID)
+                {
+                    Card5.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card5.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card6.Visibility = Visibility.Visible;
+                Card6TB.Text = CountCoverList[5];
+                card6ID = CountIDList[5];
+                CardImage6.Source = new BitmapImage(ImageURLString[5]);
+                if (DefaultOptionIDCards == card6ID)
+                {
+                    Card6.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card6.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card7.Visibility = Visibility.Visible;
+                Card7TB.Text = CountCoverList[6];
+                card7ID = CountIDList[6];
+                CardImage7.Source = new BitmapImage(ImageURLString[6]);
+                if (DefaultOptionIDCards == card7ID)
+                {
+                    Card7.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card7.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card8.Visibility = Visibility.Visible;
+                Card8TB.Text = CountCoverList[7];
+                card8ID = CountIDList[7];
+                CardImage8.Source = new BitmapImage(ImageURLString[7]);
+                if (DefaultOptionIDCards == card8ID)
+                {
+                    Card8.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card8.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card9.Visibility = Visibility.Visible;
+                Card9TB.Text = CountCoverList[8];
+                card9ID = CountIDList[8];
+                CardImage9.Source = new BitmapImage(ImageURLString[8]);
+                if (DefaultOptionIDCards == card9ID)
+                {
+                    Card9.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card9.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card10.Visibility = Visibility.Visible;
+                Card10TB.Text = CountCoverList[9];
+                card10ID = CountIDList[9];
+                CardImage10.Source = new BitmapImage(ImageURLString[9]);
+                if (DefaultOptionIDCards == card10ID)
+                {
+                    Card10.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card10.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card11TB.Text = CountCoverList[10];
+                card11ID = CountIDList[10];
+                Card11.Visibility = Visibility.Visible;
+                CardImage11.Source = new BitmapImage(ImageURLString[10]);
+                if (DefaultOptionIDCards == card11ID)
+                {
+                    Card11.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card11.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card12.Visibility = Visibility.Visible;
+                Card12TB.Text = CountCoverList[11];
+                card12ID = CountIDList[11];
+                CardImage12.Source = new BitmapImage(ImageURLString[11]);
+                if (DefaultOptionIDCards == card12ID)
+                {
+                    Card12.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card12.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card13.Visibility = Visibility.Visible;
+                Card13TB.Text = CountCoverList[12];
+                card13ID = CountIDList[12];
+                CardImage13.Source = new BitmapImage(ImageURLString[12]);
+                if (DefaultOptionIDCards == card13ID)
+                {
+                    Card13.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card13.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card14.Visibility = Visibility.Visible;
+                Card14TB.Text = CountCoverList[13];
+                card14ID = CountIDList[13];
+                CardImage14.Source = new BitmapImage(ImageURLString[13]);
+                if (DefaultOptionIDCards == card14ID)
+                {
+                    Card14.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card14.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card15.Visibility = Visibility.Visible;
+                Card15TB.Text = CountCoverList[14];
+                card15ID = CountIDList[14];
+                CardImage15.Source = new BitmapImage(ImageURLString[14]);
+                if (DefaultOptionIDCards == card15ID)
+                {
+                    Card15.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card15.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card16.Visibility = Visibility.Visible;
+                Card16TB.Text = CountCoverList[15];
+                card16ID = CountIDList[15];
+                CardImage16.Source = new BitmapImage(ImageURLString[15]);
+                if (DefaultOptionIDCards == card16ID)
+                {
+                    Card16.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card16.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card17.Visibility = Visibility.Visible;
+                Card17TB.Text = CountCoverList[16];
+                card17ID = CountIDList[16];
+                CardImage16.Source = new BitmapImage(ImageURLString[16]);
+                if (DefaultOptionIDCards == card17ID)
+                {
+                    Card17.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card17.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card18.Visibility = Visibility.Hidden;
+            }
+
+            else if (CountOptions == 18)
+            {
+                Card1.Visibility = Visibility.Visible;
+                Card1TB.Text = CountCoverList[0];
+                card1ID = CountIDList[0];
+                CardImage1.Source = new BitmapImage(ImageURLString[0]);
+                if (DefaultOptionIDCards == card1ID)
+                {
+                    Card1.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card1.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card2.Visibility = Visibility.Visible;
+                Card2TB.Text = CountCoverList[1];
+                card2ID = CountIDList[1];
+                CardImage2.Source = new BitmapImage(ImageURLString[1]);
+                if (DefaultOptionIDCards == card2ID)
+                {
+                    Card2.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card2.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card3.Visibility = Visibility.Visible;
+                Card3TB.Text = CountCoverList[2];
+                card3ID = CountIDList[2];
+                CardImage3.Source = new BitmapImage(ImageURLString[2]);
+                if (DefaultOptionIDCards == card3ID)
+                {
+                    Card3.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card3.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card4.Visibility = Visibility.Visible;
+                Card4TB.Text = CountCoverList[3];
+                card4ID = CountIDList[3];
+                CardImage4.Source = new BitmapImage(ImageURLString[3]);
+                if (DefaultOptionIDCards == card4ID)
+                {
+                    Card4.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card4.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card5.Visibility = Visibility.Visible;
+                Card5TB.Text = CountCoverList[4];
+                card5ID = CountIDList[4];
+                CardImage5.Source = new BitmapImage(ImageURLString[4]);
+                if (DefaultOptionIDCards == card5ID)
+                {
+                    Card5.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card5.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card6.Visibility = Visibility.Visible;
+                Card6TB.Text = CountCoverList[5];
+                card6ID = CountIDList[5];
+                CardImage6.Source = new BitmapImage(ImageURLString[5]);
+                if (DefaultOptionIDCards == card6ID)
+                {
+                    Card6.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card6.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card7.Visibility = Visibility.Visible;
+                Card7TB.Text = CountCoverList[6];
+                card7ID = CountIDList[6];
+                CardImage7.Source = new BitmapImage(ImageURLString[6]);
+                if (DefaultOptionIDCards == card7ID)
+                {
+                    Card7.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card7.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card8.Visibility = Visibility.Visible;
+                Card8TB.Text = CountCoverList[7];
+                card8ID = CountIDList[7];
+                CardImage8.Source = new BitmapImage(ImageURLString[7]);
+                if (DefaultOptionIDCards == card8ID)
+                {
+                    Card8.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card8.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card9.Visibility = Visibility.Visible;
+                Card9TB.Text = CountCoverList[8];
+                card9ID = CountIDList[8];
+                CardImage9.Source = new BitmapImage(ImageURLString[8]);
+                if (DefaultOptionIDCards == card9ID)
+                {
+                    Card9.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card9.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card10.Visibility = Visibility.Visible;
+                Card10TB.Text = CountCoverList[9];
+                card10ID = CountIDList[9];
+                CardImage10.Source = new BitmapImage(ImageURLString[9]);
+                if (DefaultOptionIDCards == card10ID)
+                {
+                    Card10.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card10.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card11TB.Text = CountCoverList[10];
+                card11ID = CountIDList[10];
+                Card11.Visibility = Visibility.Visible;
+                CardImage11.Source = new BitmapImage(ImageURLString[10]);
+                if (DefaultOptionIDCards == card11ID)
+                {
+                    Card11.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card11.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card12.Visibility = Visibility.Visible;
+                Card12TB.Text = CountCoverList[11];
+                card12ID = CountIDList[11];
+                CardImage12.Source = new BitmapImage(ImageURLString[11]);
+                if (DefaultOptionIDCards == card12ID)
+                {
+                    Card12.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card12.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card13.Visibility = Visibility.Visible;
+                Card13TB.Text = CountCoverList[12];
+                card13ID = CountIDList[12];
+                CardImage13.Source = new BitmapImage(ImageURLString[12]);
+                if (DefaultOptionIDCards == card13ID)
+                {
+                    Card13.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card13.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card14.Visibility = Visibility.Visible;
+                Card14TB.Text = CountCoverList[13];
+                card14ID = CountIDList[13];
+                CardImage14.Source = new BitmapImage(ImageURLString[13]);
+                if (DefaultOptionIDCards == card14ID)
+                {
+                    Card14.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card14.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card15.Visibility = Visibility.Visible;
+                Card15TB.Text = CountCoverList[14];
+                card15ID = CountIDList[14];
+                CardImage15.Source = new BitmapImage(ImageURLString[14]);
+                if (DefaultOptionIDCards == card15ID)
+                {
+                    Card15.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card15.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card16.Visibility = Visibility.Visible;
+                Card16TB.Text = CountCoverList[15];
+                card16ID = CountIDList[15];
+                CardImage16.Source = new BitmapImage(ImageURLString[15]);
+                if (DefaultOptionIDCards == card16ID)
+                {
+                    Card16.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card16.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card17.Visibility = Visibility.Visible;
+                Card17TB.Text = CountCoverList[16];
+                card17ID = CountIDList[16];
+                CardImage16.Source = new BitmapImage(ImageURLString[16]);
+                if (DefaultOptionIDCards == card17ID)
+                {
+                    Card17.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card17.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+
+                Card18.Visibility = Visibility.Visible;
+                Card18TB.Text = CountCoverList[17];
+                card18ID = CountIDList[17];
+                CardImage16.Source = new BitmapImage(ImageURLString[17]);
+                if (DefaultOptionIDCards == card18ID)
+                {
+                    Card18.BorderBrush = System.Windows.Media.Brushes.BlueViolet;
+                }
+                else
+                {
+                    Card18.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
+                }
+            }
+
+
+
         }
 
         private void Card1_Click(object sender, RoutedEventArgs e)
@@ -18088,6 +18586,20 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
+        }
+
+        private void Card17_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToPage2();
+            ButtonUpgradeCalculations(card17ID);
+            UpgradeBtnOptionSelection.Content = Card17TB.Text;
+        }
+
+        private void Card18_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToPage2();
+            ButtonUpgradeCalculations(card18ID);
+            UpgradeBtnOptionSelection.Content = Card18TB.Text;
         }
     }
 

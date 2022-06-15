@@ -15023,6 +15023,64 @@
                                     <TextBlock x:Name="Card16TB" TextWrapping="Wrap" />
                                 </StackPanel>
                             </Button>
+                            <Button
+                  x:Name="Card17"
+                  Grid.Row="15"
+                  Grid.RowSpan="3"
+                  Grid.Column="8"
+                  Grid.ColumnSpan="8"
+                  Margin="2"
+                  BorderBrush="DarkCyan"
+                  BorderThickness="5"
+                  Click="Card17_Click"
+                  FontSize="15"
+                  Foreground="Black">
+                                <!--<TextBlock TextWrapping="Wrap" TextAlignment="Center"/>-->
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Resources/optionWallpaper.png" />
+                                </Button.Background>
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10" />
+                                    </Style>
+                                </Button.Resources>
+                                <StackPanel>
+                                    <Image
+                      x:Name="CardImage17"
+                      Width="50"
+                      Height="50" />
+                                    <TextBlock x:Name="Card17TB" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                  x:Name="Card18"
+                  Grid.Row="15"
+                  Grid.RowSpan="3"
+                  Grid.Column="16"
+                  Grid.ColumnSpan="8"
+                  Margin="2"
+                  BorderBrush="DarkCyan"
+                  BorderThickness="5"
+                  Click="Card18_Click"
+                  FontSize="15"
+                  Foreground="Black">
+                                <!--<TextBlock TextWrapping="Wrap" TextAlignment="Center"/>-->
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Resources/optionWallpaper.png" />
+                                </Button.Background>
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10" />
+                                    </Style>
+                                </Button.Resources>
+                                <StackPanel>
+                                    <Image
+                      x:Name="CardImage18"
+                      Width="50"
+                      Height="50" />
+                                    <TextBlock x:Name="Card18TB" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Button>
                         </Grid>
                     </Border>
 
