@@ -16757,8 +16757,6 @@ namespace UDM.Insurance.Interface.Screens
 
             try
             {
-
-
                 #region Async Call
                 if (MandateStatusCode == null || MandateStatusCode == "")
                 {
@@ -16796,8 +16794,6 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
-
-
 
             #region Save Debi Chek on our side
             try
@@ -18315,7 +18311,39 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
-                        DataTable AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+                        DataTable AgentsAvailable;
+
+                        //This is for the rule where Upgrade leads choose a selected amount of DebiCheck Agents
+                        if (LaData.AppData.IsLeadUpgrade)
+                        {
+                            if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
+                            {
+                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+
+                            }
+                            else
+                            {
+
+                                if (DateTime.Now.Hour <= 15)
+                                {
+                                    AgentsAvailable = Business.Insure.GetAvailableDCAgentsValidation();
+                                }
+                                else
+                                {
+                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+
+                                }
+                            }
+
+
+                        }
+                        else
+                        {
+                            AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+
+                        }
+
+
 
                         List<long> DCSpecialistIDs = new List<long>();
                         string DCSpecialistIDsString = "";
