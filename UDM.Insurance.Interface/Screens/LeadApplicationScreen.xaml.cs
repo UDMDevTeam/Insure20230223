@@ -1008,6 +1008,9 @@ namespace UDM.Insurance.Interface.Screens
 
                     LaData.LeadData.ReferrorRelationshipID = dtLead.Rows[0]["ReferrorRelationshipID"] as long?;
 
+
+                    try { LaData.LeadData.ReferrorContact = dtLead.Rows[0]["ReferrorContact"] as string; } catch { }
+
                     //LaData.LeadData.ReferrorType = dtLead.Rows[0]["ReferrorType"] as string;
 
                     LaData.LeadData.Email = LaData.LeadHistoryData.Email = dtLead.Rows[0]["EMail"] as string;

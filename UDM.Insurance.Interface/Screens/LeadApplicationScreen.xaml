@@ -4916,25 +4916,25 @@
                     Style="{StaticResource cmbINLA}" />
 
                                 <TextBlock
-                    x:Name="lblReferrorType"
+                    x:Name="lblReferrorContactNumber"
                     Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Margin="0,0,0,5"
                     VerticalAlignment="Bottom"
                     Style="{StaticResource INLabelText2}"
-                    Text="Referror Type"
-                    Visibility="Collapsed" />
+                    Text="Referror Contact"
+                    Visibility="Visible" />
+
                                 <igWPF:XamMaskedEditor
-                    x:Name="medReferrorType"
+                    x:Name="medReferrorContact"
                     Grid.Row="3"
                     Grid.Column="4"
                     Grid.ColumnSpan="7"
                     Mask=""
                     PromptChar=""
                     Style="{StaticResource medINDisabled}"
-                    Text="{Binding LeadData.ReferrorType}"
-                    Visibility="Collapsed" />
+                    Text="{Binding LeadData.ReferrorContact}" />
 
                             </Grid>
                             <TextBlock
