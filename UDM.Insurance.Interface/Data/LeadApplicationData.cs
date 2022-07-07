@@ -390,6 +390,16 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _referrorRelationshipID, value, () => ReferrorRelationshipID); }
             }
 
+            private string _referrorContact;
+            public string ReferrorContact
+            {
+                get
+                {
+                    return _referrorContact;
+                }
+                set { SetProperty(ref _referrorContact, value, () => ReferrorContact); }
+            }
+
             private string _referrorType;
             public string ReferrorType
             {

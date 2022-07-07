@@ -1427,7 +1427,7 @@ namespace UDM.Insurance.Business
 
             object[] paramArray = new[] { param1, param2, param3, param4, param5, param6, param7, param8, param9};
 
-            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportBatch", paramArray, 1200);
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportBatch", paramArray, 120000);
         }
 
         
@@ -2684,6 +2684,16 @@ namespace UDM.Insurance.Business
         }
         #endregion
 
+        #region DC Agents Available
+        public static DataTable GetAvailableDCAgents()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetAvailableDCAgents", null, 600).Tables[0];
+        }
 
+        public static DataTable GetAvailableDCAgentsValidation()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetAvailableDCAgents", null, 600).Tables[1];
+        }
+        #endregion
     }
 }

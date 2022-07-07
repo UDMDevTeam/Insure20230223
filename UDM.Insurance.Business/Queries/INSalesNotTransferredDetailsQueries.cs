@@ -23,8 +23,8 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [zHstINSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[ID] = @ID; ";
-                query += "DELETE FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[ID] = @ID; ";
+                query = "INSERT INTO [zHstINSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[FKImportID] = @ID; ";
+                query += "DELETE FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[FKImportID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
             }
