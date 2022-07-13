@@ -3493,6 +3493,7 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.BankDetailsData.BankID == 267
                         || LaData.BankDetailsData.BankID == 249
                         || LaData.BankDetailsData.BankID == 261
+                        || LaData.BankDetailsData.BankID == 264
                         || GlobalSettings.ApplicationUser.ID == 199
                         || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
@@ -9219,6 +9220,7 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.BankDetailsData.BankID == 267
                         || LaData.BankDetailsData.BankID == 249
                         || LaData.BankDetailsData.BankID == 261
+                        || LaData.BankDetailsData.BankID == 264
                         || GlobalSettings.ApplicationUser.ID == 199
                         || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
@@ -16740,6 +16742,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     MandateRequestID = (string)customObject["MandateRequestID"];
                     MandateStatusCode = (string)customObject["MandateStatusCode"];
+
                     ClientResponseStatus = (string)customObject["ClientResponseStatus"];
                     ClientsBankResponseStatusCode = (string)customObject["ClientsBankResponseStatusCode"];
                     SubmittingBankResponseStatusCode = (string)customObject["SubmittingBankResponseStatusCode"];
@@ -16761,34 +16764,60 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 #region Async Call
+                DataSet dsMandateView = null;
+                DataTable dtMandateView = null;
+                try
+                {
+                    var transactionOptions = new TransactionOptions
+                    {
+                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    };
+
+                    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                    {
+                        dsMandateView = Business.Insure.INGetMandateInfo(LaData.AppData.RefNo);
+                    }
+
+                    dtMandateView = dsMandateView.Tables[0];
+                }
+                catch
+                {
+
+                }
+
+
                 if (MandateStatusCode == null || MandateStatusCode == "")
                 {
-                    using (var wb = new MyWebClient(180000))
+                    if(dtMandateView.Rows.Count == 0)
                     {
-                        string submitMandate_urlAsync = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequestAsync";
-
-                        wb.Headers.Add("Authorization", "Bearer " + token);
-
-                        var response = wb.UploadValues(submitMandate_urlAsync, "POST", dataAsync);
-                        string responseInString;
-
-                        try
+                        using (var wb = new MyWebClient(180000))
                         {
-                            responseInString = Encoding.UTF8.GetString(response);
-                        }
-                        catch
-                        {
-                            responseInString = null;
-                        }
+                            string submitMandate_urlAsync = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequestAsync";
 
-                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                            wb.Headers.Add("Authorization", "Bearer " + token);
 
-                        MandateRequestID = (string)customObject["MandateRequestID"];
-                        MandateStatusCode = (string)customObject["MandateStatusCode"];
-                        ClientResponseStatus = (string)customObject["ClientResponseStatus"];
-                        ClientsBankResponseStatusCode = "Async Call";
-                        SubmittingBankResponseStatusCode = (string)customObject["SubmittingBankResponseStatusCode"];
+                            var response = wb.UploadValues(submitMandate_urlAsync, "POST", dataAsync);
+                            string responseInString;
+
+                            try
+                            {
+                                responseInString = Encoding.UTF8.GetString(response);
+                            }
+                            catch
+                            {
+                                responseInString = null;
+                            }
+
+                            var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                            MandateRequestID = (string)customObject["MandateRequestID"];
+                            MandateStatusCode = (string)customObject["MandateStatusCode"];
+                            ClientResponseStatus = (string)customObject["ClientResponseStatus"];
+                            ClientsBankResponseStatusCode = "Async Call";
+                            SubmittingBankResponseStatusCode = (string)customObject["SubmittingBankResponseStatusCode"];
+                        }
                     }
+
                 }
 
                 #endregion
@@ -16948,7 +16977,7 @@ namespace UDM.Insurance.Interface.Screens
                 else if (responses.Contains(""))
                 {
                     DebiCheckBorder.BorderBrush = Brushes.Green;
-                    btnDebiCheck.ToolTip = "Sent";
+                    btnDebiCheck.ToolTip = " ";
                     //if (DebiCheckSentTwice == true)
                     //{
                     //    btnDebiCheck.IsEnabled = false;
@@ -17519,6 +17548,7 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.BankDetailsData.BankID == 267
                                 || LaData.BankDetailsData.BankID == 249
                                 || LaData.BankDetailsData.BankID == 261
+                                || LaData.BankDetailsData.BankID == 264
                                 || PolicyHolderBoolDC == false
                                 || MandateRequired == "False")
                             {
