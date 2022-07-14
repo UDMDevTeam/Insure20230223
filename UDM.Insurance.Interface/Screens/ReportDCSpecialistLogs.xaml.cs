@@ -34,6 +34,8 @@ namespace UDM.Insurance.Interface.Screens
         DataSet dsDebiCheckSpecialistLogsData;
         bool DCOverriden = false;
         bool DCLogs = false;
+        bool ITQueries = false;
+        bool CMQueries = false;
 
 
         #endregion Constants
@@ -133,9 +135,17 @@ namespace UDM.Insurance.Interface.Screens
                         dsDebiCheckSpecialistLogsData = Business.Insure.INGetDebiCheckSpecialistLogs(_startDate, enddate);
 
                     }
+                    else if(ITQueries == true)
+                    {
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INITQueriesReport(_startDate, enddate);
+                    }
+                    else if(CMQueries == true)
+                    {
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INITQueriesReport(_startDate, enddate);
+                    }
                     else
                     {
-                        dsDebiCheckSpecialistLogsData = Business.Insure.INGetDebiCheckSpecialistLogs(_startDate, enddate);
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INCMQueriesReport(_startDate, enddate);
                     }
 
 
@@ -190,6 +200,16 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     }
+                    else if(ITQueries == true)
+                    {
+                        filePathAndName = String.Format("{0}DebiCheck IT Queries Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+
+                    }
+                    else if(CMQueries == true)
+                    {
+                        filePathAndName = String.Format("{0}DebiCheck CM Queries Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+
+                    }
                     else
                     {
                         filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
@@ -213,6 +233,14 @@ namespace UDM.Insurance.Interface.Screens
                     else if(DCLogs == true)
                     {
                         workSheet.Name = "DC Specialist Logs";
+                    }
+                    else if(ITQueries == true)
+                    {
+                        workSheet.Name = "IT Queries";
+                    }
+                    else if(CMQueries == true)
+                    {
+                        workSheet.Name = "CM Queries";
                     }
                     else
                     {
@@ -335,7 +363,11 @@ namespace UDM.Insurance.Interface.Screens
             {
                 DCOverriden = true;
                 DCLogs = false;
+                ITQueries = false;
+                CMQueries = false;
                 DCAgentLogsCB.IsChecked = false;
+                ITQueriesCB.IsChecked = false;
+                CMQueriesCB.IsChecked = false;
             }
             else
             {
@@ -345,15 +377,55 @@ namespace UDM.Insurance.Interface.Screens
 
         private void DCAgentLogsCB_Checked(object sender, RoutedEventArgs e)
         {
-            if (DCAgentCB.IsChecked == true)
+            if (DCAgentLogsCB.IsChecked == true)
             {
                 DCOverriden = false;
                 DCLogs = true;
+                ITQueries = false;
+                CMQueries = false;
                 DCAgentCB.IsChecked = false;
+                ITQueriesCB.IsChecked = false;
+                CMQueriesCB.IsChecked = false;
             }
             else
             {
                 DCLogs = false;
+            }
+        }
+
+        private void ITQueriesCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if(ITQueriesCB.IsChecked == true)
+            {
+                ITQueries = true;
+                DCOverriden = false;
+                DCLogs = false;
+                CMQueries = false;
+                DCAgentCB.IsChecked = false;
+                CMQueriesCB.IsChecked = false;
+                DCAgentLogsCB.IsChecked = false;
+            }
+            else
+            {
+                ITQueries = false;
+            }
+        }
+
+        private void CMQueriesCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if(CMQueriesCB.IsChecked == true)
+            {
+                CMQueries = true;
+                DCOverriden = false;
+                DCLogs = false;
+                ITQueries = false;
+                DCAgentLogsCB.IsChecked = false;
+                ITQueriesCB.IsChecked = false;
+                DCAgentCB.IsChecked = false;
+            }
+            else
+            {
+                CMQueries = false;
             }
         }
     }

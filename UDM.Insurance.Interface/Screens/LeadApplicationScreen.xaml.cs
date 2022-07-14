@@ -254,7 +254,16 @@ namespace UDM.Insurance.Interface.Screens
                 btnOverrideBumpUp.Visibility = Visibility.Visible;
             }
 
-
+            if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+            {
+                cmbDebiCheckQueries.Visibility = Visibility.Visible;
+                lblDebiCheckQueries.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cmbDebiCheckQueries.Visibility = Visibility.Collapsed;
+                lblDebiCheckQueries.Visibility = Visibility.Collapsed;
+            }
 
             Page1.Visibility = Visibility.Visible;
             Page2.Visibility = Visibility.Collapsed;
@@ -281,9 +290,7 @@ namespace UDM.Insurance.Interface.Screens
             LoadLookupData();
             UnLoadUpgradeLead(); //necessary for correct initial layout
 
-            //_hasNoteBeenDisplayed = false;
 
-            //InitializeCTPhone();
             _callDuration.Tick += CTPhone_CallDuration;
             _callDuration.Interval = new TimeSpan(0, 0, 1);
 
@@ -293,20 +300,8 @@ namespace UDM.Insurance.Interface.Screens
                 LaData.AppData.CanClientBeContacted = Insure.CanClientBeContacted(importID.Value);
                 ShowOrHideFields(LaData.AppData.CanClientBeContacted);
 
-                //_isNotesFeatureAvailable = Insure.IsNotesFeatureAvailable(importID.Value);
-                //if (_isNotesFeatureAvailable)
-                //{
-                //    LaData.AppData.NotesFeatureVisibility = Visibility.Visible;
-                //}
-                //else
-                //{
-                //    LaData.AppData.NotesFeatureVisibility = Visibility.Collapsed;
-                //}
-
                 LoadLead(importID);
 
-
-                //ShowNotes(importID.Value);
             }
             //CanSave.IsChecked = true;
 
@@ -2211,7 +2206,23 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 #endregion
 
+                #region DebiCheck Queries
 
+                try
+                {
+                    StringBuilder strQueryDCQueryID = new StringBuilder();
+                    strQueryDCQueryID.Append("SELECT DebiCheckQueryID [Response] ");
+                    strQueryDCQueryID.Append("FROM [INDebiCheckQueries] WHERE FKImportID = " + LaData.AppData.ImportID.ToString());
+                    DataTable dtDCQueryID = Methods.GetTableData(strQueryDCQueryID.ToString());
+
+                    long DCQueryID = long.Parse(dtDCQueryID.Rows[0]["Response"].ToString());
+
+                    cmbDebiCheckQueries.SelectedIndex = int.Parse(DCQueryID.ToString());
+                } catch 
+                {
+                    cmbDebiCheckQueries.SelectedIndex = -1;
+                }
+                #endregion
 
             }
 
@@ -3365,8 +3376,6 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
-
-
                 #region Call Monitoring Details
                 if (inImportCallMonitoring != null)
                 {
@@ -3395,8 +3404,40 @@ namespace UDM.Insurance.Interface.Screens
 
                     inImportCallMonitoring.Save(_validationResult);
                 }
+                #endregion
+
+                #region DebiCheck Query Save
+                if(cmbDebiCheckQueries.SelectedIndex == -1)
+                {
+
+                }
+                else
+                {
+                    string strQuery;
+                    strQuery = "SELECT ID FROM INDebiCheckQueries WHERE FKImportID = " + LaData.AppData.ImportID;
+
+                    DataTable dtDebiCheckQueriesID = Methods.GetTableData(strQuery);
+                    if (dtDebiCheckQueriesID.Rows.Count == 0)
+                    {
+                        INDebiCheckQueries dcqueries = new INDebiCheckQueries();
+                        dcqueries.FKImportID = LaData.AppData.ImportID;
+                        dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
+                        dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
+                        dcqueries.Save(_validationResult);
+                    }
+                    else
+                    {
+                        long? IDDCQuery = dtDebiCheckQueriesID.Rows[0]["ID"] as long?;
+                        long IDdcqueries = long.Parse(IDDCQuery.ToString());
+                        INDebiCheckQueries dcqueries = new INDebiCheckQueries(IDdcqueries);
+                        dcqueries.FKImportID = LaData.AppData.ImportID;
+                        dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
+                        dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
+                        dcqueries.Save(_validationResult);
+                    }
 
 
+                }
 
                 #endregion
 
@@ -5066,6 +5107,18 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
 
+                #endregion
+
+                #region DebiCheck Query Load ComboBox
+                try
+                {
+                    DataTable dtDebiCheckQueriesList = Methods.GetTableData("SELECT * FROM lkpDebiCheckQueries");
+                    cmbDebiCheckQueries.Populate(dtDebiCheckQueriesList, DescriptionField, IDField);
+                }
+                catch
+                {
+
+                }
                 #endregion
             }
 
@@ -17102,6 +17155,7 @@ namespace UDM.Insurance.Interface.Screens
                     AccountTypePLLKP = (string)customObject["AccountType"];
                     DebitDayPLLKP = (string)customObject["DebitDay"];
                     string policyHolderBool = (string)customObject["PolicyOwner"];
+                    string IDNumberPO = (string)customObject["IDNumber"];
                     //string policyHolderBool = "0";
                     if (policyHolderBool == "1")
                     {
