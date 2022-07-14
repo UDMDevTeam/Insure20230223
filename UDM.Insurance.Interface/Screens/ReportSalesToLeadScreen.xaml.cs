@@ -62,6 +62,11 @@ namespace UDM.Insurance.Interface.Screens
         private DataTable _dtSTLOptions;
         private DataTable _dtSTLConversionPercentageOption;
 
+        Worksheet wsConversionSummaryTemplate;
+        Worksheet wsConversionSummary;
+
+        string currentTSRWorsksheetName = String.Empty;
+        DataTable dtSummaryData; 
 
         private bool _hasSummaryPageConversionTargetsBeenUpdated;
 
@@ -2123,6 +2128,8 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+
+
         //private void BuildSTLReportForCurrentCampaignUpgrades(DataSet dsSTLReportData/*, DataRow drCampaign*/)
         //{
         //    // We assume that the dataset we're working with contains data, because we have already tested for this in STLReport(object sender, DoWorkEventArgs e)
@@ -2245,8 +2252,6 @@ namespace UDM.Insurance.Interface.Screens
         //}
 
         private void InsertConversionCoverSheet(Workbook wbTemplate, Workbook wbReport, out Worksheet wsConversionSummaryTemplate, out Worksheet wsConversionSummary, DataRow drCurrentCampaign)
-        
-        
         {
             #region Get the conversion summary sheet configuration values
 
@@ -2319,6 +2324,92 @@ namespace UDM.Insurance.Interface.Screens
             {
                 wsConversionSummary.GetCell(conversionSummarySheetFirstSTLTargetPercentageCell).Value = firstSTLTargetPercentage;
             }            
+            wsConversionSummary.GetCell(conversionSummarySheetSecondSTLTargetPercentageCell).Value = secondSTLTargetPercentage;
+            wsConversionSummary.GetCell(conversionSummarySheetThirdSTLTargetPercentageCell).Value = thirdSTLTargetPercentage;
+            wsConversionSummary.GetCell(conversionSummarySheetFourthSTLTargetPercentageCell).Value = fourthSTLTargetPercentage;
+
+            #endregion Populating the report details
+
+            //return wsConversionSummary;
+        }
+
+        private void InsertConversionCoverSheetUpgrades(Workbook wbTemplate, Workbook wbReport, out Worksheet wsConversionSummaryTemplate, out Worksheet wsConversionSummary, DataRow drCurrentConsultant)
+        {
+
+            #region Get the conversion summary sheet configuration values
+
+            //DataTable dtWorkSheet = dsUpgradeSTLDate.Tables[8];
+
+
+            string conversionSummaryTemplateSheetName = drCurrentConsultant["ConversionSummaryTemplateSheetName"].ToString();
+            string conversionSummaryNewSheetName = drCurrentConsultant["ConversionSummaryNewSheetName"].ToString();
+            byte conversionSummaryTemplateColumnSpan = Convert.ToByte(drCurrentConsultant["ConversionSummaryTemplateColumnSpan"]);
+            byte conversionSummaryTemplateRowSpan = Convert.ToByte(drCurrentConsultant["ConversionSummaryTemplateRowSpan"]);
+            //byte conversionSummaryTemplateDataRowIndex = Convert.ToByte(drCurrentConsultant["ConversionSummaryTemplateDataRowIndex"]);
+            //byte conversionSummaryTemplateTotalsRowIndex = Convert.ToByte(drCurrentConsultant["ConversionSummaryTemplateTotalsRowIndex"]);
+            string conversionSummarySheetHeadingCell = drCurrentConsultant["ConversionSummarySheetHeadingCell"].ToString();
+            string conversionSummarySheetHeading = drCurrentConsultant["ConversionSummarySheetHeading"].ToString();
+
+            string conversionSummarySheetFirstSTLTargetPercentageCell = drCurrentConsultant["ConversionSummarySheetFirstSTLTargetPercentageCell"].ToString();
+            string conversionSummarySheetSecondSTLTargetPercentageCell = drCurrentConsultant["ConversionSummarySheetSecondSTLTargetPercentageCell"].ToString();
+            string conversionSummarySheetThirdSTLTargetPercentageCell = drCurrentConsultant["ConversionSummarySheetThirdSTLTargetPercentageCell"].ToString();
+            string conversionSummarySheetFourthSTLTargetPercentageCell = drCurrentConsultant["ConversionSummarySheetFourthSTLTargetPercentageCell"].ToString();
+
+            string conversionSummarySheetThirdWeekSalesColumnHeadingCell = drCurrentConsultant["ConversionSummarySheetThirdWeekSalesColumnHeadingCell"].ToString();
+            string conversionSummarySheetThirdWeekSalesColumnHeading = drCurrentConsultant["ConversionSummarySheetThirdWeekSalesColumnHeading"].ToString();
+            string conversionSummarySheetThirdWeekSalesPercentageColumnHeadingCell = drCurrentConsultant["ConversionSummarySheetThirdWeekSalesPercentageColumnHeadingCell"].ToString();
+            string conversionSummarySheetThirdWeekSalesPercentageColumnHeading = drCurrentConsultant["ConversionSummarySheetThirdWeekSalesPercentageColumnHeading"].ToString();
+
+
+            // STL Percentages and cell addresses for the target percentages of the 3 weeks of the MAIN DATA Section:
+            decimal firstSTLTargetPercentage = Convert.ToDecimal(drCurrentConsultant["FirstSTLTargetPercentage"]);
+            decimal secondSTLTargetPercentage = Convert.ToDecimal(drCurrentConsultant["SecondSTLTargetPercentage"]);
+            decimal thirdSTLTargetPercentage = Convert.ToDecimal(drCurrentConsultant["ThirdSTLTargetPercentage"]);
+            decimal fourthSTLTargetPercentage = Convert.ToDecimal(drCurrentConsultant["FourthSTLTargetPercentage"]);
+
+            #endregion Get the conversion summary sheet configuration values
+
+            #region Adding the conversion cover sheet
+
+            wsConversionSummaryTemplate = wbTemplate.Worksheets[conversionSummaryTemplateSheetName];
+            wsConversionSummary = wbReport.Worksheets.Add(Methods.ParseWorksheetName(wbReport, conversionSummaryNewSheetName));
+            Methods.CopyWorksheetOptionsFromTemplate(wsConversionSummaryTemplate, wsConversionSummary, true, true, true, true, true, false, false, false, true, true, true, true, true, true, true, true, false);
+
+            wsConversionSummary.PrintOptions.ScalingType = ScalingType.FitToPages;
+            wsConversionSummary.PrintOptions.MaxPagesHorizontally = 1;
+
+            wsConversionSummary.Columns[34].Hidden = true;
+            wsConversionSummary.Columns[35].Hidden = true;
+            wsConversionSummary.Columns[36].Hidden = true;
+            wsConversionSummary.Columns[37].Hidden = true;
+
+            wsConversionSummary.Columns[42].Hidden = true;
+            wsConversionSummary.Columns[43].Hidden = true;
+            wsConversionSummary.Columns[44].Hidden = true;
+            wsConversionSummary.Columns[45].Hidden = true;
+
+            wsConversionSummary.Columns[50].Hidden = true;
+            wsConversionSummary.Columns[51].Hidden = true;
+            wsConversionSummary.Columns[52].Hidden = true;
+            wsConversionSummary.Columns[53].Hidden = true;
+
+            #endregion Adding the conversion cover sheet
+
+            #region Populating the report details
+
+            Methods.CopyExcelRegion(wsConversionSummaryTemplate, 0, 0, conversionSummaryTemplateRowSpan, conversionSummaryTemplateColumnSpan, wsConversionSummary, 0, 0);
+
+            wsConversionSummary.GetCell(conversionSummarySheetHeadingCell).Value = conversionSummarySheetHeading;
+
+            // Replacing the column headings of the 3rd week, depending on which STL option was selected
+            wsConversionSummary.GetCell(conversionSummarySheetThirdWeekSalesColumnHeadingCell).Value = conversionSummarySheetThirdWeekSalesColumnHeading;
+            wsConversionSummary.GetCell(conversionSummarySheetThirdWeekSalesPercentageColumnHeadingCell).Value = conversionSummarySheetThirdWeekSalesPercentageColumnHeading;
+
+            // Adding the target percentages for the 3 different weeks:
+            if (_stlOption == 4 || _stlOptionFromCmb >= 10 || _stlOption == 5 || _stlOption == 14)
+            {
+                wsConversionSummary.GetCell(conversionSummarySheetFirstSTLTargetPercentageCell).Value = firstSTLTargetPercentage;
+            }
             wsConversionSummary.GetCell(conversionSummarySheetSecondSTLTargetPercentageCell).Value = secondSTLTargetPercentage;
             wsConversionSummary.GetCell(conversionSummarySheetThirdSTLTargetPercentageCell).Value = thirdSTLTargetPercentage;
             wsConversionSummary.GetCell(conversionSummarySheetFourthSTLTargetPercentageCell).Value = fourthSTLTargetPercentage;
@@ -2585,6 +2676,36 @@ namespace UDM.Insurance.Interface.Screens
             return reportRow;
         }
 
+        private int UpdateConversionSummarySheetUpgrades(Worksheet wsTemplate, Worksheet wsReport, DataTable dtConversionSummarySheetExcelCellDataTableColumnMappings, DataRow drCurrentCampaign, DataRow drCurrentSalesConsultant, string worksheetName, int referencedReportRow, int reportRow)
+        {
+            if (!String.IsNullOrEmpty(worksheetName))
+            {
+                #region Get the conversion summary sheet configuration values
+
+                //DataTable dtConversion = dsUpgradeSTLReportDate.Tables[8];
+
+                //byte conversionSummaryTemplateColumnSpan = 87;
+                //byte conversionSummaryTemplateDataRowIndex = (byte)reportRow;
+
+                byte conversionSummaryTemplateColumnSpan = Convert.ToByte(drCurrentCampaign["ConversionSummaryTemplateColumnSpan"]);
+                byte conversionSummaryTemplateDataRowIndex = Convert.ToByte(drCurrentCampaign["ConversionSummaryTemplateDataRowIndex"]);
+
+                //conversionSummaryTemplateDataRowIndex++; 
+
+                #endregion Get the conversion summary sheet configuration values
+
+                #region Add the cross-worksheet cell references
+
+                reportRow = Methods.MapTemplatizedCrossSheetExcelCellReferences(wsTemplate, dtConversionSummarySheetExcelCellDataTableColumnMappings, conversionSummaryTemplateDataRowIndex, 0, 0, conversionSummaryTemplateColumnSpan, wsReport, worksheetName, referencedReportRow, reportRow, 0);
+
+                #endregion Add the cross-worksheet cell references
+
+                //reportRow++; 
+
+            }
+            return reportRow;
+        }
+
         private void InsertDetailedLeadDetailsSheet(Workbook wbTemplate, Workbook wbReport, DataSet dsSTLReportData, DataRow drCurrentCampaign)
         {
             string filterString = drCurrentCampaign["FilterString"].ToString();
@@ -2675,6 +2796,28 @@ namespace UDM.Insurance.Interface.Screens
             #endregion Add the totals / averages
         }
 
+        private void InsertConversionSummaryTotalsUpgrades(Worksheet wsTemplate, Worksheet wsReport, DataTable dtConversionSummarySheetExcelCellTotalsFormulasMappings, DataRow drCurrentCampaign, int reportRow)
+        {
+            #region Get the conversion summary sheet configuration values
+
+            byte conversionSummaryTemplateColumnSpan = 87;
+            byte conversionSummaryTemplateTotalsRowIndex = 12;
+
+            #endregion Get the conversion summary sheet configuration values
+
+            #region Declarations & initializations
+
+            byte formulaStartRow = 10;
+
+            #endregion Declarations & initializations
+
+            #region Add the totals / averages
+
+            reportRow = Methods.MapTemplatizedExcelFormulas(wsTemplate, dtConversionSummarySheetExcelCellTotalsFormulasMappings, conversionSummaryTemplateTotalsRowIndex, 0, 0, conversionSummaryTemplateColumnSpan, wsReport, reportRow, 0, formulaStartRow, reportRow - 1);
+
+            #endregion Add the totals / averages
+        }
+
         #endregion Build the STL report, one campaign at a time
 
         #region STL Report - Upgrades
@@ -2691,6 +2834,10 @@ namespace UDM.Insurance.Interface.Screens
 
                 Workbook wbTemplate = Methods.DefineTemplateWorkbook("/Templates/ReportTemplateSTLAndBCP.xlsx");
                 Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
+
+                _conversionSummarySheetRowIndex = 10;
+
+                //int mainDataSectionTotalsRowIndex = 14;
 
                 #endregion Setup excel documents
 
@@ -2713,8 +2860,9 @@ namespace UDM.Insurance.Interface.Screens
                 else if (_stlOption == 14)
                 {
                     dsUpgradeSTLReportDate = Business.Insure.INReportSTLUpgrades20180723(_fkINCampaignIDs, _reportStartDate, _reportEndDate, _staffType, _stlOption, _stlConversionPercentageOption, Convert.ToByte(RData.STLBatchType ?? Business.lkpINSTLBatchType.Combined));
+
                 }
-                
+
 
                 if (dsUpgradeSTLReportDate.Tables[1].Rows.Count == 0)
                 {
@@ -2728,6 +2876,29 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion Get the data
 
+                if (_stlOption == 14)
+                {
+                    DataTable dtCampaigns = dsUpgradeSTLReportDate.Tables[8];
+
+                    DataTable dtCoverSheet;
+
+                    dtCoverSheet = dtCampaigns.AsEnumerable().Skip(dtCampaigns.Rows.Count - 1).CopyToDataTable();
+
+                    foreach (DataRow drCampaign in dtCoverSheet.Rows)
+                    {
+
+                        DataTable dtConversionSummarySheetExcelCellDataTableColumnMappings = dsUpgradeSTLReportDate.Tables[11];
+                        DataTable dtConversionSummarySheetExcelCellTotalsFormulasMappings = dsUpgradeSTLReportDate.Tables[12];
+
+
+                        InsertConversionCoverSheetUpgrades(wbTemplate, wbReport, out wsConversionSummaryTemplate, out wsConversionSummary, drCampaign);
+                        //_conversionSummarySheetRowIndex = UpdateConversionSummarySheetUpgrades(wsConversionSummaryTemplate, wsConversionSummary, dtConversionSummarySheetExcelCellDataTableColumnMappings, drCampaign, drCampaign, currentTSRWorsksheetName, mainDataSectionTotalsRowIndex, _conversionSummarySheetRowIndex);
+
+                    }
+
+                }
+
+
                 foreach (DataRow row in dsUpgradeSTLReportDate.Tables[0].Rows)
                 {
                     if (_stlOption == 8)
@@ -2737,16 +2908,110 @@ namespace UDM.Insurance.Interface.Screens
                     else if (_stlOption == 9)
                     {
                         InsertIndividualUpgradeSTLReportDataSheet2(wbTemplate, wbReport, dsUpgradeSTLReportDate, row);
-                    }                    
+                    }
                     else if (_stlOption == 13)
                     {
                         InsertIndividualUpgradeSTLReportDataSheet20180621(wbTemplate, wbReport, dsUpgradeSTLReportDate, row);
                     }
                     else if (_stlOption == 14)
                     {
+
+                        DataTable dtConversionSummarySheetExcelCellDataTableColumnMappings = dsUpgradeSTLReportDate.Tables[11];
+                        DataTable dtConversionSummarySheetExcelCellTotalsFormulasMappings = dsUpgradeSTLReportDate.Tables[12];
+
+                        DataTable dtCampaigns = dsUpgradeSTLReportDate.Tables[8];
+
+
+                        DataTable dtMainTotals;
+
+
                         InsertIndividualUpgradeSTLReportDataSheet20180723(wbTemplate, wbReport, dsUpgradeSTLReportDate, row);
+
+                        //_conversionSummarySheetRowIndex = UpdateConversionSummarySheetUpgrades(wsConversionSummaryTemplate, wsConversionSummary, dtConversionSummarySheetExcelCellDataTableColumnMappings, drAgents, drAgents, currentTSRWorsksheetName, mainDataSectionTotalsRowIndex, _conversionSummarySheetRowIndex);
+
+                        DataTable dtAgentsCoverSheet;
+
+                        //dtMainTotals = dtCampaigns;
+
+                        //DataTable dtAgents = dsUpgradeSTLReportDate.Tables[8];
+
+
+                        //foreach (DataRow drMainTotals in dtMainTotals.Rows)
+                        //{
+                        //    mainDataSectionTotalsRowIndex++; 
+                        //}
+
+                        int mainDataSectionTotalsRowIndex = 14;
+
+
+                        dtAgentsCoverSheet = dtCampaigns.AsEnumerable().Skip(dtCampaigns.Rows.Count - 1).CopyToDataTable();
+
+
+                        foreach (DataRow drCampaign in dtAgentsCoverSheet.Rows)
+                        {
+
+                            if (dtSummaryData.Rows.Count == 1)
+                            {
+                                mainDataSectionTotalsRowIndex++;
+                                mainDataSectionTotalsRowIndex--;
+
+                            }
+                            else if (dtSummaryData.Rows.Count >= 2)
+                            {
+                                int MutipleIndex = dtSummaryData.Rows.Count;
+
+                                for (int i = 1; i < MutipleIndex; i++) 
+                                {
+                                    mainDataSectionTotalsRowIndex++;
+
+                                }
+
+                            }
+
+
+                            _conversionSummarySheetRowIndex = UpdateConversionSummarySheetUpgrades(wsConversionSummaryTemplate, wsConversionSummary, dtConversionSummarySheetExcelCellDataTableColumnMappings, drCampaign, drCampaign, currentTSRWorsksheetName, mainDataSectionTotalsRowIndex, _conversionSummarySheetRowIndex);
+
+                        }
+
+
+                        //foreach (DataRow drAgents in dtAgents.Rows)
+                        //{
+                        //    _conversionSummarySheetRowIndex = UpdateConversionSummarySheetUpgrades(wsConversionSummaryTemplate, wsConversionSummary, dtConversionSummarySheetExcelCellDataTableColumnMappings, drAgents, drAgents, currentTSRWorsksheetName, mainDataSectionTotalsRowIndex, _conversionSummarySheetRowIndex);
+                        //}
+
                     }
                 }
+
+
+                if (_stlOption == 14)
+                {
+
+                    DataTable dtConversionSummarySheetExcelCellDataTableColumnMappings = dsUpgradeSTLReportDate.Tables[11];
+                    DataTable dtConversionSummarySheetExcelCellTotalsFormulasMappings = dsUpgradeSTLReportDate.Tables[12];
+
+                    DataTable dtAgents = dsUpgradeSTLReportDate.Tables[8];
+
+                    //foreach (DataRow drAgents in dtAgents.Rows)
+                    //{
+                    //    //DataTable dtAgentName = dsUpgradeSTLReportDate.Tables[0];
+
+                    //    //currentTSRWorsksheetName
+
+                    //    //string salesConsultantName = dtAgentName.Rows[0]["SalesConsultantName"].ToString(); 
+
+                    //    //string batchMonth = dtAgentName.Rows[0]["BatchMonth"].ToString();
+
+                    //    //currentTSRWorsksheetName = salesConsultantName + " - Month " + batchMonth;
+
+                    //    //salesConsultantName + " - Month " + drCurrentSalesConsultant["BatchMonth"]
+
+                    //    _conversionSummarySheetRowIndex = UpdateConversionSummarySheetUpgrades(wsConversionSummaryTemplate, wsConversionSummary, dtConversionSummarySheetExcelCellDataTableColumnMappings, drAgents, drAgents, currentTSRWorsksheetName, mainDataSectionTotalsRowIndex, _conversionSummarySheetRowIndex);
+                    //}
+                }
+
+
+                //mainDataSectionTotalsRowIndex = 0;
+
 
                 #region TODO: Adapt to get campaign IDs from XamDatagrid when the requirement becomes applicable
 
@@ -2779,23 +3044,26 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Save & Display the resulting workbook - if there is at least 1 worksheet
 
-                if (wbReport.Worksheets.Count < 1)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-                    {
-                        ShowMessageBox(new INMessageBoxWindow1(), @"There is no data from which to generate a report.", "No Data", ShowMessageType.Information);
-                    });
-                }
-                else
-                {
-                    //Save excel document
-                    wbReport.Save(filePathAndName);
+                //if (wbReport.Worksheets.Count > 1)
+                //{
+                //    //Save excel document
+                //    wbReport.Save(filePathAndName);
 
-                    //Display excel document
-                    Process.Start(filePathAndName);
-                }
+                //    //Display excel document
+                //    Process.Start(filePathAndName);
+                //}
+                //else
+                //{
 
-                #endregion Save & Display the resulting workbook - if there is at least 1 worksheet
+                //Save excel document
+                wbReport.Save(filePathAndName);
+
+                        //Display excel document
+                        Process.Start(filePathAndName);
+                    //}
+
+                    #endregion Save & Display the resulting workbook - if there is at least 1 worksheet
+                //}
             }
 
             catch (Exception ex)
@@ -2847,6 +3115,8 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Declarations & Initializations
 
                 #region Add the worksheet
+
+
 
                 Worksheet wsReportTemplate = wbTemplate.Worksheets[campaignDataSheetTemplateName];
                 Worksheet wsReport = wbReport.Worksheets.Add(worksheetTabName);
@@ -3206,6 +3476,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 DataTable dtTemplateSettings = dsUpgradeSTLReportDate.Tables[7];
 
+                dtSummaryData = dtCurrentCampaignData; 
 
                 #endregion Partition the given dataset
 
@@ -3226,6 +3497,8 @@ namespace UDM.Insurance.Interface.Screens
                 string salesConsultantName = drCurrentSalesConsultant["SalesConsultantName"].ToString();
                 string worksheetTabName = Methods.ParseWorksheetName(wbReport, salesConsultantName + " - Month " + drCurrentSalesConsultant["BatchMonth"].ToString()); //drCurrentSalesConsultant["WorksheetTabName"].ToString();
                 string campaignDataSheetTemplateName = dtTemplateSettings.Rows[0]["CampaignDataSheetTemplateName"].ToString(); //selectedCampaign.Cells["CampaignCategory"].Value.ToString();
+
+                currentTSRWorsksheetName = worksheetTabName;
 
                 string reportHeadingCell = dtTemplateSettings.Rows[0]["ReportHeadingCell"].ToString();        //dtReportConfigs.Rows[0]["ReportHeadingCell"].ToString();
                 string reportSubHeadingCell = dtTemplateSettings.Rows[0]["ReportSubHeadingCell"].ToString();     //dtReportConfigs.Rows[0]["ReportSubHeadingCell"].ToString();
