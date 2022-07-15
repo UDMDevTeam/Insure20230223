@@ -1433,11 +1433,11 @@ namespace UDM.Insurance.Business
         }
 
         //public static DataSet INGetBatchReportData(string fkINCampaignIDs, DateTime fromDate, DateTime toDate, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches)
-        public static DataSet INGetBatchReportData(string fkINCampaignIDs, int year, int month, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches, bool onlyBatchesReceived91DaysAgoAndAfter, bool combineUL)
+        public static DataSet INGetBatchReportData(string fkINCampaignIDs, DateTime startDate, DateTime endDate, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches, bool onlyBatchesReceived91DaysAgoAndAfter, bool combineUL)
         {
             object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
-            object param2 = Database.GetParameter("@Year", year);
-            object param3 = Database.GetParameter("@Month", month);
+            object param2 = Database.GetParameter("@FromUpgradeStartDate", startDate);
+            object param3 = Database.GetParameter("@ToUpgradeEndDate", endDate);
             object param4 = Database.GetParameter("@ReportType", reportTypeID);
             object param5 = Database.GetParameter("@IncludeLeadsCopiedToExtension", includeLeadsCopiedToExtension);
             object param6 = Database.GetParameter("@IncludeCompleted", includeCompletedBatches);

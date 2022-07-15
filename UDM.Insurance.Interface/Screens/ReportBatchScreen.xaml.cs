@@ -54,6 +54,9 @@ namespace UDM.Insurance.Interface.Screens
         private string _campaignIDs = String.Empty;
         private string _selectedReportType = String.Empty;
 
+        private DateTime _startDate;
+        private DateTime _endDate;
+
         private ReportData _rData = new ReportData();
 
         public ReportData RData
@@ -122,12 +125,13 @@ namespace UDM.Insurance.Interface.Screens
                 case 6:
                 case 7:
                 case 8:
+                case 9:
                     {
                         xdgCampaigns.IsEnabled = true;
-                        lblMonth.Visibility = Visibility.Collapsed;
-                        lblYear.Visibility = Visibility.Collapsed;
-                        cmbMonth.Visibility = Visibility.Collapsed;
-                        clYear.Visibility = Visibility.Collapsed;
+                        //lblMonth.Visibility = Visibility.Collapsed;
+                        //lblYear.Visibility = Visibility.Collapsed;
+                        //cmbMonth.Visibility = Visibility.Collapsed;
+                        //clYear.Visibility = Visibility.Collapsed;
                         lblIncludeLeadsCopiedToExtension.Visibility = Visibility.Visible;
                         chkIncludeLeadsCopiedToExtension.Visibility = Visibility.Visible;
 
@@ -154,10 +158,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         xdgCampaigns.IsEnabled = false;
                         HeaderPrefixAreaCheckbox_Checked(xdgCampaigns, new RoutedEventArgs());
-                        lblMonth.Visibility = Visibility.Visible;
-                        lblYear.Visibility = Visibility.Visible;
-                        cmbMonth.Visibility = Visibility.Visible;
-                        clYear.Visibility = Visibility.Visible;
+                        //lblMonth.Visibility = Visibility.Visible;
+                        //lblYear.Visibility = Visibility.Visible;
+                        //cmbMonth.Visibility = Visibility.Visible;
+                        //clYear.Visibility = Visibility.Visible;
                         lblIncludeLeadsCopiedToExtension.Visibility = Visibility.Collapsed;
                         chkIncludeLeadsCopiedToExtension.Visibility = Visibility.Collapsed;
 
@@ -185,7 +189,7 @@ namespace UDM.Insurance.Interface.Screens
                         Action act = delegate ()
                         {
                             //_calendar.SelectedDate = ((ViewModel)DataContext).Display;
-                            clYear.DisplayMode = CalendarMode.Year;
+                            //clYear.DisplayMode = CalendarMode.Year;
                             //_calendar.SelectedDate = null;
                         };
                         Dispatcher.BeginInvoke(act, DispatcherPriority.ApplicationIdle);
@@ -197,10 +201,10 @@ namespace UDM.Insurance.Interface.Screens
                 case 3:
                     {
                         xdgCampaigns.IsEnabled = true;
-                        lblMonth.Visibility = Visibility.Collapsed;
-                        lblYear.Visibility = Visibility.Collapsed;
-                        cmbMonth.Visibility = Visibility.Collapsed;
-                        clYear.Visibility = Visibility.Collapsed;
+                        //lblMonth.Visibility = Visibility.Collapsed;
+                        //lblYear.Visibility = Visibility.Collapsed;
+                        //cmbMonth.Visibility = Visibility.Collapsed;
+                        //clYear.Visibility = Visibility.Collapsed;
                         lblIncludeLeadsCopiedToExtension.Visibility = Visibility.Collapsed;
                         chkIncludeLeadsCopiedToExtension.Visibility = Visibility.Collapsed;
 
@@ -1072,7 +1076,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Get the data from the database
 
                 //DataSet dsBatchReportData = Insure.INGetBatchReportData(_campaignIDs, _startDate, _endDate, _reportTypeID, _includeLeadsCopiedToExtension, _includeCompletedBatches);
-                DataSet dsBatchReportData = Insure.INGetBatchReportData(_campaignIDs, _year, _month, _reportTypeID, _includeLeadsCopiedToExtension, _includeCompletedBatches, _onlyBatchesReceived91DaysAgoAndAfter, RData.CombineUL);
+                DataSet dsBatchReportData = Insure.INGetBatchReportData(_campaignIDs, _startDate, _startDate, _reportTypeID, _includeLeadsCopiedToExtension, _includeCompletedBatches, _onlyBatchesReceived91DaysAgoAndAfter, RData.CombineUL);
                 DataTable dtBatchReportData;
 
                 #endregion Get the data from the database
@@ -1100,6 +1104,7 @@ namespace UDM.Insurance.Interface.Screens
                         dataTableCount = 6;
                         break;
 
+
                     case 2:
                         dataTableCount = 6;
                         break;
@@ -1108,6 +1113,12 @@ namespace UDM.Insurance.Interface.Screens
                         columnsToBeHidden = "0";
                         dataTableCount = 6;
                         break;
+
+                    case 9:
+                        columnsToBeHidden = "0,4,8,16,18,19,25";
+                        dataTableCount = 6;
+                        break;
+
                 }
 
                 #endregion How many data tables should the DataSet have?
@@ -2959,9 +2970,9 @@ namespace UDM.Insurance.Interface.Screens
                     ComboBoxItem item = new ComboBoxItem();
                     item.Tag = i;
                     item.Content = mfi.GetMonthName(i);
-                    cmbMonth.Items.Add(item);
+                    //cmbMonth.Items.Add(item);
                 }
-                cmbMonth.SelectedIndex = DateTime.Now.Month - 1;
+                //cmbMonth.SelectedIndex = DateTime.Now.Month - 1;
                 _month = DateTime.Now.Month;
 
             }
@@ -2975,7 +2986,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                _year = clYear.DisplayDate.Year;
+                // _year = clYear.DisplayDate.Year;
             }
             catch (Exception ex)
             {
@@ -2990,8 +3001,8 @@ namespace UDM.Insurance.Interface.Screens
 
         private void cmbMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBoxItem item = (ComboBoxItem)cmbMonth.SelectedItem;
-            _month = int.Parse(item.Tag.ToString());
+            //ComboBoxItem item = (ComboBoxItem)cmbMonth.SelectedItem;
+            //_month = int.Parse(item.Tag.ToString());
         }
 
         private void cmbReportType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -3137,6 +3148,17 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Event Handlers 
 
+        private void calStartDate_SelectedDatesChanged(object sender, Infragistics.Windows.Editors.Events.SelectedDatesChangedEventArgs e)
+        {
+            DateTime.TryParse(calStartDate.SelectedDate.ToString(), out _startDate);
+            //EnableDisableExportButton();
+        }
+
+        private void calEndDate_SelectedDatesChanged(object sender, Infragistics.Windows.Editors.Events.SelectedDatesChangedEventArgs e)
+        {
+            //DateTime.TryParse(calEndDate.SelectedDate.ToString(), out _endDate);
+            //EnableDisableExportButton();
+        }
     }
 
 }
