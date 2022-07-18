@@ -239,7 +239,7 @@
                         Content=""
                         Visibility="Hidden" />
 
-                    <!--<TextBlock
+                    <TextBlock
                         x:Name="lblYear"
                         Grid.Row="4"
                         Grid.RowSpan="2"
@@ -251,7 +251,7 @@
                         Style="{DynamicResource INLabelText2}"
                         Text="Year"
                         TextWrapping="NoWrap"
-                        Visibility="Visible" />-->
+                        Visibility="Visible" />
                     <!--<TextBlock x:Name="lblCal1"
                                Grid.Row="2"
                                Grid.Column="13"
@@ -392,7 +392,7 @@
                              VerticalAlignment="Top"
                              Stretch="Fill" />-->
 
-                    <!--<Calendar
+                    <Calendar
                         Name="clYear"
                         Grid.Row="5"
                         Grid.Column="10"
@@ -406,7 +406,7 @@
                         FontFamily="Arial"
                         FontSize="32"
                         Foreground="Red"
-                        Visibility="Visible" />-->
+                        Visibility="Visible" />
                     <!--<igWPF:XamMonthCalendar x:Name="calStartDate"
                                             Grid.Row="3"
                                             Grid.RowSpan="7"
@@ -441,7 +441,7 @@
                         Text="Select Campaign(s)"
                         TextWrapping="NoWrap"
                         Visibility="Visible" />
-                    <!--<TextBlock
+                    <TextBlock
                         x:Name="lblMonth"
                         Grid.Row="6"
                         Grid.Column="11"
@@ -451,7 +451,7 @@
                         Style="{DynamicResource INLabelText2}"
                         Text="Month"
                         TextWrapping="NoWrap"
-                        Visibility="Visible" />-->
+                        Visibility="Visible" />
 
                     <igWPF:XamDataGrid
                         x:Name="xdgCampaigns"
@@ -539,7 +539,7 @@
                             </igWPF:FieldLayout>
                         </igWPF:XamDataGrid.FieldLayouts>
                     </igWPF:XamDataGrid>
-                    <!--<ComboBox
+                    <ComboBox
                         Name="cmbMonth"
                         Grid.Row="7"
                         Grid.Column="11"
@@ -552,50 +552,7 @@
                         FontSize="16"
                         FontWeight="Bold"
                         SelectionChanged="cmbMonth_SelectionChanged"
-                        Visibility="Visible" />-->
-
-                    <TextBlock
-                        x:Name="lblCal1"
-                        Grid.Row="5"
-                        Grid.Column="13"
-                        Grid.ColumnSpan="4"
-                        Margin="0,0,0,6"
-                        VerticalAlignment="Bottom"
-                        Style="{DynamicResource INLabelText2}"
-                        Text="Select Date"
-                        TextWrapping="NoWrap"
                         Visibility="Visible" />
-                    <Viewbox
-                        Grid.Row="6"
-                        Grid.RowSpan="6"
-                        Grid.Column="13"
-                        Grid.ColumnSpan="6"
-                        Width="250"
-                        Height="250"
-                        Margin="0,0,8,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Stretch="Fill">
-                        <igWPF:XamMonthCalendar
-                            x:Name="calStartDate"
-                            Margin="0"
-                            FontSize="16"
-                            SelectedDatesChanged="calStartDate_SelectedDatesChanged"
-                            Style="{DynamicResource INXamMonthCalendarStyle2}"
-                            TabIndex="0"
-                            Visibility="Visible" />
-                    </Viewbox>
-                    <Viewbox
-                        Grid.Row="6"
-                        Grid.RowSpan="6"
-                        Grid.Column="20"
-                        Grid.ColumnSpan="6"
-                        Width="250"
-                        Height="250"
-                        Margin="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Stretch="Fill"/>
 
                     <!--
                         <TextBlock x:Name="lblCal2" Style="{DynamicResource INLabelText2}" Text="Select End Date" Margin="12,0,0,6" TextWrapping="NoWrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="20" Grid.ColumnSpan="6" Visibility="Visible" />

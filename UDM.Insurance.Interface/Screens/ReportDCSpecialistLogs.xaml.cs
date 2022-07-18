@@ -141,7 +141,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else if(CMQueries == true)
                     {
-                        dsDebiCheckSpecialistLogsData = Business.Insure.INITQueriesReport(_startDate, enddate);
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INCMQueriesReport(_startDate, enddate);
                     }
                     else
                     {
