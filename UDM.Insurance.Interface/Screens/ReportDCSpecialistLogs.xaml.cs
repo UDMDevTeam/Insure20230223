@@ -36,6 +36,7 @@ namespace UDM.Insurance.Interface.Screens
         bool DCLogs = false;
         bool ITQueries = false;
         bool CMQueries = false;
+        bool ForwardToDCAgent = false;
 
 
         #endregion Constants
@@ -143,6 +144,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         dsDebiCheckSpecialistLogsData = Business.Insure.INCMQueriesReport(_startDate, enddate);
                     }
+                    else if (ForwardToDCAgent == true)
+                    {
+                        dsDebiCheckSpecialistLogsData = Business.Insure.INForwardToDCAgentRefsReport(_startDate, enddate);  
+                    }
                     else
                     {
                         dsDebiCheckSpecialistLogsData = Business.Insure.INCMQueriesReport(_startDate, enddate);
@@ -210,6 +215,10 @@ namespace UDM.Insurance.Interface.Screens
                         filePathAndName = String.Format("{0}DebiCheck CM Queries Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
 
                     }
+                    else if(ForwardToDCAgent == true)
+                    {
+                        filePathAndName = String.Format("{0}Forward to DC Agent Refs, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    }
                     else
                     {
                         filePathAndName = String.Format("{0}DebiCheck Specialist logs Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
@@ -241,6 +250,10 @@ namespace UDM.Insurance.Interface.Screens
                     else if(CMQueries == true)
                     {
                         workSheet.Name = "CM Queries";
+                    }
+                    else if(ForwardToDCAgent == true)
+                    {
+                        workSheet.Name = "Forward to DC Agent Refs";
                     }
                     else
                     {
@@ -365,6 +378,8 @@ namespace UDM.Insurance.Interface.Screens
                 DCLogs = false;
                 ITQueries = false;
                 CMQueries = false;
+                ForwardToDCAgent = false;
+                ForwardtoDCAgentCB.IsChecked = false;
                 DCAgentLogsCB.IsChecked = false;
                 ITQueriesCB.IsChecked = false;
                 CMQueriesCB.IsChecked = false;
@@ -383,6 +398,8 @@ namespace UDM.Insurance.Interface.Screens
                 DCLogs = true;
                 ITQueries = false;
                 CMQueries = false;
+                ForwardToDCAgent = false;
+                ForwardtoDCAgentCB.IsChecked = false;
                 DCAgentCB.IsChecked = false;
                 ITQueriesCB.IsChecked = false;
                 CMQueriesCB.IsChecked = false;
@@ -401,6 +418,8 @@ namespace UDM.Insurance.Interface.Screens
                 DCOverriden = false;
                 DCLogs = false;
                 CMQueries = false;
+                ForwardToDCAgent = false;
+                ForwardtoDCAgentCB.IsChecked = false;
                 DCAgentCB.IsChecked = false;
                 CMQueriesCB.IsChecked = false;
                 DCAgentLogsCB.IsChecked = false;
@@ -419,6 +438,8 @@ namespace UDM.Insurance.Interface.Screens
                 DCOverriden = false;
                 DCLogs = false;
                 ITQueries = false;
+                ForwardToDCAgent = false;
+                ForwardtoDCAgentCB.IsChecked = false;
                 DCAgentLogsCB.IsChecked = false;
                 ITQueriesCB.IsChecked = false;
                 DCAgentCB.IsChecked = false;
@@ -426,6 +447,26 @@ namespace UDM.Insurance.Interface.Screens
             else
             {
                 CMQueries = false;
+            }
+        }
+
+        private void ForwardtoDCAgentCB_Checked(object sender, RoutedEventArgs e)
+        {
+            if(ForwardtoDCAgentCB.IsChecked == true)
+            {
+                ForwardToDCAgent = true;
+                DCOverriden = false;
+                DCLogs = false;
+                ITQueries = false;
+                CMQueries = false;
+                DCAgentLogsCB.IsChecked = false;
+                ITQueriesCB.IsChecked = false;
+                DCAgentCB.IsChecked = false;
+                CMQueriesCB.IsChecked = false;
+            }
+            else
+            {
+                ForwardToDCAgent = false;
             }
         }
     }
