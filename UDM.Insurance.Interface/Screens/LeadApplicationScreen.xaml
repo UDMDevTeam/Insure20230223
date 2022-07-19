@@ -3287,6 +3287,19 @@
 
                             </CheckBox>
 
+                            <Button
+                                x:Name="SelectIDBtn"
+                                Grid.Row="2"
+                                Grid.ColumnSpan="3"
+                                Style="{StaticResource INFlatButtonIDUpdate}"
+                                Grid.Column="8"
+                                Click="SelectIDBtn_Click"
+                                Content="Choose ID #"
+                                Visibility="Collapsed"
+                                >
+                                
+                            </Button>
+
                             <TextBlock
                   x:Name="lblTitle"
                   Grid.Row="3"

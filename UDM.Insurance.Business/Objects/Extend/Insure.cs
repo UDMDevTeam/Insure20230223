@@ -215,7 +215,7 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetLeadbookConfigurationForSheMaccBase", paramArray).Tables[0];
         }
 
-        
+
 
         /// <summary>
         /// TODO: Adapt spINGetLeadsForUserAndBatchGeneric for the other campaigns as well
@@ -554,7 +554,7 @@ namespace UDM.Insurance.Business
             return resultingHoursToDeductFromToday;
         }
 
-        
+
         public static bool IsRedeemedGiftFieldsModifiable() //public static bool INCanUserChangeRedeemedGiftDetails()
         {
             bool result = false;
@@ -793,7 +793,7 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalaryGeneric", paramArray, 300);
         }
 
-        public static DataSet INReportSalaryTemp(string fkUserIDs,  DateTime fromDate, DateTime toDate)
+        public static DataSet INReportSalaryTemp(string fkUserIDs, DateTime fromDate, DateTime toDate)
         {
             object param1 = Database.GetParameter("@FKUserIDs", fkUserIDs);
             object param2 = Database.GetParameter("@FromDate", fromDate);
@@ -1433,11 +1433,11 @@ namespace UDM.Insurance.Business
         }
 
         //public static DataSet INGetBatchReportData(string fkINCampaignIDs, DateTime fromDate, DateTime toDate, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches)
-        public static DataSet INGetBatchReportData(string fkINCampaignIDs, DateTime startDate, DateTime endDate, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches, bool onlyBatchesReceived91DaysAgoAndAfter, bool combineUL)
+        public static DataSet INGetBatchReportData(string fkINCampaignIDs, int year, int month, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches, bool onlyBatchesReceived91DaysAgoAndAfter, bool combineUL)
         {
             object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
-            object param2 = Database.GetParameter("@FromUpgradeStartDate", startDate);
-            object param3 = Database.GetParameter("@ToUpgradeEndDate", endDate);
+            object param2 = Database.GetParameter("@Year", year);
+            object param3 = Database.GetParameter("@Month", month);
             object param4 = Database.GetParameter("@ReportType", reportTypeID);
             object param5 = Database.GetParameter("@IncludeLeadsCopiedToExtension", includeLeadsCopiedToExtension);
             object param6 = Database.GetParameter("@IncludeCompleted", includeCompletedBatches);
@@ -1445,12 +1445,12 @@ namespace UDM.Insurance.Business
             object param8 = Database.GetParameter("@OnlyBatchesReceived91DaysAgoAndAfter", onlyBatchesReceived91DaysAgoAndAfter);
             object param9 = Database.GetParameter("@CombineUL", combineUL);
 
-            object[] paramArray = new[] { param1, param2, param3, param4, param5, param6, param7, param8, param9};
+            object[] paramArray = new[] { param1, param2, param3, param4, param5, param6, param7, param8, param9 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportBatch", paramArray, 120000);
         }
 
-        
+
 
         //public static DataSet INGetBatchReportGiftSheetData(string fkINCampaignIDs, int year, int month, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches)
         //{
@@ -1783,7 +1783,7 @@ namespace UDM.Insurance.Business
 
 
 
-            object[] paramArray = new[] { param1};
+            object[] paramArray = new[] { param1 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "PLServerConnectionTest", paramArray, 600);
         }
@@ -1877,7 +1877,7 @@ namespace UDM.Insurance.Business
         {
             object param1 = Database.GetParameter("@LoggedInUserID", GlobalSettings.ApplicationUser.ID);
 
-            object[] paramArray = new[] { param1};
+            object[] paramArray = new[] { param1 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetDailySalesReportLookups", paramArray, 600);
         }
@@ -1987,7 +1987,7 @@ namespace UDM.Insurance.Business
             object param3 = Database.GetParameter("@FromDate", fromDate);
             object param4 = Database.GetParameter("@ToDate", toDate);
 
-            object[] paramArray = new[] { param1, param2, param3, param4};
+            object[] paramArray = new[] { param1, param2, param3, param4 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportDecline", paramArray);
         }
@@ -2047,7 +2047,7 @@ namespace UDM.Insurance.Business
             object param1 = Database.GetParameter("@AgentIDs", fkUserIDs);
             object param2 = Database.GetParameter("@FromDate", fromDate);
             object param3 = Database.GetParameter("@ToDate", toDate);
-            object param4 = Database.GetParameter("@ReportScope",  reportScope);
+            object param4 = Database.GetParameter("@ReportScope", reportScope);
 
             object[] paramArray = new[] { param1, param2, param3, param4 };
 
@@ -2381,7 +2381,7 @@ namespace UDM.Insurance.Business
         public static DataSet INReportTurnover(string campaignIDs, string fkUserIDs, DateTime fromDate, DateTime toDate, bool includeBumpUps, lkpINTurnoverCompanyMode? company, byte staffType/*, byte campaignType*/, bool allSalesAgents, string QAIDs)
         {
 
-            
+
             object param1 = Database.GetParameter("@CampaignIDList", campaignIDs);
             object param2 = Database.GetParameter("@SalesAgentIDList", fkUserIDs);
             object param3 = Database.GetParameter("@FromDate", fromDate);
@@ -2426,7 +2426,7 @@ namespace UDM.Insurance.Business
 
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetUnassignedCallMonitoringAllocationsByDateOfSale", paramArray).Tables[0];
-           
+
         }
 
         public static DataSet INGetSalesAssignedToCMAgent(long agentID)
@@ -2583,7 +2583,7 @@ namespace UDM.Insurance.Business
 
 
 
-            object[] paramArray = new[] { param1, param2, param3, param4, param5};
+            object[] paramArray = new[] { param1, param2, param3, param4, param5 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSalesContactsConversionPerBatch", paramArray, 1200);
         }
@@ -2625,9 +2625,9 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportHoursConfirmation", paramArray, 600);
         }
 
-            #region Leads Available Report - Specific Functionalities
+        #region Leads Available Report - Specific Functionalities
 
-            public static DataSet INGetReportLeadsAvailableData (string campaignTypeIDs, string campaignGroupIDs)
+        public static DataSet INGetReportLeadsAvailableData(string campaignTypeIDs, string campaignGroupIDs)
         {
             object param1 = Database.GetParameter("@CampaignTypes", campaignTypeIDs);
             object param2 = Database.GetParameter("@CampaignGroups", campaignGroupIDs);
@@ -2652,7 +2652,7 @@ namespace UDM.Insurance.Business
         #endregion Upgrade Lead Premium Report - Specific Functionalities
 
         #region Call Transfer Report
-        public static DataSet INGetReportCallTransfer( int? fkINCampaignIDs, DateTime fromDate, DateTime toDate, string isupgrade, string IsSummary)
+        public static DataSet INGetReportCallTransfer(int? fkINCampaignIDs, DateTime fromDate, DateTime toDate, string isupgrade, string IsSummary)
         {
             object param1 = Database.GetParameter("@FKUserID", fkINCampaignIDs);
             object param2 = Database.GetParameter("@DateFrom", fromDate);
@@ -2666,7 +2666,7 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDCCallTransferStats", paramArray, 600);
         }
 
-        public static DataSet INGetReportCallTransferAgents( DateTime fromDate, DateTime toDate, string isupgrade)
+        public static DataSet INGetReportCallTransferAgents(DateTime fromDate, DateTime toDate, string isupgrade)
         {
             object param2 = Database.GetParameter("@DateFrom", fromDate);
             object param3 = Database.GetParameter("@DateTo", toDate);

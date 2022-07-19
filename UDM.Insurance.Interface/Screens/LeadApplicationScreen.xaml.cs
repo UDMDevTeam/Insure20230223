@@ -77,7 +77,8 @@ namespace UDM.Insurance.Interface.Screens
         string BranchCodePLLKP = "";
         string AccountTypePLLKP = "";
         string DebitDayPLLKP = "";
-        string IDNumberPLLKP = "";
+        string IDNumberPO = "";
+        public string IDNumberPLLKP = "";
         string PassportNumberPLLKP = "";
         string MandateRequired;
 
@@ -16113,6 +16114,20 @@ namespace UDM.Insurance.Interface.Screens
             UpgradeBtnOptionSelection.Content = Card16TB.Text;
         }
 
+        private void Card17_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToPage2();
+            ButtonUpgradeCalculations(card17ID);
+            UpgradeBtnOptionSelection.Content = Card17TB.Text;
+        }
+
+        private void Card18_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToPage2();
+            ButtonUpgradeCalculations(card18ID);
+            UpgradeBtnOptionSelection.Content = Card18TB.Text;
+        }
+
         #endregion
 
         #region Override Button
@@ -16841,7 +16856,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (MandateStatusCode == null || MandateStatusCode == "")
                 {
-                    if(dtMandateView.Rows.Count == 0)
+                    if (dtMandateView.Rows.Count == 0)
                     {
                         using (var wb = new MyWebClient(180000))
                         {
@@ -17066,6 +17081,7 @@ namespace UDM.Insurance.Interface.Screens
                 AccountTypePLLKP = "";
                 DebitDayPLLKP = "";
                 IDNumberPLLKP = "";
+                IDNumberPO = "";
                 #endregion
 
                 #region AuthToken
@@ -17155,15 +17171,55 @@ namespace UDM.Insurance.Interface.Screens
                     AccountTypePLLKP = (string)customObject["AccountType"];
                     DebitDayPLLKP = (string)customObject["DebitDay"];
                     string policyHolderBool = (string)customObject["PolicyOwner"];
-                    string IDNumberPO = (string)customObject["IDNumber"];
+                    IDNumberPO = (string)customObject["IDNumber"];
                     //string policyHolderBool = "0";
+
                     if (policyHolderBool == "1")
                     {
+
                         PolicyHolderBoolDC = true;
+                        SelectIDBtn.Visibility = Visibility.Hidden;
+
                     }
                     else if (policyHolderBool == "0")
                     {
-                        PolicyHolderBoolDC = false;
+                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                        {
+                            if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+                            {
+                                PolicyHolderBoolDC = true;
+                                SelectIDBtn.Visibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                SelectIDBtn.Visibility = Visibility.Hidden;
+                                PolicyHolderBoolDC = false;
+                            }
+
+                        }
+                        else
+                        {
+                            if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+                            {
+                                SelectIDBtn.Visibility = Visibility.Hidden;
+                                PolicyHolderBoolDC = true;
+                            }
+                            else
+                            {
+                                SelectIDBtn.Visibility = Visibility.Hidden;
+                                PolicyHolderBoolDC = false;
+                            }
+                        }
                     }
                     else
                     {
@@ -18703,18 +18759,12 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        private void Card17_Click(object sender, RoutedEventArgs e)
-        {
-            ReturnToPage2();
-            ButtonUpgradeCalculations(card17ID);
-            UpgradeBtnOptionSelection.Content = Card17TB.Text;
-        }
 
-        private void Card18_Click(object sender, RoutedEventArgs e)
+
+        private void SelectIDBtn_Click(object sender, RoutedEventArgs e)
         {
-            ReturnToPage2();
-            ButtonUpgradeCalculations(card18ID);
-            UpgradeBtnOptionSelection.Content = Card18TB.Text;
+            SelectIDNumber selectidnumber = new SelectIDNumber(this, IDNumberPO);
+            ShowDialog(selectidnumber, new INDialogWindow(selectidnumber));
         }
     }
 
