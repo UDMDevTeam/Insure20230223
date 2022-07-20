@@ -3414,30 +3414,31 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                    string strQuery;
-                    strQuery = "SELECT ID FROM INDebiCheckQueries WHERE FKImportID = " + LaData.AppData.ImportID;
-
-                    DataTable dtDebiCheckQueriesID = Methods.GetTableData(strQuery);
-                    if (dtDebiCheckQueriesID.Rows.Count == 0)
+                    if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
                     {
-                        INDebiCheckQueries dcqueries = new INDebiCheckQueries();
-                        dcqueries.FKImportID = LaData.AppData.ImportID;
-                        dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
-                        dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
-                        dcqueries.Save(_validationResult);
-                    }
-                    else
-                    {
-                        long? IDDCQuery = dtDebiCheckQueriesID.Rows[0]["ID"] as long?;
-                        long IDdcqueries = long.Parse(IDDCQuery.ToString());
-                        INDebiCheckQueries dcqueries = new INDebiCheckQueries(IDdcqueries);
-                        dcqueries.FKImportID = LaData.AppData.ImportID;
-                        dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
-                        dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
-                        dcqueries.Save(_validationResult);
-                    }
+                        string strQuery;
+                        strQuery = "SELECT ID FROM INDebiCheckQueries WHERE FKImportID = " + LaData.AppData.ImportID;
 
-
+                        DataTable dtDebiCheckQueriesID = Methods.GetTableData(strQuery);
+                        if (dtDebiCheckQueriesID.Rows.Count == 0)
+                        {
+                            INDebiCheckQueries dcqueries = new INDebiCheckQueries();
+                            dcqueries.FKImportID = LaData.AppData.ImportID;
+                            dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
+                            dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
+                            dcqueries.Save(_validationResult);
+                        }
+                        else
+                        {
+                            long? IDDCQuery = dtDebiCheckQueriesID.Rows[0]["ID"] as long?;
+                            long IDdcqueries = long.Parse(IDDCQuery.ToString());
+                            INDebiCheckQueries dcqueries = new INDebiCheckQueries(IDdcqueries);
+                            dcqueries.FKImportID = LaData.AppData.ImportID;
+                            dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
+                            dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
+                            dcqueries.Save(_validationResult);
+                        }
+                    }
                 }
 
                 #endregion

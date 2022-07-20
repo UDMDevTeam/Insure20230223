@@ -15623,7 +15623,6 @@
                               Grid.ColumnSpan="5"
                               Margin="5,8,5,0"
                               PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
-                              SelectionChanged="SalesNotTransferredCB_SelectionChanged"
                               Style="{StaticResource StyleCMBStatus}"
                               TabIndex="33900"
                               Visibility="Visible"/>
