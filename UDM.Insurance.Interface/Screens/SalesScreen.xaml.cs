@@ -22,6 +22,10 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Collections.Generic;
+using System.Net;
+using System.Collections.Specialized;
+using System.Text;
+
 //using Infragistics.Controls.Editors;
 
 namespace UDM.Insurance.Interface.Screens
@@ -45,6 +49,8 @@ namespace UDM.Insurance.Interface.Screens
         string CMToSReferenceNumber;
         private LeadApplicationData _laData = new LeadApplicationData();
         #endregion
+
+        protected Embriant.Framework.Validation.ValidationResult _validationResult = new Embriant.Framework.Validation.ValidationResult();
 
 
         #region Private Members
@@ -1651,7 +1657,18 @@ namespace UDM.Insurance.Interface.Screens
                                     timer.Stop();
                                 }
 
-                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                if(CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
+                                {
+                                    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                }
+                                else
+                                {
+                                    Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                                        //    MainBorder.BorderBrush = Brushes.LightBlue;
+                                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                        ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                                    }));
+                                }
 
 
                             }
@@ -1665,8 +1682,19 @@ namespace UDM.Insurance.Interface.Screens
                                 timer.Stop();
                             }
 
-                            ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                            if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
+                            {
+                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
 
+                            }
+                            else
+                            {
+                                Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                                    //    MainBorder.BorderBrush = Brushes.LightBlue;
+                                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                    ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                                }));
+                            }
                         }
 
                     }
@@ -1677,6 +1705,126 @@ namespace UDM.Insurance.Interface.Screens
             {
                 HandleException(ex);
             }
+        }
+
+        public  bool CheckLeadValidity(string importid)
+        {
+            string ReferenceNumber = "";
+            try
+            {
+                StringBuilder strQuery = new StringBuilder();
+                strQuery.Append("SELECT RefNo [Code] ");
+                strQuery.Append("FROM INImport ");
+                strQuery.Append($"WHERE ID = " + importid);
+
+                DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                ReferenceNumber = dt.Rows[0]["Code"].ToString();
+            }
+            catch { }
+
+            string DCPower = "";
+            try
+            {
+                StringBuilder strQueryDCPower = new StringBuilder();
+                strQueryDCPower.Append("SELECT DebiCheckPower [Code] ");
+                strQueryDCPower.Append("FROM DebiCheckConfiguration ");
+
+                DataTable dt = Methods.GetTableData(strQueryDCPower.ToString());
+
+                DCPower = dt.Rows[0]["Code"].ToString();
+            }
+            catch { }
+
+            string BaseOrUpgrade = "";
+            try
+            {
+                StringBuilder strQueryBaseOrUpg = new StringBuilder();
+                strQueryBaseOrUpg.Append("SELECT CGS.FKlkpINCampaignGroupType [Code] FROM INImport AS I LEFT JOIN INCampaign AS C ON I.FKINCampaignID = C.ID LEFT JOIN INCampaignGroupSet AS CGS ON C.FKINCampaignGroupID = CGS.FKlkpINCampaignGroup WHERE I.ID = " + importid);
+
+                DataTable dt = Methods.GetTableData(strQueryBaseOrUpg.ToString());
+
+                BaseOrUpgrade = dt.Rows[0]["Code"].ToString();
+            }
+            catch { }
+
+            
+
+            if (BaseOrUpgrade == "2")
+            {
+                if (DCPower == "1")
+                {
+                    #region AuthToken
+
+                    string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                    string Username = "udm@platinumlife.co.za";
+                    string Password = "P@ssword1";
+                    string token = "";
+
+                    using (var wb = new WebClient())
+                    {
+                        var data = new NameValueCollection();
+                        data["username"] = Username;
+                        data["password"] = Password;
+                        data["grant_type"] = "password";
+
+                        var response = wb.UploadValues(auth_url, "POST", data);
+                        string responseInString = Encoding.UTF8.GetString(response);
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                        token = (string)customObject["access_token"];
+                    }
+                    #endregion
+
+                    string ValidityStatus = "";
+                    string submitRequest_urlLeadValidity = "http://plhqweb.platinumlife.co.za:999/api/UG/LeadValidity";
+                    using (var wb = new WebClient())
+                    {
+                        var data = new NameValueCollection();
+                        data["ReferenceNumber"] = ReferenceNumber;
+                        wb.Headers.Add("Authorization", "Bearer " + token);
+
+                        var response = wb.UploadValues(submitRequest_urlLeadValidity, "POST", data);
+                        string responseInString = Encoding.UTF8.GetString(response);
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                        ValidityStatus = (string)customObject["ValidityStatus"];
+                        //if (ReferenceNumber == "gdna91003681533")
+                        //{
+                        //    ValidityStatus = "Invalid";
+                        //}
+                    }
+
+                    if (ValidityStatus != "Valid")
+                    {
+                        long InimportLong = long.Parse(importid);
+
+                        INImport inimport = new INImport(InimportLong);
+                        inimport.FKINLeadStatusID = 26;
+                        inimport.Save(_validationResult);
+
+                        LoadAgentDetails();
+
+                        LoadSalesData();
+
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+
+
+
         }
 
         private void xdgSales_RecordFilterChanging(object sender, RecordFilterChangingEventArgs e)

@@ -149,6 +149,10 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportCMQueries", paramArray, 600);
         }
+        public static DataSet INForwardToDCAgentRefsReport(DateTime fromDate, DateTime toDate)
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportFowardToDCAgentReferences", null);
+        }
         #endregion
 
         #region Lead Printing - Specific Functionalities

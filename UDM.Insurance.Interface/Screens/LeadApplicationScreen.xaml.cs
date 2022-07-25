@@ -2238,7 +2238,11 @@ namespace UDM.Insurance.Interface.Screens
 
             finally
             {
-                SetCursor(Cursors.Arrow);
+                try
+                {
+                    SetCursor(Cursors.Arrow);
+                }
+                catch { }
                 if (LaData.AppData.IsLeadUpgrade) CalculateCostUpgrade(false);
                 medReference.Focus();
                 //_flagLeadIsBusyLoading = false;
@@ -3661,7 +3665,7 @@ namespace UDM.Insurance.Interface.Screens
                                     try
                                     {
                                         StringBuilder strQueryDerbiCheckCheckSave = new StringBuilder();
-                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 SMSBody [Response] ");
+                                        strQueryDerbiCheckCheckSave.Append("SELECT TOP 1 StampUserID [Response] ");
                                         strQueryDerbiCheckCheckSave.Append("FROM DebiCheckSent ");
                                         strQueryDerbiCheckCheckSave.Append("WHERE FKImportID = " + LaData.AppData.ImportID);
                                         strQueryDerbiCheckCheckSave.Append(" ORDER BY ID DESC");
@@ -17174,7 +17178,8 @@ namespace UDM.Insurance.Interface.Screens
                     string policyHolderBool = (string)customObject["PolicyOwner"];
                     IDNumberPO = (string)customObject["IDNumber"];
                     //string policyHolderBool = "0";
-
+                    
+                    // Policy Holder Workings
                     if (policyHolderBool == "1")
                     {
 
@@ -17228,6 +17233,90 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
                 #endregion
+
+                #region LeadValidity
+                try
+                {
+                    if(LaData.AppData.IsLeadUpgrade)
+                    {
+                        string ValidityStatus = "";
+                        string submitRequest_urlLeadValidity = "http://plhqweb.platinumlife.co.za:999/api/UG/LeadValidity";
+                        using (var wb = new WebClient())
+                        {
+                            var data = new NameValueCollection();
+                            data["ReferenceNumber"] = LaData.AppData.RefNo.ToString();
+                            wb.Headers.Add("Authorization", "Bearer " + token);
+
+                            var response = wb.UploadValues(submitRequest_urlLeadValidity, "POST", data);
+                            string responseInString = Encoding.UTF8.GetString(response);
+                            var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                            ValidityStatus = (string)customObject["ValidityStatus"];
+                            //if (LaData.AppData.RefNo == "gdna91003681533")
+                            //{
+                            //    ValidityStatus = "inValid";
+                            //}
+
+                        }
+
+                        if (ValidityStatus != "Valid")
+                        {
+                            try
+                            {
+                                //Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() =>
+                                //{
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                                //}));
+
+                                if(LaData.AppData.LeadStatus == 26)
+                                {
+
+                                }
+                                else
+                                {
+                                    long InimportLong = long.Parse(LaData.AppData.ImportID.ToString());
+
+                                    INImport inimport = new INImport(InimportLong);
+                                    inimport.FKINLeadStatusID = 26;
+                                    inimport.Save(_validationResult);
+                                }
+
+
+
+
+
+                                //foreach (Window window in Application.Current.Windows)
+                                //{
+                                //    if (window.Title == "Redeem Gift")
+                                //    {
+                                //        window.Close();
+                                //    }
+                                //}
+
+
+
+                                CloseScriptWindows();
+                                OnDialogClose(_dialogResult);
+
+
+
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+
+                }
+                catch(Exception h)
+                {
+
+                }
+
+                #endregion
+
 
                 #region Additional Rules
                 if (BankPLLKP == null || BankPLLKP == "")
