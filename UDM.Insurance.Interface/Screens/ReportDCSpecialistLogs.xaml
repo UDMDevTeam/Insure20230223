@@ -229,7 +229,7 @@
                         VerticalAlignment="Bottom"
                         Foreground="White"
                         FontSize="15"
-                        Content="CM Queries"
+                        Content="DC Call Transfer Queries"
                         Visibility="Visible" Width="247" />
 
                     <CheckBox x:Name="CMQueriesCB"
