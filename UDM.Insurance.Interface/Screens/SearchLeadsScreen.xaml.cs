@@ -225,9 +225,21 @@ namespace UDM.Insurance.Interface.Screens
                     #endregion Determining whether or not the lead has a status of cancelled
 
 
+                    string LeadStatusPulled = "";
+                    try
+                    {
+                        StringBuilder strQuery = new StringBuilder();
+                        strQuery.Append("SELECT FKINLeadStatusID [Code] ");
+                        strQuery.Append("FROM INImport ");
+                        strQuery.Append($"WHERE ID = " + long.Parse(record.Cells["ImportID"].Value.ToString()));
 
+                        DataTable dt = Methods.GetTableData(strQuery.ToString());
 
-                    if(CheckLeadValidity(record.Cells["ImportID"].Value.ToString()))
+                        LeadStatusPulled = dt.Rows[0]["Code"].ToString();
+                    }
+                    catch { }
+
+                    if(LeadStatusPulled == "1")
                     {
                         LeadApplicationScreen leadApplicationScreen = new LeadApplicationScreen(long.Parse(record.Cells["ImportID"].Value.ToString()), _ssGlobalData);
 
@@ -235,9 +247,19 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
-                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                        ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                        if (CheckLeadValidity(record.Cells["ImportID"].Value.ToString()))
+                        {
+                            LeadApplicationScreen leadApplicationScreen = new LeadApplicationScreen(long.Parse(record.Cells["ImportID"].Value.ToString()), _ssGlobalData);
+
+                            ShowDialog(leadApplicationScreen, new INDialogWindow(leadApplicationScreen));
+                        }
+                        else
+                        {
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                        }
                     }
+
                     //leadApplicationScreen.ShowNotes(Int64.Parse(record.Cells["ImportID"].Value.ToString()));
                 }
             }

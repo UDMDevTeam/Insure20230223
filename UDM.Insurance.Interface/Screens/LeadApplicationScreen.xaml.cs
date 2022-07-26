@@ -2218,7 +2218,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     long DCQueryID = long.Parse(dtDCQueryID.Rows[0]["Response"].ToString());
 
-                    cmbDebiCheckQueries.SelectedIndex = int.Parse(DCQueryID.ToString());
+                    cmbDebiCheckQueries.SelectedValue = int.Parse(DCQueryID.ToString());
                 } catch 
                 {
                     cmbDebiCheckQueries.SelectedIndex = -1;
@@ -17269,18 +17269,29 @@ namespace UDM.Insurance.Interface.Screens
                                 ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
                                 //}));
 
-                                if(LaData.AppData.LeadStatus == 26)
+
+                                //this is for sales that have already been sold to
+                                if(LaData.AppData.LeadStatus == 1)
                                 {
 
                                 }
                                 else
                                 {
-                                    long InimportLong = long.Parse(LaData.AppData.ImportID.ToString());
+                                    if (LaData.AppData.LeadStatus == 26)
+                                    {
 
-                                    INImport inimport = new INImport(InimportLong);
-                                    inimport.FKINLeadStatusID = 26;
-                                    inimport.Save(_validationResult);
+                                    }
+                                    else
+                                    {
+                                        long InimportLong = long.Parse(LaData.AppData.ImportID.ToString());
+
+                                        INImport inimport = new INImport(InimportLong);
+                                        inimport.FKINLeadStatusID = 26;
+                                        inimport.Save(_validationResult);
+                                    }
                                 }
+
+
 
 
 
