@@ -3297,7 +3297,7 @@
                                 Content="Choose ID #"
                                 Visibility="Collapsed"
                                 >
-                                
+
                             </Button>
 
                             <TextBlock
@@ -3487,7 +3487,7 @@
                                       Checked="IDConfirmedCB_Checked"
                                       Unchecked="IDConfirmedCB_Unchecked"
                                       Content="Confirmed?">
-                                
+
                             </CheckBox>
 
                             <TextBlock
@@ -5134,8 +5134,8 @@
                   x:Name="cmbPolicyPlan"
                   Grid.Row="3"
                   Grid.Column="4"
-                  Grid.ColumnSpan="6"
-                  Margin="0,0,4,0"
+                  Grid.ColumnSpan="5"
+                  Margin="0,0,42,0"
                   VerticalAlignment="Bottom"
                   IsEnabled="False"
                   SelectedValue="{Binding PolicyData.PlanID}"
@@ -5168,37 +5168,61 @@
                   x:Name="cmbOptionCode"
                   Grid.Row="4"
                   Grid.Column="4"
-                  Grid.ColumnSpan="3"
-                  VerticalAlignment="Bottom"
+                  Grid.ColumnSpan="5"
+                  VerticalAlignment="Top"
                   IsEnabled="False"
                   SelectedValue="{Binding PolicyData.OptionID}"
-                  Style="{StaticResource cmbINLA}" />
+                  Style="{StaticResource cmbINLA}" Margin="0,6,42,0" Grid.RowSpan="2" />
+
+
+                            <CheckBox
+                                x:Name="chk99Options"
+                                Grid.Column="10"
+                                Grid.Row="3"
+                                Margin="27,19,0,0"
+                                Checked="chk99Options_Checked"
+                                Unchecked="chk99Options_Unchecked"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top" Width="20" Grid.ColumnSpan="2">
+
+                            </CheckBox>
+                            <TextBlock
+                                x:Name="tbShow99Options"
+                                Grid.Column="8"
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                VerticalAlignment="Bottom"
+                                Margin="-18,0,0,0"
+                                Style="{StaticResource INLabelText2}"
+                                Text="R99 Options" 
+                                HorizontalAlignment="Center" Width="90" 
+                                  />
 
                             <StackPanel
-                  Grid.Row="4"
-                  Grid.Column="7"
-                  Grid.ColumnSpan="4"
-                  HorizontalAlignment="Right"
-                  Orientation="Horizontal">
+                                Grid.Row="4"
+                                Grid.Column="7"
+                                Grid.ColumnSpan="4"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
                                 <TextBlock
-                    x:Name="tbShowAllOptions"
-                    Margin="0,0,0,5"
-                    VerticalAlignment="Bottom"
-                    Style="{StaticResource INLabelText2}"
-                    Text="All Options" />
+                                    x:Name="tbShowAllOptions"
+                                    Margin="0,0,0,5"
+                                    VerticalAlignment="Bottom"
+                                    Style="{StaticResource INLabelText2}"
+                                    Text="All Options" />
                                 <Grid Width="12" />
                                 <CheckBox
-                    x:Name="chkShowAllOptions"
-                    Width="16"
-                    Height="16"
-                    Margin="0,0,0,5"
-                    VerticalAlignment="Bottom"
-                    Checked="chkShowAllOptions_Checked"
-                    IsChecked="false"
-                    Style="{StaticResource INCheckboxStyle}"
-                    TabIndex="98300"
-                    Unchecked="chkShowAllOptions_Unchecked"
-                    Visibility="Visible" />
+                                    x:Name="chkShowAllOptions"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    VerticalAlignment="Bottom"
+                                    Checked="chkShowAllOptions_Checked"
+                                    IsChecked="false"
+                                    Style="{StaticResource INCheckboxStyle}"
+                                    TabIndex="98300"
+                                    Unchecked="chkShowAllOptions_Unchecked"
+                                    Visibility="Visible" />
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
                                         <Style.Triggers>

@@ -85,6 +85,10 @@ namespace UDM.Insurance.Interface.Screens
         bool PolicyHolderBoolDC = true;
         #endregion
 
+        #region R99 options
+        bool NinetyNineOptions = false;
+        #endregion
+
         #region BulkSMS
 
         //Bulk SMS variables
@@ -255,7 +259,7 @@ namespace UDM.Insurance.Interface.Screens
                 btnOverrideBumpUp.Visibility = Visibility.Visible;
             }
 
-            if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
             {
                 cmbDebiCheckQueries.Visibility = Visibility.Visible;
                 lblDebiCheckQueries.Visibility = Visibility.Visible;
@@ -2156,7 +2160,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     string IDNumberConfirmed = dtINIDConfirmed.Rows[0]["Response"].ToString();
 
-                    if(IDNumberConfirmed == "1")
+                    if (IDNumberConfirmed == "1")
                     {
                         IDConfirmedCB.IsChecked = true;
                     }
@@ -2219,10 +2223,42 @@ namespace UDM.Insurance.Interface.Screens
                     long DCQueryID = long.Parse(dtDCQueryID.Rows[0]["Response"].ToString());
 
                     cmbDebiCheckQueries.SelectedValue = int.Parse(DCQueryID.ToString());
-                } catch 
+                }
+                catch
                 {
                     cmbDebiCheckQueries.SelectedIndex = -1;
                 }
+                #endregion
+
+                #region R99 Options
+
+                try
+                {
+                    if (LaData.AppData.IsLeadUpgrade)
+                    {
+                        if (LaData.AppData.UDMBatchCode.Contains(".2")
+                            || LaData.AppData.UDMBatchCode.Contains(".3"))
+                        {
+
+                            chk99Options.Visibility = Visibility.Visible;
+                            tbShow99Options.Visibility = Visibility.Visible;
+
+                        }
+                        else
+                        {
+                            chk99Options.Visibility = Visibility.Collapsed;
+                            tbShow99Options.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                    else
+                    {
+                        chk99Options.Visibility = Visibility.Collapsed;
+                        tbShow99Options.Visibility = Visibility.Collapsed;
+                    }
+
+                }
+                catch { }
+
                 #endregion
 
             }
@@ -3412,7 +3448,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region DebiCheck Query Save
-                if(cmbDebiCheckQueries.SelectedIndex == -1)
+                if (cmbDebiCheckQueries.SelectedIndex == -1)
                 {
 
                 }
@@ -3541,6 +3577,10 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.BankDetailsData.BankID == 249
                         || LaData.BankDetailsData.BankID == 261
                         || LaData.BankDetailsData.BankID == 264
+                        || LaData.BankDetailsData.BankID == 263
+                        || LaData.BankDetailsData.BankID == 271
+                        || LaData.BankDetailsData.BankID == 277
+                        || LaData.BankDetailsData.BankID == 265
                         || GlobalSettings.ApplicationUser.ID == 199
                         || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
@@ -4744,7 +4784,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                         //This is for the banking details on Base only excluding all resales
-                        if(LaData.AppData.CampaignID == 7
+                        if (LaData.AppData.CampaignID == 7
                                     || LaData.AppData.CampaignID == 9
                                     || LaData.AppData.CampaignID == 10
                                     || LaData.AppData.CampaignID == 294
@@ -4768,7 +4808,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             // Do Nothing if Resales
                         }
-                        else if(LaData.BankDetailsData.AccountNumber == null)
+                        else if (LaData.BankDetailsData.AccountNumber == null)
                         {
                             ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because there is no account number attached.", "Banking Details", ShowMessageType.Error);
                             return false;
@@ -4776,7 +4816,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         if (chkLA2.IsChecked == true)
                         {
-                            if(medLA2IDNumber.Text == null || medLA2IDNumber.Text == "")
+                            if (medLA2IDNumber.Text == null || medLA2IDNumber.Text == "")
                             {
                                 ShowMessageBox(new INMessageBoxWindow1(), "The lead cannot be Transferred, because there are missing LA2 details.", "LA2 Details", ShowMessageType.Error);
                                 return false;
@@ -9280,6 +9320,10 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.BankDetailsData.BankID == 249
                         || LaData.BankDetailsData.BankID == 261
                         || LaData.BankDetailsData.BankID == 264
+                        || LaData.BankDetailsData.BankID == 263
+                        || LaData.BankDetailsData.BankID == 271
+                        || LaData.BankDetailsData.BankID == 277
+                        || LaData.BankDetailsData.BankID == 265
                         || GlobalSettings.ApplicationUser.ID == 199
                         || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
@@ -9746,6 +9790,11 @@ namespace UDM.Insurance.Interface.Screens
                         chkShowAllOptions.IsChecked = true;
                     }
 
+                    if (NinetyNineOptions == true)
+                    {
+                        parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                    }
+
                     DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
                     dtCover = dsLookups.Tables[0];
 
@@ -9758,8 +9807,47 @@ namespace UDM.Insurance.Interface.Screens
                         }
                     }
 
+
+
                     if (LaData.AppData.IsLeadUpgrade)
                     {
+                        if (NinetyNineOptions == true)
+                        {
+                            if (LaData.AppData.UDMBatchCode.Contains(".2")
+                                || LaData.AppData.UDMBatchCode.Contains(".3"))
+                            {
+
+                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                {
+                                    DataRow dr = dtCover.Rows[i];
+                                    if (dr["TotalPremium1"].ToString() != "99.00")
+                                        dr.Delete();
+                                }
+                                dtCover.AcceptChanges();
+
+                            }
+                        }
+                        else
+                        {
+                            if ((LaData.AppData.CampaignType == lkpINCampaignType.Cancer
+                                && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1)
+                                || (LaData.AppData.CampaignType == lkpINCampaignType.Macc
+                                && LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1)
+                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.R99Upgrade)
+                            {
+
+                            }
+                            else
+                            {
+                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                {
+                                    DataRow dr = dtCover.Rows[i];
+                                    if (dr["TotalPremium1"].ToString() == "99.00")
+                                        dr.Delete();
+                                }
+                                dtCover.AcceptChanges();
+                            }
+                        }
                         cmbUpgradeCover.Populate(dtCover, "Description", "Value");
                         LaData.PolicyData.OptionID = selectedUpgradeCover;
                     }
@@ -10613,15 +10701,15 @@ namespace UDM.Insurance.Interface.Screens
             //DataTable dtExtensions = Methods.GetTableData("SELECT [E].[Extension] FROM [Blush].[dbo].[lkpHRExtension] AS [E] WHERE [E].[ID] IN (SELECT [HE].[FKHRExtensionID] FROM [Blush].[dbo].[HRStaffExtension] AS [HE] WHERE [HE].[FKHRStaffID] = (SELECT  [H].[ID] FROM [Blush].[dbo].[HRStaff] AS [H] WHERE [FKUserID] = " + userid + "))");
             //string Extension = dtExtensions.Rows[0]["Extension"].ToString();
             string Extension = "";
-            if(userid == 2767)
+            if (userid == 2767)
             {
                 Extension = "Gizelle - 2123";
             }
-            else if(userid == 19555)
+            else if (userid == 19555)
             {
                 Extension = "Michael - 2114";
             }
-            else if(userid == 8613)
+            else if (userid == 8613)
             {
                 Extension = "Promise - 2217";
             }
@@ -11967,6 +12055,7 @@ namespace UDM.Insurance.Interface.Screens
 
         private void chkShowAllOptions_Checked(object sender, RoutedEventArgs e)
         {
+            try { NinetyNineOptions = false; } catch { }
             if (Convert.ToInt32(chkShowAllOptions.Tag) == 1)
             {
                 chkShowAllOptions.Tag = null;
@@ -15538,6 +15627,9 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     Card16.BorderBrush = System.Windows.Media.Brushes.DarkCyan;
                 }
+
+                Card17.Visibility = Visibility.Collapsed;
+                Card18.Visibility = Visibility.Collapsed;
             }
 
             else if (CountOptions == 17)
@@ -16795,7 +16887,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     try { dataAsync.Clear(); } catch { }
                     try { dataAsync = data; } catch { }
-                    
+
 
                     wb.Headers.Add("Authorization", "Bearer " + token);
 
@@ -17178,7 +17270,7 @@ namespace UDM.Insurance.Interface.Screens
                     string policyHolderBool = (string)customObject["PolicyOwner"];
                     IDNumberPO = (string)customObject["IDNumber"];
                     //string policyHolderBool = "0";
-                    
+
                     // Policy Holder Workings
                     if (policyHolderBool == "1")
                     {
@@ -17191,7 +17283,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
                         {
-                            if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
+                            if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
                                 || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
                                 || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
                                 || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
@@ -17237,7 +17329,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region LeadValidity
                 try
                 {
-                    if(LaData.AppData.IsLeadUpgrade)
+                    if (LaData.AppData.IsLeadUpgrade)
                     {
                         string ValidityStatus = "";
                         string submitRequest_urlLeadValidity = "http://plhqweb.platinumlife.co.za:999/api/UG/LeadValidity";
@@ -17271,7 +17363,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                                 //this is for sales that have already been sold to
-                                if(LaData.AppData.LeadStatus == 1)
+                                if (LaData.AppData.LeadStatus == 1)
                                 {
 
                                 }
@@ -17321,7 +17413,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                 }
-                catch(Exception h)
+                catch (Exception h)
                 {
 
                 }
@@ -17471,7 +17563,7 @@ namespace UDM.Insurance.Interface.Screens
                 using (Stream webStream = webResponse.GetResponseStream() ?? Stream.Null)
                 using (StreamReader responseReader = new StreamReader(webStream))
                 {
-                   IGresponse = responseReader.ReadToEnd();
+                    IGresponse = responseReader.ReadToEnd();
                 }
 
                 var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(IGresponse);
@@ -17612,7 +17704,7 @@ namespace UDM.Insurance.Interface.Screens
                 MethodType = null;
             }
 
-            if(MethodType == "Async Call")
+            if (MethodType == "Async Call")
             {
                 #region AuthToken
 
@@ -17760,6 +17852,10 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.BankDetailsData.BankID == 249
                                 || LaData.BankDetailsData.BankID == 261
                                 || LaData.BankDetailsData.BankID == 264
+                                || LaData.BankDetailsData.BankID == 263
+                                || LaData.BankDetailsData.BankID == 271
+                                || LaData.BankDetailsData.BankID == 277
+                                || LaData.BankDetailsData.BankID == 265
                                 || PolicyHolderBoolDC == false
                                 || MandateRequired == "False")
                             {
@@ -18728,22 +18824,22 @@ namespace UDM.Insurance.Interface.Screens
         #region Forward To DC Agent extra button
         private void btnForwardToDCAgent_Click(object sender, RoutedEventArgs e)
         {
-                LaData.AppData.DeclineReasonID = null;
-                SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-                selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-                ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+            LaData.AppData.DeclineReasonID = null;
+            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
 
-                long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
 
-                if (AgentFKUserID == null)
-                {
-                    cmbStatus.SelectedIndex = -1;
-                }
+            if (AgentFKUserID == null)
+            {
+                cmbStatus.SelectedIndex = -1;
+            }
 
-                //cmbStatus.SelectedValue = 24;
+            //cmbStatus.SelectedValue = 24;
 
-                Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
-            
+            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
 
         }
         #endregion
@@ -18784,7 +18880,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if(LeadLoadingBool == false)
+                if (LeadLoadingBool == false)
                 {
                     string IsSavedString;
                     try
@@ -18825,7 +18921,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                if(LeadLoadingBool == false)
+                if (LeadLoadingBool == false)
                 {
                     string IsSavedString;
                     try
@@ -18866,6 +18962,19 @@ namespace UDM.Insurance.Interface.Screens
         {
             SelectIDNumber selectidnumber = new SelectIDNumber(this, IDNumberPO);
             ShowDialog(selectidnumber, new INDialogWindow(selectidnumber));
+        }
+
+        private void chk99Options_Checked(object sender, RoutedEventArgs e)
+        {
+            NinetyNineOptions = true;
+            cmbPolicyPlan_SelectionChanged(null, null);
+
+        }
+
+        private void chk99Options_Unchecked(object sender, RoutedEventArgs e)
+        {
+            NinetyNineOptions = false;
+            cmbPolicyPlan_SelectionChanged(null, null);
         }
     }
 
