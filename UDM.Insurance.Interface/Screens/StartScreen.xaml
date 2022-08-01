@@ -84,7 +84,7 @@
                     CornerRadius="15">
 
                 </Border>
-                
+
 
 
 
@@ -92,15 +92,26 @@
 
                 <Label x:Name="InsureLbl"
                        FontFamily="AR BERKLEY"
-                       Content="Insure"
+                       Content="nsure"
                        Grid.Row="4"
                        Grid.RowSpan="2"
                        Grid.Column="6"
                        Grid.ColumnSpan="3"
                        FontSize="45"
                        VerticalAlignment="Center"
-                       Foreground="DeepSkyBlue"
+                       Foreground="White"
                        HorizontalAlignment="Center"></Label>
+
+                <Label x:Name="InsureLbl2"
+                       FontFamily="AR BERKLEY"
+                       Content="I"
+                       Grid.Row="4"
+                       Grid.RowSpan="2"
+                       Grid.Column="6"
+                       FontSize="45"
+                       VerticalAlignment="Center"
+                       Foreground="#429DCC"
+                       HorizontalAlignment="Left" Margin="64,0,0,0"/>
 
                 <igEditors:XamMaskedEditor x:Name="txtUsername"
                                            Grid.Row="7"
