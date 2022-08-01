@@ -21,6 +21,39 @@ namespace UDM.Insurance.Interface.Screens
             InitializeComponent();
             _LeadApplicationScreen = leadApplicationScreen;
             LoadLookupData();
+
+            try 
+            {
+                if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
+                {
+                    if (_LeadApplicationScreen.LaData.AppData.LeadStatus == 1)
+                    {
+                        DateTime? loadedDateOfSale = _LeadApplicationScreen.LaData.AppData.LoadedDateOfSale;
+                        if (loadedDateOfSale < DateTime.Now.AddDays(-1))
+                        {
+                            btnSelect.IsEnabled = false;
+                        }
+                        else
+                        {
+                            btnSelect.IsEnabled = true;
+                        }
+                    }
+                    else
+                    {
+                        btnSelect.IsEnabled = true;
+                    }
+
+                }
+                else
+                {
+                    btnSelect.IsEnabled = true;
+                }
+            }
+            catch
+            {
+                btnSelect.IsEnabled = true;
+            }
+
         }
 
         private void LoadLookupData()
@@ -152,23 +185,23 @@ namespace UDM.Insurance.Interface.Screens
 
         private void cmbDeclineReason_DropDownClosed(object sender, EventArgs e)
         {
-            try
-            {
-                btnSelect.IsEnabled = false;
-                if (cmbDeclineReason.SelectedValue != null && _LeadApplicationScreen.cmbAgent.SelectedValue != null)
-                {
-                    btnSelect.IsEnabled = true;
-                }
-                else
-                {
-                    btnSelect.ToolTip = _LeadApplicationScreen.btnSave.ToolTip;
-                }
+            //try
+            //{
+            //    btnSelect.IsEnabled = false;
+            //    if (cmbDeclineReason.SelectedValue != null && _LeadApplicationScreen.cmbAgent.SelectedValue != null)
+            //    {
+            //        btnSelect.IsEnabled = true;
+            //    }
+            //    else
+            //    {
+            //        btnSelect.ToolTip = _LeadApplicationScreen.btnSave.ToolTip;
+            //    }
 
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    HandleException(ex);
+            //}
         }
 
         private void btnReload_Click(object sender, RoutedEventArgs e)

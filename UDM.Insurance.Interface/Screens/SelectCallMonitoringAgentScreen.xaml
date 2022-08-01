@@ -5,7 +5,7 @@
     xmlns:content="clr-namespace:UDM.Insurance.Interface.Content"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF" xmlns:data="clr-namespace:UDM.Insurance.Interface.Data"
     Background="{x:Null}"
     BorderThickness="0"
     d:DesignHeight="1080"
@@ -23,13 +23,13 @@
             <Setter Property="ToolTip" Value="{x:Null}">
             </Setter>
             <Style.Triggers>
-                <DataTrigger
+                <!--<DataTrigger
                     Binding="{Binding ElementName=cmbDeclineReason,
                                                Path=SelectedValue}"
                     Value="{x:Null}">
                     <Setter Property="IsEnabled" Value="False" />
                     <Setter Property="ToolTip" Value="Decline Reason not Selected" />
-                </DataTrigger>
+                </DataTrigger>-->
             </Style.Triggers>
         </Style>
 
