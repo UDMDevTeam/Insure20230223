@@ -17351,65 +17351,65 @@ namespace UDM.Insurance.Interface.Screens
 
                         }
 
-                        if (ValidityStatus != "Valid")
-                        {
-                            try
-                            {
-                                //Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() =>
-                                //{
-                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                                ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
-                                //}));
+                        //if (ValidityStatus != "Valid")
+                        //{
+                        //    try
+                        //    {
+                        //        //Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() =>
+                        //        //{
+                        //        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                        //        ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                        //        //}));
 
 
-                                //this is for sales that have already been sold to
-                                if (LaData.AppData.LeadStatus == 1)
-                                {
+                        //        //this is for sales that have already been sold to
+                        //        if (LaData.AppData.LeadStatus == 1)
+                        //        {
 
-                                }
-                                else
-                                {
-                                    if (LaData.AppData.LeadStatus == 26)
-                                    {
+                        //        }
+                        //        else
+                        //        {
+                        //            if (LaData.AppData.LeadStatus == 26)
+                        //            {
 
-                                    }
-                                    else
-                                    {
-                                        long InimportLong = long.Parse(LaData.AppData.ImportID.ToString());
+                        //            }
+                        //            else
+                        //            {
+                        //                long InimportLong = long.Parse(LaData.AppData.ImportID.ToString());
 
-                                        INImport inimport = new INImport(InimportLong);
-                                        inimport.FKINLeadStatusID = 26;
-                                        inimport.Save(_validationResult);
-                                    }
-                                }
-
-
-
+                        //                INImport inimport = new INImport(InimportLong);
+                        //                inimport.FKINLeadStatusID = 26;
+                        //                inimport.Save(_validationResult);
+                        //            }
+                        //        }
 
 
 
 
-                                //foreach (Window window in Application.Current.Windows)
-                                //{
-                                //    if (window.Title == "Redeem Gift")
-                                //    {
-                                //        window.Close();
-                                //    }
-                                //}
 
 
 
-                                CloseScriptWindows();
-                                OnDialogClose(_dialogResult);
+                        //        //foreach (Window window in Application.Current.Windows)
+                        //        //{
+                        //        //    if (window.Title == "Redeem Gift")
+                        //        //    {
+                        //        //        window.Close();
+                        //        //    }
+                        //        //}
 
 
 
-                            }
-                            catch
-                            {
+                        //        CloseScriptWindows();
+                        //        OnDialogClose(_dialogResult);
 
-                            }
-                        }
+
+
+                        //    }
+                        //    catch
+                        //    {
+
+                        //    }
+                        //}
                     }
 
                 }

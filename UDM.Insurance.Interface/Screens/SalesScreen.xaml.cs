@@ -1673,25 +1673,28 @@ namespace UDM.Insurance.Interface.Screens
                                 catch { }
 
 
-                                if(LeadStatusPulled == "1")
-                                {
-                                    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
-                                }
-                                else
-                                {
-                                    if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
-                                    {
-                                        ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
-                                    }
-                                    else
-                                    {
-                                        Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
-                                            //    MainBorder.BorderBrush = Brushes.LightBlue;
-                                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                                            ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
-                                        }));
-                                    }
-                                }
+                                //if(LeadStatusPulled == "1")
+                                //{
+                                //    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                //}
+                                //else
+                                //{
+                                //    if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
+                                //    {
+                                //        ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                //    }
+                                //    else
+                                //    {
+                                //        Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                                //            //    MainBorder.BorderBrush = Brushes.LightBlue;
+                                //            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                //            ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                                //        }));
+                                //    }
+                                //}
+
+                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+
                             }
                         }
                         else
@@ -1713,25 +1716,28 @@ namespace UDM.Insurance.Interface.Screens
                             catch { }
 
 
-                            if (LeadStatusPulled == "1")
-                            {
-                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
-                            }
-                            else
-                            {
-                                if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
-                                {
-                                    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
-                                }
-                                else
-                                {
-                                    Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
-                                        //    MainBorder.BorderBrush = Brushes.LightBlue;
-                                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                                        ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
-                                    }));
-                                }
-                            }
+                            //if (LeadStatusPulled == "1")
+                            //{
+                            //    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                            //}
+                            //else
+                            //{
+                            //    if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
+                            //    {
+                            //        ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                            //    }
+                            //    else
+                            //    {
+                            //        Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                            //            //    MainBorder.BorderBrush = Brushes.LightBlue;
+                            //            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            //            ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                            //        }));
+                            //    }
+                            //}
+
+                            ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+
                         }
 
                     }
