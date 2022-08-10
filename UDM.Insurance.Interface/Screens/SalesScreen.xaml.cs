@@ -2157,7 +2157,7 @@ namespace UDM.Insurance.Interface.Screens
                 timer.Stop();
                 FKImportID = null;
                 long? FKUserID = GlobalSettings.ApplicationUser.ID;
-                DataTable dtStatus = Methods.GetTableData("SELECT Top 1 FKImportID, ID FROM INSalesToCallMonitoring WHERE FKUserID = " + FKUserID + " AND IsDisplayed = 0");
+                DataTable dtStatus = Methods.GetTableData("SELECT Top 1 FKImportID, ID FROM INSalesToCallMonitoring WHERE FKUserID = " + FKUserID + " AND IsDisplayed = 0 and FKImportID is not null");
                 FKImportID = long.Parse(dtStatus.Rows[0]["FKImportID"].ToString());
                 long PopUpID = long.Parse(dtStatus.Rows[0]["ID"].ToString());
 
