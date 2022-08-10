@@ -15640,6 +15640,26 @@
               Style="{StaticResource DebiCheck}"
               TabIndex="98600" />
 
+                    <!--Bottom footer-->
+                    
+                    <Border
+                        x:Name="GotBankingDetailsPL2"
+                        Grid.Row="17"
+                        Margin="2,4.444,1.667,0.222"
+                        Grid.Column="7"
+                        Visibility="Visible"
+                        CornerRadius="20"
+                        Background="Gray"/>
+                    <TextBlock
+                              x:Name="lblBankDetailsStatus"
+                              Grid.Row="17"
+                              Grid.Column="2"
+                              Grid.ColumnSpan="4"
+                              Margin="0,8,0,0"
+                              VerticalAlignment="Bottom"
+                              Style="{StaticResource INLabelText2}"
+                              Text="Banking Details Status"
+                              Visibility="Visible"/>
                     <src:EmbriantComboBox
                               x:Name="cmbDebiCheckQueries"
                               Grid.Row="17"
@@ -15649,7 +15669,7 @@
                               PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                               Style="{StaticResource StyleCMBStatus}"
                               TabIndex="33900"
-                              Visibility="Visible"/>
+                              Visibility="Hidden"/>
                     <TextBlock
                               x:Name="lblDebiCheckQueries"
                               Grid.Row="17"
@@ -15659,7 +15679,7 @@
                               VerticalAlignment="Bottom"
                               Style="{StaticResource INLabelText2}"
                               Text="DC Queries"
-                              Visibility="Visible"/>
+                              Visibility="hidden"/>
                     <src:EmbriantComboBox
                               x:Name="cmbSalesNotTransferredReasons"
                               Grid.Row="17"

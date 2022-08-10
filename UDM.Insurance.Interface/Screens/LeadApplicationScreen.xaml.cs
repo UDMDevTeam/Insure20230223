@@ -259,16 +259,7 @@ namespace UDM.Insurance.Interface.Screens
                 btnOverrideBumpUp.Visibility = Visibility.Visible;
             }
 
-            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
-            {
-                cmbDebiCheckQueries.Visibility = Visibility.Visible;
-                lblDebiCheckQueries.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                cmbDebiCheckQueries.Visibility = Visibility.Collapsed;
-                lblDebiCheckQueries.Visibility = Visibility.Collapsed;
-            }
+
 
             Page1.Visibility = Visibility.Visible;
             Page2.Visibility = Visibility.Collapsed;
@@ -307,6 +298,17 @@ namespace UDM.Insurance.Interface.Screens
 
                 LoadLead(importID);
 
+            }
+
+            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+            {
+                cmbDebiCheckQueries.Visibility = Visibility.Visible;
+                lblDebiCheckQueries.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cmbDebiCheckQueries.Visibility = Visibility.Collapsed;
+                lblDebiCheckQueries.Visibility = Visibility.Collapsed;
             }
             //CanSave.IsChecked = true;
 
@@ -2058,6 +2060,35 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
 
+                #region DebiCheck Retreival labels
+                try
+                {
+                    if (LaData.AppData.IsLeadUpgrade)
+                    {
+                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                        {
+                            GotBankingDetailsPL2.Visibility = Visibility.Hidden;
+                            lblBankDetailsStatus.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            GotBankingDetailsPL2.Visibility = Visibility.Visible;
+                            lblBankDetailsStatus.Visibility = Visibility.Visible;
+                        }
+                    }
+                    else
+                    {
+                        GotBankingDetailsPL2.Visibility = Visibility.Hidden;
+                        lblBankDetailsStatus.Visibility = Visibility.Hidden;
+                    }
+                }
+                catch
+                {
+
+                }
+                #endregion
+
+
 
                 #endregion
 
@@ -2260,6 +2291,8 @@ namespace UDM.Insurance.Interface.Screens
                 catch { }
 
                 #endregion
+
+                
 
             }
 
@@ -9012,6 +9045,31 @@ namespace UDM.Insurance.Interface.Screens
                 ClosurePage.Tag = null;
                 lblPage.Text = lblPage.Tag.ToString();
                 lblPage.Tag = null;
+                try
+                {
+                    if (LaData.AppData.IsLeadUpgrade)
+                    {
+                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                        {
+                            GotBankingDetailsPL2.Visibility = Visibility.Hidden;
+                            lblBankDetailsStatus.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            GotBankingDetailsPL2.Visibility = Visibility.Visible;
+                            lblBankDetailsStatus.Visibility = Visibility.Visible;
+                        }
+                    }
+                    else
+                    {
+                        GotBankingDetailsPL2.Visibility = Visibility.Hidden;
+                        lblBankDetailsStatus.Visibility = Visibility.Hidden;
+                    }
+                }
+                catch
+                {
+
+                }
                 return;
             }
 
@@ -9158,6 +9216,31 @@ namespace UDM.Insurance.Interface.Screens
                 ClosurePage.Tag = null;
                 lblPage.Text = lblPage.Tag.ToString();
                 lblPage.Tag = null;
+                try
+                {
+                    if (LaData.AppData.IsLeadUpgrade)
+                    {
+                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                        {
+                            GotBankingDetailsPL2.Visibility = Visibility.Hidden;
+                            lblBankDetailsStatus.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            GotBankingDetailsPL2.Visibility = Visibility.Visible;
+                            lblBankDetailsStatus.Visibility = Visibility.Visible;
+                        }
+                    }
+                    else
+                    {
+                        GotBankingDetailsPL2.Visibility = Visibility.Hidden;
+                        lblBankDetailsStatus.Visibility = Visibility.Hidden;
+                    }
+                }
+                catch
+                {
+
+                }
                 return;
             }
 
@@ -17425,11 +17508,13 @@ namespace UDM.Insurance.Interface.Screens
                 if (BankPLLKP == null || BankPLLKP == "")
                 {
                     GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                    GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Red;
                     GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
                 }
                 else
                 {
                     GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
+                    GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Green;
                     GotBankingDetailsPLLBL2.Text = " ";
                 }
                 #endregion
@@ -17581,11 +17666,15 @@ namespace UDM.Insurance.Interface.Screens
                 if (BankPLLKP == null || BankPLLKP == "")
                 {
                     GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                    GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Red;
+
                     GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
                 }
                 else
                 {
                     GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
+                    GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Green;
+
                     GotBankingDetailsPLLBL2.Text = " ";
                 }
                 #endregion
@@ -17593,6 +17682,8 @@ namespace UDM.Insurance.Interface.Screens
             catch (Exception r)
             {
                 GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Red;
+
                 GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
             }
         }
@@ -17885,6 +17976,8 @@ namespace UDM.Insurance.Interface.Screens
                                     GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
                                     GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                     GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPL2.Visibility = Visibility.Collapsed;
+                                    lblBankDetailsStatus.Visibility = Visibility.Collapsed;
 
                                     IsDebiCheckValid();
 
@@ -18101,6 +18194,8 @@ namespace UDM.Insurance.Interface.Screens
                                     GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
                                     GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                     GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                    GotBankingDetailsPL2.Visibility = Visibility.Collapsed;
+                                    lblBankDetailsStatus.Visibility = Visibility.Collapsed;
                                 }
                                 else
                                 {
@@ -18116,6 +18211,8 @@ namespace UDM.Insurance.Interface.Screens
                                         GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
                                         GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
                                         GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPL2.Visibility = Visibility.Collapsed;
+                                        lblBankDetailsStatus.Visibility = Visibility.Collapsed;
 
                                         //IsDebiCheckValid();
 
@@ -18177,6 +18274,12 @@ namespace UDM.Insurance.Interface.Screens
                                         GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
                                         GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                         GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
+                                        // this is for sales agents and not debicheck agents
+                                        if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                                        {
+                                            GotBankingDetailsPL2.Visibility = Visibility.Visible;
+                                            lblBankDetailsStatus.Visibility = Visibility.Visible;
+                                        }
                                     }
                                 }
                             }
