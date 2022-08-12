@@ -15646,7 +15646,7 @@
                         x:Name="GotBankingDetailsPL2"
                         Grid.Row="17"
                         Margin="2,4.444,1.667,0.222"
-                        Grid.Column="7"
+                        Grid.Column="6"
                         Visibility="Visible"
                         CornerRadius="20"
                         Background="Gray"/>
