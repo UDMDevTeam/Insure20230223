@@ -79,6 +79,8 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Actual Transferred");
             dtSalesData.Columns.Add("Debi-Check agent not available - Invalid");
             dtSalesData.Columns.Add("Total Sales Hidden");
+            dtSalesData.Columns.Add("Camapign 1");
+            dtSalesData.Columns.Add("Campaign 2");
 
             dtSalesDataSummary.Columns.Add("TSR Name");
             dtSalesDataSummary.Columns.Add("Employment Status");
@@ -99,7 +101,8 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesDataSummary.Columns.Add("Debi-Check agent not available - Invalid");
             dtSalesDataSummary.Columns.Add("Total Sales Hidden");
             dtSalesDataSummary.Columns.Add("MTD Transfer %");
-
+            dtSalesDataSummary.Columns.Add("Campaign 1");
+            dtSalesDataSummary.Columns.Add("Campaign 2");
 
             dispatcherTimer1.Tick += Timer1;
             dispatcherTimer1.Interval = new TimeSpan(0, 0, 1);
@@ -331,7 +334,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["C2", "Q2"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C2", "T2"].Interior.Color = System.Drawing.Color.LightBlue;
 
                     #region Totals for Grid 1
 
@@ -376,7 +379,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     #endregion
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 17]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 20]].Merge();
                     workSheet.Cells[1,  1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
 
@@ -388,7 +391,8 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
-
+                    (workSheet.Cells[1, 19]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
 
                     (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                     workSheet.Rows[2].WrapText = true;
@@ -569,7 +573,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["C2", "S2"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C2", "T2"].Interior.Color = System.Drawing.Color.LightBlue;
 
                     #region Totals for Grid 1
 
@@ -614,7 +618,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     #endregion
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 17]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 21]].Merge();
                     workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
 
@@ -628,7 +632,8 @@ namespace UDM.Insurance.Interface.Screens
                     (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
-
+                    (workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 21]).EntireColumn.Hidden = true;
 
                     (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                     workSheet.Rows[2].WrapText = true;
@@ -823,6 +828,8 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData2.Columns.Add("Actual Transferred");
             dtSalesData2.Columns.Add("Debi-Check agent not available - Invalid");
             dtSalesData2.Columns.Add("Total Sales Hidden");
+            dtSalesData2.Columns.Add("Campaign 1");
+            dtSalesData2.Columns.Add("Campaign 2");
 
 
             try { dtSalesData2.Clear(); } catch { }
@@ -954,7 +961,7 @@ namespace UDM.Insurance.Interface.Screens
             countForNonRedeemed = countForNonRedeemed + 3;
             int CountSecondGridTotals = countForNonRedeemed;
 
-            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 17]].Merge();
+            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 20]].Merge();
             workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
 
@@ -974,7 +981,7 @@ namespace UDM.Insurance.Interface.Screens
             tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
             workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-            workSheet.Range["C2", "Q2"].Interior.Color = System.Drawing.Color.LightBlue;
+            workSheet.Range["C2", "T2"].Interior.Color = System.Drawing.Color.LightBlue;
 
 
             (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
@@ -985,7 +992,8 @@ namespace UDM.Insurance.Interface.Screens
             (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
-
+            (workSheet.Cells[1, 19]).EntireColumn.Hidden = true;
+            (workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
             (workSheet.Rows[2]).EntireRow.RowHeight = 40;
             workSheet.Rows[2].WrapText = true;
 
