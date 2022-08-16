@@ -5091,8 +5091,32 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtBank = dsLookups.Tables[4];
                 cmbDOBank.Populate(dtBank, DescriptionField, IDField);
 
+                #region Account Type DebiCheck workings
+
                 DataTable dtAccountType = dsLookups.Tables[5];
+                try 
+                {
+                    if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                    {
+
+                    }
+                    else
+                    {
+                        for (int i = dtAccountType.Rows.Count - 1; i >= 0; i--)
+                        {
+                            DataRow dr = dtAccountType.Rows[i];
+                            if (dr["Description"].ToString() == "Cheque")
+                                dr.Delete();
+                        }
+                    }
+                } catch 
+                {
+
+                }
+         
                 cmbDOAccountType.Populate(dtAccountType, DescriptionField, IDField);
+
+                #endregion
 
                 DataTable dtLARelationship = dsLookups.Tables[16];
                 cmbLA1Relationship.Populate(dtLARelationship, DescriptionField, IDField);
@@ -16561,6 +16585,10 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     responsesAccountTypeDebiCheck = "3";
                 }
+                else if(responsesAccountType == "Cheque")
+                {
+                    responsesAccountTypeDebiCheck = "3";
+                }
             }
             catch
             {
@@ -16654,6 +16682,10 @@ namespace UDM.Insurance.Interface.Screens
                             AccountTypeNumber = "2";
                         }
                         else if (AccountTypePLLKP == "Transmission")
+                        {
+                            AccountTypeNumber = "3";
+                        }
+                        else if(AccountTypePLLKP == "Cheque")
                         {
                             AccountTypeNumber = "3";
                         }
@@ -16816,6 +16848,10 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             AccountTypeNumber = "3";
                         }
+                        else if(AccountTypePLLKP == "Cheque")
+                        {
+                            AccountTypeNumber = "3";
+                        }
                         else
                         {
                             try
@@ -16838,6 +16874,10 @@ namespace UDM.Insurance.Interface.Screens
                                     AccountTypeNumber = "2";
                                 }
                                 else if (responsesAccountType == "Transmission")
+                                {
+                                    AccountTypeNumber = "3";
+                                }
+                                else if(responsesAccountType == "Cheque")
                                 {
                                     AccountTypeNumber = "3";
                                 }
