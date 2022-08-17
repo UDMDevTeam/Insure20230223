@@ -87,6 +87,7 @@ namespace UDM.Insurance.Interface.Screens
 
         #region R99 options
         bool NinetyNineOptions = false;
+        bool ConservedLeadBool = false;
         #endregion
 
         #region BulkSMS
@@ -577,6 +578,7 @@ namespace UDM.Insurance.Interface.Screens
                 ClearApplicationScreen();
                 PolicyHolderBoolDC = true;
                 btnDebiCheck.ToolTip = "";
+                ConservedLeadBool = false;
             }
             catch
             {
@@ -9918,43 +9920,57 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (LaData.AppData.IsLeadUpgrade)
                     {
-                        if (NinetyNineOptions == true)
+                        if(ConservedLeadBool == true)
                         {
-                            if (LaData.AppData.UDMBatchCode.Contains(".2")
-                                || LaData.AppData.UDMBatchCode.Contains(".3"))
+                            for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
                             {
-
-                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
-                                {
-                                    DataRow dr = dtCover.Rows[i];
-                                    if (dr["TotalPremium1"].ToString() != "99.00")
-                                        dr.Delete();
-                                }
-                                dtCover.AcceptChanges();
-
+                                DataRow dr = dtCover.Rows[i];
+                                if (dr["TotalPremium1"].ToString() != "99.00")
+                                    dr.Delete();
                             }
+                            dtCover.AcceptChanges();
                         }
                         else
                         {
-                            if ((LaData.AppData.CampaignType == lkpINCampaignType.Cancer
-                                && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1)
-                                || (LaData.AppData.CampaignType == lkpINCampaignType.Macc
-                                && LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1)
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.R99Upgrade)
+                            if (NinetyNineOptions == true)
                             {
+                                if (LaData.AppData.UDMBatchCode.Contains(".2")
+                                    || LaData.AppData.UDMBatchCode.Contains(".3"))
+                                {
 
+                                    for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                    {
+                                        DataRow dr = dtCover.Rows[i];
+                                        if (dr["TotalPremium1"].ToString() != "99.00")
+                                            dr.Delete();
+                                    }
+                                    dtCover.AcceptChanges();
+
+                                }
                             }
                             else
                             {
-                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                if ((LaData.AppData.CampaignType == lkpINCampaignType.Cancer
+                                    && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1)
+                                    || (LaData.AppData.CampaignType == lkpINCampaignType.Macc
+                                    && LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1)
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.R99Upgrade)
                                 {
-                                    DataRow dr = dtCover.Rows[i];
-                                    if (dr["TotalPremium1"].ToString() == "99.00")
-                                        dr.Delete();
+
                                 }
-                                dtCover.AcceptChanges();
+                                else
+                                {
+                                    for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                    {
+                                        DataRow dr = dtCover.Rows[i];
+                                        if (dr["TotalPremium1"].ToString() == "99.00")
+                                            dr.Delete();
+                                    }
+                                    dtCover.AcceptChanges();
+                                }
                             }
                         }
+
                         cmbUpgradeCover.Populate(dtCover, "Description", "Value");
                         LaData.PolicyData.OptionID = selectedUpgradeCover;
                     }
@@ -17474,65 +17490,89 @@ namespace UDM.Insurance.Interface.Screens
 
                         }
 
-                        //if (ValidityStatus != "Valid")
-                        //{
-                        //    try
-                        //    {
-                        //        //Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() =>
-                        //        //{
-                        //        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                        //        ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
-                        //        //}));
+                        if (ValidityStatus != "Valid")
+                        {
+                            ConservedLeadBool = true;
 
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
 
-                        //        //this is for sales that have already been sold to
-                        //        if (LaData.AppData.LeadStatus == 1)
-                        //        {
+                            decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
+                            long? selectedUpgradeCover = LaData.PolicyData.OptionID;
 
-                        //        }
-                        //        else
-                        //        {
-                        //            if (LaData.AppData.LeadStatus == 26)
-                        //            {
+                            DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
+                            cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
 
-                        //            }
-                        //            else
-                        //            {
-                        //                long InimportLong = long.Parse(LaData.AppData.ImportID.ToString());
+                            //LaData.PolicyData.OptionID = GetOptionID();
 
-                        //                INImport inimport = new INImport(InimportLong);
-                        //                inimport.FKINLeadStatusID = 26;
-                        //                inimport.Save(_validationResult);
-                        //            }
-                        //        }
+                            SqlParameter[] parameters = new SqlParameter[5];//5
+                            parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
+                            parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
+                            parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
+                            parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
 
+                            if (LaData.PolicyData.OptionID == null)
+                            {
+                                parameters[3].Value = DBNull.Value;
+                            }
 
+                            if ((LaData.AppData.IsLeadUpgrade ||
+                                LaData.AppData.CampaignCode == "PLFDB" ||
+                                LaData.AppData.CampaignCode == "PLFDMIN" ||
+                                LaData.AppData.CampaignCode == "PLFDBPE" ||
+                                LaData.AppData.CampaignCode == "PLULFDB" ||
+                                LaData.AppData.CampaignCode == "PLULFDMIN" ||
+                                LaData.AppData.CampaignCode == "PLULFDBPE") &&
+                                LaData.AppData.LeadStatus == null &&
+                                !Convert.ToBoolean(chkShowAllOptions.IsChecked))
+                            {
+                                parameters[4] = new SqlParameter("@HigherOptionMode", 1);
+                                chkShowAllOptions.IsChecked = false;
+                            }
+                            else
+                            {
+                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                                chkShowAllOptions.Tag = 1;
+                                chkShowAllOptions.IsChecked = true;
+                            }
 
+                            if (NinetyNineOptions == true)
+                            {
+                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                            }
 
+                            DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
+                            dtCover = dsLookups.Tables[0];
 
+                            foreach (DataRow row in dtCover.Rows)
+                            {
+                                if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
+                                {
+                                    string str = row["Description"].ToString();
+                                    row["Description"] = DisplayCurrencyFormat(str);
+                                }
+                            }
 
+                            for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                            {
+                                DataRow dr = dtCover.Rows[i];
+                                if (dr["TotalPremium1"].ToString() != "99.00")
+                                    dr.Delete();
+                            }
+                            dtCover.AcceptChanges();
 
-                        //        //foreach (Window window in Application.Current.Windows)
-                        //        //{
-                        //        //    if (window.Title == "Redeem Gift")
-                        //        //    {
-                        //        //        window.Close();
-                        //        //    }
-                        //        //}
+                            cmbUpgradeCover.Populate(dtCover, "Description", "Value");
+                            LaData.PolicyData.OptionID = selectedUpgradeCover;
+                        }
+                        else
+                        {
+                            ConservedLeadBool = false;
+                        }
 
-
-
-                        //        CloseScriptWindows();
-                        //        OnDialogClose(_dialogResult);
-
-
-
-                        //    }
-                        //    catch
-                        //    {
-
-                        //    }
-                        //}
+                    }
+                    else
+                    {
+                        ConservedLeadBool = false;
                     }
 
                 }
