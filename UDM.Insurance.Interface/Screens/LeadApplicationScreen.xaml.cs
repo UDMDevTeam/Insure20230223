@@ -2269,13 +2269,14 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     if (LaData.AppData.IsLeadUpgrade)
                     {
-                        if (LaData.AppData.UDMBatchCode.Contains(".2")
-                            || LaData.AppData.UDMBatchCode.Contains(".3"))
+                        string batchCodestring = LaData.AppData.UDMBatchCode;
+                        string FirstSixCharacters = batchCodestring.Substring(0, 6);
+                        string substr = FirstSixCharacters.Substring(FirstSixCharacters.Length - 2);
+                        int SubstringMonth = int.Parse(substr);
+                        if (SubstringMonth < DateTime.Now.Month)
                         {
-
                             chk99Options.Visibility = Visibility.Visible;
                             tbShow99Options.Visibility = Visibility.Visible;
-
                         }
                         else
                         {
@@ -9899,7 +9900,7 @@ namespace UDM.Insurance.Interface.Screens
                         chkShowAllOptions.IsChecked = true;
                     }
 
-                    if (NinetyNineOptions == true)
+                    if (NinetyNineOptions == true || ConservedLeadBool == true)
                     {
                         parameters[4] = new SqlParameter("@HigherOptionMode", -1);
                     }
@@ -9934,8 +9935,11 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             if (NinetyNineOptions == true)
                             {
-                                if (LaData.AppData.UDMBatchCode.Contains(".2")
-                                    || LaData.AppData.UDMBatchCode.Contains(".3"))
+                                string batchCodestring = LaData.AppData.UDMBatchCode;
+                                string FirstSixCharacters = batchCodestring.Substring(0, 6);
+                                string substr = FirstSixCharacters.Substring(FirstSixCharacters.Length - 2);
+                                int SubstringMonth = int.Parse(substr);
+                                if (SubstringMonth < DateTime.Now.Month)
                                 {
 
                                     for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
@@ -17536,10 +17540,9 @@ namespace UDM.Insurance.Interface.Screens
                                 chkShowAllOptions.IsChecked = true;
                             }
 
-                            if (NinetyNineOptions == true)
-                            {
-                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-                            }
+
+                            parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                            
 
                             DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
                             dtCover = dsLookups.Tables[0];
