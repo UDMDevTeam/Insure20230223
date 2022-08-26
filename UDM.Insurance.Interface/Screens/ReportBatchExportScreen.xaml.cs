@@ -20,6 +20,7 @@ using Orientation = Infragistics.Documents.Excel.Orientation;
 using System.Linq;
 using UDM.Insurance.Business;
 using UDM.Insurance.Interface.Data;
+using System.Transactions;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -370,15 +371,24 @@ namespace UDM.Insurance.Interface.Screens
                         #region Get batch export data from database
 
                         DataTable dtBatchExportData;
+                        DataSet dsBatchExportData;
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
 
-                        SqlParameter[] parameters = new SqlParameter[4];
-                        parameters[0] = new SqlParameter("@CampaignID", campaignID);
-                        parameters[1] = new SqlParameter("@DateOfSale", _fromDate.ToString("yyyy-MM-dd"));
-                        parameters[2] = new SqlParameter("@PlatinumBatchCode", _platinumBatchCode);
-                        parameters[3] = new SqlParameter("@BatchType", (byte)RData.BatchType);
-                        //parameters[2] = new SqlParameter("@ToDate", _fromDate.ToString("yyyy-MM-dd"));
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            //SqlParameter[] parameters = new SqlParameter[4];
+                            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+                            //parameters[1] = new SqlParameter("@DateOfSale", _fromDate.ToString("yyyy-MM-dd"));
+                            //parameters[2] = new SqlParameter("@PlatinumBatchCode", _platinumBatchCode);
+                            //parameters[3] = new SqlParameter("@BatchType", (byte)RData.BatchType);
+                            //parameters[2] = new SqlParameter("@ToDate", _fromDate.ToString("yyyy-MM-dd"));
 
-                        DataSet dsBatchExportData = Methods.ExecuteStoredProcedure("spINReportBatchExport", parameters);
+                            dsBatchExportData = Business.Insure.GetReportBatchExport(campaignID, _fromDate.ToString("yyyy-MM-dd"), _platinumBatchCode, (byte)RData.BatchType);
+                        }
+
                         if (dsBatchExportData.Tables.Count > 0)
                         {
                             dtBatchExportData = dsBatchExportData.Tables[0];
