@@ -1051,5 +1051,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnR129Options_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportR129Options reportDebiCheckAccepted = new ReportR129Options();
+                ShowDialog(reportDebiCheckAccepted, new INDialogWindow(reportDebiCheckAccepted));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
