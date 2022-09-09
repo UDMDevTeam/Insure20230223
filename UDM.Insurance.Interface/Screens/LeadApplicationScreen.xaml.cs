@@ -9689,6 +9689,18 @@ namespace UDM.Insurance.Interface.Screens
             }
 #endif
 
+            //if(LaData.AppData.IsLeadUpgrade == false)
+            //{
+            //    if(LaData.BankDetailsData.SigningPowerID == null)
+            //    {
+            //        INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+            //        string message = "Signing Power not selected.";
+            //        ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+            //        return;
+
+            //    }
+            //}
+
             if (IsValidData())
             {
                 if ((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.DoNotContactClient)
@@ -18643,6 +18655,15 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
                     ShowMessageBox(messageWindow, "Please call the Account holder to authorize the Debi-check mandate", "Reminder - DebiCheck", ShowMessageType.Exclamation);
+                }
+                else if (valueSelected != null && (valueSelected == "4"))
+                {
+                    if (LaData.LeadData.IDNumber == LaData.BankDetailsData.IDNumber)
+                    {
+                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                        ShowMessageBox(messageWindow, "Are you sure these details are for the Policy owner?", "Policy Owner Check", ShowMessageType.Exclamation);
+                        cmbDOSigningPower.SelectedIndex = -1;
+                    }
                 }
 
             }
