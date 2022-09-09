@@ -2054,7 +2054,7 @@ namespace UDM.Insurance.Interface.Screens
                 btnCallMonitoringTrackingReport.Visibility = Visibility.Collapsed;
                 btnBumpUpStatsReport.Visibility = Visibility.Collapsed;
                 btnSchedule.Visibility = Visibility.Collapsed;
-                btnCaptureHours.Visibility = Visibility.Collapsed;
+                btnCaptureHours.Visibility = Visibility.Visible;
                 btnStatusLoading.Visibility = Visibility.Collapsed;
                 btnTransferSalesReport.Visibility = Visibility.Visible;
             }
