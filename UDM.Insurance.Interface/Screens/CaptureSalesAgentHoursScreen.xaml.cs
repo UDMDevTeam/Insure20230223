@@ -39,7 +39,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
             if(GlobalSettings.ApplicationUser.ID == 1016 || GlobalSettings.ApplicationUser.ID == 6091 || GlobalSettings.ApplicationUser.ID == 7194 || GlobalSettings.ApplicationUser.ID == 45 || GlobalSettings.ApplicationUser.ID == 394
-                || GlobalSettings.ApplicationUser.ID == 403 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 2857 || GlobalSettings.ApplicationUser.ID == 3165
+                || GlobalSettings.ApplicationUser.ID == 403 || GlobalSettings.ApplicationUser.ID == 2232  || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 2857 || GlobalSettings.ApplicationUser.ID == 3165
                 || GlobalSettings.ApplicationUser.ID == 3388 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 7206 || GlobalSettings.ApplicationUser.ID == 40416)
             {
                 ConfirmationBody.Visibility = Visibility.Visible;
@@ -1290,7 +1290,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 if (GlobalSettings.ApplicationUser.ID == 1016 || GlobalSettings.ApplicationUser.ID == 6091 || GlobalSettings.ApplicationUser.ID == 7194 || GlobalSettings.ApplicationUser.ID == 45 || GlobalSettings.ApplicationUser.ID == 394
-                   || GlobalSettings.ApplicationUser.ID == 403 || GlobalSettings.ApplicationUser.ID == 2232 || GlobalSettings.ApplicationUser.ID == 2767 || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 2857 || GlobalSettings.ApplicationUser.ID == 3165
+                   || GlobalSettings.ApplicationUser.ID == 403 || GlobalSettings.ApplicationUser.ID == 2232  || GlobalSettings.ApplicationUser.ID == 2810 || GlobalSettings.ApplicationUser.ID == 2857 || GlobalSettings.ApplicationUser.ID == 3165
                    || GlobalSettings.ApplicationUser.ID == 3388 || GlobalSettings.ApplicationUser.ID == 6181 || GlobalSettings.ApplicationUser.ID == 7206 || GlobalSettings.ApplicationUser.ID == 40416)
                 {
 
