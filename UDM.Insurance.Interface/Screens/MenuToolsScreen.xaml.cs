@@ -373,6 +373,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnTransferAdjustments_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TransferAdjustments mySuccessEditScreen = new TransferAdjustments();
+                ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 
 }
