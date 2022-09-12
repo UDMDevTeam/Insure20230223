@@ -18658,7 +18658,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else if (valueSelected != null && (valueSelected == "4"))
                 {
-                    if (LaData.LeadData.IDNumber == LaData.BankDetailsData.IDNumber)
+                    if (LaData.LeadData.IDNumber != LaData.BankDetailsData.IDNumber)
                     {
                         INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
                         ShowMessageBox(messageWindow, "Are you sure these details are for the Policy owner?", "Policy Owner Check", ShowMessageType.Exclamation);
