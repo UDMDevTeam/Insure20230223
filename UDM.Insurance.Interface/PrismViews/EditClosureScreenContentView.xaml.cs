@@ -70,7 +70,9 @@ namespace UDM.Insurance.Interface.PrismViews
                     "[TotalPremium]",
                     "[TSR]",
                     "[WorkPhone]",
-                    "[AnnualPremium]"
+                    "[AnnualPremium]",
+                    "[LA1Cancer]",
+                    "[LA2Cancer]"
                 };
             }
         }
