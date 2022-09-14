@@ -2202,6 +2202,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             DataTable dtExtensions = Methods.GetTableData("SELECT [E].[Extension] FROM [Blush].[dbo].[lkpHRExtension] AS [E] WHERE [E].[ID] IN (SELECT [HE].[FKHRExtensionID] FROM [Blush].[dbo].[HRStaffExtension] AS [HE] WHERE [HE].[FKHRStaffID] = (SELECT  [H].[ID] FROM [Blush].[dbo].[HRStaff] AS [H] WHERE [FKUserID] = (SELECT [FKUserID] FROM [INImport] WHERE [ID] = " + FKImportID + ")))");
                             Extension = dtExtensions.Rows[0]["Extension"].ToString();
+                            DataTable dtExtensions2 = Methods.GetTableData("SELECT [E].[Extension] FROM [Blush].[dbo].[lkpHRExtension] AS [E] WHERE [E].[ID] IN (SELECT [HE].[FKHRExtensionID] FROM [Blush].[dbo].[HRStaffSecondExtension] AS [HE] WHERE [HE].[FKHRStaffID] = (SELECT  [H].[ID] FROM [Blush].[dbo].[HRStaff] AS [H] WHERE [FKUserID] = (SELECT [FKUserID] FROM [INImport] WHERE [ID] = " + FKImportID + ")))");
 
                             try
                             {
