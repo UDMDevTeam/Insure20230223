@@ -18283,8 +18283,8 @@ namespace UDM.Insurance.Interface.Screens
 
                                     if (responses == "Client Accepted")
                                     {
-                                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                                        ShowMessageBox(messageWindow, "Please note that this sale has been finalized.", "Sale Finalized!", ShowMessageType.Exclamation);
+                                        //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                        //ShowMessageBox(messageWindow, "Please note that this sale has been finalized.", "Sale Finalized!", ShowMessageType.Exclamation);
                                         MandateRequired = "True";
                                     }
                                 }
