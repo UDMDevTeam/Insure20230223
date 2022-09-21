@@ -18480,6 +18480,8 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 2232 ||
                         GlobalSettings.ApplicationUser.ID == 3165 ||
                         GlobalSettings.ApplicationUser.ID == 43744 ||
+                        GlobalSettings.ApplicationUser.ID == 394 ||
+                        GlobalSettings.ApplicationUser.ID == 3388 ||
                         SavedLeadStatus == "25")
 
 
