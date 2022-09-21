@@ -2289,6 +2289,7 @@ namespace UDM.Insurance.Interface.Screens
                                     ReportBody(wbTemplate, wbReport, agentName, agentID, dateRange);
                                     AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                                     AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddFowardToDCAgentSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
 
                                 }
                             }
@@ -2329,6 +2330,7 @@ namespace UDM.Insurance.Interface.Screens
                                     ReportBody(wbTemplate, wbReport, agentName, agentID, dateRange);
                                     AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                                     AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+
                                 }
                             }
                             else
