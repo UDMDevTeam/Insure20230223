@@ -10888,6 +10888,10 @@ namespace UDM.Insurance.Interface.Screens
             {
                 Extension = "Puleng - 2144";
             }
+            else if (userid == 403)
+            {
+                Extension = "Raymond - 2130";
+            }
 
 
             return Extension;
@@ -18482,6 +18486,7 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 43744 ||
                         GlobalSettings.ApplicationUser.ID == 394 ||
                         GlobalSettings.ApplicationUser.ID == 3388 ||
+                        GlobalSettings.ApplicationUser.ID == 403 ||
                         SavedLeadStatus == "25")
 
 
