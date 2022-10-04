@@ -537,7 +537,7 @@ namespace UDM.Insurance.Interface.Screens
                             headingSelectDeclineReason.Text = "Oops, Agent just went offline.";
 
                             btnFinish.Visibility = Visibility.Visible;
-                            headingSelectDeclineReason.Text = "Please retry";
+                            btnFinish.Content = "Please retry";
                         });
                     }
                     catch
