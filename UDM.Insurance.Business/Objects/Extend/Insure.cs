@@ -109,6 +109,20 @@ namespace UDM.Insurance.Business
 
         #endregion
 
+        #region R129 OPTIONS
+        public static DataSet INGetR129Options(DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportR129Options", paramArray, 600);
+        }
+
+        #endregion
+
+
         #region DC Specialist Logs
         public static DataSet INGetDebiCheckSpecialistLogs(DateTime fromDate, DateTime toDate)
         {
@@ -1832,6 +1846,24 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckTracking", paramArray, 600);
         }
         #endregion
+
+        public static DataSet GetReportBatchExport(long campaignid, string dateofsale, string platinumbatchcode, byte batchtype)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@CampaignID", campaignid);
+            object param2 = Database.GetParameter("@DateOfSale", dateofsale);
+            object param3 = Database.GetParameter("@PlatinumBatchCode", platinumbatchcode);
+            object param4 = Database.GetParameter("@BatchType", batchtype);
+            object[] paramArray = new[] { param1, param2, param3, param4 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportBatchExport", paramArray, 600);
+        }
 
         #region GetMandateInfo
         public static DataSet INGetMandateInfo(string RefNo)

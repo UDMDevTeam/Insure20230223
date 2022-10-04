@@ -5,12 +5,15 @@
     xmlns:content="clr-namespace:UDM.Insurance.Interface.Content"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF" xmlns:data="clr-namespace:UDM.Insurance.Interface.Data"
+    xmlns:src="clr-namespace:Embriant.WPF.Controls;assembly=Embriant.WPF"
+    xmlns:data="clr-namespace:UDM.Insurance.Interface.Data" xmlns:igDP="http://schemas.infragistics.com/xaml/wpf"
     Background="{x:Null}"
     BorderThickness="0"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d">
+
+
 
     <src:BaseControl.Resources>
 
@@ -35,22 +38,28 @@
 
     </src:BaseControl.Resources>
 
+
+
     <Viewbox
         Stretch="Uniform">
         <Grid
+            
             Width="1920"
             Height="1080">
+
             <Grid
                 x:Name="Size"
                 Width="515"
                 Height="318">
-                <Viewbox
-                    Stretch="Fill">
+                <Viewbox Stretch="Fill">
                     <Grid
                         x:Name="LayoutRoot"
                         Width="515"
                         Height="318"
                         FocusManager.FocusedElement="{Binding ElementName=cmbDeclineReason}">
+
+
+
 
                         <Rectangle
                             x:Name="BGRectangle"
@@ -58,23 +67,29 @@
                             Fill="Black"
                             RadiusX="12"
                             RadiusY="12"
-                            Stroke="{StaticResource BrandedBrushIN}" />
+                            Stroke="GreenYellow"
+                            StrokeThickness="2"/>
+
+                        <Image Source="/Resources/Transferringsale.jpg" Margin="5"></Image>
+
 
                         <Button
                             x:Name="btnReload"
                             Margin="168,0,169,200"
                             HorizontalAlignment="Center"
+                            Visibility="Collapsed"
                             VerticalAlignment="Bottom"
                             Click="btnReload_Click"
                             Content="Reload Agents"
                             Style="{StaticResource INFlatButton}"
-                            TabIndex="5" />                        
+                            TabIndex="5" />
                         <Button
                             x:Name="btnSelect"
                             Margin="168,0,169,40"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
                             Click="buttonSelect_Click"
+                            Visibility="Collapsed"
                             Content="Save"
                             IsDefault="True"
                             Style="{StaticResource StyleSelectButton}"
@@ -86,28 +101,123 @@
 
                         <TextBlock
                             x:Name="headingSelectDeclineReason"
-                            Margin="81,49,0,0"
+                            Margin="92,49,29,0"
                             VerticalAlignment="Top"
-                            Style="{StaticResource INPageHeadingText1}"
-                            Text="To Debi-Check Agent" />
+                            Foreground="White"
+                            FontSize="25"
+                            FontFamily="Helvetica"
+                            Text="Select Debi-Check Specialist" />
 
-                        <Path
-                            Height="1"
-                            Margin="81.449,73.241,277.57,0"
+                        <!--<TextBlock
+                            x:Name="headingTransferredAgent"
+                            Margin="135,108,142,0"
                             VerticalAlignment="Top"
-                            Data="M372,132 L512.19752,132"
-                            Stretch="Fill"
-                            Stroke="Silver" />
+                            Foreground="White"
+                            FontSize="25"
+                            FontFamily="Helvetica"
+                            Text="Michael Stols - 2114" />-->
+
+
 
                         <src:EmbriantComboBox
                             x:Name="cmbDeclineReason"
                             HorizontalAlignment="Center"
                             Loaded="cmbDeclineReason_Loaded"
+                            Visibility="Collapsed"
                             Width="290"
                             PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                             Style="{StaticResource cmbIN}"
                             TabIndex="0" DropDownClosed="cmbDeclineReason_DropDownClosed" />
-                        
+
+                        <!--<DataGrid x:Name="SelectAgentDG"
+                                  Height="200" Margin="62,94,58,24"
+                                  MinColumnWidth="400"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  HeadersVisibility="None"
+                                  MinRowHeight="25"
+                                  MouseDoubleClick="SelectAgentDG_MouseDoubleClick"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="PaleTurquoise"
+                                  FrozenColumnCount="1"
+                                  Visibility="Visible">
+
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell" >
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Cursor" Value="AppStarting"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            -->
+                        <!--<DataGrid.Style>
+                                <Style TargetType="{x:Type DataGrid}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGrid}">
+                                                <Border Background="LightBlue" CornerRadius="5">
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGrid.Style>-->
+                        <!--
+                        </DataGrid>-->
+
+                        <igDP:XamDataGrid
+                            x:Name="SelectAgentDG"
+                            Margin="37,103,37,24"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Visibility="Visible"
+                            Width="400"
+                            MouseDoubleClick="SelectAgentDG_MouseDoubleClick"
+                            GroupByAreaLocation="None"
+                            ScrollingMode="Immediate"
+                            Style="{DynamicResource INXamDataGridStyle1DCGrid}"
+                            TabIndex="0">
+                            <igDP:XamDataGrid.FieldLayouts>
+                                <igDP:FieldLayout>
+                                    <igDP:Field
+                                    Name="Name"
+                                    Label="Name"
+                                    Visibility="Visible" 
+                                    Width="370"/>
+                                    <igDP:Field
+                                    Name="FKUserID"
+                                    Label="FKUserID"
+                                    Visibility="Collapsed" />
+                                    <igDP:Field
+                                    Name="Selected"
+                                    Label="Selected"
+                                    Visibility="Collapsed" />
+                                </igDP:FieldLayout>
+                            </igDP:XamDataGrid.FieldLayouts>
+                        </igDP:XamDataGrid>
+
+
+                        <Button
+                            x:Name="btnFinish"
+
+                            Margin="0,275,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Click="btnFinish_Click"
+                            Visibility="Collapsed"
+                            Content="Successful transfer"
+                            IsDefault="True"
+                            Style="{DynamicResource INFlatButton}"
+                            TabIndex="0" />
+
+                        <Image
+                            Source="/Resources/Transfer1.jpg"
+                            Name="MailImage"
+                            Margin="-1,125,45,125"
+                            Visibility="Collapsed"/>
+
                         <Grid
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top">
@@ -118,6 +228,38 @@
                                 Click="btnClose_Click"
                                 Style="{StaticResource INCloseButton}" />
                         </Grid>
+
+                        <Border BorderBrush="{x:Null}" Height="50" x:Name="TransferPercentageLbl" Visibility="Collapsed">
+                            <TextBlock x:Name="TransferPercentageTxtB" TextWrapping="Wrap" FontSize="15" Text="Your call transfer % is currently 80%"  Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left"  Width="238" Margin="140,-40,0,0"/>
+                        </Border>
+                        <TextBlock TextWrapping="Wrap" 
+                                   FontSize="15" 
+                                   Visibility="Collapsed" 
+                                   x:Name="DebiCheckAgentLbl" 
+                                   Text="To Michael Stols - 2114" 
+                                   Foreground="White" 
+                                   VerticalAlignment="Top" 
+                                   HorizontalAlignment="Center"  
+                                   Width="190" 
+                                   Margin="0,238,0,0"/>
+
+                        <!--<StackPanel>
+                            <MediaElement Source="/Resources/TransferGif.gif"
+                                      Visibility="Visible"
+                                      x:Name="GifImage"
+                                      MediaEnded="MediaElement_MediaEnded"
+                                      LoadedBehavior="Manual"
+                                      wpfanimated:ImageBehavior.AnimateInDesignMode="True"
+                                      Width="515"
+                                      Height="318"
+                                      />
+                        </StackPanel>-->
+
+
+                        <!--<MediaElement  Height="113" HorizontalAlignment="Left" Margin="12,12,0,0" 
+                                        Name="mediaElement1" VerticalAlignment="Top" Width="198" Source="/Resources/TransferGif.gif"
+                                        LoadedBehavior="Play" Stretch="Fill" SpeedRatio="1" IsMuted="False" />-->
+                        <!--< Source="/Resources/TransferGif.gif"/>-->
 
                     </Grid>
                 </Viewbox>

@@ -278,6 +278,279 @@
         </Setter>
     </Style>
 
+    <Style x:Key="INDataRecordCellAreaStyle1DCGrid" TargetType="{x:Type igWPF:DataRecordCellArea}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="24" />
+        <!--<Setter Property="Height" Value="28" />-->
+
+        <!--<Setter Property="ContextMenu" Value="{DynamicResource RecordContextMenu}" />-->
+
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#00FFFFFF" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="#00000000" />
+        <Setter Property="BackgroundHover">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="Transparent" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                    <!--  White {DynamicResource BrandedColourIN}  -->
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderHoverBrush" Value="GreenYellow" />
+        <Setter Property="BackgroundActive">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="1" Color="GreenYellow" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderActiveBrush" Value="GreenYellow" />
+        <Setter Property="BackgroundAlternate">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#00EEEEEE" />
+                    <GradientStop Offset="1" Color="#BF545454" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderAlternateBrush" Value="#00000000" />
+        <Setter Property="BackgroundSelected">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="1" Color="GreenYellow" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderSelectedBrush" Value="GreenYellow" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="Black" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type igWPF:DataRecordCellArea}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="timelineIsActive">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="Active"
+                                Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="timelineIsActive_off">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="Active"
+                                Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="timelineIsSelected">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="Selected"
+                                Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="timelineIsSelected_off">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="Selected"
+                                Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="timelineHover">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="Hover"
+                                Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="timelineHover_off">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="Hover"
+                                Storyboard.TargetProperty="(UIElement.Opacity)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <igWPF:CardPanel>
+                        <!--  Background  -->
+                        <Border
+                            x:Name="Background"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}" />
+                        <!--  Background Alternate  -->
+                        <Border
+                            x:Name="Alternate"
+                            Background="{TemplateBinding BackgroundAlternate}"
+                            BorderBrush="{TemplateBinding BorderAlternateBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Opacity="1"
+                            Visibility="Collapsed" />
+                        <!--  Background Selected  -->
+                        <Border
+                            x:Name="Selected"
+                            Background="{TemplateBinding BackgroundSelected}"
+                            BorderBrush="{TemplateBinding BorderSelectedBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Opacity="0"
+                            Visibility="Visible" />
+                        <!--  Background Hover  -->
+                        <Border
+                            x:Name="Hover"
+                            Background="{TemplateBinding BackgroundHover}"
+                            BorderBrush="{TemplateBinding BorderHoverBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Opacity="0"
+                            Visibility="Visible" />
+                        <!--  Background Active  -->
+                        <Border
+                            x:Name="Active"
+                            Background="{TemplateBinding BackgroundActive}"
+                            BorderBrush="{TemplateBinding BorderActiveBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Visibility="Collapsed" />
+                        <ContentPresenter
+                            x:Name="CellContent"
+                            Content="{TemplateBinding Content}"
+                            Style="{TemplateBinding ForegroundStyle}" />
+                    </igWPF:CardPanel>
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsActive" Value="True">
+                            <Setter TargetName="CellContent" Property="Style"
+								Value="{Binding Path=ForegroundActiveStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Visibility" TargetName="Active" Value="Visible"/>
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="timelineIsSelected_BeginStoryboard" Storyboard="{StaticResource timelineIsSelected}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard x:Name="timelineIsSelected_off_BeginStoryboard" Storyboard="{StaticResource timelineIsSelected_off}"/>
+                            </Trigger.ExitActions>
+                            <Setter TargetName="CellContent" Property="Style"
+								Value="{Binding Path=ForegroundSelectedStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>-->
+                        <!--<Trigger Property="IsAlternate" Value="True">
+								<Setter TargetName="Alternate" Property="Visibility" Value="Visible"/>
+								<Setter TargetName="CellContent" Property="Style" Value="{Binding Path=ForegroundAlternateStyle, RelativeSource={RelativeSource TemplatedParent}}"/>
+							</Trigger>-->
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsAlternate" Value="True" />
+                                <Condition Property="IsFilterRecord" Value="False" />
+                                <Condition Property="IsAddRecord" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Alternate" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="CellContent" Property="Style" Value="{Binding Path=ForegroundAlternateStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsActive" Value="True" />
+                                <Condition Property="IsFilterRecord" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CellContent" Property="Style" Value="{Binding Path=ForegroundActiveStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="Active" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
+
+                        <!--  JM 03-11-10 TFS27879 - Use EventTriggers instead of Proeprty Triggers to avoid memory leak.  -->
+                        <!--<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="IsSelected" Value="True"/>
+								<Condition Property="IsFilterRecord" Value="False"/>
+							</MultiTrigger.Conditions>
+							<MultiTrigger.EnterActions>
+								<BeginStoryboard x:Name="timelineIsSelected_BeginStoryboard" Storyboard="{StaticResource timelineIsSelected}"/>
+							</MultiTrigger.EnterActions>
+							<MultiTrigger.ExitActions>
+								<BeginStoryboard x:Name="timelineIsSelected_off_BeginStoryboard" Storyboard="{StaticResource timelineIsSelected_off}"/>
+							</MultiTrigger.ExitActions>
+							<Setter TargetName="CellContent" Property="Style" Value="{Binding Path=ForegroundSelectedStyle, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</MultiTrigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="IsMouseOver" Value="True"/>
+								<Condition Property="IsFilterRecord" Value="False"/>
+							</MultiTrigger.Conditions>
+							<MultiTrigger.EnterActions>
+								<BeginStoryboard x:Name="timelineHover_BeginStoryboard" Storyboard="{StaticResource timelineHover}"/>
+							</MultiTrigger.EnterActions>
+							<MultiTrigger.ExitActions>
+								<BeginStoryboard x:Name="timelineHover_off_BeginStoryboard" Storyboard="{StaticResource timelineHover_off}"/>
+							</MultiTrigger.ExitActions>
+							<Setter TargetName="CellContent" Property="Style" Value="{Binding Path=ForegroundHoverStyle, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</MultiTrigger>-->
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="timelineHover_BeginStoryboard" Storyboard="{StaticResource timelineHover}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard x:Name="timelineHover_off_BeginStoryboard" Storyboard="{StaticResource timelineHover_off}"/>
+                            </Trigger.ExitActions>
+                            <Setter TargetName="CellContent" Property="Style"
+								Value="{Binding Path=ForegroundHoverStyle, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>-->
+                        <!--  JM 10-27-10 TFS49130/32061  -->
+                        <!--<EventTrigger RoutedEvent="UIElement.MouseEnter">-->
+                        <EventTrigger RoutedEvent="igWPF:DataRecordCellArea.HoverBegin">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource timelineHover}" />
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <!--  JM 10-27-10 TFS49130/32061  -->
+                        <!--<EventTrigger RoutedEvent="UIElement.MouseLeave">-->
+                        <EventTrigger RoutedEvent="igWPF:DataRecordCellArea.HoverEnd">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource timelineHover_off}" />
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="igWPF:DataRecordCellArea.Selected">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource timelineIsSelected}" />
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="igWPF:DataRecordCellArea.Deselected">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource timelineIsSelected_off}" />
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <Trigger Property="IsFilterRecord" Value="True">
+                            <Setter TargetName="Hover" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Selected" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="INDataRecordCellAreaStyle2" TargetType="{x:Type igWPF:DataRecordCellArea}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -551,6 +824,90 @@
         </Setter>
     </Style>
 
+    <Style x:Key="INLabelPresenterStyle1DCGrid" TargetType="{x:Type igWPF:LabelPresenter}">
+        <Setter Property="OverridesDefaultStyle" Value="False" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="LabelHighlight" Value="GreenYellow" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Width" Value="Auto" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type igWPF:LabelPresenter}">
+                    <ControlTemplate.Resources />
+                    <Grid
+                        x:Name="labelCntr"
+                        Width="Auto"
+                        Height="Auto"
+                        Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                            x:Name="background"
+                            Width="Auto"
+                            Height="Auto"
+                            Background="Transparent"
+                            CornerRadius="2"
+                            SnapsToDevicePixels="True" />
+                        <Border
+                            x:Name="highlight"
+                            Width="Auto"
+                            Height="Auto"
+                            Background="{TemplateBinding LabelHighlight}"
+                            CornerRadius="2"
+                            Opacity="0"
+                            SnapsToDevicePixels="True" />
+                        <Grid
+                            x:Name="sortIndicatorAndLabel"
+                            Margin="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.9*" />
+                                <ColumnDefinition Width="0.1*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter
+                                x:Name="LabelContent"
+                                VerticalAlignment="Center"
+                                Content="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                Focusable="False" />
+                            <igWPF:SortIndicator
+                                x:Name="SortIndicator"
+                                Grid.Column="1"
+                                Width="Auto"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                SortStatus="{TemplateBinding SortStatus}"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SortStatus" Value="Ascending">
+                            <Setter TargetName="highlight" Property="Opacity" Value="1" />
+                            <Setter TargetName="SortIndicator" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="SortStatus" Value="Descending">
+                            <Setter TargetName="highlight" Property="Opacity" Value="1" />
+                            <Setter TargetName="SortIndicator" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="highlight" Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="INLabelPresenterStyle1" TargetType="{x:Type igWPF:LabelPresenter}">
         <Setter Property="OverridesDefaultStyle" Value="False" />
@@ -722,6 +1079,60 @@
         </Setter>
     </Style>
 
+    <Style x:Key="INXamDataGridStyle1DCGrid" TargetType="{x:Type igWPF:XamDataGrid}">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+
+        <Setter Property="FieldSettings">
+            <Setter.Value>
+                <igWPF:FieldSettings
+                    AllowEdit="False"
+                    CellClickAction="SelectRecord"
+                    LabelPresenterStyle="{StaticResource INLabelPresenterStyle1DCGrid}"
+                    LabelTextAlignment="Center" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="FieldLayoutSettings">
+            <Setter.Value>
+                <igWPF:FieldLayoutSettings
+                    AllowDelete="False"
+                    AutoGenerateFields="True"
+                    DataRecordCellAreaStyle="{StaticResource INDataRecordCellAreaStyle1DCGrid}"
+                    HighlightAlternateRecords="False"
+                    SelectionTypeCell="None"
+                    SelectionTypeRecord="Single">
+                    <igWPF:FieldLayoutSettings.DataRecordPresenterStyle>
+                        <Style TargetType="{x:Type igWPF:DataRecordPresenter}">
+                            <Setter Property="HeaderAreaBackground" Value="#F0F0F0" />
+                            <Setter Property="Margin" Value="1" />
+                        </Style>
+                    </igWPF:FieldLayoutSettings.DataRecordPresenterStyle>
+                </igWPF:FieldLayoutSettings>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type igWPF:XamDataGrid}">
+                    <Border
+                        x:Name="mainBorder"
+                        Background="White"
+                        BorderBrush="DarkGray"
+                        BorderThickness="2"
+                        CornerRadius="6">
+                        <Grid x:Name="PART_ContentSiteGrid" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="mainBorder" Property="BorderBrush" Value="GreenYellow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="INXamDataGridStyle1" TargetType="{x:Type igWPF:XamDataGrid}">
         <Setter Property="Background" Value="White" />

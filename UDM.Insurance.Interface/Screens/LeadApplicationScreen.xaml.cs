@@ -4562,17 +4562,17 @@ namespace UDM.Insurance.Interface.Screens
 
                             //inMessageBoxWindow.txtDescription.FontSize = 24;
                             inMessageBoxWindow.txtDescription.FontFamily = new FontFamily("Arial");
-                            ShowMessageBox(inMessageBoxWindow, "Great job! This is a completed sale.\n", "Save Result", ShowMessageType.Information);
+                            //ShowMessageBox(inMessageBoxWindow, "Great job! This is a completed sale.\n", "Save Result", ShowMessageType.Information);
                         }
                         else
                         {
-                            ShowMessageBox(new INMessageBoxWindow1(), "Lead successfully saved.\n", "Save Result", ShowMessageType.Information);
+                            //ShowMessageBox(new INMessageBoxWindow1(), "Lead successfully saved.\n", "Save Result", ShowMessageType.Information);
                         }
                         break;
 
                     default:
                         CommitTransaction("");
-                        ShowMessageBox(new INMessageBoxWindow1(), "Lead successfully saved.\n", "Save Result", ShowMessageType.Information);
+                        //ShowMessageBox(new INMessageBoxWindow1(), "Lead successfully saved.\n", "Save Result", ShowMessageType.Information);
                         break;
                 }
 
