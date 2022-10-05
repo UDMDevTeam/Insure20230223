@@ -93,7 +93,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 02);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 05);
             dispatcherTimer.Start();
         }
         protected void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -446,77 +446,18 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
 
-                //if (SelectAgentDG.SelectedItems.Count == 0)
-                //{
-                //    return;
-                //}
-
-                //foreach (var data in SelectAgentDG.SelectedItems)
-                //{
-                //    DataGridViewAgents mydata = data as DataGridViewAgents;
-                //    selectedUserid = mydata.FKUserID;
-
-                //}
-
+                StringBuilder strQueryTransferredUser = new StringBuilder();
+                strQueryTransferredUser.Append("SELECT FKUserID [Response] ");
+                strQueryTransferredUser.Append("FROM INSalesToCallMonitoring ");
+                strQueryTransferredUser.Append("WHERE FKImportID = " + _LeadApplicationScreen.LaData.AppData.ImportID.ToString());
+                DataTable dtFKUserID = Methods.GetTableData(strQueryTransferredUser.ToString());
+                string TransferFKUserID = "";
+                try { TransferFKUserID = dtFKUserID.Rows[0]["Response"].ToString(); } catch { TransferFKUserID = ""; }
 
                 SelectedDeclineReasonID = Convert.ToInt32(selectedUserid);
 
-
-                StringBuilder strQueryAgentOnline = new StringBuilder();
-                strQueryAgentOnline.Append("SELECT TOP 1 Online [Response] ");
-                strQueryAgentOnline.Append("FROM INCMAgentsOnline ");
-                strQueryAgentOnline.Append("WHERE FKUserID = " + SelectedDeclineReasonID.ToString());
-                DataTable dtOnline = Methods.GetTableData(strQueryAgentOnline.ToString());
-
-                string CampaignName = dtOnline.Rows[0]["Response"].ToString();
-
-                if (CampaignName == "1         " || CampaignName == "1")
+                if (TransferFKUserID == SelectedDeclineReasonID.ToString())
                 {
-                    string ID;
-                    try
-                    {
-                        StringBuilder strSaletoCMID = new StringBuilder();
-                        strSaletoCMID.Append("SELECT TOP 1 ID [Response] ");
-                        strSaletoCMID.Append("FROM INSalesToCallMonitoring ");
-                        strSaletoCMID.Append("WHERE FKImportID = " + _LeadApplicationScreen.LaData.AppData.ImportID.ToString());
-                        DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
-
-                        ID = dtSAlestoCMID.Rows[0]["Response"].ToString();
-                    }
-                    catch
-                    {
-                        ID = null;
-                    }
-
-                    if (ID == null || ID == "")
-                    {
-                        SalesToCallMonitoring scm = new SalesToCallMonitoring();
-                        scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
-                        scm.FKUserID = SelectedDeclineReasonID;
-                        scm.IsDisplayed = "0";
-
-                        //_LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-                        _LeadApplicationScreen.ForwardToDCSave();
-
-                        scm.Save(_validationResult);
-                    }
-                    else
-                    {
-                        SalesToCallMonitoring scm = new SalesToCallMonitoring(long.Parse(ID));
-                        scm.FKUserID = SelectedDeclineReasonID;
-                        scm.IsDisplayed = "0";
-
-                        //_LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-                        _LeadApplicationScreen.ForwardToDCSave();
-
-                        scm.Save(_validationResult);
-                    }
-
-
-                    //TransferScreen ms = new TransferScreen();
-                    //ShowDialog(ms, new INDialogWindow(ms));
-                    //OnDialogClose(_dialogResult);
-
                     Task.Delay(2000).ContinueWith(_ =>
                     {
                         Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
@@ -524,31 +465,94 @@ namespace UDM.Insurance.Interface.Screens
                             btnFinish.Visibility = Visibility.Visible;
                         });
                     });
-
-
-
                 }
                 else
                 {
-                    try
+                    StringBuilder strQueryAgentOnline = new StringBuilder();
+                    strQueryAgentOnline.Append("SELECT TOP 1 Online [Response] ");
+                    strQueryAgentOnline.Append("FROM INCMAgentsOnline ");
+                    strQueryAgentOnline.Append("WHERE FKUserID = " + SelectedDeclineReasonID.ToString());
+                    DataTable dtOnline = Methods.GetTableData(strQueryAgentOnline.ToString());
+
+                    string CampaignName = dtOnline.Rows[0]["Response"].ToString();
+
+                    if (CampaignName == "1         " || CampaignName == "1")
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                        string ID;
+                        try
                         {
-                            headingSelectDeclineReason.Text = "Oops, Agent just went offline.";
+                            StringBuilder strSaletoCMID = new StringBuilder();
+                            strSaletoCMID.Append("SELECT TOP 1 ID [Response] ");
+                            strSaletoCMID.Append("FROM INSalesToCallMonitoring ");
+                            strSaletoCMID.Append("WHERE FKImportID = " + _LeadApplicationScreen.LaData.AppData.ImportID.ToString());
+                            DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
 
-                            btnFinish.Visibility = Visibility.Visible;
-                            btnFinish.Content = "Please retry";
+                            ID = dtSAlestoCMID.Rows[0]["Response"].ToString();
+                        }
+                        catch
+                        {
+                            ID = null;
+                        }
+
+                        if (ID == null || ID == "")
+                        {
+                            SalesToCallMonitoring scm = new SalesToCallMonitoring();
+                            scm.FKImportID = _LeadApplicationScreen.LaData.AppData.ImportID;
+                            scm.FKUserID = SelectedDeclineReasonID;
+                            scm.IsDisplayed = "0";
+
+                            //_LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                            _LeadApplicationScreen.ForwardToDCSave();
+
+                            scm.Save(_validationResult);
+                        }
+                        else
+                        {
+                            SalesToCallMonitoring scm = new SalesToCallMonitoring(long.Parse(ID));
+                            scm.FKUserID = SelectedDeclineReasonID;
+                            scm.IsDisplayed = "0";
+
+                            //_LeadApplicationScreen.btnSave.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                            _LeadApplicationScreen.ForwardToDCSave();
+
+                            scm.Save(_validationResult);
+                        }
+
+
+                        //TransferScreen ms = new TransferScreen();
+                        //ShowDialog(ms, new INDialogWindow(ms));
+                        //OnDialogClose(_dialogResult);
+
+                        Task.Delay(2000).ContinueWith(_ =>
+                        {
+                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                            {
+                                btnFinish.Visibility = Visibility.Visible;
+                            });
                         });
+
+
+
                     }
-                    catch
+                    else
                     {
+                        try
+                        {
+                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                            {
+                                headingSelectDeclineReason.Text = "Oops, Agent just went offline.";
+
+                                btnFinish.Visibility = Visibility.Visible;
+                                btnFinish.Content = "Please retry";
+                            });
+                        }
+                        catch
+                        {
+
+                        }
 
                     }
-
                 }
-
-
-
             }
             catch (Exception ex)
             {
