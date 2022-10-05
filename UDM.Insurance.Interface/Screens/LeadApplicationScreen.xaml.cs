@@ -567,7 +567,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
             }
 
-            return false;
+            return true;
         }
 
         private void LoadLead(long? importID)
@@ -2850,8 +2850,8 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (LogInfo())
                 {
-                    ShowMessageBox(new INMessageBoxWindow1(), "Inconsistent policy options found\nPlease correct and try saving again\nLead not saved\n", "Save Result", ShowMessageType.Exclamation);
-                    return;
+                    //ShowMessageBox(new INMessageBoxWindow1(), "Inconsistent policy options found\nPlease correct and try saving again\nLead not saved\n", "Save Result", ShowMessageType.Exclamation);
+                    //return;
                 }
 
                 LaData.AppData.IsLeadSaving = true;
@@ -3918,8 +3918,8 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (LogInfo())
                 {
-                    ShowMessageBox(new INMessageBoxWindow1(), "Inconsistent policy options found\nPlease correct and try saving again\nLead not saved\n", "Save Result", ShowMessageType.Exclamation);
-                    return;
+                    //ShowMessageBox(new INMessageBoxWindow1(), "Inconsistent policy options found\nPlease correct and try saving again\nLead not saved\n", "Save Result", ShowMessageType.Exclamation);
+                    //return;
                 }
 
                 LaData.AppData.IsLeadSaving = true;
