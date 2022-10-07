@@ -320,12 +320,19 @@ namespace UDM.Insurance.Interface.Screens
 
             DataSet ds = null;
 
-
             ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSales", parameters);
 
 
-
             DataTable dtReferences = ds.Tables[25];
+            DataTable dtTotalSales = ds.Tables[26];
+            DataTable dtSalesLessApplicable = ds.Tables[27];
+            DataTable dtTransfers = ds.Tables[28];
+            DataTable dtNonTransfers = ds.Tables[29];
+            DataTable dtLessForwardToDCAgent = ds.Tables[30];
+            DataTable dtCarriedForwards = ds.Tables[31];
+            DataTable dtCancellations = ds.Tables[32];
+            DataTable dtRejectedDebiCheckCallBacks = ds.Tables[33];
+            DataTable dtRejecteddebicheckFinal = ds.Tables[34];
 
             #endregion First, get the data from the database
 
@@ -340,7 +347,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Add the new worksheet
 
-                string newWorksheetDescription = Methods.ParseWorksheetName(wbReport, agentName, " ", "ForwardToDCAgent");
+                string newWorksheetDescription = Methods.ParseWorksheetName(wbReport, agentName, " ", "TransferStats");
                 Worksheet wsNewWorksheetTemplate = wbTemplate.Worksheets["ForwardToDCAgent"];
                 //Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
                 Worksheet wsNewWorksheet;
@@ -357,7 +364,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Copy the template formatting and add the details
 
-                //Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 1, wsNewWorksheet, 0, 0);
+                Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 6, wsNewWorksheet, 0, 0);
 
                 if (fromDate.Date == toDate.Date)
                 {
@@ -374,21 +381,251 @@ namespace UDM.Insurance.Interface.Screens
 
                 foreach (DataRow drOvertimeData in dtReferences.Rows)
                 {
-                    Methods.CopyExcelRegion(wsNewWorksheetTemplate, 5, 0, 0, 1, wsNewWorksheet, reportRowIndex - 1, 0);
-                    wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex)).Value = drOvertimeData["StampDate"];
+                    Methods.CopyExcelRegion(wsNewWorksheetTemplate, 5, 0, 0, 6, wsNewWorksheet, reportRowIndex - 1, 0);
+                    wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex)).Value = drOvertimeData["DateOfSale"];
                     wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex)).Value = drOvertimeData["RefNo"];
+                    wsNewWorksheet.GetCell(String.Format("C{0}", reportRowIndex)).Value = drOvertimeData["Code"];
+                    wsNewWorksheet.GetCell(String.Format("D{0}", reportRowIndex)).Value = drOvertimeData["FirstName"];
+                    wsNewWorksheet.GetCell(String.Format("E{0}", reportRowIndex)).Value = drOvertimeData["Transferred"];
+                    wsNewWorksheet.GetCell(String.Format("F{0}", reportRowIndex)).Value = drOvertimeData["LeadStatus"];
+                    wsNewWorksheet.GetCell(String.Format("G{0}", reportRowIndex)).Value = drOvertimeData["Description"];
 
                     reportRowIndex++;
                 }
 
                 #endregion Add each row
 
-                //#region Add the total
+                wsNewWorksheet.Columns[0].Width = 7000;
+                wsNewWorksheet.Columns[1].Width = 7000;
+                wsNewWorksheet.Columns[2].Width = 7000;
+                wsNewWorksheet.Columns[3].Width = 7000;
+                wsNewWorksheet.Columns[4].Width = 7000;
+                wsNewWorksheet.Columns[5].Width = 7000;
+                wsNewWorksheet.Columns[6].Width = 7000;
+
+                #region Add the total
 
                 //Methods.CopyExcelRegion(wsNewWorksheetTemplate, 6, 0, 0, 1, wsNewWorksheet, reportRowIndex - 1, 0);
                 //wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex)).ApplyFormula(String.Format("=SUM(B6:B{0})", reportRowIndex - 1));
 
-                //#endregion Add the total
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 2)).Value = "Total Sales";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 2)).Value = dtTotalSales.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 3)).Value = "Less Not Applicable Sales";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 3)).Value = dtSalesLessApplicable.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 4)).Value = "TotalSales";
+                wsNewWorksheet.Rows[reportRowIndex + 3].Cells[0].CellFormat.Font.Bold = Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
+
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 6)).Value = "Transferred";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 6)).Value = dtTransfers.Rows[0][0].ToString();          
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 7)).Value = "Not Transferred";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 7)).Value = dtNonTransfers.Rows[0][0].ToString();
+
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 9)).Value = "Outstanding Sales";
+                wsNewWorksheet.Rows[reportRowIndex + 8].Cells[0].CellFormat.Font.Bold = Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 10)).Value = "Less Forward To DC Agent";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 10)).Value = dtLessForwardToDCAgent.Rows[0][0].ToString();              
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 11)).Value = "Carried Forwards";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 11)).Value = dtCarriedForwards.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 12)).Value = "Cancellations";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 12)).Value = dtCancellations.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 13)).Value = "Debi-Check Rejected - Call Back";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 13)).Value = dtRejectedDebiCheckCallBacks.Rows[0][0];
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 14)).Value = "Debi-Check Rejected - Final";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 14)).Value = dtRejecteddebicheckFinal.Rows[0][0].ToString();
+
+                for(int x = 1; x <= 2 ; x++)
+                {
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Alignment = (HorizontalCellAlignment)HorizontalAlignment.Center;
+                }
+                wsNewWorksheet.Rows[reportRowIndex + 3].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+
+                for (int x = 5; x <= 6; x++)
+                {
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Alignment = (HorizontalCellAlignment)HorizontalAlignment.Center;
+
+                }
+
+                for (int x = 9; x <= 13; x++)
+                {
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Alignment = (HorizontalCellAlignment)HorizontalAlignment.Center;
+
+                }
+                #endregion Add the total
+            }
+        }
+
+        private void AddFowardToDCAgentSheetDC(Workbook wbTemplate, Workbook wbReport, string agentName, long? agentID, DateTime fromDate, DateTime toDate)
+        {
+            #region First, get the data from the database
+
+            SqlParameter[] parameters =
+                {
+                    new SqlParameter("@AgentID", agentID),
+                    new SqlParameter("@FromDate", _fromDate),
+                    new SqlParameter("@ToDate", _toDate)
+                };
+
+            DataSet ds = null;
+
+            ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSalesDC", parameters);
+
+            DataTable dtReferences = ds.Tables[25];
+            DataTable dtTotalSales = ds.Tables[26];
+            DataTable dtSalesLessApplicable = ds.Tables[27];
+            DataTable dtTransfers = ds.Tables[28];
+            DataTable dtNonTransfers = ds.Tables[29];
+            DataTable dtLessForwardToDCAgent = ds.Tables[30];
+            DataTable dtCarriedForwards = ds.Tables[31];
+            DataTable dtCancellations = ds.Tables[32];
+            DataTable dtRejectedDebiCheckCallBacks = ds.Tables[33];
+            DataTable dtRejecteddebicheckFinal = ds.Tables[34];
+            DataTable dtTransferAccepted = ds.Tables[35];
+            DataTable dtNoTransferAccepted = ds.Tables[36];
+
+
+            #endregion First, get the data from the database
+
+            if (dtReferences.Rows.Count > 0)
+            {
+
+                #region Declarations
+
+                int reportRowIndex = 6;
+
+                #endregion Declarations
+
+                #region Add the new worksheet
+
+                string newWorksheetDescription = Methods.ParseWorksheetName(wbReport, agentName, " ", "TransferStats");
+                Worksheet wsNewWorksheetTemplate = wbTemplate.Worksheets["ForwardToDCAgent"];
+                //Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                Worksheet wsNewWorksheet;
+                try
+                {
+                    wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                }
+                catch
+                {
+                    wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription + "2");
+                }
+
+                #endregion Add the new worksheet
+
+                #region Copy the template formatting and add the details
+
+                Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 7, wsNewWorksheet, 0, 0);
+
+                if (fromDate.Date == toDate.Date)
+                {
+                    wsNewWorksheet.GetCell("A3").Value = String.Format("Date: {0}", fromDate.ToString("yyyy-MM-dd"));
+                }
+                else
+                {
+                    wsNewWorksheet.GetCell("A3").Value = String.Format("{0} - {1}", fromDate.ToString("yyyy-MM-dd"), toDate.ToString("yyyy-MM-dd"));
+                }
+
+                #endregion Copy the template formatting and add the details
+
+                #region Add each row
+
+                foreach (DataRow drOvertimeData in dtReferences.Rows)
+                {
+                    Methods.CopyExcelRegion(wsNewWorksheetTemplate, 5, 0, 0, 8, wsNewWorksheet, reportRowIndex - 1, 0);
+                    wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex)).Value = drOvertimeData["DateOfSale"];
+                    wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex)).Value = drOvertimeData["RefNo"];
+                    wsNewWorksheet.GetCell(String.Format("C{0}", reportRowIndex)).Value = drOvertimeData["Code"];
+                    wsNewWorksheet.GetCell(String.Format("D{0}", reportRowIndex)).Value = drOvertimeData["FirstName"];
+                    wsNewWorksheet.GetCell(String.Format("E{0}", reportRowIndex)).Value = drOvertimeData["Transferred"];
+                    wsNewWorksheet.GetCell(String.Format("F{0}", reportRowIndex)).Value = drOvertimeData["LeadStatus"];
+                    wsNewWorksheet.GetCell(String.Format("G{0}", reportRowIndex)).Value = drOvertimeData["Description"];
+                    wsNewWorksheet.GetCell(String.Format("H{0}", reportRowIndex)).Value = drOvertimeData["MandateStatus"];
+
+                    reportRowIndex++;
+                }
+
+                #endregion Add each row
+
+                wsNewWorksheet.Columns[0].Width = 7000;
+                wsNewWorksheet.Columns[1].Width = 7000;
+                wsNewWorksheet.Columns[2].Width = 7000;
+                wsNewWorksheet.Columns[3].Width = 7000;
+                wsNewWorksheet.Columns[4].Width = 7000;
+                wsNewWorksheet.Columns[5].Width = 7000;
+                wsNewWorksheet.Columns[6].Width = 7000;
+                wsNewWorksheet.Columns[7].Width = 7000;
+
+
+                #region Add the total
+
+                //Methods.CopyExcelRegion(wsNewWorksheetTemplate, 6, 0, 0, 1, wsNewWorksheet, reportRowIndex - 1, 0);
+                //wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex)).ApplyFormula(String.Format("=SUM(B6:B{0})", reportRowIndex - 1));
+
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 2)).Value = "Total Sales";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 2)).Value = dtTotalSales.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 3)).Value = "Less Not Applicable Sales";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 3)).Value = dtSalesLessApplicable.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 4)).Value = "Total Sales";
+                wsNewWorksheet.Rows[reportRowIndex + 3].Cells[0].CellFormat.Font.Bold = Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
+
+                wsNewWorksheet.GetCell(String.Format("C{0}", reportRowIndex + 5)).Value = "Accepted %";
+                wsNewWorksheet.Rows[reportRowIndex + 4].Cells[2].CellFormat.Font.Bold = Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
+
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 6)).Value = "Transferred";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 6)).Value = dtTransfers.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("C{0}", reportRowIndex + 6)).Value = dtTransferAccepted.Rows[0][0].ToString() + "%";
+
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 7)).Value = "Not Transferred";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 7)).Value = dtNonTransfers.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("C{0}", reportRowIndex + 7)).Value = dtNoTransferAccepted.Rows[0][0].ToString() + "%";
+
+
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 9)).Value = "Outstanding Sales";
+                wsNewWorksheet.Rows[reportRowIndex + 8].Cells[0].CellFormat.Font.Bold = Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 10)).Value = "Less Forward To DC Agent";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 10)).Value = dtLessForwardToDCAgent.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 11)).Value = "Carried Forwards";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 11)).Value = dtCarriedForwards.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 12)).Value = "Cancellations";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 12)).Value = dtCancellations.Rows[0][0].ToString();
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 13)).Value = "Debi-Check Rejected - Call Back";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 13)).Value = dtRejectedDebiCheckCallBacks.Rows[0][0];
+                wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex + 14)).Value = "Debi-Check Rejected - Final";
+                wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex + 14)).Value = dtRejecteddebicheckFinal.Rows[0][0].ToString();
+
+                for (int x = 1; x <= 2; x++)
+                {
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Alignment = (HorizontalCellAlignment)HorizontalAlignment.Center;
+                }
+                wsNewWorksheet.Rows[reportRowIndex + 3].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                //wsNewWorksheet.Rows[reportRowIndex + 4].Cells[2].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+
+
+                for (int x = 5; x <= 6; x++)
+                {
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Alignment = (HorizontalCellAlignment)HorizontalAlignment.Center;
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[2].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+
+
+                }
+
+                for (int x = 9; x <= 13; x++)
+                {
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.DarkGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                    wsNewWorksheet.Rows[reportRowIndex + x].Cells[1].CellFormat.Alignment = (HorizontalCellAlignment)HorizontalAlignment.Center;
+
+                }
+                #endregion Add the total
             }
         }
 
@@ -2419,6 +2656,7 @@ namespace UDM.Insurance.Interface.Screens
                             ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
                             AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                             AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                            AddFowardToDCAgentSheetDC(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                         }
                     }
                     else
@@ -2429,6 +2667,8 @@ namespace UDM.Insurance.Interface.Screens
                         ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
                         AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                         AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                        AddFowardToDCAgentSheetDC(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+
                     }
                 }
                 else if (ReportMode == lkpINCampTSRReportMode.ByQA)
@@ -2456,6 +2696,8 @@ namespace UDM.Insurance.Interface.Screens
                                     ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
                                     AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                                     AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddFowardToDCAgentSheetDC(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+
                                 }
                             }
                             else
@@ -2495,6 +2737,8 @@ namespace UDM.Insurance.Interface.Screens
                                     ReportBodyDC(wbTemplate, wbReport, agentName, agentID, dateRange);
                                     AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                                     AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddFowardToDCAgentSheetDC(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+
                                 }
                             }
                             else
