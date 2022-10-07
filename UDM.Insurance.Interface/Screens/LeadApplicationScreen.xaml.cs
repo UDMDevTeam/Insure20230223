@@ -2414,11 +2414,17 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
+
+                #region Other 
                 cmbStatus.ToolTip = GetSavedLeadStatusToolTip(LaData.AppData.ImportID);
 
                 LeadLoadingBool = false;
 
                 _flagLeadIsBusyLoading = false;
+
+
+                #endregion
+
             }
         }
 
@@ -9067,6 +9073,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             if (ClosurePage.IsVisible)
             {
+                lblClientCellNumber.Visibility = Visibility.Collapsed;
                 ClosurePage.Visibility = Visibility.Hidden;
                 ((Border)ClosurePage.Tag).Visibility = Visibility.Visible;
                 ClosurePage.Tag = null;
@@ -9238,6 +9245,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             if (ClosurePage.IsVisible)
             {
+                lblClientCellNumber.Visibility = Visibility.Collapsed;
                 ClosurePage.Visibility = Visibility.Hidden;
                 ((Border)ClosurePage.Tag).Visibility = Visibility.Visible;
                 ClosurePage.Tag = null;
@@ -18521,6 +18529,16 @@ namespace UDM.Insurance.Interface.Screens
             if (ClosurePage.Visibility == Visibility.Visible)
             {
                 AutoPopulateNADCReason();
+            }
+
+            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+            {
+                lblClientCellNumber.Visibility = Visibility.Visible;
+                lblClientCellNumber.Text = "Client Cell: " + LaData.LeadData.TelCell.ToString();
+            }
+            else
+            {
+                lblClientCellNumber.Visibility = Visibility.Collapsed;
             }
 
         }

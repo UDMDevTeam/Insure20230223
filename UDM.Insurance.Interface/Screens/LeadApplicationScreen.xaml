@@ -15701,6 +15701,16 @@
                               Style="{StaticResource INLabelText2}"
                               Text="Reasons for Call Not Transferred"
                               Visibility="Visible"/>
+                    <TextBlock
+                              x:Name="lblClientCellNumber"
+                              Grid.Row="15"
+                              Grid.Column="2"
+                              Grid.ColumnSpan="6"
+                              Margin="0,8,0,0"
+                              VerticalAlignment="Bottom"
+                              Text="Client Cell"
+                              Style="{StaticResource INLabelText2}"
+                              Visibility="Collapsed"/>
 
                     <Border x:Name ="DebiCheckBorder"
               Grid.Row="16"
