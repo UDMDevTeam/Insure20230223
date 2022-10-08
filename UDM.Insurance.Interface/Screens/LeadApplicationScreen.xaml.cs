@@ -9979,7 +9979,8 @@ namespace UDM.Insurance.Interface.Screens
                                     && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1)
                                     || (LaData.AppData.CampaignType == lkpINCampaignType.Macc
                                     && LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1)
-                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.R99Upgrade)
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.R99Upgrade
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.ExtendedMining)
                                 {
 
                                 }

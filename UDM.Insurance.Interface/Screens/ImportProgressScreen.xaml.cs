@@ -432,7 +432,8 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade7, lkpINCampaignGroup.DoubleUpgrade8, lkpINCampaignGroup.DoubleUpgrade9, lkpINCampaignGroup.DoubleUpgrade10,
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
                                 lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite, 
-                                lkpINCampaignGroup.SpouseLite, lkpINCampaignGroup.R99NG, lkpINCampaignGroup.R99Upgrade, lkpINCampaignGroup.Tier3, lkpINCampaignGroup.Upgrade15, lkpINCampaignGroup.ExtendedMining
+                                lkpINCampaignGroup.SpouseLite, lkpINCampaignGroup.R99NG, lkpINCampaignGroup.R99Upgrade, lkpINCampaignGroup.Tier3, lkpINCampaignGroup.Upgrade15,
+                                lkpINCampaignGroup.ExtendedMining
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
@@ -510,6 +511,10 @@ namespace UDM.Insurance.Interface.Screens
                             if ((campaignGroupID >= 7 && campaignGroupID <= 20) || campaignGroupID == 23) //Upgrades
                             {
                                 dupCheckMonth = -4;
+                            }
+                            if(campaignGroupID == 50)
+                            {
+                                dupCheckMonth = -2;
                             }
 
                             #region check for duplicate RefNo in this campaign and Last ImportDate < x months
