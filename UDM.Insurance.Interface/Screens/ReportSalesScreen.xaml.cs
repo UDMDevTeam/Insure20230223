@@ -311,7 +311,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             #region First, get the data from the database
 
-            SqlParameter[] parameters =
+             SqlParameter[] parameters =
                 {
                     new SqlParameter("@AgentID", agentID),
                     new SqlParameter("@FromDate", _fromDate),
@@ -364,7 +364,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Copy the template formatting and add the details
 
-                Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 6, wsNewWorksheet, 0, 0);
+                //Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 6, wsNewWorksheet, 0, 0);
 
                 if (fromDate.Date == toDate.Date)
                 {
@@ -392,6 +392,29 @@ namespace UDM.Insurance.Interface.Screens
 
                     reportRowIndex++;
                 }
+
+                #region add Headers
+
+                #endregion
+                wsNewWorksheet.GetCell(String.Format("A{0}", 5)).Value = "Date";
+                wsNewWorksheet.GetCell(String.Format("B{0}", 5)).Value = "Reference Number";
+                wsNewWorksheet.GetCell(String.Format("C{0}", 5)).Value = "Campaign Code";
+                wsNewWorksheet.GetCell(String.Format("D{0}", 5)).Value = "Client";
+                wsNewWorksheet.GetCell(String.Format("E{0}", 5)).Value = "Transferred";
+                wsNewWorksheet.GetCell(String.Format("F{0}", 5)).Value = "Lead Status";
+                wsNewWorksheet.GetCell(String.Format("G{0}", 5)).Value = "Reason";
+
+                wsNewWorksheet.Rows[4].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[2].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[3].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[4].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[5].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[6].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+
+
+
+
 
                 #endregion Add each row
 
@@ -548,6 +571,28 @@ namespace UDM.Insurance.Interface.Screens
 
                     reportRowIndex++;
                 }
+
+                #region Headers
+                wsNewWorksheet.GetCell(String.Format("A{0}", 5)).Value = "Date";
+                wsNewWorksheet.GetCell(String.Format("B{0}", 5)).Value = "Reference Number";
+                wsNewWorksheet.GetCell(String.Format("C{0}", 5)).Value = "Campaign Code";
+                wsNewWorksheet.GetCell(String.Format("D{0}", 5)).Value = "Client";
+                wsNewWorksheet.GetCell(String.Format("E{0}", 5)).Value = "Transferred";
+                wsNewWorksheet.GetCell(String.Format("F{0}", 5)).Value = "Lead Status";
+                wsNewWorksheet.GetCell(String.Format("G{0}", 5)).Value = "Reason";
+                wsNewWorksheet.GetCell(String.Format("H{0}", 5)).Value = "Mandate Status";
+
+                wsNewWorksheet.Rows[4].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[2].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[3].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[4].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[5].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[6].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[7].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+
+
+                #endregion
 
                 #endregion Add each row
 
