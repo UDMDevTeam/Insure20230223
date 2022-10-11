@@ -122,6 +122,18 @@ namespace UDM.Insurance.Business
 
         #endregion
 
+        #region ReportSMS
+        public static DataSet INGetSMS(DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportSMS", paramArray, 600);
+        }
+        #endregion
+
 
         #region DC Specialist Logs
         public static DataSet INGetDebiCheckSpecialistLogs(DateTime fromDate, DateTime toDate)

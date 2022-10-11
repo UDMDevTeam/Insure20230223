@@ -100,7 +100,8 @@
         R99NG = 46,
         R99Upgrade = 47,
         Tier3 = 48,
-        Upgrade15 = 49
+        Upgrade15 = 49,
+        ExtendedMining = 50
     }
 
     public enum lkpINCampaignType
