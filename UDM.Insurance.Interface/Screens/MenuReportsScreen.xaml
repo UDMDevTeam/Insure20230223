@@ -749,6 +749,20 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnSMS" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL3X4}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnSMS" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnSMS" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
             <!--  Line 3  -->
 
         </Storyboard>
@@ -2992,6 +3006,35 @@
                                                         x:Name="lblR129Options"
                                                         Style="{StaticResource INSquareButtonReportText}"
                                                         Text="R129&#x0a;Premium &#x0a;Report" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+
+                                        <Button
+                                            x:Name="btnSMS"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnSMS_Click"
+                                            IsEnabled="True"
+                                            Style="{StaticResource INMenuButton}"
+                                            TabIndex="0"
+                                            ToolTip="{Binding ToolTipData[46].Tip}"
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                    <TextBlock
+                                                        x:Name="lblSMS"
+                                                        Style="{StaticResource INSquareButtonReportText}"
+                                                        Text="SMS &#x0a;Report" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>
