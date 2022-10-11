@@ -46,7 +46,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
             LoadInitialData();
-
         }
 
 
@@ -271,6 +270,15 @@ namespace UDM.Insurance.Interface.Screens
             cmbReason.Populate(dtReason, DescriptionField, IDField);
 
             #endregion
+
+            #region Campaign Combobox
+            string strQueryCampaigns;
+            strQueryCampaigns = "SELECT DISTINCT ID, Name as Description FROM INCampaign as [Description] where IsActive = '1' order by Name Asc ";
+
+
+            DataTable dtCampaigns = Methods.GetTableData(strQueryCampaigns);
+            cmbCampaigns.Populate(dtCampaigns, DescriptionField, IDField);
+            #endregion
         }
 
         public void ClearScreen()
@@ -291,6 +299,74 @@ namespace UDM.Insurance.Interface.Screens
         private void DeleteTranCB_Unchecked(object sender, RoutedEventArgs e)
         {
             deleteBool = false;
+        }
+
+        private void cmbCampaigns_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string IsFocused;
+            try
+            {
+                IsFocused = Convert.ToString(Methods.GetTableData("Select top 1 IsActive from [INFocusCampaigns] where [INFocusCampaigns].[FKINCampaignID] = " + cmbCampaigns.SelectedValue.ToString()).Rows[0][0]);
+            }
+            catch
+            {
+                IsFocused = "0";
+            }
+
+            if(IsFocused == "1")
+            {
+                IsFocusCB.IsChecked = true;
+            }
+            else
+            {
+                IsFocusCB.IsChecked = false;
+            }
+        }
+
+        private void btnFocusCampaignSave_Click(object sender, RoutedEventArgs e)
+        {
+
+            string IsFocused;
+            string isActive;
+            try
+            {
+                IsFocused = Convert.ToString(Methods.GetTableData("Select top 1 ID from [INFocusCampaigns] where [INFocusCampaigns].[FKINCampaignID] = " + cmbCampaigns.SelectedValue.ToString()).Rows[0][0]);
+            }
+            catch
+            {
+                IsFocused = "";
+            }
+
+            if(IsFocusCB.IsChecked == true)
+            {
+                isActive = "1";
+            }
+            else
+            {
+                isActive = "0";
+            }
+
+
+            if (IsFocused == "")
+            {
+                INFocusCampaigns fc = new INFocusCampaigns();
+                fc.FKINCampaignID = long.Parse(cmbCampaigns.SelectedValue.ToString());
+                fc.IsActive = isActive;
+                fc.Save(_validationResult);
+
+                ShowMessageBox(new INMessageBoxWindow1(), "Saved\n", "Focus Campaign Saved !", ShowMessageType.Information);
+
+            }
+            else
+            {
+                long idInput = long.Parse(IsFocused);
+                INFocusCampaigns fc = new INFocusCampaigns(idInput);
+                fc.IsActive = isActive;
+                fc.Save(_validationResult);
+
+                ShowMessageBox(new INMessageBoxWindow1(), "Saved\n", "Focus Campaign Saved !", ShowMessageType.Information);
+            }
+
         }
     }
 }

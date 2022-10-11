@@ -2219,9 +2219,30 @@ namespace UDM.Insurance.Interface.Screens
                             Extension2 = ""; 
                         }
 
-                        ShowMessageBox(new Windows.INSalesToCallMonitoringWindow(), CMToSReferenceNumber  + " - " + TSRName + " ( " + Extension + " " + Extension2 + ")", "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
-                        LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, _ssGlobalData);
-                        ShowDialog(las, new INDialogWindow(las));
+                        string IsFocused;
+                        try
+                        {
+                            string CampaignID = Convert.ToString(Methods.GetTableData("Select [I].[FKINCampaignID] from [INImport] as [I] where [I].[ID] = " + FKImportID).Rows[0][0]);
+                            IsFocused = Convert.ToString(Methods.GetTableData("Select top 1 IsActive from [INFocusCampaigns] where [INFocusCampaigns].[FKINCampaignID] = " + CampaignID).Rows[0][0]);
+                        }
+                        catch
+                        {
+                            IsFocused = "0";
+                        }
+
+                        if(IsFocused == "1")
+                        {
+                            ShowMessageBox(new Windows.INSalesToCallMonitoringWindowYellow(), CMToSReferenceNumber + " - " + TSRName + " ( " + Extension + " " + Extension2 + ")", "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
+                            LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, _ssGlobalData);
+                            ShowDialog(las, new INDialogWindow(las));
+                        }
+                        else
+                        {
+                            ShowMessageBox(new Windows.INSalesToCallMonitoringWindow(), CMToSReferenceNumber + " - " + TSRName + " ( " + Extension + " " + Extension2 + ")", "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
+                            LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, _ssGlobalData);
+                            ShowDialog(las, new INDialogWindow(las));
+                        }
+
 
 
 
