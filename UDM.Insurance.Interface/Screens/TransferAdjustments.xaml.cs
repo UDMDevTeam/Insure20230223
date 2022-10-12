@@ -359,12 +359,15 @@ namespace UDM.Insurance.Interface.Screens
             }
             else
             {
+
                 long idInput = long.Parse(IsFocused);
                 INFocusCampaigns fc = new INFocusCampaigns(idInput);
+                fc.FKINCampaignID = long.Parse(cmbCampaigns.SelectedValue.ToString()); 
                 fc.IsActive = isActive;
                 fc.Save(_validationResult);
 
                 ShowMessageBox(new INMessageBoxWindow1(), "Saved\n", "Focus Campaign Saved !", ShowMessageType.Information);
+
             }
 
         }
