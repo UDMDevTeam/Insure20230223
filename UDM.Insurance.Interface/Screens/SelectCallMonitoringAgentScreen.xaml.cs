@@ -376,31 +376,31 @@ namespace UDM.Insurance.Interface.Screens
             #region Call Transfer %
 
 
-            SqlParameter[] parameters =
-            {
-                    new SqlParameter("@FKUserID", GlobalSettings.ApplicationUser.ID),
-                    new SqlParameter("@IsUpgrade", _LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
-            };
+            //SqlParameter[] parameters =
+            //{
+            //        new SqlParameter("@FKUserID", GlobalSettings.ApplicationUser.ID),
+            //        new SqlParameter("@IsUpgrade", _LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
+            //};
 
-            DataSet ds = null;
+            //DataSet ds = null;
 
 
-            ds = Methods.ExecuteStoredProcedureSaleReport("spGetDCCallTransferStatsFKUserID", parameters);
-            DataTable firstTable = ds.Tables[0];
-            string Percentage;
+            //ds = Methods.ExecuteStoredProcedureSaleReport("spGetDCCallTransferStatsFKUserID", parameters);
+            //DataTable firstTable = ds.Tables[0];
+            //string Percentage;
 
-            try
-            {
-                decimal cellValue = decimal.Parse(firstTable.Rows[0][0].ToString()) * 100;
-                decimal roundedCellValue = Math.Round(cellValue);
-                int cellValueInt = decimal.ToInt32(roundedCellValue);
-                Percentage = cellValueInt.ToString();
-            }
-            catch
-            {
-                Percentage = "0";
+            //try
+            //{
+            //    decimal cellValue = decimal.Parse(firstTable.Rows[0][0].ToString()) * 100;
+            //    decimal roundedCellValue = Math.Round(cellValue);
+            //    int cellValueInt = decimal.ToInt32(roundedCellValue);
+            //    Percentage = cellValueInt.ToString();
+            //}
+            //catch
+            //{
+            //    Percentage = "0";
 
-            }
+            //}
 
 
             #endregion
@@ -411,7 +411,7 @@ namespace UDM.Insurance.Interface.Screens
                 TransferPercentageLbl.Visibility = Visibility.Visible;
                 SelectAgentDG.Visibility = Visibility.Collapsed;
                 headingSelectDeclineReason.Text = "Cheers to you for a job well done!";
-                TransferPercentageTxtB.Text = "Your call transfer % is currently " + Percentage + "%";
+                TransferPercentageTxtB.Visibility = Visibility.Collapsed;
 
 
                 string DCAgentName = "To " + ((DataRecord)SelectAgentDG.SelectedItems.Records[0]).Cells[0].Value.ToString();
