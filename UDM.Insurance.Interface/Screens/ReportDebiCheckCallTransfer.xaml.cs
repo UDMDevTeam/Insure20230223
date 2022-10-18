@@ -68,6 +68,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData.Columns.Add("Less Sales where Debi-checks are N/A");
             dtSalesData.Columns.Add("Less DC Agent not available - valid");
             dtSalesData.Columns.Add("Overtime Sale");
+            dtSalesData.Columns.Add("Other - System issues");
             dtSalesData.Columns.Add("Sales to Be Transferred");
             dtSalesData.Columns.Add("Actual Sales Transferred");
             dtSalesData.Columns.Add("% Transferred");
@@ -89,6 +90,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesDataSummary.Columns.Add("Less Sales where Debi-checks are N/A");
             dtSalesDataSummary.Columns.Add("Less DC Agent not available - valid");
             dtSalesDataSummary.Columns.Add("Overtime Sale");
+            dtSalesDataSummary.Columns.Add("Other - System issues");
             dtSalesDataSummary.Columns.Add("Sales to Be Transferred");
             dtSalesDataSummary.Columns.Add("Actual Sales Transferred");
             dtSalesDataSummary.Columns.Add("% Transferred");
@@ -334,7 +336,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["C2", "T2"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C2", "U2"].Interior.Color = System.Drawing.Color.LightBlue;
 
                     #region Totals for Grid 1
 
@@ -351,48 +353,50 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[countForNonRedeemed + 3, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
                     workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=SUM(I3:I" + (countForNonRedeemed + 2).ToString() + ")"); //K
                     workSheet.Cells[countForNonRedeemed + 3, 9].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
-                    workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
-                    workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
-                    workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
-                    workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
-                    workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
-                    workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-
-                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //L
                     workSheet.Cells[countForNonRedeemed + 3, 10].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
                     workSheet.Cells[countForNonRedeemed + 3, 12].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
+                    workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 18].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 18].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
                     for (int w = 3; w <= countForNonRedeemed + 3; w++)
                     {
-                        workSheet.Cells[w, 8].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w);
-                        workSheet.Cells[w, 11].Formula = string.Format("=H" + w + "-I" + w);
-                        workSheet.Cells[w, 10].Formula = string.Format("=I" + w + "/H" + w);
-                        workSheet.Cells[w, 12].Formula = string.Format("=K" + w + "/H" + w);
+                        workSheet.Cells[w, 9].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w + "-H" + w);
+                        workSheet.Cells[w, 12].Formula = string.Format("=I" + w + "-J" + w);
+                        workSheet.Cells[w, 11].Formula = string.Format("=J" + w + "/I" + w);
+                        workSheet.Cells[w, 13].Formula = string.Format("=L" + w + "/I" + w);
 
                     }
                     #endregion
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 20]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 21]].Merge();
                     workSheet.Cells[1,  1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
 
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 11]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 13]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 15]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 14]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 13]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 19]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
+                    //(workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
+                    //(workSheet.Cells[1, 21]).EntireColumn.Hidden = true;
 
                     (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                     workSheet.Rows[2].WrapText = true;
@@ -573,7 +577,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["C2", "T2"].Interior.Color = System.Drawing.Color.LightBlue;
+                    workSheet.Range["C2", "U2"].Interior.Color = System.Drawing.Color.LightBlue;
 
                     #region Totals for Grid 1
 
@@ -590,50 +594,52 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[countForNonRedeemed + 3, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
                     workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=SUM(I3:I" + (countForNonRedeemed + 2).ToString() + ")"); //K
                     workSheet.Cells[countForNonRedeemed + 3, 9].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
-                    workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
-                    workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
-                    workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
-                    workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
-                    workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
-                    workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-
-                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //L
                     workSheet.Cells[countForNonRedeemed + 3, 10].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
                     workSheet.Cells[countForNonRedeemed + 3, 12].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
+                    workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 18].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
+                    workSheet.Cells[countForNonRedeemed + 3, 18].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                    workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                    workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+                    workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
                     for (int w = 3; w <= countForNonRedeemed + 3; w++)
                     {
-                        workSheet.Cells[w, 8].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w);
-                        workSheet.Cells[w, 11].Formula = string.Format("=H" + w + "-I" + w);
-                        workSheet.Cells[w, 10].Formula = string.Format("=I" + w + "/H" + w);
-                        workSheet.Cells[w, 12].Formula = string.Format("=K" + w + "/H" + w);
+                        workSheet.Cells[w, 9].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w + "-H" + w);
+                        workSheet.Cells[w, 12].Formula = string.Format("=I" + w + "-J" + w);
+                        workSheet.Cells[w, 11].Formula = string.Format("=J" + w + "/I" + w);
+                        workSheet.Cells[w, 13].Formula = string.Format("=L" + w + "/I" + w);
 
                     }
                     #endregion
 
-                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 21]].Merge();
+                    workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 22]].Merge();
                     workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
 
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 19]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 11]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 13]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 20]).EntireColumn.NumberFormat = "##%";
 
+                    (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 15]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 14]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 13]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
                     (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
-                    (workSheet.Cells[1, 21]).EntireColumn.Hidden = true;
+                    (workSheet.Cells[1, 19]).EntireColumn.Hidden = true;
+                    //(workSheet.Cells[1, 21]).EntireColumn.Hidden = true;
+                    //(workSheet.Cells[1, 22]).EntireColumn.Hidden = true;
 
                     (workSheet.Rows[2]).EntireRow.RowHeight = 40;
                     workSheet.Rows[2].WrapText = true;
@@ -817,6 +823,7 @@ namespace UDM.Insurance.Interface.Screens
             dtSalesData2.Columns.Add("Less Sales where Debi-checks are N/A");
             dtSalesData2.Columns.Add("Less DC Agent not available - valid");
             dtSalesData2.Columns.Add("Overtime Sale");
+            dtSalesData2.Columns.Add("Other = System issues");
             dtSalesData2.Columns.Add("Sales to Be Transferred");
             dtSalesData2.Columns.Add("Actual Sales Transferred");
             dtSalesData2.Columns.Add("% Transferred");
@@ -930,30 +937,32 @@ namespace UDM.Insurance.Interface.Screens
             workSheet.Cells[countForNonRedeemed + 3, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
             workSheet.Cells[countForNonRedeemed + 3, 9].Formula = string.Format("=SUM(I3:I" + (countForNonRedeemed + 2).ToString() + ")"); //K
             workSheet.Cells[countForNonRedeemed + 3, 9].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
-            workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
-            workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
-            workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
-            workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
-            workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
-            workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-
-            workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+            workSheet.Cells[countForNonRedeemed + 3, 10].Formula = string.Format("=SUM(J3:J" + (countForNonRedeemed + 2).ToString() + ")"); //L
             workSheet.Cells[countForNonRedeemed + 3, 10].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-            workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+            workSheet.Cells[countForNonRedeemed + 3, 12].Formula = string.Format("=SUM(K3:K" + (countForNonRedeemed + 2).ToString() + ")"); //L
             workSheet.Cells[countForNonRedeemed + 3, 12].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            workSheet.Cells[countForNonRedeemed + 3, 14].Formula = string.Format("=SUM(M3:M" + (countForNonRedeemed + 2).ToString() + ")"); //M
+            workSheet.Cells[countForNonRedeemed + 3, 14].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            workSheet.Cells[countForNonRedeemed + 3, 15].Formula = string.Format("=SUM(N3:N" + (countForNonRedeemed + 2).ToString() + ")"); //M
+            workSheet.Cells[countForNonRedeemed + 3, 15].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            workSheet.Cells[countForNonRedeemed + 3, 16].Formula = string.Format("=SUM(O3:O" + (countForNonRedeemed + 2).ToString() + ")"); //D
+            workSheet.Cells[countForNonRedeemed + 3, 16].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            workSheet.Cells[countForNonRedeemed + 3, 17].Formula = string.Format("=SUM(P3:P" + (countForNonRedeemed + 2).ToString() + ")"); //L
+            workSheet.Cells[countForNonRedeemed + 3, 17].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            workSheet.Cells[countForNonRedeemed + 3, 18].Formula = string.Format("=SUM(Q3:Q" + (countForNonRedeemed + 2).ToString() + ")"); //L
+            workSheet.Cells[countForNonRedeemed + 3, 18].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+            workSheet.Cells[countForNonRedeemed + 3, 11].Formula = string.Format("=I" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+            workSheet.Cells[countForNonRedeemed + 3, 11].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            workSheet.Cells[countForNonRedeemed + 3, 13].Formula = string.Format("=K" + (countForNonRedeemed + 3).ToString() + "/H" + (countForNonRedeemed + 3).ToString()); //M
+            workSheet.Cells[countForNonRedeemed + 3, 13].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
             for (int w = 3; w <= countForNonRedeemed + 3; w++)
             {
-                workSheet.Cells[w, 8].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w);
-                workSheet.Cells[w, 11].Formula = string.Format("=H" + w + "-I" + w);
-                workSheet.Cells[w, 10].Formula = string.Format("=I" + w + "/H" + w);
-                workSheet.Cells[w, 12].Formula = string.Format("=K" + w + "/H" + w);
+                workSheet.Cells[w, 9].Formula = string.Format("=D" + w + "-E" + w + "-F" + w + "-G" + w + "-H" + w);
+                workSheet.Cells[w, 12].Formula = string.Format("=I" + w + "-J" + w);
+                workSheet.Cells[w, 11].Formula = string.Format("=J" + w + "/I" + w);
+                workSheet.Cells[w, 13].Formula = string.Format("=L" + w + "/I" + w);
 
             }
             #endregion
@@ -961,7 +970,7 @@ namespace UDM.Insurance.Interface.Screens
             countForNonRedeemed = countForNonRedeemed + 3;
             int CountSecondGridTotals = countForNonRedeemed;
 
-            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 20]].Merge();
+            workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 21]].Merge();
             workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
 
 
@@ -981,19 +990,19 @@ namespace UDM.Insurance.Interface.Screens
             tRange.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
 
             workSheet.Range["A2", "B2"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-            workSheet.Range["C2", "T2"].Interior.Color = System.Drawing.Color.LightBlue;
+            workSheet.Range["C2", "U2"].Interior.Color = System.Drawing.Color.LightBlue;
 
 
-            (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
-            (workSheet.Cells[1, 12]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 11]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 13]).EntireColumn.NumberFormat = "##%";
+            (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 15]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 14]).EntireColumn.Hidden = true;
-            (workSheet.Cells[1, 13]).EntireColumn.Hidden = true;
-            (workSheet.Cells[1, 16]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 17]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 18]).EntireColumn.Hidden = true;
             (workSheet.Cells[1, 19]).EntireColumn.Hidden = true;
-            (workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
+            //(workSheet.Cells[1, 20]).EntireColumn.Hidden = true;
+            //(workSheet.Cells[1, 21]).EntireColumn.Hidden = true;
             (workSheet.Rows[2]).EntireRow.RowHeight = 40;
             workSheet.Rows[2].WrapText = true;
 
