@@ -23,7 +23,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [zHstINSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[FKImportID] = @ID; ";
+                query = "INSERT INTO [zHstINSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[FKImportID] = @ID; ";
                 query += "DELETE FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[FKImportID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -58,7 +58,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [INSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID AND [zHstINSalesNotTransferredDetails].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INSalesNotTransferredDetails] WHERE [ID] = @ID) = 0; ";
+                query = "INSERT INTO [INSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID] FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID AND [zHstINSalesNotTransferredDetails].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INSalesNotTransferredDetails] WHERE [ID] = @ID) = 0; ";
                 query += "DELETE FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID AND [zHstINSalesNotTransferredDetails].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [INSalesNotTransferredDetails] WHERE [ID] = @ID) = 0; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -78,7 +78,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[ID] = @ID";
+                query = "SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[ID] = @ID";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
             }
@@ -95,7 +95,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [INSalesNotTransferredDetails].[ID], [INSalesNotTransferredDetails].[FKImportID], [INSalesNotTransferredDetails].[FKSalesNotTransferredReason], [INSalesNotTransferredDetails].[StampDate], [INSalesNotTransferredDetails].[StampUserID]");
+            query.Append("SELECT [INSalesNotTransferredDetails].[ID], [INSalesNotTransferredDetails].[FKImportID], [INSalesNotTransferredDetails].[FKSalesNotTransferredReason], [INSalesNotTransferredDetails].[FKAuthorisedUserID], [INSalesNotTransferredDetails].[StampDate], [INSalesNotTransferredDetails].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INSalesNotTransferredDetails].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INSalesNotTransferredDetails] ");
                 query.Append(" WHERE [INSalesNotTransferredDetails].[ID] = @ID");
@@ -117,7 +117,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID AND [zHstINSalesNotTransferredDetails].[StampUserID] = @StampUserID AND [zHstINSalesNotTransferredDetails].[StampDate] = @StampDate";
+                query = "SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID] FROM [zHstINSalesNotTransferredDetails] WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID AND [zHstINSalesNotTransferredDetails].[StampUserID] = @StampUserID AND [zHstINSalesNotTransferredDetails].[StampDate] = @StampDate";
                 parameters = new object[3];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
                 parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
@@ -135,7 +135,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string List()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [INSalesNotTransferredDetails].[ID], [INSalesNotTransferredDetails].[FKImportID], [INSalesNotTransferredDetails].[FKSalesNotTransferredReason], [INSalesNotTransferredDetails].[StampDate], [INSalesNotTransferredDetails].[StampUserID]");
+            query.Append("SELECT [INSalesNotTransferredDetails].[ID], [INSalesNotTransferredDetails].[FKImportID], [INSalesNotTransferredDetails].[FKSalesNotTransferredReason], [INSalesNotTransferredDetails].[FKAuthorisedUserID], [INSalesNotTransferredDetails].[StampDate], [INSalesNotTransferredDetails].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INSalesNotTransferredDetails].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INSalesNotTransferredDetails] ");
             return query.ToString();
@@ -148,7 +148,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string ListDeleted()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [zHstINSalesNotTransferredDetails].[ID], [zHstINSalesNotTransferredDetails].[FKImportID], [zHstINSalesNotTransferredDetails].[FKSalesNotTransferredReason], [zHstINSalesNotTransferredDetails].[StampDate], [zHstINSalesNotTransferredDetails].[StampUserID]");
+            query.Append("SELECT [zHstINSalesNotTransferredDetails].[ID], [zHstINSalesNotTransferredDetails].[FKImportID], [zHstINSalesNotTransferredDetails].[FKSalesNotTransferredReason], [zHstINSalesNotTransferredDetails].[FKAuthorisedUserID], [zHstINSalesNotTransferredDetails].[StampDate], [zHstINSalesNotTransferredDetails].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINSalesNotTransferredDetails].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINSalesNotTransferredDetails] ");
             query.Append("INNER JOIN (SELECT [zHstINSalesNotTransferredDetails].[ID], MAX([zHstINSalesNotTransferredDetails].[StampDate]) AS 'StampDate' ");
@@ -170,7 +170,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [zHstINSalesNotTransferredDetails].[ID], [zHstINSalesNotTransferredDetails].[FKImportID], [zHstINSalesNotTransferredDetails].[FKSalesNotTransferredReason], [zHstCallData].[StampDate], [zHstCallData].[StampUserID]");
+            query.Append("SELECT [zHstINSalesNotTransferredDetails].[ID], [zHstINSalesNotTransferredDetails].[FKImportID], [zHstINSalesNotTransferredDetails].[FKSalesNotTransferredReason], [zHstINSalesNotTransferredDetails].[FKAuthorisedUserID], [zHstINSalesNotTransferredDetails].[StampDate], [zHstINSalesNotTransferredDetails].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINSalesNotTransferredDetails].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINSalesNotTransferredDetails] ");
                 query.Append(" WHERE [zHstINSalesNotTransferredDetails].[ID] = @ID");
@@ -195,23 +195,27 @@ namespace UDM.Insurance.Business.Queries
             {
                 if (calldata.IsLoaded)
                 {
-                    query.Append("INSERT INTO [zHstINSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[ID] = @ID; ");
+                    query.Append("INSERT INTO [zHstINSalesNotTransferredDetails] ([ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID] FROM [INSalesNotTransferredDetails] WHERE [INSalesNotTransferredDetails].[ID] = @ID; ");
                     query.Append("UPDATE [INSalesNotTransferredDetails]");
-                    parameters = new object[3];
+                    parameters = new object[4];
                     query.Append(" SET [FKImportID] = @FKImportID");
                     parameters[0] = Database.GetParameter("@FKImportID", calldata.FKImportID.HasValue ? (object)calldata.FKImportID.Value : DBNull.Value);
                     query.Append(", [FKSalesNotTransferredReason] = @FKSalesNotTransferredReason");
                     parameters[1] = Database.GetParameter("@FKSalesNotTransferredReason", string.IsNullOrEmpty(calldata.FKSalesNotTransferredReason) ? DBNull.Value : (object)calldata.FKSalesNotTransferredReason);
+                    query.Append(", [FKAuthorisedUserID] = @FKAuthorisedUserID");
+                    parameters[2] = Database.GetParameter("@FKAuthorisedUserID", calldata.FKAuthorisedUserID.HasValue ? (object)calldata.FKAuthorisedUserID.Value : DBNull.Value);
                     query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
                     query.Append(" WHERE [INSalesNotTransferredDetails].[ID] = @ID"); 
-                    parameters[2] = Database.GetParameter("@ID", calldata.ID);
+                    parameters[3] = Database.GetParameter("@ID", calldata.ID);
                 }
                 else
                 {
-                    query.Append("INSERT INTO [INSalesNotTransferredDetails] ([FKImportID], [FKSalesNotTransferredReason], [StampDate], [StampUserID]) VALUES(@FKImportID, @FKSalesNotTransferredReason, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                    parameters = new object[2];
+                    query.Append("INSERT INTO [INSalesNotTransferredDetails] ([FKImportID], [FKSalesNotTransferredReason], [FKAuthorisedUserID], [StampDate], [StampUserID]) VALUES(@FKImportID, @FKSalesNotTransferredReason, @FKAuthorisedUserID, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                    parameters = new object[3];
                     parameters[0] = Database.GetParameter("@FKImportID", calldata.FKImportID.HasValue ? (object)calldata.FKImportID.Value : DBNull.Value);
                     parameters[1] = Database.GetParameter("@FKSalesNotTransferredReason", string.IsNullOrEmpty(calldata.FKSalesNotTransferredReason) ? DBNull.Value : (object)calldata.FKSalesNotTransferredReason);
+                    parameters[2] = Database.GetParameter("@FKAuthorisedUserID", calldata.FKAuthorisedUserID.HasValue ? (object)calldata.FKAuthorisedUserID.Value : DBNull.Value);
+
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
             }
@@ -243,7 +247,7 @@ namespace UDM.Insurance.Business.Queries
                 whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
                 whereQuery.Append("[INSalesNotTransferredDetails].[FKSalesNotTransferredReason] LIKE '" + fksalesnottransferredreason.Replace("'", "''").Replace("*", "%") + "'");
             }
-            query.Append("SELECT [INSalesNotTransferredDetails].[ID], [INSalesNotTransferredDetails].[FKImportID], [INSalesNotTransferredDetails].[FKSalesNotTransferredReason], [INSalesNotTransferredDetails].[StampDate], [INSalesNotTransferredDetails].[StampUserID]");
+            query.Append("SELECT [INSalesNotTransferredDetails].[ID], [INSalesNotTransferredDetails].[FKImportID], [INSalesNotTransferredDetails].[FKSalesNotTransferredReason], [INSalesNotTransferredDetails].[FKAuthorisedUserID] , [INSalesNotTransferredDetails].[StampDate], [INSalesNotTransferredDetails].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INSalesNotTransferredDetails].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INSalesNotTransferredDetails] ");
             return query.ToString() + whereQuery.ToString();

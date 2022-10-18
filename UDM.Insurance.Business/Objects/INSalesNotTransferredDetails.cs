@@ -16,6 +16,7 @@ namespace UDM.Insurance.Business
         #region Members
         private long? _fkimportid = null;
         private string _fksalesnottransferredreason = null;
+        private long? _fkauthoriseduserid = null;
         #endregion
 
         #region Constructor
@@ -68,6 +69,24 @@ namespace UDM.Insurance.Business
                 if (value != _fksalesnottransferredreason)
                 {
                     _fksalesnottransferredreason = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
+        public long? FKAuthorisedUserID
+        {
+            get
+            {
+                Fill();
+                return _fkauthoriseduserid;
+            }
+            set
+            {
+                Fill();
+                if (value != _fkauthoriseduserid)
+                {
+                    _fkauthoriseduserid = value;
                     _hasChanged = true;
                 }
             }
@@ -140,6 +159,7 @@ namespace UDM.Insurance.Business
             xml.Append("<insalesnottransferreddetails>");
             xml.Append("<fkimportid>" + FKImportID.ToString() + "</fkimportid>");
             xml.Append("<fksalesnottransferredreason>" + FKSalesNotTransferredReason.ToString() + "</number>");
+
             xml.Append("</insalesnottransferreddetails>");
             return xml.ToString();
         }

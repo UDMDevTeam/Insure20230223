@@ -100,6 +100,8 @@ namespace UDM.Insurance.Business.Mapping
                     calldata.IsLoaded = true;
                     calldata.FKImportID = reader["FKImportID"] != DBNull.Value ? (long)reader["FKImportID"] : (long?)null;
                     calldata.FKSalesNotTransferredReason = reader["FKSalesNotTransferredReason"] != DBNull.Value ? (string)reader["FKSalesNotTransferredReason"] : (string)null;
+                    calldata.FKImportID = reader["FKAuthorisedUserID"] != DBNull.Value ? (long)reader["FKAuthorisedUserID"] : (long?)null;
+
                     calldata.StampDate = (DateTime)reader["StampDate"];
                     calldata.HasChanged = false;
                 }

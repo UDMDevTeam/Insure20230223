@@ -179,6 +179,29 @@
                       Grid.ColumnSpan="7"
                       Margin="0,0,9,0"
                       HorizontalAlignment="Stretch"
+                      SelectionChanged="cmbReason_SelectionChanged"
+                      VerticalAlignment="Bottom"
+                      PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
+                      Style="{StaticResource cmbINLA}" />
+                    
+                    <TextBlock
+                      x:Name="lblAuthorised"
+                      Grid.Row="6"
+                      Grid.Column="1"
+                      Visibility="Collapsed"
+                      Grid.ColumnSpan="3"
+                      Margin="0,0,0,5"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource INLabelText2}"
+                      Text="Authorised by" />
+                    <src:EmbriantComboBox
+                      x:Name="cmbAuthorization"
+                      Grid.Row="6"
+                      Grid.Column="5"
+                      Grid.ColumnSpan="7"
+                      Visibility="Collapsed"
+                      Margin="0,0,9,0"
+                      HorizontalAlignment="Stretch"
                       VerticalAlignment="Bottom"
                       PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                       Style="{StaticResource cmbINLA}" />

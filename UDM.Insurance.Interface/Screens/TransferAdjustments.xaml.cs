@@ -99,21 +99,25 @@ namespace UDM.Insurance.Interface.Screens
                         INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
                         details.FKImportID = loadedImportID;
                         details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
+                        details.FKAuthorisedUserID = long.Parse(cmbAuthorization.SelectedValue.ToString());
                         details.Save(_validationResult);
                     }
                     else
                     {
                         INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                        details.FKImportID = loadedImportID;
                         details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
+                        details.FKAuthorisedUserID = long.Parse(cmbAuthorization.SelectedValue.ToString());
                         details.Save(_validationResult);
                     }
+
                 }
-                catch
+                catch(Exception t)
                 {
 
                 }
 
-                ShowMessageBox(new INMessageBoxWindow1(), "Transfer has been updated.\nTransfer updated.\n", "Save Result", ShowMessageType.Exclamation);
+                ShowMessageBox(new INMessageBoxWindow1(), "Transfer has been updated.\n", "Save Result", ShowMessageType.Information);
 
 
             }
@@ -131,6 +135,12 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnGoRef_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                cmbAuthorization.SelectedIndex = -1;
+            }
+            catch { }
+
             if (medReference.Text != "")
             {
                 try
@@ -172,6 +182,8 @@ namespace UDM.Insurance.Interface.Screens
             else
             {
             }
+
+
         }
 
         public void LoadData(long importid)
@@ -198,6 +210,33 @@ namespace UDM.Insurance.Interface.Screens
             {
                 string notTransferredReasonID = Convert.ToString(Methods.GetTableData("Select FKSalesNotTransferredReason from [INSalesNotTransferredDetails] where [INSalesNotTransferredDetails].[FKImportID] = " + importid.ToString()).Rows[0][0]);
                 cmbReason.SelectedValue = int.Parse(notTransferredReasonID);
+                try
+                {
+                    if (cmbReason.SelectedValue.ToString() == "7")
+                    {
+                        lblAuthorised.Visibility = Visibility.Visible;
+                        cmbAuthorization.Visibility = Visibility.Visible;
+
+                        try 
+                        {
+                            string AuthorisedBy = Convert.ToString(Methods.GetTableData("Select FKAuthorisedUserID from [INSalesNotTransferredDetails] where [INSalesNotTransferredDetails].[FKImportID] = " + importid.ToString()).Rows[0][0]);
+                            cmbReason.SelectedValue = int.Parse(notTransferredReasonID);cmbAuthorization.SelectedValue = int.Parse(AuthorisedBy);
+                        }
+                        catch 
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        lblAuthorised.Visibility = Visibility.Collapsed;
+                        cmbAuthorization.Visibility = Visibility.Collapsed;
+                    }
+                }
+                catch
+                {
+
+                }
             }
             catch
             {
@@ -279,6 +318,16 @@ namespace UDM.Insurance.Interface.Screens
             DataTable dtCampaigns = Methods.GetTableData(strQueryCampaigns);
             cmbCampaigns.Populate(dtCampaigns, DescriptionField, IDField);
             #endregion
+
+            #region Authorised Users ComboBox
+            string strQueryAuth;
+            strQueryAuth = "SELECT  ID, [U].[FirstName] + ' ' + [U].[LastName]  as Description FROM [Insure].[dbo].[User] as [U]  where ID IN (105, 361, 1987) ";
+
+
+            DataTable dtAuth = Methods.GetTableData(strQueryAuth);
+            cmbAuthorization.Populate(dtAuth, DescriptionField, IDField);
+            #endregion
+
         }
 
         public void ClearScreen()
@@ -369,6 +418,29 @@ namespace UDM.Insurance.Interface.Screens
                 ShowMessageBox(new INMessageBoxWindow1(), "Saved\n", "Focus Campaign Saved !", ShowMessageType.Information);
 
             }
+
+        }
+
+        private void cmbReason_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (cmbReason.SelectedValue.ToString() == "7")
+                {
+                    lblAuthorised.Visibility = Visibility.Visible;
+                    cmbAuthorization.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    lblAuthorised.Visibility = Visibility.Collapsed;
+                    cmbAuthorization.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch 
+            {
+
+            }
+
 
         }
     }

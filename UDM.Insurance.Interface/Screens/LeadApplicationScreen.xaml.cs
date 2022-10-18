@@ -2133,7 +2133,7 @@ namespace UDM.Insurance.Interface.Screens
                 try
                 {
                     cmbSalesNotTransferredReasons.ItemsSource = null;
-                    DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason WHERE ID != 4");
+                    DataTable dtSalesNoteTranferredReasons = Methods.GetTableData("SELECT * FROM lkpSalesNotTransferredReason WHERE ID not in (4, 7)");
                     cmbSalesNotTransferredReasons.Populate(dtSalesNoteTranferredReasons, DescriptionField, IDField);
                 }
                 catch
@@ -3846,34 +3846,34 @@ namespace UDM.Insurance.Interface.Screens
 #if !TRAININGBUILD
             if (LaData.UserData.UserType == lkpUserType.SalesAgent)
             {
-                if (!LaData.AppData.IsLeadUpgrade &&
-                    LaData.AppData.LeadStatus == 1 &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Defrosted &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Reactivation &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.ReDefrost &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Rejuvenation &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.SpouseLite &&
-                    LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
-                    LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
-                    (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid ||
-                    LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.UnChecked))
-                {
-                    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
-                    string message;
-                    if (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid)
-                    {
-                        message = "The Bank Details Account Number is Invalid.";
-                    }
-                    else
-                    {
-                        message = "The Bank Details Account Number has not been Verified.";
-                    }
-                    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
-                    return;
-                }
+                //if (!LaData.AppData.IsLeadUpgrade &&
+                //    LaData.AppData.LeadStatus == 1 &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Defrosted &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Reactivation &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.ReDefrost &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Rejuvenation &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.SpouseLite &&
+                //    LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
+                //    LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
+                //    (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid ||
+                //    LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.UnChecked))
+                //{
+                //    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+                //    string message;
+                //    if (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid)
+                //    {
+                //        message = "The Bank Details Account Number is Invalid.";
+                //    }
+                //    else
+                //    {
+                //        message = "The Bank Details Account Number has not been Verified.";
+                //    }
+                //    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+                //    return;
+                //}
 
                 LaData.AppData.AgentID = LaData.UserData.UserID;
             }
@@ -7647,6 +7647,50 @@ namespace UDM.Insurance.Interface.Screens
 
                                 #endregion
 
+                                //#region Substituting accidental death for Cancer PLMM campaigns
+                                //if (LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
+                                //{
+                                //    if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
+                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
+                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
+                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8 ||
+                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9 )
+                                //    {
+
+                                //        if (c.Contains("accidental disabilit"))
+                                //        {
+                                //            StringBuilder strQueryTransferredUser = new StringBuilder();
+                                //            strQueryTransferredUser.Append("SELECT Display [Response] ");
+                                //            strQueryTransferredUser.Append("FROM INOption ");
+                                //            strQueryTransferredUser.Append("WHERE ID = " + LaData.PolicyData.OptionID.ToString());
+                                //            DataTable dtFKUserID = Methods.GetTableData(strQueryTransferredUser.ToString());
+                                //            string str = dtFKUserID.Rows[0]["Response"].ToString();
+
+                                //            if(str.Contains("Cancer"))
+                                //            {
+                                //                dat = c2.Replace("accidental disabilit", "Cancer Cover");
+                                //                c2 = dat;
+                                //                formattingapplied = true;
+                                //            }
+                                //            if (str.Contains("Cancer"))
+                                //            {
+                                //                dat = c2.Replace("y,", ",");
+                                //                c2 = dat;
+                                //                formattingapplied = true;
+                                //            }
+                                //            if (str.Contains("Cancer"))
+                                //            {
+                                //                dat = c2.Replace("Cancery", "Cancer Cover");
+                                //                c2 = dat;
+                                //                formattingapplied = true;
+                                //            }
+                                //        }
+                                //    }
+
+                                //}
+
+                                //#endregion
+
                                 if (formattingapplied == false)
                                 {
                                     dat = c;
@@ -9665,34 +9709,34 @@ namespace UDM.Insurance.Interface.Screens
 #if !TRAININGBUILD
             if (LaData.UserData.UserType == lkpUserType.SalesAgent)
             {
-                if (!LaData.AppData.IsLeadUpgrade &&
-                    LaData.AppData.LeadStatus == 1 &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Defrosted &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Reactivation &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.ReDefrost &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Rejuvenation &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
-                    LaData.AppData.CampaignGroup != lkpINCampaignGroup.SpouseLite &&
-                    LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
-                    LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
-                    (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid ||
-                    LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.UnChecked))
-                {
-                    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
-                    string message;
-                    if (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid)
-                    {
-                        message = "The Bank Details Account Number is Invalid.";
-                    }
-                    else
-                    {
-                        message = "The Bank Details Account Number has not been Verified.";
-                    }
-                    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
-                    return;
-                }
+                //if (!LaData.AppData.IsLeadUpgrade &&
+                //    LaData.AppData.LeadStatus == 1 &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Defrosted &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Reactivation &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.ReDefrost &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Rejuvenation &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Resurrection &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.DefrostR99 &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.Lite &&
+                //    LaData.AppData.CampaignGroup != lkpINCampaignGroup.SpouseLite &&
+                //    LaData.AppData.CampaignType != lkpINCampaignType.IGFemaleDisability &&
+                //    LaData.AppData.CampaignType != lkpINCampaignType.IGCancer &&
+                //    (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid ||
+                //    LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.UnChecked))
+                //{
+                //    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+                //    string message;
+                //    if (LaData.BankDetailsData.lkpAccNumCheckStatus == lkpINAccNumCheckStatus.Invalid)
+                //    {
+                //        message = "The Bank Details Account Number is Invalid.";
+                //    }
+                //    else
+                //    {
+                //        message = "The Bank Details Account Number has not been Verified.";
+                //    }
+                //    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+                //    return;
+                //}
 
                 LaData.AppData.AgentID = LaData.UserData.UserID;
             }
@@ -18784,6 +18828,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                                     details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.FKImportID = LaData.AppData.ImportID;
                                     details.Save(_validationResult);
                                 }
                             }
@@ -18819,6 +18864,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                                     details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.FKImportID = LaData.AppData.ImportID;
                                     details.Save(_validationResult);
                                 }
                             }
@@ -18854,6 +18900,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                                     details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.FKImportID = LaData.AppData.ImportID;
                                     details.Save(_validationResult);
                                 }
                             }
@@ -18896,6 +18943,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                                 details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                details.FKImportID = LaData.AppData.ImportID;
                                 details.Save(_validationResult);
                             }
                         }
@@ -18989,6 +19037,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                                 details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                details.FKImportID = LaData.AppData.ImportID;
                                 details.Save(_validationResult);
                             }
                         }
@@ -19016,6 +19065,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                                     details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                                    details.FKImportID = LaData.AppData.ImportID;
                                     details.Save(_validationResult);
                                 }
 
@@ -19069,6 +19119,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
                             details.FKSalesNotTransferredReason = cmbSalesNotTransferredReasons.SelectedValue.ToString();
+                            details.FKImportID = LaData.AppData.ImportID;
                             details.Save(_validationResult);
                         }
                     }
