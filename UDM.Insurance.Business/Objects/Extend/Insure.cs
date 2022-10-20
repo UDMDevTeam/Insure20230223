@@ -122,6 +122,21 @@ namespace UDM.Insurance.Business
 
         #endregion
 
+        #region DC Analysis Report
+        public static DataSet INGetDCAnalysis(DateTime fromDate, DateTime toDate, string baseupgradebool)
+        {
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+            object param3 = Database.GetParameter("@BaseUpgradeBool", baseupgradebool);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckAnalysis", paramArray, 600);
+        }
+
+        #endregion
+
+
         #region ReportSMS
         public static DataSet INGetSMS(DateTime fromDate, DateTime toDate)
         {
