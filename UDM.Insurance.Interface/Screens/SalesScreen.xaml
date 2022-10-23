@@ -982,6 +982,23 @@
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
+                            <Button
+                                x:Name="btnDCSpecialistDiaries"
+                                Height="56"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Click="btnDCSpecialistDiaries_Click"
+                                IsDefault="True"
+                                IsEnabled="True"
+                                IsTabStop="True"
+                                Style="{DynamicResource INFlatButton}"
+                                TabIndex="0"
+                                Visibility="Visible">
+                                <TextBlock
+                                    Text="Diaries"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </Border>

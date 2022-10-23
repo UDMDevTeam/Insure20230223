@@ -15612,6 +15612,20 @@
               TabIndex="23200"
               Visibility="Collapsed" />
 
+                    <Button
+              x:Name="btnDCSpecialistDiary"
+              Grid.Row="18"
+              Grid.Column="22"
+              Grid.ColumnSpan="4"
+              Content="Diarise?"
+              Visibility="Collapsed"
+              Height="Auto"
+              Margin="0,8,0,0"
+              HorizontalAlignment="Right"
+              Click="btnDCSpecialistDiary_Click"
+              Style="{StaticResource SaveButton}"
+              TabIndex="98600" />
+
 
                     <Button
               x:Name="btnSave"

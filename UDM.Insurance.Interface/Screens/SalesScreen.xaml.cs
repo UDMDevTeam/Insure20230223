@@ -124,8 +124,8 @@ namespace UDM.Insurance.Interface.Screens
             }
             else
             {
-                btnCallMonQuery.Visibility = Visibility.Hidden;
-                btnCallMonTracking.Visibility = Visibility.Hidden;
+                btnCallMonQuery.Visibility = Visibility.Collapsed;
+                btnCallMonTracking.Visibility = Visibility.Collapsed;
             }
             #endregion
 
@@ -156,7 +156,14 @@ namespace UDM.Insurance.Interface.Screens
 
 
             #endregion
-
+            if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+            {
+                btnDCSpecialistDiaries.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnDCSpecialistDiaries.Visibility = Visibility.Collapsed;
+            }
 
 
 #if TESTBUILD
@@ -2654,6 +2661,252 @@ namespace UDM.Insurance.Interface.Screens
 
 
 
+        }
+
+        private void btnDCSpecialistDiaries_Click(object sender, RoutedEventArgs e)
+        {
+
+            try 
+            {
+                #region Campaign
+
+                try
+                {
+                    xdgSales.DataSource = null;
+                }
+                catch { }
+
+                FieldLayout flCampaign = new FieldLayout();
+                flCampaign.Key = "Campaign";
+
+                //Field fieldCampaignID = new Field("CampaignID");
+                //fieldCampaignID.Visibility = Visibility.Collapsed;
+
+                Field fieldCampaignName = new Field("CampaignName");
+                fieldCampaignName.Visibility = Visibility.Visible;
+                fieldCampaignName.Width = new FieldLength(300);
+                fieldCampaignName.Label = "Campaign";
+
+                Field fieldCampaignCode = new Field("CampaignCode");
+                fieldCampaignCode.Visibility = Visibility.Collapsed;
+
+                Field fieldCampaignGroupType = new Field("CampaignGroupType");
+                fieldCampaignGroupType.Visibility = Visibility.Collapsed;
+
+                //Field fieldCampaignGroup = new Field("CampaignGroup");
+                //fieldCampaignGroup.Visibility = Visibility.Collapsed;
+
+                //flCampaign.Fields.Add(fieldCampaignID);
+
+                flCampaign.Fields.Add(fieldCampaignName);
+
+                flCampaign.Fields.Add(fieldCampaignCode);
+
+                flCampaign.Fields.Add(fieldCampaignGroupType);
+
+                //flCampaign.Fields.Add(fieldCampaignGroup);
+
+                xdgSales.FieldLayouts.Add(flCampaign);
+
+                #endregion Campaign
+
+                #region Batch(DateOfSale)
+                FieldLayout flBatch = new FieldLayout();
+                flBatch.Key = "Batch";
+                flBatch.ParentFieldLayoutKey = "Campaign";
+
+                Field fieldBatchDateOfSale = new Field("DateOfSale");
+                fieldBatchDateOfSale.Visibility = Visibility.Visible;
+                fieldBatchDateOfSale.Width = new FieldLength(200);
+                fieldBatchDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldBatchDateOfSale.Label = "Date Of Allocation";
+
+                Field fieldBatchCampaignGroupType = new Field("CampaignGroupType");
+                fieldBatchCampaignGroupType.Visibility = Visibility.Collapsed;
+
+
+                //Field fieldBatchID = new Field("BatchID");
+                //fieldBatchID.Visibility = Visibility.Collapsed;
+
+                //Field fieldBatchCampaignID = new Field("CampaignID");
+                //fieldBatchCampaignID.Visibility = Visibility.Collapsed;
+
+                //Field fieldCampaignGroupID = new Field("CampaignGroupID");
+                //fieldCampaignGroupID.Visibility = Visibility.Collapsed;
+
+                //Field fieldLeadBookID = new Field("LeadBookID");
+                //fieldLeadBookID.Visibility = Visibility.Collapsed;
+
+                //Field fieldBatchCode = new Field("BatchCode");
+                //fieldBatchCode.Visibility = Visibility.Visible;
+                //fieldBatchCode.Width = new FieldLength(160);
+                //fieldBatchCode.Label = "Batch";
+
+                //Field fieldAllocationDate = new Field("AllocationDate");
+                //fieldAllocationDate.Visibility = Visibility.Visible;
+                //fieldAllocationDate.Width = new FieldLength(150);
+                //fieldAllocationDate.Label = "Allocation Date";
+
+                //Field fieldExpireDate = new Field("ExpireDate");
+                //fieldExpireDate.Visibility = Visibility.Visible;
+                //fieldExpireDate.Width = new FieldLength(150);
+                //fieldExpireDate.Label = "Expire Date";
+
+                //flBatch.Fields.Add(fieldBatchID);
+
+                //flBatch.Fields.Add(fieldBatchCampaignID);
+
+                //flBatch.Fields.Add(fieldCampaignGroupID);
+
+                //flBatch.Fields.Add(fieldLeadBookID);
+
+                //flBatch.Fields.Add(fieldBatchCode);
+
+                //flBatch.Fields.Add(fieldAllocationDate);
+
+                //flBatch.Fields.Add(fieldExpireDate);
+
+                flBatch.Fields.Add(fieldBatchDateOfSale);
+
+                flBatch.Fields.Add(fieldBatchCampaignGroupType);
+
+                xdgSales.FieldLayouts.Add(flBatch);
+                #endregion Batch
+
+                #region Lead
+                FieldLayout flLead = new FieldLayout();
+                flLead.Key = "Lead";
+                flLead.ParentFieldLayoutKey = "Batch";
+
+                Field fieldLeadDateOfSale = new Field("DateOfSale");
+                fieldLeadDateOfSale.Visibility = Visibility.Visible;
+                fieldLeadDateOfSale.Width = new FieldLength(110);
+                fieldLeadDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldLeadDateOfSale.Label = "Call Back Date";
+
+                Field fieldActualDateOfSale = new Field("ActualDateOfSale");
+                fieldActualDateOfSale.Visibility = Visibility.Collapsed;
+                fieldActualDateOfSale.Width = new FieldLength(110);
+                fieldActualDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldActualDateOfSale.Label = "Call Back Date";
+
+                Field fieldAllocationDateTime = new Field("AllocationDateTime");
+                //fieldAllocationDateTime.Settings.EditorType = typeof(XamDateTimeEditor);
+                //fieldAllocationDateTime.Settings.EditAsType = typeof(DateTime);
+                //fieldAllocationDateTime.Settings.EditorStyle = styleAllocation;
+                fieldAllocationDateTime.Visibility = Visibility.Collapsed;
+                fieldAllocationDateTime.Width = new FieldLength(180);
+                fieldAllocationDateTime.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldAllocationDateTime.Label = "Date and Time of Allocation";
+
+                Field fieldExpiryDate = new Field("ExpiryDate");
+                fieldExpiryDate.Visibility = Visibility.Collapsed;
+                fieldExpiryDate.Width = new FieldLength(110);
+                fieldExpiryDate.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldExpiryDate.Label = "Call Back Date";
+
+                Field fieldIsTSRBUSavedCarriedForward = new Field("IsTSRBUSavedCarriedForward");
+                fieldIsTSRBUSavedCarriedForward.Visibility = Visibility.Visible;
+                fieldIsTSRBUSavedCarriedForward.Width = new FieldLength(80);
+                fieldIsTSRBUSavedCarriedForward.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldIsTSRBUSavedCarriedForward.Label = "Call Back Time";
+
+                Field fieldRefNo = new Field("RefNo");
+                fieldRefNo.Visibility = Visibility.Visible;
+                fieldRefNo.Width = new FieldLength(165);
+                fieldRefNo.Label = "Reference Number";
+
+                Field fieldTSR = new Field("TSR");
+                fieldTSR.Visibility = Visibility.Visible;
+                fieldTSR.Width = new FieldLength(250);
+                fieldTSR.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldTSR.Label = "TSR Name";
+
+                Field fieldLeadStatus = new Field("LeadStatus");
+                fieldLeadStatus.Visibility = Visibility.Visible;
+                fieldLeadStatus.Width = new FieldLength(275);
+                fieldLeadStatus.Label = "Lead Status";
+
+                Field fieldCallMonitoringStatus = new Field("CallMonitoringStatus");
+                fieldCallMonitoringStatus.Visibility = Visibility.Collapsed;
+                fieldCallMonitoringStatus.Width = new FieldLength(104);
+                fieldCallMonitoringStatus.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldCallMonitoringStatus.Label = "Call Monitoring Status";
+
+                Field fieldIsBumpedUp = new Field("IsBumpedUp");
+                fieldIsBumpedUp.Visibility = Visibility.Collapsed;
+                fieldIsBumpedUp.Width = new FieldLength(84);
+                fieldIsBumpedUp.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                fieldIsBumpedUp.Label = "Bumped Up";
+
+                Field fieldLeadCampaignGroupType = new Field("CampaignGroupType");
+                fieldLeadCampaignGroupType.Visibility = Visibility.Collapsed;
+
+                Field fieldIsOverAssessment = new Field("IsOverAssessment");
+                fieldIsOverAssessment.Visibility = Visibility.Collapsed;
+                //fieldIsOverAssessment.Width = new FieldLength(110);
+                //fieldIsOverAssessment.Settings.LabelTextWrapping = TextWrapping.Wrap;
+                //fieldIsOverAssessment.Label = "Is Over Assessment";
+
+                Field fieldImportID = new Field("ImportID");
+                fieldImportID.Visibility = Visibility.Collapsed;
+
+                flLead.Fields.Add(fieldLeadDateOfSale);
+
+                flLead.Fields.Add(fieldActualDateOfSale);
+
+                flLead.Fields.Add(fieldAllocationDateTime);
+
+                flLead.Fields.Add(fieldIsTSRBUSavedCarriedForward);
+
+                flLead.Fields.Add(fieldRefNo);
+
+                flLead.Fields.Add(fieldTSR);
+
+                flLead.Fields.Add(fieldLeadStatus);
+
+                flLead.Fields.Add(fieldCallMonitoringStatus);
+
+                flLead.Fields.Add(fieldIsBumpedUp);
+
+                flLead.Fields.Add(fieldExpiryDate);
+
+                flLead.Fields.Add(fieldLeadCampaignGroupType);
+
+                flLead.Fields.Add(fieldIsOverAssessment);
+
+                flLead.Fields.Add(fieldImportID);
+
+
+                xdgSales.FieldLayouts.Add(flLead);
+
+
+                #endregion Lead
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                DataSet ds = Insure.INGetDiariesAssignedToDCAgent(_agentID);
+
+                DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
+                ds.Relations.Add(relCampaignBatch);
+
+                DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroupType"] };
+                DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroupType"] };
+
+                DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
+                ds.Relations.Add(relBatchAgent);
+
+                xdgSales.DataSource = ds.Tables[0].DefaultView;
+            }
+            catch
+            {
+
+            }
         }
     }
 

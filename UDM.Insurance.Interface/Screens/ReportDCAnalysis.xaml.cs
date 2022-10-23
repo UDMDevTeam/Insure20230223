@@ -181,7 +181,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     string filePathAndName = "";
 
-                    filePathAndName = String.Format("{0}DC Analaysis Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    filePathAndName = String.Format("{0}DC Analysis Report, {1}.xlsx", GlobalSettings.UserFolder, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
                     
 
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
@@ -196,7 +196,7 @@ namespace UDM.Insurance.Interface.Screens
                     Microsoft.Office.Interop.Excel._Worksheet workSheet = excelApp.ActiveSheet;
                     
 
-                    workSheet.Name = "DC Analaysis";
+                    workSheet.Name = "DC Analysis";
                     
 
                     workSheet.Cells[1, 0 + 1] = "Date Range : " + _startDate.ToShortDateString() + " to " + _endDate.ToShortDateString();
