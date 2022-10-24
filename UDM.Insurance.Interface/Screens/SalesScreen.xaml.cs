@@ -2401,6 +2401,14 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+
+            try
+            {
+                xdgSales.Visibility = Visibility.Visible;
+                xdgSalesDCDiary.Visibility = Visibility.Collapsed;
+            }
+            catch { }
+
             LoadAgentDetails();
 
             LoadSalesData();
@@ -2670,9 +2678,11 @@ namespace UDM.Insurance.Interface.Screens
             {
                 #region Campaign
 
+
                 try
                 {
-                    xdgSales.DataSource = null;
+                    xdgSales.Visibility = Visibility.Collapsed;
+                    xdgSalesDCDiary.Visibility = Visibility.Visible;
                 }
                 catch { }
 
@@ -2706,7 +2716,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 //flCampaign.Fields.Add(fieldCampaignGroup);
 
-                xdgSales.FieldLayouts.Add(flCampaign);
+                xdgSalesDCDiary.FieldLayouts.Add(flCampaign);
 
                 #endregion Campaign
 
@@ -2719,7 +2729,7 @@ namespace UDM.Insurance.Interface.Screens
                 fieldBatchDateOfSale.Visibility = Visibility.Visible;
                 fieldBatchDateOfSale.Width = new FieldLength(200);
                 fieldBatchDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
-                fieldBatchDateOfSale.Label = "Date Of Allocation";
+                fieldBatchDateOfSale.Label = "Date Of Diary";
 
                 Field fieldBatchCampaignGroupType = new Field("CampaignGroupType");
                 fieldBatchCampaignGroupType.Visibility = Visibility.Collapsed;
@@ -2770,7 +2780,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 flBatch.Fields.Add(fieldBatchCampaignGroupType);
 
-                xdgSales.FieldLayouts.Add(flBatch);
+                xdgSalesDCDiary.FieldLayouts.Add(flBatch);
                 #endregion Batch
 
                 #region Lead
@@ -2878,7 +2888,7 @@ namespace UDM.Insurance.Interface.Screens
                 flLead.Fields.Add(fieldImportID);
 
 
-                xdgSales.FieldLayouts.Add(flLead);
+                xdgSalesDCDiary.FieldLayouts.Add(flLead);
 
 
                 #endregion Lead
@@ -2901,7 +2911,7 @@ namespace UDM.Insurance.Interface.Screens
                 DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
                 ds.Relations.Add(relBatchAgent);
 
-                xdgSales.DataSource = ds.Tables[0].DefaultView;
+                xdgSalesDCDiary.DataSource = ds.Tables[0].DefaultView;
             }
             catch
             {

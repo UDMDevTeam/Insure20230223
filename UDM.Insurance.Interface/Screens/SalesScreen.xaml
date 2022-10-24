@@ -462,39 +462,286 @@
                                     <RowDefinition Height="0.1*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.1*" />
+                                    <ColumnDefinition Width="25*" />
+                                    <ColumnDefinition Width="23*"/>
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
+                                    <ColumnDefinition Width="48*" />
                                 </Grid.ColumnDefinitions>
                                 <igWPF:XamDataGrid
                                     x:Name="xdgSales"
-                                    Grid.RowSpan="16"
-                                    Grid.ColumnSpan="24"
-                                    Margin="0"
+                                    Grid.RowSpan="17"
+                                    Grid.ColumnSpan="25"
+                                    Margin="0,0,0,43"
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="Stretch"
                                     AutoFit="False"
+                                    EditModeStarted="xdgSales_EditModeStarted"
+                                    FieldLayoutInitialized="xdgSales_FieldLayoutInitialized"
+                                    FontSize="18"
+                                    GroupByAreaLocation="None"
+                                    KeyUp="xdgSales_KeyUp"
+                                    MouseDoubleClick="xdgSales_MouseDoubleClick"
+                                    PreviewKeyDown="xdgSales_PreviewKeyDown"
+                                    RecordDeactivating="xdgSales_RecordDeactivating"
+                                    RecordExpanded="xdgSales_RecordExpanded"
+                                    RecordFilterChanging="xdgSales_RecordFilterChanging"
+                                    Style="{DynamicResource INXamDataGridStyle1}"
+                                    TabIndex="0">
+                                    <!--  DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"  -->
+                                    <igWPF:XamDataGrid.Resources>
+                                        <Style TargetType="igEditors:XamCheckEditor">
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="XamCheckEditor_PreviewMouseLeftButtonDown"/>
+                                        </Style>
+                                        <Style TargetType="{x:Type igWPF:DataRecordCellArea}">
+                                            <Setter Property="Background" Value="{Binding Path=Record.Tag, RelativeSource={RelativeSource Self}}" />
+                                        </Style>
+                                    </igWPF:XamDataGrid.Resources>
+                                    <igWPF:XamDataGrid.FieldLayoutSettings>
+                                        <igWPF:FieldLayoutSettings FilterAction="Hide" FilterUIType="FilterRecord" />
+                                    </igWPF:XamDataGrid.FieldLayoutSettings>
+                                    <igWPF:XamDataGrid.FieldSettings>
+                                        <igWPF:FieldSettings AllowEdit="false">
+                                            <igWPF:FieldSettings.FilterCellEditorStyle>
+
+                                                <Style TargetType="{x:Type igWPF:XamComboEditor}">
+                                                    <Style.Resources>
+                                                        <Style x:Key="StyleTB" TargetType="{x:Type ToggleButton}">
+                                                            <Setter Property="OverridesDefaultStyle" Value="False" />
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </Style>
+
+                                                    </Style.Resources>
+
+                                                    <Setter Property="DropDownButtonStyle" Value="{StaticResource StyleTB}" />
+                                                    <Setter Property="DropDownButtonDisplayMode" Value="OnlyInEditMode" />
+                                                    <Setter Property="BorderBrush" Value="DarkGray" />
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsFocusWithin" Value="True">
+                                                            <Setter Property="Background" Value="{StaticResource BrandedBrushIN_light}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="{StaticResource BrandedBrushIN_light}" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+
+                                            </igWPF:FieldSettings.FilterCellEditorStyle>
+                                            <!--<igWPF:FieldSettings.CellPresenterStyle>-->
+                                            <!--<Style TargetType="{x:Type igWPF:CellPresenter}">
+
+                                                </Style>-->
+                                            <!--<Style TargetType="{x:Type igWPF:CellPresenter}">
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Path=Cells[fieldIsOverAssessment].Value, Converter={StaticResource isOverAssessmentToColourConverter}}" Value="1"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Background" Value="Yellow" />
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </igWPF:FieldSettings.CellPresenterStyle>-->
+                                            <!--<igWPF:FieldSettings.EditorStyle>
+                                                <Style TargetType="{x:Type igWPF:XamDateTimeEditor}">
+                                                    <Style.Resources>
+                                                        <Style x:Key="AllocationDateTime" TargetType="igWPF:XamDateTimeEditor">
+                                                            <Setter Property="Mask" Value="yyyy-mm-dd hh:mm:ss" />
+                                                        </Style>
+                                                    </Style.Resources>
+                                                </Style>
+                                            </igWPF:FieldSettings.EditorStyle>-->
+                                        </igWPF:FieldSettings>
+                                    </igWPF:XamDataGrid.FieldSettings>
+                                    <igDP:XamDataGrid.FieldLayouts>
+                                        <igDP:FieldLayout  Key="productLayout">
+                                            <igDP:FieldLayout.Fields>
+                                                <igDP:Field Name="IsChecked" Label="Active Status">
+                                                    <igDP:Field.Settings>
+                                                        <igDP:FieldSettings AllowEdit="True"
+					                                        EditAsType="{x:Type system:Boolean}" 
+					                                        EditorType="{x:Type igEditors:XamCheckEditor}"/>
+                                                    </igDP:Field.Settings>
+                                                </igDP:Field>
+
+                                            </igDP:FieldLayout.Fields>
+                                        </igDP:FieldLayout>
+                                    </igDP:XamDataGrid.FieldLayouts>
+
+                                    <!--<igWPF:XamDataGrid.FieldLayouts>
+                                        <igWPF:FieldLayout Key="Campaign">
+                                            <igWPF:Field Name="CampaignID"
+                                                         Label="Campaign ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="CampaignName"
+                                                         Width="300"
+                                                         Label="Campaign" />
+                                            <igWPF:Field Name="CampaignCode"
+                                                         Label="Campaign Code"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="CampaignType"
+                                                         Label="Campaign Type"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="CampaignGroup"
+                                                         Label="Campaign Group"
+                                                         Visibility="Collapsed" />
+                                        </igWPF:FieldLayout>
+                                        <igWPF:FieldLayout Key="Batch"
+                                                           ParentFieldLayoutKey="Campaign">
+                                            <igWPF:Field Name="BatchID"
+                                                         Label="Batch ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="CampaignID"
+                                                         Label="Campaign ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="CampaignGroupID"
+                                                         Label="CampaignGroup ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="LeadBookID"
+                                                         Label="LeadBook ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="BatchCode"
+                                                         Width="160"
+                                                         Label="Batch" />
+                                            <igWPF:Field Name="AllocationDate"
+                                                         Width="150"
+                                                         Label="Allocation Date" />
+                                            <igWPF:Field Name="ExpireDate"
+                                                         Width="150"
+                                                         Label="Expire Date" />
+                                        </igWPF:FieldLayout>
+                                        <igWPF:FieldLayout Key="Lead"
+                                                           ParentFieldLayoutKey="Batch">
+                                            <igWPF:Field Name="BatchID"
+                                                         Label="Batch ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="ImportID"
+                                                         Label="Import ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="LeadBookID"
+                                                         Label="LeadBook ID"
+                                                         Visibility="Collapsed" />
+                                            <igWPF:Field Name="Lead"
+                                                         Width="260"
+                                                         Label="Lead">
+                                                <igWPF:Field.Settings>
+                                                    <igWPF:FieldSettings AllowRecordFiltering="True"
+                                                                         FilterOperatorDefaultValue="StartsWith"
+                                                                         FilterOperatorDropDownItems="None" />
+                                                </igWPF:Field.Settings>
+                                            </igWPF:Field>
+                                            <igWPF:Field Name="RefNo"
+                                                         Width="180"
+                                                         Label="Reference Number" />
+                                            <igWPF:Field Name="Referrer"
+                                                         Width="260"
+                                                         Label="Referrer" />
+                                            <igWPF:Field Name="Status"
+                                                         Width="160"
+                                                         Label="Status" />
+                                            <igWPF:Field Name="DiaryReason"
+                                                         Width="260"
+                                                         Label="Diary Reason" />
+                                            <igWPF:Field Name="LeadBookRank"
+                                                         Width="160"
+                                                         Label="LeadBookRank"
+                                                         Visibility="Collapsed" />
+                                        </igWPF:FieldLayout>-->
+
+                                    <!--  Call Monitoring Agent Field Layouts  -->
+
+                                    <!--<igWPF:FieldLayout Key="CampaignCallMonitoringAgent">
+                                        <igWPF:Field Name="CampaignID"
+                                                         Label="Campaign ID"
+                                                         Visibility="Collapsed" />
+                                        <igWPF:Field Name="CampaignName"
+                                                         Width="300"
+                                                         Label="Campaign" />
+                                        <igWPF:Field Name="CampaignCode"
+                                                         Label="Campaign Code"
+                                                         Visibility="Collapsed" />
+                                        <igWPF:Field Name="CampaignGroupType"
+                                                         Visibility="Collapsed" />
+                                    </igWPF:FieldLayout>
+                                    <igWPF:FieldLayout Key="BatchCallMonitoringAgent"
+                                                           ParentFieldLayoutKey="CampaignCallMonitoringAgent">
+                                        <igWPF:Field Name="DateOfSale"
+                                                         Label="Date Of Sale"
+                                                         Visibility="Visible" />
+                                        <igWPF:Field Name="CampaignGroupType"
+                                                         Visibility="Collapsed" />
+                                    </igWPF:FieldLayout>
+                                    <igWPF:FieldLayout Key="LeadCallMonitoringAgent"
+                                                           ParentFieldLayoutKey="BatchCallMonitoringAgent">
+                                        <igWPF:Field Name="DateOfSale"
+                                                         Label="Date Of Sale"
+                                                         Visibility="Visible" />
+                                        <igWPF:Field Name="ActualDateOfSale"
+                                                         Label="Actual Date Of Sale"
+                                                         Visibility="Visible" />
+                                        <igWPF:Field Name="AllocationDateTime"
+                                                         Label="Date and Time of Allocation"
+                                                         Visibility="Visible" />
+                                        <igWPF:Field Name="ExpiryDate"
+                                                         Width="260"
+                                                         Label="Expiry Date"/>
+                                        <igWPF:Field Name="IsTSRBUSavedCarriedForward"
+                                                         Width="180"
+                                                         Label="TSR/BU Saved Carried Forward" />
+                                        <igWPF:Field Name="RefNo"
+                                                         Width="260"
+                                                         Label="Reference Number" />
+                                        <igWPF:Field Name="TSR"
+                                                         Width="160"
+                                                         Label="TSR Name" />
+                                        <igWPF:Field Name="LeadStatus"
+                                                         Width="260"
+                                                         Label="Lead Status" />
+                                        <igWPF:Field Name="CallMonitoringStatus"
+                                                         Width="160"
+                                                         Label="Call Monitoring Status"/>
+                                        <igWPF:Field Name="IsBumpedUp"
+                                                         Width="160"
+                                                         Label="Bumped Up"/>
+                                        <igWPF:Field Name="CampaignGroupType"
+                                                         Visibility="Collapsed"/>
+                                        <igWPF:Field Name="IsOverAssessment"
+                                                         Width="160"
+                                                         Label="Is Over Assessment"/>
+                                        <igWPF:Field Name="ImportID"
+                                                         Visibility="Collapsed"/>
+                                    </igWPF:FieldLayout>
+                                    </igWPF:XamDataGrid.FieldLayouts>-->
+                                </igWPF:XamDataGrid>
+                                <igWPF:XamDataGrid
+                                    x:Name="xdgSalesDCDiary"
+                                    Grid.RowSpan="17"
+                                    Grid.ColumnSpan="25"
+                                    Margin="0,0,0,43"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    AutoFit="False"
+                                    Visibility="Collapsed"
                                     EditModeStarted="xdgSales_EditModeStarted"
                                     FieldLayoutInitialized="xdgSales_FieldLayoutInitialized"
                                     FontSize="18"
@@ -736,10 +983,10 @@
 
                                 <StackPanel
                                     Grid.Row="16"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="24"
-                                    HorizontalAlignment="Right"
-                                    Orientation="Horizontal">
+                                    Grid.Column="4"
+                                    Grid.ColumnSpan="21"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal" Margin="12,0,0,0">
                                     <StackPanel.Resources>
                                         <system:Double x:Key="Space">
                                             10
