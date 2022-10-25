@@ -2405,7 +2405,7 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 xdgSales.Visibility = Visibility.Visible;
-                xdgSalesDCDiary.Visibility = Visibility.Collapsed;
+                xdgSalesDCDiary.Visibility = Visibility.Hidden;
             }
             catch { }
 
@@ -2681,7 +2681,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 try
                 {
-                    xdgSales.Visibility = Visibility.Collapsed;
+                    xdgSales.Visibility = Visibility.Hidden;
                     xdgSalesDCDiary.Visibility = Visibility.Visible;
                 }
                 catch { }
