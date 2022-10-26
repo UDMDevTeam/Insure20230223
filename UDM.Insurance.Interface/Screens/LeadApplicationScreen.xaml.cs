@@ -7662,49 +7662,66 @@ namespace UDM.Insurance.Interface.Screens
 
                                 #endregion
 
-                                //#region Substituting accidental death for Cancer PLMM campaigns
-                                //if (LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
-                                //{
-                                //    if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
-                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
-                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
-                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8 ||
-                                //        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9 )
-                                //    {
+                                #region Substituting accidental death for Cancer PLMM campaigns
+                                if (LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
+                                {
+                                    if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade5 ||
+                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade6 ||
+                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade7 ||
+                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8 ||
+                                        LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9)
+                                    {
 
-                                //        if (c.Contains("accidental disabilit"))
-                                //        {
-                                //            StringBuilder strQueryTransferredUser = new StringBuilder();
-                                //            strQueryTransferredUser.Append("SELECT Display [Response] ");
-                                //            strQueryTransferredUser.Append("FROM INOption ");
-                                //            strQueryTransferredUser.Append("WHERE ID = " + LaData.PolicyData.OptionID.ToString());
-                                //            DataTable dtFKUserID = Methods.GetTableData(strQueryTransferredUser.ToString());
-                                //            string str = dtFKUserID.Rows[0]["Response"].ToString();
+                                        if (c.Contains("accidental disabilit"))
+                                        {
+                                            StringBuilder strQueryTransferredUser = new StringBuilder();
+                                            strQueryTransferredUser.Append("SELECT Display [Response] ");
+                                            strQueryTransferredUser.Append("FROM INOption ");
+                                            strQueryTransferredUser.Append("WHERE ID = " + LaData.PolicyData.OptionID.ToString());
+                                            DataTable dtFKUserID = Methods.GetTableData(strQueryTransferredUser.ToString());
+                                            string str = dtFKUserID.Rows[0]["Response"].ToString();
 
-                                //            if(str.Contains("Cancer"))
-                                //            {
-                                //                dat = c2.Replace("accidental disabilit", "Cancer Cover");
-                                //                c2 = dat;
-                                //                formattingapplied = true;
-                                //            }
-                                //            if (str.Contains("Cancer"))
-                                //            {
-                                //                dat = c2.Replace("y,", ",");
-                                //                c2 = dat;
-                                //                formattingapplied = true;
-                                //            }
-                                //            if (str.Contains("Cancer"))
-                                //            {
-                                //                dat = c2.Replace("Cancery", "Cancer Cover");
-                                //                c2 = dat;
-                                //                formattingapplied = true;
-                                //            }
-                                //        }
-                                //    }
+                                            if (str.Contains("Cancer"))
+                                            {
+                                                dat = c2.Replace("accidental disability", "Cancer Cover");
+                                                c2 = dat;
+                                                formattingapplied = true;
+                                            }
+                                            ////if (str.Contains("Cancer"))
+                                            ////{
+                                            ////    dat = c2.Replace("y,", ",");
+                                            ////    c2 = dat;
+                                            ////    formattingapplied = true;
+                                            ////}
+                                            if (str.Contains("Cancer"))
+                                            {
+                                                dat = c2.Replace("Cancery", "Cancer Cover");
+                                                c2 = dat;
+                                                formattingapplied = true;
+                                            }
+                                        }
+                                        else if (c.Contains("ongeluks ongeskiktheid"))
+                                        {
+                                            StringBuilder strQueryTransferredUser = new StringBuilder();
+                                            strQueryTransferredUser.Append("SELECT Display [Response] ");
+                                            strQueryTransferredUser.Append("FROM INOption ");
+                                            strQueryTransferredUser.Append("WHERE ID = " + LaData.PolicyData.OptionID.ToString());
+                                            DataTable dtFKUserID = Methods.GetTableData(strQueryTransferredUser.ToString());
+                                            string str = dtFKUserID.Rows[0]["Response"].ToString();
 
-                                //}
+                                            if (str.Contains("Cancer"))
+                                            {
+                                                dat = c2.Replace("ongeluks ongeskiktheid", "kanker dekking");
+                                                c2 = dat;
+                                                formattingapplied = true;
+                                            }
+                                        }
 
-                                //#endregion
+                                    }
+
+                                }
+
+                                #endregion
 
                                 if (formattingapplied == false)
                                 {
