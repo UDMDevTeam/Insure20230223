@@ -308,7 +308,21 @@
                         VerticalAlignment="Top"
                         Style="{DynamicResource INPageHeadingText1}"
                         Text="Transfer Adjustments" />
-
+                    
+                    <Button
+                        x:Name="btnChangetoDCAgent"
+                        Grid.Row="7"
+                        Grid.Column="22"
+                        Grid.ColumnSpan="4"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Click="btnChangetoDCAgent_Click"
+                        Content="Change to DC"
+                        IsEnabled="True"
+                        Style="{DynamicResource INFlatButton}"
+                        TabIndex="0" />
+                    
                     <Button
                         x:Name="btnReport"
                         Grid.Row="8"

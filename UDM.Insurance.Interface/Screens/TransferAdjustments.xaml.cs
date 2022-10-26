@@ -443,5 +443,25 @@ namespace UDM.Insurance.Interface.Screens
 
 
         }
+
+        private void btnChangetoDCAgent_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                INImport details = new INImport(loadedImportID);
+                details.FKINLeadStatusID = 24;
+                details.Save(_validationResult);
+
+                ShowMessageBox(new INMessageBoxWindow1(), "Saved\n", "Changed back to Forward to DC Agent", ShowMessageType.Information);
+            }
+            catch
+            {
+                ShowMessageBox(new INMessageBoxWindow1(), "Not Saved\n", "Failed to save.", ShowMessageType.Exclamation);
+
+            }
+
+
+
+        }
     }
 }
