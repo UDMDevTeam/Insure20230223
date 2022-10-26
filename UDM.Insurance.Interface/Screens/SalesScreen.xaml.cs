@@ -1635,6 +1635,128 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void xdgSalesDCDiary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                DataRecordCellArea drca = Utilities.GetAncestorFromType(e.OriginalSource as DependencyObject, typeof(DataRecordCellArea), false) as DataRecordCellArea;
+
+                if (drca != null)
+                {
+                    if (xdgSalesDCDiary.ActiveRecord != null && xdgSalesDCDiary.ActiveRecord.RecordType == RecordType.DataRecord && xdgSalesDCDiary.ActiveRecord.FieldLayout.Description == "Lead")
+                    {
+                        if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
+                        {
+                            DataTable dtCMA = Methods.GetTableData("SELECT * FROM CallMonitoringAllocation AS CMA LEFT JOIN [User] AS U ON CMA.FKUserID = U.ID WHERE FKINImportID = " + Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                            if (dtCMA.AsEnumerable().Where(x => x["IsSavedCarriedForward"] as bool? == true && x["FKUserID"] as long? != _agentID).Count() > 0)
+                            {
+                                string cmAgentFirstName = dtCMA.AsEnumerable().Where(x => x["IsSavedCarriedForward"] as bool? == true).Select(x => x["FirstName"]).FirstOrDefault().ToString();
+                                string cmAgentLastName = dtCMA.AsEnumerable().Where(x => x["IsSavedCarriedForward"] as bool? == true).Select(x => x["LastName"]).FirstOrDefault().ToString();
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, "This saved carried forward has been allocated to " + cmAgentFirstName + " " + cmAgentLastName + " to be call monitored." +
+                                    " Therefore it has been locked.", "Lead Locked", ShowMessageType.Error);
+                            }
+                            else
+                            {
+                                if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
+                                {
+                                    SetAgentOffline();
+                                    timer.Stop();
+                                }
+
+                                string LeadStatusPulled = "";
+                                string ImportIDString = ((DataRecord)xdgSalesDCDiary.ActiveRecord).Cells["ImportID"].Value.ToString();
+                                try
+                                {
+                                    StringBuilder strQuery = new StringBuilder();
+                                    strQuery.Append("SELECT FKINLeadStatusID [Code] ");
+                                    strQuery.Append("FROM INImport ");
+                                    strQuery.Append($"WHERE ID = " + ImportIDString);
+
+                                    DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                    LeadStatusPulled = dt.Rows[0]["Code"].ToString();
+                                }
+                                catch { }
+
+
+                                //if(LeadStatusPulled == "1")
+                                //{
+                                //    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                //}
+                                //else
+                                //{
+                                //    if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
+                                //    {
+                                //        ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                                //    }
+                                //    else
+                                //    {
+                                //        Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                                //            //    MainBorder.BorderBrush = Brushes.LightBlue;
+                                //            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                //            ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                                //        }));
+                                //    }
+                                //}
+
+                                ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSalesDCDiary.ActiveRecord).Cells["ImportID"].Value.ToString()));
+
+                            }
+                        }
+                        else
+                        {
+
+                            string LeadStatusPulled = "";
+                            string ImportIDString = ((DataRecord)xdgSalesDCDiary.ActiveRecord).Cells["ImportID"].Value.ToString();
+                            try
+                            {
+                                StringBuilder strQuery = new StringBuilder();
+                                strQuery.Append("SELECT FKINLeadStatusID [Code] ");
+                                strQuery.Append("FROM INImport ");
+                                strQuery.Append($"WHERE ID = " + ImportIDString);
+
+                                DataTable dt = Methods.GetTableData(strQuery.ToString());
+
+                                LeadStatusPulled = dt.Rows[0]["Code"].ToString();
+                            }
+                            catch { }
+
+
+                            //if (LeadStatusPulled == "1")
+                            //{
+                            //    ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                            //}
+                            //else
+                            //{
+                            //    if (CheckLeadValidity(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()))
+                            //    {
+                            //        ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSales.ActiveRecord).Cells["ImportID"].Value.ToString()));
+                            //    }
+                            //    else
+                            //    {
+                            //        Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => {
+                            //            //    MainBorder.BorderBrush = Brushes.LightBlue;
+                            //            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            //            ShowMessageBox(messageWindow, "Do not contact !", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                            //        }));
+                            //    }
+                            //}
+
+                            ShowLeadApplicationScreen(Int64.Parse(((DataRecord)xdgSalesDCDiary.ActiveRecord).Cells["ImportID"].Value.ToString()));
+
+                        }
+
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
         private void xdgSales_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try

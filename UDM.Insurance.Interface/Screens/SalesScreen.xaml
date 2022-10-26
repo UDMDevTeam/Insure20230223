@@ -744,7 +744,7 @@
                                     FontSize="18"
                                     GroupByAreaLocation="None"
                                     KeyUp="xdgSales_KeyUp"
-                                    MouseDoubleClick="xdgSales_MouseDoubleClick"
+                                    MouseDoubleClick="xdgSalesDCDiary_MouseDoubleClick"
                                     PreviewKeyDown="xdgSales_PreviewKeyDown"
                                     RecordDeactivating="xdgSales_RecordDeactivating"
                                     RecordExpanded="xdgSales_RecordExpanded"
