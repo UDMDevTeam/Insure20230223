@@ -238,7 +238,7 @@ namespace UDM.Insurance.Interface.Screens
                     //    campaignID = Convert.ToInt64(cmbCampaign.SelectedValue);
 
                     //});
-                    DataTable dtAllReportData = UDM.Insurance.Business.Insure.INGetReportNoContactReportData(batchCode, campaignID);
+                    DataTable dtAllReportData = UDM.Insurance.Business.Insure.INGetReportNoContactReportData(batchCode, campaignID, 0);
                     DataTable dtNoContactReportData = new DataTable();
                     DataTable dtDeclinedUpdatedDetailsData = new DataTable();
                     if (dtAllReportData.AsEnumerable().Where(x => Convert.ToBoolean(x["IsDecline"]) != true).Count() > 0)

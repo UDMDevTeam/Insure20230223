@@ -52,6 +52,10 @@ namespace UDM.Insurance.Interface.Screens
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
         private int _timer1;
 
+        int includeDiaries = 0;
+        int CondensedReport = 0;
+
+
         #endregion Private Members
 
         #region Constructors
@@ -205,18 +209,36 @@ namespace UDM.Insurance.Interface.Screens
 
                 Workbook wbTemplate;
                 Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
-                string filePathAndName = String.Format("{0}No Contact Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaignName, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                string filePathAndName = String.Format("{0} ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaignName, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
 
-                Uri uri = new Uri("/Templates/ReportTemplateNoContact.xlsx", UriKind.Relative);
-                StreamResourceInfo info = Application.GetResourceStream(uri);
-                if (info != null)
+                if(CondensedReport == 1)
                 {
-                    wbTemplate = Workbook.Load(info.Stream, true);
+                    Uri uri = new Uri("/Templates/ReportTemplateNoContactCondensed.xlsx", UriKind.Relative);
+                    StreamResourceInfo info = Application.GetResourceStream(uri);
+                    if (info != null)
+                    {
+                        wbTemplate = Workbook.Load(info.Stream, true);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
-                    return;
+                    Uri uri = new Uri("/Templates/ReportTemplateNoContact.xlsx", UriKind.Relative);
+                    StreamResourceInfo info = Application.GetResourceStream(uri);
+                    if (info != null)
+                    {
+                        wbTemplate = Workbook.Load(info.Stream, true);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
+
+
 
                 Worksheet wsTemplate = wbTemplate.Worksheets["Revised"];
                 Worksheet wsNewReportSheet = null;
@@ -236,9 +258,10 @@ namespace UDM.Insurance.Interface.Screens
                     //Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     //{
                     //    campaignID = Convert.ToInt64(cmbCampaign.SelectedValue);
-
                     //});
-                    DataTable dtAllReportData = UDM.Insurance.Business.Insure.INGetReportNoContactReportData(batchCode, campaignID);
+
+
+                    DataTable dtAllReportData = UDM.Insurance.Business.Insure.INGetReportNoContactReportData(batchCode, campaignID, includeDiaries);
                     DataTable dtNoContactReportData = new DataTable();
                     DataTable dtDeclinedUpdatedDetailsData = new DataTable();
                     if (dtAllReportData.AsEnumerable().Where(x => Convert.ToBoolean(x["IsDecline"]) != true).Count() > 0)
@@ -312,7 +335,7 @@ namespace UDM.Insurance.Interface.Screens
                 reportRow = 0;
                 
                 Methods.CopyWorksheetOptionsFromTemplate(wsTemplate, wsNewReportSheet, true, true, true, true, false, false, false, false, true, true, true, true, true, true, true, true, true);
-                Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 85, wsNewReportSheet, reportRow, 0);
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 3, 86, wsNewReportSheet, reportRow, 0);
                 reportRow = 4;
 
                 #endregion Adding a new worksheet for the current batch and copy the options
@@ -386,99 +409,113 @@ namespace UDM.Insurance.Interface.Screens
 
                     #endregion The data table contains 3 or more rows
 
-                    Methods.CopyExcelRegion(wsTemplate, reportTemplateRowIndex, 0, 0, 85, wsNewReportSheet, reportRow, 0);
+                    Methods.CopyExcelRegion(wsTemplate, reportTemplateRowIndex, 0, 0, 86, wsNewReportSheet, reportRow, 0);
 
                     #endregion Copy the template formatting, based on the number of rows in the data table, and set the report template row index
 
                     #region Populate the report values
+                    if(CondensedReport == 1)
+                    {
+                        wsNewReportSheet.GetCell(String.Format("A{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CampaignName"];
+                        wsNewReportSheet.GetCell(String.Format("B{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["BatchCode"];
+                        wsNewReportSheet.GetCell(String.Format("C{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ImportDate"];
+                        wsNewReportSheet.GetCell(String.Format("D{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferenceNumber"];
+                        wsNewReportSheet.GetCell(String.Format("E{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["PolicyID"];
+                        wsNewReportSheet.GetCell(String.Format("F{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LeadStatus"];
+                    }
+                    else 
+                    {
+                        wsNewReportSheet.GetCell(String.Format("A{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CampaignName"];
+                        wsNewReportSheet.GetCell(String.Format("B{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CampaignCode"];
+                        wsNewReportSheet.GetCell(String.Format("C{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["BatchCode"];
+                        wsNewReportSheet.GetCell(String.Format("D{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["UDMBatchCode"];
+                        wsNewReportSheet.GetCell(String.Format("E{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ImportDate"];
+                        wsNewReportSheet.GetCell(String.Format("F{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferenceNumber"];
+                        wsNewReportSheet.GetCell(String.Format("G{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["GiftReceived"];
+                        wsNewReportSheet.GetCell(String.Format("H{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["AllocatedTo"];
+                        wsNewReportSheet.GetCell(String.Format("I{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["AllocationDate"];
+                        wsNewReportSheet.GetCell(String.Format("J{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["IsPrinted"];
+                        wsNewReportSheet.GetCell(String.Format("K{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LeadFeedback"];
+                        wsNewReportSheet.GetCell(String.Format("L{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["SalesConsultant"];
+                        wsNewReportSheet.GetCell(String.Format("M{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Workstation"];
+                        wsNewReportSheet.GetCell(String.Format("N{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Date"];
+                        //wsNewReportSheet.GetCell(String.Format("O{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Time"];
+                        wsNewReportSheet.GetCell(String.Format("O{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Time"] != DBNull.Value ? dtNoContactReportData.Rows[i]["Time"].ToString() : null;
+                        wsNewReportSheet.GetCell(String.Format("P{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ContactNumber"];
+                        wsNewReportSheet.GetCell(String.Format("Q{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Title"];
+                        wsNewReportSheet.GetCell(String.Format("R{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Intials"];
+                        wsNewReportSheet.GetCell(String.Format("S{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["FirstName"];
+                        wsNewReportSheet.GetCell(String.Format("T{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LastName"];
+                        wsNewReportSheet.GetCell(String.Format("U{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["IDNumber"];
+                        wsNewReportSheet.GetCell(String.Format("V{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["DateOfBirth"];
+                        wsNewReportSheet.GetCell(String.Format("W{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["WorkPhone"];
+                        wsNewReportSheet.GetCell(String.Format("X{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["HomePhone"];
+                        wsNewReportSheet.GetCell(String.Format("Y{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CellPhone"];
+                        wsNewReportSheet.GetCell(String.Format("Z{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address"];
+                        wsNewReportSheet.GetCell(String.Format("AA{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address1"];
+                        wsNewReportSheet.GetCell(String.Format("AB{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address2"];
+                        wsNewReportSheet.GetCell(String.Format("AC{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address3"];
+                        wsNewReportSheet.GetCell(String.Format("AD{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address4"];
+                        wsNewReportSheet.GetCell(String.Format("AE{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["AreaCode"];
+                        wsNewReportSheet.GetCell(String.Format("AF{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Email"];
+                        wsNewReportSheet.GetCell(String.Format("AG{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferrorName"];
+                        wsNewReportSheet.GetCell(String.Format("AH{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferrorRelationship"];
+                        wsNewReportSheet.GetCell(String.Format("AI{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2DateOfBirth"];
+                        wsNewReportSheet.GetCell(String.Format("AJ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2Initials"];
+                        wsNewReportSheet.GetCell(String.Format("AK{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2FirstName"];
+                        wsNewReportSheet.GetCell(String.Format("AL{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2Surname"];
+                        wsNewReportSheet.GetCell(String.Format("AM{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Title"];
+                        wsNewReportSheet.GetCell(String.Format("AN{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1FirstName"];
+                        wsNewReportSheet.GetCell(String.Format("AO{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Surname"];
+                        wsNewReportSheet.GetCell(String.Format("AP{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1DateOfBirth"];
+                        wsNewReportSheet.GetCell(String.Format("AQ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Gender"];
+                        wsNewReportSheet.GetCell(String.Format("AR{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Relationship"];
+                        wsNewReportSheet.GetCell(String.Format("AS{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Percentage"];
+                        wsNewReportSheet.GetCell(String.Format("AT{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Title"];
+                        wsNewReportSheet.GetCell(String.Format("AU{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2FirstName"];
+                        wsNewReportSheet.GetCell(String.Format("AV{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Surname"];
+                        wsNewReportSheet.GetCell(String.Format("AW{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2DateOfBirth"];
+                        wsNewReportSheet.GetCell(String.Format("AX{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Gender"];
+                        wsNewReportSheet.GetCell(String.Format("AY{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Relationship"];
+                        wsNewReportSheet.GetCell(String.Format("AZ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Percentage"];
+                        wsNewReportSheet.GetCell(String.Format("BA{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Title"];
+                        wsNewReportSheet.GetCell(String.Format("BB{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3FirstName"];
+                        wsNewReportSheet.GetCell(String.Format("BC{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Surname"];
+                        wsNewReportSheet.GetCell(String.Format("BD{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3DateOfBirth"];
+                        wsNewReportSheet.GetCell(String.Format("BE{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Gender"];
+                        wsNewReportSheet.GetCell(String.Format("BF{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Relationship"];
+                        wsNewReportSheet.GetCell(String.Format("BG{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Percentage"];
+                        wsNewReportSheet.GetCell(String.Format("BH{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Title"];
+                        wsNewReportSheet.GetCell(String.Format("BI{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4FirstName"];
+                        wsNewReportSheet.GetCell(String.Format("BJ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Surname"];
+                        wsNewReportSheet.GetCell(String.Format("BK{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4DateOfBirth"];
+                        wsNewReportSheet.GetCell(String.Format("BL{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Gender"];
+                        wsNewReportSheet.GetCell(String.Format("BM{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Relationship"];
+                        wsNewReportSheet.GetCell(String.Format("BN{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Percentage"];
+                        wsNewReportSheet.GetCell(String.Format("BO{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["PolicyID"];
+                        wsNewReportSheet.GetCell(String.Format("BP{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["PolicyNotes"];
+                        wsNewReportSheet.GetCell(String.Format("BQ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["OriginalCommenceDate"];
+                        wsNewReportSheet.GetCell(String.Format("BR{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CommencementDate"];
+                        wsNewReportSheet.GetCell(String.Format("BS{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ChildCover"];
+                        wsNewReportSheet.GetCell(String.Format("BT{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["DebitDay"];
+                        wsNewReportSheet.GetCell(String.Format("BU{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Offer"];
+                        wsNewReportSheet.GetCell(String.Format("BV{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Premium"];
+                        wsNewReportSheet.GetCell(String.Format("BW{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["TotalPremium"];
+                        wsNewReportSheet.GetCell(String.Format("BX{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured1AccidentalDeathCover"];
+                        wsNewReportSheet.GetCell(String.Format("BY{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured1DisabilityCover"];
+                        wsNewReportSheet.GetCell(String.Format("BZ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured1FuneralCover"];
+                        wsNewReportSheet.GetCell(String.Format("CA{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2AccidentalDeathCover"];
+                        wsNewReportSheet.GetCell(String.Format("CB{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2DisabilityCover"];
+                        wsNewReportSheet.GetCell(String.Format("CC{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2FuneralCover"];
+                        //NOK
+                        wsNewReportSheet.GetCell(String.Format("CD{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKFirstName"];
+                        wsNewReportSheet.GetCell(String.Format("CE{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKSurname"];
+                        wsNewReportSheet.GetCell(String.Format("CF{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKRelationship"];
+                        wsNewReportSheet.GetCell(String.Format("CG{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKTelContact"];
 
-                    wsNewReportSheet.GetCell(String.Format("A{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CampaignName"];
-                    wsNewReportSheet.GetCell(String.Format("B{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CampaignCode"];
-                    wsNewReportSheet.GetCell(String.Format("C{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["BatchCode"];
-                    wsNewReportSheet.GetCell(String.Format("D{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["UDMBatchCode"];
-                    wsNewReportSheet.GetCell(String.Format("E{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ImportDate"];
-                    wsNewReportSheet.GetCell(String.Format("F{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferenceNumber"];
-                    wsNewReportSheet.GetCell(String.Format("G{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["GiftReceived"];
-                    wsNewReportSheet.GetCell(String.Format("H{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["AllocatedTo"];
-                    wsNewReportSheet.GetCell(String.Format("I{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["AllocationDate"];
-                    wsNewReportSheet.GetCell(String.Format("J{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["IsPrinted"];
-                    wsNewReportSheet.GetCell(String.Format("K{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LeadFeedback"];
-                    wsNewReportSheet.GetCell(String.Format("L{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["SalesConsultant"];
-                    wsNewReportSheet.GetCell(String.Format("M{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Workstation"];
-                    wsNewReportSheet.GetCell(String.Format("N{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Date"];
-                    //wsNewReportSheet.GetCell(String.Format("O{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Time"];
-                    wsNewReportSheet.GetCell(String.Format("O{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Time"] != DBNull.Value ? dtNoContactReportData.Rows[i]["Time"].ToString() : null;
-                    wsNewReportSheet.GetCell(String.Format("P{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ContactNumber"];
-                    wsNewReportSheet.GetCell(String.Format("Q{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Title"];
-                    wsNewReportSheet.GetCell(String.Format("R{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Intials"];
-                    wsNewReportSheet.GetCell(String.Format("S{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["FirstName"];
-                    wsNewReportSheet.GetCell(String.Format("T{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LastName"];
-                    wsNewReportSheet.GetCell(String.Format("U{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["IDNumber"];
-                    wsNewReportSheet.GetCell(String.Format("V{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["DateOfBirth"];
-                    wsNewReportSheet.GetCell(String.Format("W{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["WorkPhone"];
-                    wsNewReportSheet.GetCell(String.Format("X{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["HomePhone"];
-                    wsNewReportSheet.GetCell(String.Format("Y{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CellPhone"];
-                    wsNewReportSheet.GetCell(String.Format("Z{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address"];
-                    wsNewReportSheet.GetCell(String.Format("AA{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address1"];
-                    wsNewReportSheet.GetCell(String.Format("AB{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address2"];
-                    wsNewReportSheet.GetCell(String.Format("AC{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address3"];
-                    wsNewReportSheet.GetCell(String.Format("AD{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Address4"];
-                    wsNewReportSheet.GetCell(String.Format("AE{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["AreaCode"];
-                    wsNewReportSheet.GetCell(String.Format("AF{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Email"];
-                    wsNewReportSheet.GetCell(String.Format("AG{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferrorName"];
-                    wsNewReportSheet.GetCell(String.Format("AH{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ReferrorRelationship"];
-                    wsNewReportSheet.GetCell(String.Format("AI{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2DateOfBirth"];
-                    wsNewReportSheet.GetCell(String.Format("AJ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2Initials"];
-                    wsNewReportSheet.GetCell(String.Format("AK{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2FirstName"];
-                    wsNewReportSheet.GetCell(String.Format("AL{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2Surname"];
-                    wsNewReportSheet.GetCell(String.Format("AM{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Title"];
-                    wsNewReportSheet.GetCell(String.Format("AN{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1FirstName"];
-                    wsNewReportSheet.GetCell(String.Format("AO{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Surname"];
-                    wsNewReportSheet.GetCell(String.Format("AP{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1DateOfBirth"];
-                    wsNewReportSheet.GetCell(String.Format("AQ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Gender"];
-                    wsNewReportSheet.GetCell(String.Format("AR{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Relationship"];
-                    wsNewReportSheet.GetCell(String.Format("AS{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary1Percentage"];
-                    wsNewReportSheet.GetCell(String.Format("AT{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Title"];
-                    wsNewReportSheet.GetCell(String.Format("AU{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2FirstName"];
-                    wsNewReportSheet.GetCell(String.Format("AV{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Surname"];
-                    wsNewReportSheet.GetCell(String.Format("AW{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2DateOfBirth"];
-                    wsNewReportSheet.GetCell(String.Format("AX{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Gender"];
-                    wsNewReportSheet.GetCell(String.Format("AY{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Relationship"];
-                    wsNewReportSheet.GetCell(String.Format("AZ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary2Percentage"];
-                    wsNewReportSheet.GetCell(String.Format("BA{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Title"];
-                    wsNewReportSheet.GetCell(String.Format("BB{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3FirstName"];
-                    wsNewReportSheet.GetCell(String.Format("BC{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Surname"];
-                    wsNewReportSheet.GetCell(String.Format("BD{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3DateOfBirth"];
-                    wsNewReportSheet.GetCell(String.Format("BE{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Gender"];
-                    wsNewReportSheet.GetCell(String.Format("BF{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Relationship"];
-                    wsNewReportSheet.GetCell(String.Format("BG{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary3Percentage"];
-                    wsNewReportSheet.GetCell(String.Format("BH{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Title"];
-                    wsNewReportSheet.GetCell(String.Format("BI{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4FirstName"];
-                    wsNewReportSheet.GetCell(String.Format("BJ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Surname"];
-                    wsNewReportSheet.GetCell(String.Format("BK{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4DateOfBirth"];
-                    wsNewReportSheet.GetCell(String.Format("BL{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Gender"];
-                    wsNewReportSheet.GetCell(String.Format("BM{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Relationship"];
-                    wsNewReportSheet.GetCell(String.Format("BN{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Beneficiary4Percentage"];
-                    wsNewReportSheet.GetCell(String.Format("BO{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["PolicyID"];
-                    wsNewReportSheet.GetCell(String.Format("BP{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["PolicyNotes"];
-                    wsNewReportSheet.GetCell(String.Format("BQ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["OriginalCommenceDate"];
-                    wsNewReportSheet.GetCell(String.Format("BR{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["CommencementDate"];
-                    wsNewReportSheet.GetCell(String.Format("BS{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["ChildCover"];
-                    wsNewReportSheet.GetCell(String.Format("BT{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["DebitDay"];
-                    wsNewReportSheet.GetCell(String.Format("BU{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Offer"];
-                    wsNewReportSheet.GetCell(String.Format("BV{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["Premium"];
-                    wsNewReportSheet.GetCell(String.Format("BW{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["TotalPremium"];
-                    wsNewReportSheet.GetCell(String.Format("BX{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured1AccidentalDeathCover"];
-                    wsNewReportSheet.GetCell(String.Format("BY{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured1DisabilityCover"];
-                    wsNewReportSheet.GetCell(String.Format("BZ{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured1FuneralCover"];
-                    wsNewReportSheet.GetCell(String.Format("CA{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2AccidentalDeathCover"];
-                    wsNewReportSheet.GetCell(String.Format("CB{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2DisabilityCover"];
-                    wsNewReportSheet.GetCell(String.Format("CC{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LifeAssured2FuneralCover"];
-                    //NOK
-                    wsNewReportSheet.GetCell(String.Format("CD{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKFirstName"];
-                    wsNewReportSheet.GetCell(String.Format("CE{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKSurname"];
-                    wsNewReportSheet.GetCell(String.Format("CF{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKRelationship"];
-                    wsNewReportSheet.GetCell(String.Format("CG{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["NOKTelContact"];
+                        wsNewReportSheet.GetCell(String.Format("CH{0}", reportRow + 1)).Value = dtNoContactReportData.Rows[i]["LeadStatus"];
+                    }
+
 
                     reportRow++;
 
@@ -802,6 +839,14 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     if (_reportContentOnSinglePageSheet.Value == false)
                     {
+                        if (DiaryCheckBox.IsChecked == true)
+                        {
+                            includeDiaries = 1;
+                        }
+                        else
+                        {
+                            includeDiaries = 0;
+                        }
                         BackgroundWorker worker = new BackgroundWorker();
                         worker.DoWork += Report;
                         worker.RunWorkerCompleted += ReportCompleted;
@@ -965,6 +1010,15 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Event Handlers
 
+        private void ShortPageCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CondensedReport = 1;
+        }
+
+        private void ShortPageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CondensedReport = 0;
+        }
     }
 
 }

@@ -372,6 +372,43 @@
                         <igWPF:XamMonthCalendar x:Name="Cal2" Style="{DynamicResource INXamMonthCalendarStyle2}" TabIndex="0" Margin="0" FontSize="16" Visibility="Visible" SelectedDatesChanged="Cal2_SelectedDatesChanged" />
                         </Viewbox>
                     -->
+                    <CheckBox x:Name="DiaryCheckBox"
+                              Grid.Column="11"
+                              Grid.Row="5"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                        
+                    </CheckBox>
+
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="12"
+                        Grid.ColumnSpan="4"
+                        VerticalAlignment="Center"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Include Diaries"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" />
+
+                    <CheckBox x:Name="ShortPageCheckBox"
+                              Grid.Column="11"
+                              Grid.Row="6"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Checked="ShortPageCheckBox_Checked"
+                              Unchecked="ShortPageCheckBox_Unchecked">
+
+                    </CheckBox>
+
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="12"
+                        Grid.ColumnSpan="4"
+                        VerticalAlignment="Center"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Condensed Report"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" />
 
                     <Button
                         x:Name="btnReport"
