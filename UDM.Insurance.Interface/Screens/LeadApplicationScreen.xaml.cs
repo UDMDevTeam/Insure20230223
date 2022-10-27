@@ -6569,7 +6569,7 @@ namespace UDM.Insurance.Interface.Screens
                 int gridRow = 1;
                 int maxRow = 5;
 
-                if (LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" /*|| LaData.AppData.CampaignCode == "PLDMM9U"*/)
+                if (LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLDMM9U")
                 {
                     maxRow = 8;
                 }
@@ -16914,6 +16914,8 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 try { data["MaxInstallmentAmount"] = ""; } catch { data["MaxInstallmentAmount"] = ""; }
                             }
+                            //try { data["MaxInstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
+
                         }
 
                         try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
