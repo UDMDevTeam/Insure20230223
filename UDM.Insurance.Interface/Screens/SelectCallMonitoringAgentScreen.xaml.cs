@@ -102,7 +102,7 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void RebindData()
         {
-            DataTable dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[Online] DESC ");
+            DataTable dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
 
 
             //try { dtSalesData.Clear(); } catch { }
@@ -131,7 +131,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                 {
-                    DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
+                    DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[StampDate] ASC");
                     cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
                 }
                 else
