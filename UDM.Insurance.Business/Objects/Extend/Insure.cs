@@ -1133,12 +1133,13 @@ namespace UDM.Insurance.Business
 
         #region No Contact Report - Specific Functionalities
 
-        public static DataTable INGetReportNoContactReportData(string batchCode, long campaignID)
+        public static DataTable INGetReportNoContactReportData(string batchCode, long campaignID, int IncludeDiaryBool)
         {
             object param1 = Database.GetParameter("@BatchCode", batchCode);
             object param2 = Database.GetParameter("@CampaignID", campaignID);
+            object param3 = Database.GetParameter("@IncludeDiaries", IncludeDiaryBool);
 
-            object[] paramArray = new[] { param1, param2 };
+            object[] paramArray = new[] { param1, param2, param3 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportNoContact", paramArray).Tables[0];
         }

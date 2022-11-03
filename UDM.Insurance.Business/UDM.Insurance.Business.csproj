@@ -35,6 +35,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -82,6 +84,10 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
       <Private>True</Private>
@@ -98,6 +104,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\LeadImportTrackerMapper.cs" />
+    <Compile Include="Mapping\ConservedCampaignsMapper.cs" />
+    <Compile Include="Mapping\INDCSpecialistDiaryMapper .cs" />
+    <Compile Include="Mapping\INFocusCampaignsMapper.cs" />
+    <Compile Include="Mapping\INDebiCheckQueriesMapper.cs" />
+    <Compile Include="Mapping\INIDConfirmedMapper.cs" />
+    <Compile Include="Mapping\INUpgradeIDUpdateMapper.cs" />
+    <Compile Include="Mapping\INDCNotAvailableOverrideMapper.cs" />
+    <Compile Include="Mapping\INSalesNotTransferredDetailsMapper.cs" />
+    <Compile Include="Mapping\INCMAgentsOnlineMapper.cs" />
+    <Compile Include="Mapping\SalesToCallMonitoringMapper.cs" />
+    <Compile Include="Mapping\DebiCheckConfigurationMapper.cs" />
+    <Compile Include="Mapping\INCallMonitoringStatsMapper.cs" />
     <Compile Include="Mapping\RejectedDebiCheckTrackingMapper.cs" />
     <Compile Include="Mapping\CallDataMapper.cs" />
     <Compile Include="Mapping\CallMonitoringAllocationMapper.cs" />
@@ -180,6 +199,19 @@
     <Compile Include="Mapping\UserHoursMapper.cs" />
     <Compile Include="Mapping\UserMapper.cs" />
     <Compile Include="Mapping\UserSystemMapper.cs" />
+    <Compile Include="Objects\LeadImportTracker.cs" />
+    <Compile Include="Objects\ConservedCampaigns.cs" />
+    <Compile Include="Objects\INDCSpecialistDiary.cs" />
+    <Compile Include="Objects\INFocusCampaigns.cs" />
+    <Compile Include="Objects\INDebiCheckQueries.cs" />
+    <Compile Include="Objects\INIDConfirmed.cs" />
+    <Compile Include="Objects\INUpgradeIDUpdate.cs" />
+    <Compile Include="Objects\INDCNotAvailableOverride.cs" />
+    <Compile Include="Objects\INSalesNotTransferredDetails.cs" />
+    <Compile Include="Objects\INCMAgentsOnline.cs" />
+    <Compile Include="Objects\SalesToCallMonitoring.cs" />
+    <Compile Include="Objects\DebiCheckConfiguration.cs" />
+    <Compile Include="Objects\INCallMonitoringStats.cs" />
     <Compile Include="Objects\RejectedDebiCheckTracking.cs" />
     <Compile Include="Objects\CallData.cs" />
     <Compile Include="Objects\CallMonitoringAllocation.cs" />
@@ -261,6 +293,19 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <Compile Include="Queries\LeadImportTrackerQueries.cs" />
+    <Compile Include="Queries\ConservedCampaignsQueries.cs" />
+    <Compile Include="Queries\INDCSpecialistDiaryQueries.cs" />
+    <Compile Include="Queries\INFocusCampaignsQueries.cs" />
+    <Compile Include="Queries\INDebiCheckQueriesQueries.cs" />
+    <Compile Include="Queries\INIDConfirmedQueries.cs" />
+    <Compile Include="Queries\INUpgradeIDUpdateQueries.cs" />
+    <Compile Include="Queries\INDCNotAvailableOverrideQueries.cs" />
+    <Compile Include="Queries\INSalesNotTransferredDetailsQueries.cs" />
+    <Compile Include="Queries\INCMAgentsOnlineQueries.cs" />
+    <Compile Include="Queries\SalesToCallMonitoringQueries.cs" />
+    <Compile Include="Queries\DebiCheckConfigurationQueries.cs" />
+    <Compile Include="Queries\INCallMonitoringStatsQueries.cs" />
     <Compile Include="Queries\RejectedDebiCheckTrackingQueries.cs" />
     <Compile Include="Queries\CallDataQueries.cs" />
     <Compile Include="Queries\CallMonitoringAllocationQueries.cs" />
@@ -343,7 +388,6 @@
     <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Queries\UserSystemQueries.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\UDMCore\Embriant.Framework\Embriant.Framework.csproj">
       <Project>{B664B2DD-49C8-4A75-92EF-629A16D2DB04}</Project>
@@ -373,6 +417,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

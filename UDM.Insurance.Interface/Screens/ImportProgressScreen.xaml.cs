@@ -2650,7 +2650,11 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-
+        private void btnConservedLead_Click(object sender, RoutedEventArgs e)
+        {
+            ConservedLeadScreen CLS = new ConservedLeadScreen();
+            ShowDialog(CLS, new INDialogWindow(CLS));
+        }
     }
 
 }

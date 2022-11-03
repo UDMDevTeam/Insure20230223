@@ -91,7 +91,21 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             IsEnabled="False" />
-        
+
+        <Button x:Name="btnConservedLead" 
+                Style="{DynamicResource INFlatButton}" 
+                Content="Conserved Leads"
+                TabIndex="0" 
+                Grid.Column="13" 
+                Grid.ColumnSpan="4" 
+                Grid.Row="8" 
+                Margin="0,0,0,0"  
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                IsEnabled="True" 
+                Click="btnConservedLead_Click"
+                Visibility="Visible"/>
+
         <Button x:Name="btnScheduleImport" 
                 Style="{DynamicResource INFlatButton}" 
                 Content="Schedule Import"
