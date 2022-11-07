@@ -1093,5 +1093,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnConservedLead_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportConservedLeads reportDebiCheckAccepted = new ReportConservedLeads();
+                ShowDialog(reportDebiCheckAccepted, new INDialogWindow(reportDebiCheckAccepted));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 }
