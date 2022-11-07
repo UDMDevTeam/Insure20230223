@@ -104,7 +104,7 @@
                 VerticalAlignment="Bottom" 
                 IsEnabled="True" 
                 Click="btnConservedLead_Click"
-                Visibility="Visible"/>
+                Visibility="Collapsed"/>
 
         <Button x:Name="btnScheduleImport" 
                 Style="{DynamicResource INFlatButton}" 
