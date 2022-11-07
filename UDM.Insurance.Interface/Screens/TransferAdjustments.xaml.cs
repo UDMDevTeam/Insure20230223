@@ -96,19 +96,41 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (value.Rows.Count == 0)
                     {
-                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
-                        details.FKImportID = loadedImportID;
-                        details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
-                        details.FKAuthorisedUserID = long.Parse(cmbAuthorization.SelectedValue.ToString());
-                        details.Save(_validationResult);
+                        try
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                            details.FKImportID = loadedImportID;
+                            details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
+                            details.FKAuthorisedUserID = long.Parse(cmbAuthorization.SelectedValue.ToString());
+                            details.Save(_validationResult);
+                        }
+                        catch
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails();
+                            details.FKImportID = loadedImportID;
+                            details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
+                            details.Save(_validationResult);
+                        }
+
                     }
                     else
                     {
-                        INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
-                        details.FKImportID = loadedImportID;
-                        details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
-                        details.FKAuthorisedUserID = long.Parse(cmbAuthorization.SelectedValue.ToString());
-                        details.Save(_validationResult);
+                        try
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                            details.FKImportID = loadedImportID;
+                            details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
+                            details.FKAuthorisedUserID = long.Parse(cmbAuthorization.SelectedValue.ToString());
+                            details.Save(_validationResult);
+                        }
+                        catch
+                        {
+                            INSalesNotTransferredDetails details = new INSalesNotTransferredDetails(long.Parse(value.Rows[0][0].ToString()));
+                            details.FKImportID = loadedImportID;
+                            details.FKSalesNotTransferredReason = cmbReason.SelectedValue.ToString();
+                            details.Save(_validationResult);
+                        }
+
                     }
 
                 }
