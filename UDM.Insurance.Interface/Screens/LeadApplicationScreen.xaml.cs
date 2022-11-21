@@ -11307,6 +11307,10 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         LaData.PolicyData.CommenceDate = new DateTime(2022, 02, 01);
                     }
+                    else if (date.Year == 2022 && date.Month == 11 && (date.Day >= 20 && date.Day <= 30))
+                    {
+                        LaData.PolicyData.CommenceDate = new DateTime(2023, 02, 01);
+                    }
                     else
                     {
                         LaData.PolicyData.CommenceDate = new DateTime(date.AddMonths(2).Year, date.AddMonths(2).Month, 1);
@@ -18614,14 +18618,22 @@ namespace UDM.Insurance.Interface.Screens
                 AutoPopulateNADCReason();
             }
 
-            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+            try
             {
-                lblClientCellNumber.Visibility = Visibility.Visible;
-                lblClientCellNumber.Text = "Client Cell: " + LaData.LeadData.TelCell.ToString();
+                if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                {
+                    lblClientCellNumber.Visibility = Visibility.Visible;
+                    lblClientCellNumber.Text = "Client Cell: " + LaData.LeadData.TelCell.ToString();
+                }
+                else
+                {
+                    lblClientCellNumber.Visibility = Visibility.Collapsed;
+                }
+
             }
-            else
+            catch
             {
-                lblClientCellNumber.Visibility = Visibility.Collapsed;
+
             }
 
         }
