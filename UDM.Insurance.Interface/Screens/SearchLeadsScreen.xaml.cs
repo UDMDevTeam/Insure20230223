@@ -314,7 +314,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     #region AuthToken
 
-                    string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                    string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                     string Username = "udm@platinumlife.co.za";
                     string Password = "P@ssword1";
                     string token = "";
@@ -334,7 +334,7 @@ namespace UDM.Insurance.Interface.Screens
                     #endregion
 
                     string ValidityStatus = "";
-                    string submitRequest_urlLeadValidity = "http://plhqweb.platinumlife.co.za:999/api/UG/LeadValidity";
+                    string submitRequest_urlLeadValidity = "https://plhqweb.platinumlife.co.za:998/api/UG/LeadValidity";
                     using (var wb = new WebClient())
                     {
                         var data = new NameValueCollection();

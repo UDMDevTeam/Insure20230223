@@ -127,7 +127,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
 
 
-                        string auth_url = "http://plhqweb.platinumlife.co.za:8081/Token";
+                        string auth_url = "https://plhqweb.platinumlife.co.za:8082/Token";
                         string Username = "udm@platinumlife.co.za";
                         string Password = "P@ssword1";
 
@@ -402,7 +402,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     #endregion
 
-                    string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequest";
+                    string submitMandate_url = "https://plhqweb.platinumlife.co.za:8082/api/Mandate/submitMandateRequest";
                     using (var wb = new MyWebClient(180000))
                     {
                         var data = new NameValueCollection();
@@ -446,7 +446,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
 
 
-                                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                                string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                                 string Username = "udm@platinumlife.co.za";
                                 string Password = "P@ssword1";
                                 string token2 = "";
@@ -454,7 +454,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                                 #region SumbitClientDetailRequest
-                                string submitRequest_urlID = "http://plhqweb.platinumlife.co.za:999/api/CD/PL_Request";
+                                string submitRequest_urlID = "https://plhqweb.platinumlife.co.za:998/api/CD/PL_Request";
                                 using (var wb2 = new WebClient())
                                 {
                                     var data2 = new NameValueCollection();
@@ -488,7 +488,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                                 #region SumbitBankingDetailRequest
-                                string submitRequest_url = "http://plhqweb.platinumlife.co.za:999/api/BD/PL_Request";
+                                string submitRequest_url = "https://plhqweb.platinumlife.co.za:998/api/BD/PL_Request";
                                 using (var wb3 = new WebClient())
                                 {
                                     var data3 = new NameValueCollection();

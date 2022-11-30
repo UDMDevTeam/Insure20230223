@@ -83,7 +83,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                 string Username = "udm@platinumlife.co.za";
                 string Password = "P@ssword1";
                 string token = "";
@@ -121,7 +121,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                 string Username = "udm@platinumlife.co.za";
                 string Password = "P@ssword1";
                 string token = "";
