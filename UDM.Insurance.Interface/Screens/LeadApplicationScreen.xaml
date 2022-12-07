@@ -8248,12 +8248,41 @@
                   Visibility="Collapsed" />
 
                             <TextBlock
+                  x:Name="LblLA2PassportCB"
+                  Grid.Row="0"
+                  Grid.Column="4"
+                  Grid.ColumnSpan="7"
+                  VerticalAlignment="Center"
+                  Style="{StaticResource INLabelText4}"
+                  Text="Passport#?"
+                  Visibility="Visible" />
+
+                            <CheckBox
+                  x:Name="chkLA2Passport"
+                  Grid.Row="0"
+                  Grid.Column="6"
+                  Width="16"
+                  Height="16"
+                  Margin="0,0,0,0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Checked="chkLA2Passport_Checked"
+                  IsChecked="False"
+                  IsEnabled="True"
+                  IsEnabledChanged="chkLeadPermission_IsEnabledChanged"
+                  Style="{StaticResource StyleConfirmCheckbox}"
+                  Unchecked="chkLA2Passport_Unchecked"
+                  Visibility="Visible" />
+
+                            <TextBlock
                   x:Name="hdrLifeAssured"
                   Grid.Row="0"
                   Grid.Column="0"
                   Grid.ColumnSpan="7"
                   VerticalAlignment="Bottom"
                   Style="{StaticResource INSectionHeadingText1}"
+                                
+
                   Text="Life Assured 2" />
                             <src:EmbriantComboBox
                   x:Name="cmbLifeAssured"
@@ -10669,6 +10698,25 @@
                       Style="{StaticResource StyleXME2IDNumberValueChanged}"
                       TabIndex="43400"
                       Text="{Binding LAData[1].IDNumber, TargetNullValue={x:Static sys:String.Empty}}" />
+                                    <TextBlock
+                      x:Name="lblLA2Passport"
+                      Grid.Row="3"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      Margin="0,0,0,5"
+                      VerticalAlignment="Bottom"
+                      Visibility="Collapsed"
+                      Style="{StaticResource INLabelText2}"
+                      Text="Passport Number" />
+                                    <igWPF:XamMaskedEditor
+                      x:Name="medLA2PassportNumber"
+                      Visibility="Collapsed"
+                      Grid.Row="3"
+                      Grid.Column="4"
+                      Grid.ColumnSpan="7"
+                      Margin="0"
+                      HorizontalAlignment="Stretch"
+                      Style="{StaticResource StyleXMEPassportNumber}" />
 
                                     <TextBlock
                       x:Name="lblLA2DateOfBirth"

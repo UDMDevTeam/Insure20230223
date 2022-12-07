@@ -64,7 +64,7 @@ namespace UDM.Insurance.Interface.Screens
         private const string mercUsername = "SOAP";
         private const string mercInstCode = "UDM1";
         private const string mercPassword = "Password1";
-        private const string debiCheckURL = "http://plhqweb.platinumlife.co.za:8081/";
+        private const string debiCheckURL = "https://plhqweb.platinumlife.co.za:8082/";
 
         #region DebiCheck Variables
         bool DebiCheckSentTwice;
@@ -2055,6 +2055,7 @@ namespace UDM.Insurance.Interface.Screens
                                 if (LaData.AppData.CampaignID == 264)
                                 {
                                     GetBankingDetailLookupIG();
+                                    //GetBankingDetailLookup();
                                 }
                                 else
                                 {
@@ -16761,7 +16762,7 @@ namespace UDM.Insurance.Interface.Screens
             {
 
 
-                string auth_url = "http://plhqweb.platinumlife.co.za:8081/Token";
+                string auth_url = "https://plhqweb.platinumlife.co.za:8082/Token";
                 string Username = "udm@platinumlife.co.za";
                 string Password = "P@ssword1";
 
@@ -16791,7 +16792,7 @@ namespace UDM.Insurance.Interface.Screens
             #region Mandate Request
             try
             {
-                string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequest";
+                string submitMandate_url = "https://plhqweb.platinumlife.co.za:8082/api/Mandate/submitMandateRequest";
                 using (var wb = new MyWebClient(180000))
                 {
                     var data = new NameValueCollection();
@@ -17209,7 +17210,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         using (var wb = new MyWebClient(180000))
                         {
-                            string submitMandate_urlAsync = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/submitMandateRequestAsync";
+                            string submitMandate_urlAsync = "https://plhqweb.platinumlife.co.za:8082/api/Mandate/submitMandateRequestAsync";
 
                             wb.Headers.Add("Authorization", "Bearer " + token);
 
@@ -17435,7 +17436,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region AuthToken
 
-                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                 string Username = "udm@platinumlife.co.za";
                 string Password = "P@ssword1";
                 string token = "";
@@ -17455,7 +17456,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region SumbitClientDetailRequest
-                string submitRequest_urlID = "http://plhqweb.platinumlife.co.za:999/api/CD/PL_Request";
+                string submitRequest_urlID = "https://plhqweb.platinumlife.co.za:998/api/CD/PL_Request";
                 using (var wb = new WebClient())
                 {
                     var data = new NameValueCollection();
@@ -17488,7 +17489,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region SumbitBankingDetailRequest
-                string submitRequest_url = "http://plhqweb.platinumlife.co.za:999/api/BD/PL_Request";
+                string submitRequest_url = "https://plhqweb.platinumlife.co.za:998/api/BD/PL_Request";
                 using (var wb = new WebClient())
                 {
                     var data = new NameValueCollection();
@@ -17584,7 +17585,7 @@ namespace UDM.Insurance.Interface.Screens
                     if (LaData.AppData.IsLeadUpgrade)
                     {
                         string ValidityStatus = "";
-                        string submitRequest_urlLeadValidity = "http://plhqweb.platinumlife.co.za:999/api/UG/LeadValidity";
+                        string submitRequest_urlLeadValidity = "https://plhqweb.platinumlife.co.za:998/api/UG/LeadValidity";
                         using (var wb = new WebClient())
                         {
                             var data = new NameValueCollection();
@@ -17991,7 +17992,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 #region AuthToken
 
-                string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                 string Username = "udm@platinumlife.co.za";
                 string Password = "P@ssword1";
                 string token = "";
@@ -18011,7 +18012,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region MandateRequestView
-                string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/UDM/MandateRequestViewID/";
+                string submitMandate_url = "https://plhqweb.platinumlife.co.za:8082/api/Mandate/UDM/MandateRequestViewID/";
                 try
                 {
                     using (var wb = new WebClient())
@@ -18320,7 +18321,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             #region AuthToken
 
-                            string auth_url = "http://plhqweb.platinumlife.co.za:999/Token";
+                            string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
                             string Username = "udm@platinumlife.co.za";
                             string Password = "P@ssword1";
                             string token = "";
@@ -18340,7 +18341,7 @@ namespace UDM.Insurance.Interface.Screens
                             #endregion
 
                             #region MandateRequired
-                            string submitMandate_url = "http://plhqweb.platinumlife.co.za:8081/api/Mandate/MandateRequired";
+                            string submitMandate_url = "https://plhqweb.platinumlife.co.za:8082/api/Mandate/MandateRequired";
                             try
                             {
                                 using (var wb = new WebClient())
@@ -19346,8 +19347,23 @@ namespace UDM.Insurance.Interface.Screens
             ShowDialog(dcSpecialistDiaryScreen, new INDialogWindow(dcSpecialistDiaryScreen));
         }
 
-        #endregion
+        private void chkLA2Passport_Checked(object sender, RoutedEventArgs e)
+        {
+            lblLA2IDNumber.Visibility = Visibility.Collapsed;
+            medLA2IDNumber.Visibility = Visibility.Collapsed;
+            lblLA2Passport.Visibility = Visibility.Visible;
+            medLA2PassportNumber.Visibility = Visibility.Visible;
+        }
 
+        private void chkLA2Passport_Unchecked(object sender, RoutedEventArgs e)
+        {
+            lblLA2IDNumber.Visibility = Visibility.Visible;
+            medLA2IDNumber.Visibility = Visibility.Visible;
+            lblLA2Passport.Visibility = Visibility.Collapsed;
+            medLA2PassportNumber.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
 
 
     }
