@@ -122,6 +122,19 @@ namespace UDM.Insurance.Business
 
         #endregion
 
+        #region Conserved leads
+        public static DataSet INGetConservedLeads(DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportConservedLeads", paramArray, 600);
+        }
+
+        #endregion
+
         #region DC Analysis Report
         public static DataSet INGetDCAnalysis(DateTime fromDate, DateTime toDate, string baseupgradebool)
         {

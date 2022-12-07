@@ -100,6 +100,7 @@ namespace UDM.Insurance.Business.Mapping
                     calldata.IsLoaded = true;
                     calldata.FKINImportID = reader["FKINImportID"] != DBNull.Value ? (long)reader["FKINImportID"] : (long?)null;
                     calldata.FKINBatchID = reader["FKINBatchID"] != DBNull.Value ? (long)reader["FKINBatchID"] : (long?)null;
+                    calldata.ConservedStatus = reader["ConservedStatus"] != DBNull.Value ? (string)reader["ConservedStatus"] : (string)null;
                     calldata.StampDate = (DateTime)reader["StampDate"];
                     calldata.HasChanged = false;
                 }

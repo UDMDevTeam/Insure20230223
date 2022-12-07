@@ -215,5 +215,11 @@ namespace UDM.Insurance.Interface.Screens
             ImportProgressGiftClaims importProgressGiftClaims = new ImportProgressGiftClaims(lkpGiftClaimsImportType.SMS);
             ShowDialog(importProgressGiftClaims, new INDialogWindow(importProgressGiftClaims));
         }
+
+        private void btnConservedLeads_Loaded(object sender, RoutedEventArgs e)
+        {
+            ConservedLeadScreen CLS = new ConservedLeadScreen();
+            ShowDialog(CLS, new INDialogWindow(CLS));
+        }
     }
 }

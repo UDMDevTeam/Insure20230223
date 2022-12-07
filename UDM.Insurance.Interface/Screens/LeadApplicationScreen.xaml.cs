@@ -2312,7 +2312,42 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
-                
+                #region Get Mandate Information
+                try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+
+                if (LaData.AppData.IsLeadUpgrade)
+                {
+                    //this is incase the lead is already a sale, then it wont become a non applicable
+                    try
+                    {
+                        DataSet dsDiaryReportData;
+                        var transactionOptions = new TransactionOptions
+                        {
+                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        };
+
+                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                        {
+                            dsDiaryReportData = Business.Insure.INGetMandateInfo(LaData.AppData.RefNo);
+                        }
+
+                        DataTable dt = dsDiaryReportData.Tables[0];
+                        string responses = dt.Rows[0]["Response"].ToString();
+
+                        if (responses == "Client Accepted")
+                        {
+                            //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            //ShowMessageBox(messageWindow, "Please note that this sale has been finalized.", "Sale Finalized!", ShowMessageType.Exclamation);
+                            MandateRequired = "True";
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                #endregion
+
 
             }
 
@@ -16922,8 +16957,7 @@ namespace UDM.Insurance.Interface.Screens
                             //try { data["MaxInstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
 
                         }
-
-                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["FirstCollectionDate"] = LaData.PolicyData.CommenceDate.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
 
@@ -17098,7 +17132,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
                         try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
-                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["FirstCollectionDate"] = LaData.PolicyData.CommenceDate.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = AccountTypeNumber; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
                         //if (IsUDMAcquiredDetails == true)
@@ -17130,7 +17164,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
                         try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
 
-                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["FirstCollectionDate"] = LaData.PolicyData.CommenceDate.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
 
@@ -18362,34 +18396,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 }
 
-                                //this is incase the lead is already a sale, then it wont become a non applicable
-                                try
-                                {
-                                    DataSet dsDiaryReportData;
-                                    var transactionOptions = new TransactionOptions
-                                    {
-                                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-                                    };
 
-                                    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                                    {
-                                        dsDiaryReportData = Business.Insure.INGetMandateInfo(LaData.AppData.RefNo);
-                                    }
-
-                                    DataTable dt = dsDiaryReportData.Tables[0];
-                                    string responses = dt.Rows[0]["Response"].ToString();
-
-                                    if (responses == "Client Accepted")
-                                    {
-                                        //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                                        //ShowMessageBox(messageWindow, "Please note that this sale has been finalized.", "Sale Finalized!", ShowMessageType.Exclamation);
-                                        MandateRequired = "True";
-                                    }
-                                }
-                                catch
-                                {
-
-                                }
 
                             }
                             catch
@@ -18591,7 +18598,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
 
-                    try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+
 
 
                 }

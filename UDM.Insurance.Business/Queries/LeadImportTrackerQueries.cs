@@ -23,7 +23,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [zHstConservedLeadImportTracker] ([ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID] FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID; ";
+                query = "INSERT INTO [zHstConservedLeadImportTracker] ([ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID] FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID; ";
                 query += "DELETE FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -58,7 +58,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [ConservedLeadImportTracker] ([ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID] FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID AND [zHstConservedLeadImportTracker].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID) AND (SELECT COUNT(ID) FROM [ConservedLeadImportTracker] WHERE [ID] = @ID) = 0; ";
+                query = "INSERT INTO [ConservedLeadImportTracker] ([ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID] FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID AND [zHstConservedLeadImportTracker].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID) AND (SELECT COUNT(ID) FROM [ConservedLeadImportTracker] WHERE [ID] = @ID) = 0; ";
                 query += "DELETE FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID AND [zHstConservedLeadImportTracker].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [ConservedLeadImportTracker] WHERE [ID] = @ID) = 0; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -78,7 +78,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID] FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID";
+                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID] FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
             }
@@ -95,7 +95,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [ConservedLeadImportTracker].[ID], [ConservedLeadImportTracker].[FKINImportID], [ConservedLeadImportTracker].[FKINBatchID], [ConservedLeadImportTracker].[StampDate], [ConservedLeadImportTracker].[StampUserID]");
+            query.Append("SELECT [ConservedLeadImportTracker].[ID], [ConservedLeadImportTracker].[FKINImportID], [ConservedLeadImportTracker].[FKINBatchID], [ConservedLeadImportTracker].[ConservedStatus], [ConservedLeadImportTracker].[StampDate], [ConservedLeadImportTracker].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [ConservedLeadImportTracker].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [ConservedLeadImportTracker] ");
                 query.Append(" WHERE [ConservedLeadImportTracker].[ID] = @ID");
@@ -117,7 +117,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID] FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID AND [zHstConservedLeadImportTracker].[StampUserID] = @StampUserID AND [zHstConservedLeadImportTracker].[StampDate] = @StampDate";
+                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID] FROM [zHstConservedLeadImportTracker] WHERE [zHstConservedLeadImportTracker].[ID] = @ID AND [zHstConservedLeadImportTracker].[StampUserID] = @StampUserID AND [zHstConservedLeadImportTracker].[StampDate] = @StampDate";
                 parameters = new object[3];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
                 parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
@@ -135,7 +135,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string List()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [ConservedLeadImportTracker].[ID], [ConservedLeadImportTracker].[FKINImportID], [ConserveedLeadImportTracker].[FKINBatchID], [ConservedLeadImportTracker].[StampDate], [ConservedLeadImportTracker].[StampUserID]");
+            query.Append("SELECT [ConservedLeadImportTracker].[ID], [ConservedLeadImportTracker].[FKINImportID], [ConserveedLeadImportTracker].[FKINBatchID], [ConservedLeadImportTracker].[ConservedStatus], [ConservedLeadImportTracker].[StampDate], [ConservedLeadImportTracker].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [ConservedLeadImportTracker].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [ConservedLeadImportTracker] ");
             return query.ToString();
@@ -148,7 +148,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string ListDeleted()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [zHstConservedLeadImportTracker].[ID], [zHstConservedLeadImportTracker].[FKINImportID], [zHstConservedLeadImportTracker].[FKINBatchID], [zHstConservedLeadImportTracker].[StampDate], [zHstConservedLeadImportTracker].[StampUserID]");
+            query.Append("SELECT [zHstConservedLeadImportTracker].[ID], [zHstConservedLeadImportTracker].[FKINImportID], [zHstConservedLeadImportTracker].[FKINBatchID], [zHstConservedLeadImportTracker].[ConservedStatus], [zHstConservedLeadImportTracker].[StampDate], [zHstConservedLeadImportTracker].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstConservedLeadImportTracker].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstConservedLeadImportTracker] ");
             query.Append("INNER JOIN (SELECT [zHstConservedLeadImportTracker].[ID], MAX([zHstConservedLeadImportTracker].[StampDate]) AS 'StampDate' ");
@@ -170,7 +170,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [zHstConservedLeadImportTracker].[ID], [zHstConservedLeadImportTracker].[FKINImportID], [zHstConservedLeadImportTracker].[FKINBatchID], [zHstConservedLeadImportTracker].[StampDate], [zHstConservedLeadImportTracker].[StampUserID]");
+            query.Append("SELECT [zHstConservedLeadImportTracker].[ID], [zHstConservedLeadImportTracker].[FKINImportID], [zHstConservedLeadImportTracker].[FKINBatchID], [zHstConservedLeadImportTracker].[ConservedStatus], [zHstConservedLeadImportTracker].[StampDate], [zHstConservedLeadImportTracker].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstConservedLeadImportTracker].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstConservedLeadImportTracker] ");
                 query.Append(" WHERE [zHstConservedLeadImportTracker].[ID] = @ID");
@@ -195,24 +195,27 @@ namespace UDM.Insurance.Business.Queries
             {
                 if (calldata.IsLoaded)
                 {
-                    query.Append("INSERT INTO [zHstConservedLeadImportTracker] ([ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [StampDate], [StampUserID] FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID; ");
+                    query.Append("INSERT INTO [zHstConservedLeadImportTracker] ([ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID] FROM [ConservedLeadImportTracker] WHERE [ConservedLeadImportTracker].[ID] = @ID; ");
                     query.Append("UPDATE [ConservedLeadImportTracker]");
-                    parameters = new object[3];
+                    parameters = new object[4];
                     query.Append(" SET [FKINImportID] = @FKINImportID");
                     parameters[0] = Database.GetParameter("@FKINImportID", calldata.FKINImportID.HasValue ? (object)calldata.FKINImportID.Value : DBNull.Value);
                     query.Append(", [FKINBatchID] = @FKINBatchID");
                     parameters[1] = Database.GetParameter("@FKINBatchID", calldata.FKINBatchID.HasValue ? (object)calldata.FKINBatchID.Value : DBNull.Value);
-
+                    query.Append(", [ConservedStatus] = @ConservedStatus");
+                    parameters[2] = Database.GetParameter("@ConservedStatus", string.IsNullOrEmpty(calldata.ConservedStatus) ? DBNull.Value : (object)calldata.ConservedStatus);
                     query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
                     query.Append(" WHERE [ConservedLeadImportTracker].[ID] = @ID"); 
-                    parameters[2] = Database.GetParameter("@ID", calldata.ID);
+                    parameters[3] = Database.GetParameter("@ID", calldata.ID);
                 }
                 else
                 {
-                    query.Append("INSERT INTO [ConservedLeadImportTracker] ([FKINImportID], [FKINBatchID], [StampDate], [StampUserID]) VALUES(@FKINImportID, @FKINBatchID, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                    parameters = new object[2];
+                    query.Append("INSERT INTO [ConservedLeadImportTracker] ([FKINImportID], [FKINBatchID], [ConservedStatus], [StampDate], [StampUserID]) VALUES(@FKINImportID, @FKINBatchID, @ConservedStatus, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                    parameters = new object[3];
                     parameters[0] = Database.GetParameter("@FKINImportID", calldata.FKINImportID.HasValue ? (object)calldata.FKINImportID.Value : DBNull.Value);
                     parameters[1] = Database.GetParameter("@FKINBatchID", calldata.FKINBatchID.HasValue ? (object)calldata.FKINBatchID.Value : DBNull.Value);
+                    parameters[2] = Database.GetParameter("@ConservedStatus", string.IsNullOrEmpty(calldata.ConservedStatus) ? DBNull.Value : (object)calldata.ConservedStatus);
+
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
             }
@@ -245,7 +248,7 @@ namespace UDM.Insurance.Business.Queries
                 whereQuery.Append("[ConservedLeadImportTracker].[FKINBatchID] = " + fkinbatchid + "");
             }
 
-            query.Append("SELECT [ConservedLeadImportTracker].[ID], [ConservedLeadImportTracker].[FKINImportID], [ConservedLeadImportTracker].[FKINBatchID], [ConservedLeadImportTracker].[StampDate], [ConservedLeadImportTracker].[StampUserID]");
+            query.Append("SELECT [ConservedLeadImportTracker].[ID], [ConservedLeadImportTracker].[FKINImportID], [ConservedLeadImportTracker].[FKINBatchID], [ConservedLeadImportTracker].[ConservedStatus], [ConservedLeadImportTracker].[StampDate], [ConservedLeadImportTracker].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [ConservedLeadImportTracker].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [ConservedLeadImportTracker] ");
             return query.ToString() + whereQuery.ToString();

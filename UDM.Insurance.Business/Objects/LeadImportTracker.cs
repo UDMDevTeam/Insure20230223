@@ -16,6 +16,7 @@ namespace UDM.Insurance.Business
         #region Members
         private long? _fkinimportid = null;
         private long? _fkinbatchid = null;
+        private string _conservedstatus = null;
         #endregion
 
         #region Constructor
@@ -73,7 +74,23 @@ namespace UDM.Insurance.Business
             }
         }
 
-
+        public string ConservedStatus
+        {
+            get
+            {
+                Fill();
+                return _conservedstatus;
+            }
+            set
+            {
+                Fill();
+                if (value != _conservedstatus)
+                {
+                    _conservedstatus = value;
+                    _hasChanged = true;
+                }
+            }
+        }
 
         #endregion
 
@@ -142,6 +159,7 @@ namespace UDM.Insurance.Business
             xml.Append("<LeadImportTracker>");
             xml.Append("<fkinimportid>" + FKINImportID.ToString() + "</fkinimportid>");
             xml.Append("<fkinbatchid>" + FKINBatchID.ToString() + "</fkinbatchid>");
+            xml.Append("<conservedstatus>" + ConservedStatus + "<ConservedStatus>");
             xml.Append("</LeadImportTracker>");
             return xml.ToString();
         }
