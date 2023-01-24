@@ -2300,6 +2300,15 @@ namespace UDM.Insurance.Interface.Screens
                             chk99Options.Visibility = Visibility.Collapsed;
                             tbShow99Options.Visibility = Visibility.Collapsed;
                         }
+
+                        string batchCodestring1 = LaData.AppData.UDMBatchCode;
+                        string FirstSixCharacters1 = batchCodestring1.Substring(0, 4);
+                        int SubstringMonth1 = int.Parse(FirstSixCharacters1);
+                        if (SubstringMonth1 == 2022)
+                        {
+                            chk99Options.Visibility = Visibility.Visible;
+                            tbShow99Options.Visibility = Visibility.Visible;
+                        }
                     }
                     else
                     {
@@ -10084,6 +10093,22 @@ namespace UDM.Insurance.Interface.Screens
                                     dtCover.AcceptChanges();
 
                                 }
+
+
+                                string batchCodestring1 = LaData.AppData.UDMBatchCode;
+                                string FirstFourCharacters1 = batchCodestring1.Substring(0, 4);
+                                int SubstringMonth1 = int.Parse(FirstFourCharacters1);
+                                if (SubstringMonth1 == 2022)
+                                {
+                                    for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                    {
+                                        DataRow dr = dtCover.Rows[i];
+                                        if (dr["TotalPremium1"].ToString() != "99.00")
+                                                dr.Delete();
+                                    }
+                                    dtCover.AcceptChanges();
+                                }
+                                
                             }
                             else
                             {
@@ -12104,7 +12129,6 @@ namespace UDM.Insurance.Interface.Screens
                             break;
 
                         #endregion Debi-check Overtime
-
 
                         #region RAM Service Test
 
