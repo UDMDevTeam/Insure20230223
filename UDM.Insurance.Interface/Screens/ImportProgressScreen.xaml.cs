@@ -75,7 +75,9 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.R99Upgrade, 
             lkpINCampaignGroup.Tier3,
             lkpINCampaignGroup.Upgrade15,
-            lkpINCampaignGroup.ExtendedMining
+            lkpINCampaignGroup.ExtendedMining,
+            lkpINCampaignGroup.DoubleUpgrade16,
+            lkpINCampaignGroup.Upgrade16
 
         };
 
@@ -433,7 +435,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
                                 lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite, 
                                 lkpINCampaignGroup.SpouseLite, lkpINCampaignGroup.R99NG, lkpINCampaignGroup.R99Upgrade, lkpINCampaignGroup.Tier3, lkpINCampaignGroup.Upgrade15,
-                                lkpINCampaignGroup.ExtendedMining
+                                lkpINCampaignGroup.ExtendedMining, lkpINCampaignGroup.DoubleUpgrade16, lkpINCampaignGroup.Upgrade16
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
@@ -459,7 +461,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lkpINCampaignGroup.DoubleUpgrade11, lkpINCampaignGroup.DoubleUpgrade12, lkpINCampaignGroup.DoubleUpgrade13, lkpINCampaignGroup.DoubleUpgrade14,
                                 lkpINCampaignGroup.DefrostR99, lkpINCampaignGroup.Upgrade13, lkpINCampaignGroup.R99, lkpINCampaignGroup.Lite, lkpINCampaignGroup.SpouseLite,
                                 lkpINCampaignGroup.DoubleUpgrade15, lkpINCampaignGroup.R99NG, lkpINCampaignGroup.R99Upgrade, lkpINCampaignGroup.Tier3, lkpINCampaignGroup.Upgrade15,
-                                lkpINCampaignGroup.ExtendedMining
+                                lkpINCampaignGroup.ExtendedMining, lkpINCampaignGroup.DoubleUpgrade16, lkpINCampaignGroup.Upgrade16
 
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))

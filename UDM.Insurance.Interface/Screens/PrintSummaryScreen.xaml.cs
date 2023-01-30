@@ -355,7 +355,9 @@ namespace UDM.Insurance.Interface.Screens
                     case (long)lkpINCampaignGroup.Upgrade11:
                     case (long)lkpINCampaignGroup.Upgrade12:
                     case (long)lkpINCampaignGroup.Upgrade13:
-
+                    case (long)lkpINCampaignGroup.Upgrade14:
+                    case (long)lkpINCampaignGroup.Upgrade15:
+                    case (long)lkpINCampaignGroup.Upgrade16:
                     case (long)lkpINCampaignGroup.DoubleUpgrade4:
                     case (long)lkpINCampaignGroup.DoubleUpgrade5:
                     case (long)lkpINCampaignGroup.DoubleUpgrade6:
@@ -366,12 +368,12 @@ namespace UDM.Insurance.Interface.Screens
                     case (long)lkpINCampaignGroup.DoubleUpgrade11:
                     case (long)lkpINCampaignGroup.DoubleUpgrade12:
                     case (long)lkpINCampaignGroup.DoubleUpgrade13:
-                    case (long)lkpINCampaignGroup.DoubleUpgrade14:
-                    case (long)lkpINCampaignGroup.Upgrade14:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade14:                
                     case (long)lkpINCampaignGroup.DoubleUpgrade15:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade16:
                     case (long)lkpINCampaignGroup.ExtendedMining:
                     case (long)lkpINCampaignGroup.R99Upgrade:
-                    case (long)lkpINCampaignGroup.Upgrade15:
+                    
                         if (batch.Code.Contains("_R"))
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgradeRedeemed2.xlsx", UriKind.Relative);
