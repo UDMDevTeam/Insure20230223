@@ -344,9 +344,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     #region Upgrades
 
-                    case (long)lkpINCampaignGroup.Upgrade1:
-                    case (long)lkpINCampaignGroup.Upgrade2:
-                    case (long)lkpINCampaignGroup.Upgrade3:
+
                     case (long)lkpINCampaignGroup.Upgrade4:
                     case (long)lkpINCampaignGroup.Upgrade5:
                     case (long)lkpINCampaignGroup.Upgrade6:
@@ -357,9 +355,9 @@ namespace UDM.Insurance.Interface.Screens
                     case (long)lkpINCampaignGroup.Upgrade11:
                     case (long)lkpINCampaignGroup.Upgrade12:
                     case (long)lkpINCampaignGroup.Upgrade13:
-                    case (long)lkpINCampaignGroup.DoubleUpgrade1:
-                    case (long)lkpINCampaignGroup.DoubleUpgrade2:
-                    case (long)lkpINCampaignGroup.DoubleUpgrade3:
+                    case (long)lkpINCampaignGroup.Upgrade14:
+                    case (long)lkpINCampaignGroup.Upgrade15:
+                    case (long)lkpINCampaignGroup.Upgrade16:
                     case (long)lkpINCampaignGroup.DoubleUpgrade4:
                     case (long)lkpINCampaignGroup.DoubleUpgrade5:
                     case (long)lkpINCampaignGroup.DoubleUpgrade6:
@@ -370,12 +368,12 @@ namespace UDM.Insurance.Interface.Screens
                     case (long)lkpINCampaignGroup.DoubleUpgrade11:
                     case (long)lkpINCampaignGroup.DoubleUpgrade12:
                     case (long)lkpINCampaignGroup.DoubleUpgrade13:
-                    case (long)lkpINCampaignGroup.DoubleUpgrade14:
-                    case (long)lkpINCampaignGroup.Upgrade14:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade14:                
                     case (long)lkpINCampaignGroup.DoubleUpgrade15:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade16:
                     case (long)lkpINCampaignGroup.ExtendedMining:
                     case (long)lkpINCampaignGroup.R99Upgrade:
-                    case (long)lkpINCampaignGroup.Upgrade15:
+                    
                         if (batch.Code.Contains("_R"))
                         {
                             uri = new Uri("/Templates/PrintTemplateUpgradeRedeemed2.xlsx", UriKind.Relative);
@@ -516,7 +514,117 @@ namespace UDM.Insurance.Interface.Screens
 
 
                         break;
+                    case (long)lkpINCampaignGroup.Upgrade1:
+                    case (long)lkpINCampaignGroup.Upgrade2:
+                    case (long)lkpINCampaignGroup.Upgrade3:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade1:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade2:
+                    case (long)lkpINCampaignGroup.DoubleUpgrade3:
+                        if (batch.Code.Contains("_R"))
+                        {
+                            uri = new Uri("/Templates/PrintTemplateUpgradeRedeemed2Transfer.xlsx", UriKind.Relative);
+                            TemplateLines = 15;//13;
+                            leadsPerPage = 3;
+                            leadColumnWidth = 54;
+                            coverColumns = 58;
+                            coverRows = 34; //51;
 
+                            if (uri.ToString() == "/Templates/PrintTemplateUpgradeRedeemed2Transfer.xlsx")
+                            {
+                                coverRows = 39;
+                            }
+
+                            upgradeCoverSheetColumnIndex = 26;
+                            upgradeCoverSheetRowIndex = 2;
+                            verticalSpacingBetweenLeads = 1;
+
+                            leadTemplateRowIndex = 40;
+                        }
+                        else if (batch.Code.Contains("_NR"))
+                        {
+                            switch (campaign.FKINCampaignTypeID)
+                            {
+                                case (long)lkpINCampaignType.Cancer:
+                                case (long)lkpINCampaignType.CancerFuneral:
+                                case (long)lkpINCampaignType.IGCancer:
+                                case (long)lkpINCampaignType.TermCancer:
+                                    //case (long)lkpINCampaignType.MaccCancer:
+                                    //case (long)lkpINCampaignType.MaccMillionCancer:
+                                    if (DateTime.Now >= Convert.ToDateTime("2018-09-12 00:00:00"))
+                                    {
+                                        uri = new Uri("/Templates/PrintTemplateUpgradeNonRedeemed2cWLiteTransfer.xlsx", UriKind.Relative);
+                                    }
+                                    else
+                                    {
+                                        uri = new Uri("/Templates/PrintTemplateUpgradeNonRedeemed2cTransfer.xlsx", UriKind.Relative);
+                                    }
+                                    break;
+
+                                case (long)lkpINCampaignType.Macc:
+                                case (long)lkpINCampaignType.MaccFuneral:
+                                case (long)lkpINCampaignType.MaccMillion:
+                                case (long)lkpINCampaignType.BlackMacc:
+                                case (long)lkpINCampaignType.BlackMaccMillion:
+                                    if (DateTime.Now >= Convert.ToDateTime("2018-09-12 00:00:00"))
+                                    {
+                                        uri = new Uri("/Templates/PrintTemplateUpgradeNonRedeemed2mWLiteTransfer.xlsx", UriKind.Relative);
+                                    }
+                                    else
+                                    {
+                                        uri = new Uri("/Templates/PrintTemplateUpgradeNonRedeemed2mTransfer.xlsx", UriKind.Relative);
+                                    }
+                                    break;
+
+                                default:
+                                    //uri = new Uri("");
+                                    return;
+                            }
+
+                            TemplateLines = 15;//13;
+                            leadsPerPage = 3;
+                            leadColumnWidth = 54;
+                            coverColumns = 58;
+                            coverRows = 34; //51;
+
+                            if (uri.ToString() == "/Templates/PrintTemplateUpgradeNonRedeemed2cTransfer.xlsx" ||
+                                uri.ToString() == "/Templates/PrintTemplateUpgradeNonRedeemed2cWLiteTransfer.xlsx" ||
+                                uri.ToString() == "/Templates/PrintTemplateUpgradeNonRedeemed2mTransfer.xlsx" ||
+                                uri.ToString() == "/Templates/PrintTemplateUpgradeNonRedeemed2mWLiteTransfer.xlsx")
+                            {
+                                coverRows = 39;
+                            }
+
+                            upgradeCoverSheetColumnIndex = 26;
+                            upgradeCoverSheetRowIndex = 2;
+                            verticalSpacingBetweenLeads = 1;
+
+                            leadTemplateRowIndex = 40;
+                        }
+                        else
+                        {
+                            uri = new Uri("/Templates/PrintTemplateUpgrade3Transfer.xlsx", UriKind.Relative);
+                            TemplateLines = 15;//13;
+                            leadsPerPage = 3;
+                            leadColumnWidth = 54;
+                            coverColumns = 58;
+                            coverRows = 34; //51;
+
+                            if (uri.ToString() == "/Templates/PrintTemplateUpgrade3Transfer.xlsx")
+                            {
+                                coverRows = 39;
+                            }
+
+                            upgradeCoverSheetColumnIndex = 26;
+                            upgradeCoverSheetRowIndex = 2;
+                            verticalSpacingBetweenLeads = 1;
+
+                            leadTemplateRowIndex = 40;
+                        }
+
+                        IsUpgradeCampaign = true;
+
+
+                        break;
                     #endregion Upgrades
 
                     #region Other non-upgrade campaigns
@@ -992,6 +1100,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsLeads.GetCell("Beneficiary1Percentage").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1Percentage"].ToString();
 
                                 if (uri.ToString() == "/Templates/PrintTemplateUpgrade3.xlsx" ||
+                                    uri.ToString() == "/Templates/PrintTemplateUpgrade3Transfer.xlsx" ||
                                     uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx" ||
                                     uri.ToString() == "/Templates/PrintTemplateUpgradeRedeemed2.xlsx" ||
                                     uri.ToString() == "/Templates/PrintTemplateUpgradeNonRedeemed2c.xlsx" ||
@@ -1098,6 +1207,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsLeads.GetCell("ChildCover3").Value = Methods.ForceCurrencyFormatting(dtLeadPrintData.Rows[lead[0] - 1]["ChildCover"], false);
 
                                 if (uri.ToString() != "/Templates/PrintTemplateUpgrade3.xlsx" &&
+                                    uri.ToString() != "/Templates/PrintTemplateUpgrade3Transfer.xlsx" &&
                                     uri.ToString() != "/Templates/PrintTemplateUpgrade5.xlsx" &&
                                     uri.ToString() != "/Templates/PrintTemplateUpgradeRedeemed2.xlsx" &&
                                     uri.ToString() != "/Templates/PrintTemplateUpgradeNonRedeemed2c.xlsx" &&

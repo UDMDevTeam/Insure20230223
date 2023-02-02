@@ -141,7 +141,9 @@ namespace UDM.Insurance.Interface.Screens
             lkpINCampaignGroup.DoubleUpgrade15,
             lkpINCampaignGroup.R99Upgrade,
             lkpINCampaignGroup.Upgrade15,
-            lkpINCampaignGroup.ExtendedMining
+            lkpINCampaignGroup.ExtendedMining,
+            lkpINCampaignGroup.DoubleUpgrade16,
+            lkpINCampaignGroup.Upgrade16
 
         };
         //lkpINCampaignType.BlackMaccMillion
@@ -2299,6 +2301,15 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             chk99Options.Visibility = Visibility.Collapsed;
                             tbShow99Options.Visibility = Visibility.Collapsed;
+                        }
+
+                        string batchCodestring1 = LaData.AppData.UDMBatchCode;
+                        string FirstSixCharacters1 = batchCodestring1.Substring(0, 4);
+                        int SubstringMonth1 = int.Parse(FirstSixCharacters1);
+                        if (SubstringMonth1 == 2022)
+                        {
+                            chk99Options.Visibility = Visibility.Visible;
+                            tbShow99Options.Visibility = Visibility.Visible;
                         }
                     }
                     else
@@ -10084,6 +10095,22 @@ namespace UDM.Insurance.Interface.Screens
                                     dtCover.AcceptChanges();
 
                                 }
+
+
+                                string batchCodestring1 = LaData.AppData.UDMBatchCode;
+                                string FirstFourCharacters1 = batchCodestring1.Substring(0, 4);
+                                int SubstringMonth1 = int.Parse(FirstFourCharacters1);
+                                if (SubstringMonth1 == 2022)
+                                {
+                                    for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                    {
+                                        DataRow dr = dtCover.Rows[i];
+                                        if (dr["TotalPremium1"].ToString() != "99.00")
+                                                dr.Delete();
+                                    }
+                                    dtCover.AcceptChanges();
+                                }
+                                
                             }
                             else
                             {
@@ -12104,7 +12131,6 @@ namespace UDM.Insurance.Interface.Screens
                             break;
 
                         #endregion Debi-check Overtime
-
 
                         #region RAM Service Test
 
@@ -17164,7 +17190,7 @@ namespace UDM.Insurance.Interface.Screens
                         try { data["InstallmentAmount"] = LaData.PolicyData.TotalPremium.ToString(); } catch { data["InstallmentAmount"] = ""; }
                         try { data["MaxInstallmentAmount"] = (LaData.PolicyData.TotalPremium * 12).ToString(); } catch { data["MaxInstallmentAmount"] = ""; }
 
-                        try { data["FirstCollectionDate"] = LaData.PolicyData.CommenceDate.ToString(); } catch { data["FirstCollectionDate"] = ""; }
+                        try { data["FirstCollectionDate"] = CommencementDateEdited.ToString(); } catch { data["FirstCollectionDate"] = ""; }
                         try { data["AccountTypeID"] = responsesAccountTypeDebiCheck; } catch { data["AccountTypeID"] = "1"; }
                         try { data["CustomField1"] = LaData.AppData.CampaignCode; } catch { data["CustomField1"] = " "; }
 
@@ -18590,6 +18616,7 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 403 ||
                         GlobalSettings.ApplicationUser.ID == 45 ||
                         GlobalSettings.ApplicationUser.ID == 2810 ||
+                        GlobalSettings.ApplicationUser.ID == 6044 ||
                         SavedLeadStatus == "25")
 
 
