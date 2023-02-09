@@ -3686,6 +3686,7 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.BankDetailsData.BankID == 271
                         || LaData.BankDetailsData.BankID == 277
                         || LaData.BankDetailsData.BankID == 265
+                        || LaData.BankDetailsData.BankID == 285
                         || GlobalSettings.ApplicationUser.ID == 199
                         || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
@@ -9566,6 +9567,7 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.BankDetailsData.BankID == 271
                         || LaData.BankDetailsData.BankID == 277
                         || LaData.BankDetailsData.BankID == 265
+                        || LaData.BankDetailsData.BankID == 285
                         || GlobalSettings.ApplicationUser.ID == 199
                         || PolicyHolderBoolDC == false
                         || MandateRequired == "False")
@@ -18199,6 +18201,7 @@ namespace UDM.Insurance.Interface.Screens
                                 || LaData.BankDetailsData.BankID == 263
                                 || LaData.BankDetailsData.BankID == 271
                                 || LaData.BankDetailsData.BankID == 277
+                                || LaData.BankDetailsData.BankID == 285
                                 || LaData.BankDetailsData.BankID == 265
                                 || PolicyHolderBoolDC == false
                                 || MandateRequired == "False")
