@@ -24,7 +24,9 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <Utf8Output>true</Utf8Output>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
-    <PublishUrl>\\udmsql\software\insure\</PublishUrl>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>\\udmsql01\software\insure\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -34,12 +36,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>\\udmsql\software\insure\</UpdateUrl>
+    <UpdateUrl>\\udmsql01\software\insure\</UpdateUrl>
     <ProductName>Insure</ProductName>
     <PublisherName>UDM</PublisherName>
-    <MinimumRequiredVersion>2.6.6.3</MinimumRequiredVersion>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>2.6.6.3</ApplicationVersion>
+    <MinimumRequiredVersion>3.0.4.9</MinimumRequiredVersion>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>3.0.4.9</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -200,6 +202,12 @@
       <HintPath>..\..\udmcore\Embriant.DllLibrary\NetAdvantage\InfragisticsWPF4.v13.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.0.4.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.2.0.4\lib\net452\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.3.0.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.4.3.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
@@ -292,6 +300,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.2\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
     <Reference Include="WPFNotifier">
       <HintPath>..\..\udmcore\Embriant.DllLibrary\Other\WPFNotifier.dll</HintPath>
     </Reference>
@@ -489,6 +500,9 @@
     <Compile Include="PrismViews\EditClosureScreen.xaml.cs">
       <DependentUpon>EditClosureScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\LeadApplicationScreen.xaml.cs">
+      <DependentUpon>LeadApplicationScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\LeadContactTracingDetailsScreen.xaml.cs">
       <DependentUpon>LeadContactTracingDetailsScreen.xaml</DependentUpon>
     </Compile>
@@ -514,11 +528,54 @@
     <Compile Include="Screens\ReportBatchAnalysisScreen.xaml.cs">
       <DependentUpon>ReportBatchAnalysisScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\ReportCallMonitoringStats.xaml.cs" />
     <Compile Include="Screens\ReportCustomerCareRequestsScreen.xaml.cs">
       <DependentUpon>ReportCustomerCareRequestsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\DebiCheckStatusLoader.xaml.cs">
       <DependentUpon>DebiCheckStatusLoader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\BulkMandateSend.xaml.cs">
+      <DependentUpon>BulkMandateSend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDCAnalysis.xaml.cs">
+      <DependentUpon>ReportDCAnalysis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportConservedLeads.xaml.cs">
+      <DependentUpon>ReportConservedLeads.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportSMS.xaml.cs">
+      <DependentUpon>ReportSMS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\DCSpecialistDiaryScreen.xaml.cs">
+      <DependentUpon>DCSpecialistDiaryScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ConservedLeadScreen.xaml.cs">
+      <DependentUpon>ConservedLeadScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TransferAdjustments.xaml.cs">
+      <DependentUpon>TransferAdjustments.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportR129Options.xaml.cs">
+      <DependentUpon>ReportR129Options.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDCSpecialistLogs.xaml.cs">
+      <DependentUpon>ReportDCSpecialistLogs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportResalesAcquiredAccountDetails.xaml.cs">
+      <DependentUpon>ReportResalesAcquiredAccountDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportUpgradeIDUpdate.xaml.cs">
+      <DependentUpon>ReportUpgradeIDUpdate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDebiCheckAccepted.xaml.cs">
+      <DependentUpon>ReportDebiCheckAccepted.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\DebiCheckConfiguration.xaml.cs">
+      <DependentUpon>DebiCheckConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDCTransferSales.xaml.cs">
+      <DependentUpon>ReportDCTransferSales.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\ReportDebiCheckTrackingTSR.xaml.cs">
       <DependentUpon>ReportDebiCheckTrackingTSR.xaml</DependentUpon>
@@ -528,6 +585,9 @@
     </Compile>
     <Compile Include="Screens\ReportDebiCheckPL.xaml.cs">
       <DependentUpon>ReportDebiCheckPL.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDebiCheckCallTransfer.xaml.cs">
+      <DependentUpon>ReportDebiCheckCallTransfer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\ReportLeadPermission.xaml.cs">
       <DependentUpon>ReportLeadPermission.xaml</DependentUpon>
@@ -729,6 +789,9 @@
     <Compile Include="Screens\ReportWebScreen.xaml.cs">
       <DependentUpon>ReportWebScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\CallMonitoringViewDetailsScreen.xaml.cs">
+      <DependentUpon>CallMonitoringViewDetailsScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\ScriptScreen.xaml.cs">
       <DependentUpon>ScriptScreen.xaml</DependentUpon>
     </Compile>
@@ -749,6 +812,12 @@
     </Compile>
     <Compile Include="Screens\SelectCancellationReasonScreen.xaml.cs">
       <DependentUpon>SelectCancellationReasonScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectCallMonitoringAgentScreen.xaml.cs">
+      <DependentUpon>SelectCallMonitoringAgentScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SelectIDNumber.xaml.cs">
+      <DependentUpon>SelectIDNumber.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\SelectDiaryReasonScreen.xaml.cs">
       <DependentUpon>SelectDiaryReasonScreen.xaml</DependentUpon>
@@ -816,9 +885,6 @@
     <Compile Include="Screens\PrintSummaryScreen.xaml.cs">
       <DependentUpon>PrintSummaryScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Screens\LeadApplicationScreen.xaml.cs">
-      <DependentUpon>LeadApplicationScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Screens\PrintLeadsScreenOld.xaml.cs">
       <DependentUpon>PrintLeadsScreenOld.xaml</DependentUpon>
     </Compile>
@@ -876,6 +942,12 @@
     <Compile Include="ViewModels\ReportDailySalesViewModel.cs" />
     <Compile Include="Views\ReportDailySales.xaml.cs">
       <DependentUpon>ReportDailySales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INSalesToCallMonitoringWindowYellow.xaml.cs">
+      <DependentUpon>INSalesToCallMonitoringWindowYellow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\INSalesToCallMonitoringWindow.xaml.cs">
+      <DependentUpon>INSalesToCallMonitoringWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\INWelcomeMessage.xaml.cs">
       <DependentUpon>INWelcomeMessage.xaml</DependentUpon>
@@ -1030,6 +1102,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Screens\LeadApplicationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="Screens\LeadContactTracingDetailsScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1066,11 +1142,71 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Screens\ReportCallMonitoringStats.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Screens\ReportCustomerCareRequestsScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\DebiCheckStatusLoader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\BulkMandateSend.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDCAnalysis.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportConservedLeads.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportSMS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\DCSpecialistDiaryScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ConservedLeadScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\TransferAdjustments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportR129Options.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDCSpecialistLogs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportResalesAcquiredAccountDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportUpgradeIDUpdate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDebiCheckAccepted.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\DebiCheckConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDCTransferSales.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1083,6 +1219,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\ReportDebiCheckPL.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDebiCheckCallTransfer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1346,6 +1486,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Screens\CallMonitoringViewDetailsScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Screens\ScriptScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1373,6 +1517,14 @@
     <Page Include="Screens\SelectCancellationReasonScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\SelectCallMonitoringAgentScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\SelectIDNumber.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\SelectDiaryReasonScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1461,10 +1613,6 @@
     <Page Include="Screens\PrintSummaryScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Screens\LeadApplicationScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\PrintLeadsScreenOld.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1635,6 +1783,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\INSalesToCallMonitoringWindowYellow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\INSalesToCallMonitoringWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\INWelcomeMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1732,6 +1888,13 @@
     <Resource Include="Templates\ReportTemplateBatchReport.xlsx" />
     <Resource Include="Templates\PrintTemplateLITE.xlsx" />
     <Resource Include="Templates\PrintTemplateSheMaccBase.xlsx" />
+    <Resource Include="Templates\ReportTemplateNoContactCondensed.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeRedeemed2Transfer.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2cWLiteTransfer.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2cTransfer.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgradeNonRedeemed2mWLiteTransfer.xlsx" />
+    <Resource Include="Templates\PrintTemplateUpgrade3Transfer.xlsx" />
+    <None Include="Templates\PrintTemplateUpgradeNonRedeemed2mTransfer.xlsx" />
     <None Include="Templates\ReportTemplateQAWeightings.xlsx" />
     <Resource Include="Templates\ReportTemplateRemoveDoNotContactLeads.xlsx" />
     <None Include="Templates\ReportTemplateSales - Copy.xlsx" />
@@ -2062,6 +2225,13 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\TransferError1.jpg" />
+    <Resource Include="Resources\Transfer1.jpg" />
+    <Resource Include="Resources\Transfer12.jpg" />
+    <Resource Include="Resources\Transferringsale.jpg" />
+    <Resource Include="Resources\insure.gif" />
+    <Resource Include="Resources\HappyBirthday.png" />
+    <Resource Include="Resources\reloadbanking.png" />
     <Resource Include="Resources\call.png" />
     <Resource Include="Resources\CassettePlayer.png" />
     <Resource Include="Resources\documents.png" />
@@ -2155,6 +2325,13 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
