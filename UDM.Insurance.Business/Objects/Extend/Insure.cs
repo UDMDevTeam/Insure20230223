@@ -2,6 +2,7 @@
 using System.Data;
 using Embriant.Framework.Data;
 using Embriant.Framework.Configuration;
+using System.Transactions;
 
 namespace UDM.Insurance.Business
 {
@@ -2761,6 +2762,30 @@ namespace UDM.Insurance.Business
             object[] paramArray = new[] { param2, param3, param4 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetTransferAgentsIDs", paramArray, 600);
+        }
+        #endregion
+
+        #region Call Mandate Report
+        public static DataTable INDebiCheckErrorMandate(DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@FromDate", fromDate);
+            object param2 = Database.GetParameter("@ToDate", toDate);
+
+
+            object[] paramArray = new[] { param1, param2 };
+
+            var transactionOptions = new TransactionOptions
+
+            {
+
+                IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+
+            }; using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+
+            {
+                return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINErrorMandate", paramArray, 600).Tables[0];
+                //return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetAvailableDCAgents", null, 600)
+            }
         }
         #endregion
 
