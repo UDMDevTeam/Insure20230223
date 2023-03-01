@@ -491,8 +491,8 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             if (i == 2)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 3; // 35;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 3; // 35;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 44; // 35;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 44; // 35;
                             }
                             if (i >= 3 && i <= 4)
                             {
@@ -501,8 +501,8 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             if (i == 5)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 7;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 7;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
                             }
                             if (i >= 6 && i <= 14)
                             {
@@ -511,8 +511,8 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             if (i >= 15 && i <= 21)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 26;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 26;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
                             }
                             if (i == 22)
                             {
@@ -532,14 +532,14 @@ namespace UDM.Insurance.Interface.Screens
 
                             if (i == 25)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 45;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 45;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 24;
                                
                             }
                             if (i == 26)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 26;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 26;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
                             }
                             if (i == 27)
                             {
@@ -563,8 +563,8 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             if (i >= 31 && i <= 34)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 3;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 3;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 44;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 44;
                             }
 
                             if (i >= 35 && i <= 37)
@@ -575,8 +575,8 @@ namespace UDM.Insurance.Interface.Screens
 
                             if (i >= 38 && i <= 40)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 45; //cyan
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 45;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 44; //cyan
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 44;
                             }
 
                             if (i >= 41 && i <= 43)
@@ -1677,7 +1677,7 @@ namespace UDM.Insurance.Interface.Screens
                                 }
                                 if (i == 5)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 7;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38;
                                 }
                                 if (i >= 6 && i <= 14)
                                 {
@@ -1686,7 +1686,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 if (i >= 15 && i <= 21)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 26; //36
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38; //36
                                 }
                                 //if (i == 21)
                                 //{
@@ -1712,7 +1712,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 if (i == 26)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 26; // 33;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38; // 33;
                                 }
 
                                 //if (i >= 27 && i <= 30)
@@ -1738,7 +1738,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 if (i >= 31 && i <= 34)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 3; //22;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 44; //22;
                                 }
 
                                 if (i >= 35 && i <= 37)
@@ -1749,7 +1749,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 if (i >= 38 && i <= 40)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 45;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 44;
                                     //xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 34;
                                 }
 
