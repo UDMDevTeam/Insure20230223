@@ -130,7 +130,7 @@ namespace UDM.Insurance.Interface.Screens
             LoadScreenData(leadApplicationData);
             SaleDetailNotes = leadApplicationData.SaleData.Notes;
 
-            if (userID == 2857 || userID == 2810 || userID == 394)
+            if (userID == 2857 || userID == 2810 || userID == 394 || userID == 6044)
             {
                 chkTSRBUSavedCF.IsEnabled = true;
             }
