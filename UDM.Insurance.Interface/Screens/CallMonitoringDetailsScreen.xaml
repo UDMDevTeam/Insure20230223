@@ -348,6 +348,7 @@
                                 IsChecked="{Binding WasDebiCheckProcessExplainedCorrectly}"
                                 Style="{StaticResource INCheckboxStyle}" />
                         </Grid>
+
                         <!--  Groupbox ends here  -->
                     </StackPanel>
                 </GroupBox>
@@ -819,12 +820,28 @@
                 <CheckBox
                     x:Name="chkNextOfKinQuestion"
                     Grid.Row="8"
-                    Grid.Column="30"
+                    Grid.Column="23"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     IsChecked="{Binding WasNextOfKinQuestionAsked}"
                     Style="{StaticResource INCheckboxStyle}" />
-
+                
+                <TextBlock
+                                x:Name="lblObjections"
+                                Grid.Row="8"
+                                Grid.Column="24"
+                                Grid.ColumnSpan="7"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Objections at DebiCheck Stage" />
+                <CheckBox
+                                x:Name="chkObjections"
+                                Grid.Row="8"
+                                Grid.Column="30"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INCheckboxStyle}" />
 
                 <!--  Groupbox ends  -->
 

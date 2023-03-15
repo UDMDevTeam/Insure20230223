@@ -6940,7 +6940,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Visible">
+              Visibility="Hidden">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -8176,7 +8176,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Collapsed">
+              Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -15284,7 +15284,7 @@
                     <StackPanel
               Grid.Row="16"
               Grid.Column="3"
-              Grid.ColumnSpan="19"
+              Grid.ColumnSpan="21"
               Margin="15,0,0,0"
               Orientation="Horizontal">
                         <Button
@@ -15578,6 +15578,32 @@
                                 </Style>
                             </CheckBox.Style>
                         </CheckBox>
+                        <Grid Width="8" />
+
+                        <TextBlock
+                x:Name="lblObjection"
+                Width="89"
+                Height="Auto"
+                Margin="0,12,0,0"
+                Text="   Objections">
+                            <TextBlock.Style>
+                                <Style BasedOn="{StaticResource INLabelText2}" TargetType="{x:Type TextBlock}">
+                                  
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Grid Width="8" />
+                        <CheckBox
+                x:Name="chkObjections"
+                Width="Auto"
+                Height="Auto"
+                Margin="0,17,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                TabIndex="98500">
+
+                        </CheckBox>
+
                     </StackPanel>
 
 

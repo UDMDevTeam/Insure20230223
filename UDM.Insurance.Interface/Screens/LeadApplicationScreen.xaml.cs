@@ -304,6 +304,7 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
+            #region DebICheck Agent collapsing
             if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
             {
                 cmbDebiCheckQueries.Visibility = Visibility.Visible;
@@ -314,6 +315,22 @@ namespace UDM.Insurance.Interface.Screens
                 cmbDebiCheckQueries.Visibility = Visibility.Collapsed;
                 lblDebiCheckQueries.Visibility = Visibility.Collapsed;
             }
+            #endregion
+
+            #region Sales Agent collapsing
+
+            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
+            {
+                lblObjection.Visibility = Visibility.Collapsed;
+                chkObjections.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                lblObjection.Visibility = Visibility.Visible;
+                chkObjections.Visibility = Visibility.Visible;
+            }
+
+            #endregion
             //CanSave.IsChecked = true;
 
             //DisplayLiveProductivity();
@@ -1837,7 +1854,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Import Call Monitoring
 
-                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
                 #endregion
 
@@ -2324,6 +2341,13 @@ namespace UDM.Insurance.Interface.Screens
                 catch { }
 
                 #endregion
+
+                try 
+                {
+                    bool? Objections = bool.Parse(Methods.GetTableData("SELECT TOP 1 Objections FROM INImportCallMonitoring WHERE FKINImportID = " + LaData.AppData.ImportID).AsEnumerable().Select(x => x["Objections"]).FirstOrDefault().ToString());
+                    chkObjections.IsChecked = Objections;
+                }
+                catch { }
 
                 #region Get Mandate Information
                 try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
@@ -3590,6 +3614,35 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
+                #region DC Agent Objections
+                try
+                {
+                    if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
+                    {
+
+                    }
+                    else
+                    {
+                        StringBuilder strQueryImportCallmonitoring = new StringBuilder();
+                        strQueryImportCallmonitoring.Append("SELECT TOP 1 ID [Response] ");
+                        strQueryImportCallmonitoring.Append("FROM INImportCallMonitoring ");
+                        strQueryImportCallmonitoring.Append("WHERE FKINImportID = " + LaData.AppData.ImportID);
+                        DataTable dtImportDate = Methods.GetTableData(strQueryImportCallmonitoring.ToString());
+
+                        long ImportCallmonitoringID = long.Parse(dtImportDate.Rows[0]["Response"].ToString());
+
+                        INImportCallMonitoring icm = new INImportCallMonitoring(ImportCallmonitoringID);
+                        icm.Objections = chkObjections.IsChecked;
+                        icm.Save(_validationResult);
+                    }
+                } catch
+                {
+                    INImportCallMonitoring icm = new INImportCallMonitoring();
+                    icm.Objections = chkObjections.IsChecked;
+                    icm.FKINImportID = LaData.AppData.ImportID;
+                    icm.Save(_validationResult);
+                }
+                #endregion
 
                 CommitTransaction("");
 
@@ -10702,22 +10755,50 @@ namespace UDM.Insurance.Interface.Screens
 
                         if (IsValidDataForwardToDC())
                         {
-                            LaData.AppData.DeclineReasonID = null;
-                            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-                            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-                            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
-
-                            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
-
-                            if (AgentFKUserID == null)
+                            try
                             {
-                                cmbStatus.SelectedIndex = -1;
-                            }
+                                StringBuilder strQueryFKINLeadStatus = new StringBuilder();
+                                strQueryFKINLeadStatus.Append("SELECT TOP 1 FKINLeadStatusID [Response], DateOfSale  ");
+                                strQueryFKINLeadStatus.Append("FROM INImport AS I ");
+                                strQueryFKINLeadStatus.Append("WHERE I.ID = " + LaData.AppData.ImportID.ToString());
+                                DataTable dtOnline = Methods.GetTableData(strQueryFKINLeadStatus.ToString());
 
-                            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+                                string FKINLeadStatus = dtOnline.Rows[0]["Response"].ToString();
+                                DateTime DateOfSale;
+                                try { DateOfSale = DateTime.Parse(dtOnline.Rows[0]["DateOfSale"].ToString()); } catch { DateOfSale = DateTime.Now.AddDays(-1); }
 
-                            btnForwardToDCAgent.Visibility = Visibility.Visible;
-                            break;
+                                if (DateOfSale < DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd")) && FKINLeadStatus == "1")
+                                {
+                                    if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+                                    {
+                                        cmbStatus.SelectedIndex = 5;
+                                    }
+
+                                    break;
+                                }
+                                else
+                                {
+                                    LaData.AppData.DeclineReasonID = null;
+                                    SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                                    selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                                    ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                                    long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                                    if (AgentFKUserID == null)
+                                    {
+                                        cmbStatus.SelectedIndex = -1;
+                                    }
+
+                                    Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
+                                    btnForwardToDCAgent.Visibility = Visibility.Visible;
+                                    break;
+                                }
+                            } catch { break; }
+
+
+
                         }
                         else
                         {

@@ -55,7 +55,8 @@ namespace UDM.Insurance.Business
         private DateTime? _tsrbusavedcarriedforwarddate = null;
         private long? _tsrbusavedcarriedforwardassignedbyuserid = null;
         private DateTime? _callmonitoreddate = null;
-        private bool? _wasdebicheckprocessexplainedcorrectly = null; 
+        private bool? _wasdebicheckprocessexplainedcorrectly = null;
+        private bool? _objections = null;
         #endregion
 
         #region Constructor
@@ -837,6 +838,25 @@ namespace UDM.Insurance.Business
                 }
             }
         }
+
+        public bool? Objections
+        {
+            get
+            {
+                Fill();
+                return _objections;
+            }
+            set
+            {
+                Fill();
+                if (value != _objections)
+                {
+                    _objections = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
         #endregion
 
         #region Override Methods
@@ -943,6 +963,7 @@ namespace UDM.Insurance.Business
             xml.Append("<tsrbusavedcarriedforwarddate>" + TSRBUSavedCarriedForwardDate.Value.ToString("dd MMM yyyy HH:mm:ss") + "</tsrbusavedcarriedforwarddate>");
             xml.Append("<tsrbusavedcarriedforwardassignedbyuserid>" + TSRBUSavedCarriedForwardAssignedByUserID.ToString() + "</tsrbusavedcarriedforwardassignedbyuserid>");
             xml.Append("<callmonitoreddate>" + CallMonitoredDate.Value.ToString("dd MMM yyyy HH:mm:ss") + "</callmonitoreddate>");
+            xml.Append("<objections>" + Objections.Value.ToString() + "</objections>");
             xml.Append("</inimportcallmonitoring>");
             return xml.ToString();
         }
@@ -994,7 +1015,7 @@ namespace UDM.Insurance.Business
         /// <param name="tsrbusavedcarriedforwardassignedbyuserid"></param>
         /// <param name="callmonitoreddate"></param>
         /// <returns>A Validation Result object with the result of the fill opertation.</returns>
-        public ValidationResult Fill(long? fkinimportid, bool? isbankingdetailscapturedcorrectly, bool? wasaccountverified, bool? wasdebitdateconfirmed, bool? isaccountinclientsname, bool? doesclienthavesigningpower, bool? wascorrectclosurequestionasked, bool? wasresponseclearandpositive, bool? wasudmandplmentionedasfsps, bool? wasdebitamountmentionedcorrectly, bool? wasfirstdebitdateexplainedcorrectly, bool? wascorrectcovercommencementdatementioned, bool? wasnonpaymentprocedureexplained, bool? wasannualincreaseexplained, bool? wascorrectquestionaskedbumpupclosure, bool? wasresponseclearandpositivebumpupclosure, bool? wasudmandplmentionedasfspsbumpupclosure, bool? wasdebitamountmentionedcorrectlybumpupclosure, bool? wasfirstdebitdateexplainedcorrectlybumpupclosure, bool? wascorrectcovercommencementdatementionedbumpupclosure, bool? wasnonpaymentprocedureexplainedbumpupclosure, bool? wasannualincreaseexplainedbumpupclosure, long? fkincallmonitoringoutcomeid, string comments, long? fkcallmonitoringuserid, bool? wascallevaluatedbysecondaryuser, long? fksecondarycallmonitoringuserid, long? fkincallassessmentoutcomeid, bool? exclusionsexplained, bool? exclusionsexplainedbumpupclosure, bool? isrecoveredsale, bool? wasmoneybackvsvoucherbenefitsexplainedcorrectly, bool? iscallmonitored, bool? wasclearyesgiveninsalesquestion, bool? waspermissionquestionasked, bool? wasnextofkinquestionasked, long? fktertiarycallmonitoringuserid, bool? istsrbusavedcarriedforward, DateTime? tsrbusavedcarriedforwarddate, long? tsrbusavedcarriedforwardassignedbyuserid, DateTime? callmonitoreddate)
+        public ValidationResult Fill(long? fkinimportid, bool? isbankingdetailscapturedcorrectly, bool? wasaccountverified, bool? wasdebitdateconfirmed, bool? isaccountinclientsname, bool? doesclienthavesigningpower, bool? wascorrectclosurequestionasked, bool? wasresponseclearandpositive, bool? wasudmandplmentionedasfsps, bool? wasdebitamountmentionedcorrectly, bool? wasfirstdebitdateexplainedcorrectly, bool? wascorrectcovercommencementdatementioned, bool? wasnonpaymentprocedureexplained, bool? wasannualincreaseexplained, bool? wascorrectquestionaskedbumpupclosure, bool? wasresponseclearandpositivebumpupclosure, bool? wasudmandplmentionedasfspsbumpupclosure, bool? wasdebitamountmentionedcorrectlybumpupclosure, bool? wasfirstdebitdateexplainedcorrectlybumpupclosure, bool? wascorrectcovercommencementdatementionedbumpupclosure, bool? wasnonpaymentprocedureexplainedbumpupclosure, bool? wasannualincreaseexplainedbumpupclosure, long? fkincallmonitoringoutcomeid, string comments, long? fkcallmonitoringuserid, bool? wascallevaluatedbysecondaryuser, long? fksecondarycallmonitoringuserid, long? fkincallassessmentoutcomeid, bool? exclusionsexplained, bool? exclusionsexplainedbumpupclosure, bool? isrecoveredsale, bool? wasmoneybackvsvoucherbenefitsexplainedcorrectly, bool? iscallmonitored, bool? wasclearyesgiveninsalesquestion, bool? waspermissionquestionasked, bool? wasnextofkinquestionasked, long? fktertiarycallmonitoringuserid, bool? istsrbusavedcarriedforward, DateTime? tsrbusavedcarriedforwarddate, long? tsrbusavedcarriedforwardassignedbyuserid, DateTime? callmonitoreddate, bool? objections)
         {
             ValidationResult result = new ValidationResult();
 
@@ -1041,6 +1062,7 @@ namespace UDM.Insurance.Business
                 this.TSRBUSavedCarriedForwardDate = tsrbusavedcarriedforwarddate;
                 this.TSRBUSavedCarriedForwardAssignedByUserID = tsrbusavedcarriedforwardassignedbyuserid;
                 this.CallMonitoredDate = callmonitoreddate;
+                this.Objections = objections;
             }
             catch (Exception ex)
             {

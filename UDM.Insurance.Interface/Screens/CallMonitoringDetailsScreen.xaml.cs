@@ -557,7 +557,7 @@ namespace UDM.Insurance.Interface.Screens
 
             if (leadApplicationData.AppData.ImportID != null)
             {
-                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(leadApplicationData.AppData.ImportID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(leadApplicationData.AppData.ImportID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
             }
 
 
@@ -602,8 +602,10 @@ namespace UDM.Insurance.Interface.Screens
                 ScreenData.TSRBUSavedCarriedForwardDate = inImportCallMonitoring.TSRBUSavedCarriedForwardDate;
                 ScreenData.TSRBUSavedCarriedForwardAssignedByUserID = inImportCallMonitoring.TSRBUSavedCarriedForwardAssignedByUserID;
                 ScreenData.CallMonitoredDate = inImportCallMonitoring.CallMonitoredDate;
-
-
+                try 
+                {
+                    chkObjections.IsChecked = inImportCallMonitoring.Objections;
+                } catch { }
 
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/221494754/comments
                 ScreenData.ExclusionsExplained = inImportCallMonitoring.ExclusionsExplained;
@@ -900,6 +902,8 @@ namespace UDM.Insurance.Interface.Screens
                 inImportCallMonitoring.WasPermissionQuestionAsked = ScreenData.WasPermissionQuestionAsked;
                 inImportCallMonitoring.WasNextOfKinQuestionAsked = ScreenData.WasNextOfKinQuestionAsked;
                 inImportCallMonitoring.FKTertiaryCallMonitoringUserID = ScreenData.FKTertiaryCallMonitoringUserID;
+
+                try { inImportCallMonitoring.Objections = chkObjections.IsChecked; } catch { }
 
                 inImportCallMonitoring.IsTSRBUSavedCarriedForward = ScreenData.IsTSRBUSavedCarriedForward;
                 if ((LoadedScreenData.IsTSRBUSavedCarriedForward == null || LoadedScreenData.IsTSRBUSavedCarriedForward == false) && ScreenData.IsTSRBUSavedCarriedForward == true)

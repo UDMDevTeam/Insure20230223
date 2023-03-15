@@ -103,7 +103,9 @@
         Upgrade15 = 49,
         ExtendedMining = 50,
         DoubleUpgrade16 = 51,
-        Upgrade16 = 52
+        Upgrade16 = 52,
+        Tier2 = 54,
+        Tier1 = 53
     }
 
     public enum lkpINCampaignType
