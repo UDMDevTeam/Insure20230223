@@ -244,8 +244,8 @@ namespace UDM.Insurance.Interface.Screens
 
                     var totalTable = dsDiaryReportData.Tables[1];
 
-                    workSheet.Cells[31, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
-                    workSheet.Cells[31, 1].Value = "Total :";
+                    workSheet.Cells[33, 2].Value = int.Parse(totalTable.Rows[0][0].ToString()) - 1;
+                    workSheet.Cells[33, 1].Value = "Total :";
 
                     (workSheet.Cells[1, 6]).EntireColumn.NumberFormat = "00,00%";
                     (workSheet.Cells[1, 8]).EntireColumn.NumberFormat = "00,00%";
@@ -274,46 +274,46 @@ namespace UDM.Insurance.Interface.Screens
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A2", "D30").BorderAround(
+                    workSheet.get_Range("A2", "D32").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A2", "F30").BorderAround(
+                    workSheet.get_Range("A2", "F32").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A2", "J30").BorderAround(
+                    workSheet.get_Range("A2", "J32").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A2", "V30").BorderAround(
+                    workSheet.get_Range("A2", "V32").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A2", "Z30").BorderAround(
+                    workSheet.get_Range("A2", "Z32").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.get_Range("A31", "Z31").BorderAround(
+                    workSheet.get_Range("A33", "Z33").BorderAround(
                     Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
                     Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
                     Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, 1);
 
-                    workSheet.Range["F3", "F30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["H3", "H30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["J3", "J30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["L3", "L30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["N3", "N30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["P3", "P30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["R3", "R30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["T3", "T30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["V3", "V30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
-                    workSheet.Range["X3", "X30"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["F3", "F32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["H3", "H32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["J3", "J32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["L3", "L32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["N3", "N32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["P3", "P32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["R3", "R32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["T3", "T32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["V3", "V32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
+                    workSheet.Range["X3", "X32"].Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
 
 
                     #region Page formulas
@@ -346,6 +346,9 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[28, 3].Formula = string.Format("=U28+Q28+S28+O28+W28");
                     workSheet.Cells[29, 3].Formula = string.Format("=U29+Q29+S29+O29+W29");
                     workSheet.Cells[30, 3].Formula = string.Format("=U30+Q30+S30+O30+W30");
+                    workSheet.Cells[31, 3].Formula = string.Format("=U31+Q31+S31+O31+W31");
+                    workSheet.Cells[32, 3].Formula = string.Format("=U32+Q32+S32+O32+W32");
+
 
                     workSheet.Cells[3, 2].Formula = string.Format("=D3+C3");
                     workSheet.Cells[4, 2].Formula = string.Format("=D4+C4");
@@ -375,33 +378,36 @@ namespace UDM.Insurance.Interface.Screens
                     workSheet.Cells[28, 2].Formula = string.Format("=D28+C28");
                     workSheet.Cells[29, 2].Formula = string.Format("=D29+C29");
                     workSheet.Cells[30, 2].Formula = string.Format("=D30+C30");
+                    workSheet.Cells[31, 2].Formula = string.Format("=D31+C31");
+                    workSheet.Cells[32, 2].Formula = string.Format("=D32+C32");
 
-                    workSheet.Cells[31, 2].Formula = string.Format("=SUM(B1:B30)"); //B
-                    workSheet.Cells[31, 3].Formula = string.Format("=SUM(C1:C30)"); //C
-                    workSheet.Cells[31, 4].Formula = string.Format("=SUM(D1:D30)"); //D
-                    workSheet.Cells[31, 5].Formula = string.Format("=SUM(E1:E30)"); //E
-                    workSheet.Cells[31, 7].Formula = string.Format("=SUM(G1:G30)"); //G
-                    workSheet.Cells[31, 9].Formula = string.Format("=SUM(I1:I30)"); //I
-                    workSheet.Cells[31, 11].Formula = string.Format("=SUM(K1:K30)"); //K
-                    workSheet.Cells[31, 13].Formula = string.Format("=SUM(M1:M30)"); //M
-                    workSheet.Cells[31, 15].Formula = string.Format("=SUM(O1:O30)"); //O
-                    workSheet.Cells[31, 17].Formula = string.Format("=SUM(Q1:Q30)"); //Q
-                    workSheet.Cells[31, 19].Formula = string.Format("=SUM(S1:S30)"); //S
-                    workSheet.Cells[31, 21].Formula = string.Format("=SUM(U1:U30)"); //U
-                    workSheet.Cells[31, 23].Formula = string.Format("=SUM(W1:W30)"); //W
-                    workSheet.Cells[31, 25].Formula = string.Format("=SUM(Y1:Y30)"); //y
 
-                    workSheet.Cells[31, 6].Formula = string.Format("=E31/B31*100"); //F
-                    workSheet.Cells[31, 8].Formula = string.Format("=G31/B31*100"); //H
-                    workSheet.Cells[31, 10].Formula = string.Format("=I31/B31*100"); //J
-                    workSheet.Cells[31, 12].Formula = string.Format("=K31/B31*100"); //L
-                    workSheet.Cells[31, 14].Formula = string.Format("=M31/B31*100"); //N
-                    workSheet.Cells[31, 16].Formula = string.Format("=O31/B31*100"); //P
-                    workSheet.Cells[31, 18].Formula = string.Format("=Q31/B31*100"); //R
-                    workSheet.Cells[31, 20].Formula = string.Format("=S31/B31*100"); //T
-                    workSheet.Cells[31, 22].Formula = string.Format("=U31/B31*100"); //V
-                    workSheet.Cells[31, 24].Formula = string.Format("=W31/B31*100"); //X
-                    workSheet.Cells[31, 26].Formula = string.Format("=E31/(B31-Y31)*100"); //X
+                    workSheet.Cells[33, 2].Formula = string.Format("=SUM(B1:B32)"); //B
+                    workSheet.Cells[33, 3].Formula = string.Format("=SUM(C1:C32)"); //C
+                    workSheet.Cells[33, 4].Formula = string.Format("=SUM(D1:D32)"); //D
+                    workSheet.Cells[33, 5].Formula = string.Format("=SUM(E1:E32)"); //E
+                    workSheet.Cells[33, 7].Formula = string.Format("=SUM(G1:G32)"); //G
+                    workSheet.Cells[33, 9].Formula = string.Format("=SUM(I1:I32)"); //I
+                    workSheet.Cells[33, 11].Formula = string.Format("=SUM(K1:K32)"); //K
+                    workSheet.Cells[33, 13].Formula = string.Format("=SUM(M1:M32)"); //M
+                    workSheet.Cells[33, 15].Formula = string.Format("=SUM(O1:O32)"); //O
+                    workSheet.Cells[33, 17].Formula = string.Format("=SUM(Q1:Q32)"); //Q
+                    workSheet.Cells[33, 19].Formula = string.Format("=SUM(S1:S32)"); //S
+                    workSheet.Cells[33, 21].Formula = string.Format("=SUM(U1:U32)"); //U
+                    workSheet.Cells[33, 23].Formula = string.Format("=SUM(W1:W32)"); //W
+                    workSheet.Cells[33, 25].Formula = string.Format("=SUM(Y1:Y32)"); //y
+
+                    workSheet.Cells[33, 6].Formula = string.Format("=E33/B33*100"); //F
+                    workSheet.Cells[33, 8].Formula = string.Format("=G33/B33*100"); //H
+                    workSheet.Cells[33, 10].Formula = string.Format("=I33/B33*100"); //J
+                    workSheet.Cells[33, 12].Formula = string.Format("=K33/B33*100"); //L
+                    workSheet.Cells[33, 14].Formula = string.Format("=M33/B33*100"); //N
+                    workSheet.Cells[33, 16].Formula = string.Format("=O33/B33*100"); //P
+                    workSheet.Cells[33, 18].Formula = string.Format("=Q33/B33*100"); //R
+                    workSheet.Cells[33, 20].Formula = string.Format("=S33/B33*100"); //T
+                    workSheet.Cells[33, 22].Formula = string.Format("=U33/B33*100"); //V
+                    workSheet.Cells[33, 24].Formula = string.Format("=W33/B33*100"); //X
+                    workSheet.Cells[33, 26].Formula = string.Format("=E33/(B33-Y33)*100"); //X
 
 
                     int totalrows = dtSalesData.Rows.Count + 3;
