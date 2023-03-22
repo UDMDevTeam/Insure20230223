@@ -142,7 +142,7 @@ namespace UDM.Insurance.Interface.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureTest.Interface;component/windows/insurewelcomemessage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/windows/insurewelcomemessage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Windows\InSureWelcomeMessage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

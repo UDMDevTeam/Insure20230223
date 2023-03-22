@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="UDM.Insure.Interface.exe" version="2.6.6.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="UDM.Insure.Interface.exe" version="3.0.6.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="InsureIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="UDM.Insure.Interface" version="2.6.6.3" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="UDM.Insure.Interface" version="3.0.6.0" language="neutral" processorArchitecture="x86" />
     <commandLine file="UDM.Insure.Interface.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>6T/FCaeCPlaoBc3aCe+l6t4C5NNK6BK+ePbETrtPrn4=</dsig:DigestValue>
+        <dsig:DigestValue>E85QhinKjk3wqJcW6B6Xiix9DQllPsYgIp3CTM2Q8mU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Uqs2os4d3qBOTEtCjGUFpe7ntyAWDXPLL2bsXdRjBA4=</dsig:DigestValue>
+        <dsig:DigestValue>Bnfk3LB40P8EkwaHH5Rv0OFHrwLxnQ/q8z0NvEH9GDQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -295,6 +295,30 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MaterialDesignColors.dll" size="302080">
+      <assemblyIdentity name="MaterialDesignColors" version="2.0.4.3" publicKeyToken="DF2A72020BD7962A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>vBCHkZeb05GBVzefXpoUc6gHRGYB0pU6ctBA9o2fysU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MaterialDesignThemes.Wpf.dll" size="8782336">
+      <assemblyIdentity name="MaterialDesignThemes.Wpf" version="4.3.0.3" publicKeyToken="DF2A72020BD7962A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>fSxJza5NwIlT3SyEoHKZbUO8a6nKzubziyv6R0/jrDk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Expression.Drawing.dll" size="122880">
       <assemblyIdentity name="Microsoft.Expression.Drawing" version="4.0.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -415,26 +439,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insurance.Business.dll" size="1653760">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insurance.Business.dll" size="1856512">
       <assemblyIdentity name="UDM.Insurance.Business" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>pRjvyzRve5XPvS7iI1iS7YJ6tI1Pw2VzUgvTGQQKUeQ=</dsig:DigestValue>
+        <dsig:DigestValue>XCtEK48FYS8lCXoVK+RG8m9ojfjVbg0Ig7KlJIzF1xE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insure.Interface.exe" size="23218688">
-      <assemblyIdentity name="UDM.Insure.Interface" version="2.6.6.3" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="UDM.Insure.Interface.exe" size="30220288">
+      <assemblyIdentity name="UDM.Insure.Interface" version="3.0.6.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>TcwY52Q1mBs39AM0P1Zoad/Z4n6v7sZxvX9C4Xgb6wE=</dsig:DigestValue>
+        <dsig:DigestValue>ZTte6hBhxAw3rK0AEFR+mG9/qj5cn8lsUtHtSjbuT8A=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -446,7 +470,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>0FFg2B0BmjjaX2Mi63qJqRIQ9ku5iJtPal464MCyzsM=</dsig:DigestValue>
+        <dsig:DigestValue>NnR8c/OmdtrpzFpSj7/kixscZ0dMPjNXq66MGzFljzY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -495,6 +519,18 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>vc/q+f+GzK00h8WUO1vMccudGi5cU7njYnMC6I0AayY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WpfAnimatedGif.dll" size="42496">
+      <assemblyIdentity name="WpfAnimatedGif" version="2.0.0.0" publicKeyToken="9E7CD3B544A090DC" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>tMab4hO6PdQOa8gZt7/BOrA9BtXz76DkZDsbVeWlKfk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -756,13 +792,13 @@
       <dsig:DigestValue>DNgdl60tKAmptRahaXqIfiHvdiBZH5y0y8Q36DIwuvI=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="UDM.Insure.Interface.exe.config" size="6969">
+  <file name="UDM.Insure.Interface.exe.config" size="6970">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>L4XuCRFFb5g+7aQBDRFXXre2ZE8Ik7HLUDx/cKlB5z8=</dsig:DigestValue>
+      <dsig:DigestValue>l3F4cUtIs2T9/5163igg15zX85I8w2pUI08sGomZIxw=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

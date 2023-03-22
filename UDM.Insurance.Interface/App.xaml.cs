@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Net;
+using System.Windows;
 using Prism.Ioc;
 using UDM.Insurance.Interface.PrismInfrastructure;
 using UDM.Insurance.Interface.PrismViews;
@@ -30,7 +31,8 @@ namespace UDM.Insurance.Interface
         {
             base.OnStartup(e);
 
-
+            System.Net.ServicePointManager.SecurityProtocol |=
+            SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)

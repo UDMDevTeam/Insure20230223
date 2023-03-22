@@ -309,6 +309,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 cmbDebiCheckQueries.Visibility = Visibility.Visible;
                 lblDebiCheckQueries.Visibility = Visibility.Visible;
+                btnPermissionLead.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -1880,7 +1881,15 @@ namespace UDM.Insurance.Interface.Screens
                     LaData.AppData.CampaignID == 6 ||
                     LaData.AppData.CampaignID == 105)
                 {
-                    btnPermissionLead.Visibility = Visibility.Visible;
+                    if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                    {
+                        btnPermissionLead.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        btnPermissionLead.Visibility = Visibility.Visible;
+
+                    }
                     if (LaData.AppData.CampaignID == 6 || LaData.AppData.CampaignID == 105)
                     {
 

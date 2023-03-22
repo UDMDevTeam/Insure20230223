@@ -140,7 +140,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                //HandleException(ex);
+                HandleException(ex);
 
                 btnReport.IsEnabled = true;
                 btnClose.IsEnabled = true;

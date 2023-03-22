@@ -433,6 +433,513 @@ C:\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.InsureDebug.Inte
 C:\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.InsureDebug.Interface.application
 C:\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.InsureDebug.Interface.exe
 C:\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.InsureDebug.Interface.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe.config
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe.manifest
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.application
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\AxInterop.CTPhone_ActiveXControl.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\CommonServiceLocator.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Embriant.Framework.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Embriant.WPF.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\EntityFramework.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Controls.Charts.XamGauge.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Controls.Editors.XamCalendar.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Controls.Interactions.XamDialogWindow.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Controls.Menus.XamMenu.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Controls.Schedules.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.DataPresenter.ExcelExporter.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.DataPresenter.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Documents.Core.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Documents.Excel.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Editors.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.v13.1.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignColors.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignThemes.Wpf.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Microsoft.Windows.Shell.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Newtonsoft.Json.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\PresentationCore.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\PresentationFramework.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Unity.Wpf.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Wpf.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\RibbonControlsLibrary.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.Configuration.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.Data.DataSetExtensions.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.Windows.Interactivity.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.Xaml.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\System.Xml.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insurance.Business.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.WPF.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Unity.Abstractions.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Unity.Container.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\WindowsBase.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\WpfAnimatedGif.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\WPFNotifier.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.AvalonDock.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.Toolkit.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Z.EntityFramework.Plus.EF6.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\OneWireAPI.NET.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\vjslib.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\itextsharp.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Humanizer.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Interop.CTPhone_ActiveXControl.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\stdole.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\vjscor.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Embriant.Framework.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Embriant.WPF.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insurance.Business.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\UDM.WPF.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\EntityFramework.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignColors.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignThemes.Wpf.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignThemes.Wpf.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Microsoft.Windows.Shell.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Microsoft.Windows.Shell.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Newtonsoft.Json.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Unity.Wpf.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Unity.Wpf.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Wpf.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Wpf.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\RibbonControlsLibrary.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\RibbonControlsLibrary.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\WpfAnimatedGif.pdb
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\WpfAnimatedGif.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Z.EntityFramework.Plus.EF6.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\Humanizer.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\bin\Release\af\Humanizer.resources.dll
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.AssemblyReference.cache
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\btnClearPersonDetails.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\HeaderLine.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\INLogo.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\LacePopupWindow1.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\AppVersion.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\DebugVersionControl.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\Ghost.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\GoldStar.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\MovementLine.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\ScheduleActivityDialog.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\SearchControl.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\TrainingVersionControl.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\TestVersionControl.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreenContentView.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreenToolbarView.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignPossibleBumpUpsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignSalesScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadContactTracingDetailsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessAgentNotes.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCopyCampaignData.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessEditScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PermissionLeadScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccess.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCampaignNotes.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchAnalysisScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringStats.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckStatusLoader.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\BulkMandateSend.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCAnalysis.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConservedLeads.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSMS.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\TransferAdjustments.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportR129Options.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCSpecialistLogs.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportResalesAcquiredAccountDetails.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportUpgradeIDUpdate.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckAccepted.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckConfiguration.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCTransferSales.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTrackingTSR.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTracker.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckPL.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckCallTransfer.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadPermission.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDeclineNoContact.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBaseSalesContactTrackingScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportQAWeightingsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportRemoveDoNotContactLeads.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportUpgradeLeadPremiumScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConversionSalesTracking.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesTrackingScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPermissionQuestionScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringActivity.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AgentActivity.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DeleteSingleLeadScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignLeadsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CaptureCampaignDefaultTargets.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CaptureSalesAgentHoursScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CaptureTSRTargetsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignSingleLeadScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportProgressGiftClaims.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportSchedule.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LiveProductivity.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\RedeemGiftScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBumpUpStatsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCarriedForwardScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDailySalesChecking.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportRedeemedVsPODScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTurnoverScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTopTenScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringBumpUpsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmedSalesPerAgentScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportInvalidAccounts.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDiaryToFinalScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPODDiariesScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDeclineScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportRedeemedGiftsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportEliteConfirmationProgressScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmationStatsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBumpUpPotentialScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTrackUpgradeBasePolicies.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadsAvailableScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportExtensionTracking.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportNoContactScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmationFeedbackScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CampaignsLeadCopyScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MoveLeadsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportFallOffScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportIndividualFallOffScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadActivityScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadAnalysisScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmedSalesScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportStatusLoadingScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportStatusLoadingSummary.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSupervisorTeam.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTargetTrackerScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadContactDetailsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportWebScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\UtilityImportUpdateScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDiaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportReducedPremiumScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDiaryMonthScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportHoursScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchStatsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBumpUpScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadSearchScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBaseConversionScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesToLeadScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPremiumBreakdownScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadStatusScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadAllocationScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchExportScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectLeadCampaignScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintLeadsScreenOld.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportAddCampaignScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ResetPasswordScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportProgressScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\StatusLoadingScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPremiumBreakdownAgentScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INContextMenuStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INDocumentViewerStyle.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INEditableComboBoxStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INGroupBox.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INLeadApplicationStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INPopupStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INRadioButtonStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INScheduleDialogStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyleBrushes.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyleColours.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyleConverters.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyleDimensions.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyleFonts.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyleProperties.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INTextStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamCalendarStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INButtonStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INCheckBoxStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INScrollBarStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INEmbriantComboBoxStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamContextMenu.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamCurrencyEditorStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamDataGridStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamDateTimeEditorStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamMaskedEditorStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamTabControlStyles.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindowYellow.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindow.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INWelcomeMessage.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INBirthDayMessage.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INMessageBoxWindow2.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INDialogWindow.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INMessageBoxWindow1.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\InSureWelcomeMessage.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\MainWindow.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\App.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\btnClearPersonDetails.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\btnPhone2.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\btnPhone.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\Hamburger.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\HeaderLine.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\icoPhone.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\INLogo.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\LacePopupWindow1.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\LineAndLogo.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\AppVersion.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\ComboWithCheckboxes.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\DebugVersionControl.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\Ghost.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\GoldStar.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\LeadApplicationDisplayWindow.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\MovementLine.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\ScheduleActivityDialog.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\SearchControl.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\TrainingVersionControl.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\TestVersionControl.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreenContentView.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreenToolbarView.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\ViewA.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\ViewB.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignMiningLeadsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignPossibleBumpUpsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignSalesScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\BumpUpSortSummaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringSortSummaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\Shell.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadApplicationScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadContactTracingDetailsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessAgentNotes.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCopyCampaignData.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessEditScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PermissionLeadScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccess.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCampaignNotes.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\QADetailsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchAnalysisScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringStats.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCustomerCareRequestsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckStatusLoader.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\BulkMandateSend.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCAnalysis.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConservedLeads.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSMS.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DCSpecialistDiaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ConservedLeadScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\TransferAdjustments.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportR129Options.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCSpecialistLogs.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportResalesAcquiredAccountDetails.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportUpgradeIDUpdate.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckAccepted.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckConfiguration.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCTransferSales.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTrackingTSR.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTracker.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckPL.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckCallTransfer.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadPermission.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDeclineNoContact.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportEMailRequestsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDateAnalysisScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBaseSalesContactTrackingScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportQAWeightingsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportRemoveDoNotContactLeads.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportUpgradeLeadPremiumScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConversionSalesTracking.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesTrackingScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPermissionQuestionScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringActivity.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AgentActivity.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AllocateLeadsFromOldSystemScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DeleteSingleLeadScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignSummaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignLeadsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CaptureCampaignDefaultTargets.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CaptureSalesAgentHoursScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CaptureTSRTargetsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignSingleLeadScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DeAllocateLeadsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportProgressGiftClaims.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportSchedule.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LiveProductivity.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringDetailsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\RedeemGiftScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBumpUpStatsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCarriedForwardScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDailySalesChecking.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportRedeemedVsPODScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTurnoverScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTopTenScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringBumpUpsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmedSalesPerAgentScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportInvalidAccounts.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDiaryToFinalScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPODDiariesScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDeclineScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportRedeemedGiftsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportEliteConfirmationProgressScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmationStatsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBumpUpPotentialScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTrackUpgradeBasePolicies.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadsAvailableScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportExtensionTracking.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportNoContactScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmationFeedbackScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CampaignsLeadCopyScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MoveLeadsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportFallOffScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportIndividualFallOffScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadActivityScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadAnalysisScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConfirmedSalesScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportStatusLoadingScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportStatusLoadingSummary.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSupervisorTeam.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportTargetTrackerScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\NoteScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadContactDetailsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportWebScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringViewDetailsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ScriptScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCancellationReasonScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCarriedForwardReasonScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SaleDetailNotesScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCMAgentToAssignTSRSavedCF.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCarriedForwardReasonScreen .g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCancellationReasonScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringAgentScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectIDNumber.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDiaryReasonScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\UtilityImportUpdateScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDiaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportReducedPremiumScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDiaryMonthScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportHoursScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\HoursScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchStatsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBumpUpScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadSearchScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBaseConversionScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesToLeadScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SearchLeadsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPremiumBreakdownScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadStatusScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadAllocationScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchExportScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuReportsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDeclineReasonScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectLeadCampaignScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintSummaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintLeadsScreenOld.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportAddCampaignScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuToolsScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuLeadScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuManagementScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ResetPasswordScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SalesScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\StartScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportSummaryScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportProgressScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ScheduleScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\StatusLoadingScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportPremiumBreakdownAgentScreen.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\Window1.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INPopupStyles.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Views\ReportDailySales.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindowYellow.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindow.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INWelcomeMessage.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INBirthDayMessage.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INMessageBoxWindow2.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INDialogWindow.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INMessageBoxWindow1.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\InSureWelcomeMessage.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\MainWindow.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\SplashScreenWindow.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\App.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface_Content.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface_MarkupCompile.cache
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface_MarkupCompile.lref
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\btnPhone2.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\btnPhone.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\Hamburger.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\icoPhone.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Content\LineAndLogo.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\ComboWithCheckboxes.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Controls\LeadApplicationDisplayWindow.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\ViewA.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\ViewB.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignMiningLeadsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\BumpUpSortSummaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringSortSummaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\Shell.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadApplicationScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\QADetailsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCustomerCareRequestsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DCSpecialistDiaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ConservedLeadScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportEMailRequestsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDateAnalysisScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AllocateLeadsFromOldSystemScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AssignSummaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DeAllocateLeadsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringDetailsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\NoteScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringViewDetailsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ScriptScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCancellationReasonScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCarriedForwardReasonScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SaleDetailNotesScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCMAgentToAssignTSRSavedCF.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCarriedForwardReasonScreen .baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCancellationReasonScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringAgentScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectIDNumber.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDiaryReasonScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\HoursScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SearchLeadsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuReportsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDeclineReasonScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintSummaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuToolsScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuLeadScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuManagementScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SalesScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\StartScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportSummaryScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ScheduleScreen.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\Window1.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Views\ReportDailySales.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\SplashScreenWindow.baml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface.g.resources
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.Properties.Resources.resources
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.GenerateResource.cache
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.CoreCompileInputs.cache
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface.TrustInfo.xml
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface.exe.manifest
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface.application
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.CopyComplete
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface.exe
+C:\Users\KeshavM\Desktop\Project Files\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insure.Interface.pdb
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\AxInterop.CTPhone_ActiveXControl.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\CommonServiceLocator.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Embriant.Framework.dll
@@ -450,6 +957,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Inf
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Documents.Excel.v13.1.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.Editors.v13.1.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\InfragisticsWPF4.v13.1.dll
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignColors.dll
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignThemes.Wpf.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Microsoft.Windows.Shell.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Newtonsoft.Json.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\PresentationCore.dll
@@ -470,6 +979,7 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Unity.Abstractions.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Unity.Container.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\WindowsBase.dll
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\WpfAnimatedGif.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\WPFNotifier.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.AvalonDock.dll
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Xceed.Wpf.AvalonDock.Themes.Aero.dll
@@ -490,6 +1000,9 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.WPF.pdb
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\EntityFramework.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignColors.pdb
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignThemes.Wpf.pdb
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\MaterialDesignThemes.Wpf.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Microsoft.Windows.Shell.pdb
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Microsoft.Windows.Shell.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Newtonsoft.Json.xml
@@ -501,6 +1014,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Pri
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Prism.Wpf.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\RibbonControlsLibrary.pdb
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\RibbonControlsLibrary.xml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\WpfAnimatedGif.pdb
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\WpfAnimatedGif.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Z.EntityFramework.Plus.EF6.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\Humanizer.xml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\de\Xceed.Wpf.AvalonDock.resources.dll
@@ -540,9 +1055,24 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccess.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCampaignNotes.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchAnalysisScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringStats.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckStatusLoader.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\BulkMandateSend.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCAnalysis.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConservedLeads.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSMS.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\TransferAdjustments.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportR129Options.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCSpecialistLogs.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportResalesAcquiredAccountDetails.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportUpgradeIDUpdate.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckAccepted.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckConfiguration.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCTransferSales.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTrackingTSR.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTracker.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckPL.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckCallTransfer.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadPermission.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDeclineNoContact.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBaseSalesContactTrackingScreen.baml
@@ -649,6 +1179,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamDateTimeEditorStyles.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamMaskedEditorStyles.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INXamTabControlStyles.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindowYellow.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindow.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INWelcomeMessage.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INBirthDayMessage.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INMessageBoxWindow2.baml
@@ -688,6 +1220,7 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringSortSummaryScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\Shell.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadApplicationScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadContactTracingDetailsScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessAgentNotes.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCopyCampaignData.g.cs
@@ -697,10 +1230,27 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MySuccessCampaignNotes.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\QADetailsScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportBatchAnalysisScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCallMonitoringStats.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCustomerCareRequestsScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckStatusLoader.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\BulkMandateSend.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCAnalysis.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportConservedLeads.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSMS.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DCSpecialistDiaryScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ConservedLeadScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\TransferAdjustments.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportR129Options.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCSpecialistLogs.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportResalesAcquiredAccountDetails.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportUpgradeIDUpdate.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckAccepted.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DebiCheckConfiguration.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDCTransferSales.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTrackingTSR.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTracker.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckPL.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckCallTransfer.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportLeadPermission.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDeclineNoContact.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportEMailRequestsScreen.g.cs
@@ -766,6 +1316,7 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\NoteScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadContactDetailsScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportWebScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringViewDetailsScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ScriptScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCancellationReasonScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCarriedForwardReasonScreen.g.cs
@@ -773,6 +1324,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCMAgentToAssignTSRSavedCF.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCarriedForwardReasonScreen .g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCancellationReasonScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringAgentScreen.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectIDNumber.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDiaryReasonScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\UtilityImportUpdateScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDiaryScreen.g.cs
@@ -795,7 +1348,6 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDeclineReasonScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectLeadCampaignScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintSummaryScreen.g.cs
-C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadApplicationScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintLeadsScreenOld.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ImportAddCampaignScreen.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuToolsScreen.g.cs
@@ -812,6 +1364,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\Window1.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Styles\INPopupStyles.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Views\ReportDailySales.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindowYellow.g.cs
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INSalesToCallMonitoringWindow.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INWelcomeMessage.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INBirthDayMessage.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Windows\INMessageBoxWindow2.g.cs
@@ -836,8 +1390,11 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringSortSummaryScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\Shell.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\PrismViews\EditClosureScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadApplicationScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\QADetailsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportCustomerCareRequestsScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\DCSpecialistDiaryScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ConservedLeadScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportEMailRequestsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDateAnalysisScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\AllocateLeadsFromOldSystemScreen.baml
@@ -846,6 +1403,7 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringDetailsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportSalesScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\NoteScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\CallMonitoringViewDetailsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ScriptScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCancellationReasonScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringCarriedForwardReasonScreen.baml
@@ -853,13 +1411,14 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCMAgentToAssignTSRSavedCF.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCarriedForwardReasonScreen .baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCancellationReasonScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectCallMonitoringAgentScreen.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectIDNumber.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDiaryReasonScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\HoursScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SearchLeadsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuReportsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\SelectDeclineReasonScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\PrintSummaryScreen.baml
-C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\LeadApplicationScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuToolsScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuLeadScreen.baml
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\MenuManagementScreen.baml
@@ -874,8 +1433,6 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.GenerateResource.cache
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.CoreCompileInputs.cache
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.CopyComplete
-C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTrackingTSR.baml
-C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckTrackingTSR.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe.config
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe.manifest
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.application

@@ -31,6 +31,11 @@
                 <ResourceDictionary Source="Styles\INStyleFonts.xaml" />
                 <ResourceDictionary Source="Styles\INStyleProperties.xaml" />
 
+                <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.LightBlue.xaml" />-->
+
 
                 <ResourceDictionary Source="Styles\INGroupBox.xaml" />
                 <ResourceDictionary Source="Styles\INXamContextMenu.xaml" />

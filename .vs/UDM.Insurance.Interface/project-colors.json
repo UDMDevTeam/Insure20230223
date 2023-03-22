@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "27e3efc3-4b30-451b-bf32-fe7f3a3cdb50": {
+      "ProjectGuid": "27e3efc3-4b30-451b-bf32-fe7f3a3cdb50",
+      "DisplayName": "UDM.Insurance.Interface",
+      "ColorIndex": 0
+    },
+    "70d827ff-b146-4eca-8ef4-966ac302d2e0": {
+      "ProjectGuid": "70d827ff-b146-4eca-8ef4-966ac302d2e0",
+      "DisplayName": "UDM.Insurance.Business",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "2e4744c7-80a5-446c-bb36-e7f678ac5f79": {
+      "ProjectGuid": "2e4744c7-80a5-446c-bb36-e7f678ac5f79",
+      "DisplayName": "UDM.WPF",
+      "ColorIndex": 2
+    },
+    "e5fd5e1a-3d7a-4e7c-8354-3c86b1e94a43": {
+      "ProjectGuid": "e5fd5e1a-3d7a-4e7c-8354-3c86b1e94a43",
+      "DisplayName": "Embriant.WPF",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}

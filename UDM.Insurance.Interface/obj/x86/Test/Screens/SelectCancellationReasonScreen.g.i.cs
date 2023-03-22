@@ -111,7 +111,7 @@ namespace UDM.Insurance.Interface.Screens {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureTest.Interface;component/screens/selectcancellationreasonscreen.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/screens/selectcancellationreasonscreen.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Screens\SelectCancellationReasonScreen.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -70,7 +70,7 @@ namespace UDM.Insurance.Interface.Content {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureTest.Interface;component/content/lineandlogo.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/content/lineandlogo.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Content\LineAndLogo.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

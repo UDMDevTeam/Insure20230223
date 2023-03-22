@@ -305,8 +305,7 @@ namespace UDM.Insurance.Interface.Screens {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureTest.Interface;component/screens/allocateleadsfromoldsystemscreen.xaml" +
-                    "", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/screens/allocateleadsfromoldsystemscreen.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Screens\AllocateLeadsFromOldSystemScreen.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

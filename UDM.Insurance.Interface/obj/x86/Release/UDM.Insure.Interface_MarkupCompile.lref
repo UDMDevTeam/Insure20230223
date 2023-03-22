@@ -1,4 +1,4 @@
-﻿C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\GeneratedInternalTypeHelper.g.cs
+﻿
 
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Content\btnPhone2.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Content\btnPhone.xaml;;
@@ -14,8 +14,11 @@ FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\BumpUp
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\CallMonitoringSortSummaryScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\PrismViews\Shell.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\PrismViews\EditClosureScreen.xaml;;
+FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\LeadApplicationScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\QADetailsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\ReportCustomerCareRequestsScreen.xaml;;
+FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\DCSpecialistDiaryScreen.xaml;;
+FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\ConservedLeadScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\ReportEMailRequestsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\ReportDateAnalysisScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\AllocateLeadsFromOldSystemScreen.xaml;;
@@ -24,6 +27,7 @@ FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\DeAllo
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\CallMonitoringDetailsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\ReportSalesScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\NoteScreen.xaml;;
+FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\CallMonitoringViewDetailsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\ScriptScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectCallMonitoringCancellationReasonScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectCallMonitoringCarriedForwardReasonScreen.xaml;;
@@ -31,13 +35,14 @@ FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SaleDe
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectCMAgentToAssignTSRSavedCF.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectCarriedForwardReasonScreen .xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectCancellationReasonScreen.xaml;;
+FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectCallMonitoringAgentScreen.xaml;;
+FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectIDNumber.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectDiaryReasonScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\HoursScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SearchLeadsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\MenuReportsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\SelectDeclineReasonScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\PrintSummaryScreen.xaml;;
-FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\LeadApplicationScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\MenuToolsScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\MenuLeadScreen.xaml;;
 FC:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\Screens\MenuManagementScreen.xaml;;

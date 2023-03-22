@@ -1261,7 +1261,7 @@
             </DoubleAnimationUsingKeyFrames>
 
 
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnErrorMandateReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnErrorMandateReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL4X2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
             </DoubleAnimationUsingKeyFrames>
@@ -1273,7 +1273,7 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
-            </DoubleAnimationUsingKeyFrames>
+            </DoubleAnimationUsingKeyFrames>-->
 
         </Storyboard>
 
@@ -3982,7 +3982,7 @@
                                             </Canvas>
                                         </Button>
 
-                                        <Button
+                                        <!--<Button
                                             x:Name="btnErrorMandateReport"
                                             Margin="{StaticResource IconMargin}"
                                             HorizontalAlignment="Right"
@@ -4010,7 +4010,7 @@
                                                         Text="Debi-Check Error Report" Width="70" />
                                                 </Grid>
                                             </Canvas>
-                                        </Button>
+                                        </Button>-->
 
                                     </WrapPanel>
                                 </igWPF:TabItemEx>
