@@ -1108,6 +1108,20 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void btnDebiCheckErrorReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportDebiCheckError reportDebiCheckAccepted = new ReportDebiCheckError();
+                ShowDialog(reportDebiCheckAccepted, new INDialogWindow(reportDebiCheckAccepted));
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
         //private void btnErrorMandateReport_Click(object sender, RoutedEventArgs e)
         //{
         //    try
