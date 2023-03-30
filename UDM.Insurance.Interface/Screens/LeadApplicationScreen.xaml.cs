@@ -1873,6 +1873,9 @@ namespace UDM.Insurance.Interface.Screens
                 if (!LaData.AppData.IsLeadUpgrade) CalculateCost(false);
                 LaData.AppData.IsLeadLoaded = true;
 
+
+                #region Other
+
                 #region lead Permission Navigation
                 if (LaData.AppData.CampaignID == 102 ||
                     LaData.AppData.CampaignID == 2 ||
@@ -2394,7 +2397,42 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 #endregion
 
+                #region CashBack Age workings
 
+                try
+                {
+                    if (LaData.AppData.IsLeadUpgrade)
+                    {
+                        if (LaData.AppData.CampaignType == lkpINCampaignType.Cancer ||
+                            LaData.AppData.CampaignType == lkpINCampaignType.CancerFuneral ||
+                            LaData.AppData.CampaignType == lkpINCampaignType.IGCancer ||
+                            LaData.AppData.CampaignType == lkpINCampaignType.TermCancer)
+                        {
+                            lblCashBackAge.Visibility = Visibility.Collapsed;
+                            medCashBackAge.Visibility = Visibility.Collapsed;
+                            lblCashBackAge2.Visibility = Visibility.Collapsed;
+                            medCashBackAge2.Visibility = Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            lblCashBackAge.Visibility = Visibility.Visible;
+                            medCashBackAge.Visibility = Visibility.Visible;
+                            lblCashBackAge2.Visibility = Visibility.Visible;
+                            medCashBackAge2.Visibility = Visibility.Visible;
+                        }
+                    }
+                    else
+                    {
+                        lblCashBackAge.Visibility = Visibility.Visible;
+                        medCashBackAge.Visibility = Visibility.Visible;
+                        lblCashBackAge2.Visibility = Visibility.Visible;
+                        medCashBackAge2.Visibility = Visibility.Visible;
+                    }
+                } catch { }
+
+                #endregion
+
+                #endregion
             }
 
             catch (Exception ex)
@@ -9019,7 +9057,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         case "medIDNumber":
                             xamMEDControl.Tag = xamMEDControl.Text;
-                            xamMEDControl.Text = "0000000000000";
+                            //xamMEDControl.Text = "0000000000000";
                             return;
 
                         case "medPassportNumber":

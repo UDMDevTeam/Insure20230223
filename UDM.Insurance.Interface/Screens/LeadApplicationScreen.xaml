@@ -3114,7 +3114,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Hidden">
+              Visibility="Visible">
 
                         <Grid x:Name="grdPage1">
                             <Grid.RowDefinitions>
@@ -5416,29 +5416,31 @@
 
 
                             <TextBlock
-                  x:Name="lblCashBackAge"
-                  Grid.Row="3"
-                  Grid.Column="19"
-                  Grid.ColumnSpan="4"
-                  Margin="0,0,5,5"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Bottom"
-                  Style="{StaticResource INLabelText2}"
-                  Text="Cash Back Age"
-                  TextWrapping="NoWrap" />
+                                x:Name="lblCashBackAge"
+                                Grid.Row="3"
+                                Grid.Column="19"
+                                Grid.ColumnSpan="4"
+                                Visibility="Collapsed"
+                                Margin="0,0,5,5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Cash Back Age"
+                                TextWrapping="NoWrap" />
                             <igWPF:XamMaskedEditor
-                  x:Name="medCashBackAge"
-                  Grid.Row="3"
-                  Grid.Column="23"
-                  Margin="0"
-                  HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Center"
-                  IsEnabled="False"
-                  Mask=""
-                  PromptChar=""
-                  Style="{StaticResource medINLA}"
-                  Text="{Binding PolicyData.CashBackAge, TargetNullValue=''}" />
-
+                                x:Name="medCashBackAge"
+                                Grid.Row="3"
+                                Grid.Column="23"
+                                Visibility="Collapsed"
+                                Margin="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                IsEnabled="False"
+                                Mask=""
+                                PromptChar=""
+                                Style="{StaticResource medINLA}"
+                                Text="{Binding PolicyData.CashBackAge, TargetNullValue=''}" />
+                            
                             <TextBlock
                   x:Name="lblMoneyBackDate2"
                   Grid.Row="4"
@@ -5464,28 +5466,30 @@
                   Value="{Binding PolicyData.MoneyBackDate2}" />
 
                             <TextBlock
-                  x:Name="lblCashBackAge2"
-                  Grid.Row="4"
-                  Grid.Column="19"
-                  Grid.ColumnSpan="4"
-                  Margin="0,0,3,3"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Bottom"
-                  Style="{StaticResource INLabelText2}"
-                  Text="Cash Back Age 2"
-                  TextWrapping="NoWrap" />
+                                x:Name="lblCashBackAge2"
+                                Grid.Row="4"
+                                Grid.Column="19"
+                                Visibility="Collapsed"
+                                Grid.ColumnSpan="4"
+                                Margin="0,0,3,3"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Cash Back Age 2"
+                                TextWrapping="NoWrap" />
                             <igWPF:XamMaskedEditor
-                  x:Name="medCashBackAge2"
-                  Grid.Row="4"
-                  Grid.Column="23"
-                  Margin="0"
-                  HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Center"
-                  IsEnabled="False"
-                  Mask=""
-                  PromptChar=""
-                  Style="{StaticResource medINLA}"
-                  Text="{Binding PolicyData.CashBackAge2, TargetNullValue=''}" />
+                                x:Name="medCashBackAge2"
+                                Grid.Row="4"
+                                Grid.Column="23"
+                                Visibility="Collapsed"
+                                Margin="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                IsEnabled="False"
+                                Mask=""
+                                PromptChar=""
+                                Style="{StaticResource medINLA}"
+                                Text="{Binding PolicyData.CashBackAge2, TargetNullValue=''}" />
 
 
                             <!--<TextBlock
@@ -8176,7 +8180,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Visible">
+              Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
