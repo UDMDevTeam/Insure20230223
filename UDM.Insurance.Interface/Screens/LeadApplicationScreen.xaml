@@ -3114,7 +3114,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Visible">
+              Visibility="Collapsed">
 
                         <Grid x:Name="grdPage1">
                             <Grid.RowDefinitions>
@@ -5012,7 +5012,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Hidden">
+              Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <!--  <RowDefinition />  -->
@@ -6944,7 +6944,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Hidden">
+              Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />

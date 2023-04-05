@@ -3489,18 +3489,18 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             else
                             {
-                                if (BeneficiaryData.BeneficiaryID != null)
-                                {
-                                    INPolicyBeneficiaryCollection inPolicyBeneficiaryCollection = INPolicyBeneficiaryMapper.Search(LaData.PolicyData.PolicyID, BeneficiaryData.BeneficiaryID, i + 1, null, null);
+                                //if (BeneficiaryData.BeneficiaryID != null)
+                                //{
+                                //    INPolicyBeneficiaryCollection inPolicyBeneficiaryCollection = INPolicyBeneficiaryMapper.Search(LaData.PolicyData.PolicyID, BeneficiaryData.BeneficiaryID, i + 1, null, null);
 
-                                    foreach (INPolicyBeneficiary inPolicyBeneficiary in inPolicyBeneficiaryCollection)
-                                    {
-                                        inPolicyBeneficiary.Delete(_validationResult);
-                                    }
+                                //    foreach (INPolicyBeneficiary inPolicyBeneficiary in inPolicyBeneficiaryCollection)
+                                //    {
+                                //        inPolicyBeneficiary.Delete(_validationResult);
+                                //    }
 
-                                    INBeneficiary inBeneficiary = new INBeneficiary((long)BeneficiaryData.BeneficiaryID);
-                                    inBeneficiary.Delete(_validationResult);
-                                }
+                                //    INBeneficiary inBeneficiary = new INBeneficiary((long)BeneficiaryData.BeneficiaryID);
+                                //    inBeneficiary.Delete(_validationResult);
+                                //}
                             }
                         }
                     }
