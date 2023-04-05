@@ -372,50 +372,50 @@ namespace UDM.Insurance.Interface.Screens
                         #region Partitioning the columns
 
                         //headers
-                        xlWorkSheet.Cells[tableFirstRow, 5] = "Contact Numbers";
-                        xlWorkSheet.Cells[tableFirstRow, 14] = "ID Numbers vs Date of Birth";
-                        xlWorkSheet.Cells[tableFirstRow, 30] = "Pensioners & Housewives";
-                        xlWorkSheet.Cells[tableFirstRow, 34] = "Re-Primed Leads";
-                        xlWorkSheet.Cells[tableFirstRow, 37] = "Indian Leads";
-                        xlWorkSheet.Cells[tableFirstRow, 40] = "African Leads";
-                        xlWorkSheet.Cells[tableFirstRow, 43] = "Re-Marketed Leads";
-                        xlWorkSheet.Cells[tableFirstRow, 46] = "Number of Times Re-Marketed to";
+                        xlWorkSheet.Cells[tableFirstRow, 6] = "Contact Numbers";
+                        xlWorkSheet.Cells[tableFirstRow, 15] = "ID Numbers vs Date of Birth";
+                        xlWorkSheet.Cells[tableFirstRow, 34] = "Pensioners & Housewives";
+                        xlWorkSheet.Cells[tableFirstRow, 37] = "Re-Primed Leads";
+                        xlWorkSheet.Cells[tableFirstRow, 40] = "Indian Leads";
+                        xlWorkSheet.Cells[tableFirstRow, 43] = "African Leads";
+                        xlWorkSheet.Cells[tableFirstRow, 46] = "Re-Marketed Leads";
+                        xlWorkSheet.Cells[tableFirstRow, 48] = "Number of Times Re-Marketed to";
 
                         //new headers
-                        xlWorkSheet.Cells[tableFirstRow, 58] = "Next of Kin Contact Details";
-                        xlWorkSheet.Cells[tableFirstRow, 61] = "Beneficiary Contact Details";
-                        xlWorkSheet.Cells[tableFirstRow, 64] = "LA2 Contact Details";
+                        xlWorkSheet.Cells[tableFirstRow, 59] = "Next of Kin Contact Details";
+                        xlWorkSheet.Cells[tableFirstRow, 62] = "Beneficiary Contact Details";
+                        xlWorkSheet.Cells[tableFirstRow, 65] = "LA2 Contact Details";
 
-                        Excel.Range c1 = xlWorkSheet.Cells[tableFirstRow, 5];
-                        Excel.Range c2 = xlWorkSheet.Cells[tableFirstRow, 13];
-                        Excel.Range c3 = xlWorkSheet.Cells[tableFirstRow, 14];
-                        Excel.Range c4 = xlWorkSheet.Cells[tableFirstRow, 19];
+                        Excel.Range c1 = xlWorkSheet.Cells[tableFirstRow, 6];  //6
+                        Excel.Range c2 = xlWorkSheet.Cells[tableFirstRow, 14];  //14
+                        Excel.Range c3 = xlWorkSheet.Cells[tableFirstRow, 15]; //16];
+                        Excel.Range c4 = xlWorkSheet.Cells[tableFirstRow, 26]; //21
 
-                        Excel.Range c5 = xlWorkSheet.Cells[tableFirstRow, 30];
-                        Excel.Range c6 = xlWorkSheet.Cells[tableFirstRow, 33];
+                        Excel.Range c5 = xlWorkSheet.Cells[tableFirstRow, 31];
+                        Excel.Range c6 = xlWorkSheet.Cells[tableFirstRow, 34];
 
-                        Excel.Range c7 = xlWorkSheet.Cells[tableFirstRow, 34];
-                        Excel.Range c8 = xlWorkSheet.Cells[tableFirstRow, 36];
+                        Excel.Range c7 = xlWorkSheet.Cells[tableFirstRow, 35];
+                        Excel.Range c8 = xlWorkSheet.Cells[tableFirstRow, 37];
 
-                        Excel.Range c9 = xlWorkSheet.Cells[tableFirstRow, 37];
-                        Excel.Range c10 = xlWorkSheet.Cells[tableFirstRow, 39];
+                        Excel.Range c9 = xlWorkSheet.Cells[tableFirstRow, 38];
+                        Excel.Range c10 = xlWorkSheet.Cells[tableFirstRow, 40];
 
-                        Excel.Range c11 = xlWorkSheet.Cells[tableFirstRow, 40];
-                        Excel.Range c12 = xlWorkSheet.Cells[tableFirstRow, 42];
+                        Excel.Range c11 = xlWorkSheet.Cells[tableFirstRow, 41];
+                        Excel.Range c12 = xlWorkSheet.Cells[tableFirstRow, 43];
 
-                        Excel.Range c13 = xlWorkSheet.Cells[tableFirstRow, 43];
-                        Excel.Range c14 = xlWorkSheet.Cells[tableFirstRow, 45];
+                        Excel.Range c13 = xlWorkSheet.Cells[tableFirstRow, 44];
+                        Excel.Range c14 = xlWorkSheet.Cells[tableFirstRow, 46];
 
-                        Excel.Range c15 = xlWorkSheet.Cells[tableFirstRow, 46];
-                        Excel.Range c16 = xlWorkSheet.Cells[tableFirstRow, 57];
+                        Excel.Range c15 = xlWorkSheet.Cells[tableFirstRow, 47];
+                        Excel.Range c16 = xlWorkSheet.Cells[tableFirstRow, 58];
                         //****************************************************/
-                        Excel.Range c17 = xlWorkSheet.Cells[tableFirstRow, 58];
-                        Excel.Range c18 = xlWorkSheet.Cells[tableFirstRow, 60];
+                        Excel.Range c17 = xlWorkSheet.Cells[tableFirstRow, 59];
+                        Excel.Range c18 = xlWorkSheet.Cells[tableFirstRow, 61];
 
-                        Excel.Range c19 = xlWorkSheet.Cells[tableFirstRow, 61];
-                        Excel.Range c20 = xlWorkSheet.Cells[tableFirstRow, 63];
+                        Excel.Range c19 = xlWorkSheet.Cells[tableFirstRow, 62];
+                        Excel.Range c20 = xlWorkSheet.Cells[tableFirstRow, 64];
 
-                        Excel.Range c21 = xlWorkSheet.Cells[tableFirstRow, 64];
+                        Excel.Range c21 = xlWorkSheet.Cells[tableFirstRow, 65];
                         Excel.Range c22 = xlWorkSheet.Cells[tableFirstRow, 67];
 
                         Excel.Range range = (Excel.Range)xlWorkSheet.get_Range(c1, c2);
@@ -484,94 +484,137 @@ namespace UDM.Insurance.Interface.Screens
 
                         for (int i = 1; i <= reportColumnCount; i++)
                         {
+
                             if (i == 1)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 2;
                             }
-                            if (i >= 2 && i <= 5)
+                            if (i == 2)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 35;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 35;
+                                //xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 44; // 35;
+                                //xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 44; // 35;
                             }
-                            if (i >= 5 && i <= 13)
+                            if (i >= 3 && i <= 4)
+                            {
+                                //xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 35;
+                                //xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 35;
+                            }
+                            if (i == 5)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
+                            }
+                            if (i >= 6 && i <= 14)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 34;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 34;
                             }
-                            if (i >= 14 && i <= 19)
+                            if (i >= 15 && i <= 21)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 36;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 36;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
                             }
-                            if (i >= 20 && i <= 25)
+                            if (i == 22)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 45;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 45;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 15;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 15;
+                            }
+                            if (i == 23)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 20;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 20;
+                            }
+                            if (i == 24)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 43;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 43;
+                            }
+
+                            if (i == 25)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 24;
+
                             }
                             if (i == 26)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 33;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 33;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
                             }
-                            if (i >= 27 && i <= 28)
+                            if (i == 27)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 39;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 39;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 15;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 15;
                             }
-                            if (i >= 30 && i <= 33)
+                            if (i == 28)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 40;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 40;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 24;
+                            }
+                            if (i == 29)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 38;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 38;
+                            }
+                            if (i == 30)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 35;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 35;
+                            }
+                            if (i >= 31 && i <= 34)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 19;
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 19;
                             }
 
-                            if (i >= 34 && i <= 36)
+                            if (i >= 35 && i <= 37)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 35; //light green
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 35;
                             }
 
-                            if (i >= 37 && i <= 39)
+                            if (i >= 38 && i <= 40)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 34; //cyan
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 34;
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 44; //cyan
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 44;
                             }
 
-                            if (i >= 40 && i <= 42)
+                            if (i >= 41 && i <= 43)
                             {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 15;
-                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 15;
-                            }
-
-                            if (i >= 43 && i <= 45)
-                            {
-                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24; //light purple
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 24;
                             }
 
-                            if (i >= 46 && i <= 57)
+                            if (i >= 44 && i <= 46)
+                            {
+                                xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 35; //light purple
+                                xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 35;
+                            }
+
+                            if (i >= 47 && i <= 58)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 19;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 19;
                             }
                             //*********************************************************/
-                            if (i >= 58 && i <= 60)
+                            if (i >= 59 && i <= 61)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 35;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 35;
                             }
 
-                            if (i >= 61 && i <= 63)
+                            if (i >= 62 && i <= 64)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 34;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 34;
                             }
 
-                            if (i >= 64 && i <= 66)
+                            if (i >= 65 && i <= 67)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 24;
                             }
-                            if (i == 67)
+                            if (i == 68)
                             {
                                 xlWorkSheet.Cells[tableFirstRow + 1, i].Interior.ColorIndex = 24;
                                 xlWorkSheet.Cells[tableFirstRow, i].Interior.ColorIndex = 24;
@@ -697,58 +740,127 @@ namespace UDM.Insurance.Interface.Screens
                                     break;
 
                                 case 2:
-                                case 14:
-                                case 34:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 17;
+                                    break;
+
                                 case 37:
-                                    xlWorkSheet.Columns[i].ColumnWidth = 8.29;
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
                                     break;
 
                                 case 3:
                                 case 32:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
                                 case 33:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
                                     xlWorkSheet.Columns[i].ColumnWidth = 11;
                                     break;
-
+                                case 31:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
+                                case 34:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
                                 case 4:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 6:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 7:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
+                                case 8:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 9:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 10:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
+                                case 11:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 12:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 13:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
+                                case 14:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 15:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 16:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
+                                case 17:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 18:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 19:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
+                                case 20:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 22:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 30;
+                                    break;
+                                case 23:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 22;
+                                    break;
                                 case 25:
+
                                 case 35:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
                                 case 36:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
                                 case 38:
                                 case 39:
                                     xlWorkSheet.Columns[i].ColumnWidth = 11.00;
                                     break;
 
                                 case 5:
-                                case 8:
-                                case 11:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12;
+                                    break;
                                 case 30:
-                                case 31:
-                                case 43:
-                                case 44:
-                                case 45:
-                                    xlWorkSheet.Columns[i].ColumnWidth = 10.14;
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
                                     break;
 
-                                case 17:
+                                case 43:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
+                                case 41:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
+                                case 44:
+                                case 45:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
+                                case 42:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
+                                case 46:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 20;
+                                    break;
+
                                 case 27:
                                     xlWorkSheet.Columns[i].ColumnWidth = 14;
                                     break;
-
-                                case 20:
                                 case 21:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 17;
+                                    break;
                                 case 28:
-                                    xlWorkSheet.Columns[i].ColumnWidth = 12.43;
+                                    xlWorkSheet.Columns[i].ColumnWidth = 40; //12.43;
                                     break;
 
                                 case 24:
@@ -756,8 +868,20 @@ namespace UDM.Insurance.Interface.Screens
                                     break;
 
                                 case 26:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 12.86; //20;
+                                    break;
+
                                 case 29:
-                                    xlWorkSheet.Columns[i].ColumnWidth = 12.43;
+                                    xlWorkSheet.Columns[i].ColumnWidth = 22; //12.43;
+                                    break;
+                                case 59:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 22;
+                                    break;
+                                case 62:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 22;
+                                    break;
+                                case 65:
+                                    xlWorkSheet.Columns[i].ColumnWidth = 22;
                                     break;
                             }
 
@@ -1543,78 +1667,122 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 2;
                                 }
-                                if (i >= 2 && i <= 5)
+                                if (i == 2)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 2;
                                 }
-                                if (i >= 5 && i <= 13)
+                                if (i >= 3 && i <= 4)
+                                {
+                                    //xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
+                                }
+                                if (i == 5)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38;
+                                }
+                                if (i >= 6 && i <= 14)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 34;
                                 }
 
-                                if (i >= 14 && i <= 19)
+                                if (i >= 15 && i <= 21)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 36;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38; //36
+                                }
+                                //if (i == 21)
+                                //{
+                                //    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 15;
+                                //}
+                                if (i == 22)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 15;
+                                }
+                                if (i == 23)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 20;
+                                }
+                                if (i == 24)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 43;
                                 }
 
-                                if (i >= 20 && i <= 25)
+                                if (i == 25)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 45;
                                 }
 
                                 if (i == 26)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 33;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38; // 33;
                                 }
 
-                                if (i >= 27 && i <= 28)
+                                //if (i >= 27 && i <= 30)
+                                //{
+                                //    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 39;
+                                //}
+                                if (i == 27)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 39;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 15;
                                 }
-
-                                if (i >= 30 && i <= 33)
+                                if (i == 28)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 40;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 24;
+                                }
+                                if (i == 29)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 38;
+                                }
+                                if (i == 30)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
                                 }
 
-                                if (i >= 34 && i <= 36)
+                                if (i >= 31 && i <= 34)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 19; //22;
+                                }
+
+                                if (i >= 35 && i <= 37)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
                                     //xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
                                 }
 
-                                if (i >= 37 && i <= 39)
+                                if (i >= 38 && i <= 40)
                                 {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 34;
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 44;
                                     //xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 34;
                                 }
 
-                                if (i >= 40 && i <= 42)
-                                {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 15;
-                                }
+                                //if (i >= 42 && i <= 42)
+                                //{
+                                //    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 15;
+                                //}
 
-                                if (i >= 43 && i <= 45)
+                                if (i >= 41 && i <= 43)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 24;
                                 }
-
-                                if (i >= 46 && i <= 57)
-                                {
-                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 19;
-                                }
-                                //*****************************************************/
-                                if (i >= 58 && i <= 60)
+                                if (i >= 44 && i <= 46)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
                                 }
 
-                                if (i >= 61 && i <= 63)
+                                if (i >= 47 && i <= 58)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 19;
+                                }
+                                //*****************************************************/
+                                if (i >= 59 && i <= 61)
+                                {
+                                    xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 35;
+                                }
+
+                                if (i >= 62 && i <= 64)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 34;
                                 }
 
-                                if (i >= 64 && i <= 67)
+                                if (i >= 65 && i <= 67)
                                 {
                                     xlWorkSheet.Cells[rowIndex, i].Interior.ColorIndex = 24;
                                 }
