@@ -610,6 +610,30 @@ namespace UDM.Insurance.Interface.Screens
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/221494754/comments
                 ScreenData.ExclusionsExplained = inImportCallMonitoring.ExclusionsExplained;
                 ScreenData.ExclusionsExplainedBumpUpClosure = inImportCallMonitoring.ExclusionsExplainedBumpUpClosure;
+
+                if(inImportCallMonitoring.WasClearYesGivenInSalesQuestion == null)
+                {
+                    if(inImportCallMonitoring.IsBankingDetailsCapturedCorrectly == null)
+                    {
+                        if(inImportCallMonitoring.WasAccountVerified == null)
+                        {
+                            if(inImportCallMonitoring.WasDebitDateConfirmed == null)
+                            {
+                                if(inImportCallMonitoring.IsAccountInClientsName == null)
+                                {
+                                    if (inImportCallMonitoring.DoesClientHaveSigningPower == null)
+                                    {
+                                        if(inImportCallMonitoring.IsCallMonitored == null)
+                                        {
+                                            ApplyDefaultSettings();
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             else
             {
@@ -724,7 +748,9 @@ namespace UDM.Insurance.Interface.Screens
                 ScreenData.WasCallEvaluatedBySecondaryUser = dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasCallEvaluatedBySecondaryUser"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultWasCallEvaluatedBySecondaryUser"]) : (bool?)null;
                 ScreenData.IsRecoveredSale = dtCallMonitoringScreenDefaults.Rows[0]["DefaultIsRecoveredSale"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultIsRecoveredSale"]) : (bool?)null;
                 //ScreenData.IsRecoveredSale = dtCallMonitoringScreenDefaults.Rows[0]["DefaultIsRecoveredSale"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultIsRecoveredSale"]) : (bool?)null;
-
+                ScreenData.WasPermissionQuestionAsked = true;
+                chkPermissionGranted.IsChecked = true;
+                chkNextOfKinQuestion.IsChecked = true;
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/221494754/comments
                 ScreenData.ExclusionsExplained = dtCallMonitoringScreenDefaults.Rows[0]["DefaultExclusionsExplained"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultExclusionsExplained"]) : (bool?)null;
                 //ScreenData.ExclusionsExplainedBumpUpClosure = dtCallMonitoringScreenDefaults.Rows[0]["DefaultExclusionsExplainedBumpUpClosure"] != DBNull.Value ? Convert.ToBoolean(dtCallMonitoringScreenDefaults.Rows[0]["DefaultExclusionsExplainedBumpUpClosure"]) : (bool?)null;
