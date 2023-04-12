@@ -31,6 +31,8 @@ namespace UDM.Insurance.Interface.Screens
 
         #region Constants
         DataSet dsDiaryReportData;
+        string strQuery;
+        string strQuery2;
 
 
         #endregion Constants
@@ -464,42 +466,15 @@ namespace UDM.Insurance.Interface.Screens
                 DateTime DateStart = _startDate.Date + ts1;
 
 
-                //This gets all of the Campaign IDS that have sales attached
-                string strQuery;
-                strQuery = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
-                strQuery += "LEFT JOIN [INImport] AS [I] ON [I].[FKINCampaignID] = [C].[ID]";
-                strQuery += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' and [C].[Name] != 'Bump-Up Base' and[C].[Name] != 'Call Monitoring Upgrades' and [C].[Name] != 'Confirmation Upgrades' and [C].[Name] != 'PL Cancer Base Spouse'";
-                strQuery += "AND [I].[FKINLeadStatusID] = 1 AND [I].DateOfSale BETWEEN '" + DateStart.ToString() + "' AND '" + DateEnd.ToString() + "'";
 
-                DataTable dtAgents = Methods.GetTableData(strQuery);
-                DataSet dsAgents = new DataSet();
 
-                dsAgents.Tables.Add(dtAgents);
 
-                _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
 
-                //This adds it to a usable format for the query to get all campaign IDs that dont have sales attached
-                string CampaignIDString = "(";
-                foreach (System.Data.DataRow item in _selectedAgents)
-                {
-                    long? agentID = item.ItemArray[0] as long?;
-                    CampaignIDString = CampaignIDString + agentID.ToString() + ",";
-                }
-                CampaignIDString = CampaignIDString.Remove(CampaignIDString.Length - 1, 1);
-                CampaignIDString = CampaignIDString + ")";
 
-                // query for campiagns that dont have sales
-                string strQuery2;
-                strQuery2 = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
-                strQuery2 += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' and [C].[Name] != 'Bump-Up Base' and[C].[Name] != 'Call Monitoring Upgrades' and [C].[Name] != 'Confirmation Upgrades' and [C].[Name] != 'PL Cancer Base Spouse'";
-                strQuery2 += "AND [C].[IsActive] = 1 AND [C].[ID] NOT IN " + CampaignIDString;
 
-                DataTable dtNoSaleCampaignIDs = Methods.GetTableData(strQuery2);
-                DataSet dsNoSaleCampaignIDs = new DataSet();
 
-                dsNoSaleCampaignIDs.Tables.Add(dtNoSaleCampaignIDs);
-                try { _campaignsWithNoSales.Clear(); } catch { }
-                _campaignsWithNoSales = dsNoSaleCampaignIDs.Tables[0].AsEnumerable().ToList();
+
+
 
 
                 try { dtSalesData.Clear(); } catch { };
@@ -526,7 +501,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
                     {
-                        ds = Business.Insure.INReportDebiChecKTrackingCampaignsUpgrades(_endDate, _startDate, CampaignIDStringSales);
+                        ds = Business.Insure.INReportDebiChecKTrackingCampaignsUpgrades(DateEnd, _startDate, CampaignIDStringSales);
                     }
 
                     dtTempSalesData = ds.Tables[0];
@@ -827,6 +802,69 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
+                        #region Campaign Selections
+                        TimeSpan tsU = new TimeSpan(23, 00, 0);
+                        DateTime DateEnd = _endDate.Date + tsU;
+
+                        TimeSpan ts1U = new TimeSpan(00, 00, 0);
+                        DateTime DateStart = _startDate.Date + ts1U;
+                        //This gets all of the Campaign IDS that have sales attached
+                        strQuery = "";
+                        if (Upgrades13CB.IsChecked == true)
+                        {
+                            strQuery = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
+                            strQuery += "LEFT JOIN [INImport] AS [I] ON [I].[FKINCampaignID] = [C].[ID]";
+                            strQuery += "LEFT JOIN [lkpINCampaignGroup] AS LCP ON C.FKINCampaignGroupID = LCP.ID ";
+                            strQuery += "where[LCP].ID IN(7, 8, 9, 14, 15, 16)";
+                            strQuery += "AND [I].[FKINLeadStatusID] = 1 AND [I].DateOfSale BETWEEN '" + DateStart.ToString() + "' AND '" + DateEnd.ToString() + "'";
+                        }
+                        else
+                        {
+                            strQuery = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
+                            strQuery += "LEFT JOIN [INImport] AS [I] ON [I].[FKINCampaignID] = [C].[ID]";
+                            strQuery += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' and [C].[Name] != 'Bump-Up Base' and[C].[Name] != 'Call Monitoring Upgrades' and [C].[Name] != 'Confirmation Upgrades' and [C].[Name] != 'PL Cancer Base Spouse'";
+                            strQuery += "AND [I].[FKINLeadStatusID] = 1 AND [I].DateOfSale BETWEEN '" + DateStart.ToString() + "' AND '" + DateEnd.ToString() + "'";
+                        }
+
+                        DataTable dtAgents = Methods.GetTableData(strQuery);
+                        DataSet dsAgents = new DataSet();
+
+                        dsAgents.Tables.Add(dtAgents);
+
+                        _selectedAgents = dsAgents.Tables[0].AsEnumerable().ToList();
+
+                        //This adds it to a usable format for the query to get all campaign IDs that dont have sales attached
+                        string CampaignIDString = "(";
+                        foreach (System.Data.DataRow item in _selectedAgents)
+                        {
+                            long? agentID = item.ItemArray[0] as long?;
+                            CampaignIDString = CampaignIDString + agentID.ToString() + ",";
+                        }
+                        CampaignIDString = CampaignIDString.Remove(CampaignIDString.Length - 1, 1);
+                        CampaignIDString = CampaignIDString + ")";
+
+                        // query for campiagns that dont have sales
+                        string strQuery2;
+                        if (Upgrades13CB.IsChecked == true)
+                        {
+                            strQuery2 = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
+                            strQuery2 += "LEFT JOIN [lkpINCampaignGroup] AS LCP ON C.FKINCampaignGroupID = LCP.ID  where [LCP].ID IN (7, 8, 9, 14, 15, 16)";
+                            strQuery2 += "AND [C].[IsActive] = 1 AND [C].[ID] NOT IN " + CampaignIDString;
+                        }
+                        else
+                        {
+                            strQuery2 = "SELECT DISTINCT [C].[ID] FROM INCampaign as [C]";
+                            strQuery2 += "where [C].[Code] like '%u%' and [C].[Code] != 'PLMBSPOUSE' and [C].[Code] != 'PLULCBE' and [C].[Name] != 'Bump-Up Base' and[C].[Name] != 'Call Monitoring Upgrades' and [C].[Name] != 'Confirmation Upgrades' and [C].[Name] != 'PL Cancer Base Spouse'";
+                            strQuery2 += "AND [C].[IsActive] = 1 AND [C].[ID] NOT IN " + CampaignIDString;
+                        }
+
+                        DataTable dtNoSaleCampaignIDs = Methods.GetTableData(strQuery2);
+                        DataSet dsNoSaleCampaignIDs = new DataSet();
+
+                        dsNoSaleCampaignIDs.Tables.Add(dtNoSaleCampaignIDs);
+                        try { _campaignsWithNoSales.Clear(); } catch { }
+                        _campaignsWithNoSales = dsNoSaleCampaignIDs.Tables[0].AsEnumerable().ToList();
+                        #endregion
 
                         worker.DoWork += ReportConsolidatedUpgrades;
                     }
@@ -887,8 +925,14 @@ namespace UDM.Insurance.Interface.Screens
         private void UpgradeCB_Checked(object sender, RoutedEventArgs e)
         {
             BaseCB.IsChecked = false;
+            Upgrades13Lbl.Visibility = Visibility.Visible;
+            Upgrades13CB.Visibility = Visibility.Visible;
         }
-
+        private void UpgradeCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Upgrades13Lbl.Visibility = Visibility.Visible;
+            Upgrades13CB.Visibility = Visibility.Visible;
+        }
         private void BaseCB_Checked(object sender, RoutedEventArgs e)
         {
             UpgradeCB.IsChecked = false;
@@ -1108,6 +1152,12 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Arrow);
             }
         }
+
+        private void Upgrades13CB_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
     }
 }
