@@ -4078,6 +4078,10 @@ namespace UDM.Insurance.Interface.Screens
                     ForwardToDCSaveStep2();
                 }
             }
+            else
+            {
+                ForwardToDCSaveStep2();
+            }
 
             BumpUpSelected = 0;
         }
