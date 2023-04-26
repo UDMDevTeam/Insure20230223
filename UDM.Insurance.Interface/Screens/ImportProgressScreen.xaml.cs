@@ -2191,7 +2191,7 @@ namespace UDM.Insurance.Interface.Screens
                                 if (idxFields.ContainsKey("Premium")) inImportOther.Premium = GetDecimalValue(row.Cells[idxFields["Premium"].Index]);
                                 if (idxFields.ContainsKey("Bank")) inImportOther.Bank = GetStringValue(row.Cells[idxFields["Bank"].Index]);
                                 if (idxFields.ContainsKey("Last4Digits")) inImportOther.Last4Digits = GetStringValue(row.Cells[idxFields["Last4Digits"].Index]);
-
+                                if (idxFields.ContainsKey("Future17")) inImportOther.ExtendedSalesDate = GetDateValue(row.Cells[idxFields["Future17"].Index]);
                                 #endregion
 
 

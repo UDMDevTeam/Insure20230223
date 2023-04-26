@@ -35,6 +35,7 @@ namespace UDM.Insurance.Business
         private decimal? _premium = null;
         private string _bank = null;
         private string _last4digits = null;
+        private DateTime? _extendedsalesdate = null;
         #endregion
 
         #region Constructor
@@ -433,6 +434,24 @@ namespace UDM.Insurance.Business
                 }
             }
         }
+        public DateTime? ExtendedSalesDate
+        {
+            get
+            {
+                Fill();
+                return _extendedsalesdate;
+            }
+            set
+            {
+                Fill();
+                if (value != _extendedsalesdate)
+                {
+                    _extendedsalesdate = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
         #endregion
 
         #region Override Methods
@@ -519,6 +538,7 @@ namespace UDM.Insurance.Business
             xml.Append("<premium>" + Premium.ToString() + "</premium>");
             xml.Append("<bank>" + Bank.ToString() + "</bank>");
             xml.Append("<last4digits>" + Last4Digits.ToString() + "</last4digits>");
+            xml.Append("<extendedsalesdate>" + ExtendedSalesDate.ToString() + "</extendedsalesdisplay>");
             xml.Append("</inimportother>");
             return xml.ToString();
         }
@@ -550,7 +570,7 @@ namespace UDM.Insurance.Business
         /// <param name="bank"></param>
         /// <param name="last4digits"></param>
         /// <returns>A Validation Result object with the result of the fill opertation.</returns>
-        public ValidationResult Fill(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits)
+        public ValidationResult Fill(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, DateTime? extendedsalesdate)
         {
             ValidationResult result = new ValidationResult();
 
@@ -577,6 +597,7 @@ namespace UDM.Insurance.Business
                 this.Premium = premium;
                 this.Bank = bank;
                 this.Last4Digits = last4digits;
+                this.ExtendedSalesDate = extendedsalesdate;
             }
             catch (Exception ex)
             {

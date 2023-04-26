@@ -25,7 +25,22 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckAcceptedStatus", paramArray, 600);
         }
 
+        public static DataSet INGetDebiCheckError(DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
 
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportDebiCheckError", paramArray, 600);
+        }
 
         public static DataSet INGetImportSummary()
         {

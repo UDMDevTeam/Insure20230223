@@ -2354,6 +2354,23 @@ namespace UDM.Insurance.Interface.Screens
 
                 #endregion
 
+                #region ExtendedSalesDate
+                try 
+                {
+                    //dteExtendedSalesDate
+                    StringBuilder strQueryextendedSalesDate = new StringBuilder();
+                    strQueryextendedSalesDate.Append("SELECT ExtendedSalesDate [Response] ");
+                    strQueryextendedSalesDate.Append("FROM [INImportOther] WHERE FKINImportID = " + LaData.AppData.ImportID.ToString());
+                    DataTable dtDCQueryID = Methods.GetTableData(strQueryextendedSalesDate.ToString());
+
+                    DateTime DCQueryID = DateTime.Parse(dtDCQueryID.Rows[0]["Response"].ToString());
+
+                    dteExtendedSalesDate.Text = DCQueryID.ToString("yyyy/MM/dd");
+                }
+                catch { }
+                #endregion
+
+
                 try 
                 {
                     bool? Objections = bool.Parse(Methods.GetTableData("SELECT TOP 1 Objections FROM INImportCallMonitoring WHERE FKINImportID = " + LaData.AppData.ImportID).AsEnumerable().Select(x => x["Objections"]).FirstOrDefault().ToString());
@@ -2895,6 +2912,8 @@ namespace UDM.Insurance.Interface.Screens
             lblCommenceDateUpgrade.Visibility = Visibility.Visible;
             dteCommenceDateUpgrade.Visibility = Visibility.Visible;
 
+            lblExtendedSalesDate.Visibility = Visibility.Visible;
+            dteExtendedSalesDate.Visibility = Visibility.Visible;
             #endregion
 
             lblPage.Text = "(Upgrade)";
@@ -2972,6 +2991,8 @@ namespace UDM.Insurance.Interface.Screens
                 lblCommenceDateUpgrade.Visibility = Visibility.Collapsed;
                 dteCommenceDateUpgrade.Visibility = Visibility.Collapsed;
 
+                lblExtendedSalesDate.Visibility = Visibility.Collapsed;
+                dteExtendedSalesDate.Visibility = Visibility.Collapsed;
                 #endregion
 
                 lblPage.Text = "(Lead)";

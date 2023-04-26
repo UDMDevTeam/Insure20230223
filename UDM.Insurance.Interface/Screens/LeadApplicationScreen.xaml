@@ -3213,6 +3213,28 @@
                   ToolTipService.ShowOnDisabled="True"
                   Visibility="Collapsed"
                   Value="{Binding ImportedPolicyData.CommenceDate}" />
+                            
+                            <TextBlock
+                  x:Name="lblExtendedSalesDate"
+                  Grid.Row="1"
+                  Grid.Column="13"
+                  Grid.ColumnSpan="4"
+                  Margin="0,0,0,5"
+                  VerticalAlignment="Bottom"
+                  Style="{StaticResource INLabelText2}"
+                  Text="Ext. Sales Date"
+                  Visibility="Collapsed" />
+                            <igWPF:XamDateTimeEditor
+                  x:Name="dteExtendedSalesDate"
+                  Grid.Row="1"
+                  Grid.Column="17"
+                  Grid.ColumnSpan="7"
+                  GotFocus="xamEditor_GotFocus"
+                  Style="{StaticResource medIN}"
+                  TabIndex="16510"
+                  ToolTipService.ShowOnDisabled="True"
+                  Visibility="Collapsed" />
+
                             <igWPF:XamDateTimeEditor
                   x:Name="dteLapseDate"
                   Grid.Row="0"

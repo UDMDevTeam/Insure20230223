@@ -119,6 +119,7 @@ namespace UDM.Insurance.Business.Mapping
                     inimportother.Premium = reader["Premium"] != DBNull.Value ? (decimal)reader["Premium"] : (decimal?)null;
                     inimportother.Bank = reader["Bank"] != DBNull.Value ? (string)reader["Bank"] : (string)null;
                     inimportother.Last4Digits = reader["Last4Digits"] != DBNull.Value ? (string)reader["Last4Digits"] : (string)null;
+                    inimportother.ExtendedSalesDate = reader["ExtendedSalesDate"] != DBNull.Value ? (DateTime)reader["ExtendedSalesDate"] : (DateTime?)null;
                     inimportother.StampDate = (DateTime)reader["StampDate"];
                     inimportother.HasChanged = false;
                 }
@@ -347,12 +348,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="last4digits">The last4digits search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INImportOtherCollection Search(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, string connectionName)
+        public static INImportOtherCollection Search(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits,DateTime? extendedsalesdate, string connectionName)
         {
             INImportOtherCollection collection = new INImportOtherCollection();
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INImportOtherQueries.Search(fkinimportid, fkinbatchid, refno, accounttype, startdate, enddate, referralfrom, addressfrom, timesremarketed, lastdateremarketed, collecteddate, commencementdate, durationinforce, durationsinceoof, numcolls, oofdate, ooftype, upgradecount, premium, bank, last4digits), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INImportOtherQueries.Search(fkinimportid, fkinbatchid, refno, accounttype, startdate, enddate, referralfrom, addressfrom, timesremarketed, lastdateremarketed, collecteddate, commencementdate, durationinforce, durationsinceoof, numcolls, oofdate, ooftype, upgradecount, premium, bank, last4digits, extendedsalesdate), null);
                 while (reader.Read())
                 {
                     INImportOther inimportother = new INImportOther((long)reader["ID"]);
@@ -398,11 +399,11 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="last4digits">The last4digits search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A data set containing the results of the search.</returns>
-        public static DataSet SearchData(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, string connectionName)
+        public static DataSet SearchData(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, DateTime? extendedsalesdate, string connectionName)
         {
             try
             {
-                return Database.ExecuteDataSet(connectionName, INImportOtherQueries.Search(fkinimportid, fkinbatchid, refno, accounttype, startdate, enddate, referralfrom, addressfrom, timesremarketed, lastdateremarketed, collecteddate, commencementdate, durationinforce, durationsinceoof, numcolls, oofdate, ooftype, upgradecount, premium, bank, last4digits), null);
+                return Database.ExecuteDataSet(connectionName, INImportOtherQueries.Search(fkinimportid, fkinbatchid, refno, accounttype, startdate, enddate, referralfrom, addressfrom, timesremarketed, lastdateremarketed, collecteddate, commencementdate, durationinforce, durationsinceoof, numcolls, oofdate, ooftype, upgradecount, premium, bank, last4digits, extendedsalesdate), null);
             }
             catch (Exception ex)
             {
@@ -436,12 +437,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="last4digits">The last4digits search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INImportOther SearchOne(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, string connectionName)
+        public static INImportOther SearchOne(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, DateTime? extendedsalesdate, string connectionName)
         {
             INImportOther inimportother = null;
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INImportOtherQueries.Search(fkinimportid, fkinbatchid, refno, accounttype, startdate, enddate, referralfrom, addressfrom, timesremarketed, lastdateremarketed, collecteddate, commencementdate, durationinforce, durationsinceoof, numcolls, oofdate, ooftype, upgradecount, premium, bank, last4digits), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INImportOtherQueries.Search(fkinimportid, fkinbatchid, refno, accounttype, startdate, enddate, referralfrom, addressfrom, timesremarketed, lastdateremarketed, collecteddate, commencementdate, durationinforce, durationsinceoof, numcolls, oofdate, ooftype, upgradecount, premium, bank, last4digits, extendedsalesdate), null);
                 if (reader.Read())
                 {
                     inimportother = new INImportOther((long)reader["ID"]);
