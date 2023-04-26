@@ -18778,7 +18778,7 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 43636 ||
                         GlobalSettings.ApplicationUser.ID == 2767 ||
                         GlobalSettings.ApplicationUser.ID == 43527 ||
-                        GlobalSettings.ApplicationUser.ID == 19555 ||
+                        GlobalSettings.ApplicationUser.ID == 44641 ||
                         GlobalSettings.ApplicationUser.ID == 8613 ||
                         GlobalSettings.ApplicationUser.ID == 42947 ||
                         GlobalSettings.ApplicationUser.ID == 42978 ||
@@ -18790,7 +18790,6 @@ namespace UDM.Insurance.Interface.Screens
                         GlobalSettings.ApplicationUser.ID == 43744 ||
                         GlobalSettings.ApplicationUser.ID == 394 ||
                         GlobalSettings.ApplicationUser.ID == 3388 ||
-                        GlobalSettings.ApplicationUser.ID == 403 ||
                         GlobalSettings.ApplicationUser.ID == 45 ||
                         GlobalSettings.ApplicationUser.ID == 2810 ||
                         GlobalSettings.ApplicationUser.ID == 6044 ||
