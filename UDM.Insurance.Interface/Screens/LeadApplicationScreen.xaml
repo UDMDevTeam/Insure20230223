@@ -3114,7 +3114,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Collapsed">
+              Visibility="Visible">
 
                         <Grid x:Name="grdPage1">
                             <Grid.RowDefinitions>
@@ -3655,6 +3655,7 @@
                   Grid.Row="10"
                   Grid.Column="7"
                   Grid.ColumnSpan="4"
+                  Visibility="Collapsed"
                   Height="30"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Bottom">
@@ -3867,6 +3868,7 @@
                   Grid.Row="11"
                   Grid.Column="7"
                   Grid.ColumnSpan="4"
+                  Visibility="Collapsed"
                   Height="30"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Bottom">
@@ -4080,6 +4082,7 @@
                   Grid.Column="7"
                   Grid.ColumnSpan="4"
                   Height="30"
+                  Visibility="Collapsed"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Bottom">
                                 <Viewbox>
@@ -4292,6 +4295,7 @@
                   Grid.Column="7"
                   Grid.ColumnSpan="4"
                   Height="30"
+                  Visibility="Collapsed"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Bottom">
                                 <Viewbox>
@@ -5034,7 +5038,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Visible">
+              Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <!--  <RowDefinition />  -->

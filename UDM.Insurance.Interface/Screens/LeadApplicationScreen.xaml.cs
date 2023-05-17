@@ -18452,29 +18452,14 @@ namespace UDM.Insurance.Interface.Screens
                                         {
                                             ImportDate = DateTime.Now;
                                         }
-                                        if (ImportDate > DateTime.Now.AddMonths(-3))
-                                        {
+
                                             IsDebiCheckValidForResales();
 
                                             GotBankingDetailsPL.Visibility = Visibility.Visible;
                                             GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
                                             GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
                                             GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
-                                        }
-                                        else
-                                        {
-                                            btnDebiCheck.Visibility = Visibility.Collapsed;
-                                            DebiCheckBorder.Visibility = Visibility.Collapsed;
-                                            Mandate1Lbl1.Visibility = Visibility.Collapsed;
-                                            Mandate1TB.Visibility = Visibility.Collapsed;
-                                            Mandate2Lbl1.Visibility = Visibility.Collapsed;
-                                            Mandate2TB.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPL.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPLLBL.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
-                                            GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
 
-                                        }
 
 
 
