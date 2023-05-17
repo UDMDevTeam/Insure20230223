@@ -293,11 +293,11 @@ namespace UDM.Insurance.Interface.Screens
 
 
                     //Row Formats
-                    (workSheet.Cells[1, 4]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 13]).EntireColumn.NumberFormat = "##%";
-                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##%";
+                    (workSheet.Cells[1, 4]).EntireColumn.NumberFormat = "##.##%";
+                    (workSheet.Cells[1, 7]).EntireColumn.NumberFormat = "##.##%";
+                    (workSheet.Cells[1, 10]).EntireColumn.NumberFormat = "##.##%";
+                    (workSheet.Cells[1, 13]).EntireColumn.NumberFormat = "##.##%";
+                    (workSheet.Cells[1, 14]).EntireColumn.NumberFormat = "##.##%";
 
                     //row height
                     (workSheet.Rows[3]).EntireRow.RowHeight = 40;
