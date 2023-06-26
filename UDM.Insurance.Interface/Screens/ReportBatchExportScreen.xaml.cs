@@ -21,6 +21,8 @@ using System.Linq;
 using UDM.Insurance.Business;
 using UDM.Insurance.Interface.Data;
 using System.Transactions;
+using System.Text;
+using System.Web.Services.Description;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -758,6 +760,26 @@ namespace UDM.Insurance.Interface.Screens
                                                 if (dsHistory.Tables[0].Rows.Count > 0)
                                                 {
                                                     //initials
+                                                    if (b == 21)
+                                                    {
+                                                        try
+                                                        {
+                                                            string originalTitle = dsHistory.Tables[0].Rows[0]["FKINTitleID"].ToString();
+                                                            StringBuilder strQueryCancerQuestion = new StringBuilder();
+                                                            strQueryCancerQuestion.Append("SELECT [Description]");
+                                                            strQueryCancerQuestion.Append("FROM [lkpINTitle] ");
+                                                            strQueryCancerQuestion.Append("WHERE [ID] = " + originalTitle);
+
+                                                            DataTable dtTitle = Methods.GetTableData(strQueryCancerQuestion.ToString());
+                                                            string loadedOriginalTitle = dtTitle.Rows[0]["Description"].ToString();
+                                                            string title = polRow[b].ToString();
+                                                            if (title != loadedOriginalTitle)
+                                                            {
+                                                                yellowBackground = true;
+                                                            }
+                                                        } catch(Exception u) { }
+
+                                                    }
                                                     if (b == 22)
                                                     {
                                                         string originalIntials = dsHistory.Tables[0].Rows[0]["Initials"].ToString();
