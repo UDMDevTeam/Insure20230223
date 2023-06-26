@@ -6764,7 +6764,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (LaData.AppData.CampaignCode == "PLDMM6U" || LaData.AppData.CampaignCode == "PLDMM5U" || LaData.AppData.CampaignCode == "PLDMM7U" || LaData.AppData.CampaignCode == "PLDMM8U" || LaData.AppData.CampaignCode == "PLDMM9U" || LaData.AppData.CampaignCode == "PLDMM10U")
                 {
-                    maxRow = 8;
+                    maxRow = 9;
                 }
                 FrameworkElement control;
 
@@ -6788,8 +6788,11 @@ namespace UDM.Insurance.Interface.Screens
                         control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 13, 4);
                         ((TextBlock)control).Text = importedCover.Name;
 
-                        //control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 17, 3);
-                        //((XamCurrencyEditor)control).Text = importedCover.Premium.ToString();
+                        try
+                        {
+                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 17, 3);
+                            ((XamCurrencyEditor)control).Text = importedCover.Premium.ToString();
+                        } catch { }
 
                         control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 20, 4);
                         ((XamCurrencyEditor)control).Text = importedCover.Cover.ToString();
@@ -11192,7 +11195,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             else if (userid == 43636)
             {
-                Extension = "Tarryn - 2070";
+                Extension = "Taryn - 2070";
             }
             else if (userid == 43527)
             {
