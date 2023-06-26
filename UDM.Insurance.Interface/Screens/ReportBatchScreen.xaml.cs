@@ -1612,7 +1612,11 @@ namespace UDM.Insurance.Interface.Screens
                     if (_reportTypeID == 1)
                     {
                         wsReport.GetCell(String.Format("V{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING(U{0}/H{0},0.01)", reportRow + 1)); //Redeem %
-                        wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Z")); //Sales Made in renewal batch
+                        try
+                        {
+                            wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Z")); //Sales Made in renewal batch
+                        }
+                        catch { }
                     }
                     wsReport.GetCell(String.Format("W{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "W")); //Falloffs
                     wsReport.GetCell(String.Format("X{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "X")); //Sales in past 5 days
@@ -1665,7 +1669,11 @@ namespace UDM.Insurance.Interface.Screens
                     if (_reportTypeID == 1)
                     {
                         wsReport.GetCell(String.Format("V{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING(U{0}/H{0},0.01)", reportRow + 1)); //Redeem %
-                        wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Z")); //Sales Made in renewal batch
+                        try
+                        {
+                            wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Z")); //Sales Made in renewal batch
+                        }
+                        catch { }
                     }
                     wsReport.GetCell(String.Format("W{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "W")); //Falloffs
                     wsReport.GetCell(String.Format("X{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "X")); //Sales in past 5 days
@@ -1735,34 +1743,102 @@ namespace UDM.Insurance.Interface.Screens
 
             if (_reportTypeID == 1)
             {
-                wsReport.GetCell(String.Format("H{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "H"))); //Leads
-                wsReport.GetCell(String.Format("I{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "I"))); //Target Sales
-                wsReport.GetCell(String.Format("J{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "J"))); //Leads Available in System
-                wsReport.GetCell(String.Format("K{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING((N{0}+Q{0})/H{0},0.01)", reportRow + 1)); //Contact %
+                try
+                {
+                    wsReport.GetCell(String.Format("H{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "H"))); //Leads
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("I{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "I"))); //Target Sales
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("J{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "J"))); //Leads Available in System
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("K{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING((N{0}+Q{0})/H{0},0.01)", reportRow + 1)); //Contact %
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("L{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING((N{0}+Q{0}+S{0})/H{0},0.01)", reportRow + 1));
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("M{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "M"))); //Still to Contact
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("N{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "N"))); //Sales
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("O{0}", reportRow + 1)).ApplyFormula(String.Format("=N{0}/H{0}", reportRow + 1)); //Current Conversion
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("P{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "P"))); //Sales To Go
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("Q{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Q"))); //Declines
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("R{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING(Q{0}/H{0},0.01)", reportRow + 1)); //Declines %
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("S{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "S"))); //Diary
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("T{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "T"))); //PNA
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("U{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "U"))); //Total Redeems
+                }
+                catch { }
 
-                wsReport.GetCell(String.Format("L{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING((N{0}+Q{0}+S{0})/H{0},0.01)", reportRow + 1));
 
-                wsReport.GetCell(String.Format("M{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "M"))); //Still to Contact
-                wsReport.GetCell(String.Format("N{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "N"))); //Sales
-                wsReport.GetCell(String.Format("O{0}", reportRow + 1)).ApplyFormula(String.Format("=N{0}/H{0}", reportRow + 1)); //Current Conversion
-                wsReport.GetCell(String.Format("P{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "P"))); //Sales To Go
-                wsReport.GetCell(String.Format("Q{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Q"))); //Declines
-                wsReport.GetCell(String.Format("R{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING(Q{0}/H{0},0.01)", reportRow + 1)); //Declines %
 
-                wsReport.GetCell(String.Format("S{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "S"))); //Diary
-                wsReport.GetCell(String.Format("T{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "T"))); //PNA
 
-                wsReport.GetCell(String.Format("U{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "U"))); //Total Redeems
+
 
                 if (_reportTypeID == 1)
                 {
                     wsReport.GetCell(String.Format("V{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING(U{0}/H{0},0.01)", reportRow + 1)); //Redeem %
-                    wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Z"))); //Sales made in renewal batch
+                    try
+                    {
+                        wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Z"))); //Sales made in renewal batch
+                    }
+                    catch { }
                 }
 
-                wsReport.GetCell(String.Format("W{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "W"))); //Falloffs
-
-                wsReport.GetCell(String.Format("X{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "X"))); //Sales in past 5 days
+                try
+                {
+                    wsReport.GetCell(String.Format("W{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "W"))); //Falloffs
+                }
+                catch { }
+                try
+                {
+                    wsReport.GetCell(String.Format("X{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "X"))); //Sales in past 5 days
+                }
+                catch { }
             }
             else
             {
@@ -1814,7 +1890,11 @@ namespace UDM.Insurance.Interface.Screens
                 if (_reportTypeID == 1)
                 {
                     wsReport.GetCell(String.Format("V{0}", reportRow + 1)).ApplyFormula(String.Format("=CEILING(U{0}/H{0},0.01)", reportRow + 1)); //Redeem %
-                    wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Z"))); //Sales made in renewal batch
+                    try
+                    {
+                        wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Z"))); //Sales made in renewal batch
+                    }
+                    catch { }
                 }
 
                 wsReport.GetCell(String.Format("W{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "W"))); //Falloffs
@@ -2247,7 +2327,11 @@ namespace UDM.Insurance.Interface.Screens
                     wsReport.GetCell(String.Format("W{0}", reportRow + 1)).ApplyFormula(percentageTotalFormulaBody.Replace("_COLUMN_", "W")); //TargetSTL%2
                     wsReport.GetCell(String.Format("X{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "X"));//LeadsInBatch2
                     wsReport.GetCell(String.Format("Y{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Y"));//LeadsAvailable2
-                    wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Z"));//RenewalLeadsAvailable2
+                    try
+                    {
+                        wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "Z"));//RenewalLeadsAvailable2
+                    }
+                    catch { }
                     //wsReport.GetCell(String.Format("AA{0}", reportRow + 1)).ApplyFormula(subTotalFormulaBody.Replace("_COLUMN_", "AA"));//TargetSales2
 
                     wsReport.GetCell(String.Format("AA{0}", reportRow + 1)).ApplyFormula(String.Format("=X{0}*W{0}", reportRow + 1));//TargetSales2
@@ -2353,7 +2437,11 @@ namespace UDM.Insurance.Interface.Screens
             wsReport.GetCell(String.Format("U{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "U")));//BonusValue2
             wsReport.GetCell(String.Format("X{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "X")));//LeadsInBatch2
             wsReport.GetCell(String.Format("Y{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Y")));//LeadsAvailable2
-            wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Z")));//RenewalLeadsAvailable2
+            try
+            {
+                wsReport.GetCell(String.Format("Z{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "Z")));//RenewalLeadsAvailable2
+            }
+            catch { }
             wsReport.GetCell(String.Format("AA{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "AA")));//TargetSales2
             wsReport.GetCell(String.Format("AB{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "AB")));//Sales2
             wsReport.GetCell(String.Format("AC{0}", reportRow + 1)).ApplyFormula(String.Format("=SUM({0})", grandTotalFormulaBody.Replace("_COLUMN_", "AC")));//Units2
