@@ -6788,11 +6788,11 @@ namespace UDM.Insurance.Interface.Screens
                         control = CreateControl(typeof(TextBlock), "INLabelText2", grdPolicyDetailsUpgrade, gridRow, 13, 4);
                         ((TextBlock)control).Text = importedCover.Name;
 
-                        try
-                        {
-                            control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 17, 3);
-                            ((XamCurrencyEditor)control).Text = importedCover.Premium.ToString();
-                        } catch { }
+                        //try
+                        //{
+                        //    control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 17, 3);
+                        //    ((XamCurrencyEditor)control).Text = importedCover.Premium.ToString();
+                        //} catch { }
 
                         control = CreateControl(typeof(XamCurrencyEditor), "INXamCurrencyEditorLabelStyle1", grdPolicyDetailsUpgrade, gridRow, 20, 4);
                         ((XamCurrencyEditor)control).Text = importedCover.Cover.ToString();
