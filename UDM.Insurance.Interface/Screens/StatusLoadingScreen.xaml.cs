@@ -120,7 +120,11 @@ namespace UDM.Insurance.Interface.Screens
                 CalculateCaptured();
                 _userID = Convert.ToInt64(cmbAgent.SelectedValue);
 
-                DataTable dtLeadBook = INLeadBookMapper.SearchData(_userID, null, null, null).Tables[0];
+                //DataTable dtLeadBook = INLeadBookMapper.SearchData(_userID, null, null, null).Tables[0];
+                SqlParameter[] parameters = new SqlParameter[1];
+                parameters[0] = new SqlParameter("@FKUserID", _userID);
+                DataTable dtLeadBook = Methods.ExecuteStoredProcedure("spINGetStatusLoadingLeadBook26Weeks", parameters).Tables[0];
+
                 dtLeadBook.DefaultView.Sort = "Description DESC"; //Sort by Title
                 cmbLeadBook.Populate(dtLeadBook, "Description", "ID");
             }
