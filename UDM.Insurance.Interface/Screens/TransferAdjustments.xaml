@@ -240,11 +240,30 @@
                       Text="Delete Transfer?" />
                     <CheckBox x:Name="DeleteTranCB"
                               Grid.Row="5"
-                              Grid.Column="19"
+                              Grid.Column="18"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Checked="DeleteTranCB_Checked"
                               Unchecked="DeleteTranCB_Unchecked">
+
+                    </CheckBox>
+
+                    <TextBlock
+                      x:Name="lblDeleteReason"
+                      Grid.Row="5"
+                      Grid.Column="21"
+                      Grid.ColumnSpan="3"
+                      Margin="0,0,0,5"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource INLabelText2}"
+                      Text="Delete Reason?" />
+                    <CheckBox x:Name="DeleteReasCB"
+                              Grid.Row="5"
+                              Grid.Column="24"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Checked="DeleteReasCB_Checked"
+                              Unchecked="DeleteReasCB_Unchecked">
 
                     </CheckBox>
 

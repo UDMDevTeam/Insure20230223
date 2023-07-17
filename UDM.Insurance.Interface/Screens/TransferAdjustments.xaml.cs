@@ -68,7 +68,25 @@ namespace UDM.Insurance.Interface.Screens
                 scm.Delete(_validationResult);
 
                 ShowMessageBox(new INMessageBoxWindow1(), "Transfer has been Removed.\nTransfer Removed.\n", "Save Result", ShowMessageType.Exclamation);
+                CleaFields();
+            }
+            else if (DeleteReasCB.IsChecked == true)
+            {
+                try
+                {
+                    string DCINSalesToCallMonitoringID = Convert.ToString(Methods.GetTableData("Select ID from [INSalesNotTransferredDetails] where [INSalesNotTransferredDetails].[FKImportID] = " + loadedImportID).Rows[0][0]);
 
+                    //DataTable dtINImportDelete = Methods.GetTableData(strQuery);
+                    INSalesNotTransferredDetails scm = new INSalesNotTransferredDetails(int.Parse(DCINSalesToCallMonitoringID));
+                    scm.Delete(_validationResult);
+
+                    ShowMessageBox(new INMessageBoxWindow1(), "Transfer reason has been Removed.\nTransfer Reason Removed.\n", "Save Result", ShowMessageType.Exclamation);
+                }
+                catch
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), "Transfer not available.\n Not available.\n", "Save Result", ShowMessageType.Exclamation);
+                }
+                CleaFields();
             }
             else
             {
@@ -141,7 +159,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 ShowMessageBox(new INMessageBoxWindow1(), "Transfer has been updated.\n", "Save Result", ShowMessageType.Information);
 
-
+                CleaFields();
             }
         }
 
@@ -153,6 +171,15 @@ namespace UDM.Insurance.Interface.Screens
         private void medReference_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void CleaFields()
+        {
+            cmbDCSpecialist.SelectedIndex = -1;
+            cmbReason.SelectedIndex = -1;
+            medDOLeadStatus.Text = "";
+            DeleteTranCB.IsChecked = false;
+            DeleteReasCB.IsChecked = false;
         }
 
         private void btnGoRef_Click(object sender, RoutedEventArgs e)
@@ -483,6 +510,16 @@ namespace UDM.Insurance.Interface.Screens
             }
 
 
+
+        }
+
+        private void DeleteReasCB_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteReasCB_Unchecked(object sender, RoutedEventArgs e)
+        {
 
         }
     }
