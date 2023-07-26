@@ -14592,8 +14592,8 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card1_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14618,11 +14618,25 @@
                                     <DropShadowEffect />
                                 </Button.Effect>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage1"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card1TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage1"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card1TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.ColumnSpan="3"
+                                                   Grid.Column="1"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14632,8 +14646,8 @@
                   Grid.Column="8"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card2_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14655,11 +14669,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage2"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card2TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage2"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card2TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14669,8 +14697,8 @@
                   Grid.Column="16"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card3_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14692,11 +14720,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage3"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card3TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage3"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card3TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14706,8 +14748,8 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card4_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14729,11 +14771,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage4"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card4TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage4"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card4TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14743,8 +14799,8 @@
                   Grid.Column="8"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card5_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14766,11 +14822,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage5"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card5TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage5"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card5TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14780,8 +14850,8 @@
                   Grid.Column="16"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card6_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14803,11 +14873,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage6"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card6TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage6"
+                                            Width="40"
+                                            Height="40" 
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card6TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14817,8 +14901,8 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="1"
                   Click="Card7_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14840,11 +14924,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage7"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card7TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage7"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card7TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.ColumnSpan="3"
+                                                   Grid.Column="1"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14854,8 +14952,8 @@
                   Grid.Column="8"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card8_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14877,11 +14975,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage8"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card8TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage8"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card8TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14891,8 +15003,8 @@
                   Grid.Column="16"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card9_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14913,11 +15025,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage9"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card9TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage9"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card9TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14927,8 +15053,8 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card10_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14950,11 +15076,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage10"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card10TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage10"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card10TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -14964,8 +15104,8 @@
                   Grid.Column="8"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card11_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -14986,11 +15126,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage11"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card11TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage11"
+                                            Width="40"
+                                            Height="40" 
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card11TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -15000,8 +15154,8 @@
                   Grid.Column="16"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card12_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -15015,11 +15169,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage12"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card12TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage12"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card12TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -15029,8 +15197,8 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card13_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -15044,11 +15212,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage13"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card13TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage13"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card13TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -15058,8 +15240,8 @@
                   Grid.Column="8"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card14_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -15073,11 +15255,26 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage14"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card14TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage14"
+                                            Width="40"
+                                            Height="40" 
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card14TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"
+                                                   />
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -15087,8 +15284,8 @@
                   Grid.Column="16"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card15_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -15102,11 +15299,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage15"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card15TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage15"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card15TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -15116,8 +15327,8 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card16_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -15131,25 +15342,39 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage16"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card16TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage16"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card16TB"
+                                                   TextWrapping="Wrap" 
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
-                  x:Name="Card17"
-                  Grid.Row="15"
-                  Grid.RowSpan="3"
-                  Grid.Column="8"
-                  Grid.ColumnSpan="8"
-                  Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
-                  Click="Card17_Click"
-                  FontSize="15"
-                  Foreground="Black">
+                                x:Name="Card17"
+                                Grid.Row="15"
+                                Grid.RowSpan="3"
+                                Grid.Column="8"
+                                Grid.ColumnSpan="8"
+                                Margin="2"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                Click="Card17_Click"
+                                FontSize="15"
+                                Foreground="Black">
                                 <!--<TextBlock TextWrapping="Wrap" TextAlignment="Center"/>-->
                                 <Button.Background>
                                     <ImageBrush ImageSource="/Resources/optionWallpaper.png" />
@@ -15160,11 +15385,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage17"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card17TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage17"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card17TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                             <Button
@@ -15174,8 +15413,8 @@
                   Grid.Column="16"
                   Grid.ColumnSpan="8"
                   Margin="2"
-                  BorderBrush="DarkCyan"
-                  BorderThickness="5"
+                  BorderBrush="Black"
+                  BorderThickness="2"
                   Click="Card18_Click"
                   FontSize="15"
                   Foreground="Black">
@@ -15189,11 +15428,25 @@
                                     </Style>
                                 </Button.Resources>
                                 <StackPanel>
-                                    <Image
-                      x:Name="CardImage18"
-                      Width="50"
-                      Height="50" />
-                                    <TextBlock x:Name="Card18TB" TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            x:Name="CardImage18"
+                                            Width="40"
+                                            Height="40"
+                                            Grid.Column="0"/>
+                                        <TextBlock x:Name="Card18TB"
+                                                   TextWrapping="Wrap"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"/>
+                                    </Grid>
+
                                 </StackPanel>
                             </Button>
                         </Grid>
