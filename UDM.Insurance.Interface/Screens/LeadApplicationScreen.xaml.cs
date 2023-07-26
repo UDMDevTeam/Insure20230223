@@ -1067,7 +1067,16 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     LaData.ImportedPolicyData.LapseDate = dtImportedPolicyData.Rows[0]["LapseDate"] as DateTime?;
                     LaData.ImportedPolicyData.CommenceDate = dtImportedPolicyData.Rows[0]["CommenceDate"] as DateTime?;
-                    LaData.ImportedPolicyData.MoneyBackDate = dtImportedPolicyData.Rows[0]["MoneyBackDate"] as DateTime?;
+                    if(LaData.AppData.CampaignID == 7
+                        || LaData.AppData.CampaignID == 8)
+                    {
+
+                    }
+                    else
+                    {
+                        LaData.ImportedPolicyData.MoneyBackDate = dtImportedPolicyData.Rows[0]["MoneyBackDate"] as DateTime?;
+                    }
+                    
                 }
 
                 if (dtPolicy.Rows.Count > 0)
@@ -1085,10 +1094,17 @@ namespace UDM.Insurance.Interface.Screens
 
                     LaData.PolicyData.CommenceDate = LaData.PolicyHistoryData.CommenceDate = dtPolicy.Rows[0]["CommenceDate"] as DateTime?;
 
-                    try { LaData.PolicyData.MoneyBackDate = LaData.PolicyHistoryData.MoneyBackDate = dtImportedPolicyData.Rows[0]["MoneyBackDate"] as DateTime?; } catch { }
+                    if (LaData.AppData.CampaignID == 7
+                        || LaData.AppData.CampaignID == 8)
+                    {
 
-                    try { LaData.PolicyData.MoneyBackDate2 = LaData.PolicyHistoryData.MoneyBackDate = dtImportedPolicyData.Rows[0]["ConversionMBDate"] as DateTime?; } catch { }
+                    }
+                    else
+                    {
+                        try { LaData.PolicyData.MoneyBackDate = LaData.PolicyHistoryData.MoneyBackDate = dtImportedPolicyData.Rows[0]["MoneyBackDate"] as DateTime?; } catch { }
 
+                        try { LaData.PolicyData.MoneyBackDate2 = LaData.PolicyHistoryData.MoneyBackDate = dtImportedPolicyData.Rows[0]["ConversionMBDate"] as DateTime?; } catch { }
+                    }
                     parameters = new SqlParameter[1];
                     parameters[0] = new SqlParameter("@ImportID", importID);
                     object obj = Methods.ExecuteFunction("GetOriginalCommenceDate", parameters);
@@ -17934,7 +17950,6 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 #endregion
-
 
                 #region Additional Rules
                 if (BankPLLKP == null || BankPLLKP == "")
