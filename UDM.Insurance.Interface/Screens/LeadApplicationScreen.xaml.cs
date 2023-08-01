@@ -8876,9 +8876,17 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             optionID = 5;
                         }
-                        else if (age >= 55 && age <= 150)
+                        else if (age >= 55 && age <= 59)
                         {
                             optionID = 6;
+                        }
+                        else if (age >= 60 && age <= 65)
+                        {
+                            optionID = 7;
+                        }
+                        else if(age >= 69 && age <= 120)
+                        {
+                            optionID = 8;
                         }
 
                         if (LaData.PolicyData.PlanGroupID != null)
@@ -9988,17 +9996,17 @@ namespace UDM.Insurance.Interface.Screens
             }
 #endif
 
-            //if(LaData.AppData.IsLeadUpgrade == false)
-            //{
-            //    if(LaData.BankDetailsData.SigningPowerID == null)
-            //    {
-            //        INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
-            //        string message = "Signing Power not selected.";
-            //        ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
-            //        return;
+            if(LaData.UserData.UserType == lkpUserType.SalesAgent)
+            {
+                if(LaData.BankDetailsData.SigningPowerID == null)
+                {
+                    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+                    string message = "Signing Power not selected.";
+                    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+                    return;
 
-            //    }
-            //}
+                }
+            }
 
             if (IsValidData())
             {

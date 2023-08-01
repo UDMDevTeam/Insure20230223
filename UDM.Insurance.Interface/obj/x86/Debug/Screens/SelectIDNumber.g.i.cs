@@ -123,7 +123,7 @@ namespace UDM.Insurance.Interface.Screens {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/screens/selectidnumber.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/screens/selectidnumber.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Screens\SelectIDNumber.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

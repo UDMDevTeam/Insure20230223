@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>\\udmsql01\software\insure\|\\udmsql01\software\insuredebug\|\\udmsql\software\insure\|\\udmsql01\software\insuretest\|\\udmsql\software\insuretest\</PublishUrlHistory>
+    <PublishUrlHistory>\\udmsql\software\insure\|\\udmsql01\software\insuredebug\|\\udmsql01\software\insure\|\\udmsql01\software\insuretest\|\\udmsql\software\insuretest\</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
     <UpdateUrlHistory>\\udmsql01\software\insure\|\\udmsql01\software\insuredebug\|\\udmsql01\software\insuretest\|\\udmsql\software\insure\|\\udmsql\software\insuredebug\</UpdateUrlHistory>

@@ -1433,6 +1433,8 @@ C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.GenerateResource.cache
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.CoreCompileInputs.cache
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\UDM.Insurance.Interface.csproj.CopyComplete
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckError.baml
+C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\obj\x86\Release\Screens\ReportDebiCheckError.g.cs
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe.config
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.exe.manifest
 C:\Users\TyronR\Desktop\Source\udminsure\UDM.Insurance.Interface\bin\Release\UDM.Insure.Interface.application

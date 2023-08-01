@@ -30,7 +30,7 @@
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>\\udmsql01\software\insure\</PublishUrl>
+    <PublishUrl>\\udmsql\software\insure\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -43,9 +43,9 @@
     <UpdateUrl>\\udmsql01\software\insure\</UpdateUrl>
     <ProductName>Insure</ProductName>
     <PublisherName>UDM</PublisherName>
-    <MinimumRequiredVersion>3.0.6.1</MinimumRequiredVersion>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>3.0.6.1</ApplicationVersion>
+    <MinimumRequiredVersion>3.0.8.4</MinimumRequiredVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>3.0.8.4</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -547,6 +547,9 @@
     </Compile>
     <Compile Include="Screens\ReportConservedLeads.xaml.cs">
       <DependentUpon>ReportConservedLeads.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\ReportDebiCheckError.xaml.cs">
+      <DependentUpon>ReportDebiCheckError.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\ReportSMS.xaml.cs">
       <DependentUpon>ReportSMS.xaml</DependentUpon>
@@ -1167,6 +1170,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\ReportConservedLeads.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\ReportDebiCheckError.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

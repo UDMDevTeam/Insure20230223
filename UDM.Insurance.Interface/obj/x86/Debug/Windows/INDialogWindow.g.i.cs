@@ -54,7 +54,7 @@ namespace UDM.Insurance.Interface.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/windows/indialogwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/windows/indialogwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Windows\INDialogWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

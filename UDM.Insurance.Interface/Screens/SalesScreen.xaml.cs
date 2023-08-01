@@ -156,6 +156,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
             #endregion
+
             if (CMAgentListLong.Contains(GlobalSettings.ApplicationUser.ID))
             {
                 btnDCSpecialistDiaries.Visibility = Visibility.Visible;
@@ -290,7 +291,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
             finally
             {
@@ -421,7 +422,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
             finally
             {
@@ -453,7 +454,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
             finally
             {
@@ -563,7 +564,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -648,7 +649,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -1480,7 +1481,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -1519,7 +1520,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
 
 
@@ -1578,7 +1579,7 @@ namespace UDM.Insurance.Interface.Screens
                     SetAgentOffline();
                     timer.Stop();
                 }
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -1753,7 +1754,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -1875,7 +1876,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2102,7 +2103,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2121,7 +2122,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2580,7 +2581,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2716,7 +2717,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2730,7 +2731,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2744,7 +2745,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -2758,7 +2759,7 @@ namespace UDM.Insurance.Interface.Screens
 
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 

@@ -862,7 +862,7 @@ namespace UDM.Insurance.Interface.Screens
             DataSet ds = null;
 
 
-            ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSales", parameters);
+            ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSalesDC", parameters);
 
 
 

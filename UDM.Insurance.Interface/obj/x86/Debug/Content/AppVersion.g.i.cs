@@ -61,7 +61,7 @@ namespace UDM.Insurance.Interface.Content {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UDM.InsureDebug.Interface;component/content/appversion.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UDM.Insure.Interface;component/content/appversion.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Content\AppVersion.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
