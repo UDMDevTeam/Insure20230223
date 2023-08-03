@@ -9996,18 +9996,6 @@ namespace UDM.Insurance.Interface.Screens
             }
 #endif
 
-            if(LaData.UserData.UserType == lkpUserType.SalesAgent)
-            {
-                if(LaData.BankDetailsData.SigningPowerID == null)
-                {
-                    INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
-                    string message = "Signing Power not selected.";
-                    ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
-                    return;
-
-                }
-            }
-
             if (IsValidData())
             {
                 if ((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.DoNotContactClient)
