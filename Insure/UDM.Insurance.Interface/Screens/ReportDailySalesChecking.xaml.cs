@@ -821,18 +821,22 @@ namespace UDM.Insurance.Interface.Screens
                 });
                 string sValue = "";
 
-                Uri uri = new Uri("/Templates/ReportTemplateDailySalesChecking.xlsx", UriKind.Relative); ;
+                //Uri uri = new Uri("/Templates/ReportTemplateDailySalesChecking.xlsx", UriKind.Relative); ;
                 if (selectedItem != null)
                 {
                     sValue = selectedItem.Row[1].ToString();
                 }
                 string filePathAndName = String.Format("{0}Daily Sales Checking Report ({1:yyyy-MM-dd} - {2:yyyy-MM-dd})  ~ {3}.xlsx", GlobalSettings.UserFolder, _fromDate, _toDate, DateTime.Now.Millisecond);
-
+                string URI = "";
                 if (sValue.Contains("Base, Rejuvenation, Defrost and Funeral"))
                 {
-                    uri = new Uri("/Templates/ReportTemplateDailySalesCheckingBase.xlsx", UriKind.Relative);
+                    URI = "/Templates/ReportTemplateDailySalesCheckingBase.xlsx";
                     _reportType = 1;
                 }
+                else {
+                    URI = "/Templates/ReportTemplateDailySalesChecking.xlsx";
+                }
+                var uri = new Uri(URI,UriKind.Relative);
                 StreamResourceInfo info = Application.GetResourceStream(uri);
                 if (info != null)
                 {
