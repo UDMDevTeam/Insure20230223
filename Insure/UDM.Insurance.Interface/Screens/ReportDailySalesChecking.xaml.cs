@@ -833,7 +833,8 @@ namespace UDM.Insurance.Interface.Screens
                     URI = "/Templates/ReportTemplateDailySalesCheckingBase.xlsx";
                     _reportType = 1;
                 }
-                else {
+                else
+                {
                     URI = "/Templates/ReportTemplateDailySalesChecking.xlsx";
                 }
                 var uri = new Uri(URI,UriKind.Relative);
