@@ -110,7 +110,7 @@ namespace UDM.Insurance.Interface.Screens
                     #region Get the report data as a DataTable
 
 
-
+                    _toDate = _toDate.AddHours(23);
 
                     SqlParameter[] parameters =
                     {
