@@ -636,7 +636,7 @@ namespace UDM.Insurance.Interface.Screens
                 LeadLoadingBool = true;
 
                 btnForwardToDCAgent.Visibility = Visibility.Collapsed;
-               
+
                 DebiCheckSentTwice = false;
                 Mandate1TB.Text = " ";
                 Mandate2TB.Text = " ";
@@ -1067,7 +1067,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     LaData.ImportedPolicyData.LapseDate = dtImportedPolicyData.Rows[0]["LapseDate"] as DateTime?;
                     LaData.ImportedPolicyData.CommenceDate = dtImportedPolicyData.Rows[0]["CommenceDate"] as DateTime?;
-                    if(LaData.AppData.CampaignID == 7
+                    if (LaData.AppData.CampaignID == 7
                         || LaData.AppData.CampaignID == 8)
                     {
 
@@ -1076,7 +1076,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         LaData.ImportedPolicyData.MoneyBackDate = dtImportedPolicyData.Rows[0]["MoneyBackDate"] as DateTime?;
                     }
-                    
+
                 }
 
                 if (dtPolicy.Rows.Count > 0)
@@ -2371,7 +2371,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region ExtendedSalesDate
-                try 
+                try
                 {
                     //dteExtendedSalesDate
                     StringBuilder strQueryextendedSalesDate = new StringBuilder();
@@ -2387,7 +2387,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
 
-                try 
+                try
                 {
                     bool? Objections = bool.Parse(Methods.GetTableData("SELECT TOP 1 Objections FROM INImportCallMonitoring WHERE FKINImportID = " + LaData.AppData.ImportID).AsEnumerable().Select(x => x["Objections"]).FirstOrDefault().ToString());
                     chkObjections.IsChecked = Objections;
@@ -2461,7 +2461,8 @@ namespace UDM.Insurance.Interface.Screens
                         lblCashBackAge2.Visibility = Visibility.Visible;
                         medCashBackAge2.Visibility = Visibility.Visible;
                     }
-                } catch { }
+                }
+                catch { }
 
                 #endregion
 
@@ -3701,7 +3702,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region DC Agent Objections
                 try
                 {
-                    if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
+                    if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
                     {
 
                     }
@@ -3719,7 +3720,8 @@ namespace UDM.Insurance.Interface.Screens
                         icm.Objections = chkObjections.IsChecked;
                         icm.Save(_validationResult);
                     }
-                } catch
+                }
+                catch
                 {
                     INImportCallMonitoring icm = new INImportCallMonitoring();
                     icm.Objections = chkObjections.IsChecked;
@@ -5310,7 +5312,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Account Type DebiCheck workings
 
                 DataTable dtAccountType = dsLookups.Tables[5];
-                try 
+                try
                 {
                     if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
                     {
@@ -5325,11 +5327,12 @@ namespace UDM.Insurance.Interface.Screens
                                 dr.Delete();
                         }
                     }
-                } catch 
+                }
+                catch
                 {
 
                 }
-         
+
                 cmbDOAccountType.Populate(dtAccountType, DescriptionField, IDField);
 
                 #endregion
@@ -6557,7 +6560,7 @@ namespace UDM.Insurance.Interface.Screens
                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade8
                                     ||
                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade9
-                                    || 
+                                    ||
                                     LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade10)
                                     ))
                                 {
@@ -8760,7 +8763,7 @@ namespace UDM.Insurance.Interface.Screens
         }
 
         #endregion Private Methods
-        
+
         #region Event Handlers
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -8884,7 +8887,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             optionID = 7;
                         }
-                        else if(age >= 69 && age <= 120)
+                        else if (age >= 69 && age <= 120)
                         {
                             optionID = 8;
                         }
@@ -10228,7 +10231,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (LaData.AppData.IsLeadUpgrade)
                     {
-                        if(ConservedLeadBool == true)
+                        if (ConservedLeadBool == true)
                         {
                             for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
                             {
@@ -10269,11 +10272,11 @@ namespace UDM.Insurance.Interface.Screens
                                     {
                                         DataRow dr = dtCover.Rows[i];
                                         if (dr["TotalPremium1"].ToString() != "99.00")
-                                                dr.Delete();
+                                            dr.Delete();
                                     }
                                     dtCover.AcceptChanges();
                                 }
-                                
+
                             }
                             else
                             {
@@ -10882,7 +10885,8 @@ namespace UDM.Insurance.Interface.Screens
                                     btnForwardToDCAgent.Visibility = Visibility.Visible;
                                     break;
                                 }
-                            } catch { break; }
+                            }
+                            catch { break; }
 
 
 
@@ -16965,7 +16969,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     responsesAccountTypeDebiCheck = "3";
                 }
-                else if(responsesAccountType == "Cheque")
+                else if (responsesAccountType == "Cheque")
                 {
                     responsesAccountTypeDebiCheck = "3";
                 }
@@ -17065,7 +17069,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             AccountTypeNumber = "3";
                         }
-                        else if(AccountTypePLLKP == "Cheque")
+                        else if (AccountTypePLLKP == "Cheque")
                         {
                             AccountTypeNumber = "3";
                         }
@@ -17229,7 +17233,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             AccountTypeNumber = "3";
                         }
-                        else if(AccountTypePLLKP == "Cheque")
+                        else if (AccountTypePLLKP == "Cheque")
                         {
                             AccountTypeNumber = "3";
                         }
@@ -17258,7 +17262,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     AccountTypeNumber = "3";
                                 }
-                                else if(responsesAccountType == "Cheque")
+                                else if (responsesAccountType == "Cheque")
                                 {
                                     AccountTypeNumber = "3";
                                 }
@@ -17903,7 +17907,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                             parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-                            
+
 
                             DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
                             dtCover = dsLookups.Tables[0];
@@ -18467,12 +18471,12 @@ namespace UDM.Insurance.Interface.Screens
                                             ImportDate = DateTime.Now;
                                         }
 
-                                            IsDebiCheckValidForResales();
+                                        IsDebiCheckValidForResales();
 
-                                            GotBankingDetailsPL.Visibility = Visibility.Visible;
-                                            GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
-                                            GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
-                                            GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPL.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPLLBL.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPLBTN.Visibility = Visibility.Visible;
+                                        GotBankingDetailsPLLBL2.Visibility = Visibility.Visible;
 
 
 
@@ -18707,7 +18711,7 @@ namespace UDM.Insurance.Interface.Screens
                                         GotBankingDetailsPLBTN.Visibility = Visibility.Collapsed;
                                         GotBankingDetailsPLLBL2.Visibility = Visibility.Collapsed;
                                         // this is for sales agents and not debicheck agents
-                                        if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
                                         {
                                             GotBankingDetailsPL2.Visibility = Visibility.Visible;
                                             lblBankDetailsStatus.Visibility = Visibility.Visible;

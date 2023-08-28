@@ -3213,7 +3213,7 @@
                   ToolTipService.ShowOnDisabled="True"
                   Visibility="Collapsed"
                   Value="{Binding ImportedPolicyData.CommenceDate}" />
-                            
+
                             <TextBlock
                   x:Name="lblExtendedSalesDate"
                   Grid.Row="1"
@@ -5466,7 +5466,7 @@
                                 PromptChar=""
                                 Style="{StaticResource medINLA}"
                                 Text="{Binding PolicyData.CashBackAge, TargetNullValue=''}" />
-                            
+
                             <TextBlock
                   x:Name="lblMoneyBackDate2"
                   Grid.Row="4"
@@ -15871,7 +15871,7 @@
                 Text="   Objections">
                             <TextBlock.Style>
                                 <Style BasedOn="{StaticResource INLabelText2}" TargetType="{x:Type TextBlock}">
-                                  
+
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
@@ -16012,7 +16012,7 @@
               TabIndex="98600" />
 
                     <!--Bottom footer-->
-                    
+
                     <Border
                         x:Name="GotBankingDetailsPL2"
                         Grid.Row="17"
