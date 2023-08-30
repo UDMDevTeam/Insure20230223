@@ -1748,6 +1748,7 @@ namespace UDM.Insurance.Interface.Screens
                                 inImport.PlatinumContactTime = GetTimeValue(row.Cells[idxFields["PlatinumContactTime"].Index]);
                                 inImport.CancerOption = GetStringValue(row.Cells[idxFields["Option"].Index]);
                                 inImport.PlatinumAge = GetShortValue(row.Cells[idxFields["PlatinumAge"].Index]);
+                                inImport.ObtainedReferrals = bool.Parse(GetStringValue(row.Cells[idxFields["Future20"].Index]));
                                 try
                                 {
                                     inImport.MoneyBackDate = GetDateValue(row.Cells[idxFields["MoneyBackDate"].Index]);

@@ -63,6 +63,11 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetAssignLeadsSummaryData", null);
         }
 
+        public static DataSet INGetAssignLeadsSummaryDataAutoAssign()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetAssignLeadsSummaryDataAutoAssign", null);
+        }
+
         public static DataSet INGetBatchAssignedLeadsData(long batchID, long activity, long workStatusEmployed)
         {
             object param1 = Database.GetParameter("@BatchID", batchID);
@@ -147,6 +152,29 @@ namespace UDM.Insurance.Business
             object[] paramArray = new[] { param1, param2 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportConservedLeads", paramArray, 600);
+        }
+
+        #endregion
+
+        #region Auto Assign leads
+        public static DataSet INReportAutoAssignBreakdown(long? FKUserID)
+        {
+            object param1 = Database.GetParameter("@FKUserID", FKUserID);
+
+            object[] paramArray = new[] { param1 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "ReportOptimumUserBreakDown", paramArray, 600);
+        }
+        #endregion
+
+        #region Auto Assign Leads Screen
+        public static DataSet INGetAutoAssignLeadsScreenLookups(DateTime fromDate, DateTime toDate)
+        {
+            object param1 = Database.GetParameter("@FromDate", fromDate);
+            object param2 = Database.GetParameter("@ToDate", toDate);
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetAutoAssignLeadsLookups", paramArray, 600);
         }
 
         #endregion

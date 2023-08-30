@@ -83,6 +83,7 @@ namespace UDM.Insurance.Business
         private bool? _isfutureallocation = null;
         private DateTime? _moneybackdate = null;
         private DateTime? _conversionmbdate = null;
+        private bool? _obtainedreferrals = null;
 
         #endregion
 
@@ -1347,7 +1348,25 @@ namespace UDM.Insurance.Business
                 }
             }
         }
-        
+
+        public bool? ObtainedReferrals
+        {
+            get
+            {
+                Fill();
+                return _obtainedreferrals;
+            }
+            set
+            {
+                Fill();
+                if (value != _obtainedreferrals)
+                {
+                    _obtainedreferrals = value;
+                    _hasChanged = true;
+                }
+            }
+        }
+
         #endregion
 
         #region Override Methods
@@ -1481,7 +1500,8 @@ namespace UDM.Insurance.Business
             xml.Append("<fkincallmonitoringcancellationreasonid>" + FKINCallMonitoringCancellationReasonID.ToString() + "</fkincallmonitoringcancellationreasonid>");
             xml.Append("<isfutureallocation>" + IsFutureAllocation.ToString() + "</isfutureallocation>");
             xml.Append("<moneybackdate>" + MoneyBackDate.ToString() + "</moneybackdate>");
-            xml.Append("<conversionmbdate>" + ConversionMBDate.ToString() + "<conversionmbdate>");
+            xml.Append("<conversionmbdate>" + ConversionMBDate.ToString() + "</conversionmbdate>");
+            xml.Append("<obtainedreferrals>" + ObtainedReferrals.ToString() + "</obtainedreferrals>")
             xml.Append("</inimport>");
             return xml.ToString();
         }
@@ -1558,9 +1578,10 @@ namespace UDM.Insurance.Business
         /// <param name="permissionquestionasked"></param>
         /// <param name="fkincallmonitoringcancellationreasonid"></param>
         /// <param name="isfutureallocation"></param>
+        /// <param name="obtainedreferrals"></param>
 
         /// <returns>A Validation Result object with the result of the fill opertation.</returns>
-        public ValidationResult Fill(long? fkuserid, long? fkincampaignid, long? fkinbatchid, long? fkinleadstatusid, long? fkindeclinereasonid, long? fkinpolicyid, long? fkinleadid, string refno, string referrorpolicyid, long? fkinreferrortitleid, string referror, long? fkinreferrorrelationshipid, string referrorcontact, string gift, DateTime? platinumcontactdate, TimeSpan? platinumcontacttime, string canceroption, short? platinumage, DateTime? allocationdate, Byte? isprinted, DateTime? dateofsale, string bankcallref, long? fkbankcallrefuserid, string bankstationno, DateTime? bankdate, TimeSpan? banktime, long? fkbanktelnumbertypeid, string salecallref, long? fksalecallrefuserid, string salestationno, DateTime? saledate, TimeSpan? saletime, long? fksaletelnumbertypeid, string confcallref, long? fkconfcallrefuserid, string confstationno, DateTime? confdate, TimeSpan? conftime, long? fkconftelnumbertypeid, bool? isconfirmed, string notes, DateTime? importdate, long? fkclosureid, string feedback, DateTime? feedbackdate, DateTime? futurecontactdate, long? fkinimportedpolicydataid, string testing1, long? fkinleadfeedbackid, long? fkincancellationreasonid, bool? iscopied, long? fkinconfirmationfeedbackid, long? fkinparentbatchid, bool? bonuslead, long? fkbatchcallrefuserid, bool? ismining, DateTime? confworkdate, bool? ischecked, DateTime? checkeddate, DateTime? datebatched, bool? iscopyduplicate, long? fkindiaryreasonid, long? fkincarriedforwardreasonid, long? fkincallmonitoringcarriedforwardreasonid, bool? permissionquestionasked, long? fkincallmonitoringcancellationreasonid, bool? isfutureallocation, DateTime? moneybackdate, DateTime? conversionmbdate)
+        public ValidationResult Fill(long? fkuserid, long? fkincampaignid, long? fkinbatchid, long? fkinleadstatusid, long? fkindeclinereasonid, long? fkinpolicyid, long? fkinleadid, string refno, string referrorpolicyid, long? fkinreferrortitleid, string referror, long? fkinreferrorrelationshipid, string referrorcontact, string gift, DateTime? platinumcontactdate, TimeSpan? platinumcontacttime, string canceroption, short? platinumage, DateTime? allocationdate, Byte? isprinted, DateTime? dateofsale, string bankcallref, long? fkbankcallrefuserid, string bankstationno, DateTime? bankdate, TimeSpan? banktime, long? fkbanktelnumbertypeid, string salecallref, long? fksalecallrefuserid, string salestationno, DateTime? saledate, TimeSpan? saletime, long? fksaletelnumbertypeid, string confcallref, long? fkconfcallrefuserid, string confstationno, DateTime? confdate, TimeSpan? conftime, long? fkconftelnumbertypeid, bool? isconfirmed, string notes, DateTime? importdate, long? fkclosureid, string feedback, DateTime? feedbackdate, DateTime? futurecontactdate, long? fkinimportedpolicydataid, string testing1, long? fkinleadfeedbackid, long? fkincancellationreasonid, bool? iscopied, long? fkinconfirmationfeedbackid, long? fkinparentbatchid, bool? bonuslead, long? fkbatchcallrefuserid, bool? ismining, DateTime? confworkdate, bool? ischecked, DateTime? checkeddate, DateTime? datebatched, bool? iscopyduplicate, long? fkindiaryreasonid, long? fkincarriedforwardreasonid, long? fkincallmonitoringcarriedforwardreasonid, bool? permissionquestionasked, long? fkincallmonitoringcancellationreasonid, bool? isfutureallocation, DateTime? moneybackdate, DateTime? conversionmbdate, bool? obtainedreferrals)
         {
             ValidationResult result = new ValidationResult();
 
@@ -1635,6 +1656,7 @@ namespace UDM.Insurance.Business
                 this.IsFutureAllocation = isfutureallocation;
                 this.MoneyBackDate = moneybackdate;
                 this.ConversionMBDate = conversionmbdate;
+                this.ObtainedReferrals = obtainedreferrals;
             }
             catch (Exception ex)
             {
