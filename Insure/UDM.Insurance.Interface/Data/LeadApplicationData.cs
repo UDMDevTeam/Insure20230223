@@ -21,6 +21,7 @@ namespace UDM.Insurance.Interface.Data
         public const int MaxLA = 2;
         public const int MaxChildren = 4;
         public const int MaxBeneficiaries = 6;
+
         public const int MaxNextOfKin = 1;
 
         //Mercantile variables
