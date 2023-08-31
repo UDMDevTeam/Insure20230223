@@ -163,7 +163,23 @@ namespace UDM.Insurance.Interface.Screens
                 ScreenData.PreviousRedeemStatus = ScreenData.GiftRedeemStatusID;
 
                 //From 2018-09-17 only the "R500 Gift Card" option should show for NR batches with leads that have not yet been redeemed.
-                if (ScreenData.GiftRedeemStatusID == 2)
+                int CampaignID;
+                try
+                {
+                    string strSQL = "SELECT FKINCampaignID FROM INImport WHERE ID = " + ScreenData.ImportID;
+                    DataTable dtCampaignID = Methods.GetTableData(strSQL);
+                    CampaignID = int.Parse(dtCampaignID.Rows[0][0].ToString());
+                }
+                catch { CampaignID = 0; }
+
+
+                if (CampaignID == 102 
+                    || CampaignID == 103
+                    || CampaignID == 105)
+                {
+
+                }
+                else if (ScreenData.GiftRedeemStatusID == 2)
                 {
                     if (DateTime.Now >= Convert.ToDateTime("2018-09-17 00:00:00"))
                     {
