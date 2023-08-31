@@ -964,7 +964,6 @@
                     <Setter Property="data:TriggerManager.Flag9" Value="True" />
                 </MultiDataTrigger>
 
-
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=(data:TriggerManager.Flag1), RelativeSource={RelativeSource Self}}" Value="False" />
@@ -1917,6 +1916,26 @@
                     <Setter Property="ToolTip" Value="UserType 'Not Admin'&#10;Allocation Date '&gt; 42 days ago'" />
                     </MultiDataTrigger>
                 -->
+                <!--Lead Status 'Forward to DC Agent' if TSR Dont Allow Edit if Time is less than an hour before StampDate -->
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding AppData.LeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='==,24'}" Value="True"/>
+                        <Condition Binding="{Binding UserData.UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='==,2'}" Value="True" />
+                        <Condition Binding="{Binding LeadData.IsLessThanHourOld}" Value="True" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Content" Value="{Binding LeadData.TimeLeft}" />
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ToolTip" Value="Sales Agents cannot edit a lead that has been transferred for DebiCheck, until an hour has passed." />
+                </MultiDataTrigger>
+                <!--Lead Status 'Forward to DC Agent' if TSR  Allow Edit if Timer has passed an hour after StampDate -->
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding LeadData.IsSaveEnabled}" Value="True" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Content" Value="{Binding LeadData.TimeLeftString}" />
+                    <Setter Property="IsEnabled" Value="{Binding LeadData.IsSaveEnabled}" />
+                    <Setter Property="ToolTip" Value="{Binding LeadData.ToolTip}" />
+                </MultiDataTrigger>
             </Style.Triggers>
             <Setter Property="Template">
                 <Setter.Value>
@@ -2631,25 +2650,25 @@
 
                 <Grid x:Name="LayoutRoot">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="45*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="45*" />
-                        <RowDefinition Height="45*" />
-                        <RowDefinition Height="45*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="43*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="41.568" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="43*" />
+                        <RowDefinition Height="43*" />
+                        <RowDefinition Height="43*" />
                         <RowDefinition Height="44" />
-                        <RowDefinition Height="44*" />
-                        <RowDefinition Height="44*" />
+                        <RowDefinition Height="42*" />
+                        <RowDefinition Height="42*" />
 
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -2932,20 +2951,54 @@
               SelectionChanged="cmbStatus_SelectionChanged"
               Style="{StaticResource StyleCMBStatus}"
               TabIndex="98000" />
-
-
                     <Label x:Name="TransferReminderLbl"
                             Grid.Row="0"
                             Grid.Column="8"
                             Grid.ColumnSpan="11"
+                          
                             Content="Reminder: Transfer sale to Debi-check Specialist"
-                            Foreground="Green"
+                            Foreground="LightGreen"
                             VerticalContentAlignment="Center"
                             HorizontalContentAlignment="Center"
                             Visibility="Collapsed"
                             FontSize="20"
                            >
-
+                        <Label.Style>
+                            <Style TargetType="{x:Type Label}">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!-- Opacity animation with less fade out -->
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                                         From="1" To="0.6" 
+                                                         Duration="0:0:2" 
+                                                         AutoReverse="True" 
+                                                         RepeatBehavior="Forever"/>
+                                                    <!-- Scale animation with slower pulsating -->
+                                                    <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                                         From="1" To="1.2"
+                                                         Duration="0:0:1"
+                                                         AutoReverse="True"
+                                                         RepeatBehavior="Forever"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                                         From="1" To="1.2"
+                                                         Duration="0:0:1"
+                                                         AutoReverse="True"
+                                                         RepeatBehavior="Forever"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Label.Style>
                     </Label>
                     <!--  SelectedItem="{Binding AppData.LeadStatus}"  -->
 
@@ -3114,7 +3167,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Visible">
+              Visibility="Collapsed">
 
                         <Grid x:Name="grdPage1">
                             <Grid.RowDefinitions>
@@ -6970,7 +7023,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Collapsed">
+              Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -7322,8 +7375,81 @@
                       SelectionChanged="cmbDOSigningPower_SelectionChanged"
                       Style="{StaticResource StyleCMBValidateSigningPower}"
                       TabIndex="33900" />
+                                    <TextBlock x:Name="hdrReferral"
+Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3"
+Style="{StaticResource INSectionHeadingText1}"
+Text="Referral No." Margin="1,18,0,0" Width="111" VerticalAlignment="Top" Grid.RowSpan="2" />
+                                    <src:EmbriantComboBox
+x:Name="cmbReferral"
+Grid.Row="9" Grid.Column="4" Margin="0,10,42,0" VerticalAlignment="Top"
+Style="{StaticResource cmbINLA}" TabIndex="44200" Grid.ColumnSpan="2" Grid.RowSpan="2" SelectedIndex="0" SelectionChanged="cmbReferral_SelectionChanged" >
+                                        <ComboBoxItem>1</ComboBoxItem>
+                                        <ComboBoxItem>2</ComboBoxItem>
+                                        <ComboBoxItem>3</ComboBoxItem>
+                                        <ComboBoxItem>4</ComboBoxItem>
+                                        <ComboBoxItem>5</ComboBoxItem>
+                                    </src:EmbriantComboBox>
 
+                                    <GroupBox x:Name="referralGB" Grid.Row="10" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="11" Margin="0,6,0,-37" FontSize="16"
+                                     Foreground="Silver" Header="Referrals">
+                                        <GroupBox.Style>
+                                            <Style BasedOn="{StaticResource gbStyle3}" TargetType="{x:Type GroupBox}">
+
+                                            </Style>
+                                        </GroupBox.Style>
+                                        <StackPanel>
+                                            <Label x:Name="lblReferralOb" Visibility="Collapsed"  Content="Platinum life,&#x0a;Obtained referrals." Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="468" Height="114" Margin="0,0,0,0" HorizontalContentAlignment="Center" FontSize="28"/>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="164" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="2" />
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="2" />
+                                                    <RowDefinition Height="25.896" />
+                                                    <RowDefinition Height="2" />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock  x:Name="lblRefName" Grid.Column="0" Style="{StaticResource INLabelText2}" Text="Name" />
+                                                <igWPF:XamMaskedEditor x:Name="medRefName" Grid.Row="0" Grid.Column="1" Height="NaN" Margin="0,-3,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         Mask="" PromptChar="" Style="{StaticResource medINLA}" TabIndex="33910" Text="{Binding NextOfKinData[0].Name}" Grid.ColumnSpan="2" />
+
+                                                <!--  StyleXMEValueChanged  -->
+                                                <TextBlock x:Name="lblRefCellNumber" Grid.Column="0" Style="{StaticResource INLabelText2}"  Text="Contact Number" Grid.Row="2" />
+                                                <igWPF:XamMaskedEditor
+                         x:Name="medRefCellNumber" Height="28"  Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         Style="{StaticResource StyleXMETelNumber}" TabIndex="33940" Text="{Binding NextOfKinData[0].TelContact}" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Column="1" Grid.Row="1"/>
+
+                                                <TextBlock
+                         x:Name="lblRefRelationship"
+                         Grid.Row="4" Grid.Column="0" Style="{StaticResource INLabelText2}" Text="Relationship" Margin="0,3,0,0" VerticalAlignment="Top" />
+
+                                                <src:EmbriantComboBox
+                         x:Name="cmbRefRelationship"
+                         Grid.Row="3" Grid.Column="1"
+                         Height="28" Margin="0,1,0,1"
+Style="{StaticResource cmbINLA}"  TabIndex="33930" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+
+                                                <TextBlock
+                         x:Name="lblRefGender"
+                         Grid.Row="6" Grid.Column="0" Style="{StaticResource INLabelText2}" Text="Gender" />
+
+                                                <src:EmbriantComboBox
+                         x:Name="cmbRefGender"
+                         Grid.Row="6"
+                         Height="28" Margin="1,0,0,-3"
+                         Style="{StaticResource cmbINLA}"  TabIndex="33930" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="2" />
+
+                                            </Grid>
+                                        </StackPanel>
+                                    </GroupBox>
                                     <GroupBox
+                                        x:Name="NOFGB"
                       Grid.Row="9"
                       Grid.RowSpan="4"
                       Grid.Column="0"
@@ -7331,7 +7457,7 @@
                       Margin="0,6,0,0"
                       FontSize="16"
                       Foreground="Silver"
-                      Header="Next of Kin">
+                      Header="Next of Kin" Visibility="Collapsed">
                                         <GroupBox.Style>
                                             <Style BasedOn="{StaticResource gbStyle3}" TargetType="{x:Type GroupBox}">
                                                 <Style.Triggers>
@@ -7352,8 +7478,10 @@
                                         </GroupBox.Style>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="164" />
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="103" />
+                                                <ColumnDefinition Width="61"/>
+                                                <ColumnDefinition Width="221*" />
+                                                <ColumnDefinition Width="73*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
@@ -7366,18 +7494,15 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock
                           x:Name="lblNOKName"
-                          Grid.Row="0"
                           Grid.Column="0"
-                          Margin="0,0,0,0"
-                          VerticalAlignment="Center"
                           Style="{StaticResource INLabelText2}"
                           Text="Name" />
                                             <igWPF:XamMaskedEditor
                           x:Name="medNOKName"
                           Grid.Row="0"
-                          Grid.Column="1"
+                          Grid.Column="2"
                           Height="28"
-                          Margin="0,0,0,0"
+                          Margin="0,0,0,25"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           data:AttachedProperties.HistoryValue="{Binding NextOfKinHistoryData[0].Name}"
@@ -7387,7 +7512,7 @@
                           PromptChar=""
                           Style="{StaticResource medINLA}"
                           TabIndex="33910"
-                          Text="{Binding NextOfKinData[0].Name}" />
+                          Text="{Binding NextOfKinData[0].Name}" Grid.RowSpan="3" Grid.ColumnSpan="2" />
 
 
                                             <!--  StyleXMEValueChanged  -->
@@ -7395,8 +7520,6 @@
                           x:Name="lblNOKSurname"
                           Grid.Row="2"
                           Grid.Column="0"
-                          Margin="0,0,0,4"
-                          VerticalAlignment="Bottom"
                           Style="{StaticResource INLabelText2}"
                           Text="Surname" />
                                             <igWPF:XamMaskedEditor
@@ -7404,7 +7527,7 @@
                           Grid.Row="2"
                           Grid.Column="2"
                           Height="28"
-                          Margin="0,0,0,0"
+                          Margin="0,0,0,25"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           data:AttachedProperties.HistoryValue="{Binding NextOfKinHistoryData[0].Surname}"
@@ -7414,49 +7537,43 @@
                           PromptChar=""
                           Style="{StaticResource medINLA}"
                           TabIndex="33920"
-                          Text="{Binding NextOfKinData[0].Surname}" />
+                          Text="{Binding NextOfKinData[0].Surname}" Grid.RowSpan="3" Grid.ColumnSpan="2" />
                                             <TextBlock
                           x:Name="lblNOKRelationship"
                           Grid.Row="4"
                           Grid.Column="0"
-                          Margin="0,0,0,4"
-                          VerticalAlignment="Bottom"
                           Style="{StaticResource INLabelText2}"
                           Text="Relationship" />
                                             <src:EmbriantComboBox
                           x:Name="cmbNOKRelationship"
-                          Grid.Row="4"
+                          Grid.Row="3"
                           Grid.Column="2"
                           Height="28"
-                          Margin="0,0,0,0"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
+                          Margin="0,2,0,25"
                           data:AttachedProperties.HistoryValue="{Binding NextOfKinHistoryData[0].RelationshipID}"
                           DropDownOpened="EmbriantComboBox_DropDownOpened"
                           PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                           SelectedValue="{Binding NextOfKinData[0].RelationshipID}"
                           Style="{StaticResource cmbINLA}"
-                          TabIndex="33930" />
+                          TabIndex="33930" Grid.RowSpan="4" Grid.ColumnSpan="2" />
                                             <TextBlock
                           x:Name="lblNOKContactTel"
                           Grid.Row="6"
                           Grid.Column="0"
-                          Margin="0,0,0,0"
-                          VerticalAlignment="Center"
                           Style="{StaticResource INLabelText2}"
-                          Text="Contact Number" />
+                          Text="Contact Number" Grid.ColumnSpan="2" />
                                             <igWPF:XamMaskedEditor
                           x:Name="medNOKContactPhone"
                           Grid.Row="6"
                           Grid.Column="2"
                           Height="28"
-                          Margin="0,0,0,0"
+                          Margin="0,0,0,-3"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           data:AttachedProperties.HistoryValue="{Binding NextOfKinHistoryData[0].TelContact}"
                           Style="{StaticResource StyleXMETelNumber}"
                           TabIndex="33940"
-                          Text="{Binding NextOfKinData[0].TelContact}" />
+                          Text="{Binding NextOfKinData[0].TelContact}" Grid.ColumnSpan="2" />
                                         </Grid>
                                     </GroupBox>
 
@@ -10230,7 +10347,7 @@
                   Margin="0,6,0,0"
                   FontSize="16"
                   Foreground="Silver"
-                  Header="Next of Kin">
+                  Header="Next of Kin" >
                                 <GroupBox.Style>
                                     <Style BasedOn="{StaticResource gbStyle3}" TargetType="{x:Type GroupBox}">
                                         <Style.Triggers>
