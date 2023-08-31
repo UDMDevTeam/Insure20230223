@@ -42,6 +42,8 @@ using System.Windows.Media.Imaging;
 using System.Collections.Specialized;
 using System.Transactions;
 using System.Threading;
+using UDM.Insurance.Interface.TempClass;
+using UDM.Insurance.Business.Objects;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -192,6 +194,8 @@ namespace UDM.Insurance.Interface.Screens
         private LeadApplicationData _laData = new LeadApplicationData();
 
         bool LeadLoadingBool = false;
+        Dictionary<string, ReferralData> referralDataDict = new Dictionary<string, ReferralData>();
+
 
         private int _la1FuneralCover = 0;
         private int _la1AccidentalDeathCover = 0;
@@ -212,6 +216,8 @@ namespace UDM.Insurance.Interface.Screens
         }
         private bool _flagLeadIsBusyLoading;
         //private bool _isNotesFeatureAvailable = false;
+        private string previousReferralSelection = null;
+
         private Point _posMouseVB;
         private Point _posVB;
         //private LiveProductivity _liveProductivity;
@@ -2248,6 +2254,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
 
+
                 #endregion
                 #region Find next and previous lead in leadbook if available
 
@@ -2276,10 +2283,6 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 #endregion
-                //if ((LaData.AppData.IsLeadLoaded) && (LaData.AppData.LoadedRefNo != null))
-                //{
-                //    ShowNotes(importID.Value);
-                //}
 
                 #region Change application screen border colour
 
@@ -2319,8 +2322,112 @@ namespace UDM.Insurance.Interface.Screens
                 LeadLoadingBool = false;
                 _flagLeadIsBusyLoading = false;
                 #endregion
+                #region Referrals
+                bool obtainedReferralsValue = false;
+                var Campaign = LaData.AppData.CampaignID;
+                StringBuilder strQueryObtainedReferrals = new StringBuilder();
+                strQueryObtainedReferrals.Append("SELECT [ObtainedReferrals] ");
+                strQueryObtainedReferrals.Append("FROM [InsureDebug].[dbo].[INImport] ");
+                strQueryObtainedReferrals.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                string finalQuery = strQueryObtainedReferrals.ToString();
+                DataTable dtObtainedReferrals = Methods.GetTableData(strQueryObtainedReferrals.ToString());
+                if (dtObtainedReferrals.Rows.Count > 0)
+                {
+                    object obtainedReferrals = dtObtainedReferrals.Rows[0]["ObtainedReferrals"];
+                    if (obtainedReferrals != null && obtainedReferrals != DBNull.Value)
+                    {
+                        obtainedReferralsValue = (bool)dtObtainedReferrals.Rows[0]["ObtainedReferrals"];
+                        //Debug Purposes
+                        //string obtainedReferrals = obtainedReferralsValue.ToString();
+                    }
+                    else
+                    {
+                        obtainedReferralsValue = false;
+                    }
+                }
+
+                if (Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
+                {
+                    if (obtainedReferralsValue)
+                    {
+                        NOFGB.Visibility = Visibility.Collapsed;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        referralGB.Visibility = Visibility.Visible;
+                        lblRefName.Visibility = Visibility.Collapsed;
+                        medRefName.Visibility = Visibility.Collapsed;
+                        lblRefCellNumber.Visibility = Visibility.Collapsed;
+                        medRefCellNumber.Visibility = Visibility.Collapsed;
+                        lblRefRelationship.Visibility = Visibility.Collapsed;
+                        cmbRefRelationship.Visibility = Visibility.Collapsed;
+                        lblRefGender.Visibility = Visibility.Collapsed;
+                        cmbRefGender.Visibility = Visibility.Collapsed;
+                        hdrReferral.Visibility = Visibility.Collapsed;
+                        cmbReferral.Visibility = Visibility.Collapsed;
+                        lblReferralOb.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        NOFGB.Visibility = Visibility.Collapsed;
+                        referralGB.Visibility = Visibility.Visible;
+                        hdrReferral.Visibility = Visibility.Visible;
+                        cmbReferral.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                        lblRefName.Visibility = Visibility.Visible;
+                        medRefName.Visibility = Visibility.Visible;
+                        lblRefCellNumber.Visibility = Visibility.Visible;
+                        medRefCellNumber.Visibility = Visibility.Visible;
+                        lblRefRelationship.Visibility = Visibility.Visible;
+                        cmbRefRelationship.Visibility = Visibility.Visible;
+                        lblRefGender.Visibility = Visibility.Visible;
+                        cmbRefGender.Visibility = Visibility.Visible;
+                        lblReferralOb.Visibility = Visibility.Collapsed;
+                        StringBuilder strQueryReferrals = new StringBuilder();
+                        strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
+                        strQueryReferrals.Append("FROM [INReferrals] ");
+                        strQueryReferrals.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
+
+                        DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
+
+                        referralDataDict.Clear();  // Clear the dictionary
+
+                        foreach (DataRow row in dtReferrals.Rows)
+                        {
+                            ReferralData referralData = new ReferralData
+                            {
+                                FKINImportID = row["FKINImportID"].ToString(),
+                                ReferralNumber = row["ReferralNumber"].ToString().Trim(),
+                                Name = row["Name"].ToString(),
+                                CellNumber = row["CellNumber"].ToString(),
+                                Relationship = row["FKINRelationshipID"] as long?,
+                                Gender = row["FKGenderID"] as long?,
+                            };
+
+                            referralDataDict.Add(referralData.ReferralNumber, referralData);
+                        }
+                        if (cmbReferral.SelectedItem != null)
+                        {
+                            string currentReferralNumber = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                            if (referralDataDict.ContainsKey(currentReferralNumber))
+                            {
+                                PopulateFields(referralDataDict[currentReferralNumber]);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    NOFGB.Visibility = Visibility.Visible;
+                    referralGB.Visibility = Visibility.Collapsed;
+                    hdrReferral.Visibility = Visibility.Collapsed;
+                    cmbReferral.Visibility = Visibility.Collapsed;
+                    lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                }
+                #endregion
             }
         }
+       
         private void SetDialHoursGraph(StackPanel stackPanel, string phoneNumber)
         {
             //Clear Segments First
@@ -3246,7 +3353,45 @@ namespace UDM.Insurance.Interface.Screens
 
                     #endregion
                 }
+                #region Referrals
+                SaveCurrentReferralData();
+                foreach (var keyValuePair in referralDataDict)
+                {
+                  keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                    ReferralData currentReferralData = keyValuePair.Value;
 
+                    // Create or retrieve the Referral from the database
+                    Referral referralInDB = new Referral();  // As ID is auto-incremented in the DB
+
+                    // Map properties from your dictionary data to the Referral object
+                    referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                    referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                    referralInDB.Name = currentReferralData.Name;
+                    referralInDB.CellNumber = currentReferralData.CellNumber;
+                    referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                    referralInDB.FKGenderID = currentReferralData.Gender;
+
+                    // Save the referral to the database
+                   Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                    if (!referralInDB.Save(validationResult))
+                    {
+                        // Handle save error. Perhaps log the validation errors.
+                        Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                        foreach (var error in validationResult.Messages)
+                        {
+                            Console.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+                        // If it's a new referral, create a blank history record for it
+                        string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                        Methods.ExecuteSQLNonQuery(strQuery);
+                    }
+                }
+
+
+                #endregion
                 #region NextOfKin
 
                 {
@@ -3414,6 +3559,7 @@ namespace UDM.Insurance.Interface.Screens
                 //ClearApplicationScreen();
                 medReference.Focus();
             }
+
             finally
             {
                 //LogInfo();
@@ -4827,6 +4973,7 @@ namespace UDM.Insurance.Interface.Screens
                 cmbLA1Relationship.Populate(dtLARelationship, DescriptionField, IDField);
                 cmbLA2Relationship.Populate(dtLARelationship, DescriptionField, IDField);
                 cmbLA2RelationshipUpg.Populate(dtLARelationship, DescriptionField, IDField);
+                cmbRefRelationship.Populate(dtLARelationship, DescriptionField, IDField);
                 cmbNOKRelationship.Populate(dtLARelationship, DescriptionField, IDField);
                 cmbNOKRelationship2.Populate(dtLARelationship, DescriptionField, IDField);
                 cmbNOKRelationshipUpgrade.Populate(dtLARelationship, DescriptionField, IDField);
@@ -4849,6 +4996,7 @@ namespace UDM.Insurance.Interface.Screens
                 cmbLA1Gender.Populate(dtGender, DescriptionField, IDField);
                 cmbLA2Gender.Populate(dtGender, DescriptionField, IDField);
                 cmbLA2GenderUpg.Populate(dtGender, DescriptionField, IDField);
+                cmbRefGender.Populate(dtGender, DescriptionField, IDField);
                 cmbGender.Populate(dtGender, DescriptionField, IDField);
                 cmbBeneficiary1Gender.Populate(dtGender, DescriptionField, IDField);
                 cmbBeneficiaryGender1Upg.Populate(dtGender, DescriptionField, IDField);
@@ -8631,8 +8779,12 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignID == 6 ||
                             LaData.AppData.CampaignID == 105)
                         {
-                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            var Campaign = LaData.AppData.CampaignID;
+                            if (Campaign != 102 || Campaign != 103)
+                            {
+                                lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                                chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                            }
                         }
                         lblPage.Text = "(Banking)";
                     }
@@ -8808,8 +8960,12 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignID == 6 ||
                             LaData.AppData.CampaignID == 105)
                         {
-                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            var Campaign = LaData.AppData.CampaignID;
+                            if (Campaign != 102 || Campaign != 103)
+                            {
+                                lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                                chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                            }
                         }
                         lblPage.Text = "(Banking)";
                     }
@@ -8845,6 +9001,7 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+
             #region DebiCheck Workings
             try
             {
@@ -10959,6 +11116,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 _swNextLead.Reset();
                 _swNextLead.Start();
+                referralDataDict.Clear();  // Clear the dictionary
                 if ((LaData.AppData2.ImportIDNextLead != null) && (LaData.AppData2.ImportIDNextLead != LaData.AppData.ImportID))
                 {
                     long? importId = LaData.AppData2.ImportIDNextLead;
@@ -10984,6 +11142,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             _swPrevLead.Reset();
             _swPrevLead.Start();
+            referralDataDict.Clear();  // Clear the dictionary
             if ((LaData.AppData2.ImportIDPrevLead != null) && (LaData.AppData2.ImportIDPrevLead != LaData.AppData.ImportID))
             {
                 long? importId = LaData.AppData2.ImportIDPrevLead;
@@ -18309,6 +18468,117 @@ namespace UDM.Insurance.Interface.Screens
             medLA2PassportNumber.Visibility = Visibility.Collapsed;
         }
         #endregion
+
+        private bool isFirstLoad = true;
+
+        private void cmbReferral_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbReferral.SelectedItem == null)
+            {
+                return;
+            }
+
+            string currentSelection = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "").Trim();
+
+            // Check if it's the first load of the page
+            if (isFirstLoad)
+            {
+                // This is the first load, so just set previousReferralSelection and return
+                previousReferralSelection = currentSelection;
+                isFirstLoad = false;
+                return;
+            }
+
+            // Save data for the previous selection
+            SaveCurrentReferralData();
+
+            // Load data for the new selection (if it exists in dictionary). If not, clear the fields
+            if (referralDataDict.ContainsKey(currentSelection))
+            {
+                PopulateFields(referralDataDict[currentSelection]);
+            }
+            else
+            {
+                ClearFields();
+            }
+
+            // Update the previous selection to the current one for the next time this event fires
+            previousReferralSelection = currentSelection;
+        }
+
+
+        private void SaveCurrentReferralData()
+        {
+            if (!string.IsNullOrWhiteSpace(previousReferralSelection) &&
+                medRefName != null && !string.IsNullOrWhiteSpace(medRefName.Text) &&
+                medRefCellNumber != null && !string.IsNullOrWhiteSpace(medRefCellNumber.Text))
+            {
+                if (referralDataDict.ContainsKey(previousReferralSelection))
+                {
+                    // Update the existing ReferralData in the dictionary
+                    referralDataDict[previousReferralSelection] = GetCurrentReferralData();
+                }
+                else
+                {
+                    // Add new ReferralData to the dictionary
+                    referralDataDict.Add(previousReferralSelection, GetCurrentReferralData());
+                }
+            }
+        }
+        private ReferralData GetCurrentReferralData()
+        {
+            DataRowView selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+            DataRowView selectedGenderRow = cmbRefGender.SelectedItem as DataRowView;
+
+            return new ReferralData
+            {
+                FKINImportID = LaData.AppData.ImportID.ToString(),
+                ReferralNumber = ((ComboBoxItem)cmbReferral.SelectedItem).Content.ToString(),
+                Name = medRefName.Text,
+                CellNumber = medRefCellNumber.Text,
+                Relationship = selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : 0,
+                Gender = selectedGenderRow != null ? (long)selectedGenderRow[0] : 0
+            };
+        }
+
+        private void PopulateFields(ReferralData data)
+        {
+            medRefName.Text = data.Name;
+            medRefCellNumber.Text = data.CellNumber;
+
+            foreach (DataRowView row in cmbRefRelationship.Items)
+            {
+                if ((long)row[0] == data.Relationship)
+                {
+                    cmbRefRelationship.SelectedItem = row;
+                    break;
+                }
+            }
+
+            foreach (DataRowView row in cmbRefGender.Items)
+            {
+                if ((long)row[0] == data.Gender)
+                {
+                    cmbRefGender.SelectedItem = row;
+                    break;
+                }
+            }
+        }
+        private void ClearFields()
+        {
+            if (medRefName != null)
+                medRefName.Text = string.Empty;
+
+            if (medRefCellNumber != null)
+                medRefCellNumber.Text = string.Empty;
+
+            if (cmbRefRelationship != null)
+                cmbRefRelationship.SelectedIndex = -1;
+
+            if (cmbRefGender != null)
+                cmbRefGender.SelectedIndex = -1;
+
+        }
     }
     public class MyWebClient : WebClient
     {
