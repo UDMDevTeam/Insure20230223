@@ -156,8 +156,8 @@ namespace UDM.Insurance.Business.Queries
                     query.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampDate], [StampUserID] ");
                     query.Append("FROM [INReferrals] WHERE [FKINImportID] = @FKINImportID AND [ReferralNumber] = @ReferralNumber; ");
 
-                    // Update the existing record
-                    query.Append("UPDATE [INReferrals] SET [FKINImportID] = @FKINImportID, [ReferralNumber] = @ReferralNumber, [Name] = @Name, [CellNumber] = @CellNumber, [FKINRelationshipID] = @FKINRelationshipID, [FKGenderID] = @FKGenderID, [StampDate] = GETDATE(), [StampUserID] = " + GlobalSettings.ApplicationUser.ID + " WHERE [FKINImportID] = @FKINImportID AND [ReferralNumber] = @ReferralNumber");
+                    // Update the existing record without changing the StampDate
+                    query.Append("UPDATE [INReferrals] SET [FKINImportID] = @FKINImportID, [ReferralNumber] = @ReferralNumber, [Name] = @Name, [CellNumber] = @CellNumber, [FKINRelationshipID] = @FKINRelationshipID, [FKGenderID] = @FKGenderID, [StampUserID] = " + GlobalSettings.ApplicationUser.ID + " WHERE [FKINImportID] = @FKINImportID AND [ReferralNumber] = @ReferralNumber");
                 }
                 else
                 {
