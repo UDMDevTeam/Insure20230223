@@ -997,7 +997,7 @@ namespace UDM.Insurance.Interface.Screens
                         wsReport.GetCell("E" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["TotalSavedCarriedForwardPremium"].ToString());
                         wsReport.GetCell("F" + rowIndexData).Value = Convert.ToInt32(drSummaryDataTotals["TotalTotalActualPolicies"].ToString());
                         wsReport.GetCell("G" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["TotalActualPremiumOnDateOfSale"].ToString());
-                        wsReport.GetCell("H" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["ActualLA2"].ToString());
+                        wsReport.GetCell("H" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["TotalActualLA2"].ToString());
                         wsReport.GetCell("I" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["TotalActualChildren"].ToString());
                         wsReport.GetCell("J" + rowIndexData).Value = Convert.ToInt32(drSummaryDataTotals["TotalTotalBumpedUpPolicies"].ToString());
                         wsReport.GetCell("K" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["TotalBumpUpPremium"].ToString().Trim());
