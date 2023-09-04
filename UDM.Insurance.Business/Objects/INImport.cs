@@ -1501,7 +1501,7 @@ namespace UDM.Insurance.Business
             xml.Append("<isfutureallocation>" + IsFutureAllocation.ToString() + "</isfutureallocation>");
             xml.Append("<moneybackdate>" + MoneyBackDate.ToString() + "</moneybackdate>");
             xml.Append("<conversionmbdate>" + ConversionMBDate.ToString() + "</conversionmbdate>");
-            xml.Append("<obtainedreferrals>" + ObtainedReferrals.ToString() + "</obtainedreferrals>")
+            xml.Append("<obtainedreferrals>" + ObtainedReferrals.ToString() + "</obtainedreferrals>");
             xml.Append("</inimport>");
             return xml.ToString();
         }

@@ -21,6 +21,7 @@ namespace UDM.Insurance.Interface.Data
         public const int MaxLA = 2;
         public const int MaxChildren = 4;
         public const int MaxBeneficiaries = 6;
+
         public const int MaxNextOfKin = 1;
 
         //Mercantile variables
@@ -38,7 +39,7 @@ namespace UDM.Insurance.Interface.Data
         public static DataTable dtCampaignGroupSet;
         public static DataTable dtCampaignTypeSet;
         public static long? importID;
-        
+
 
         public DateTime TodayLess1Day { get; set; }
         public DateTime TodayLess7Days { get; set; }
@@ -62,8 +63,8 @@ namespace UDM.Insurance.Interface.Data
 
                     return _titleID;
                 }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _titleID, value, () => TitleID);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -91,8 +92,8 @@ namespace UDM.Insurance.Interface.Data
             public long? GenderID
             {
                 get { return _genderID; }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _genderID, value, () => GenderID);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -111,11 +112,11 @@ namespace UDM.Insurance.Interface.Data
                 get
                 {
                     UpdateFullName();
-                    
+
                     return _name;
                 }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _name, value, () => Name);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -130,8 +131,8 @@ namespace UDM.Insurance.Interface.Data
 
                     return _surname;
                 }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _surname, value, () => Surname);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -172,8 +173,8 @@ namespace UDM.Insurance.Interface.Data
 
                     return _dateOfBirth;
                 }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _dateOfBirth, value, () => DateOfBirth);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -183,8 +184,8 @@ namespace UDM.Insurance.Interface.Data
             public long? RelationshipID
             {
                 get { return _relationshipID; }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _relationshipID, value, () => RelationshipID);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -193,7 +194,7 @@ namespace UDM.Insurance.Interface.Data
             private short? _age;
             public short? Age
             {
-                get { return _age;} //follows date of birth
+                get { return _age; } //follows date of birth
                 set { SetProperty(ref _age, value, () => Age); }
             }
 
@@ -229,8 +230,8 @@ namespace UDM.Insurance.Interface.Data
             public string TelContact
             {
                 get { return _telContact; }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _telContact, value, () => TelContact);
                     if (ToString().Contains("Beneficiary") || ToString().Contains("LA")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -342,7 +343,7 @@ namespace UDM.Insurance.Interface.Data
                 {
                     UpdateReferrorTitle(_referrorTitleID);
                     UpdateReferrorDetails();
-                    
+
                     return _referrorTitleID;
                 }
                 set { SetProperty(ref _referrorTitleID, value, () => ReferrorTitleID); }
@@ -372,7 +373,7 @@ namespace UDM.Insurance.Interface.Data
                 get
                 {
                     UpdateReferrorDetails();
-                    
+
                     return _referrorName;
                 }
                 set { SetProperty(ref _referrorName, value, () => ReferrorName); }
@@ -384,7 +385,7 @@ namespace UDM.Insurance.Interface.Data
                 get
                 {
                     UpdateReferrorDetails();
-                    
+
                     return _referrorRelationshipID;
                 }
                 set { SetProperty(ref _referrorRelationshipID, value, () => ReferrorRelationshipID); }
@@ -447,7 +448,86 @@ namespace UDM.Insurance.Interface.Data
                     SetProperty(ref _isConfirmed, value, () => IsConfirmed);
                 }
             }
+            private DateTime? _stampDate;
+            public DateTime? StampDate
+            {
+                get
+                {
+                    return _stampDate;
+                }
+                set
+                {
+                    SetProperty(ref _stampDate, value, () => StampDate);
+                }
+            }
+
+            private bool _isLessThanHourOld;
+            public bool IsLessThanHourOld
+            {
+                get
+                {
+                    return _isLessThanHourOld;
+                }
+                set
+                {
+                    SetProperty(ref _isLessThanHourOld, value, () => IsLessThanHourOld);
+                }
+            }
+            private bool _isSaveEnabled;
+            public bool IsSaveEnabled
+            {
+                get { return _isSaveEnabled; }
+                set
+                {
+                    if (_isSaveEnabled != value)
+                    {
+                        _isSaveEnabled = value;
+                        OnPropertyChanged(nameof(IsSaveEnabled));
+                    }
+                }
+            }
+
+            private string _toolTip;
+            public string ToolTip
+            {
+                get { return _toolTip; }
+                set
+                {
+                    if (_toolTip != value)
+                    {
+                        _toolTip = value;
+                        OnPropertyChanged(nameof(ToolTip));
+                    }
+                }
+            }
+            private TimeSpan _timeLeft;
+            public TimeSpan TimeLeft
+            {
+                get { return _timeLeft; }
+                set
+                {
+                    if (_timeLeft != value)
+                    {
+                        _timeLeft = value;
+                        OnPropertyChanged(nameof(TimeLeft));
+                    }
+                }
+            }
+            private string _timeLeftString;
+            public string TimeLeftString
+            {
+                get { return _timeLeftString; }
+                set
+                {
+                    if (_timeLeftString != value)
+                    {
+                        _timeLeftString = value;
+                        OnPropertyChanged(nameof(TimeLeftString));
+                    }
+                }
+            }
         }
+
         public class LeadHistory : Lead
         {
 
@@ -470,7 +550,7 @@ namespace UDM.Insurance.Interface.Data
         }
         public class ChildHistory : Child
         {
-            
+
         }
 
         public class Beneficiary : Person
@@ -482,8 +562,8 @@ namespace UDM.Insurance.Interface.Data
             public Double? Percentage
             {
                 get { return _percentage; }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _percentage, value, () => Percentage);
                     if (ToString().Contains("Beneficiary")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -493,8 +573,8 @@ namespace UDM.Insurance.Interface.Data
             public string Notes
             {
                 get { return _notes; }
-                set 
-                { 
+                set
+                {
                     SetProperty(ref _notes, value, () => Notes);
                     if (ToString().Contains("Beneficiary")) { CopyToBenefCommand.RaiseCanExecuteChanged(); }
                 }
@@ -502,7 +582,7 @@ namespace UDM.Insurance.Interface.Data
         }
         public class BeneficiaryHistory : Beneficiary
         {
-            
+
         }
 
         public class NextOfKin : Person
@@ -512,7 +592,7 @@ namespace UDM.Insurance.Interface.Data
         }
         public class NextOfKinHistory : NextOfKin
         {
-            
+
         }
 
         public class Application : ObservableObject
@@ -632,7 +712,7 @@ namespace UDM.Insurance.Interface.Data
                         DataRow dr = dtCampaignGroupSet.Select("[FKlkpINCampaignGroup] = " + (long?)_campaignGroup).FirstOrDefault();
                         if (dr != null)
                         {
-                            CampaignGroupType = (lkpINCampaignGroupType?) Convert.ToInt64(dr["FKlkpINCampaignGroupType"]);
+                            CampaignGroupType = (lkpINCampaignGroupType?)Convert.ToInt64(dr["FKlkpINCampaignGroupType"]);
                         }
                     }
 
@@ -651,7 +731,7 @@ namespace UDM.Insurance.Interface.Data
                         DataRow dr = dtCampaignTypeSet.Select("[FKCampaignTypeID] = " + (long?)_campaignType).FirstOrDefault();
                         if (dr != null)
                         {
-                            CampaignTypeGroup = (lkpINCampaignTypeGroup?) Convert.ToInt64(dr["FKCampaignTypeGroupID"]);
+                            CampaignTypeGroup = (lkpINCampaignTypeGroup?)Convert.ToInt64(dr["FKCampaignTypeGroupID"]);
                         }
                     }
 
@@ -790,7 +870,7 @@ namespace UDM.Insurance.Interface.Data
                 get { return _smsAvailableDate = (LoadedAllocationDate == null ? DateTime.MinValue : Convert.ToDateTime(LoadedAllocationDate.ToString())).AddDays(28.00d); }
             }
 
-            
+
 
             private DateTime? _futureContactDate;
             public DateTime? FutureContactDate
@@ -871,10 +951,11 @@ namespace UDM.Insurance.Interface.Data
             public int? SelectedBeneficiaryIndex
             {
                 get { return _selectedBeneficiaryIndex; }
-                set { 
-                        SetProperty(ref _selectedBeneficiaryIndex, value, () => SelectedBeneficiaryIndex);
-                        CopyToBenefCommand.RaiseCanExecuteChanged();
-                    }
+                set
+                {
+                    SetProperty(ref _selectedBeneficiaryIndex, value, () => SelectedBeneficiaryIndex);
+                    CopyToBenefCommand.RaiseCanExecuteChanged();
+                }
             }
 
             //private string _selectedReferrorNOK = "Referror";
@@ -911,7 +992,7 @@ namespace UDM.Insurance.Interface.Data
         }
         public class ApplicationHistory : Application
         {
-            
+
         }
 
         public class Application2 : LAInsure.Application
@@ -957,7 +1038,7 @@ namespace UDM.Insurance.Interface.Data
                 get { return _policyNumber; }
                 set { SetProperty(ref _policyNumber, value, () => PolicyNumber); }
             }
-            
+
             private string _platinumPlan;
             public string PlatinumPlan
             {
@@ -1035,7 +1116,7 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _totalPremium, value, () => TotalPremium); }
             }
 
-            
+
 
             private decimal? _loadedTotalPremium;
             public decimal? LoadedTotalPremium
@@ -1058,7 +1139,7 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _loadedTotalInvoiceFee, value, () => LoadedTotalInvoiceFee); }
             }
 
-            
+
 
             private decimal? _moneyBackPayout;
             public decimal? MoneyBackPayout
@@ -1195,7 +1276,7 @@ namespace UDM.Insurance.Interface.Data
         }
         public class PolicyHistory : Policy
         {
-            
+
         }
 
         public class User : ObservableObject
@@ -1443,7 +1524,7 @@ namespace UDM.Insurance.Interface.Data
 
             private bool _canConfirmPolicy;
             public bool CanConfirmPolicy // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/217829500/comments
-            { 
+            {
                 get
                 {
                     return _canConfirmPolicy;
@@ -1466,7 +1547,7 @@ namespace UDM.Insurance.Interface.Data
                     SetProperty(ref _autoPopulateConfWorkDate, value, () => AutoPopulateConfWorkDate);
                 }
             }
-            
+
             private DateTime? _autoPopulateConfDate;
             public DateTime? AutoPopulateConfDate  // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/217829500/comments
             {
@@ -1510,7 +1591,7 @@ namespace UDM.Insurance.Interface.Data
                 }
             }
 
-            
+
             //private long? AutoPopulateConfirmationAgentFKUserID
         }
 
@@ -1625,7 +1706,7 @@ namespace UDM.Insurance.Interface.Data
 
         public class BankDetailsHistory : BankDetails
         {
-            
+
         }
 
         public class ImportedPolicy : ObservableObject
@@ -1803,8 +1884,8 @@ namespace UDM.Insurance.Interface.Data
                 //get { return ((DateTime)SMSSubmissionDate).AddDays(28); }
 
                 get { return _smsExpiryDate = (SMSSubmissionDate == null ? DateTime.MinValue : Convert.ToDateTime(SMSSubmissionDate.ToString())).AddDays(28.00d); }
-                
-                
+
+
             }
 
             //private int _smsCount;
@@ -2024,13 +2105,13 @@ namespace UDM.Insurance.Interface.Data
 
             private bool UpdateIsAnyPhoneActive()
             {
-                return 
+                return
                     _isWorkPhoneActive ||
                     _isHomePhoneActive ||
                     _isCellPhoneActive ||
                     _isOtherPhoneActive ||
                     _is1023PhoneActive ||
-                    _is10118PhoneActive; 
+                    _is10118PhoneActive;
             }
 
             private bool _isWorkPhoneActive;
@@ -2125,7 +2206,7 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _notPossibleBumpUp, value, () => NotPossibleBumpUp); }
             }
 
-            
+
         }
 
         public class INImportExtraHistory : INImportExtra
@@ -2168,16 +2249,16 @@ namespace UDM.Insurance.Interface.Data
             TodayLess7Days = DateTime.Now.AddHours(hoursToDeductFromToday);
 
             UserData.UserID = ((Business.User)GlobalSettings.ApplicationUser).ID;
-            UserData.LoginName = ((Business.User) GlobalSettings.ApplicationUser).LoginName;
-            UserData.UserTypeID = ((Business.User) GlobalSettings.ApplicationUser).FKUserType;
-            UserData.UserType = (lkpUserType?)((Business.User) GlobalSettings.ApplicationUser).FKUserType;
+            UserData.LoginName = ((Business.User)GlobalSettings.ApplicationUser).LoginName;
+            UserData.UserTypeID = ((Business.User)GlobalSettings.ApplicationUser).FKUserType;
+            UserData.UserType = (lkpUserType?)((Business.User)GlobalSettings.ApplicationUser).FKUserType;
 
             //Preload these table to prevent slow downs elsewhere in the lead application screen
             dtTitles = Methods.GetTableData("SELECT [ID], [Description] FROM lkpINTitle");
             dtCampaignGroupSet = Methods.GetTableData("SELECT * FROM INCampaignGroupSet");
             dtCampaignTypeSet = Methods.GetTableData("SELECT * FROM INCampaignTypeSet");
 
-            dtBank = Methods.GetTableData("SELECT * FROM lkpBank"); 
+            dtBank = Methods.GetTableData("SELECT * FROM lkpBank");
             dtFakeBankAccountNumbers = Methods.GetTableData("SELECT * FROM INFakeBankAccountNumbers");
 
             importID = AppData.ImportID;
@@ -2249,57 +2330,57 @@ namespace UDM.Insurance.Interface.Data
 
         public void VerifyAccountNumber(string branchCode, string accountNum)
         {
-               
-                var serviceClient = new CdvWCFClient();
-                //string response = serviceClient.CdvEFT("SOAP", "UDM1", "Password1", "223226", "03000015318");
-                //string response = serviceClient.CdvEFT("UDM1", "SOAP", "Password1", "259605", "62292826917");
-                cdvResponse response = serviceClient.checkCDV(mercUsername, mercInstCode, mercPassword, branchCode != null ? branchCode : "", accountNum != null ? accountNum : "");
-            
+
+            var serviceClient = new CdvWCFClient();
+            //string response = serviceClient.CdvEFT("SOAP", "UDM1", "Password1", "223226", "03000015318");
+            //string response = serviceClient.CdvEFT("UDM1", "SOAP", "Password1", "259605", "62292826917");
+            cdvResponse response = serviceClient.checkCDV(mercUsername, mercInstCode, mercPassword, branchCode != null ? branchCode : "", accountNum != null ? accountNum : "");
+
             int length = response.cdvResult.Length;
-                string passFailString = !string.IsNullOrWhiteSpace(response.cdvResult) && response.cdvResult.Length >= 2
-                ? response.cdvResult.Substring(0, 2)
-                : response.cdvResult;
+            string passFailString = !string.IsNullOrWhiteSpace(response.cdvResult) && response.cdvResult.Length >= 2
+            ? response.cdvResult.Substring(0, 2)
+            : response.cdvResult;
 
             BankDetailsData.AccNumCheckMsg = !string.IsNullOrWhiteSpace(response.cdvResult) && response.cdvResult.Length >= 2
             ? response.cdvResult.Substring(4, response.cdvResult.Length - 4)
             : response.cdvResult;
             BankDetailsData.AccNumCheckMsgFull = response.cdvResult;
-                //switch (passFailString)
-                //{
-                //    case "00":
-                //        //pass
-                //        break;
-                //    case "04":
-                //        //branch not found
-                //        break;
-                //    case "05":
-                //        //CDV exception code failed
-                //        break;
-                //    case "07":
-                //        //CDV failure
-                //        break;
-                //}
+            //switch (passFailString)
+            //{
+            //    case "00":
+            //        //pass
+            //        break;
+            //    case "04":
+            //        //branch not found
+            //        break;
+            //    case "05":
+            //        //CDV exception code failed
+            //        break;
+            //    case "07":
+            //        //CDV failure
+            //        break;
+            //}
             if (passFailString == "00")
-                {
-                    //Pass
-                    BankDetailsData.lkpAccNumCheckStatus = lkpINAccNumCheckStatus.Valid;
-                }
-                //else if (passFailString.Length != 2)
-                //{
-                //    //Error
-                //}
-                else
-                {
-                    //Fail
-                    BankDetailsData.lkpAccNumCheckStatus = lkpINAccNumCheckStatus.Invalid;
-                }
+            {
+                //Pass
+                BankDetailsData.lkpAccNumCheckStatus = lkpINAccNumCheckStatus.Valid;
+            }
+            //else if (passFailString.Length != 2)
+            //{
+            //    //Error
+            //}
+            else
+            {
+                //Fail
+                BankDetailsData.lkpAccNumCheckStatus = lkpINAccNumCheckStatus.Invalid;
+            }
 
-                //CdvEFTRequest request = new CdvEFTRequest("Test", "EBU1", "hello", "223226", "03000015318");
+            //CdvEFTRequest request = new CdvEFTRequest("Test", "EBU1", "hello", "223226", "03000015318");
 
-                //CdvEFTResponse response =
-                
-                //CdvEFTResponse response = CdvEFT(request);
-                //MessageBox.Show(CdvEFT(request).Result);
+            //CdvEFTResponse response =
+
+            //CdvEFTResponse response = CdvEFT(request);
+            //MessageBox.Show(CdvEFT(request).Result);
 
             //Save Mercantile Verify Details
             Mercantile mercantile = new Mercantile();
@@ -2628,7 +2709,7 @@ namespace UDM.Insurance.Interface.Data
         #region Commands
 
         static public DelegateCommand CopyToBenefCommand { get; private set; }
-        
+
         private void CopyToBenefExecute()
         {
             int? benNumber = AppData.SelectedBeneficiaryIndex;

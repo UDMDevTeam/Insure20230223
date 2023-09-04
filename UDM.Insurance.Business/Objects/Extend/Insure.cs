@@ -1677,6 +1677,24 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportPermissionLeadMacc", paramArray, 600);
         }
+
+        public static DataSet INGetReferralReportData(int? fkINCampaignIDs, DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
+            object param2 = Database.GetParameter("@FromDate", fromDate);
+            object param3 = Database.GetParameter("@ToDate", toDate);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportReferral", paramArray, 600);
+        }
         #endregion
 
         #region LeadAllocationBatchReport

@@ -307,6 +307,125 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+        private void AddreferralsSheet(Workbook wbTemplate, Workbook wbReport, string agentName, long? agentID, DateTime fromDate, DateTime toDate)
+        {
+            #region First, get the data from the database
+
+            SqlParameter[] parameters =
+               {
+                    new SqlParameter("@AgentID", agentID),
+                    new SqlParameter("@FromDate", _fromDate),
+                    new SqlParameter("@ToDate", _toDate)
+                };
+
+            DataSet ds = null;
+
+            ds = Methods.ExecuteStoredProcedureSaleReport("spINReportSales", parameters);
+
+
+            DataTable dtReferences = ds.Tables[25];
+            DataTable dtTotalSales = ds.Tables[26];
+            DataTable dtSalesLessApplicable = ds.Tables[27];
+            DataTable dtTransfers = ds.Tables[28];
+            DataTable dtNonTransfers = ds.Tables[29];
+            DataTable dtLessForwardToDCAgent = ds.Tables[30];
+            DataTable dtCarriedForwards = ds.Tables[31];
+            DataTable dtCancellations = ds.Tables[32];
+            DataTable dtRejectedDebiCheckCallBacks = ds.Tables[33];
+            DataTable dtRejecteddebicheckFinal = ds.Tables[34];
+            DataTable dtReferrals = ds.Tables[35];
+
+            #endregion First, get the data from the database
+
+            if (dtReferences.Rows.Count > 0)
+            {
+
+                #region Declarations
+
+                int reportRowIndex = 6;
+
+                #endregion Declarations
+
+                #region Add the new worksheet
+
+                string newWorksheetDescription = Methods.ParseWorksheetName(wbReport, agentName, " ", "Referrals");
+                Worksheet wsNewWorksheetTemplate = wbTemplate.Worksheets["Referrals"];
+                //Worksheet wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                Worksheet wsNewWorksheet;
+                try
+                {
+                    wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription);
+                }
+                catch
+                {
+                    wsNewWorksheet = wbReport.Worksheets.Add(newWorksheetDescription + "2");
+                }
+
+                #endregion Add the new worksheet
+
+                #region Copy the template formatting and add the details
+
+                //Methods.CopyExcelRegion(wsNewWorksheetTemplate, 0, 0, 4, 6, wsNewWorksheet, 0, 0);
+
+                if (fromDate.Date == toDate.Date)
+                {
+                    wsNewWorksheet.GetCell("A3").Value = String.Format("Date: {0}", fromDate.ToString("yyyy-MM-dd"));
+                }
+                else
+                {
+                    wsNewWorksheet.GetCell("A3").Value = String.Format("{0} - {1}", fromDate.ToString("yyyy-MM-dd"), toDate.ToString("yyyy-MM-dd"));
+                }
+
+                #endregion Copy the template formatting and add the details
+
+                #region Add each row
+
+                foreach (DataRow drOvertimeData in dtReferrals.Rows)
+                {
+                    Methods.CopyExcelRegion(wsNewWorksheetTemplate, 5, 0, 0, 6, wsNewWorksheet, reportRowIndex - 1, 0);
+                    wsNewWorksheet.GetCell(String.Format("A{0}", reportRowIndex)).Value = drOvertimeData["RefNo"];
+                    wsNewWorksheet.GetCell(String.Format("B{0}", reportRowIndex)).Value = drOvertimeData["DateCaptured"];
+                    wsNewWorksheet.GetCell(String.Format("C{0}", reportRowIndex)).Value = drOvertimeData["ReferralCount"];
+
+                    reportRowIndex++;
+                }
+
+                #region add Headers
+
+                #endregion
+                wsNewWorksheet.GetCell(String.Format("A{0}", 5)).Value = "RefNo";
+                wsNewWorksheet.GetCell(String.Format("B{0}", 5)).Value = "Date Captured";
+                wsNewWorksheet.GetCell(String.Format("C{0}", 5)).Value = "Referral Count";
+
+                wsNewWorksheet.Rows[4].Cells[0].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[1].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                wsNewWorksheet.Rows[4].Cells[2].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                //wsNewWorksheet.Rows[4].Cells[3].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                //wsNewWorksheet.Rows[4].Cells[4].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                //wsNewWorksheet.Rows[4].Cells[5].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+                //wsNewWorksheet.Rows[4].Cells[6].CellFormat.Fill = new CellFillPattern(new WorkbookColorInfo(Color.LightGray), null, FillPatternStyle.Solid);
+
+
+
+
+
+                #endregion Add each row
+
+                wsNewWorksheet.Columns[0].Width = 7000;
+                wsNewWorksheet.Columns[1].Width = 7000;
+                wsNewWorksheet.Columns[2].Width = 7000;
+                //wsNewWorksheet.Columns[3].Width = 7000;
+
+
+                #region Add the total
+
+
+
+                #endregion Add the total
+            }
+        }
+
+
         private void AddFowardToDCAgentSheet(Workbook wbTemplate, Workbook wbReport, string agentName, long? agentID, DateTime fromDate, DateTime toDate)
         {
             #region First, get the data from the database
@@ -2532,6 +2651,7 @@ namespace UDM.Insurance.Interface.Screens
                             AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                             AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                             AddFowardToDCAgentSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                            AddreferralsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                         }
                     }
                     else
@@ -2543,6 +2663,7 @@ namespace UDM.Insurance.Interface.Screens
                         AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                         AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                         AddFowardToDCAgentSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                        AddreferralsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
 
                     }
                 }

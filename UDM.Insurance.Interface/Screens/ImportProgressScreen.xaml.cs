@@ -1728,6 +1728,28 @@ namespace UDM.Insurance.Interface.Screens
                                 strRefNo = GetStringValue(row.Cells[idxFields["RefNo"].Index]);
                             }
 
+                            bool? strTesting20 = null;
+                            if(row.Cells[idxFields["Future20"].Index].Value != null)
+                            {
+                                //string stringtesting20 = GetStringValue(row.Cells[idxFields["Future20"].Index]);
+                                //strTesting20 = Convert.ToBoolean(stringtesting20);
+
+                                try 
+                                {
+                                    string stringValue = GetStringValue(row.Cells[idxFields["Future20"].Index]);
+                                    if(stringValue == "1")
+                                    {
+                                        strTesting20 = true;
+                                    }
+                                    else
+                                    {
+                                        strTesting20 = false;
+                                    }
+                                }
+                                catch { strTesting20 = false; }
+
+                            }
+
                             if (!string.IsNullOrWhiteSpace(strRefNo) && strRefNo.Length > 8)
                             {
 
@@ -1748,7 +1770,8 @@ namespace UDM.Insurance.Interface.Screens
                                 inImport.PlatinumContactTime = GetTimeValue(row.Cells[idxFields["PlatinumContactTime"].Index]);
                                 inImport.CancerOption = GetStringValue(row.Cells[idxFields["Option"].Index]);
                                 inImport.PlatinumAge = GetShortValue(row.Cells[idxFields["PlatinumAge"].Index]);
-                                inImport.ObtainedReferrals = bool.Parse(GetStringValue(row.Cells[idxFields["Future20"].Index]));
+                                try { inImport.ObtainedReferrals = strTesting20; } catch { }
+                                
                                 try
                                 {
                                     inImport.MoneyBackDate = GetDateValue(row.Cells[idxFields["MoneyBackDate"].Index]);

@@ -386,6 +386,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnAutoAssignLeads_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                AILeadsGeneration mySuccessEditScreen = new AILeadsGeneration();
+                ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 
 }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Resources;
 using System.Windows.Threading;
 using UDM.Insurance.Business;
@@ -2621,7 +2622,38 @@ namespace UDM.Insurance.Interface.Screens
                 else if (isRedeemedGiftBatch == 0)
                 {
                     //templateWorkbookName = "PrintTemplateEliteNonRedeemedGifts.xlsx";
-                    if (DateTime.Now >= Convert.ToDateTime("2018-09-12 00:00:00"))
+                    if(campaignCode == "PLCBE" || campaignCode == "PMCBE" || campaignCode == "PLMMBE")
+                    {
+                        try
+                        {
+                            string strQuery;
+                            strQuery = "SELECT Code FROM INBatch WHERE ";
+                            strQuery += "ID = '" + (Convert.ToInt64(drSelectedEntryPrint["BatchID"])).ToString();
+
+
+                            DataTable dtBatchName = Methods.GetTableData(strQuery);
+                            string batchName = dtBatchName.Rows[0][0].ToString();
+
+                            if (batchName.Contains("test"))
+                            {
+                                if (campaignCode == "PLCBE" || campaignCode == "PMCBE")
+                                {
+                                    templateWorkbookName = "PrintTemplateEliteNonRedeemedGiftsWLiteCancerElite.xlsx";
+                                }
+                                else
+                                {
+                                    templateWorkbookName = "PrintTemplateEliteNonRedeemedGiftsWLiteMaccMillionElite.xlsx";
+                                }
+                            }
+                            else
+                            {
+                                templateWorkbookName = "PrintTemplateEliteNonRedeemedGiftsWLite.xlsx";
+                            }
+                        } catch { templateWorkbookName = "PrintTemplateEliteNonRedeemedGiftsWLite.xlsx"; }
+
+
+                    }
+                    else if (DateTime.Now >= Convert.ToDateTime("2018-09-12 00:00:00"))
                     {
                         templateWorkbookName = "PrintTemplateEliteNonRedeemedGiftsWLite.xlsx";
                     }

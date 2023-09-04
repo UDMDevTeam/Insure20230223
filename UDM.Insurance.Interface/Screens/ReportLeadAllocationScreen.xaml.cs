@@ -222,23 +222,37 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             if (dsLeadAllocationReportData.Tables[0].Rows.Count == 0)
                             {
-                                Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                if (GlobalSettings.ApplicationUser.ID == 427)
                                 {
-                                    ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
-                                });
 
+                                }
+                                else
+                                {
+                                    Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                    {
+                                        ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
+                                    });
+
+                                }
                                 continue;
                             }
                         }
                         else
                         {
-                            Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                            if (GlobalSettings.ApplicationUser.ID == 427)
                             {
-                                ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
-                            });
 
+                            }
+                            else
+                            {
+                                Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                                {
+                                    ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
+                                });
+                            }
                             continue;
                         }
+
 
                         #endregion Get report data from database
 

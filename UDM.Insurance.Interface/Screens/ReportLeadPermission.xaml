@@ -164,14 +164,15 @@
                     </Viewbox>
 
                     <Border Grid.Column="1"
-                            Grid.Row="4"
-                            Grid.RowSpan="5"
-                            Grid.ColumnSpan="7"
+                            Grid.Row="3"
+                            Grid.RowSpan="6"
+                            CornerRadius="15"
+                            Grid.ColumnSpan="8"
                             Background="Gray"
-                            Opacity="0.5"
+                            Opacity="0.5" Margin="0,10,22,0"
                             >
-                       
-                        
+
+
                     </Border>
 
                     <TextBlock
@@ -205,7 +206,7 @@
                                     Grid.Column="2"
                                     Grid.ColumnSpan="4"
                                     Margin="0,0,0,5"
-                                    VerticalAlignment="Bottom"
+                                    VerticalAlignment="Top"
                         Foreground="White"
                                     Style="{StaticResource INLabelText2}"
                                     Text="Macc Base" />
@@ -217,7 +218,7 @@
                                     Height="16"
                                     Margin="0,0,0,5"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
+                                    VerticalAlignment="Top"
                                     Checked="MaccCB_Checked"
                                     IsChecked="{Binding PolicyData.IsLA2Checked}"
                                     TabIndex="23200"
@@ -225,8 +226,34 @@
                                     Visibility="Visible" />
 
                     <TextBlock
+                                    x:Name="lblCheckMaccNG"
+                                    Grid.Row="6"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="4"
+                                    Margin="0,0,0,5"
+                                    Visibility="Collapsed"
+                                    VerticalAlignment="Top"
+                                    Foreground="White"
+                                    Style="{StaticResource INLabelText2}"
+                                    Text="Macc NG R129" />
+                    <CheckBox
+                                    x:Name="MaccNGCB"
+                                    Grid.Row="6"
+                                    Grid.Column="7"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Checked="MaccNGCB_Checked"
+                                    IsChecked="{Binding PolicyData.IsLA2Checked}"
+                                    TabIndex="23200"
+                                    Unchecked="MaccCB_Unchecked"
+                                    Visibility="Collapsed" />
+
+                    <TextBlock
                                     x:Name="lblCheckMaccMill"
-                                    Grid.Row="8"
+                                    Grid.Row="7"
                                     Grid.Column="2"
                                     Grid.ColumnSpan="4"
                                     Margin="0,0,0,5"
@@ -236,7 +263,7 @@
                                     Text="Macc Million Base" />
                     <CheckBox
                                     x:Name="MaccMillCB"
-                                    Grid.Row="8"
+                                    Grid.Row="7"
                                     Grid.Column="7"
                                     Width="16"
                                     Height="16"
@@ -244,6 +271,31 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Checked="MaccMillCB_Checked"
+                                    IsChecked="{Binding PolicyData.IsLA2Checked}"
+                                    TabIndex="23200"
+                                    Visibility="Visible" />
+
+                    <TextBlock
+                                    x:Name="lblCheckReferrals"
+                                    Grid.Row="10"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="4"
+                                    Margin="0,0,0,5"
+                                    VerticalAlignment="Bottom"
+                                    Foreground="White"
+                                    Style="{StaticResource INLabelText2}"
+                                    Text="Referrals" />
+                    <CheckBox
+                                    x:Name="referralsCB"
+                                    Grid.Row="10"
+                                    Grid.Column="7"
+                                    Width="16"
+                                    Height="16"
+                                    Unchecked="referralsCB_Unchecked"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Checked="referralsCB_Checked"
                                     IsChecked="{Binding PolicyData.IsLA2Checked}"
                                     TabIndex="23200"
                                     Visibility="Visible" />

@@ -18,6 +18,7 @@ using UDM.WPF.Library;
 using Orientation = Infragistics.Documents.Excel.Orientation;
 using System.Linq;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -46,6 +47,8 @@ namespace UDM.Insurance.Interface.Screens
         private bool CancerBaseBool;
         private bool MaccBaseBool;
         private bool MaccMillBaseBool;
+        private bool MaccNGBool;
+        private bool referralBool;
 
 
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
@@ -152,7 +155,11 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Wait);
 
-                if(MaccBaseBool == true)
+                if (MaccNGBool == true)
+                {
+                    _campaignIDList = 368;
+                }
+                else if (MaccBaseBool == true)
                 {
                     _campaignIDList = 2;
                 }
@@ -160,6 +167,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     _campaignIDList = 103;
                 }
+
                 else
                 {
                     _campaignIDList = 105;
@@ -168,19 +176,29 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
                 DataSet dsDiaryReportData;
-                if( MaccBaseBool == true)
+                if(referralBool == true)
                 {
-                    dsDiaryReportData = Business.Insure.INGetPermissionLeadMaccReportData(_campaignIDList, _endDate, _startDate);
-                }
-                else if(CancerBaseBool == true)
-                {
-                    dsDiaryReportData = Business.Insure.INGetPermissionLeadReportData(_campaignIDList, _endDate, _startDate);
+                    dsDiaryReportData = Business.Insure.INGetReferralReportData(_campaignIDList, _endDate, _startDate);
                 }
                 else
                 {
-                    dsDiaryReportData = Business.Insure.INGetPermissionLeadMaccMillReportData(_campaignIDList, _endDate, _startDate);
+                    if (MaccBaseBool == true)
+                    {
+                        dsDiaryReportData = Business.Insure.INGetPermissionLeadMaccReportData(_campaignIDList, _endDate, _startDate);
+                    }
+                    else if (CancerBaseBool == true)
+                    {
+                        dsDiaryReportData = Business.Insure.INGetPermissionLeadReportData(_campaignIDList, _endDate, _startDate);
+                    }
+                    else
+                    {
+                        dsDiaryReportData = Business.Insure.INGetPermissionLeadMaccMillReportData(_campaignIDList, _endDate, _startDate);
 
+                    }
                 }
+
+
+
                 DataTable dtSalesData = dsDiaryReportData.Tables[0];
 
 
@@ -189,8 +207,16 @@ namespace UDM.Insurance.Interface.Screens
                 try
                 {
                     string UserFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-                    string filePathAndName = String.Format("Permission_Lead" + _endDate.ToShortDateString() + "_to_" + _startDate.ToShortDateString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                    string filePathAndName;
+                    if (referralBool == false)
+                    {
+                        filePathAndName = String.Format("Permission_Lead" + _endDate.ToShortDateString() + "_to_" + _startDate.ToShortDateString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                    }
+                    else
+                    {
+                        filePathAndName = String.Format("Referrals" + _endDate.ToShortDateString() + "_to_" + _startDate.ToShortDateString() + ".xlsx", UserFolder + " ", " Combined ", DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                    }
+                    
 
                     if (dtSalesData == null || dtSalesData.Columns.Count == 0)
                         throw new Exception("ExportToExcel: Null or empty input table!\n");
@@ -338,19 +364,23 @@ namespace UDM.Insurance.Interface.Screens
         private void CancerCB_Checked(object sender, RoutedEventArgs e)
         {
             MaccCB.IsChecked = false;
+            MaccNGCB.IsChecked = false;
             MaccMillCB.IsChecked = false;
             CancerBaseBool = true;
             MaccMillBaseBool = false;
             MaccBaseBool = false;
+            MaccNGBool = false;
         }
 
         private void MaccCB_Checked(object sender, RoutedEventArgs e)
         {
             MaccMillCB.IsChecked = false;
+            MaccNGCB.IsChecked = false;
             CancerCB.IsChecked = false;
             MaccMillBaseBool = false;
             CancerBaseBool = false;
             MaccBaseBool = true;
+            MaccNGBool = false;
         }
 
         private void MaccCB_Unchecked(object sender, RoutedEventArgs e)
@@ -362,13 +392,45 @@ namespace UDM.Insurance.Interface.Screens
         {
             MaccCB.IsChecked = false;
             MaccCB.IsChecked = false;
+            MaccNGCB.IsChecked = false;
             CancerBaseBool = false;
             MaccBaseBool = false;
             MaccMillBaseBool = true;
-
+            MaccNGBool = false;
         }
+
         #endregion
 
+        private void referralsCB_Checked(object sender, RoutedEventArgs e)
+        {
+            lblCheckMacc.Visibility = Visibility.Collapsed;
+            MaccCB.Visibility = Visibility.Collapsed;
+            MaccNGCB.Visibility = Visibility.Visible;
+            lblCheckMaccNG.Visibility= Visibility.Visible;
 
+            referralBool = true;
+        }
+
+        private void MaccNGCB_Checked(object sender, RoutedEventArgs e)
+        {
+            MaccCB.IsChecked = false;
+            MaccMillCB.IsChecked = false;
+            CancerCB.IsChecked = false;
+
+            CancerBaseBool = false;
+            MaccBaseBool = false;
+            MaccMillBaseBool = false;
+            MaccNGBool = true;
+        }
+
+        private void referralsCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            lblCheckMacc.Visibility = Visibility.Visible;
+            MaccCB.Visibility = Visibility.Visible;
+            MaccNGCB.Visibility = Visibility.Collapsed;
+            lblCheckMaccNG.Visibility = Visibility.Collapsed;
+
+            referralBool = false;
+        }
     }
 }

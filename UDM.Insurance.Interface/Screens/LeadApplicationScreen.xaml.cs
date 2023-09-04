@@ -2327,7 +2327,7 @@ namespace UDM.Insurance.Interface.Screens
                 var Campaign = LaData.AppData.CampaignID;
                 StringBuilder strQueryObtainedReferrals = new StringBuilder();
                 strQueryObtainedReferrals.Append("SELECT [ObtainedReferrals] ");
-                strQueryObtainedReferrals.Append("FROM [InsureDebug].[dbo].[INImport] ");
+                strQueryObtainedReferrals.Append("FROM [INImport] ");
                 strQueryObtainedReferrals.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
                 string finalQuery = strQueryObtainedReferrals.ToString();
                 DataTable dtObtainedReferrals = Methods.GetTableData(strQueryObtainedReferrals.ToString());
@@ -2348,70 +2348,88 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
                 {
-                    if (obtainedReferralsValue)
+                    StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                    strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                    strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                    strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                    string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                    DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+
+                    if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
                     {
-                        NOFGB.Visibility = Visibility.Collapsed;
-                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
-                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
-                        referralGB.Visibility = Visibility.Visible;
-                        lblRefName.Visibility = Visibility.Collapsed;
-                        medRefName.Visibility = Visibility.Collapsed;
-                        lblRefCellNumber.Visibility = Visibility.Collapsed;
-                        medRefCellNumber.Visibility = Visibility.Collapsed;
-                        lblRefRelationship.Visibility = Visibility.Collapsed;
-                        cmbRefRelationship.Visibility = Visibility.Collapsed;
-                        lblRefGender.Visibility = Visibility.Collapsed;
-                        cmbRefGender.Visibility = Visibility.Collapsed;
+                        NOFGB.Visibility = Visibility.Visible;
+                        referralGB.Visibility = Visibility.Collapsed;
                         hdrReferral.Visibility = Visibility.Collapsed;
                         cmbReferral.Visibility = Visibility.Collapsed;
-                        lblReferralOb.Visibility = Visibility.Visible;
+                        lblMoveToLeadPermissions.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        NOFGB.Visibility = Visibility.Collapsed;
-                        referralGB.Visibility = Visibility.Visible;
-                        hdrReferral.Visibility = Visibility.Visible;
-                        cmbReferral.Visibility = Visibility.Visible;
-                        lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
-                        chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
-                        lblRefName.Visibility = Visibility.Visible;
-                        medRefName.Visibility = Visibility.Visible;
-                        lblRefCellNumber.Visibility = Visibility.Visible;
-                        medRefCellNumber.Visibility = Visibility.Visible;
-                        lblRefRelationship.Visibility = Visibility.Visible;
-                        cmbRefRelationship.Visibility = Visibility.Visible;
-                        lblRefGender.Visibility = Visibility.Visible;
-                        cmbRefGender.Visibility = Visibility.Visible;
-                        lblReferralOb.Visibility = Visibility.Collapsed;
-                        StringBuilder strQueryReferrals = new StringBuilder();
-                        strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
-                        strQueryReferrals.Append("FROM [INReferrals] ");
-                        strQueryReferrals.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
-
-                        DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
-
-                        referralDataDict.Clear();  // Clear the dictionary
-
-                        foreach (DataRow row in dtReferrals.Rows)
+                        if (obtainedReferralsValue)
                         {
-                            ReferralData referralData = new ReferralData
-                            {
-                                FKINImportID = row["FKINImportID"].ToString(),
-                                ReferralNumber = row["ReferralNumber"].ToString().Trim(),
-                                Name = row["Name"].ToString(),
-                                CellNumber = row["CellNumber"].ToString(),
-                                Relationship = row["FKINRelationshipID"] as long?,
-                                Gender = row["FKGenderID"] as long?,
-                            };
-
-                            referralDataDict.Add(referralData.ReferralNumber, referralData);
+                            NOFGB.Visibility = Visibility.Collapsed;
+                            lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                            referralGB.Visibility = Visibility.Visible;
+                            lblRefName.Visibility = Visibility.Collapsed;
+                            medRefName.Visibility = Visibility.Collapsed;
+                            lblRefCellNumber.Visibility = Visibility.Collapsed;
+                            medRefCellNumber.Visibility = Visibility.Collapsed;
+                            lblRefRelationship.Visibility = Visibility.Collapsed;
+                            cmbRefRelationship.Visibility = Visibility.Collapsed;
+                            lblRefGender.Visibility = Visibility.Collapsed;
+                            cmbRefGender.Visibility = Visibility.Collapsed;
+                            hdrReferral.Visibility = Visibility.Collapsed;
+                            cmbReferral.Visibility = Visibility.Collapsed;
+                            lblReferralOb.Visibility = Visibility.Visible;
                         }
-                        if (cmbReferral.SelectedItem != null)
+                        else
                         {
-                            string currentReferralNumber = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
-                            if (referralDataDict.ContainsKey(currentReferralNumber))
+                            NOFGB.Visibility = Visibility.Collapsed;
+                            referralGB.Visibility = Visibility.Visible;
+                            hdrReferral.Visibility = Visibility.Visible;
+                            cmbReferral.Visibility = Visibility.Visible;
+                            lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
+                            lblRefName.Visibility = Visibility.Visible;
+                            medRefName.Visibility = Visibility.Visible;
+                            lblRefCellNumber.Visibility = Visibility.Visible;
+                            medRefCellNumber.Visibility = Visibility.Visible;
+                            lblRefRelationship.Visibility = Visibility.Visible;
+                            cmbRefRelationship.Visibility = Visibility.Visible;
+                            lblRefGender.Visibility = Visibility.Visible;
+                            cmbRefGender.Visibility = Visibility.Visible;
+                            lblReferralOb.Visibility = Visibility.Collapsed;
+                            StringBuilder strQueryReferrals = new StringBuilder();
+                            strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
+                            strQueryReferrals.Append("FROM [INReferrals] ");
+                            strQueryReferrals.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
+
+                            DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
+
+                            referralDataDict.Clear();  // Clear the dictionary
+
+                            foreach (DataRow row in dtReferrals.Rows)
                             {
-                                PopulateFields(referralDataDict[currentReferralNumber]);
+                                ReferralData referralData = new ReferralData
+                                {
+                                    FKINImportID = row["FKINImportID"].ToString(),
+                                    ReferralNumber = row["ReferralNumber"].ToString().Trim(),
+                                    Name = row["Name"].ToString(),
+                                    CellNumber = row["CellNumber"].ToString(),
+                                    Relationship = row["FKINRelationshipID"] as long?,
+                                    Gender = row["FKGenderID"] as long?,
+                                };
+
+                                referralDataDict.Add(referralData.ReferralNumber, referralData);
+                            }
+                            if (cmbReferral.SelectedItem != null)
+                            {
+                                string currentReferralNumber = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                                if (referralDataDict.ContainsKey(currentReferralNumber))
+                                {
+                                    PopulateFields(referralDataDict[currentReferralNumber]);
+                                }
                             }
                         }
                     }
@@ -2422,7 +2440,8 @@ namespace UDM.Insurance.Interface.Screens
                     referralGB.Visibility = Visibility.Collapsed;
                     hdrReferral.Visibility = Visibility.Collapsed;
                     cmbReferral.Visibility = Visibility.Collapsed;
-                    lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                    //lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                    //chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                 }
                 #endregion
             }
@@ -9256,13 +9275,17 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                    if (LaData.BankDetailsData.SigningPowerID == null)
+                    if(LaData.AppData.LeadStatus == 1 || LaData.AppData.LeadStatus == 24)
                     {
-                        INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
-                        string message = "Signing Power not selected.";
-                        ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
-                        return;
+                        if (LaData.BankDetailsData.SigningPowerID == null)
+                        {
+                            INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+                            string message = "Signing Power not selected.";
+                            ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+                            return;
+                        }
                     }
+
                 }
             }
             if (IsValidData())
@@ -10066,7 +10089,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                     DataTable dtRecheck = Methods.GetTableData(strQueryFKINLeadStatus.ToString());
                                     LaData.LeadData.StampDate = dtRecheck.Rows[0]["StampDate"] as DateTime?;
-                                    CheckTSANonEdit();
+                                    //CheckTSANonEdit();
                                     long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
                                     if (AgentFKUserID == null)
                                     {
