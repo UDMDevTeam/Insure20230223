@@ -16925,6 +16925,14 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             ConservedLeadBool = true;
 
+                            if (GlobalSettings.ApplicationUser.ID == 69
+                                || GlobalSettings.ApplicationUser.ID == 174
+                                || GlobalSettings.ApplicationUser.ID == 198
+                                || GlobalSettings.ApplicationUser.ID == 199)
+                            {
+
+                            }
+
                             INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
                             ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
 
