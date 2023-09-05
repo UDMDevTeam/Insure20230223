@@ -44,6 +44,7 @@ using System.Transactions;
 using System.Threading;
 using UDM.Insurance.Interface.TempClass;
 using UDM.Insurance.Business.Objects;
+using static UDM.Insurance.Interface.PrismViews.EditClosureScreenViewModel;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -2340,10 +2341,10 @@ namespace UDM.Insurance.Interface.Screens
                         //Debug Purposes
                         //string obtainedReferrals = obtainedReferralsValue.ToString();
                     }
-                    else
-                    {
-                        obtainedReferralsValue = false;
-                    }
+                    //else
+                    //{
+                    //    obtainedReferralsValue = false;
+                    //}
                 }
 
                 if (Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
@@ -2362,6 +2363,7 @@ namespace UDM.Insurance.Interface.Screens
                         hdrReferral.Visibility = Visibility.Collapsed;
                         cmbReferral.Visibility = Visibility.Collapsed;
                         lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                        referralGB.Visibility = Visibility.Collapsed;
                     }
                     else
                     {
@@ -2440,8 +2442,8 @@ namespace UDM.Insurance.Interface.Screens
                     referralGB.Visibility = Visibility.Collapsed;
                     hdrReferral.Visibility = Visibility.Collapsed;
                     cmbReferral.Visibility = Visibility.Collapsed;
-                    //lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                    //chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                    lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                    referralGB.Visibility = Visibility.Collapsed;
                 }
                 #endregion
             }
@@ -3373,43 +3375,61 @@ namespace UDM.Insurance.Interface.Screens
                     #endregion
                 }
                 #region Referrals
-                SaveCurrentReferralData();
-                foreach (var keyValuePair in referralDataDict)
+                var Campaign = LaData.AppData.CampaignID;
+
+                if (Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
                 {
-                    keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
-                    ReferralData currentReferralData = keyValuePair.Value;
+                    StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                    strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                    strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                    strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                    string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                    DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
 
-                    // Create or retrieve the Referral from the database
-                    Referral referralInDB = new Referral();  // As ID is auto-incremented in the DB
-
-                    // Map properties from your dictionary data to the Referral object
-                    referralInDB.FKINImportID = currentReferralData.FKINImportID;
-                    referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
-                    referralInDB.Name = currentReferralData.Name;
-                    referralInDB.CellNumber = currentReferralData.CellNumber;
-                    referralInDB.FKINRelationshipID = currentReferralData.Relationship;
-                    referralInDB.FKGenderID = currentReferralData.Gender;
-
-                    // Save the referral to the database
-                    Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
-                    if (!referralInDB.Save(validationResult))
+                    if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
                     {
-                        // Handle save error. Perhaps log the validation errors.
-                        Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
-                        foreach (var error in validationResult.Messages)
-                        {
-                            Console.WriteLine(error);
-                        }
+                    
                     }
                     else
                     {
-                        // If it's a new referral, create a blank history record for it
-                        string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
-                        Methods.ExecuteSQLNonQuery(strQuery);
+                        SaveCurrentReferralData();
+                        foreach (var keyValuePair in referralDataDict)
+                        {
+                            keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                            ReferralData currentReferralData = keyValuePair.Value;
+
+                            // Create or retrieve the Referral from the database
+                            Referral referralInDB = new Referral();  // As ID is auto-incremented in the DB
+
+                            // Map properties from your dictionary data to the Referral object
+                            referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                            referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                            referralInDB.Name = currentReferralData.Name;
+                            referralInDB.CellNumber = currentReferralData.CellNumber;
+                            referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                            referralInDB.FKGenderID = currentReferralData.Gender;
+
+                            // Save the referral to the database
+                            Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                            if (!referralInDB.Save(validationResult))
+                            {
+                                // Handle save error. Perhaps log the validation errors.
+                                Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                                foreach (var error in validationResult.Messages)
+                                {
+                                    Console.WriteLine(error);
+                                }
+                            }
+                            else
+                            {
+                                // If it's a new referral, create a blank history record for it
+                                string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+                        }
                     }
+
                 }
-
-
                 #endregion
                 #region NextOfKin
 
