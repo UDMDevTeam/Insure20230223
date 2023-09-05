@@ -2347,7 +2347,7 @@ namespace UDM.Insurance.Interface.Screens
                     //}
                 }
 
-                if (Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
+                if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
                 {
                     StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
                     strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
@@ -3377,7 +3377,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Referrals
                 var Campaign = LaData.AppData.CampaignID;
 
-                if (Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
+                if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
                 {
                     StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
                     strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
@@ -3404,7 +3404,7 @@ namespace UDM.Insurance.Interface.Screens
                             // Map properties from your dictionary data to the Referral object
                             referralInDB.FKINImportID = currentReferralData.FKINImportID;
                             referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
-                            referralInDB.Name = currentReferralData.Name;
+                            referralInDB.Name = ToTitleCase(currentReferralData.Name);
                             referralInDB.CellNumber = currentReferralData.CellNumber;
                             referralInDB.FKINRelationshipID = currentReferralData.Relationship;
                             referralInDB.FKGenderID = currentReferralData.Gender;
@@ -3430,6 +3430,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
 
                 }
+            
                 #endregion
                 #region NextOfKin
 
@@ -3610,6 +3611,41 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Arrow);
             }
         }
+        public static string ToTitleCase(string input)
+        {
+            var lowered = input.ToLower();
+            if (string.IsNullOrEmpty(lowered))
+            {
+                return string.Empty;
+            }
+
+            StringBuilder result = new StringBuilder(lowered.Length);
+            bool shouldCapitalize = true;
+
+            foreach (char c in lowered)
+            {
+                if (char.IsWhiteSpace(c))
+                {
+                    shouldCapitalize = true;
+                    result.Append(c);
+                }
+                else
+                {
+                    if (shouldCapitalize)
+                    {
+                        result.Append(char.ToUpper(c));
+                        shouldCapitalize = false;
+                    }
+                    else
+                    {
+                        result.Append(char.ToLower(c));
+                    }
+                }
+            }
+
+            return result.ToString();
+        }
+
         public void ForwardToDCSave()
         {
             #region DebiCheck Workings
@@ -18522,6 +18558,10 @@ namespace UDM.Insurance.Interface.Screens
 
         private bool isFirstLoad = true;
 
+        private HashSet<int> filledReferralIDs = new HashSet<int>();
+        private int lastFilledReferralID = 0;
+        private bool isProgrammaticChange = false;
+
         private void cmbReferral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbReferral.SelectedItem == null)
@@ -18539,11 +18579,27 @@ namespace UDM.Insurance.Interface.Screens
                 isFirstLoad = false;
                 return;
             }
-
             // Save data for the previous selection
             SaveCurrentReferralData();
+            // Check if user is trying to skip ahead
+            if (!referralDataDict.ContainsKey(currentSelection))
+            {
+                for (int i = 1; i < int.Parse(currentSelection); i++)
+                {
+                    if (!referralDataDict.ContainsKey(i.ToString()))
+                    {
+                        INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                        ShowMessageBox(messageWindow, $"Please fill in the fields for Referral number {i} before continuing.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
+                        cmbReferral.SelectedIndex = (i-1);
+                        ClearFields();
+                        return;
+                    }
+                }
+            }
 
-            // Load data for the new selection (if it exists in dictionary). If not, clear the fields
+         
+
+            // Load data for the new selection (if it exists in the dictionary). If not, clear the fields
             if (referralDataDict.ContainsKey(currentSelection))
             {
                 PopulateFields(referralDataDict[currentSelection]);
@@ -18557,25 +18613,44 @@ namespace UDM.Insurance.Interface.Screens
             previousReferralSelection = currentSelection;
         }
 
-
-        private void SaveCurrentReferralData()
+        private bool SaveCurrentReferralData()
         {
             if (!string.IsNullOrWhiteSpace(previousReferralSelection) &&
-                medRefName != null && !string.IsNullOrWhiteSpace(medRefName.Text) &&
-                medRefCellNumber != null && !string.IsNullOrWhiteSpace(medRefCellNumber.Text))
+                medRefName != null && !string.IsNullOrWhiteSpace(medRefName.Text) && medRefName.Text != "" &&
+                medRefCellNumber != null && !string.IsNullOrWhiteSpace(medRefCellNumber.Text) && medRefCellNumber.Text != "")
             {
-                if (referralDataDict.ContainsKey(previousReferralSelection))
+                if (medRefCellNumber.Text.Length != 10)
                 {
-                    // Update the existing ReferralData in the dictionary
-                    referralDataDict[previousReferralSelection] = GetCurrentReferralData();
+                    medRefCellNumber.Focus();
+                    //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    //ShowMessageBox(messageWindow, "Cell number must be exactly 10 characters.", "CHECK REFERRAL DETAILS", ShowMessageType.Exclamation);
+                    return false;
                 }
                 else
                 {
-                    // Add new ReferralData to the dictionary
-                    referralDataDict.Add(previousReferralSelection, GetCurrentReferralData());
+                    if (referralDataDict.ContainsKey(previousReferralSelection))
+                    {
+                        // Update the existing ReferralData in the dictionary
+                        referralDataDict[previousReferralSelection] = GetCurrentReferralData();
+                    }
+                    else
+                    {
+                        // Add new ReferralData to the dictionary
+                        referralDataDict.Add(previousReferralSelection, GetCurrentReferralData());
+                    }
+                    return true;
                 }
             }
+            else
+            {
+                medRefName.Focus();
+                //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+               // ShowMessageBox(messageWindow, "Please ensure Name is filled out and that Cellnumber should be 10 digits.", "CHECK REFERRAL DETAILS", ShowMessageType.Exclamation);
+                 return false;
+            }
+          
         }
+
         private ReferralData GetCurrentReferralData()
         {
             DataRowView selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
