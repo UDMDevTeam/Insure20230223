@@ -17225,81 +17225,79 @@ namespace UDM.Insurance.Interface.Screens
                             ConservedLeadBool = true;
 
                             if (GlobalSettings.ApplicationUser.ID == 69
-                                || GlobalSettings.ApplicationUser.ID == 174
-                                || GlobalSettings.ApplicationUser.ID == 198
-                                || GlobalSettings.ApplicationUser.ID == 199)
+                                                            || GlobalSettings.ApplicationUser.ID == 174
+                                                            || GlobalSettings.ApplicationUser.ID == 198
+                                                            || GlobalSettings.ApplicationUser.ID == 199)
                             {
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
 
-                            }
+                                decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
+                                long? selectedUpgradeCover = LaData.PolicyData.OptionID;
 
-                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                            ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+                                DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
+                                cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
 
-                            decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
-                            long? selectedUpgradeCover = LaData.PolicyData.OptionID;
+                                //LaData.PolicyData.OptionID = GetOptionID();
 
-                            DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
-                            cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
+                                SqlParameter[] parameters = new SqlParameter[5];//5
+                                parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
+                                parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
+                                parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
+                                parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
 
-                            //LaData.PolicyData.OptionID = GetOptionID();
-
-                            SqlParameter[] parameters = new SqlParameter[5];//5
-                            parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
-                            parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
-                            parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
-                            parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
-
-                            if (LaData.PolicyData.OptionID == null)
-                            {
-                                parameters[3].Value = DBNull.Value;
-                            }
-
-                            if ((LaData.AppData.IsLeadUpgrade ||
-                                LaData.AppData.CampaignCode == "PLFDB" ||
-                                LaData.AppData.CampaignCode == "PLFDMIN" ||
-                                LaData.AppData.CampaignCode == "PLFDBPE" ||
-                                LaData.AppData.CampaignCode == "PLULFDB" ||
-                                LaData.AppData.CampaignCode == "PLULFDMIN" ||
-                                LaData.AppData.CampaignCode == "PLULFDBPE") &&
-                                LaData.AppData.LeadStatus == null &&
-                                !Convert.ToBoolean(chkShowAllOptions.IsChecked))
-                            {
-                                parameters[4] = new SqlParameter("@HigherOptionMode", 1);
-                                chkShowAllOptions.IsChecked = false;
-                            }
-                            else
-                            {
-                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-                                chkShowAllOptions.Tag = 1;
-                                chkShowAllOptions.IsChecked = true;
-                            }
-
-
-                            parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-
-
-                            DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
-                            dtCover = dsLookups.Tables[0];
-
-                            foreach (DataRow row in dtCover.Rows)
-                            {
-                                if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
+                                if (LaData.PolicyData.OptionID == null)
                                 {
-                                    string str = row["Description"].ToString();
-                                    row["Description"] = DisplayCurrencyFormat(str);
+                                    parameters[3].Value = DBNull.Value;
                                 }
-                            }
 
-                            for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
-                            {
-                                DataRow dr = dtCover.Rows[i];
-                                if (dr["TotalPremium1"].ToString() != "99.00")
-                                    dr.Delete();
-                            }
-                            dtCover.AcceptChanges();
+                                if ((LaData.AppData.IsLeadUpgrade ||
+                                    LaData.AppData.CampaignCode == "PLFDB" ||
+                                    LaData.AppData.CampaignCode == "PLFDMIN" ||
+                                    LaData.AppData.CampaignCode == "PLFDBPE" ||
+                                    LaData.AppData.CampaignCode == "PLULFDB" ||
+                                    LaData.AppData.CampaignCode == "PLULFDMIN" ||
+                                    LaData.AppData.CampaignCode == "PLULFDBPE") &&
+                                    LaData.AppData.LeadStatus == null &&
+                                    !Convert.ToBoolean(chkShowAllOptions.IsChecked))
+                                {
+                                    parameters[4] = new SqlParameter("@HigherOptionMode", 1);
+                                    chkShowAllOptions.IsChecked = false;
+                                }
+                                else
+                                {
+                                    parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                                    chkShowAllOptions.Tag = 1;
+                                    chkShowAllOptions.IsChecked = true;
+                                }
 
-                            cmbUpgradeCover.Populate(dtCover, "Description", "Value");
-                            LaData.PolicyData.OptionID = selectedUpgradeCover;
+
+                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+
+
+                                DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
+                                dtCover = dsLookups.Tables[0];
+
+                                foreach (DataRow row in dtCover.Rows)
+                                {
+                                    if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
+                                    {
+                                        string str = row["Description"].ToString();
+                                        row["Description"] = DisplayCurrencyFormat(str);
+                                    }
+                                }
+
+                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                {
+                                    DataRow dr = dtCover.Rows[i];
+                                    if (dr["TotalPremium1"].ToString() != "99.00")
+                                        dr.Delete();
+                                }
+                                dtCover.AcceptChanges();
+
+                                cmbUpgradeCover.Populate(dtCover, "Description", "Value");
+                                LaData.PolicyData.OptionID = selectedUpgradeCover;
+                            }
                         }
                         else
                         {
