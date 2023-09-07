@@ -3435,32 +3435,25 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
                     {
-                    
+
                     }
                     else
                     {
                         SaveCurrentReferralData();
-                        foreach (var keyValuePair in referralDataDict)
+                        foreach (var keyValuePair in RemovereferralDataDict)
                         {
                             keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
                             ReferralData currentReferralData = keyValuePair.Value;
-
-                            // Create or retrieve the Referral from the database
-                            Referral referralInDB = new Referral();  // As ID is auto-incremented in the DB
-
-                            // Map properties from your dictionary data to the Referral object
+                            Referral referralInDB = new Referral();  
                             referralInDB.FKINImportID = currentReferralData.FKINImportID;
                             referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
                             referralInDB.Name = ToTitleCase(currentReferralData.Name);
                             referralInDB.CellNumber = currentReferralData.CellNumber;
                             referralInDB.FKINRelationshipID = currentReferralData.Relationship;
                             referralInDB.FKGenderID = currentReferralData.Gender;
-
-                            // Save the referral to the database
                             Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
-                            if (!referralInDB.Save(validationResult))
+                            if (!referralInDB.Delete(validationResult))
                             {
-                                // Handle save error. Perhaps log the validation errors.
                                 Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
                                 foreach (var error in validationResult.Messages)
                                 {
@@ -3469,13 +3462,54 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             else
                             {
-                                // If it's a new referral, create a blank history record for it
                                 string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
                                 Methods.ExecuteSQLNonQuery(strQuery);
                             }
-                        }
-                    }
+                         
 
+                        }
+                        foreach (var keyValuePair in referralDataDict)
+                        {
+                            
+                            keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                            ReferralData currentReferralData = keyValuePair.Value;
+                            Referral referralInDB = new Referral();  
+                            referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                            referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                            referralInDB.Name = ToTitleCase(currentReferralData.Name);
+                            referralInDB.CellNumber = currentReferralData.CellNumber;
+                            referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                            referralInDB.FKGenderID = currentReferralData.Gender;
+
+                            try
+                            {
+                                Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                                if (!referralInDB.Save(validationResult))
+                                {
+                                    Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                                    foreach (var error in validationResult.Messages)
+                                    {
+                                        Console.WriteLine(error);
+                                    }
+                                }
+                                else
+                                {
+                                    string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+                            }catch(Exception ex)
+                            {
+                                string addItem = $"INSERT INTO INReferrals ([FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate]) VALUES ('{referralInDB.FKINImportID}','{referralInDB.ReferralNumber}','{referralInDB.Name}','{referralInDB.CellNumber}',{referralInDB.FKINRelationshipID},{referralInDB.FKGenderID},{LaData.UserData.UserID},GETDATE())";
+                                Methods.ExecuteSQLNonQuery(addItem);
+                            }
+                        }  
+                    }
+                    cmbReferral.SelectedIndex = 0;
+                    referralDataDict.Clear();
+                    RemovereferralDataDict.Clear();
+                    ClearFields();
+                    Page3.Visibility = Visibility.Collapsed;
+                    Page1.Visibility = Visibility.Visible;
                 }
             
                 #endregion
@@ -3484,24 +3518,30 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                     {
-                        LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
-
-                        INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-
-                        inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                        inNextOfKin.FirstName = UppercaseFirst(NextOfKinData.Name);
-                        inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
-                        inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
-                        inNextOfKin.TelContact = NextOfKinData.TelContact;
-                        inNextOfKin.Save(_validationResult);
-
-                        if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                        try
                         {
-                            string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
-                            Methods.ExecuteSQLNonQuery(strQuery);
-                        }
+                            LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
 
-                        NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                            INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+
+                            inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                            inNextOfKin.FirstName = UppercaseFirst(NextOfKinData.Name);
+                            inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
+                            inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
+                            inNextOfKin.TelContact = NextOfKinData.TelContact;
+                            inNextOfKin.Save(_validationResult);
+
+                            if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                            {
+                                string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+
+                            NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                        }catch(Exception es)
+                        {
+
+                        }
                     }
                 }
 
@@ -8914,13 +8954,8 @@ namespace UDM.Insurance.Interface.Screens
                                 if (obtainedReferrals != null && obtainedReferrals != DBNull.Value)
                                 {
                                     obtainedReferralsValue = (bool)dtObtainedReferrals2.Rows[0]["ObtainedReferrals"];
-                                    //Debug Purposes
-                                    //string obtainedReferrals = obtainedReferralsValue.ToString();
                                 }
-                                //else
-                                //{
-                                //    obtainedReferralsValue = false;
-                                //}
+
                             }
                             var Campaign = LaData.AppData.CampaignID;
                             if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
@@ -8952,6 +8987,7 @@ namespace UDM.Insurance.Interface.Screens
                                         hdrReferral.Visibility = Visibility.Collapsed;
                                         cmbReferral.Visibility = Visibility.Collapsed;
                                         lblReferralOb.Visibility = Visibility.Visible;
+                                       
                                     }
                                     else
                                     {
@@ -8970,6 +9006,10 @@ namespace UDM.Insurance.Interface.Screens
                                         lblRefGender.Visibility = Visibility.Visible;
                                         cmbRefGender.Visibility = Visibility.Visible;
                                         lblReferralOb.Visibility = Visibility.Collapsed;
+                                       if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.Administrator || (lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SeniorAdministrator)
+                                        {
+                                            btnRemovelead.Visibility = Visibility.Visible;
+                                        }
                                         StringBuilder strQueryReferrals = new StringBuilder();
                                         strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
                                         strQueryReferrals.Append("FROM [INReferrals] ");
@@ -8977,7 +9017,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                         DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
 
-                                        referralDataDict.Clear();  // Clear the dictionary
+                                        referralDataDict.Clear(); 
 
                                         foreach (DataRow row in dtReferrals.Rows)
                                         {
@@ -9260,6 +9300,10 @@ namespace UDM.Insurance.Interface.Screens
                                         lblRefGender.Visibility = Visibility.Visible;
                                         cmbRefGender.Visibility = Visibility.Visible;
                                         lblReferralOb.Visibility = Visibility.Collapsed;
+                                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.Administrator || (lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SeniorAdministrator)
+                                        {
+                                            btnRemovelead.Visibility = Visibility.Visible;
+                                        }
                                         StringBuilder strQueryReferrals = new StringBuilder();
                                         strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
                                         strQueryReferrals.Append("FROM [INReferrals] ");
@@ -9267,7 +9311,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                         DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
 
-                                        referralDataDict.Clear();  // Clear the dictionary
+                                        referralDataDict.Clear(); 
 
                                         foreach (DataRow row in dtReferrals.Rows)
                                         {
@@ -17225,79 +17269,81 @@ namespace UDM.Insurance.Interface.Screens
                             ConservedLeadBool = true;
 
                             if (GlobalSettings.ApplicationUser.ID == 69
-                                                            || GlobalSettings.ApplicationUser.ID == 174
-                                                            || GlobalSettings.ApplicationUser.ID == 198
-                                                            || GlobalSettings.ApplicationUser.ID == 199)
+                                || GlobalSettings.ApplicationUser.ID == 174
+                                || GlobalSettings.ApplicationUser.ID == 198
+                                || GlobalSettings.ApplicationUser.ID == 199)
                             {
-                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                                ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
 
-                                decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
-                                long? selectedUpgradeCover = LaData.PolicyData.OptionID;
-
-                                DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
-                                cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
-
-                                //LaData.PolicyData.OptionID = GetOptionID();
-
-                                SqlParameter[] parameters = new SqlParameter[5];//5
-                                parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
-                                parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
-                                parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
-                                parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
-
-                                if (LaData.PolicyData.OptionID == null)
-                                {
-                                    parameters[3].Value = DBNull.Value;
-                                }
-
-                                if ((LaData.AppData.IsLeadUpgrade ||
-                                    LaData.AppData.CampaignCode == "PLFDB" ||
-                                    LaData.AppData.CampaignCode == "PLFDMIN" ||
-                                    LaData.AppData.CampaignCode == "PLFDBPE" ||
-                                    LaData.AppData.CampaignCode == "PLULFDB" ||
-                                    LaData.AppData.CampaignCode == "PLULFDMIN" ||
-                                    LaData.AppData.CampaignCode == "PLULFDBPE") &&
-                                    LaData.AppData.LeadStatus == null &&
-                                    !Convert.ToBoolean(chkShowAllOptions.IsChecked))
-                                {
-                                    parameters[4] = new SqlParameter("@HigherOptionMode", 1);
-                                    chkShowAllOptions.IsChecked = false;
-                                }
-                                else
-                                {
-                                    parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-                                    chkShowAllOptions.Tag = 1;
-                                    chkShowAllOptions.IsChecked = true;
-                                }
-
-
-                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-
-
-                                DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
-                                dtCover = dsLookups.Tables[0];
-
-                                foreach (DataRow row in dtCover.Rows)
-                                {
-                                    if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
-                                    {
-                                        string str = row["Description"].ToString();
-                                        row["Description"] = DisplayCurrencyFormat(str);
-                                    }
-                                }
-
-                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
-                                {
-                                    DataRow dr = dtCover.Rows[i];
-                                    if (dr["TotalPremium1"].ToString() != "99.00")
-                                        dr.Delete();
-                                }
-                                dtCover.AcceptChanges();
-
-                                cmbUpgradeCover.Populate(dtCover, "Description", "Value");
-                                LaData.PolicyData.OptionID = selectedUpgradeCover;
                             }
+
+                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                            ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+
+                            decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
+                            long? selectedUpgradeCover = LaData.PolicyData.OptionID;
+
+                            DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
+                            cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
+
+                            //LaData.PolicyData.OptionID = GetOptionID();
+
+                            SqlParameter[] parameters = new SqlParameter[5];//5
+                            parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
+                            parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
+                            parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
+                            parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
+
+                            if (LaData.PolicyData.OptionID == null)
+                            {
+                                parameters[3].Value = DBNull.Value;
+                            }
+
+                            if ((LaData.AppData.IsLeadUpgrade ||
+                                LaData.AppData.CampaignCode == "PLFDB" ||
+                                LaData.AppData.CampaignCode == "PLFDMIN" ||
+                                LaData.AppData.CampaignCode == "PLFDBPE" ||
+                                LaData.AppData.CampaignCode == "PLULFDB" ||
+                                LaData.AppData.CampaignCode == "PLULFDMIN" ||
+                                LaData.AppData.CampaignCode == "PLULFDBPE") &&
+                                LaData.AppData.LeadStatus == null &&
+                                !Convert.ToBoolean(chkShowAllOptions.IsChecked))
+                            {
+                                parameters[4] = new SqlParameter("@HigherOptionMode", 1);
+                                chkShowAllOptions.IsChecked = false;
+                            }
+                            else
+                            {
+                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                                chkShowAllOptions.Tag = 1;
+                                chkShowAllOptions.IsChecked = true;
+                            }
+
+
+                            parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+
+
+                            DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
+                            dtCover = dsLookups.Tables[0];
+
+                            foreach (DataRow row in dtCover.Rows)
+                            {
+                                if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
+                                {
+                                    string str = row["Description"].ToString();
+                                    row["Description"] = DisplayCurrencyFormat(str);
+                                }
+                            }
+
+                            for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                            {
+                                DataRow dr = dtCover.Rows[i];
+                                if (dr["TotalPremium1"].ToString() != "99.00")
+                                    dr.Delete();
+                            }
+                            dtCover.AcceptChanges();
+
+                            cmbUpgradeCover.Populate(dtCover, "Description", "Value");
+                            LaData.PolicyData.OptionID = selectedUpgradeCover;
                         }
                         else
                         {
@@ -18831,18 +18877,15 @@ namespace UDM.Insurance.Interface.Screens
             }
 
             string currentSelection = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "").Trim();
-
-            // Check if it's the first load of the page
             if (isFirstLoad)
             {
-                // This is the first load, so just set previousReferralSelection and return
                 previousReferralSelection = currentSelection;
                 isFirstLoad = false;
                 return;
             }
-            // Save data for the previous selection
+
             SaveCurrentReferralData();
-            // Check if user is trying to skip ahead
+
             if (!referralDataDict.ContainsKey(currentSelection))
             {
                 for (int i = 1; i < int.Parse(currentSelection); i++)
@@ -18857,10 +18900,6 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
             }
-
-         
-
-            // Load data for the new selection (if it exists in the dictionary). If not, clear the fields
             if (referralDataDict.ContainsKey(currentSelection))
             {
                 PopulateFields(referralDataDict[currentSelection]);
@@ -18869,8 +18908,6 @@ namespace UDM.Insurance.Interface.Screens
             {
                 ClearFields();
             }
-
-            // Update the previous selection to the current one for the next time this event fires
             previousReferralSelection = currentSelection;
         }
 
@@ -18883,20 +18920,16 @@ namespace UDM.Insurance.Interface.Screens
                 if (medRefCellNumber.Text.Length != 10)
                 {
                     medRefCellNumber.Focus();
-                    //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                    //ShowMessageBox(messageWindow, "Cell number must be exactly 10 characters.", "CHECK REFERRAL DETAILS", ShowMessageType.Exclamation);
                     return false;
                 }
                 else
                 {
                     if (referralDataDict.ContainsKey(previousReferralSelection))
                     {
-                        // Update the existing ReferralData in the dictionary
-                        referralDataDict[previousReferralSelection] = GetCurrentReferralData();
+                          referralDataDict[previousReferralSelection] = GetCurrentReferralData();
                     }
                     else
                     {
-                        // Add new ReferralData to the dictionary
                         referralDataDict.Add(previousReferralSelection, GetCurrentReferralData());
                     }
                     return true;
@@ -18905,9 +18938,7 @@ namespace UDM.Insurance.Interface.Screens
             else
             {
                 medRefName.Focus();
-                //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-               // ShowMessageBox(messageWindow, "Please ensure Name is filled out and that Cellnumber should be 10 digits.", "CHECK REFERRAL DETAILS", ShowMessageType.Exclamation);
-                 return false;
+                    return false;
             }
           
         }
@@ -18965,6 +18996,78 @@ namespace UDM.Insurance.Interface.Screens
             if (cmbRefGender != null)
                 cmbRefGender.SelectedIndex = -1;
 
+        }
+        Dictionary<string, ReferralData> RemovereferralDataDict = new Dictionary<string, ReferralData>();
+        private void btnRemovelead_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "").Trim();
+            switch (selectedItem)
+            {
+                case "1":
+                    if (referralDataDict.ContainsKey("1"))
+                    {
+                        var referralForSelectedNum = referralDataDict["1"];
+                        if (!RemovereferralDataDict.ContainsKey("1"))
+                        {
+                            RemovereferralDataDict.Add("1", referralForSelectedNum); 
+                            referralDataDict.Remove("1");
+                            ClearFields();
+                        }
+                    }
+
+                    break;
+                case "2":
+                    if (referralDataDict.ContainsKey("2"))
+                    {
+                        var referralForSelectedNum = referralDataDict["2"];
+                        if (!RemovereferralDataDict.ContainsKey("2"))
+                        {
+                            RemovereferralDataDict.Add("2", referralForSelectedNum);  
+                            referralDataDict.Remove("2");
+                            ClearFields();
+                        }
+                    }               
+                    break;
+                case "3":
+                    if (referralDataDict.ContainsKey("3"))
+                    {
+                        var referralForSelectedNum = referralDataDict["3"];
+                        if (!RemovereferralDataDict.ContainsKey("3"))
+                        {
+                            RemovereferralDataDict.Add("3", referralForSelectedNum); 
+                            referralDataDict.Remove("3");
+                            ClearFields();
+                        }
+                    }
+                    break; 
+                case "4":
+                    if (referralDataDict.ContainsKey("4"))
+                    {
+                        var referralForSelectedNum = referralDataDict["4"];
+                        if (!RemovereferralDataDict.ContainsKey("4"))
+                        {
+                            RemovereferralDataDict.Add("4", referralForSelectedNum); 
+                            referralDataDict.Remove("4");
+                            ClearFields();
+                        }
+                    }
+
+                    break;
+                case "5":
+                    if (referralDataDict.ContainsKey("5"))
+                    {
+                        var referralForSelectedNum = referralDataDict["5"];
+                        if (!RemovereferralDataDict.ContainsKey("5"))
+                        {
+                            RemovereferralDataDict.Add("5", referralForSelectedNum);
+                            referralDataDict.Remove("5");
+                            ClearFields();
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
     public class MyWebClient : WebClient
