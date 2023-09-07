@@ -15,9 +15,9 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (refdata != null)
             {
-                query = "INSERT INTO [zHstINReferrals] ([ID],[FKINImportID],[ReferralNumber],[Name],[CellNumber],[FKINRelationshipID],[FKGenderID],[StampUserID],[StampDate]) " +
-                        "SELECT [ID],[FKINImportID],[ReferralNumber],[Name],[CellNumber],[FKINRelationshipID],[FKGenderID],[StampUserID],GETDATE() FROM [INReferrals] WHERE [INReferrals].[ID] = @ID; " +
-                        "DELETE FROM [INReferrals] WHERE [INReferrals].[ID] = @ID; ";
+                query = $"INSERT INTO [zHstINReferrals] ([ID],[FKINImportID],[ReferralNumber],[Name],[CellNumber],[FKINRelationshipID],[FKGenderID],[StampUserID],[StampDate]) " +
+                        $"SELECT [ID],[FKINImportID],[ReferralNumber],[Name],[CellNumber],[FKINRelationshipID],[FKGenderID],[StampUserID],GETDATE() FROM [INReferrals] WHERE [INReferrals].[ID] = {refdata.ID}; " +
+                        $"DELETE FROM [INReferrals] WHERE [INReferrals].[ID] = {refdata.ID}; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", refdata.ID);
             }

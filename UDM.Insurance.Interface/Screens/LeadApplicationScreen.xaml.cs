@@ -675,7 +675,7 @@ namespace UDM.Insurance.Interface.Screens
                 LaData.AppData.CampaignID = dtSale.Rows[0]["CampaignID"] as long?;
                 LaData.AppData.IsConfirmed = Convert.ToBoolean(dtSale.Rows[0]["IsConfirmed"] as bool?);
                 LaData.LeadData.StampDate = dtLead.Rows[0]["StampDate"] as DateTime?;
-                CheckTSANonEdit();
+               // CheckTSANonEdit();
                 if (LaData.AppData.CampaignID == 344)
                 {
                     lblCancerQuestionOne.Visibility = Visibility.Visible;
@@ -2342,10 +2342,6 @@ namespace UDM.Insurance.Interface.Screens
                         //Debug Purposes
                         //string obtainedReferrals = obtainedReferralsValue.ToString();
                     }
-                    //else
-                    //{
-                    //    obtainedReferralsValue = false;
-                    //}
                 }
                 if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
                 {
@@ -2436,7 +2432,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                 DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
 
-                                referralDataDict.Clear();  // Clear the dictionary
+                                referralDataDict.Clear();
 
                                 foreach (DataRow row in dtReferrals.Rows)
                                 {
@@ -2495,7 +2491,6 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
             }
         }
-
         private void SetDialHoursGraph(StackPanel stackPanel, string phoneNumber)
         {
             //Clear Segments First
@@ -3441,10 +3436,17 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         SaveCurrentReferralData();
                         foreach (var keyValuePair in RemovereferralDataDict)
-                        {
-                            keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                        { keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
                             ReferralData currentReferralData = keyValuePair.Value;
-                            Referral referralInDB = new Referral();  
+                            Referral referralInDB = new Referral();
+                            StringBuilder strReferralID = new StringBuilder();
+                            strReferralID.Append("SELECT [ID] ");
+                            strReferralID.Append("FROM [INReferrals]");
+                            strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber,currentReferralData.Name,currentReferralData.CellNumber);
+                            string finalQuery = strReferralID.ToString();
+                            DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
+                            var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                            referralInDB.ID = Convert.ToInt32(id);
                             referralInDB.FKINImportID = currentReferralData.FKINImportID;
                             referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
                             referralInDB.Name = ToTitleCase(currentReferralData.Name);
@@ -3465,8 +3467,6 @@ namespace UDM.Insurance.Interface.Screens
                                 string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
                                 Methods.ExecuteSQLNonQuery(strQuery);
                             }
-                         
-
                         }
                         foreach (var keyValuePair in referralDataDict)
                         {
@@ -3483,6 +3483,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             try
                             {
+
                                 Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
                                 if (!referralInDB.Save(validationResult))
                                 {
@@ -3497,7 +3498,8 @@ namespace UDM.Insurance.Interface.Screens
                                     string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
                                     Methods.ExecuteSQLNonQuery(strQuery);
                                 }
-                            }catch(Exception ex)
+                            }
+                            catch (Exception ex)
                             {
                                 string addItem = $"INSERT INTO INReferrals ([FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate]) VALUES ('{referralInDB.FKINImportID}','{referralInDB.ReferralNumber}','{referralInDB.Name}','{referralInDB.CellNumber}',{referralInDB.FKINRelationshipID},{referralInDB.FKGenderID},{LaData.UserData.UserID},GETDATE())";
                                 Methods.ExecuteSQLNonQuery(addItem);
@@ -8934,6 +8936,13 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page2.Visibility = Visibility.Collapsed;
                         Page3.Visibility = Visibility.Visible;
+                        StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                        strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                        strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                        strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                        string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                        DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+
                         if (LaData.AppData.CampaignID == 102 ||
                             LaData.AppData.CampaignID == 2 ||
                             LaData.AppData.CampaignID == 103 ||
@@ -8941,12 +8950,7 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignID == 6 ||
                             LaData.AppData.CampaignID == 105)
                         {
-                            StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
-                            strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
-                            strQueryObtainedReferrals2.Append("FROM [INImport] ");
-                            strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
-                            string finalQuery2 = strQueryObtainedReferrals2.ToString();
-                            DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+                          
                             bool obtainedReferralsValue = false;
                             if (dtObtainedReferrals2.Rows.Count > 0)
                             {
@@ -9057,6 +9061,18 @@ namespace UDM.Insurance.Interface.Screens
                                 chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                             }
                          }
+                        var Check = dtObtainedReferrals2.Rows[0][0].ToString();
+                        if (!string.IsNullOrEmpty(Check) && dtObtainedReferrals2.Rows[0][0] != null)
+                        {
+
+                        }
+                        else
+                        {
+                            btnRemovelead.Visibility = Visibility.Collapsed;
+                            NOFGB.Visibility = Visibility.Visible;
+                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                        }
                         lblPage.Text = "(Banking)";
                     }
                     else if (Page3.IsVisible)
@@ -9224,6 +9240,12 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page4.Visibility = Visibility.Collapsed;
                         Page3.Visibility = Visibility.Visible;
+                         StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                            strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                            strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                            strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                            string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                            DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
                         if (LaData.AppData.CampaignID == 102 ||
                             LaData.AppData.CampaignID == 2 ||
                             LaData.AppData.CampaignID == 103 ||
@@ -9231,12 +9253,7 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignID == 6 ||
                             LaData.AppData.CampaignID == 105)
                         {
-                            StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
-                            strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
-                            strQueryObtainedReferrals2.Append("FROM [INImport] ");
-                            strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
-                            string finalQuery2 = strQueryObtainedReferrals2.ToString();
-                            DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+                           
                             bool obtainedReferralsValue = false;
                             if (dtObtainedReferrals2.Rows.Count > 0)
                             {
@@ -9338,16 +9355,19 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                 }
                             }
-                            if (dtObtainedReferrals2.Rows[0][0].ToString() != "" || dtObtainedReferrals2.Rows[0][0] != null)
-                            {
-
-                            }
-                            else
-                            {
-                                NOFGB.Visibility = Visibility.Visible;
-                                lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                                chkMoveToLeadPermissions.Visibility = Visibility.Visible;
-                            }
+                           
+                        }
+                        var Check = dtObtainedReferrals2.Rows[0][0].ToString();
+                        if (!string.IsNullOrEmpty(Check) && dtObtainedReferrals2.Rows[0][0] != null)
+                        {
+                            
+                        }
+                        else
+                        {
+                            btnRemovelead.Visibility = Visibility.Collapsed;
+                            NOFGB.Visibility = Visibility.Visible;
+                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                         }
                         lblPage.Text = "(Banking)";
                     }
@@ -18540,8 +18560,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                             {
-                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
-
+                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636)");
                             }
                             else
                             {
@@ -18552,8 +18571,7 @@ namespace UDM.Insurance.Interface.Screens
                                 }
                                 else
                                 {
-                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
-
+                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636)"); AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636)");
                                 }
                             }
 
