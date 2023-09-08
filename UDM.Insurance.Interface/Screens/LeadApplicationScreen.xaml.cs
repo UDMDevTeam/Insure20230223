@@ -18911,7 +18911,7 @@ namespace UDM.Insurance.Interface.Screens
                     if (!referralDataDict.ContainsKey(i.ToString()))
                     {
                         INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                        ShowMessageBox(messageWindow, $"Please fill in the fields for Referral number {i} before continuing.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
+                        ShowMessageBox(messageWindow, $"Please fill in the fields for Referral number {i} before continuing.This includes Name, Cell and Gender.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
                         cmbReferral.SelectedIndex = (i-1);
                         ClearFields();
                         return;
@@ -18940,8 +18940,17 @@ namespace UDM.Insurance.Interface.Screens
                     medRefCellNumber.Focus();
                     return false;
                 }
+                else if (cmbRefGender.SelectedIndex == -1)
+                {
+                    //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                   // ShowMessageBox(messageWindow, $"Please fill in the fields for this Referral number before continuing. This includes Name, Cell and Gender.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
+                    cmbRefGender.Focus();
+                    cmbRefGender.BorderBrush = System.Windows.Media.Brushes.Red;
+                    return false;
+                }
                 else
                 {
+                    cmbRefGender.BorderBrush = System.Windows.Media.Brushes.Gray;
                     if (referralDataDict.ContainsKey(previousReferralSelection))
                     {
                           referralDataDict[previousReferralSelection] = GetCurrentReferralData();
