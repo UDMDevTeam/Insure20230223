@@ -3511,6 +3511,9 @@ namespace UDM.Insurance.Interface.Screens
                     RemovereferralDataDict.Clear();
                     ClearFields();
                     Page3.Visibility = Visibility.Collapsed;
+                    Page2.Visibility = Visibility.Collapsed;
+                    Page4.Visibility = Visibility.Collapsed;
+                    Page5.Visibility = Visibility.Collapsed;
                     Page1.Visibility = Visibility.Visible;
                 }
             
@@ -9061,17 +9064,24 @@ namespace UDM.Insurance.Interface.Screens
                                 chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                             }
                          }
-                        var Check = dtObtainedReferrals2.Rows[0][0].ToString();
-                        if (!string.IsNullOrEmpty(Check) && dtObtainedReferrals2.Rows[0][0] != null)
+                        try
+                        {
+                            var Check = dtObtainedReferrals2.Rows[0][0].ToString();
+                            if (!string.IsNullOrEmpty(Check) && dtObtainedReferrals2.Rows[0][0] != null)
+                            {
+
+                            }
+                            else
+                            {
+                                btnRemovelead.Visibility = Visibility.Collapsed;
+                                NOFGB.Visibility = Visibility.Visible;
+                                lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                                chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            }
+                        }
+                        catch
                         {
 
-                        }
-                        else
-                        {
-                            btnRemovelead.Visibility = Visibility.Collapsed;
-                            NOFGB.Visibility = Visibility.Visible;
-                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                         }
                         lblPage.Text = "(Banking)";
                     }
@@ -9357,17 +9367,23 @@ namespace UDM.Insurance.Interface.Screens
                             }
                            
                         }
-                        var Check = dtObtainedReferrals2.Rows[0][0].ToString();
-                        if (!string.IsNullOrEmpty(Check) && dtObtainedReferrals2.Rows[0][0] != null)
+                        try
                         {
-                            
+                            var Check = dtObtainedReferrals2.Rows[0][0].ToString();
+                            if (!string.IsNullOrEmpty(Check) && dtObtainedReferrals2.Rows[0][0] != null)
+                            {
+
+                            }
+                            else
+                            {
+                                btnRemovelead.Visibility = Visibility.Collapsed;
+                                NOFGB.Visibility = Visibility.Visible;
+                                lblMoveToLeadPermissions.Visibility = Visibility.Visible;
+                                chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            }
                         }
-                        else
+                        catch
                         {
-                            btnRemovelead.Visibility = Visibility.Collapsed;
-                            NOFGB.Visibility = Visibility.Visible;
-                            lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                         }
                         lblPage.Text = "(Banking)";
                     }
