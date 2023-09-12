@@ -2866,6 +2866,9 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 LaData.AppData.IsLeadSaving = true;
                 Database.BeginTransaction(null, System.Data.IsolationLevel.Snapshot);
+                var NOKName = medNOKName.Text;
+
+                var NOKNumber = medNOKContactPhone.Text;
                 #region Import
                 if (LaData.AppData.ImportID.HasValue)
                 {
@@ -3530,10 +3533,10 @@ namespace UDM.Insurance.Interface.Screens
                             INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
 
                             inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                            inNextOfKin.FirstName = UppercaseFirst(NextOfKinData.Name);
+                            inNextOfKin.FirstName = UppercaseFirst(NOKName);
                             inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
                             inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
-                            inNextOfKin.TelContact = NextOfKinData.TelContact;
+                            inNextOfKin.TelContact = NOKNumber;
                             inNextOfKin.Save(_validationResult);
 
                             if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
