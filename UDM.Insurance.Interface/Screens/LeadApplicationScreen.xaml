@@ -7406,7 +7406,9 @@ Style="{StaticResource cmbINLA}" TabIndex="44200" Grid.ColumnSpan="2" Grid.RowSp
                                         <ComboBoxItem>4</ComboBoxItem>
                                         <ComboBoxItem>5</ComboBoxItem>
                                     </src:EmbriantComboBox>
-                                    <Button x:Name="btnRemovelead" Content="Remove Referral" Grid.Row="9" Foreground="Black" Click="btnRemovelead_Click" Grid.Column="7" Margin="15,10,0,0"  Style="{StaticResource INFlatButton}" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.RowSpan="2" />
+                                    <Button x:Name="btnSubmitRefs" Width="NaN" Content="Submit Referrals" FontSize="13" Grid.Row="9" Foreground="Black" Click="btnSubmitRefs_Click" Grid.Column="5" Margin="15,10,38,0"  Style="{StaticResource INFlatButton}" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.RowSpan="2" Height="34" />
+
+                                    <Button x:Name="btnRemovelead" Width="NaN" Content="Remove Referral" FontSize="13" Grid.Row="9" Foreground="Black" Click="btnRemovelead_Click" Grid.Column="8" Margin="12,10,0,0"  Style="{StaticResource INFlatButton}" VerticalAlignment="Top" Height="34" Grid.RowSpan="2" Grid.ColumnSpan="3" />
                                     <GroupBox x:Name="referralGB" Grid.Row="10" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="11" Margin="0,6,0,-37" FontSize="16"
                                      Foreground="Silver" Header="Referrals">
                                         <GroupBox.Style>

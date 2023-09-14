@@ -3457,13 +3457,14 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         SaveCurrentReferralData();
                         foreach (var keyValuePair in RemovereferralDataDict)
-                        { keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                        {
+                            keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
                             ReferralData currentReferralData = keyValuePair.Value;
                             Referral referralInDB = new Referral();
                             StringBuilder strReferralID = new StringBuilder();
                             strReferralID.Append("SELECT [ID] ");
                             strReferralID.Append("FROM [INReferrals]");
-                            strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber,currentReferralData.Name,currentReferralData.CellNumber);
+                            strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber, currentReferralData.Name, currentReferralData.CellNumber);
                             string finalQuery = strReferralID.ToString();
                             DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
                             var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
@@ -3491,10 +3492,10 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         foreach (var keyValuePair in referralDataDict)
                         {
-                            
+
                             keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
                             ReferralData currentReferralData = keyValuePair.Value;
-                            Referral referralInDB = new Referral();  
+                            Referral referralInDB = new Referral();
                             referralInDB.FKINImportID = currentReferralData.FKINImportID;
                             referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
                             referralInDB.Name = ToTitleCase(currentReferralData.Name);
@@ -3525,7 +3526,7 @@ namespace UDM.Insurance.Interface.Screens
                                 string addItem = $"INSERT INTO INReferrals ([FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate]) VALUES ('{referralInDB.FKINImportID}','{referralInDB.ReferralNumber}','{referralInDB.Name}','{referralInDB.CellNumber}',{referralInDB.FKINRelationshipID},{referralInDB.FKGenderID},{LaData.UserData.UserID},GETDATE())";
                                 Methods.ExecuteSQLNonQuery(addItem);
                             }
-                        }  
+                        }
                     }
                     cmbReferral.SelectedIndex = 0;
                     referralDataDict.Clear();
@@ -3537,7 +3538,7 @@ namespace UDM.Insurance.Interface.Screens
                     Page5.Visibility = Visibility.Collapsed;
                     Page1.Visibility = Visibility.Visible;
                 }
-            
+
                 #endregion
                 #region NextOfKin
 
@@ -8688,6 +8689,8 @@ namespace UDM.Insurance.Interface.Screens
                         if (!string.IsNullOrWhiteSpace(LaData.AppData.RefNo) && (LaData.AppData.RefNo != LaData.AppData.LoadedRefNo))
                         {
                             ClearApplicationScreen();
+                            cmbReferral.SelectedIndex = 0;
+                            ClearFields();
                             DataTable dt = Methods.GetTableData("SELECT ID FROM INImport WHERE RefNo = '" + LaData.AppData.RefNo + "'");
 
                             switch (dt.Rows.Count)
@@ -18940,7 +18943,10 @@ namespace UDM.Insurance.Interface.Screens
             }
 
             SaveCurrentReferralData();
-
+            if(cmbRefGender.SelectedIndex != -1)
+            {
+                ClearFields();
+            }
             if (!referralDataDict.ContainsKey(currentSelection))
             {
                 for (int i = 1; i < int.Parse(currentSelection); i++)
@@ -18950,7 +18956,7 @@ namespace UDM.Insurance.Interface.Screens
                         INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
                         ShowMessageBox(messageWindow, $"Please fill in the fields for Referral number {i} before continuing.This includes Name, Cell and Gender.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
                         cmbReferral.SelectedIndex = (i-1);
-                        ClearFields();
+                        //ClearFields();
                         return;
                     }
                 }
@@ -18961,7 +18967,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             else
             {
-                ClearFields();
+                //ClearFields();
             }
             previousReferralSelection = currentSelection;
         }
@@ -19009,16 +19015,25 @@ namespace UDM.Insurance.Interface.Screens
 
         private ReferralData GetCurrentReferralData()
         {
-            DataRowView selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
-            DataRowView selectedGenderRow = cmbRefGender.SelectedItem as DataRowView;
+            DataRowView selectedRelationshipRow;
+            if (cmbRefRelationship.SelectedIndex == -1)
+            {
+                selectedRelationshipRow = null;
+            }
+            else
+            {
+                selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+            }
 
+            DataRowView selectedGenderRow = cmbRefGender.SelectedItem as DataRowView;
+           
             return new ReferralData
             {
                 FKINImportID = LaData.AppData.ImportID.ToString(),
                 ReferralNumber = ((ComboBoxItem)cmbReferral.SelectedItem).Content.ToString(),
                 Name = medRefName.Text,
                 CellNumber = medRefCellNumber.Text,
-                Relationship = selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : 0,
+                Relationship = selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : -1,
                 Gender = selectedGenderRow != null ? (long)selectedGenderRow[0] : 0
             };
         }
@@ -19131,6 +19146,110 @@ namespace UDM.Insurance.Interface.Screens
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void btnSubmitRefs_Click(object sender, RoutedEventArgs e)
+        {
+            var Campaign = LaData.AppData.CampaignID;
+
+            if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
+            {
+                StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+
+                if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
+                {
+
+                }
+                else
+                {
+                    SaveCurrentReferralData();
+                    foreach (var keyValuePair in RemovereferralDataDict)
+                    {
+                        keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                        ReferralData currentReferralData = keyValuePair.Value;
+                        Referral referralInDB = new Referral();
+                        StringBuilder strReferralID = new StringBuilder();
+                        strReferralID.Append("SELECT [ID] ");
+                        strReferralID.Append("FROM [INReferrals]");
+                        strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber, currentReferralData.Name, currentReferralData.CellNumber);
+                        string finalQuery = strReferralID.ToString();
+                        DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
+                        var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                        referralInDB.ID = Convert.ToInt32(id);
+                        referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                        referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                        referralInDB.Name = ToTitleCase(currentReferralData.Name);
+                        referralInDB.CellNumber = currentReferralData.CellNumber;
+                        referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                        referralInDB.FKGenderID = currentReferralData.Gender;
+                        Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                        if (!referralInDB.Delete(validationResult))
+                        {
+                            Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                            foreach (var error in validationResult.Messages)
+                            {
+                                Console.WriteLine(error);
+                            }
+                        }
+                        else
+                        {
+                            string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                            Methods.ExecuteSQLNonQuery(strQuery);
+                        }
+                    }
+                    foreach (var keyValuePair in referralDataDict)
+                    {
+
+                        keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                        ReferralData currentReferralData = keyValuePair.Value;
+                        Referral referralInDB = new Referral();
+                        referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                        referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                        referralInDB.Name = ToTitleCase(currentReferralData.Name);
+                        referralInDB.CellNumber = currentReferralData.CellNumber;
+                        referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                        referralInDB.FKGenderID = currentReferralData.Gender;
+
+                        try
+                        {
+
+                            Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                            if (!referralInDB.Save(validationResult))
+                            {
+                                Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                                foreach (var error in validationResult.Messages)
+                                {
+                                    Console.WriteLine(error);
+                                }
+                            }
+                            else
+                            {
+                                string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            string addItem = $"INSERT INTO INReferrals ([FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate]) VALUES ('{referralInDB.FKINImportID}','{referralInDB.ReferralNumber}','{referralInDB.Name}','{referralInDB.CellNumber}',{referralInDB.FKINRelationshipID},{referralInDB.FKGenderID},{LaData.UserData.UserID},GETDATE())";
+                            Methods.ExecuteSQLNonQuery(addItem);
+                        }
+                    }
+                }
+                //cmbReferral.SelectedIndex = 0;
+                //referralDataDict.Clear();
+                //RemovereferralDataDict.Clear();
+                //ClearFields();
+                //Page3.Visibility = Visibility.Collapsed;
+                //Page2.Visibility = Visibility.Collapsed;
+                //Page4.Visibility = Visibility.Collapsed;
+                //Page5.Visibility = Visibility.Collapsed;
+                //Page1.Visibility = Visibility.Visible;
             }
         }
     }
