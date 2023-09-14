@@ -19,6 +19,7 @@ using UDM.WPF.Library;
 using System.ComponentModel;
 using Embriant.Framework.Configuration;
 using Microsoft.Office.Interop.Excel;
+using Infragistics.Documents.Excel;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -1715,28 +1716,135 @@ namespace UDM.Insurance.Interface.Screens
                     #region Add Side Totals
                     workSheet.Cells[3, 14].Formula = string.Format("=C3+D3+E3+F3+G3+H3+I3+J3+K3+L3+M3");
                     workSheet.Cells[3, 14].Font.Bold = true;
+                    var cellB3 = workSheet.Cells[3, 2];
+                    var cellN3 = workSheet.Cells[3, 14];
+                    double valueB3 = (double)cellB3.Value;
+                    double valueN3 = (double)cellN3.Value;
+                    if (valueB3 < valueN3)
+                    {
+                        workSheet.Range["N3", "N3" ].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[4, 14].Formula = string.Format("=C4+D4+E4+F4+G4+H4+I4+J4+K4+L4+M4");
                     workSheet.Cells[4, 14].Font.Bold = true;
+                    var cellB4 = workSheet.Cells[4, 2];
+                    var cellN4 = workSheet.Cells[4, 14];
+                    double valueB4 = (double)cellB4.Value;
+                    double valueN4 = (double)cellN4.Value;
+                    if (valueB4 < valueN4)
+                    {
+                        workSheet.Range["N4", "N4"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[5, 14].Formula = string.Format("=C5+D5+E5+F5+G5+H5+I5+J5+K5+L5+M5");
                     workSheet.Cells[5, 14].Font.Bold = true;
+                    var cellB5 = workSheet.Cells[5, 2];
+                    var cellN5 = workSheet.Cells[5, 14];
+                    double valueB5 = (double)cellB5.Value;
+                    double valueN5 = (double)cellN5.Value;
+                    if (valueB5 < valueN5)
+                    {
+                        workSheet.Range["N5", "N5"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[6, 14].Formula = string.Format("=C6+D6+E6+F6+G6+H6+I6+J6+K6+L6+M6");
                     workSheet.Cells[6, 14].Font.Bold = true;
+                    var cellB6 = workSheet.Cells[6, 2];
+                    var cellN6 = workSheet.Cells[6, 14];
+                    double valueB6 = (double)cellB6.Value;
+                    double valueN6 = (double)cellN6.Value;
+                    if (valueB6 < valueN6)
+                    {
+                        workSheet.Range["N6", "N6"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[7, 14].Formula = string.Format("=C7+D7+E7+F7+G7+H7+I7+J7+K7+L7+M7");
                     workSheet.Cells[7, 14].Font.Bold = true;
+                    var cellB7 = workSheet.Cells[7, 2];
+                    var cellN7 = workSheet.Cells[7, 14];
+                    double valueB7 = (double)cellB7.Value;
+                    double valueN7 = (double)cellN7.Value;
+                    if (valueB7 < valueN7)
+                    {
+                        workSheet.Range["N7", "N7"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[8, 14].Formula = string.Format("=C8+D8+E8+F8+G8+H8+I8+J8+K8+L8+M8");
                     workSheet.Cells[8, 14].Font.Bold = true;
+                    var cellB8 = workSheet.Cells[8, 2];
+                    var cellN8 = workSheet.Cells[8, 14];
+                    double valueB8 = (double)cellB8.Value;
+                    double valueN8 = (double)cellN8.Value;
+                    if (valueB8 < valueN8)
+                    {
+                        workSheet.Range["N8", "N8"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[9, 14].Formula = string.Format("=C9+D9+E9+F9+G9+H9+I9+J9+K9+L9+M9");
                     workSheet.Cells[9, 14].Font.Bold = true;
+                    var cellB9 = workSheet.Cells[9, 2];
+                    var cellN9 = workSheet.Cells[9, 14];
+                    double valueB9 = (double)cellB9.Value;
+                    double valueN9 = (double)cellN9.Value;
+                    if (valueB9 < valueN9)
+                    {
+                        workSheet.Range["N9", "N9"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[10, 14].Formula = string.Format("=C10+D10+E10+F10+G10+H10+I10+J10+K10+L10+M10");
                     workSheet.Cells[10, 14].Font.Bold = true;
+                    var cellB10 = workSheet.Cells[10, 2];
+                    var cellN10 = workSheet.Cells[10, 14];
+                    double valueB10 = (double)cellB10.Value;
+                    double valueN10 = (double)cellN10.Value;
+                    if (valueB10 < valueN10)
+                    {
+                        workSheet.Range["N10", "N10"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[11, 14].Formula = string.Format("=C11+D11+E11+F11+G11+H11+I11+J11+K11+L11+M11");
                     workSheet.Cells[11, 14].Font.Bold = true;
+                    var cellB11 = workSheet.Cells[11, 2];
+                    var cellN11 = workSheet.Cells[11, 14];
+                    double valueB11 = (double)cellB11.Value;
+                    double valueN11 = (double)cellN11.Value;
+                    if (valueB11 < valueN11)
+                    {
+                        workSheet.Range["N11", "N11"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[12, 14].Formula = string.Format("=C12+D12+E12+F12+G12+H12+I12+J12+K12+L12+M12");
+                    workSheet.Cells[12, 14].Font.Bold = true;
+                    var cellB12 = workSheet.Cells[12, 2];
+                    var cellN12 = workSheet.Cells[12, 14];
+                    double valueB12 = (double)cellB12.Value;
+                    double valueN12 = (double)cellN12.Value;
+                    if (valueB12 < valueN12)
+                    {
+                        workSheet.Range["N12", "N12"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[13, 14].Font.Bold = true;
                     workSheet.Cells[13, 14].Formula = string.Format("=C13+D13+E13+F13+G13+H13+I13+J13+K13+L13+M13");
+                    var cellB13 = workSheet.Cells[13, 2];
+                    var cellN13 = workSheet.Cells[13, 14];
+                    double valueB13 = (double)cellB13.Value;
+                    double valueN13 = (double)cellN13.Value;
+                    if (valueB13 < valueN13)
+                    {
+                        workSheet.Range["N13", "N13"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    }
+
                     workSheet.Cells[14, 14].Font.Bold = true;
                     workSheet.Cells[14, 14].Formula = string.Format("=C14+D14+E14+F14+G14+H14+I14+J14+K14+L14+M14");
-
+                    //var cellB14 = workSheet.Cells[14, 2];
+                    //var cellN14 = workSheet.Cells[14, 14];
+                    //double valueB14 = (double)cellB14.Value;
+                    //double valueN14 = (double)cellN14.Value;
+                    //if (valueB14 > valueN14)
+                    //{
+                    //    workSheet.Range["N14", "N14"].Interior.Color = System.Drawing.Color.PaleVioletRed;
+                    //}
                     #endregion
 
                     // check file path

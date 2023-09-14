@@ -3644,7 +3644,7 @@
                                 Margin="10,13,0,0"
                                 VerticalAlignment="Top"
                                 Style="{StaticResource INLabelText2}"
-                                Text="Hard Bound" />
+                                Text="Hard Bounce" />
 
                             <TextBlock
                   x:Name="lblEMail"
