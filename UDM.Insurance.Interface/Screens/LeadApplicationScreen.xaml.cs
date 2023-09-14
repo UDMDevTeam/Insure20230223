@@ -675,7 +675,9 @@ namespace UDM.Insurance.Interface.Screens
                 LaData.AppData.CampaignID = dtSale.Rows[0]["CampaignID"] as long?;
                 LaData.AppData.IsConfirmed = Convert.ToBoolean(dtSale.Rows[0]["IsConfirmed"] as bool?);
                 LaData.LeadData.StampDate = dtLead.Rows[0]["StampDate"] as DateTime?;
-               // CheckTSANonEdit();
+                // CheckTSANonEdit();
+
+                #region Cancer Questions
                 if (LaData.AppData.CampaignID == 344)
                 {
                     lblCancerQuestionOne.Visibility = Visibility.Visible;
@@ -723,6 +725,21 @@ namespace UDM.Insurance.Interface.Screens
                 catch (Exception ex)
                 {
                 }
+                #endregion
+
+                #region Hardbound Leads
+                try 
+                {
+                    if (dtLead.Rows[0]["EmailStatus"] as string == "HARD_BOUNCE")
+                    {
+                        lblHardBound.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        lblHardBound.Visibility = Visibility.Collapsed;
+                    }
+                } catch { lblHardBound.Visibility = Visibility.Collapsed; }
+                #endregion
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/219494758/comments
                 if (dtLeadHst.Rows.Count > 0)
                 {
@@ -942,6 +959,7 @@ namespace UDM.Insurance.Interface.Screens
                     //LaData.LeadData.ReferrorType = dtLead.Rows[0]["ReferrorType"] as string;
                     LaData.LeadData.Email = LaData.LeadHistoryData.Email = dtLead.Rows[0]["EMail"] as string;
                     if (dtLeadHst.Rows.Count > 0) LaData.LeadHistoryData.Email = dtLeadHst.Rows[0]["EMail"] as string;
+
                 }
 
                 #endregion
@@ -18579,7 +18597,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                             {
-                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636)");
+                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
                             }
                             else
                             {
@@ -18590,7 +18608,7 @@ namespace UDM.Insurance.Interface.Screens
                                 }
                                 else
                                 {
-                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636)"); AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636)");
+                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
                                 }
                             }
 

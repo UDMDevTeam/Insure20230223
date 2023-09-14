@@ -1737,9 +1737,13 @@ namespace UDM.Insurance.Interface.Screens
                                 try 
                                 {
                                     string stringValue = GetStringValue(row.Cells[idxFields["Future20"].Index]);
-                                    if(stringValue == "1")
+                                    if(stringValue == "Yes")
                                     {
                                         strTesting20 = true;
+                                    }
+                                    else if(stringValue == "")
+                                    {
+                                        strTesting20 = null;
                                     }
                                     else
                                     {
@@ -1770,6 +1774,7 @@ namespace UDM.Insurance.Interface.Screens
                                 inImport.PlatinumContactTime = GetTimeValue(row.Cells[idxFields["PlatinumContactTime"].Index]);
                                 inImport.CancerOption = GetStringValue(row.Cells[idxFields["Option"].Index]);
                                 inImport.PlatinumAge = GetShortValue(row.Cells[idxFields["PlatinumAge"].Index]);
+                                inImport.EmailStatus = GetStringValue(row.Cells[idxFields["Future3"].Index]);
                                 try { inImport.ObtainedReferrals = strTesting20; } catch { }
                                 
                                 try

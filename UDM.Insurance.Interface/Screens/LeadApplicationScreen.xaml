@@ -3167,7 +3167,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Collapsed">
+              Visibility="Visible">
 
                         <Grid x:Name="grdPage1">
                             <Grid.RowDefinitions>
@@ -3634,6 +3634,19 @@
                   TabIndex="16100" />
 
                             <TextBlock
+                                x:Name="lblHardBound"
+                                Grid.Row="9"
+                                Grid.Column="10"
+                                Visibility="Collapsed"
+                                Foreground="LightGreen"
+                                FontSize="10"
+                                Grid.ColumnSpan="2"
+                                Margin="10,13,0,0"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource INLabelText2}"
+                                Text="Hard Bound" />
+
+                            <TextBlock
                   x:Name="lblEMail"
                   Grid.Row="9"
                   Grid.Column="0"
@@ -3646,7 +3659,7 @@
                   x:Name="medEMail"
                   Grid.Row="9"
                   Grid.Column="4"
-                  Grid.ColumnSpan="7"
+                  Grid.ColumnSpan="6"
                   Margin="0"
                   HorizontalAlignment="Stretch"
                   data:AttachedProperties.HistoryValue="{Binding LeadHistoryData.Email}"
@@ -3658,6 +3671,10 @@
                   Style="{StaticResource StyleXMEEmailAddressValueChanged}"
                   TabIndex="16150"
                   Text="{Binding LeadData.Email}">
+
+
+
+
                                 <!--
                                     <igWPF:XamMaskedEditor.Style>
                                     <Style BasedOn="{StaticResource medINLA}"
@@ -7023,7 +7040,7 @@
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Background="Transparent"
-              Visibility="Visible">
+              Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
