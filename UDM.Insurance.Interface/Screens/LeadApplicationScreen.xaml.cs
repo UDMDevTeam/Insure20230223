@@ -101,7 +101,7 @@ namespace UDM.Insurance.Interface.Screens
         private const string bulkSMSURL = "https://api.bulksms.com/v1";
 
         #endregion BulkSMS
-
+        private LeadApplicationData.NextOfKin NOKReferral = new LeadApplicationData.NextOfKin();
         private int BumpUpSelected = 0;
         private const string IDField = "ID";
         private const string DescriptionField = "Description";
@@ -2376,6 +2376,7 @@ namespace UDM.Insurance.Interface.Screens
                         referralGB.Visibility = Visibility.Collapsed;
                         hdrReferral.Visibility = Visibility.Collapsed;
                         cmbReferral.Visibility = Visibility.Collapsed;
+                        btnSubmitRefs.Visibility = Visibility.Collapsed;
                         if (Page1.IsVisible)
                         {
                             lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
@@ -2422,7 +2423,10 @@ namespace UDM.Insurance.Interface.Screens
                                 hdrReferral.Visibility = Visibility.Collapsed;
                                 cmbReferral.Visibility = Visibility.Collapsed;
                                 lblReferralOb.Visibility = Visibility.Visible;
+                               
                             }
+                            btnSubmitRefs.Visibility = Visibility.Collapsed;
+                            btnRemovelead.Visibility = Visibility.Collapsed;
                         }
                         else
                         {
@@ -2442,7 +2446,9 @@ namespace UDM.Insurance.Interface.Screens
                                 cmbRefRelationship.Visibility = Visibility.Visible;
                                 lblRefGender.Visibility = Visibility.Visible;
                                 cmbRefGender.Visibility = Visibility.Visible;
+                                btnSubmitRefs.Visibility = Visibility.Visible;
                                 lblReferralOb.Visibility = Visibility.Collapsed;
+                                btnRemovelead.Visibility = Visibility.Visible;
                                 StringBuilder strQueryReferrals = new StringBuilder();
                                 strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
                                 strQueryReferrals.Append("FROM [INReferrals] ");
@@ -2472,6 +2478,28 @@ namespace UDM.Insurance.Interface.Screens
                                     if (referralDataDict.ContainsKey(currentReferralNumber))
                                     {
                                         PopulateFields(referralDataDict[currentReferralNumber]);
+                                        var firstName = medRefName.Text.Split(' ');
+                                        StringBuilder strRemoveNOK = new StringBuilder();
+                                        strRemoveNOK.Append("SELECT [ID] ");
+                                        strRemoveNOK.Append("FROM [INNextOfKin]");
+                                        strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [FirstName] = '{UppercaseFirst(firstName[0])}' AND [TelContact] = '{medRefCellNumber.Text}'");
+                                        string finalQuery3 = strRemoveNOK.ToString();
+
+                                        DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery3.ToString());
+                                        string id = "";
+                                        try
+                                        {
+                                            id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                                        }
+                                        catch { id = string.Empty; }
+                                        if (!string.IsNullOrEmpty(id))
+                                        {
+                                            chkNOKRef.IsChecked = true;
+                                        }
+                                        else
+                                        {
+                                            chkNOKRef.IsChecked = false;
+                                        }
                                     }
                                 }
                             }
@@ -2483,6 +2511,7 @@ namespace UDM.Insurance.Interface.Screens
                      referralGB.Visibility = Visibility.Collapsed;
                     hdrReferral.Visibility = Visibility.Collapsed;
                     cmbReferral.Visibility = Visibility.Collapsed;
+                    btnSubmitRefs.Visibility = Visibility.Collapsed;
                     if (Page1.IsVisible)
                     {
                         lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
@@ -3458,36 +3487,43 @@ namespace UDM.Insurance.Interface.Screens
                         SaveCurrentReferralData();
                         foreach (var keyValuePair in RemovereferralDataDict)
                         {
-                            keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
-                            ReferralData currentReferralData = keyValuePair.Value;
-                            Referral referralInDB = new Referral();
-                            StringBuilder strReferralID = new StringBuilder();
-                            strReferralID.Append("SELECT [ID] ");
-                            strReferralID.Append("FROM [INReferrals]");
-                            strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber, currentReferralData.Name, currentReferralData.CellNumber);
-                            string finalQuery = strReferralID.ToString();
-                            DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
-                            var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
-                            referralInDB.ID = Convert.ToInt32(id);
-                            referralInDB.FKINImportID = currentReferralData.FKINImportID;
-                            referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
-                            referralInDB.Name = ToTitleCase(currentReferralData.Name);
-                            referralInDB.CellNumber = currentReferralData.CellNumber;
-                            referralInDB.FKINRelationshipID = currentReferralData.Relationship;
-                            referralInDB.FKGenderID = currentReferralData.Gender;
-                            Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
-                            if (!referralInDB.Delete(validationResult))
+                            try
                             {
-                                Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
-                                foreach (var error in validationResult.Messages)
+                                keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                                ReferralData currentReferralData = keyValuePair.Value;
+                                Referral referralInDB = new Referral();
+                                StringBuilder strReferralID = new StringBuilder();
+                                strReferralID.Append("SELECT [ID] ");
+                                strReferralID.Append("FROM [INReferrals]");
+                                strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber, currentReferralData.Name, currentReferralData.CellNumber);
+                                string finalQuery = strReferralID.ToString();
+                                DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
+                                var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                                referralInDB.ID = Convert.ToInt32(id);
+                                referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                                referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                                referralInDB.Name = ToTitleCase(currentReferralData.Name);
+                                referralInDB.CellNumber = currentReferralData.CellNumber;
+                                referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                                referralInDB.FKGenderID = currentReferralData.Gender;
+                                Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                                if (!referralInDB.Delete(validationResult))
                                 {
-                                    Console.WriteLine(error);
+                                    Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                                    foreach (var error in validationResult.Messages)
+                                    {
+                                        Console.WriteLine(error);
+                                    }
+                                }
+                                else
+                                {
+                                    string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
                                 }
                             }
-                            else
+                            catch
                             {
-                                string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
-                                Methods.ExecuteSQLNonQuery(strQuery);
+
                             }
                         }
                         foreach (var keyValuePair in referralDataDict)
@@ -3543,33 +3579,85 @@ namespace UDM.Insurance.Interface.Screens
                 #region NextOfKin
 
                 {
-                    for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                    StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                    strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                    strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                    strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                    DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+                    if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null || dtObtainedReferrals2.Rows[0][0] == DBNull.Value)
                     {
-                        try
+                        for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
-                            LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
-
-                            INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-
-                            inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                            inNextOfKin.FirstName = UppercaseFirst(NOKName);
-                            inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
-                            inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
-                            inNextOfKin.TelContact = NOKNumber;
-                            inNextOfKin.Save(_validationResult);
-
-                            if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                            try
                             {
-                                string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
-                                Methods.ExecuteSQLNonQuery(strQuery);
+                                LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+
+                                INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+
+                                inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                                inNextOfKin.FirstName = UppercaseFirst(NOKName);
+                                inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
+                                inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
+                                inNextOfKin.TelContact = NOKNumber;
+                                inNextOfKin.Save(_validationResult);
+
+                                if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                NextOfKinData.NextOfKinID = inNextOfKin.ID;
                             }
+                            catch (Exception es)
+                            {
 
-                            NextOfKinData.NextOfKinID = inNextOfKin.ID;
-                        }catch(Exception es)
-                        {
-
+                            }
                         }
                     }
+                    else
+                    {
+                        for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                        {
+                            try
+                            {
+                                LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+
+                                INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+                                DataRowView selectedRelationshipRow;
+                                if (string.IsNullOrEmpty(medRefName.Text) && cmbRefGender.SelectedIndex != -1)
+                                {
+                                    return;
+                                }
+                                else
+                                {
+                                    selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+                                }
+                                inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                                inNextOfKin.FirstName = UppercaseFirst(NOKReferral.Name);
+                                inNextOfKin.Surname = UppercaseFirst(NOKReferral.Surname);
+                                inNextOfKin.FKINRelationshipID = NOKReferral.RelationshipID;
+                                inNextOfKin.TelContact = NOKReferral.TelContact;
+                                if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
+                                {
+                                    inNextOfKin.Save(_validationResult);
+                                }
+
+                                if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
+
+                                NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                            }
+                            catch (Exception es)
+                            {
+
+                            }
+                        }
+                    }
+                    
                 }
 
                 #endregion
@@ -9070,6 +9158,28 @@ namespace UDM.Insurance.Interface.Screens
                                             if (referralDataDict.ContainsKey(currentReferralNumber))
                                             {
                                                 PopulateFields(referralDataDict[currentReferralNumber]);
+                                                var firstName = medRefName.Text.Split(' ');
+                                                StringBuilder strRemoveNOK = new StringBuilder();
+                                                strRemoveNOK.Append("SELECT [ID] ");
+                                                strRemoveNOK.Append("FROM [INNextOfKin]");
+                                                strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [FirstName] = '{UppercaseFirst(firstName[0])}' AND [TelContact] = '{medRefCellNumber.Text}'");
+                                                string finalQuery = strRemoveNOK.ToString();
+
+                                                DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
+                                                string id = "";
+                                                try
+                                                {
+                                                    id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                                                }
+                                                catch { id = string.Empty; }
+                                                if (!string.IsNullOrEmpty(id))
+                                                {
+                                                    chkNOKRef.IsChecked = true;
+                                                }
+                                                else
+                                                {
+                                                    chkNOKRef.IsChecked = false;
+                                                }
                                             }
                                         }
                                     }
@@ -9384,6 +9494,27 @@ namespace UDM.Insurance.Interface.Screens
                                             if (referralDataDict.ContainsKey(currentReferralNumber))
                                             {
                                                 PopulateFields(referralDataDict[currentReferralNumber]);
+                                                var firstName = medRefName.Text.Split(' ');
+                                                StringBuilder strRemoveNOK = new StringBuilder();
+                                                strRemoveNOK.Append("SELECT [ID] ");
+                                                strRemoveNOK.Append("FROM [INNextOfKin]");
+                                                strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [FirstName] = '{UppercaseFirst(firstName[0])}' AND [TelContact] = '{medRefCellNumber.Text}'");
+                                                string finalQuery = strRemoveNOK.ToString();
+
+                                                    DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
+                                                string id = "";
+                                                try
+                                                {
+                                                     id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                                                }catch { id = string.Empty; }
+                                                if (!string.IsNullOrEmpty(id))
+                                                {
+                                                    chkNOKRef.IsChecked = true;
+                                                }
+                                                else
+                                                {
+                                                    chkNOKRef.IsChecked = false;
+                                                }
                                             }
                                         }
                                     }
@@ -18933,9 +19064,10 @@ namespace UDM.Insurance.Interface.Screens
             {
                 return;
             }
-
+           
             string currentSelection = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "").Trim();
-            if (isFirstLoad)
+           
+                if (isFirstLoad)
             {
                 previousReferralSelection = currentSelection;
                 isFirstLoad = false;
@@ -18964,10 +19096,153 @@ namespace UDM.Insurance.Interface.Screens
             if (referralDataDict.ContainsKey(currentSelection))
             {
                 PopulateFields(referralDataDict[currentSelection]);
+                if (currentSelection == "1")
+                {
+                    try
+                    {
+                        if (tbNOKRef != null)
+                        {
+                            tbNOKRef.Visibility = Visibility.Visible;
+                        }
+
+                        if (chkNOKRef != null)
+                        {
+                            chkNOKRef.Visibility = Visibility.Visible;
+                        }
+
+                        if (cmbRefGender != null)
+                        {
+                            /// cmbRefGender.Width = 140;
+                            //cmbRefGender.SetValue(System.Windows.Controls.Grid.ColumnSpanProperty, 2);
+                            cmbRefGender.Width = 135.895833333333;
+                            cmbRefGender.SetValue(Grid.ColumnSpanProperty, 1);
+
+                        }
+                        var firstName = medRefName.Text.Split(' ');
+                        StringBuilder strRemoveNOK = new StringBuilder();
+                        strRemoveNOK.Append("SELECT [ID] ");
+                        strRemoveNOK.Append("FROM [INNextOfKin]");
+                        strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [TelContact] = '{medRefCellNumber.Text}'");
+                        string finalQuery = strRemoveNOK.ToString();
+
+                        DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
+                        string id = "";
+                        try
+                        {
+                            id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                        }
+                        catch { id = string.Empty; }
+                        if (!string.IsNullOrEmpty(id))
+                        {
+                            chkNOKRef.IsChecked = true;
+                        }
+                        else
+                        {
+                            chkNOKRef.IsChecked = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    tbNOKRef.Visibility = Visibility.Hidden;
+                    chkNOKRef.Visibility = Visibility.Hidden;
+                    if (chkNOKRef.Visibility == Visibility.Hidden)
+                    {
+                        cmbRefGender.Width = Double.NaN;
+                        cmbRefRelationship.Width = Double.NaN;
+                        cmbRefGender.SetValue(System.Windows.Controls.Grid.ColumnSpanProperty, 3);
+                        cmbRefRelationship.SetValue(System.Windows.Controls.Grid.ColumnSpanProperty, 3);
+                        cmbRefGender.Margin = new System.Windows.Thickness(1, 2, 12, -3);
+
+                    }
+                    else
+                    {
+                        cmbRefGender.Width = 135.895833333333;
+                        cmbRefGender.SetValue(Grid.ColumnSpanProperty, 1);
+                        cmbRefGender.Margin = new System.Windows.Thickness(1, 2, 12, -3);
+                    }
+                }
             }
             else
             {
                 //ClearFields();
+                if (currentSelection == "1")
+                {
+                    try
+                    {
+                        if (tbNOKRef != null)
+                        {
+                            tbNOKRef.Visibility = Visibility.Visible;
+                        }
+
+                        if (chkNOKRef != null)
+                        {
+                            chkNOKRef.Visibility = Visibility.Visible;
+                        }
+
+                        if (cmbRefGender != null)
+                        {
+                            /// cmbRefGender.Width = 140;
+                            //cmbRefGender.SetValue(System.Windows.Controls.Grid.ColumnSpanProperty, 2);
+                            cmbRefGender.Width = 135.895833333333;
+                            cmbRefGender.SetValue(Grid.ColumnSpanProperty, 1);
+                            cmbRefGender.Margin = new System.Windows.Thickness(0, 2, 10, -3);
+
+                        }
+                        var firstName = medRefName.Text.Split(' ');
+                        StringBuilder strRemoveNOK = new StringBuilder();
+                        strRemoveNOK.Append("SELECT [ID] ");
+                        strRemoveNOK.Append("FROM [INNextOfKin]");
+                        strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [TelContact] = '{medRefCellNumber.Text}'");
+                        string finalQuery = strRemoveNOK.ToString();
+
+                        DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
+                        string id = "";
+                        try
+                        {
+                            id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                        }
+                        catch { id = string.Empty; }
+                        if (!string.IsNullOrEmpty(id))
+                        {
+                            chkNOKRef.IsChecked = true;
+                        }
+                        else
+                        {
+                            chkNOKRef.IsChecked = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    tbNOKRef.Visibility = Visibility.Hidden;
+                    chkNOKRef.Visibility = Visibility.Hidden;
+                    if (chkNOKRef.Visibility == Visibility.Hidden)
+                    {
+                        cmbRefGender.Width = Double.NaN;
+                        cmbRefRelationship.Width = Double.NaN;
+                        cmbRefGender.SetValue(System.Windows.Controls.Grid.ColumnSpanProperty, 3);
+                        cmbRefRelationship.SetValue(System.Windows.Controls.Grid.ColumnSpanProperty, 3);
+                        cmbRefGender.Margin = new System.Windows.Thickness(1, 2, 12, -3);
+
+                    }
+                    else
+                    {
+                        cmbRefGender.Width = 135.895833333333;
+                        cmbRefGender.SetValue(Grid.ColumnSpanProperty, 1);
+                        cmbRefGender.Margin = new System.Windows.Thickness(1, 2, 12, -3);
+                    }
+                }
             }
             previousReferralSelection = currentSelection;
         }
@@ -19085,6 +19360,40 @@ namespace UDM.Insurance.Interface.Screens
                 case "1":
                     if (referralDataDict.ContainsKey("1"))
                     {
+                        INNextOfKin inNextOfKin = new INNextOfKin();
+                        var firstName = medRefName.Text.Split(' ');
+                        StringBuilder strRemoveNOK = new StringBuilder();
+                        strRemoveNOK.Append("SELECT [ID] ");
+                        strRemoveNOK.Append("FROM [INNextOfKin]");
+                        strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [FirstName] = '{UppercaseFirst(firstName[0])}' AND [TelContact] = '{medRefCellNumber.Text}'");
+                        string finalQuery = strRemoveNOK.ToString();
+
+                        try
+                        {
+                            DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
+                            var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                            inNextOfKin.ID = int.Parse(id);
+                            Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                            if (!inNextOfKin.Delete(validationResult))
+                            {
+                                Console.WriteLine($"Failed to delete NOK with ID: {inNextOfKin.ID}");
+                                foreach (var error in validationResult.Messages)
+                                {
+                                    Console.WriteLine(error);
+                                }
+                            }
+                            else
+                            {
+                                string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+                            chkNOKRef.IsChecked = false;
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        
                         var referralForSelectedNum = referralDataDict["1"];
                         if (!RemovereferralDataDict.ContainsKey("1"))
                         {
@@ -19093,7 +19402,6 @@ namespace UDM.Insurance.Interface.Screens
                             ClearFields();
                         }
                     }
-
                     break;
                 case "2":
                     if (referralDataDict.ContainsKey("2"))
@@ -19155,6 +19463,7 @@ namespace UDM.Insurance.Interface.Screens
 
             if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
             {
+                int count = 0;
                 StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
                 strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
                 strQueryObtainedReferrals2.Append("FROM [INImport] ");
@@ -19168,40 +19477,44 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
+                    
                     SaveCurrentReferralData();
                     foreach (var keyValuePair in RemovereferralDataDict)
                     {
-                        keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
-                        ReferralData currentReferralData = keyValuePair.Value;
-                        Referral referralInDB = new Referral();
-                        StringBuilder strReferralID = new StringBuilder();
-                        strReferralID.Append("SELECT [ID] ");
-                        strReferralID.Append("FROM [INReferrals]");
-                        strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber, currentReferralData.Name, currentReferralData.CellNumber);
-                        string finalQuery = strReferralID.ToString();
-                        DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
-                        var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
-                        referralInDB.ID = Convert.ToInt32(id);
-                        referralInDB.FKINImportID = currentReferralData.FKINImportID;
-                        referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
-                        referralInDB.Name = ToTitleCase(currentReferralData.Name);
-                        referralInDB.CellNumber = currentReferralData.CellNumber;
-                        referralInDB.FKINRelationshipID = currentReferralData.Relationship;
-                        referralInDB.FKGenderID = currentReferralData.Gender;
-                        Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
-                        if (!referralInDB.Delete(validationResult))
+                        try
                         {
-                            Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
-                            foreach (var error in validationResult.Messages)
+                            keyValuePair.Value.ReferralNumber = keyValuePair.Key.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                            ReferralData currentReferralData = keyValuePair.Value;
+                            Referral referralInDB = new Referral();
+                            StringBuilder strReferralID = new StringBuilder();
+                            strReferralID.Append("SELECT [ID] ");
+                            strReferralID.Append("FROM [INReferrals]");
+                            strReferralID.AppendFormat("WHERE [FKINImportID] = '{0}' AND [ReferralNumber] = '{1}' AND [Name] = '{2}' AND [CellNumber] = '{3}'", LaData.AppData.ImportID, currentReferralData.ReferralNumber, currentReferralData.Name, currentReferralData.CellNumber);
+                            string finalQuery = strReferralID.ToString();
+                            DataTable dtObtainedReferralID = Methods.GetTableData(strReferralID.ToString());
+                            var id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                            referralInDB.ID = Convert.ToInt32(id);
+                            referralInDB.FKINImportID = currentReferralData.FKINImportID;
+                            referralInDB.ReferralNumber = currentReferralData.ReferralNumber;
+                            referralInDB.Name = ToTitleCase(currentReferralData.Name);
+                            referralInDB.CellNumber = currentReferralData.CellNumber;
+                            referralInDB.FKINRelationshipID = currentReferralData.Relationship;
+                            referralInDB.FKGenderID = currentReferralData.Gender;
+                            Embriant.Framework.Validation.ValidationResult validationResult = new Embriant.Framework.Validation.ValidationResult();
+                            if (!referralInDB.Delete(validationResult))
                             {
-                                Console.WriteLine(error);
+                                Console.WriteLine($"Failed to save referral with ReferralNumber: {referralInDB.ReferralNumber}");
+                                foreach (var error in validationResult.Messages)
+                                {
+                                    Console.WriteLine(error);
+                                }
                             }
-                        }
-                        else
-                        {
-                            string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
-                            Methods.ExecuteSQLNonQuery(strQuery);
-                        }
+                            else
+                            {
+                                string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+                        }catch{ }
                     }
                     foreach (var keyValuePair in referralDataDict)
                     {
@@ -19241,15 +19554,146 @@ namespace UDM.Insurance.Interface.Screens
                         }
                     }
                 }
-                //cmbReferral.SelectedIndex = 0;
-                //referralDataDict.Clear();
-                //RemovereferralDataDict.Clear();
-                //ClearFields();
-                //Page3.Visibility = Visibility.Collapsed;
-                //Page2.Visibility = Visibility.Collapsed;
-                //Page4.Visibility = Visibility.Collapsed;
-                //Page5.Visibility = Visibility.Collapsed;
-                //Page1.Visibility = Visibility.Visible;
+
+                count++;
+                if (count == 1)
+                {
+                    for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                    {
+                        try
+                        {
+                            LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+
+                            INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+                            DataRowView selectedRelationshipRow;
+                            if (string.IsNullOrEmpty(medRefName.Text) && cmbRefGender.SelectedIndex != -1)
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+                            }
+                            inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                            inNextOfKin.FirstName = UppercaseFirst(NOKReferral.Name);
+                            inNextOfKin.Surname = UppercaseFirst(NOKReferral.Surname);
+                            inNextOfKin.FKINRelationshipID = NOKReferral.RelationshipID;
+                            inNextOfKin.TelContact = NOKReferral.TelContact;
+                            if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
+                            {
+                                inNextOfKin.Save(_validationResult);
+                            }
+
+                            if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                            {
+                                string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+
+                            NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                        }
+                        catch (Exception es)
+                        {
+
+                        }
+                    }
+                }
+            }
+        }
+        private void chkNOKRefClearFields()
+        {
+            try
+            {
+                medNOKName.Text = string.Empty;
+                medNOKSurname.Text = string.Empty;
+                medNOKContactPhone.Text = string.Empty;
+                cmbNOKRelationship.SelectedIndex = -1;
+            }
+            catch
+            {
+
+            }
+        }
+        private void chkNOKRef_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (chkNOKRef.IsChecked == true)
+                {
+                    if (!string.IsNullOrEmpty(medRefName.Text) && !string.IsNullOrEmpty(medRefCellNumber.Text))
+                    {
+                        var splitName = medRefName.Text.Split(' ');
+                        if (splitName.Length > 1)
+                        {
+                            var selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+                            if (selectedRelationshipRow == null)
+                            {
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, $"Please fill in the relationship field if you have choosen to add this referral as NOK as its vital for next of kin details.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
+                                chkNOKRef.IsChecked = false;
+                                cmbRefRelationship.Focus();
+                                return;
+                            }
+                            else
+                            {
+                                var Name = splitName[0];
+                                var Surname = splitName[1];
+                               NOKReferral = new LeadApplicationData.NextOfKin
+                                {
+                                    Name = Name,
+                                    Surname = Surname,
+                                    TelContact = medRefCellNumber.Text,
+                                    RelationshipID = (long)selectedRelationshipRow[0] //saveID
+
+                                };
+                            }
+                            //medNOKName.Text = splitName[0];
+                            //medNOKSurname.Text = splitName[1];
+                            //medNOKContactPhone.Text = medRefCellNumber.Text;
+                            //if (cmbRefRelationship.SelectedIndex != -1)
+                            //{
+                            //    cmbNOKRelationship.SelectedIndex = cmbRefRelationship.SelectedIndex;
+                            //}
+                        }
+                        else
+                        {
+                            var selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+                            if (selectedRelationshipRow == null)
+                            {
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, $"Please fill in the relationship field if you have choosen to add this referral as NOK as its vital for next of kin details.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
+                                chkNOKRef.IsChecked = false;
+                                cmbRefRelationship.Focus();
+                                return;
+                            }
+                            else
+                            {
+                                LaData.NextOfKinData.Add(new LeadApplicationData.NextOfKin
+                                {
+                                    Name = splitName[0],
+                                    Surname = splitName[1],
+                                    TelContact = medRefCellNumber.Text,
+                                    RelationshipID = selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : 0 //saveID
+
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Make sure to Alert them to fill out those Details
+                        chkNOKRefClearFields();
+                        chkNOKRef.IsChecked = false;
+                    }
+                }
+                else
+                {
+                    chkNOKRefClearFields();
+                }
+            }
+            catch(Exception es)
+            {
+
             }
         }
     }

@@ -24,7 +24,7 @@ namespace UDM.Insurance.Business.Queries
             if (innextofkin != null)
             {
                 query = "INSERT INTO [zHstINNextOfKin] ([ID], [FKINImportID], [FKINRelationshipID], [FirstName], [Surname], [TelContact], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINRelationshipID], [FirstName], [Surname], [TelContact], [StampDate], [StampUserID] FROM [INNextOfKin] WHERE [INNextOfKin].[ID] = @ID; ";
-                query += "DELETE FROM [INNextOfKin] WHERE [INNextOfKin].[ID] = @ID; ";
+                query += $"DELETE FROM [INNextOfKin] WHERE [INNextOfKin].[ID] = {innextofkin.ID}; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", innextofkin.ID);
             }
