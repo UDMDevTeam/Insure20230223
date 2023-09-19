@@ -37,7 +37,9 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
             _LeadApplicationScreen = leadApplicationScreen;
-            LoadLookupData();
+            //LoadLookupData();
+            RebindData();
+
 
             #region Datagrid
             dtSalesData.Columns.Add("Description");
@@ -102,7 +104,17 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void RebindData()
         {
-            DataTable dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+            DataTable dtAgentsOnline; 
+            if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
+            {
+                //dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636) ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+                dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+
+            }
+            else
+            {
+                dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+            }
 
 
             //try { dtSalesData.Clear(); } catch { }
