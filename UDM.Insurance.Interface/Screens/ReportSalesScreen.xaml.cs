@@ -2693,6 +2693,7 @@ namespace UDM.Insurance.Interface.Screens
                                     AddOvertimeSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                                     AddRedeemedGiftsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
                                     AddFowardToDCAgentSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
+                                    AddreferralsSheet(wbTemplate, wbReport, agentName, agentID, _fromDate, _toDate);
 
                                 }
                             }
