@@ -307,7 +307,7 @@ namespace UDM.Insurance.Interface.Screens
                 int reportRow = 1;
 
                 byte templateDataSheetRowSpan = 0;
-                byte templateColumnSpan = 10;
+                byte templateColumnSpan = 11;
                 byte templateRowIndex = 1;
 
                 //string reportTitle = drCurrentCampaign["ReportTitle"].ToString();
