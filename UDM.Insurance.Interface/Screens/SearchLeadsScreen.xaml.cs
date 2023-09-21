@@ -357,7 +357,6 @@ namespace UDM.Insurance.Interface.Screens
                         long InimportLong = long.Parse(importid);
 
                         INImport inimport = new INImport(InimportLong);
-                        inimport.FKINLeadStatusID = 26;
                         inimport.Save(_validationResult);
 
 
