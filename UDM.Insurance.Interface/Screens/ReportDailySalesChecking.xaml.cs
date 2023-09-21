@@ -916,7 +916,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 strSummaryTitle = strSummaryTitle.Substring(0, strSummaryTitle.Length - 1) + ")";
 
-                Methods.CopyExcelRegion(wsTemplate, 0, 0, 8, 18, wsReport, 0, 0);
+                Methods.CopyExcelRegion(wsTemplate, 0, 0, 8, 19, wsReport, 0, 0);
                 wsReport.GetCell("A3").Value = strSummaryTitle;
                 wsReport.GetCell("A5").Value = String.Format("From {0:dddd, d MMMM yyyy} to {1:dddd, d MMMM yyyy}", _fromDate, _toDate);
                 wsReport.GetCell("A7").Value = String.Format("Date Generated: {0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
@@ -927,7 +927,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 foreach (DataRow drSummaryData in dtSummaryData.Rows)
                 {
-                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 18, wsReport, rowIndexData - 1, 0);
+                    Methods.CopyExcelRegion(wsTemplate, 9, 0, 0, 19, wsReport, rowIndexData - 1, 0);
                     switch (sValue)
                     {
                         case "Base, Rejuvenation, Defrost and Funeral":
@@ -950,7 +950,7 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("P" + rowIndexData).Value = Convert.ToInt32(drSummaryData["TotalCarriedForwardPolicies"].ToString());
                             wsReport.GetCell("Q" + rowIndexData).Value = Convert.ToDecimal(drSummaryData["CarriedForwardPremium"].ToString());
                             wsReport.GetCell("R" + rowIndexData).Value = Convert.ToInt32(drSummaryData["TotalGiftsRedeemed"].ToString());
-
+                            wsReport.GetCell("S" + rowIndexData).Value = Convert.ToInt32(drSummaryData["TotalReferrals"].ToString());
                             rowIndexData++;
                             break;
                         default:
@@ -983,7 +983,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Summary Data Totals
 
                 rowIndexData--;
-                Methods.CopyExcelRegion(wsTemplate, 11, 0, 1, 18, wsReport, rowIndexData, 0);
+                Methods.CopyExcelRegion(wsTemplate, 11, 0, 1, 19, wsReport, rowIndexData, 0);
 
                 DataRow drSummaryDataTotals = dtSummaryDataTotals.Rows[0];
                 rowIndexData++;
@@ -1008,6 +1008,7 @@ namespace UDM.Insurance.Interface.Screens
                         wsReport.GetCell("P" + rowIndexData).Value = Convert.ToInt32(drSummaryDataTotals["TotalTotalCarriedForwardPolicies"].ToString());
                         wsReport.GetCell("Q" + rowIndexData).Value = Convert.ToDecimal(drSummaryDataTotals["TotalCarriedForwardPremium"].ToString());
                         wsReport.GetCell("R" + rowIndexData).Value = Convert.ToInt32(drSummaryDataTotals["TotalTotalGiftsRedeemed"].ToString());
+                        wsReport.GetCell("S" + rowIndexData).Value = Convert.ToInt32(drSummaryDataTotals["TotalTotalReferrals"].ToString());
                         break;
                     default:
                         wsReport.GetCell("B" + rowIndexData).Value = Convert.ToInt32(drSummaryDataTotals["TotalTotalSystemPolicies"].ToString());
@@ -1085,7 +1086,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("P" + rowIndexData).Value = Convert.ToInt32(drReport["TotalCarriedForwardPolicies"].ToString());
                                 wsReport.GetCell("Q" + rowIndexData).Value = Convert.ToDecimal(drReport["CarriedForwardPremium"].ToString());
                                 wsReport.GetCell("R" + rowIndexData).Value = Convert.ToInt32(drReport["TotalGiftsRedeemed"].ToString());
-
+                                wsReport.GetCell("S" + rowIndexData).Value = Convert.ToInt32(drReport["TotalReferrals"].ToString()) ;
                                 rowIndexData++;
                                 break;
                             default:
@@ -1144,6 +1145,7 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport.GetCell("P" + rowIndexData).Value = Convert.ToInt32(drReportDataTotals["TotalTotalCarriedForwardPolicies"].ToString());
                             wsReport.GetCell("Q" + rowIndexData).Value = Convert.ToDecimal(drReportDataTotals["TotalCarriedForwardPremium"].ToString());
                             wsReport.GetCell("R" + rowIndexData).Value = Convert.ToInt32(drReportDataTotals["TotalTotalGiftsRedeemed"].ToString());
+                            wsReport.GetCell("S" + rowIndexData).Value = Convert.ToInt32(drReportDataTotals["TotalTotalReferrals"].ToString());
                             break;
                         default:
                             wsReport.GetCell("B" + rowIndexData).Value = Convert.ToInt32(drReportDataTotals["TotalTotalSystemPolicies"].ToString());
