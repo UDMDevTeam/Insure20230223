@@ -1884,7 +1884,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Setup Excel document
 
                 #region Insert Final Incentive Summary Sheet
-                InsertFinalSummaryTab(wbTemplate, wbSalaryReport, dsSalaryReportData);
+              //InsertFinalSummaryTab(wbTemplate, wbSalaryReport, dsSalaryReportData);
                 #endregion
 
                 #region Insert the main sheet
@@ -1999,14 +1999,18 @@ namespace UDM.Insurance.Interface.Screens
 
             DataRow drReportConfigs = dsTempSalaryReportData.Tables[0].Rows[0];
             DataTable dtMainReportData = new DataTable();
-            if (dsTempSalaryReportData.Tables[1].AsEnumerable().Where(x => Convert.ToInt32(x["UpgradeSales"]) > 0).Count() > 0)
+            try
             {
-                dtMainReportData = dsTempSalaryReportData.Tables[1].AsEnumerable().Where(x => Convert.ToInt32(x["UpgradeSales"]) > 0).CopyToDataTable();
-            }
-            else
-            {
-                return;
-            }
+                if (dsTempSalaryReportData.Tables[1].AsEnumerable().Where(x => Convert.ToInt32(x["UpgradeSales"]) > 0).Count() > 0)
+                {
+                    dtMainReportData = dsTempSalaryReportData.Tables[1].AsEnumerable().Where(x => Convert.ToInt32(x["UpgradeSales"]) > 0).CopyToDataTable();
+                }
+                else
+                {
+                    return;
+                }
+            } catch { return; }
+
 
             DataTable dtExcelSheetDataTableColumnMappings = dsTempSalaryReportData.Tables[6];
             DataTable dtTotalsMappings = dsTempSalaryReportData.Tables[7];
