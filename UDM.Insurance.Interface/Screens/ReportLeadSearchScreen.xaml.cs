@@ -338,7 +338,7 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport = wbReport.Worksheets.Add(batchDescription);
                             worksheetCount++;
 
-                            Methods.CopyExcelRegion(wsTemplate, 0, 0, 6, 24, wsReport, 0, 0);
+                            Methods.CopyExcelRegion(wsTemplate, 0, 0, 6, 25, wsReport, 0, 0);
 
                             #region Adding the details 
 
@@ -347,7 +347,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             WorksheetMergedCellsRegion mergedRegion;
 
-                            mergedRegion = wsReport.MergedCellsRegions.Add(2, 0, 2, 24);
+                            mergedRegion = wsReport.MergedCellsRegions.Add(2, 0, 2, 25);
                             mergedRegion.CellFormat.BottomBorderStyle = CellBorderLineStyle.None;
                             mergedRegion.CellFormat.LeftBorderStyle = CellBorderLineStyle.None;
                             mergedRegion.CellFormat.RightBorderStyle = CellBorderLineStyle.None;
@@ -363,7 +363,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             //Add the report date
 
-                            mergedRegion = wsReport.MergedCellsRegions.Add(3, 0, 3, 24);
+                            mergedRegion = wsReport.MergedCellsRegions.Add(3, 0, 3, 25);
                             mergedRegion.CellFormat.BottomBorderStyle = CellBorderLineStyle.None;
                             mergedRegion.CellFormat.LeftBorderStyle = CellBorderLineStyle.None;
                             mergedRegion.CellFormat.RightBorderStyle = CellBorderLineStyle.None;
@@ -381,7 +381,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             foreach (DataRow dr in dtLeadStatusData.Rows)
                             {
-                                Methods.CopyExcelRegion(wsTemplate, 6, 0, 1, 24, wsReport, rowIndex - 1, 0);
+                                Methods.CopyExcelRegion(wsTemplate, 6, 0, 1, 25, wsReport, rowIndex - 1, 0);
 
                                 wsReport.GetCell("A" + rowIndex).Value = dr["Batch Number"].ToString();
                                 wsReport.GetCell("B" + rowIndex).Value = dr["PL Reference Number"].ToString();
@@ -407,6 +407,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("V" + rowIndex).Value = dr["TSR Assigned To"].ToString();
                                 wsReport.GetCell("W" + rowIndex).Value = dr["TSR Sold By"].ToString();
                                 wsReport.GetCell("X" + rowIndex).Value = dr["Confirmation Agent"].ToString();
+                                wsReport.GetCell("Z" + rowIndex).Value = dr["Original Campaign"].ToString();
 
                                 rowIndex++;
                             }

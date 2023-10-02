@@ -2208,6 +2208,7 @@ namespace UDM.Insurance.Interface.Screens
                                     inImportOther.TimesRemarketed = 0;
                                 }
                                 //inImportOther.LastDateRemarketed = GetDateValue(row.Cells[idxFields["Future15"].Index]);
+                                try { inImportOther.OriginalCampaign = GetStringValue(row.Cells[idxFields["Future18"].Index]); } catch { }
 
                                 if (idxFields.ContainsKey("CollectedDate")) inImportOther.CollectedDate = GetDateValue(row.Cells[idxFields["CollectedDate"].Index]);
                                 if (idxFields.ContainsKey("CommencementDate")) inImportOther.CommencementDate = GetDateValue(row.Cells[idxFields["CommencementDate"].Index]);
