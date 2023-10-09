@@ -156,6 +156,48 @@ namespace UDM.Insurance.Business
 
         #endregion
 
+        #region Get upgrade 14 assign leads
+        public static DataSet INGetUpgrade14AssignLeads(long batchID, long AssignAmount)
+        {
+            object param1 = Database.GetParameter("@BatchID", batchID);
+            object param2 = Database.GetParameter("@AssignAmount", AssignAmount);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINgetUpgrade14OriginalCampaignAssignLeads", paramArray, 600);
+        }
+
+        public static DataSet INGetNoContactLeads(long batchID, long AssignAmount)
+        {
+            object param1 = Database.GetParameter("@BatchID", batchID);
+            object param2 = Database.GetParameter("@AssignAmount", AssignAmount);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINgetUpgradeNoContactAssignLeads", paramArray, 600);
+        }
+
+        public static DataSet INGetNoContactLeadsSuccess(long batchID, long AssignAmount)
+        {
+            object param1 = Database.GetParameter("@BatchID", batchID);
+            object param2 = Database.GetParameter("@AssignAmount", AssignAmount);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINgetUpgradeNoContactAssignLeadsSuccess", paramArray, 600);
+        }
+
+        public static DataSet INGetNoContactLeadsBlank(long batchID, long AssignAmount)
+        {
+            object param1 = Database.GetParameter("@BatchID", batchID);
+            object param2 = Database.GetParameter("@AssignAmount", AssignAmount);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINgetUpgradeNoContactAssignLeadsBlank", paramArray, 600);
+        }
+        #endregion
+
         #region Auto Assign leads
         public static DataSet INReportAutoAssignBreakdown(long? FKUserID)
         {
@@ -177,6 +219,19 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetAutoAssignLeadsLookups", paramArray, 600);
         }
 
+        #endregion
+
+        #region Bulk SMS No Contact
+        public static DataSet INGetNoContactBulkSMSLookups(DateTime fromDate, DateTime toDate, string fkINCampaignFKINCampaignClusterIDs)
+        {
+            object param1 = Database.GetParameter("@FromDate", fromDate);
+            object param2 = Database.GetParameter("@ToDate", toDate);
+            object param3 = Database.GetParameter("@FKINCampaignFKINCampaignClusterIDs", fkINCampaignFKINCampaignClusterIDs);
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spGetNoContactBulkSMSLookups", paramArray, 600);
+        }
+        
         #endregion
 
         #region DC Analysis Report

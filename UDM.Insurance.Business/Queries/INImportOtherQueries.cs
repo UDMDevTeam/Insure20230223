@@ -23,7 +23,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inimportother != null)
             {
-                query = "INSERT INTO [zHstINImportOther] ([ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID] FROM [INImportOther] WHERE [INImportOther].[ID] = @ID; ";
+                query = "INSERT INTO [zHstINImportOther] ([ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID] FROM [INImportOther] WHERE [INImportOther].[ID] = @ID; ";
                 query += "DELETE FROM [INImportOther] WHERE [INImportOther].[ID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", inimportother.ID);
@@ -58,7 +58,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inimportother != null)
             {
-                query = "INSERT INTO [INImportOther] ([ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID] FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID AND [zHstINImportOther].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INImportOther] WHERE [ID] = @ID) = 0; ";
+                query = "INSERT INTO [INImportOther] ([ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID] FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID AND [zHstINImportOther].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INImportOther] WHERE [ID] = @ID) = 0; ";
                 query += "DELETE FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID AND [zHstINImportOther].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [INImportOther] WHERE [ID] = @ID) = 0; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", inimportother.ID);
@@ -78,7 +78,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inimportother != null)
             {
-                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID] FROM [INImportOther] WHERE [INImportOther].[ID] = @ID";
+                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID] FROM [INImportOther] WHERE [INImportOther].[ID] = @ID";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", inimportother.ID);
             }
@@ -95,7 +95,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (inimportother != null)
             {
-            query.Append("SELECT [INImportOther].[ID], [INImportOther].[FKINImportID], [INImportOther].[FKINBatchID], [INImportOther].[RefNo], [INImportOther].[AccountType], [INImportOther].[StartDate], [INImportOther].[EndDate], [INImportOther].[ReferralFrom], [INImportOther].[AddressFrom], [INImportOther].[TimesRemarketed], [INImportOther].[LastDateRemarketed], [INImportOther].[CollectedDate], [INImportOther].[CommencementDate], [INImportOther].[DurationInForce], [INImportOther].[DurationSinceOOF], [INImportOther].[NumColls], [INImportOther].[OOFDate], [INImportOther].[OOFType], [INImportOther].[UpgradeCount], [INImportOther].[Premium], [INImportOther].[Bank], [INImportOther].[Last4Digits], [INImportOther].[ExtendedSalesDate], [INImportOther].[StampDate], [INImportOther].[StampUserID]");
+            query.Append("SELECT [INImportOther].[ID], [INImportOther].[FKINImportID], [INImportOther].[FKINBatchID], [INImportOther].[RefNo], [INImportOther].[AccountType], [INImportOther].[StartDate], [INImportOther].[EndDate], [INImportOther].[ReferralFrom], [INImportOther].[AddressFrom], [INImportOther].[TimesRemarketed], [INImportOther].[LastDateRemarketed], [INImportOther].[CollectedDate], [INImportOther].[CommencementDate], [INImportOther].[DurationInForce], [INImportOther].[DurationSinceOOF], [INImportOther].[NumColls], [INImportOther].[OOFDate], [INImportOther].[OOFType], [INImportOther].[UpgradeCount], [INImportOther].[Premium], [INImportOther].[Bank], [INImportOther].[Last4Digits], [INImportOther].[ExtendedSalesDate], [INImportOther].[OriginalCampaign], [INImportOther].[StampDate], [INImportOther].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INImportOther].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INImportOther] ");
                 query.Append(" WHERE [INImportOther].[ID] = @ID");
@@ -117,7 +117,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (inimportother != null)
             {
-                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID] FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID AND [zHstINImportOther].[StampUserID] = @StampUserID AND [zHstINImportOther].[StampDate] = @StampDate";
+                query = "SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID] FROM [zHstINImportOther] WHERE [zHstINImportOther].[ID] = @ID AND [zHstINImportOther].[StampUserID] = @StampUserID AND [zHstINImportOther].[StampDate] = @StampDate";
                 parameters = new object[3];
                 parameters[0] = Database.GetParameter("@ID", inimportother.ID);
                 parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
@@ -135,7 +135,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string List()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [INImportOther].[ID], [INImportOther].[FKINImportID], [INImportOther].[FKINBatchID], [INImportOther].[RefNo], [INImportOther].[AccountType], [INImportOther].[StartDate], [INImportOther].[EndDate], [INImportOther].[ReferralFrom], [INImportOther].[AddressFrom], [INImportOther].[TimesRemarketed], [INImportOther].[LastDateRemarketed], [INImportOther].[CollectedDate], [INImportOther].[CommencementDate], [INImportOther].[DurationInForce], [INImportOther].[DurationSinceOOF], [INImportOther].[NumColls], [INImportOther].[OOFDate], [INImportOther].[OOFType], [INImportOther].[UpgradeCount], [INImportOther].[Premium], [INImportOther].[Bank], [INImportOther].[Last4Digits], [INImportOther].[ExtendedSalesDate], [INImportOther].[StampDate], [INImportOther].[StampUserID]");
+            query.Append("SELECT [INImportOther].[ID], [INImportOther].[FKINImportID], [INImportOther].[FKINBatchID], [INImportOther].[RefNo], [INImportOther].[AccountType], [INImportOther].[StartDate], [INImportOther].[EndDate], [INImportOther].[ReferralFrom], [INImportOther].[AddressFrom], [INImportOther].[TimesRemarketed], [INImportOther].[LastDateRemarketed], [INImportOther].[CollectedDate], [INImportOther].[CommencementDate], [INImportOther].[DurationInForce], [INImportOther].[DurationSinceOOF], [INImportOther].[NumColls], [INImportOther].[OOFDate], [INImportOther].[OOFType], [INImportOther].[UpgradeCount], [INImportOther].[Premium], [INImportOther].[Bank], [INImportOther].[Last4Digits], [INImportOther].[ExtendedSalesDate], [INImportOther].[OriginalCampaign], [INImportOther].[StampDate], [INImportOther].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INImportOther].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INImportOther] ");
             return query.ToString();
@@ -148,7 +148,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string ListDeleted()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [zHstINImportOther].[ID], [zHstINImportOther].[FKINImportID], [zHstINImportOther].[FKINBatchID], [zHstINImportOther].[RefNo], [zHstINImportOther].[AccountType], [zHstINImportOther].[StartDate], [zHstINImportOther].[EndDate], [zHstINImportOther].[ReferralFrom], [zHstINImportOther].[AddressFrom], [zHstINImportOther].[TimesRemarketed], [zHstINImportOther].[LastDateRemarketed], [zHstINImportOther].[CollectedDate], [zHstINImportOther].[CommencementDate], [zHstINImportOther].[DurationInForce], [zHstINImportOther].[DurationSinceOOF], [zHstINImportOther].[NumColls], [zHstINImportOther].[OOFDate], [zHstINImportOther].[OOFType], [zHstINImportOther].[UpgradeCount], [zHstINImportOther].[Premium], [zHstINImportOther].[Bank], [zHstINImportOther].[Last4Digits], [zHstINImportID].[ExtendedSalesDate], [zHstINImportOther].[StampDate], [zHstINImportOther].[StampUserID]");
+            query.Append("SELECT [zHstINImportOther].[ID], [zHstINImportOther].[FKINImportID], [zHstINImportOther].[FKINBatchID], [zHstINImportOther].[RefNo], [zHstINImportOther].[AccountType], [zHstINImportOther].[StartDate], [zHstINImportOther].[EndDate], [zHstINImportOther].[ReferralFrom], [zHstINImportOther].[AddressFrom], [zHstINImportOther].[TimesRemarketed], [zHstINImportOther].[LastDateRemarketed], [zHstINImportOther].[CollectedDate], [zHstINImportOther].[CommencementDate], [zHstINImportOther].[DurationInForce], [zHstINImportOther].[DurationSinceOOF], [zHstINImportOther].[NumColls], [zHstINImportOther].[OOFDate], [zHstINImportOther].[OOFType], [zHstINImportOther].[UpgradeCount], [zHstINImportOther].[Premium], [zHstINImportOther].[Bank], [zHstINImportOther].[Last4Digits], [zHstINImportOther].[ExtendedSalesDate], [zHstINImportOther].[OriginalCampaign], [zHstINImportOther].[StampDate], [zHstINImportOther].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINImportOther].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINImportOther] ");
             query.Append("INNER JOIN (SELECT [zHstINImportOther].[ID], MAX([zHstINImportOther].[StampDate]) AS 'StampDate' ");
@@ -170,7 +170,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (inimportother != null)
             {
-            query.Append("SELECT [zHstINImportOther].[ID], [zHstINImportOther].[FKINImportID], [zHstINImportOther].[FKINBatchID], [zHstINImportOther].[RefNo], [zHstINImportOther].[AccountType], [zHstINImportOther].[StartDate], [zHstINImportOther].[EndDate], [zHstINImportOther].[ReferralFrom], [zHstINImportOther].[AddressFrom], [zHstINImportOther].[TimesRemarketed], [zHstINImportOther].[LastDateRemarketed], [zHstINImportOther].[CollectedDate], [zHstINImportOther].[CommencementDate], [zHstINImportOther].[DurationInForce], [zHstINImportOther].[DurationSinceOOF], [zHstINImportOther].[NumColls], [zHstINImportOther].[OOFDate], [zHstINImportOther].[OOFType], [zHstINImportOther].[UpgradeCount], [zHstINImportOther].[Premium], [zHstINImportOther].[Bank], [zHstINImportOther].[Last4Digits], [zHstINImportOther].[ExtendedSalesDate], [zHstINImportOther].[StampDate], [zHstINImportOther].[StampUserID]");
+            query.Append("SELECT [zHstINImportOther].[ID], [zHstINImportOther].[FKINImportID], [zHstINImportOther].[FKINBatchID], [zHstINImportOther].[RefNo], [zHstINImportOther].[AccountType], [zHstINImportOther].[StartDate], [zHstINImportOther].[EndDate], [zHstINImportOther].[ReferralFrom], [zHstINImportOther].[AddressFrom], [zHstINImportOther].[TimesRemarketed], [zHstINImportOther].[LastDateRemarketed], [zHstINImportOther].[CollectedDate], [zHstINImportOther].[CommencementDate], [zHstINImportOther].[DurationInForce], [zHstINImportOther].[DurationSinceOOF], [zHstINImportOther].[NumColls], [zHstINImportOther].[OOFDate], [zHstINImportOther].[OOFType], [zHstINImportOther].[UpgradeCount], [zHstINImportOther].[Premium], [zHstINImportOther].[Bank], [zHstINImportOther].[Last4Digits], [zHstINImportOther].[ExtendedSalesDate], [zHstINImportOther].[OriginalCampaign], [zHstINImportOther].[StampDate], [zHstINImportOther].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINImportOther].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINImportOther] ");
                 query.Append(" WHERE [zHstINImportOther].[ID] = @ID");
@@ -195,9 +195,9 @@ namespace UDM.Insurance.Business.Queries
             {
                 if (inimportother.IsLoaded)
                 {
-                    query.Append("INSERT INTO [zHstINImportOther] ([ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID] FROM [INImportOther] WHERE [INImportOther].[ID] = @ID; ");
+                    query.Append("INSERT INTO [zHstINImportOther] ([ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID]) SELECT [ID], [FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID] FROM [INImportOther] WHERE [INImportOther].[ID] = @ID; ");
                     query.Append("UPDATE [INImportOther]");
-                    parameters = new object[23];
+                    parameters = new object[24];
                     query.Append(" SET [FKINImportID] = @FKINImportID");
                     parameters[0] = Database.GetParameter("@FKINImportID", inimportother.FKINImportID.HasValue ? (object)inimportother.FKINImportID.Value : DBNull.Value);
                     query.Append(", [FKINBatchID] = @FKINBatchID");
@@ -242,14 +242,16 @@ namespace UDM.Insurance.Business.Queries
                     parameters[20] = Database.GetParameter("@Last4Digits", string.IsNullOrEmpty(inimportother.Last4Digits) ? DBNull.Value : (object)inimportother.Last4Digits);
                     query.Append(", [ExtendedSalesDate] = @ExtendedSalesDate");
                     parameters[21] = Database.GetParameter("@ExtendedSalesDate", inimportother.ExtendedSalesDate.HasValue ? (object)inimportother.ExtendedSalesDate.Value : DBNull.Value);
+                    query.Append(", [OriginalCampaign] = @OriginalCampaign");
+                    parameters[22] = Database.GetParameter("@OriginalCampaign", string.IsNullOrEmpty(inimportother.OriginalCampaign) ? DBNull.Value : (object)inimportother.OriginalCampaign);
                     query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
                     query.Append(" WHERE [INImportOther].[ID] = @ID"); 
-                    parameters[22] = Database.GetParameter("@ID", inimportother.ID);
+                    parameters[23] = Database.GetParameter("@ID", inimportother.ID);
                 }
                 else
                 {
-                    query.Append("INSERT INTO [INImportOther] ([FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [StampDate], [StampUserID]) VALUES(@FKINImportID, @FKINBatchID, @RefNo, @AccountType, @StartDate, @EndDate, @ReferralFrom, @AddressFrom, @TimesRemarketed, @LastDateRemarketed, @CollectedDate, @CommencementDate, @DurationInForce, @DurationSinceOOF, @NumColls, @OOFDate, @OOFType, @UpgradeCount, @Premium, @Bank, @Last4Digits, @ExtendedSalesdate, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                    parameters = new object[22];
+                    query.Append("INSERT INTO [INImportOther] ([FKINImportID], [FKINBatchID], [RefNo], [AccountType], [StartDate], [EndDate], [ReferralFrom], [AddressFrom], [TimesRemarketed], [LastDateRemarketed], [CollectedDate], [CommencementDate], [DurationInForce], [DurationSinceOOF], [NumColls], [OOFDate], [OOFType], [UpgradeCount], [Premium], [Bank], [Last4Digits], [ExtendedSalesDate], [OriginalCampaign], [StampDate], [StampUserID]) VALUES(@FKINImportID, @FKINBatchID, @RefNo, @AccountType, @StartDate, @EndDate, @ReferralFrom, @AddressFrom, @TimesRemarketed, @LastDateRemarketed, @CollectedDate, @CommencementDate, @DurationInForce, @DurationSinceOOF, @NumColls, @OOFDate, @OOFType, @UpgradeCount, @Premium, @Bank, @Last4Digits, @ExtendedSalesdate, @OriginalCampaign, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
+                    parameters = new object[23];
                     parameters[0] = Database.GetParameter("@FKINImportID", inimportother.FKINImportID.HasValue ? (object)inimportother.FKINImportID.Value : DBNull.Value);
                     parameters[1] = Database.GetParameter("@FKINBatchID", inimportother.FKINBatchID.HasValue ? (object)inimportother.FKINBatchID.Value : DBNull.Value);
                     parameters[2] = Database.GetParameter("@RefNo", string.IsNullOrEmpty(inimportother.RefNo) ? DBNull.Value : (object)inimportother.RefNo);
@@ -272,6 +274,7 @@ namespace UDM.Insurance.Business.Queries
                     parameters[19] = Database.GetParameter("@Bank", string.IsNullOrEmpty(inimportother.Bank) ? DBNull.Value : (object)inimportother.Bank);
                     parameters[20] = Database.GetParameter("@Last4Digits", string.IsNullOrEmpty(inimportother.Last4Digits) ? DBNull.Value : (object)inimportother.Last4Digits);
                     parameters[21] = Database.GetParameter("@ExtendedSalesDate", inimportother.ExtendedSalesDate.HasValue ? (object)inimportother.ExtendedSalesDate.Value : DBNull.Value);
+                    parameters[22] = Database.GetParameter("@OriginalCampaign", string.IsNullOrEmpty(inimportother.OriginalCampaign) ? DBNull.Value : (object)inimportother.OriginalCampaign);
 
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
@@ -306,7 +309,7 @@ namespace UDM.Insurance.Business.Queries
         /// <param name="bank">The bank search criteria.</param>
         /// <param name="last4digits">The last4digits search criteria.</param>
         /// <returns>A query that can be used to search for inimportothers based on the search criteria.</returns>
-        internal static string Search(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, DateTime? extendedsalesdate)
+        internal static string Search(long? fkinimportid, long? fkinbatchid, string refno, string accounttype, DateTime? startdate, DateTime? enddate, string referralfrom, string addressfrom, short? timesremarketed, DateTime? lastdateremarketed, DateTime? collecteddate, DateTime? commencementdate, int? durationinforce, int? durationsinceoof, int? numcolls, DateTime? oofdate, string ooftype, int? upgradecount, decimal? premium, string bank, string last4digits, DateTime? extendedsalesdate, string originalcampaign)
         {
             StringBuilder whereQuery = new StringBuilder();
             StringBuilder query = new StringBuilder();
@@ -422,7 +425,13 @@ namespace UDM.Insurance.Business.Queries
                 whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
                 whereQuery.Append("[INImportOther].[ExtendedSalesDate] = " + extendedsalesdate + "");
             }
-            query.Append("SELECT [INImportOther].[ID], [INImportOther].[FKINImportID], [INImportOther].[FKINBatchID], [INImportOther].[RefNo], [INImportOther].[AccountType], [INImportOther].[StartDate], [INImportOther].[EndDate], [INImportOther].[ReferralFrom], [INImportOther].[AddressFrom], [INImportOther].[TimesRemarketed], [INImportOther].[LastDateRemarketed], [INImportOther].[CollectedDate], [INImportOther].[CommencementDate], [INImportOther].[DurationInForce], [INImportOther].[DurationSinceOOF], [INImportOther].[NumColls], [INImportOther].[OOFDate], [INImportOther].[OOFType], [INImportOther].[UpgradeCount], [INImportOther].[Premium], [INImportOther].[Bank], [INImportOther].[Last4Digits], [INImportOther].[ExtendedSalesDate], [INImportOther].[StampDate], [INImportOther].[StampUserID]");
+            if (originalcampaign != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INImportOther].[OriginalCampaign] LIKE '" + originalcampaign.Replace("'", "''").Replace("*", "%") + "'");
+            }
+
+            query.Append("SELECT [INImportOther].[ID], [INImportOther].[FKINImportID], [INImportOther].[FKINBatchID], [INImportOther].[RefNo], [INImportOther].[AccountType], [INImportOther].[StartDate], [INImportOther].[EndDate], [INImportOther].[ReferralFrom], [INImportOther].[AddressFrom], [INImportOther].[TimesRemarketed], [INImportOther].[LastDateRemarketed], [INImportOther].[CollectedDate], [INImportOther].[CommencementDate], [INImportOther].[DurationInForce], [INImportOther].[DurationSinceOOF], [INImportOther].[NumColls], [INImportOther].[OOFDate], [INImportOther].[OOFType], [INImportOther].[UpgradeCount], [INImportOther].[Premium], [INImportOther].[Bank], [INImportOther].[Last4Digits], [INImportOther].[ExtendedSalesDate], [INImportOther].[OriginalCampaign], [INImportOther].[StampDate], [INImportOther].[StampUserID]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INImportOther].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INImportOther] ");
             return query.ToString() + whereQuery.ToString();
