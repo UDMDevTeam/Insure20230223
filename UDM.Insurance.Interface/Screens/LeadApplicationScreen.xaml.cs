@@ -1439,35 +1439,45 @@ namespace UDM.Insurance.Interface.Screens
                 #region NextOfKin
 
                 {
-                    if (dtNextOfKin.Rows.Count > 0)
+                    StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                    strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                    strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                    strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                    string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                    DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+
+                    if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
                     {
-                        for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                        if (dtNextOfKin.Rows.Count > 0)
                         {
-                            DataTable dt = null;
-                            DataTable dtHst = null;
-                            DataRow[] dr = dtNextOfKin.Select("NOKID IS NOT NULL");
-                            DataRow[] drHst = dtNextOfKinHst.Select("ID IS NOT NULL");
-                            if (dr.Length > 0) { dt = dr.CopyToDataTable(); }
-                            if (drHst.Length > 0) { dtHst = drHst.CopyToDataTable(); }
-
-                            if (dt != null && dt.Rows.Count > 0)
+                            for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                             {
-                                LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
-                                LeadApplicationData.NextOfKinHistory NextOfKinHistoryData = LaData.NextOfKinHistoryData[i];
+                                DataTable dt = null;
+                                DataTable dtHst = null;
+                                DataRow[] dr = dtNextOfKin.Select("NOKID IS NOT NULL");
+                                DataRow[] drHst = dtNextOfKinHst.Select("ID IS NOT NULL");
+                                if (dr.Length > 0) { dt = dr.CopyToDataTable(); }
+                                if (drHst.Length > 0) { dtHst = drHst.CopyToDataTable(); }
 
-                                NextOfKinData.NextOfKinID = NextOfKinHistoryData.NextOfKinID = dt.Rows[0]["NOKID"] as long?;
+                                if (dt != null && dt.Rows.Count > 0)
+                                {
+                                    LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+                                    LeadApplicationData.NextOfKinHistory NextOfKinHistoryData = LaData.NextOfKinHistoryData[i];
 
-                                NextOfKinData.Name = NextOfKinHistoryData.Name = dt.Rows[0]["NOKFirstName"] as string;
-                                if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.Name = dtHst.Rows[0]["FirstName"] as string;
+                                    NextOfKinData.NextOfKinID = NextOfKinHistoryData.NextOfKinID = dt.Rows[0]["NOKID"] as long?;
 
-                                NextOfKinData.Surname = NextOfKinHistoryData.Surname = dt.Rows[0]["NOKSurname"] as string;
-                                if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.Surname = dtHst.Rows[0]["Surname"] as string;
+                                    NextOfKinData.Name = NextOfKinHistoryData.Name = dt.Rows[0]["NOKFirstName"] as string;
+                                    if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.Name = dtHst.Rows[0]["FirstName"] as string;
 
-                                NextOfKinData.RelationshipID = NextOfKinHistoryData.RelationshipID = dt.Rows[0]["NOKRelationshipID"] as long?;
-                                if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.RelationshipID = dtHst.Rows[0]["FKINRelationshipID"] as long?;
+                                    NextOfKinData.Surname = NextOfKinHistoryData.Surname = dt.Rows[0]["NOKSurname"] as string;
+                                    if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.Surname = dtHst.Rows[0]["Surname"] as string;
 
-                                NextOfKinData.TelContact = NextOfKinHistoryData.TelContact = dt.Rows[0]["NOKTelContact"] as string;
-                                if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.TelContact = dtHst.Rows[0]["TelContact"] as string;
+                                    NextOfKinData.RelationshipID = NextOfKinHistoryData.RelationshipID = dt.Rows[0]["NOKRelationshipID"] as long?;
+                                    if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.RelationshipID = dtHst.Rows[0]["FKINRelationshipID"] as long?;
+
+                                    NextOfKinData.TelContact = NextOfKinHistoryData.TelContact = dt.Rows[0]["NOKTelContact"] as string;
+                                    if (dtHst != null && dtHst.Rows.Count > 0) NextOfKinHistoryData.TelContact = dtHst.Rows[0]["TelContact"] as string;
+                                }
                             }
                         }
                     }
@@ -2377,6 +2387,8 @@ namespace UDM.Insurance.Interface.Screens
                         hdrReferral.Visibility = Visibility.Collapsed;
                         cmbReferral.Visibility = Visibility.Collapsed;
                         btnSubmitRefs.Visibility = Visibility.Collapsed;
+                        btnRemovelead.Visibility = Visibility.Collapsed;
+
                         if (Page1.IsVisible)
                         {
                             lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
@@ -2412,6 +2424,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                                 chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                                 referralGB.Visibility = Visibility.Visible;
+                              
                                 lblRefName.Visibility = Visibility.Collapsed;
                                 medRefName.Visibility = Visibility.Collapsed;
                                 lblRefCellNumber.Visibility = Visibility.Collapsed;
@@ -2512,6 +2525,7 @@ namespace UDM.Insurance.Interface.Screens
                     hdrReferral.Visibility = Visibility.Collapsed;
                     cmbReferral.Visibility = Visibility.Collapsed;
                     btnSubmitRefs.Visibility = Visibility.Collapsed;
+                    btnRemovelead.Visibility = Visibility.Collapsed;
                     if (Page1.IsVisible)
                     {
                         lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
@@ -3608,6 +3622,7 @@ namespace UDM.Insurance.Interface.Screens
                                 }
 
                                 NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                                NextOfKinData = new LeadApplicationData.NextOfKin();
                             }
                             catch (Exception es)
                             {
@@ -3642,6 +3657,10 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     inNextOfKin.Save(_validationResult);
                                 }
+                                if(string.IsNullOrEmpty(inNextOfKin.FirstName) && string.IsNullOrEmpty(inNextOfKin.Surname) && inNextOfKin.FKINRelationshipID < 1 && string.IsNullOrEmpty(inNextOfKin.TelContact))
+                                {
+                                    inNextOfKin.Save(_validationResult);
+                                }
 
                                 if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
                                 {
@@ -3650,10 +3669,11 @@ namespace UDM.Insurance.Interface.Screens
                                 }
 
                                 NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                                NextOfKinData = new LeadApplicationData.NextOfKin();
                             }
                             catch (Exception es)
                             {
-
+                               // NextOfKinData = new LeadApplicationData.NextOfKin();
                             }
                         }
                     }
@@ -5162,6 +5182,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 MainBorder.BorderBrush = (Brush)FindResource("BrandedBrushIN");
                 btnForwardToDCAgent.ToolTip = "";
+                
             }
             catch (Exception ex)
             {
@@ -5171,6 +5192,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Arrow);
             }
+          
         }
         private void LoadLookupData()
         {
@@ -9106,7 +9128,8 @@ namespace UDM.Insurance.Interface.Screens
                                         hdrReferral.Visibility = Visibility.Collapsed;
                                         cmbReferral.Visibility = Visibility.Collapsed;
                                         lblReferralOb.Visibility = Visibility.Visible;
-                                       
+                                        btnRemovelead.Visibility = Visibility.Collapsed;
+                                        btnSubmitRefs.Visibility = Visibility.Collapsed;
                                     }
                                     else
                                     {
@@ -9125,6 +9148,7 @@ namespace UDM.Insurance.Interface.Screens
                                         lblRefGender.Visibility = Visibility.Visible;
                                         cmbRefGender.Visibility = Visibility.Visible;
                                         lblReferralOb.Visibility = Visibility.Collapsed;
+                                        btnSubmitRefs.Visibility = Visibility.Visible;
                                        if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.Administrator || (lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SeniorAdministrator)
                                         {
                                             btnRemovelead.Visibility = Visibility.Visible;
@@ -9443,6 +9467,8 @@ namespace UDM.Insurance.Interface.Screens
                                         hdrReferral.Visibility = Visibility.Collapsed;
                                         cmbReferral.Visibility = Visibility.Collapsed;
                                         lblReferralOb.Visibility = Visibility.Visible;
+                                        btnSubmitRefs.Visibility = Visibility.Collapsed;
+                                        btnRemovelead.Visibility = Visibility.Collapsed;
                                     }
                                     else
                                     {
@@ -9465,6 +9491,7 @@ namespace UDM.Insurance.Interface.Screens
                                         {
                                             btnRemovelead.Visibility = Visibility.Visible;
                                         }
+                                        btnSubmitRefs.Visibility = Visibility.Visible;
                                         StringBuilder strQueryReferrals = new StringBuilder();
                                         strQueryReferrals.Append("SELECT [ID], [FKINImportID], [ReferralNumber], [Name], [CellNumber], [FKINRelationshipID], [FKGenderID], [StampUserID], [StampDate] ");
                                         strQueryReferrals.Append("FROM [INReferrals] ");
@@ -19349,6 +19376,14 @@ namespace UDM.Insurance.Interface.Screens
 
             if (cmbRefGender != null)
                 cmbRefGender.SelectedIndex = -1;
+            if (LaData.NextOfKinData.Count() >= 1)
+            {
+                try
+                {
+                        LaData.NextOfKinData.Clear();
+                }
+                catch { }
+            }
 
         }
         Dictionary<string, ReferralData> RemovereferralDataDict = new Dictionary<string, ReferralData>();
@@ -19555,48 +19590,59 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
 
-                count++;
-                if (count == 1)
+                //count++;
+                //if (count == 1)
+                //{
+                try
                 {
-                    for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                    if (chkNOKRef.IsChecked == true)
                     {
-                        try
+                        for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
-                            LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+                            try
+                            {
+                                LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
 
-                            INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-                            DataRowView selectedRelationshipRow;
-                            if (string.IsNullOrEmpty(medRefName.Text) && cmbRefGender.SelectedIndex != -1)
-                            {
-                                return;
-                            }
-                            else
-                            {
-                                selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
-                            }
-                            inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                            inNextOfKin.FirstName = UppercaseFirst(NOKReferral.Name);
-                            inNextOfKin.Surname = UppercaseFirst(NOKReferral.Surname);
-                            inNextOfKin.FKINRelationshipID = NOKReferral.RelationshipID;
-                            inNextOfKin.TelContact = NOKReferral.TelContact;
-                            if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
-                            {
-                                inNextOfKin.Save(_validationResult);
-                            }
+                                INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+                                DataRowView selectedRelationshipRow;
+                                if (string.IsNullOrEmpty(medRefName.Text) && cmbRefGender.SelectedIndex != -1)
+                                {
+                                    return;
+                                }
+                                else
+                                {
+                                    selectedRelationshipRow = cmbRefRelationship.SelectedItem as DataRowView;
+                                }
+                                inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                                inNextOfKin.FirstName = UppercaseFirst(NOKReferral.Name);
+                                inNextOfKin.Surname = UppercaseFirst(NOKReferral.Surname);
+                                inNextOfKin.FKINRelationshipID = NOKReferral.RelationshipID;
+                                inNextOfKin.TelContact = NOKReferral.TelContact;
+                                if (medRefName.Text != "" || medRefCellNumber.Text != "" && inNextOfKin.FKINRelationshipID < 1)
+                                {
+                                    inNextOfKin.Save(_validationResult);
+                                }
 
-                            if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
-                            {
-                                string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
-                                Methods.ExecuteSQLNonQuery(strQuery);
-                            }
+                                if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                                {
+                                    string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
+                                }
 
-                            NextOfKinData.NextOfKinID = inNextOfKin.ID;
-                        }
-                        catch (Exception es)
-                        {
+                                NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                                NextOfKinData = new LeadApplicationData.NextOfKin();
+                            }
+                            catch (Exception es)
+                            {
+
+                            }
 
                         }
                     }
+                }
+                catch
+                {
+
                 }
             }
         }

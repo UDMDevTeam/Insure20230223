@@ -7476,9 +7476,12 @@ Height="16"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"
 Checked="chkNOKRef_Checked"
-Style="{StaticResource StyleConfirmCheckbox}"
 TabIndex="98300"
-Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" />
+Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
+
+                                                    <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}">
+                                                    </Style>
+                                                </CheckBox>
                                             </Grid>
                                         </StackPanel>
                                     </GroupBox>
