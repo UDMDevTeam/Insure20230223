@@ -3632,6 +3632,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
+                        // update if record exsists
                         for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
                             try
@@ -3653,11 +3654,14 @@ namespace UDM.Insurance.Interface.Screens
                                 inNextOfKin.Surname = UppercaseFirst(NOKReferral.Surname);
                                 inNextOfKin.FKINRelationshipID = NOKReferral.RelationshipID;
                                 inNextOfKin.TelContact = NOKReferral.TelContact;
-                                if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
-                                {
-                                    inNextOfKin.Save(_validationResult);
-                                }
-                                if(string.IsNullOrEmpty(inNextOfKin.FirstName) && string.IsNullOrEmpty(inNextOfKin.Surname) && inNextOfKin.FKINRelationshipID < 1 && string.IsNullOrEmpty(inNextOfKin.TelContact))
+                                //if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
+                                //{
+                                //    if (inNextOfKin.FKINRelationshipID != null || inNextOfKin.FKINRelationshipID <= 0 && string.IsNullOrEmpty(inNextOfKin.TelContact))
+                                //    {
+                                //        inNextOfKin.Save(_validationResult);
+                                //    }
+                                //}
+                                if(!string.IsNullOrEmpty(inNextOfKin.FirstName)  && inNextOfKin.FKINRelationshipID >= 1 && !string.IsNullOrEmpty(inNextOfKin.TelContact))
                                 {
                                     inNextOfKin.Save(_validationResult);
                                 }
@@ -19682,24 +19686,34 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             else
                             {
-                                var Name = splitName[0];
-                                var Surname = splitName[1];
-                               NOKReferral = new LeadApplicationData.NextOfKin
+                                if (splitName.Length > 2)
                                 {
-                                    Name = Name,
-                                    Surname = Surname,
-                                    TelContact = medRefCellNumber.Text,
-                                    RelationshipID = (long)selectedRelationshipRow[0] //saveID
+                                    var Name = splitName[0] +" "+ splitName[1];
+                                    var Surname = splitName[2];
+                                    NOKReferral = new LeadApplicationData.NextOfKin
+                                    {
+                                        Name = Name,
+                                        Surname = Surname,
+                                        TelContact = medRefCellNumber.Text,
+                                        RelationshipID = (long)selectedRelationshipRow[0] //saveID
 
-                                };
+                                    };
+                                }
+                                else
+                                {
+                                    var Name = splitName[0] ;
+                                    var Surname = splitName[1];
+                                    NOKReferral = new LeadApplicationData.NextOfKin
+                                    {
+                                        Name = Name,
+                                        Surname = Surname,
+                                        TelContact = medRefCellNumber.Text,
+                                        RelationshipID = (long)selectedRelationshipRow[0] //saveID
+
+                                    };
+                                }
                             }
-                            //medNOKName.Text = splitName[0];
-                            //medNOKSurname.Text = splitName[1];
-                            //medNOKContactPhone.Text = medRefCellNumber.Text;
-                            //if (cmbRefRelationship.SelectedIndex != -1)
-                            //{
-                            //    cmbNOKRelationship.SelectedIndex = cmbRefRelationship.SelectedIndex;
-                            //}
+
                         }
                         else
                         {
