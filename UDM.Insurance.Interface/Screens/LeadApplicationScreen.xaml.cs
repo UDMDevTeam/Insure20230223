@@ -45,6 +45,7 @@ using System.Threading;
 using UDM.Insurance.Interface.TempClass;
 using UDM.Insurance.Business.Objects;
 using static UDM.Insurance.Interface.PrismViews.EditClosureScreenViewModel;
+using System.Data.Entity.Core.Objects.DataClasses;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -728,7 +729,7 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion
 
                 #region Hardbound Leads
-                try 
+                try
                 {
                     if (dtLead.Rows[0]["EmailStatus"] as string == "HARD_BOUNCE")
                     {
@@ -738,7 +739,8 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         lblHardBound.Visibility = Visibility.Collapsed;
                     }
-                } catch { lblHardBound.Visibility = Visibility.Collapsed; }
+                }
+                catch { lblHardBound.Visibility = Visibility.Collapsed; }
                 #endregion
                 // See https://udmint.basecamphq.com/projects/10327065-udm-insure/todo_items/219494758/comments
                 if (dtLeadHst.Rows.Count > 0)
@@ -2360,7 +2362,7 @@ namespace UDM.Insurance.Interface.Screens
                 strQueryObtainedReferrals.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
                 string finalQuery = strQueryObtainedReferrals.ToString();
                 DataTable dtObtainedReferrals = Methods.GetTableData(strQueryObtainedReferrals.ToString());
-              
+
                 if (dtObtainedReferrals.Rows.Count > 0)
                 {
                     object obtainedReferrals = dtObtainedReferrals.Rows[0]["ObtainedReferrals"];
@@ -2382,7 +2384,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
                     {
-                      
+
                         referralGB.Visibility = Visibility.Collapsed;
                         hdrReferral.Visibility = Visibility.Collapsed;
                         cmbReferral.Visibility = Visibility.Collapsed;
@@ -2399,7 +2401,7 @@ namespace UDM.Insurance.Interface.Screens
                             NOFGB.Visibility = Visibility.Visible;
 
                             lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                                chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
 
                         }
                         else if (Page3.IsVisible)
@@ -2412,8 +2414,8 @@ namespace UDM.Insurance.Interface.Screens
                             lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                             chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         }
-                            referralGB.Visibility = Visibility.Collapsed;
-                        }
+                        referralGB.Visibility = Visibility.Collapsed;
+                    }
                     else
                     {
                         if (obtainedReferralsValue)
@@ -2424,7 +2426,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                                 chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                                 referralGB.Visibility = Visibility.Visible;
-                              
+
                                 lblRefName.Visibility = Visibility.Collapsed;
                                 medRefName.Visibility = Visibility.Collapsed;
                                 lblRefCellNumber.Visibility = Visibility.Collapsed;
@@ -2436,7 +2438,7 @@ namespace UDM.Insurance.Interface.Screens
                                 hdrReferral.Visibility = Visibility.Collapsed;
                                 cmbReferral.Visibility = Visibility.Collapsed;
                                 lblReferralOb.Visibility = Visibility.Visible;
-                               
+
                             }
                             btnSubmitRefs.Visibility = Visibility.Collapsed;
                             btnRemovelead.Visibility = Visibility.Collapsed;
@@ -2521,7 +2523,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                     referralGB.Visibility = Visibility.Collapsed;
+                    referralGB.Visibility = Visibility.Collapsed;
                     hdrReferral.Visibility = Visibility.Collapsed;
                     cmbReferral.Visibility = Visibility.Collapsed;
                     btnSubmitRefs.Visibility = Visibility.Collapsed;
@@ -2535,7 +2537,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         NOFGB.Visibility = Visibility.Visible;
                         lblMoveToLeadPermissions.Visibility = Visibility.Visible;
-                            chkMoveToLeadPermissions.Visibility = Visibility.Visible;
+                        chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                     }
                     else if (Page3.IsVisible)
                     {
@@ -2547,7 +2549,7 @@ namespace UDM.Insurance.Interface.Screens
                         lblMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                         chkMoveToLeadPermissions.Visibility = Visibility.Collapsed;
                     }
-                referralGB.Visibility = Visibility.Collapsed;
+                    referralGB.Visibility = Visibility.Collapsed;
                 }
                 #endregion
             }
@@ -3607,13 +3609,20 @@ namespace UDM.Insurance.Interface.Screens
                                 LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
 
                                 INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-
+                               var selectedRelationshipRow = cmbNOKRelationship.SelectedItem as DataRowView;
                                 inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                                inNextOfKin.FirstName = UppercaseFirst(NOKName);
+                                inNextOfKin.FirstName = UppercaseFirst(medNOKName.Text);
                                 inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
-                                inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
-                                inNextOfKin.TelContact = NOKNumber;
-                                inNextOfKin.Save(_validationResult);
+                                inNextOfKin.FKINRelationshipID = (long)selectedRelationshipRow[0]; //saveID;
+                                inNextOfKin.TelContact = medNOKContactPhone.Text;
+                                if (inNextOfKin.FKINRelationshipID <= 0 || cmbNOKRelationship.SelectedIndex == -1)
+                                {
+                                    ShowMessageBox(new INMessageBoxWindow1(), "Please select a relationship before saving.", "Next Of Kin", ShowMessageType.Error);
+                                }
+                                else
+                                {
+                                    inNextOfKin.Save(_validationResult);
+                                }
 
                                 if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
                                 {
@@ -3661,7 +3670,7 @@ namespace UDM.Insurance.Interface.Screens
                                 //        inNextOfKin.Save(_validationResult);
                                 //    }
                                 //}
-                                if(!string.IsNullOrEmpty(inNextOfKin.FirstName)  && inNextOfKin.FKINRelationshipID >= 1 && !string.IsNullOrEmpty(inNextOfKin.TelContact))
+                                if (!string.IsNullOrEmpty(inNextOfKin.FirstName) && inNextOfKin.FKINRelationshipID >= 1 && !string.IsNullOrEmpty(inNextOfKin.TelContact))
                                 {
                                     inNextOfKin.Save(_validationResult);
                                 }
@@ -3677,11 +3686,11 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             catch (Exception es)
                             {
-                               // NextOfKinData = new LeadApplicationData.NextOfKin();
+                                // NextOfKinData = new LeadApplicationData.NextOfKin();
                             }
                         }
                     }
-                    
+
                 }
 
                 #endregion
@@ -5186,7 +5195,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 MainBorder.BorderBrush = (Brush)FindResource("BrandedBrushIN");
                 btnForwardToDCAgent.ToolTip = "";
-                
+
             }
             catch (Exception ex)
             {
@@ -5196,7 +5205,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Arrow);
             }
-          
+
         }
         private void LoadLookupData()
         {
@@ -9091,7 +9100,7 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignID == 6 ||
                             LaData.AppData.CampaignID == 105)
                         {
-                          
+
                             bool obtainedReferralsValue = false;
                             if (dtObtainedReferrals2.Rows.Count > 0)
                             {
@@ -9105,7 +9114,7 @@ namespace UDM.Insurance.Interface.Screens
                             var Campaign = LaData.AppData.CampaignID;
                             if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
                             {
-                               
+
 
                                 if (dtObtainedReferrals2.Rows[0][0].ToString() == "" || dtObtainedReferrals2.Rows[0][0] == null)
                                 {
@@ -9153,7 +9162,7 @@ namespace UDM.Insurance.Interface.Screens
                                         cmbRefGender.Visibility = Visibility.Visible;
                                         lblReferralOb.Visibility = Visibility.Collapsed;
                                         btnSubmitRefs.Visibility = Visibility.Visible;
-                                       if((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.Administrator || (lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SeniorAdministrator)
+                                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.Administrator || (lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SeniorAdministrator)
                                         {
                                             btnRemovelead.Visibility = Visibility.Visible;
                                         }
@@ -9164,7 +9173,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                         DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
 
-                                        referralDataDict.Clear(); 
+                                        referralDataDict.Clear();
 
                                         foreach (DataRow row in dtReferrals.Rows)
                                         {
@@ -9213,8 +9222,8 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                 }
                             }
-                        
-                            
+
+
                             if (dtObtainedReferrals2.Rows[0][0].ToString() != "" || dtObtainedReferrals2.Rows[0][0] != null)
                             {
 
@@ -9225,7 +9234,7 @@ namespace UDM.Insurance.Interface.Screens
                                 lblMoveToLeadPermissions.Visibility = Visibility.Visible;
                                 chkMoveToLeadPermissions.Visibility = Visibility.Visible;
                             }
-                         }
+                        }
                         try
                         {
                             var Check = dtObtainedReferrals2.Rows[0][0].ToString();
@@ -9412,12 +9421,12 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         Page4.Visibility = Visibility.Collapsed;
                         Page3.Visibility = Visibility.Visible;
-                         StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
-                            strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
-                            strQueryObtainedReferrals2.Append("FROM [INImport] ");
-                            strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
-                            string finalQuery2 = strQueryObtainedReferrals2.ToString();
-                            DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
+                        StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
+                        strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
+                        strQueryObtainedReferrals2.Append("FROM [INImport] ");
+                        strQueryObtainedReferrals2.AppendFormat("WHERE [ID] = '{0}'", LaData.AppData.ImportID);
+                        string finalQuery2 = strQueryObtainedReferrals2.ToString();
+                        DataTable dtObtainedReferrals2 = Methods.GetTableData(strQueryObtainedReferrals2.ToString());
                         if (LaData.AppData.CampaignID == 102 ||
                             LaData.AppData.CampaignID == 2 ||
                             LaData.AppData.CampaignID == 103 ||
@@ -9425,7 +9434,7 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignID == 6 ||
                             LaData.AppData.CampaignID == 105)
                         {
-                           
+
                             bool obtainedReferralsValue = false;
                             if (dtObtainedReferrals2.Rows.Count > 0)
                             {
@@ -9503,7 +9512,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                         DataTable dtReferrals = Methods.GetTableData(strQueryReferrals.ToString());
 
-                                        referralDataDict.Clear(); 
+                                        referralDataDict.Clear();
 
                                         foreach (DataRow row in dtReferrals.Rows)
                                         {
@@ -9532,12 +9541,13 @@ namespace UDM.Insurance.Interface.Screens
                                                 strRemoveNOK.AppendFormat($"WHERE [FKINImportID] = {LaData.AppData.ImportID} AND [FirstName] = '{UppercaseFirst(firstName[0])}' AND [TelContact] = '{medRefCellNumber.Text}'");
                                                 string finalQuery = strRemoveNOK.ToString();
 
-                                                    DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
+                                                DataTable dtObtainedReferralID = Methods.GetTableData(finalQuery.ToString());
                                                 string id = "";
                                                 try
                                                 {
-                                                     id = dtObtainedReferralID.Rows[0]["ID"].ToString();
-                                                }catch { id = string.Empty; }
+                                                    id = dtObtainedReferralID.Rows[0]["ID"].ToString();
+                                                }
+                                                catch { id = string.Empty; }
                                                 if (!string.IsNullOrEmpty(id))
                                                 {
                                                     chkNOKRef.IsChecked = true;
@@ -9551,7 +9561,7 @@ namespace UDM.Insurance.Interface.Screens
                                     }
                                 }
                             }
-                           
+
                         }
                         try
                         {
@@ -9860,7 +9870,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                    if(LaData.AppData.LeadStatus == 1 || LaData.AppData.LeadStatus == 24)
+                    if (LaData.AppData.LeadStatus == 1 || LaData.AppData.LeadStatus == 24)
                     {
                         if (LaData.BankDetailsData.SigningPowerID == null)
                         {
@@ -19095,10 +19105,10 @@ namespace UDM.Insurance.Interface.Screens
             {
                 return;
             }
-           
+
             string currentSelection = cmbReferral.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "").Trim();
-           
-                if (isFirstLoad)
+
+            if (isFirstLoad)
             {
                 previousReferralSelection = currentSelection;
                 isFirstLoad = false;
@@ -19106,7 +19116,7 @@ namespace UDM.Insurance.Interface.Screens
             }
 
             SaveCurrentReferralData();
-            if(cmbRefGender.SelectedIndex != -1)
+            if (cmbRefGender.SelectedIndex != -1)
             {
                 ClearFields();
             }
@@ -19118,7 +19128,7 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
                         ShowMessageBox(messageWindow, $"Please fill in the fields for Referral number {i} before continuing.This includes Name, Cell and Gender.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
-                        cmbReferral.SelectedIndex = (i-1);
+                        cmbReferral.SelectedIndex = (i - 1);
                         //ClearFields();
                         return;
                     }
@@ -19292,7 +19302,7 @@ namespace UDM.Insurance.Interface.Screens
                 else if (cmbRefGender.SelectedIndex == -1)
                 {
                     //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                   // ShowMessageBox(messageWindow, $"Please fill in the fields for this Referral number before continuing. This includes Name, Cell and Gender.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
+                    // ShowMessageBox(messageWindow, $"Please fill in the fields for this Referral number before continuing. This includes Name, Cell and Gender.", "FILL OUT DETAILS", ShowMessageType.Exclamation);
                     cmbRefGender.Focus();
                     cmbRefGender.BorderBrush = System.Windows.Media.Brushes.Red;
                     return false;
@@ -19302,7 +19312,7 @@ namespace UDM.Insurance.Interface.Screens
                     cmbRefGender.BorderBrush = System.Windows.Media.Brushes.Gray;
                     if (referralDataDict.ContainsKey(previousReferralSelection))
                     {
-                          referralDataDict[previousReferralSelection] = GetCurrentReferralData();
+                        referralDataDict[previousReferralSelection] = GetCurrentReferralData();
                     }
                     else
                     {
@@ -19314,9 +19324,9 @@ namespace UDM.Insurance.Interface.Screens
             else
             {
                 medRefName.Focus();
-                    return false;
+                return false;
             }
-          
+
         }
 
         private ReferralData GetCurrentReferralData()
@@ -19332,7 +19342,7 @@ namespace UDM.Insurance.Interface.Screens
             }
 
             DataRowView selectedGenderRow = cmbRefGender.SelectedItem as DataRowView;
-           
+
             return new ReferralData
             {
                 FKINImportID = LaData.AppData.ImportID.ToString(),
@@ -19384,7 +19394,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 try
                 {
-                        LaData.NextOfKinData.Clear();
+                    LaData.NextOfKinData.Clear();
                 }
                 catch { }
             }
@@ -19432,11 +19442,11 @@ namespace UDM.Insurance.Interface.Screens
                         {
 
                         }
-                        
+
                         var referralForSelectedNum = referralDataDict["1"];
                         if (!RemovereferralDataDict.ContainsKey("1"))
                         {
-                            RemovereferralDataDict.Add("1", referralForSelectedNum); 
+                            RemovereferralDataDict.Add("1", referralForSelectedNum);
                             referralDataDict.Remove("1");
                             ClearFields();
                         }
@@ -19448,11 +19458,11 @@ namespace UDM.Insurance.Interface.Screens
                         var referralForSelectedNum = referralDataDict["2"];
                         if (!RemovereferralDataDict.ContainsKey("2"))
                         {
-                            RemovereferralDataDict.Add("2", referralForSelectedNum);  
+                            RemovereferralDataDict.Add("2", referralForSelectedNum);
                             referralDataDict.Remove("2");
                             ClearFields();
                         }
-                    }               
+                    }
                     break;
                 case "3":
                     if (referralDataDict.ContainsKey("3"))
@@ -19460,19 +19470,19 @@ namespace UDM.Insurance.Interface.Screens
                         var referralForSelectedNum = referralDataDict["3"];
                         if (!RemovereferralDataDict.ContainsKey("3"))
                         {
-                            RemovereferralDataDict.Add("3", referralForSelectedNum); 
+                            RemovereferralDataDict.Add("3", referralForSelectedNum);
                             referralDataDict.Remove("3");
                             ClearFields();
                         }
                     }
-                    break; 
+                    break;
                 case "4":
                     if (referralDataDict.ContainsKey("4"))
                     {
                         var referralForSelectedNum = referralDataDict["4"];
                         if (!RemovereferralDataDict.ContainsKey("4"))
                         {
-                            RemovereferralDataDict.Add("4", referralForSelectedNum); 
+                            RemovereferralDataDict.Add("4", referralForSelectedNum);
                             referralDataDict.Remove("4");
                             ClearFields();
                         }
@@ -19516,7 +19526,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
-                    
+
                     SaveCurrentReferralData();
                     foreach (var keyValuePair in RemovereferralDataDict)
                     {
@@ -19553,7 +19563,8 @@ namespace UDM.Insurance.Interface.Screens
                                 string strQuery = "INSERT INTO zHstINReferrals (ID) VALUES ('" + referralInDB.ID + "')";
                                 Methods.ExecuteSQLNonQuery(strQuery);
                             }
-                        }catch{ }
+                        }
+                        catch { }
                     }
                     foreach (var keyValuePair in referralDataDict)
                     {
@@ -19688,7 +19699,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 if (splitName.Length > 2)
                                 {
-                                    var Name = splitName[0] +" "+ splitName[1];
+                                    var Name = splitName[0] + " " + splitName[1];
                                     var Surname = splitName[2];
                                     NOKReferral = new LeadApplicationData.NextOfKin
                                     {
@@ -19701,7 +19712,7 @@ namespace UDM.Insurance.Interface.Screens
                                 }
                                 else
                                 {
-                                    var Name = splitName[0] ;
+                                    var Name = splitName[0];
                                     var Surname = splitName[1];
                                     NOKReferral = new LeadApplicationData.NextOfKin
                                     {
@@ -19751,7 +19762,7 @@ namespace UDM.Insurance.Interface.Screens
                     chkNOKRefClearFields();
                 }
             }
-            catch(Exception es)
+            catch (Exception es)
             {
 
             }
