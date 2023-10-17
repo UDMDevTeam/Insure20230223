@@ -3612,12 +3612,13 @@ namespace UDM.Insurance.Interface.Screens
                                var selectedRelationshipRow = cmbNOKRelationship.SelectedItem as DataRowView;
                                 inNextOfKin.FKINImportID = LaData.AppData.ImportID;
                                 inNextOfKin.FirstName = UppercaseFirst(medNOKName.Text);
-                                inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
+                                inNextOfKin.Surname = UppercaseFirst(medNOKSurname.Text);
                                 inNextOfKin.FKINRelationshipID = (long)selectedRelationshipRow[0]; //saveID;
                                 inNextOfKin.TelContact = medNOKContactPhone.Text;
                                 if (inNextOfKin.FKINRelationshipID <= 0 || cmbNOKRelationship.SelectedIndex == -1)
                                 {
                                     ShowMessageBox(new INMessageBoxWindow1(), "Please select a relationship before saving.", "Next Of Kin", ShowMessageType.Error);
+                                    return;
                                 }
                                 else
                                 {
@@ -3635,7 +3636,8 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             catch (Exception es)
                             {
-
+                                ShowMessageBox(new INMessageBoxWindow1(), "Please make sure nok information is filled out", "Next Of Kin", ShowMessageType.Error);
+                                return;
                             }
                         }
                     }
