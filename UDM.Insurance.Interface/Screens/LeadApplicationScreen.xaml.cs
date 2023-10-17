@@ -3604,40 +3604,43 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
-                            try
+                            if (!string.IsNullOrEmpty(medNOKName.Text))
                             {
-                                LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
-
-                                INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-                               var selectedRelationshipRow = cmbNOKRelationship.SelectedItem as DataRowView;
-                                inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                                inNextOfKin.FirstName = UppercaseFirst(medNOKName.Text);
-                                inNextOfKin.Surname = UppercaseFirst(medNOKSurname.Text);
-                                inNextOfKin.FKINRelationshipID = (long)selectedRelationshipRow[0]; //saveID;
-                                inNextOfKin.TelContact = medNOKContactPhone.Text;
-                                if (inNextOfKin.FKINRelationshipID <= 0 || cmbNOKRelationship.SelectedIndex == -1)
+                                try
                                 {
-                                    ShowMessageBox(new INMessageBoxWindow1(), "Please select a relationship before saving.", "Next Of Kin", ShowMessageType.Error);
+                                    LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+
+                                    INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+                                    var selectedRelationshipRow = cmbNOKRelationship.SelectedItem as DataRowView;
+                                    inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                                    inNextOfKin.FirstName = UppercaseFirst(medNOKName.Text);
+                                    inNextOfKin.Surname = UppercaseFirst(medNOKSurname.Text);
+                                    inNextOfKin.FKINRelationshipID = (long)selectedRelationshipRow[0]; //saveID;
+                                    inNextOfKin.TelContact = medNOKContactPhone.Text;
+                                    if (inNextOfKin.FKINRelationshipID <= 0 || cmbNOKRelationship.SelectedIndex == -1)
+                                    {
+                                        ShowMessageBox(new INMessageBoxWindow1(), "Please select a relationship before saving.", "Next Of Kin", ShowMessageType.Error);
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        inNextOfKin.Save(_validationResult);
+                                    }
+
+                                    if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                                    {
+                                        string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                        Methods.ExecuteSQLNonQuery(strQuery);
+                                    }
+
+                                    NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                                    NextOfKinData = new LeadApplicationData.NextOfKin();
+                                }
+                                catch (Exception es)
+                                {
+                                    ShowMessageBox(new INMessageBoxWindow1(), "Please make sure nok information is filled out", "Next Of Kin", ShowMessageType.Error);
                                     return;
                                 }
-                                else
-                                {
-                                    inNextOfKin.Save(_validationResult);
-                                }
-
-                                if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
-                                {
-                                    string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
-                                    Methods.ExecuteSQLNonQuery(strQuery);
-                                }
-
-                                NextOfKinData.NextOfKinID = inNextOfKin.ID;
-                                NextOfKinData = new LeadApplicationData.NextOfKin();
-                            }
-                            catch (Exception es)
-                            {
-                                ShowMessageBox(new INMessageBoxWindow1(), "Please make sure nok information is filled out", "Next Of Kin", ShowMessageType.Error);
-                                return;
                             }
                         }
                     }
