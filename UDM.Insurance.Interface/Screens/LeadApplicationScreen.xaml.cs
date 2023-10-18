@@ -45,7 +45,6 @@ using System.Threading;
 using UDM.Insurance.Interface.TempClass;
 using UDM.Insurance.Business.Objects;
 using static UDM.Insurance.Interface.PrismViews.EditClosureScreenViewModel;
-using System.Data.Entity.Core.Objects.DataClasses;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -3604,49 +3603,36 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
-                            if (!string.IsNullOrEmpty(medNOKName.Text))
+                            try
                             {
-                                try
+                                LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
+
+                                INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+
+                                inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                                inNextOfKin.FirstName = UppercaseFirst(NOKName);
+                                inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
+                                inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
+                                inNextOfKin.TelContact = NOKNumber;
+                                inNextOfKin.Save(_validationResult);
+
+                                if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
                                 {
-                                    LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
-
-                                    INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-                                    var selectedRelationshipRow = cmbNOKRelationship.SelectedItem as DataRowView;
-                                    inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                                    inNextOfKin.FirstName = UppercaseFirst(medNOKName.Text);
-                                    inNextOfKin.Surname = UppercaseFirst(medNOKSurname.Text);
-                                    inNextOfKin.FKINRelationshipID = (long)selectedRelationshipRow[0]; //saveID;
-                                    inNextOfKin.TelContact = medNOKContactPhone.Text;
-                                    if (inNextOfKin.FKINRelationshipID <= 0 || cmbNOKRelationship.SelectedIndex == -1)
-                                    {
-                                        ShowMessageBox(new INMessageBoxWindow1(), "Please select a relationship before saving.", "Next Of Kin", ShowMessageType.Error);
-                                        return;
-                                    }
-                                    else
-                                    {
-                                        inNextOfKin.Save(_validationResult);
-                                    }
-
-                                    if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
-                                    {
-                                        string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
-                                        Methods.ExecuteSQLNonQuery(strQuery);
-                                    }
-
-                                    NextOfKinData.NextOfKinID = inNextOfKin.ID;
-                                    NextOfKinData = new LeadApplicationData.NextOfKin();
+                                    string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                    Methods.ExecuteSQLNonQuery(strQuery);
                                 }
-                                catch (Exception es)
-                                {
-                                    ShowMessageBox(new INMessageBoxWindow1(), "Please make sure nok information is filled out", "Next Of Kin", ShowMessageType.Error);
-                                    return;
-                                }
+
+                                NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                                NextOfKinData = new LeadApplicationData.NextOfKin();
+                            }
+                            catch (Exception es)
+                            {
+
                             }
                         }
                     }
                     else
                     {
-                        // update if record exsists
                         for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
                             try
@@ -3668,14 +3654,11 @@ namespace UDM.Insurance.Interface.Screens
                                 inNextOfKin.Surname = UppercaseFirst(NOKReferral.Surname);
                                 inNextOfKin.FKINRelationshipID = NOKReferral.RelationshipID;
                                 inNextOfKin.TelContact = NOKReferral.TelContact;
-                                //if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
-                                //{
-                                //    if (inNextOfKin.FKINRelationshipID != null || inNextOfKin.FKINRelationshipID <= 0 && string.IsNullOrEmpty(inNextOfKin.TelContact))
-                                //    {
-                                //        inNextOfKin.Save(_validationResult);
-                                //    }
-                                //}
-                                if (!string.IsNullOrEmpty(inNextOfKin.FirstName) && inNextOfKin.FKINRelationshipID >= 1 && !string.IsNullOrEmpty(inNextOfKin.TelContact))
+                                if (medNOKName.Text != "" || medNOKContactPhone.Text != "")
+                                {
+                                    inNextOfKin.Save(_validationResult);
+                                }
+                                if (string.IsNullOrEmpty(inNextOfKin.FirstName) && string.IsNullOrEmpty(inNextOfKin.Surname) && inNextOfKin.FKINRelationshipID < 1 && string.IsNullOrEmpty(inNextOfKin.TelContact))
                                 {
                                     inNextOfKin.Save(_validationResult);
                                 }
@@ -19702,34 +19685,24 @@ namespace UDM.Insurance.Interface.Screens
                             }
                             else
                             {
-                                if (splitName.Length > 2)
+                                var Name = splitName[0];
+                                var Surname = splitName[1];
+                                NOKReferral = new LeadApplicationData.NextOfKin
                                 {
-                                    var Name = splitName[0] + " " + splitName[1];
-                                    var Surname = splitName[2];
-                                    NOKReferral = new LeadApplicationData.NextOfKin
-                                    {
-                                        Name = Name,
-                                        Surname = Surname,
-                                        TelContact = medRefCellNumber.Text,
-                                        RelationshipID = (long)selectedRelationshipRow[0] //saveID
+                                    Name = Name,
+                                    Surname = Surname,
+                                    TelContact = medRefCellNumber.Text,
+                                    RelationshipID = (long)selectedRelationshipRow[0] //saveID
 
-                                    };
-                                }
-                                else
-                                {
-                                    var Name = splitName[0];
-                                    var Surname = splitName[1];
-                                    NOKReferral = new LeadApplicationData.NextOfKin
-                                    {
-                                        Name = Name,
-                                        Surname = Surname,
-                                        TelContact = medRefCellNumber.Text,
-                                        RelationshipID = (long)selectedRelationshipRow[0] //saveID
-
-                                    };
-                                }
+                                };
                             }
-
+                            //medNOKName.Text = splitName[0];
+                            //medNOKSurname.Text = splitName[1];
+                            //medNOKContactPhone.Text = medRefCellNumber.Text;
+                            //if (cmbRefRelationship.SelectedIndex != -1)
+                            //{
+                            //    cmbNOKRelationship.SelectedIndex = cmbRefRelationship.SelectedIndex;
+                            //}
                         }
                         else
                         {
