@@ -16,6 +16,8 @@ using UDM.Insurance.Business.Mapping;
 using System.Diagnostics;
 using UDM.Insurance.Interface.Windows;
 using UDM.WPF.Library;
+using System.Web.Services.Description;
+//using System.Windows.Forms;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -104,6 +106,43 @@ namespace UDM.Insurance.Interface.Screens
                 xdgAssignLeads.Tag = "Permanent";
                 tbAgents.Text = string.Format("{0} ({1})", xdgAssignLeads.Tag, _dtAgents.Rows.Count);
                 //tbUnMarketedLeads.Text = string.Format("({0})", _dtUnMarketedLeads.Rows.Count);
+
+                if(tbBatch.Text.Contains("202308.3"))
+                {
+                    try
+                    {
+                        string strQuerySuccess;
+                        strQuerySuccess = "SELECT COUNT(INImport.ID) FROM INImport LEFT JOIN SMSTracker ON INImport.ID = SMSTracker.FKImportID WHERE INImport.FKINBatchID = " + _batchID + " AND INImport.FKUserID IS NULL AND SMSTracker.FKlkpSMSStatusTypeID LIKE '%1%'  ";
+
+                        System.Data.DataTable dtSuccessCount = Methods.GetTableData(strQuerySuccess);
+
+                        string strQueryBlank;
+
+                        strQueryBlank = "SELECT COUNT(INImport.ID) FROM INImport LEFT JOIN SMSTracker ON INImport.ID = SMSTracker.FKImportID WHERE INImport.FKINBatchID = " + _batchID + " AND INImport.FKUserID IS NULL AND SMSTracker.FKImportID IS NULL";
+                        System.Data.DataTable dtBlankCount = Methods.GetTableData(strQueryBlank);
+
+                        lblUnSuccessful.Text = "SMS Not Sent (" + dtBlankCount.Rows[0][0].ToString() + ")";
+                        lblSuccessful.Text = "Delivered (" + dtSuccessCount.Rows[0][0].ToString() + ")";
+                    } catch
+                    {
+                        lblUnSuccessful.Text = "SMS Not Sent ";
+                        lblSuccessful.Text = "Delivered ";
+                    }
+
+
+                    lblUnSuccessful.Visibility = Visibility.Visible;
+                    chkUnSuccessful.Visibility = Visibility.Visible;
+                    lblSuccessful.Visibility = Visibility.Visible;
+                    chkSuccessful.Visibility = Visibility.Visible;
+                }
+                else
+                {
+
+                    lblUnSuccessful.Visibility = Visibility.Collapsed;
+                    chkUnSuccessful.Visibility = Visibility.Collapsed;
+                    chkSuccessful.Visibility = Visibility.Collapsed;
+                    lblSuccessful.Visibility = Visibility.Collapsed;
+                }
 
                 xdgAssignLeads.DataSource = _dtAgents.DefaultView;
             }
@@ -506,7 +545,7 @@ namespace UDM.Insurance.Interface.Screens
                     INBatch inBatch = new INBatch(_batchID);
                     INCampaign inCampaign = new INCampaign(Convert.ToInt32(inBatch.FKINCampaignID));
 
-                    
+                    string BatchCode = (string)(Methods.GetTableData("SELECT TOP 1 Code FROM INBatch AS HRS WHERE ID = " + _batchID)?.AsEnumerable().Select(x => x["Code"]).FirstOrDefault());
                     var CampaignGroupID = Methods.GetTableData("SELECT TOP 1 FKINCampaignGroupID FROM INCampaign AS HRS WHERE ID = " + inBatch.FKINCampaignID)?.AsEnumerable().Select(x => x["FKINCampaignGroupID"]).FirstOrDefault();
                     INImportCollection collectiontoassign = INImportMapper.Search(null, null, _batchID, null);
 
@@ -623,6 +662,157 @@ namespace UDM.Insurance.Interface.Screens
                                 record.Cells["Assign"].Value = 0;
                             }
                         
+                    }
+                    else if(chkUnSuccessful.IsChecked == true 
+                        || chkSuccessful.IsChecked == true)
+                    {
+                        INImportCollection inImportCollection = new INImportCollection();
+
+                        if (assign == 0)
+                        {
+
+                        }
+                        else
+                        {
+                            DataSet dsGetLeads;
+                            if(chkSuccessful.IsChecked == true && chkUnSuccessful.IsChecked == false)
+                            {
+                                dsGetLeads = Business.Insure.INGetNoContactLeadsSuccess(_batchID, assign);
+                            }
+                            else if(chkUnSuccessful.IsChecked == true && chkSuccessful.IsChecked == false)
+                            {
+                                dsGetLeads = Business.Insure.INGetNoContactLeadsBlank(_batchID, assign);
+                            }
+                            else if(chkUnSuccessful.IsChecked == true && chkSuccessful.IsChecked == true)
+                            {
+                                dsGetLeads = Business.Insure.INGetNoContactLeads(_batchID, assign);
+                            }
+                            else
+                            {
+                                dsGetLeads = Business.Insure.INGetNoContactLeads(_batchID, assign);
+                            }
+                            
+                            System.Data.DataTable ImportIDQuery = dsGetLeads.Tables[0];
+                            List<long> longList = new List<long>();
+
+                            foreach (DataRow row in ImportIDQuery.Rows)
+                            {
+                                long value = (long)row["ID"];
+                                longList.Add(value);
+                            }
+
+
+                            foreach (INImport row in collectiontoassign)
+                            {
+                                if (longList.Contains(row.ID))
+                                {
+                                    inImportCollection.Add(row);
+
+                                }
+                                else
+                                {
+                                }
+
+                            }
+                        }
+
+                        //INImportCollection inImportCollection = (INImportCollection)(Methods.GetTableData("SELECT  FKINCampaignGroupID FROM INCampaign AS HRS WHERE ID = " + inBatch.FKINCampaignID)?.AsEnumerable().Select(x => x["FKINCampaignGroupID"]).FirstOrDefault());
+
+
+
+
+                        if (assign > inImportCollection.Count)
+                        {
+                            Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                            {
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, inImportCollection.Count + " leads available.", "Not Enough Leads Available", ShowMessageType.Error);
+                            }));
+
+                            return;
+                        }
+
+                        if (inImportCollection.Count > 0)
+                        {
+
+
+                            Database.BeginTransaction(null, IsolationLevel.Snapshot);
+
+                            int[] i = { 0 };
+
+
+                            RandomizeLeads(inImportCollection);
+
+
+                            foreach (INImport inImport in inImportCollection)
+                            {
+                                i[0]++;
+
+                                inImport.FKUserID = userID;
+                                //inImport.AllocationDate = DateTime.Now;
+                                inImport.AllocationDate = DetermineAllocationDate(_useDifferentAllocationDate, _newAllocationDate);
+                                inImport.IsFutureAllocation = _useDifferentAllocationDate;
+                                inImport.BonusLead = chkBonusLeads.IsChecked;
+                                inImport.Save(_validationResult);
+
+                                INImportExtra iNImportExtra = INImportExtraMapper.SearchOne(inImport.ID, null);
+                                if (iNImportExtra == null)
+                                {
+                                    iNImportExtra = new INImportExtra();
+                                }
+                                iNImportExtra.FKINImportID = inImport.ID;
+                                iNImportExtra.IsGoldenLead = IsGoldenLeads ? true : false;
+                                iNImportExtra.Save(_validationResult);
+
+                                record.Cells["Assign"].Value = Convert.ToInt64(record.Cells["Assign"].Value.ToString()) - 1;
+                                record.Cells["LeadsAllocated"].Value = Convert.ToInt64(record.Cells["LeadsAllocated"].Value.ToString()) + 1;
+                                tbTotalAssigned.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                                {
+                                    tbTotalAssigned.Text = (Convert.ToInt64(tbTotalAssigned.Text) + 1).ToString();
+                                }));
+                                tbTotalUnassigned.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                                {
+                                    tbTotalUnassigned.Text = (Convert.ToInt64(tbTotalUnassigned.Text) - 1).ToString();
+                                }));
+                                tbUnMarketedLeads.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                                {
+                                    tbUnMarketedLeads.Text = (Convert.ToInt64(tbUnMarketedLeads.Text) - 1).ToString();
+                                }));
+
+                                if (i[0] == assign || Math.Abs(i[0]) == inImportCollection.Count)
+                                {
+                                    record.Cells["Assign"].Value = 0;
+                                    break;
+                                }
+                            }
+
+                            CommitTransaction(null);
+
+                            try
+                            {
+                                string strQuerySuccess;
+                                strQuerySuccess = "SELECT COUNT(INImport.ID) FROM INImport LEFT JOIN SMSTracker ON INImport.ID = SMSTracker.FKImportID WHERE INImport.FKINBatchID = " + _batchID + " AND INImport.FKUserID IS NULL AND SMSTracker.FKlkpSMSStatusTypeID LIKE '%1%'  ";
+
+                                System.Data.DataTable dtSuccessCount = Methods.GetTableData(strQuerySuccess);
+
+                                string strQueryBlank;
+
+                                strQueryBlank = "SELECT COUNT(INImport.ID) FROM INImport LEFT JOIN SMSTracker ON INImport.ID = SMSTracker.FKImportID WHERE INImport.FKINBatchID = " + _batchID + " AND INImport.FKUserID IS NULL AND SMSTracker.FKImportID IS NULL";
+                                System.Data.DataTable dtBlankCount = Methods.GetTableData(strQueryBlank);
+
+                                lblUnSuccessful.Text = "SMS Not Sent (" + dtBlankCount.Rows[0][0].ToString() + ")";
+                                lblSuccessful.Text = "Delivered (" + dtSuccessCount.Rows[0][0].ToString() + ")";
+                            }
+                            catch
+                            {
+                                lblUnSuccessful.Text = "SMS Not Sent ";
+                                lblSuccessful.Text = "Delivered ";
+                            }
+                        }
+                        else
+                        {
+                            record.Cells["Assign"].Value = 0;
+                        }
                     }
                     else // The original allocation process
                     {
@@ -1860,6 +2050,26 @@ namespace UDM.Insurance.Interface.Screens
         }
 
         private void chkPreMarketedLeads_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chkUnSuccessful_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chkUnSuccessful_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chkSuccessful_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chkSuccessful_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }

@@ -341,6 +341,64 @@
                         Unchecked="chkUseDifferentAllocationDate_Unchecked"
                         Visibility="Visible" />
 
+
+
+                    <TextBlock
+                        x:Name="lblUnSuccessful"
+                        Grid.Row="11"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="7"
+                        Margin="0"
+                        Visibility="Visible"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="SMS Not Sent (1999)"
+                        d:LayoutOverrides="GridBox" />
+                    <CheckBox
+                        x:Name="chkUnSuccessful"
+                        Grid.Row="11"
+                        Grid.Column="5"
+                        Width="16"
+                        Height="16"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Checked="chkUnSuccessful_Checked"
+                        IsChecked="False"
+                        Style="{StaticResource INCheckboxStyle}"
+                        TabIndex="0"
+                        Unchecked="chkUnSuccessful_Unchecked"
+                        Visibility="Visible" />
+
+
+                    <TextBlock
+                        x:Name="lblSuccessful"
+                        Grid.Row="11"
+                        Grid.Column="6"
+                        Grid.ColumnSpan="7"
+                        Margin="0"
+                        Visibility="Visible"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="SMS Delivered (1999)"
+                        d:LayoutOverrides="GridBox" />
+                    <CheckBox
+                        x:Name="chkSuccessful"
+                        Grid.Row="11"
+                        Grid.Column="10"
+                        Width="16"
+                        Height="16"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Checked="chkSuccessful_Checked"
+                        IsChecked="False"
+                        Style="{StaticResource INCheckboxStyle}"
+                        TabIndex="0"
+                        Unchecked="chkSuccessful_Unchecked"
+                        Visibility="Visible" />
+
+
                     <TextBlock
                         x:Name="lblNewAllocationDate"
                         Grid.Row="9"
