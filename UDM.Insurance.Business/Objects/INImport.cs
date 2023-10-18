@@ -8,6 +8,7 @@ using UDM.Insurance.Business.Mapping;
 using Embriant.Framework.Configuration;
 using Embriant.Framework;
 using Embriant.Framework.Validation;
+using System.Data;
 
 namespace UDM.Insurance.Business
 {
@@ -1719,6 +1720,11 @@ namespace UDM.Insurance.Business
             {
                 return false;
             }
+        }
+
+        public static explicit operator INImport(DataTable v)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
