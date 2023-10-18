@@ -447,7 +447,21 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
 
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnNoContactSMS" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X5}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnNoContactSMS" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnNoContactSMS" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
             
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckBulkSend" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X5}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
@@ -1657,6 +1671,32 @@
                                                         x:Name="lblAutoAssignLeads"
                                                         Style="{DynamicResource INSquareButtonReportText}"
                                                         Text="Optimal Pairing Assign" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+                                        <Button
+                                            x:Name="btnNoContactSMS"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnNoContactSMS_Click"
+                                            Style="{DynamicResource INMenuButton}"
+                                            TabIndex="0"
+                                            Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                <Grid Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                    <TextBlock
+                                                        x:Name="lblNoContactSMS"
+                                                        Style="{DynamicResource INSquareButtonReportText}"
+                                                        Text="Bulk SMS No Contact" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>
