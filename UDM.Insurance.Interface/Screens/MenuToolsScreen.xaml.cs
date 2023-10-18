@@ -399,6 +399,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnNoContactSMS_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NoContactSMS mySuccessEditScreen = new NoContactSMS();
+                ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 
 }
