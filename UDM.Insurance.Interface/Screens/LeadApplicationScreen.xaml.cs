@@ -641,7 +641,14 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtImportedPolicyData = ds.Tables[7];
                 DataTable dtNextOfKin = ds.Tables[8];
                 DataTable dtSMS = ds.Tables[9];
-                DataTable dtSMSVoucher = ds.Tables[10];
+                try
+                {
+                    DataTable dtSMSVoucher = ds.Tables[10];
+                }
+                catch
+                {
+
+                }
                 #endregion Get the complete lead from the database
 
                 #region Get the lead History from the database
