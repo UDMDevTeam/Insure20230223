@@ -37,6 +37,8 @@ namespace UDM.Insurance.Business
         private string _last4digits = null;
         private DateTime? _extendedsalesdate = null;
         private string _originalcampaign = null;
+        private string _vouchercode = null;
+        private DateTime? _voucherexpirydate = null;
         #endregion
 
         #region Constructor
@@ -470,7 +472,41 @@ namespace UDM.Insurance.Business
                 }
             }
         }
-
+        public string VoucherCode
+        {
+            get
+            {
+                Fill();
+                return _vouchercode;
+            }
+            set
+            {
+                Fill();
+                if (value != _vouchercode)
+                {
+                    _vouchercode = value;
+                    
+                    _hasChanged = true;
+                }
+            }
+        }
+        public DateTime? VoucherExpiryDate
+        {
+            get
+            {
+                Fill();
+                return _voucherexpirydate;
+            }
+            set
+            {
+                Fill();
+                if (value != _voucherexpirydate)
+                {
+                    _voucherexpirydate = value;
+                    _hasChanged = true;
+                }
+            }
+        }
         #endregion
 
         #region Override Methods

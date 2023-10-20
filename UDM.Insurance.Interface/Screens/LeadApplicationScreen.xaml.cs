@@ -641,6 +641,7 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtImportedPolicyData = ds.Tables[7];
                 DataTable dtNextOfKin = ds.Tables[8];
                 DataTable dtSMS = ds.Tables[9];
+                DataTable dtSMSVoucher = ds.Tables[10];
                 #endregion Get the complete lead from the database
 
                 #region Get the lead History from the database
@@ -961,7 +962,21 @@ namespace UDM.Insurance.Interface.Screens
                     //LaData.LeadData.ReferrorType = dtLead.Rows[0]["ReferrorType"] as string;
                     LaData.LeadData.Email = LaData.LeadHistoryData.Email = dtLead.Rows[0]["EMail"] as string;
                     if (dtLeadHst.Rows.Count > 0) LaData.LeadHistoryData.Email = dtLeadHst.Rows[0]["EMail"] as string;
+                    try
+                    {
+                        if (LaData.AppData.CampaignID == 423 || LaData.AppData.CampaignID == 424)
+                        {
+                            btnSendvoucherSMS.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            btnSendvoucherSMS.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                    catch
+                    {
 
+                    }
                 }
 
                 #endregion
@@ -1704,7 +1719,14 @@ namespace UDM.Insurance.Interface.Screens
 
                     CheckSMSSent();
                 }
-
+                if(dtSMSVoucher.Rows.Count > 0)
+                {
+                    LaData.SMSVoucherData.SMSStatusTypeID = (WPF.Enumerations.Insure.lkpSMSStatusType?)(dtSMSVoucher.Rows[0]["SMSStatusTypeID"] as long?);
+                    LaData.SMSVoucherData.SMSStatusSubtypeID = (WPF.Enumerations.Insure.lkpSMSStatusSubtype?)(dtSMSVoucher.Rows[0]["SMSStatusSubtypeID"] as long?);
+                    LaData.SMSVoucherData.SMSSubmissionDate = Convert.ToDateTime(dtSMSVoucher.Rows[0]["SMSSubmissionDate"].ToString());//DateTime.ParseExact(dtSMS.Rows[0]["SMSSubmissionDate"].ToString(), "yyyy-MM-ddThh:mm:ssZ", new CultureInfo("en-ZA"));
+                    LaData.SMSVoucherData.SMSCount = Convert.ToInt32(dtSMSVoucher.Rows[0]["SMSCount"].ToString());
+                    CheckSMSVoucherSent();
+                }
                 #endregion SMS Data
 
                 #region Import Call Monitoring
@@ -2597,6 +2619,13 @@ namespace UDM.Insurance.Interface.Screens
             string smsStatusSubtypeString = LaData.SMSData.SMSStatusSubtypeID == null ? "" : Enum.GetName(typeof(WPF.Enumerations.Insure.lkpSMSStatusSubtype), LaData.SMSData.SMSStatusSubtypeID);
             LaData.SMSData.SMSToolTip = (smsStatusSubtypeString == "" ? "SENT" : smsStatusSubtypeString) + " " + LaData.SMSData.SMSSubmissionDate;
             LaData.SMSData.IsSMSSent = smsStatusTypeString != "FAILED" && smsStatusTypeString != "" && smsStatusTypeString != null ? true : false;
+        }
+        private void CheckSMSVoucherSent()
+        {
+            string smsStatusTypeString = LaData.SMSVoucherData.SMSStatusTypeID == null ? "" : Enum.GetName(typeof(WPF.Enumerations.Insure.lkpSMSStatusType), LaData.SMSVoucherData.SMSStatusTypeID);
+            string smsStatusSubtypeString = LaData.SMSVoucherData.SMSStatusSubtypeID == null ? "" : Enum.GetName(typeof(WPF.Enumerations.Insure.lkpSMSStatusSubtype), LaData.SMSVoucherData.SMSStatusSubtypeID);
+            LaData.SMSVoucherData.SMSToolTip = (smsStatusSubtypeString == "" ? "SENT" : smsStatusSubtypeString) + " " + LaData.SMSVoucherData.SMSSubmissionDate;
+            LaData.SMSVoucherData.IsSMSSent = smsStatusTypeString != "FAILED" && smsStatusTypeString != "" && smsStatusTypeString != null ? true : false;
         }
         private string GetSavedLeadStatusToolTip(long? importID)
         {
@@ -4201,7 +4230,8 @@ namespace UDM.Insurance.Interface.Screens
                     ForwardToDCSaveStep2();
                 }
                 BumpUpSelected = 0;
-            } catch { ForwardToDCSaveStep2(); }
+            }
+            catch { ForwardToDCSaveStep2(); }
 
         }
         public void ForwardToDCSaveStep2()
@@ -13704,6 +13734,114 @@ namespace UDM.Insurance.Interface.Screens
 
                     #endregion SMS Response
 
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+        private void btnSendVoucherSMS_Click(object sender, RoutedEventArgs e)
+        {
+            SMSVoucher smsVoucherResponseData = new SMSVoucher();
+            try
+            {
+                if (LaData.LeadData.TelCell == ""/*medCellPhone.Text == ""*/)
+                {
+                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    ShowMessageBox(messageWindow, @"Please fill in the client's cell phone number.", "Cell Phone Number Blank", ShowMessageType.Exclamation);
+                }
+                else if (LaData.LeadData.Title == ""/*cmbTitle.Text == ""*/)
+                {
+                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    ShowMessageBox(messageWindow, @"Please fill in the client's title.", "Title Blank", ShowMessageType.Exclamation);
+                }
+                else if (LaData.LeadData.Surname == ""/*medSurname.Text == ""*/)
+                {
+                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    ShowMessageBox(messageWindow, @"Please fill in the client's surname.", "Surname Blank", ShowMessageType.Exclamation);
+                }
+                else if (GlobalSettings.ApplicationUser.ID == 0)
+                {
+                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    ShowMessageBox(messageWindow, @"The logged in user does not have a user ID.", "Blank User ID", ShowMessageType.Exclamation);
+                    //comment out after testing
+                }
+                else if (LaData.AppData.RefNo == ""/*medReference.Text == ""*/)
+                {
+                    INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    ShowMessageBox(messageWindow, @"You cannot send an sms with a blank reference number.", "Reference Number Blank", ShowMessageType.Exclamation);
+                }
+                else
+                {
+                    SqlParameter[] parameters = new SqlParameter[1];
+                    parameters[0] = new SqlParameter("@UserID", GlobalSettings.ApplicationUser.ID); //added this in case the person is working on a mining campaign
+                    string agentName = Methods.ExecuteFunction("fnGetUserName", parameters).ToString();
+                    LaData.SMSVoucherSendData.to = LaData.LeadData.TelCell.Trim();
+                    // LaData.SMSVoucherSendData.to = "+27" + LaData.SMSVoucherSendData.to.Substring(1);
+                    LaData.SMSVoucherSendData.to = "+27" + "0828233657".Substring(1);
+                    string strQuery;
+                    strQuery = "SELECT VoucherCode,VoucherExpiryDate FROM INImportOther WHERE FKINImportID = " + LaData.AppData.ImportID;
+                    DataTable dtVouchers = Methods.GetTableData(strQuery);
+                    string voucherCode= string.Empty;
+                    DateTime voucherExpiryDate = DateTime.Now;
+                    if (dtVouchers.Rows.Count > 0)
+                    {
+                        DataRow row = dtVouchers.Rows[0];
+                         voucherCode = row["VoucherCode"].ToString();
+                         voucherExpiryDate = Convert.ToDateTime(row["VoucherExpiryDate"]);
+                    }
+                    string defaultMessage = $"Hi {LaData.LeadData.Title?.Trim()} {LaData.LeadData.Name?.Trim()} {LaData.LeadData.Surname}, as promised, herewith your R600 Isabella Garcia voucher. Redeem your voucher with: {voucherCode} at https://isabellagarcia.co.za/gifting."+Environment.NewLine+$"Expires:{voucherExpiryDate}."+Environment.NewLine+" Delivery is on us. Regards, Platinum Life" ;
+                    LaData.SMSVoucherSendData.body = defaultMessage;
+                    string sms = JsonConvert.SerializeObject(LaData.SMSVoucherSendData);
+                    //string sms = "{to: \"+27765389999\", body:\"Testing2\"}";
+                    var request = WebRequest.Create(bulkSMSURL + "/messages");
+                    request.Credentials = new NetworkCredential(bulkSMSUserName, bulkSMSPassword);
+                    request.PreAuthenticate = true;
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+
+                    #region WriteSMS
+                    var encoding = new UnicodeEncoding();
+                    var encodedData = encoding.GetBytes(sms);
+                    var stream = request.GetRequestStream();
+                    stream.Write(encodedData, 0, encodedData.Length);
+                    stream.Close();
+                    #endregion WriteSMS
+
+                    var response = request.GetResponse();
+                    var reader = new StreamReader(response.GetResponseStream());
+
+                    #region SMS Response
+
+                    string smsResponseJson = reader.ReadToEnd();
+
+                    List<LeadApplicationData.SMSVoucherResponse> smsResponses = JsonConvert.DeserializeObject<List<LeadApplicationData.SMSVoucherResponse>>(smsResponseJson);
+                    LeadApplicationData.SMSVoucherResponse smsResponse = smsResponses[0];
+
+
+                    smsVoucherResponseData.FKSystemID = (long?)lkpSystem.Insurance;
+                    smsVoucherResponseData.FKImportID = LaData.AppData.ImportID;
+
+                    smsVoucherResponseData.SMSID = smsResponse.id;
+                    smsVoucherResponseData.FKlkpSMSTypeID = (long?)smsResponse.type;
+                    smsVoucherResponseData.RecipientCellNum = smsResponse.to;
+                    smsVoucherResponseData.SMSBody = smsResponse.body;
+                    smsVoucherResponseData.FKlkpSMSEncodingID = (long?)smsResponse.encoding;
+                    smsVoucherResponseData.SubmissionID = smsResponse.submission.id;
+                    smsVoucherResponseData.SubmissionDate = smsResponse.submission.date.AddHours(2); //for some reason the time given by bulk sms is 2 hours behind that's why I add 2 hours
+                    smsVoucherResponseData.FKlkpSMSStatusTypeID = (long?)smsResponse.status.type;
+                    smsVoucherResponseData.FKlkpSMSStatusSubtypeID = (long?)smsResponse.status.subtype;
+
+                    smsVoucherResponseData.Save(_validationResult);
+
+                    LaData.SMSVoucherData.SMSStatusTypeID = (WPF.Enumerations.Insure.lkpSMSStatusType?)smsVoucherResponseData.FKlkpSMSStatusTypeID;
+                    LaData.SMSVoucherData.SMSStatusSubtypeID = (WPF.Enumerations.Insure.lkpSMSStatusSubtype?)smsVoucherResponseData.FKlkpSMSStatusSubtypeID;
+                    LaData.SMSVoucherData.SMSSubmissionDate = Convert.ToDateTime(smsVoucherResponseData.SubmissionDate);//DateTime.ParseExact(dtSMS.Rows[0]["SMSSubmissionDate"].ToString(), "yyyy-MM-ddThh:mm:ssZ", new CultureInfo("en-ZA"));
+
+                    CheckSMSVoucherSent();
+
+                    #endregion SMS Response
                 }
             }
             catch (Exception ex)

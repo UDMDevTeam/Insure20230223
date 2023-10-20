@@ -2222,6 +2222,9 @@ namespace UDM.Insurance.Interface.Screens
                                 if (idxFields.ContainsKey("Bank")) inImportOther.Bank = GetStringValue(row.Cells[idxFields["Bank"].Index]);
                                 if (idxFields.ContainsKey("Last4Digits")) inImportOther.Last4Digits = GetStringValue(row.Cells[idxFields["Last4Digits"].Index]);
                                 if (idxFields.ContainsKey("Future17")) inImportOther.ExtendedSalesDate = GetDateValue(row.Cells[idxFields["Future17"].Index]);
+                               // if (idxFields.ContainsKey("Future11")) inImportOther.VoucherCode = GetStringValue(row.Cells[idxFields["Future11"].Index]);
+                               // if (idxFields.ContainsKey("Future12")) inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
+
                                 #endregion
 
 
@@ -2240,18 +2243,24 @@ namespace UDM.Insurance.Interface.Screens
                                 inImportOther.FKINImportID = inImport.ID;
                                 inImportOther.FKINBatchID = inImport.FKINBatchID;
                                 inImportOther.RefNo = inImport.RefNo;
+                                if (_inCampaign.ID == 423 || _inCampaign.ID == 424)
+                                {
+                                    inImportOther.VoucherCode = GetStringValue(row.Cells[idxFields["Future11"].Index]);
+                                    inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
+                                }
                                 inImportOther.Save(_validationResult);
 
                                 #region INNextOfKin
-
-                                INNextOfKin inNextOfKin = new INNextOfKin();
-                                inNextOfKin.FKINImportID = inImport.ID;
-                                inNextOfKin.TelContact = GetStringValue(row.Cells[idxFields["Future10"].Index]);
-                                inNextOfKin.FirstName = GetStringValue(row.Cells[idxFields["Future11"].Index]);
-                              //inNextOfKin.FKINRelationshipID = GetLongValue(row.Cells[idxFields["Future13"].Index]);
-                                inNextOfKin.Surname = GetStringValue(row.Cells[idxFields["Future12"].Index]);
-                                string relationship = GetStringValue(row.Cells[idxFields["Future13"].Index]);
-
+                                if (_inCampaign.ID != 423 && _inCampaign.ID != 424)
+                                {
+                                    INNextOfKin inNextOfKin = new INNextOfKin();
+                                    inNextOfKin.FKINImportID = inImport.ID;
+                                    inNextOfKin.TelContact = GetStringValue(row.Cells[idxFields["Future10"].Index]);
+                                    inNextOfKin.FirstName = GetStringValue(row.Cells[idxFields["Future11"].Index]);
+                                    //inNextOfKin.FKINRelationshipID = GetLongValue(row.Cells[idxFields["Future13"].Index]);
+                                    inNextOfKin.Surname = GetStringValue(row.Cells[idxFields["Future12"].Index]);
+                                    string relationship = GetStringValue(row.Cells[idxFields["Future13"].Index]);
+                                
 
                                 try
         
@@ -2274,7 +2283,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
                                 inNextOfKin.Save(_validationResult);
-
+                                }
                                 #endregion
 
                                 #region INImportContactTracing

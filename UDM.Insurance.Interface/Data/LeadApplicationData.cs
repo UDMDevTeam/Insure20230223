@@ -1840,7 +1840,22 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _body, value, () => body); }
             }
         }
+        public class SMSVoucherSend : ObservableObject
+        {
+            private string _to;
+            public string to
+            {
+                get { return _to; }
+                set { SetProperty(ref _to, value, () => to); }
+            }
 
+            private string _body;
+            public string body
+            {
+                get { return _body; }
+                set { SetProperty(ref _body, value, () => body); }
+            }
+        }
         public class SMS : ObservableObject
         {
             private WPF.Enumerations.Insure.lkpSMSStatusType? _smsStatusTypeID;
@@ -1900,7 +1915,65 @@ namespace UDM.Insurance.Interface.Data
                 }
             }
         }
+        public class SMSVoucher : ObservableObject
+        {
+            private WPF.Enumerations.Insure.lkpSMSStatusType? _smsStatusTypeID;
+            public WPF.Enumerations.Insure.lkpSMSStatusType? SMSStatusTypeID
+            {
+                get { return _smsStatusTypeID; }
+                set { SetProperty(ref _smsStatusTypeID, value, () => SMSStatusTypeID); }
+            }
 
+            private WPF.Enumerations.Insure.lkpSMSStatusSubtype? _smsStatusSubtypeID;
+            public WPF.Enumerations.Insure.lkpSMSStatusSubtype? SMSStatusSubtypeID
+            {
+                get { return _smsStatusSubtypeID; }
+                set { SetProperty(ref _smsStatusSubtypeID, value, () => SMSStatusSubtypeID); }
+            }
+
+            private DateTime? _smsSubmissionDate;
+            public DateTime? SMSSubmissionDate
+            {
+                get { return _smsSubmissionDate; }
+                set { SetProperty(ref _smsSubmissionDate, value, () => SMSSubmissionDate); OnPropertyChanged("SMSExpiryDate"); }
+            }
+
+            private string _smsToolTip;
+            public string SMSToolTip
+            {
+                get { return _smsToolTip; }
+                set { SetProperty(ref _smsToolTip, value, () => SMSToolTip); }
+            }
+
+            private bool? _isSMSSent = false;
+            public bool? IsSMSSent
+            {
+                get { return _isSMSSent; }
+                set { SetProperty(ref _isSMSSent, value, () => IsSMSSent); }
+            }
+
+            private DateTime _smsExpiryDate;
+            public DateTime SMSExpiryDate
+            {
+                //get { return ((DateTime)SMSSubmissionDate).AddDays(28); }
+
+                get { return _smsExpiryDate = (SMSSubmissionDate == null ? DateTime.MinValue : Convert.ToDateTime(SMSSubmissionDate.ToString())).AddDays(28.00d); }
+
+
+            }
+
+            //private int _smsCount;
+
+            private int? _smsCount;
+            public int? SMSCount
+            {
+                get { return _smsCount; }
+                set
+                {
+                    SetProperty(ref _smsCount, value, () => SMSCount);
+                }
+            }
+        }
         public class SMSResponse : ObservableObject
         {
             private string _id;
@@ -2001,7 +2074,106 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _creditCost, value, () => creditCost); }
             }
         }
+        public class SMSVoucherResponse : ObservableObject
+        {
+            private string _id;
+            public string id
+            {
+                get { return _id; }
+                set { SetProperty(ref _id, value, () => id); }
+            }
 
+            private WPF.Enumerations.Insure.lkpSMSType? _type;
+            public WPF.Enumerations.Insure.lkpSMSType? type
+            {
+                get { return _type; }
+                set { SetProperty(ref _type, value, () => type); }
+            }
+
+            private string _from;
+            public string from
+            {
+                get { return _from; }
+                set { SetProperty(ref _from, value, () => from); }
+            }
+
+            private string _to;
+            public string to
+            {
+                get { return _to; }
+                set { SetProperty(ref _to, value, () => to); }
+            }
+
+            private string _body;
+            public string body
+            {
+                get { return _body; }
+                set { SetProperty(ref _body, value, () => body); }
+            }
+
+            private WPF.Enumerations.Insure.lkpSMSEncoding? _encoding;
+            public WPF.Enumerations.Insure.lkpSMSEncoding? encoding
+            {
+                get { return _encoding; }
+                set { SetProperty(ref _encoding, value, () => encoding); }
+            }
+
+            private int? _protocolId;
+            public int? protocolId
+            {
+                get { return _protocolId; }
+                set { SetProperty(ref _protocolId, value, () => protocolId); }
+            }
+
+            private int? _messageClass;
+            public int? messageClass
+            {
+                get { return _messageClass; }
+                set { SetProperty(ref _messageClass, value, () => messageClass); }
+            }
+
+            private SMSSubmission _submission;
+            public SMSSubmission submission
+            {
+                get { return _submission; }
+                set { SetProperty(ref _submission, value, () => submission); }
+            }
+
+            private SMSStatus _status;
+            public SMSStatus status
+            {
+                get { return _status; }
+                set { SetProperty(ref _status, value, () => status); }
+            }
+
+            private string _relatedSentMessageId;
+            public string relatedSentMessageId
+            {
+                get { return _relatedSentMessageId; }
+                set { SetProperty(ref _relatedSentMessageId, value, () => relatedSentMessageId); }
+            }
+
+            private string _userSuppliedId;
+            public string userSuppliedId
+            {
+                get { return _userSuppliedId; }
+                set { SetProperty(ref _userSuppliedId, value, () => userSuppliedId); }
+            }
+
+            private int? _numberOfParts;
+            public int? numberOfParts
+            {
+                get { return _numberOfParts; }
+                set { SetProperty(ref _numberOfParts, value, () => numberOfParts); }
+            }
+
+            private float? _creditCost;
+            public float? creditCost
+            {
+                get { return _creditCost; }
+                set { SetProperty(ref _creditCost, value, () => creditCost); }
+            }
+        }
         public class SMSSubmission : ObservableObject
         {
             private string _id;
@@ -2018,7 +2190,45 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _date, value, () => date); }
             }
         }
+        public class SMSVoucherSubmission : ObservableObject
+        {
+            private string _id;
+            public string id
+            {
+                get { return _id; }
+                set { SetProperty(ref _id, value, () => id); }
+            }
 
+            private DateTime _date;
+            public DateTime date
+            {
+                get { return _date; }
+                set { SetProperty(ref _date, value, () => date); }
+            }
+        }
+        public class SMSVoucherStatus : ObservableObject
+        {
+            private string _id;
+            public string id
+            {
+                get { return _id; }
+                set { SetProperty(ref _id, value, () => id); }
+            }
+
+            private WPF.Enumerations.Insure.lkpSMSStatusType? _type;
+            public WPF.Enumerations.Insure.lkpSMSStatusType? type
+            {
+                get { return _type; }
+                set { SetProperty(ref _type, value, () => type); }
+            }
+
+            private WPF.Enumerations.Insure.lkpSMSStatusSubtype? _subtype;
+            public WPF.Enumerations.Insure.lkpSMSStatusSubtype? subtype
+            {
+                get { return _subtype; }
+                set { SetProperty(ref _subtype, value, () => subtype); }
+            }
+        }
         public class SMSStatus : ObservableObject
         {
             private string _id;
@@ -2042,7 +2252,6 @@ namespace UDM.Insurance.Interface.Data
                 set { SetProperty(ref _subtype, value, () => subtype); }
             }
         }
-
         public class CTPhone : ObservableObject
         {
             private bool _isAgentLoggedIn;
@@ -2293,6 +2502,7 @@ namespace UDM.Insurance.Interface.Data
             BankDetailsHistoryData = new BankDetailsHistory();
             SaleData = new Sale();
             SMSData = new SMS();
+            SMSVoucherData = new SMSVoucher();
             ImportedPolicyData = new ImportedPolicy();
             ImportExtraData = new INImportExtra();
             ImportExtraHistoryData = new INImportExtraHistory();
@@ -2679,7 +2889,21 @@ namespace UDM.Insurance.Interface.Data
             get { return _smsData; }
             set { SetProperty(ref _smsData, value, () => SMSData); }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        private SMSVoucherSend _smsVoucherSendData = new SMSVoucherSend();
+        public SMSVoucherSend SMSVoucherSendData
+        {
+            get { return _smsVoucherSendData; }
+            set { SetProperty(ref _smsVoucherSendData, value, () => SMSVoucherSendData); }
+        }
+        private SMSVoucher _smsVoucherData = new SMSVoucher();
+        public SMSVoucher SMSVoucherData
+        {
+            get { return _smsVoucherData; }
+            set { SetProperty(ref _smsVoucherData, value, () => SMSVoucherData); }
+        }
         #endregion BulkSMS Message
 
 
