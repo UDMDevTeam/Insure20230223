@@ -618,8 +618,8 @@ namespace UDM.Insurance.Interface.Screens
                 #region Get the complete lead from the database
 
                 #region Refresh agent list to include agents used for this import id
-
-                SqlParameter[] parameters = new SqlParameter[1];
+                DataTable dtSMSVoucher = new DataTable();
+              SqlParameter[] parameters = new SqlParameter[1];
                 parameters[0] = new SqlParameter("@ImportID", importID);
                 DataSet dsAgentLookups = Methods.ExecuteStoredProcedure("spINGetLeadApplicationScreenAgents", parameters);
                 DataTable dtSalesAgents = dsAgentLookups.Tables[0];
@@ -643,7 +643,7 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtSMS = ds.Tables[9];
                 try
                 {
-                    DataTable dtSMSVoucher = ds.Tables[10];
+                     dtSMSVoucher = ds.Tables[10];
                 }
                 catch
                 {
