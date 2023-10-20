@@ -13778,8 +13778,8 @@ namespace UDM.Insurance.Interface.Screens
                     parameters[0] = new SqlParameter("@UserID", GlobalSettings.ApplicationUser.ID); //added this in case the person is working on a mining campaign
                     string agentName = Methods.ExecuteFunction("fnGetUserName", parameters).ToString();
                     LaData.SMSVoucherSendData.to = LaData.LeadData.TelCell.Trim();
-                    // LaData.SMSVoucherSendData.to = "+27" + LaData.SMSVoucherSendData.to.Substring(1);
-                    LaData.SMSVoucherSendData.to = "+27" + "0828233657".Substring(1);
+                     LaData.SMSVoucherSendData.to = "+27" + LaData.SMSVoucherSendData.to.Substring(1);
+                   // LaData.SMSVoucherSendData.to = "+27" + "0828233657".Substring(1);
                     string strQuery;
                     strQuery = "SELECT VoucherCode,VoucherExpiryDate FROM INImportOther WHERE FKINImportID = " + LaData.AppData.ImportID;
                     DataTable dtVouchers = Methods.GetTableData(strQuery);
