@@ -3641,7 +3641,7 @@ namespace UDM.Insurance.Interface.Screens
                         strQueryNOKExsists.Append("FROM [INNextOfKin] ");
                         strQueryNOKExsists.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
                         DataTable dtNOK = Methods.GetTableData(strQueryNOKExsists.ToString());
-                        if (dtNOK.Rows[0][0].ToString() == "" || dtNOK.Rows[0][0] == null || dtNOK.Rows[0][0] == DBNull.Value)
+                        if (dtNOK.Rows.Count <= 0)
                         {
                             for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                             {
@@ -3728,7 +3728,7 @@ namespace UDM.Insurance.Interface.Screens
                         strQueryNOKExsists.Append("FROM [INNextOfKin] ");
                         strQueryNOKExsists.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
                         DataTable dtNOK = Methods.GetTableData(strQueryNOKExsists.ToString());
-                        if (dtNOK.Rows[0][0].ToString() == "" || dtNOK.Rows[0][0] == null || dtNOK.Rows[0][0] == DBNull.Value)
+                        if (dtNOK.Rows.Count <= 0)
                         {
                             for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                             {
@@ -4930,7 +4930,7 @@ namespace UDM.Insurance.Interface.Screens
                             strQueryNOKExsists.Append("FROM [INNextOfKin] ");
                             strQueryNOKExsists.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
                             DataTable dtNOK = Methods.GetTableData(strQueryNOKExsists.ToString());
-                            if (dtNOK.Rows[0][0].ToString() == "" || dtNOK.Rows[0][0] == null || dtNOK.Rows[0][0] == DBNull.Value)
+                            if (dtNOK.Rows.Count <= 0)
                             {
                                 for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                                 {
@@ -5017,7 +5017,7 @@ namespace UDM.Insurance.Interface.Screens
                             strQueryNOKExsists.Append("FROM [INNextOfKin] ");
                             strQueryNOKExsists.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
                             DataTable dtNOK = Methods.GetTableData(strQueryNOKExsists.ToString());
-                            if (dtNOK.Rows[0][0].ToString() == "" || dtNOK.Rows[0][0] == null || dtNOK.Rows[0][0] == DBNull.Value)
+                            if (dtNOK.Rows.Count <= 0)
                             {
                                 for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                                 {
