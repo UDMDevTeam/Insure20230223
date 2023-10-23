@@ -2243,15 +2243,34 @@ namespace UDM.Insurance.Interface.Screens
                                 inImportOther.FKINImportID = inImport.ID;
                                 inImportOther.FKINBatchID = inImport.FKINBatchID;
                                 inImportOther.RefNo = inImport.RefNo;
-                                if (_inCampaign.ID == 423 || _inCampaign.ID == 424)
+                                if (_inCampaign.ID == 424 || _inCampaign.ID == 423)
                                 {
                                     inImportOther.VoucherCode = GetStringValue(row.Cells[idxFields["Future11"].Index]);
                                     inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
+                                    inImportOther.Save(_validationResult);
                                 }
-                                inImportOther.Save(_validationResult);
+                                else if (_inCampaign.ID == 423)
+                                {
+                                    inImportOther.VoucherCode = GetStringValue(row.Cells[idxFields["Future11"].Index]);
+                                    inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
+                                    inImportOther.Save(_validationResult);
+                                }
+                                else
+                                {
+                                    inImportOther.Save(_validationResult);
+                                }
+                               
+                               
 
                                 #region INNextOfKin
-                                if (_inCampaign.ID != 423 && _inCampaign.ID != 424)
+                                if(_inCampaign.ID == 423)
+                                {
+
+                                }else if (_inCampaign.ID == 424)
+                                {
+
+                                }
+                                else
                                 {
                                     INNextOfKin inNextOfKin = new INNextOfKin();
                                     inNextOfKin.FKINImportID = inImport.ID;
@@ -2262,9 +2281,9 @@ namespace UDM.Insurance.Interface.Screens
                                     string relationship = GetStringValue(row.Cells[idxFields["Future13"].Index]);
                                 
 
-                                try
+                                 try
         
-                                {
+                                 {
                                     SqlParameter[] parameters = new SqlParameter[1];
                                     parameters[0] = new SqlParameter("@Description", relationship);
                                     DataSet dsNOKRelationship = Methods.ExecuteStoredProcedure("GetNOKRelationshipID", parameters);
