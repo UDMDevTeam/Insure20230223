@@ -4916,30 +4916,32 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 #region NextOfKin
-
-                {
-                    for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
+                try {
                     {
-                        LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
-
-                        INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
-
-                        inNextOfKin.FKINImportID = LaData.AppData.ImportID;
-                        inNextOfKin.FirstName = UppercaseFirst(NextOfKinData.Name);
-                        inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
-                        inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
-                        inNextOfKin.TelContact = NextOfKinData.TelContact;
-                        inNextOfKin.Save(_validationResult);
-
-                        if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                        for (int i = 0; i < LeadApplicationData.MaxNextOfKin; i++)
                         {
-                            string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
-                            Methods.ExecuteSQLNonQuery(strQuery);
-                        }
+                            LeadApplicationData.NextOfKin NextOfKinData = LaData.NextOfKinData[i];
 
-                        NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                            INNextOfKin inNextOfKin = (NextOfKinData.NextOfKinID == null) ? new INNextOfKin() : new INNextOfKin((long)NextOfKinData.NextOfKinID);
+
+                            inNextOfKin.FKINImportID = LaData.AppData.ImportID;
+                            inNextOfKin.FirstName = UppercaseFirst(NextOfKinData.Name);
+                            inNextOfKin.Surname = UppercaseFirst(NextOfKinData.Surname);
+                            inNextOfKin.FKINRelationshipID = NextOfKinData.RelationshipID;
+                            inNextOfKin.TelContact = NextOfKinData.TelContact;
+                            inNextOfKin.Save(_validationResult);
+
+                            if (NextOfKinData.NextOfKinID == null) //only if new NextOfKin create blank history record
+                            {
+                                string strQuery = "INSERT INTO zHstINNextOfKin (ID) VALUES ('" + inNextOfKin.ID + "')";
+                                Methods.ExecuteSQLNonQuery(strQuery);
+                            }
+
+                            NextOfKinData.NextOfKinID = inNextOfKin.ID;
+                        }
                     }
-                }
+                } catch { }
+
 
                 #endregion
 
@@ -4991,7 +4993,7 @@ namespace UDM.Insurance.Interface.Screens
             catch (Exception ex)
             {
                 Database.CancelTransactions();
-                HandleException(ex);
+                //HandleException(ex);
                 //ClearApplicationScreen();
                 medReference.Focus();
             }
@@ -10807,6 +10809,7 @@ namespace UDM.Insurance.Interface.Screens
                         //see if this can be selected
                         if (IsValidDataForwardToDC())
                         {
+                            ForwardToDCSaveStep2();
                             try
                             {
                                 StringBuilder strQueryFKINLeadStatus = new StringBuilder();

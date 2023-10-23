@@ -100,39 +100,44 @@ namespace UDM.Insurance.Interface.Screens
         }
         protected void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            RebindData();
+            try { RebindData(); } catch { }
+            
         }
         private void RebindData()
         {
-            DataTable dtAgentsOnline; 
-            if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
+            try
             {
-                //dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636) ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
-                dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+                DataTable dtAgentsOnline;
+                if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
+                {
+                    //dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 and [INCMAgentsOnline].[FKUserID] in (43527, 42978, 43744, 8613, 43636) ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+                    dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
 
-            }
-            else
-            {
-                dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
-            }
+                }
+                else
+                {
+                    dtAgentsOnline = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] WHERE [INCMAgentsOnline].[Online] = 1 ORDER BY [INCMAgentsOnline].[StampDate] ASC ");
+                }
 
 
-            //try { dtSalesData.Clear(); } catch { }
-            //foreach (DataRow row in dtAgentsOnline.Rows)
-            //{
-            //    dtSalesData.Rows.Add(row.ItemArray);
-            //}
-            //SelectAgentDG.ItemsSource = dtSalesData.AsDataView();
+                //try { dtSalesData.Clear(); } catch { }
+                //foreach (DataRow row in dtAgentsOnline.Rows)
+                //{
+                //    dtSalesData.Rows.Add(row.ItemArray);
+                //}
+                //SelectAgentDG.ItemsSource = dtSalesData.AsDataView();
 
-            try { agentCollection.Clear(); } catch { }
+                try { agentCollection.Clear(); } catch { }
 
-            for (int x = 0; x < dtAgentsOnline.Rows.Count; x++)
-            {
-                agentCollection.Add(new DataGridViewAgents { Name = dtAgentsOnline.Rows[x][0].ToString(), FKUserID = dtAgentsOnline.Rows[x][1].ToString() });
+                for (int x = 0; x < dtAgentsOnline.Rows.Count; x++)
+                {
+                    agentCollection.Add(new DataGridViewAgents { Name = dtAgentsOnline.Rows[x][0].ToString(), FKUserID = dtAgentsOnline.Rows[x][1].ToString() });
 
-            }
-            ListCollectionView collectionView = new ListCollectionView(agentCollection);
-            SelectAgentDG.DataSource = collectionView;
+                }
+                ListCollectionView collectionView = new ListCollectionView(agentCollection);
+                SelectAgentDG.DataSource = collectionView;
+            } catch { }
+
         }
 
         private void LoadLookupData()
@@ -247,7 +252,7 @@ namespace UDM.Insurance.Interface.Screens
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
         }
 
@@ -286,82 +291,90 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                cmbDeclineReason.ItemsSource = null;
-            }
-            catch { }
-
-
-
-
-            //This is for the rule where Upgrade leads choose a selected amount of DebiCheck Agents
-            DataTable dtAgentsAvailable;
-            if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
-            {
-                if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
+                try
                 {
-                    DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
-                    cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+                    cmbDeclineReason.ItemsSource = null;
                 }
-                else
-                {
+                catch { }
 
-                    if (DateTime.Now.Hour <= 15)
-                    {
-                        dtAgentsAvailable = Business.Insure.GetAvailableDCAgents();
-                        cmbDeclineReason.Populate(dtAgentsAvailable, "Description", "FKUserID");
-                    }
-                    else
+
+
+
+                //This is for the rule where Upgrade leads choose a selected amount of DebiCheck Agents
+                DataTable dtAgentsAvailable;
+                if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
+                {
+                    if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                     {
                         DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
                         cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
                     }
+                    else
+                    {
+
+                        if (DateTime.Now.Hour <= 15)
+                        {
+                            dtAgentsAvailable = Business.Insure.GetAvailableDCAgents();
+                            cmbDeclineReason.Populate(dtAgentsAvailable, "Description", "FKUserID");
+                        }
+                        else
+                        {
+                            DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
+                            cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+                        }
+                    }
                 }
-            }
-            else
-            {
-                DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
-                cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
-            }
+                else
+                {
+                    DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
+                    cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+                }
+            } catch { }
+
         }
 
         private void Reload()
         {
             try
             {
-                cmbDeclineReason.ItemsSource = null;
-            }
-            catch { }
-
-
-            //This is for the rule where Upgrade leads choose a selected amount of DebiCheck Agents
-            DataTable dtAgentsAvailable;
-            if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
-            {
-                if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
+                try
                 {
-                    DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
-                    cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+                    cmbDeclineReason.ItemsSource = null;
                 }
-                else
-                {
+                catch { }
 
-                    if (DateTime.Now.Hour <= 15)
-                    {
-                        dtAgentsAvailable = Business.Insure.GetAvailableDCAgents();
-                        cmbDeclineReason.Populate(dtAgentsAvailable, "Description", "FKUserID");
-                    }
-                    else
+
+                //This is for the rule where Upgrade leads choose a selected amount of DebiCheck Agents
+                DataTable dtAgentsAvailable;
+                if (_LeadApplicationScreen.LaData.AppData.IsLeadUpgrade)
+                {
+                    if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                     {
                         DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
                         cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
                     }
+                    else
+                    {
+
+                        if (DateTime.Now.Hour <= 15)
+                        {
+                            dtAgentsAvailable = Business.Insure.GetAvailableDCAgents();
+                            cmbDeclineReason.Populate(dtAgentsAvailable, "Description", "FKUserID");
+                        }
+                        else
+                        {
+                            DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
+                            cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+                        }
+                    }
                 }
-            }
-            else
-            {
-                DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
-                cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
-            }
+                else
+                {
+                    DataTable dtStatus = Methods.GetTableData("SELECT CASE WHEN [INCMAgentsOnline].[Online] = '1' THEN  [lkpINCMAgentForwardedSale].[Description] + ' - Available'ELSE [lkpINCMAgentForwardedSale].[Description] + ' - Unavailable' END AS [Description], [lkpINCMAgentForwardedSale].[FKUserID]  FROM [lkpINCMAgentForwardedSale] LEFT JOIN [INCMAgentsOnline] ON [lkpINCMAgentForwardedSale].[FKUserID] = [INCMAgentsOnline].[FKUserID] ORDER BY [INCMAgentsOnline].[Online] DESC");
+                    cmbDeclineReason.Populate(dtStatus, "Description", "FKUserID");
+                }
+            } catch { }
+
         }
 
         private void SelectAgentDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -468,18 +481,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 SelectedDeclineReasonID = Convert.ToInt32(selectedUserid);
 
-                if (TransferFKUserID == SelectedDeclineReasonID.ToString())
-                {
-                    Task.Delay(2000).ContinueWith(_ =>
-                    {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-                        {
-                            btnFinish.Visibility = Visibility.Visible;
-                        });
-                    });
-                }
-                else
-                {
+
                     StringBuilder strQueryAgentOnline = new StringBuilder();
                     strQueryAgentOnline.Append("SELECT TOP 1 Online [Response] ");
                     strQueryAgentOnline.Append("FROM INCMAgentsOnline ");
@@ -564,7 +566,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                     }
-                }
+                
             }
             catch (Exception ex)
             {
