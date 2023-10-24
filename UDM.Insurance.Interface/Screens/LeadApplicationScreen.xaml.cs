@@ -5126,11 +5126,7 @@ namespace UDM.Insurance.Interface.Screens
                         referralDataDict.Clear();
                         RemovereferralDataDict.Clear();
                         ClearFields();
-                        Page3.Visibility = Visibility.Collapsed;
-                        Page2.Visibility = Visibility.Collapsed;
-                        Page4.Visibility = Visibility.Collapsed;
-                        Page5.Visibility = Visibility.Collapsed;
-                        Page1.Visibility = Visibility.Visible;
+                       
                     }
                 } catch { }
 
