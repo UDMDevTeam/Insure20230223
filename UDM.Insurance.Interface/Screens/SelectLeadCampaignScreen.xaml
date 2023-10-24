@@ -154,8 +154,12 @@
                         Label="Lead Name" />
                     <igDP:Field
                         Name="Description"
-                        Width="200"
+                        Width="150"
                         Label="Description" />
+                    <igDP:Field
+     Name="saleTime"
+     Width="100"
+     Label="Time of sale" />
 
                 </igDP:FieldLayout>
             </igDP:XamDataGrid.FieldLayouts>
