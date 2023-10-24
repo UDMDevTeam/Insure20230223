@@ -2249,12 +2249,7 @@ namespace UDM.Insurance.Interface.Screens
                                     inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
                                     inImportOther.Save(_validationResult);
                                 }
-                                else if (_inCampaign.ID == 423)
-                                {
-                                    inImportOther.VoucherCode = GetStringValue(row.Cells[idxFields["Future11"].Index]);
-                                    inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
-                                    inImportOther.Save(_validationResult);
-                                }
+                             
                                 else
                                 {
                                     inImportOther.Save(_validationResult);

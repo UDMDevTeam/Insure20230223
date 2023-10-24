@@ -476,7 +476,7 @@ namespace UDM.Insurance.Interface.Screens
                 Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
                 string filePathAndName = String.Format("{0}Lead Search Report ({1}), {2}.xlsx", GlobalSettings.UserFolder, campaignName, DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
 
-                Uri uri = new Uri("/Templates/ReportTemplateLeadSearch.xlsx", UriKind.Relative);
+                Uri uri = new Uri("/Templates/ReportTemplateLeadSearchSinglePage.xlsx", UriKind.Relative);
                 StreamResourceInfo info = Application.GetResourceStream(uri);
                 if (info != null)
                 {
@@ -653,7 +653,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("V" + rowIndex).Value = dr["TSR Assigned To"].ToString();
                                 wsReport.GetCell("W" + rowIndex).Value = dr["TSR Sold By"].ToString();
                                 wsReport.GetCell("X" + rowIndex).Value = dr["Confirmation Agent"].ToString();
-
+                                wsReport.GetCell("Y" + rowIndex).Value = dr["Number of Referrals Generated"].ToString();
                             }
                         }
 
