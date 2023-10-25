@@ -941,6 +941,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsLeads.GetCell("Beneficiary1DateOfBirth").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1DateOfBirth"].ToString();
                                 wsLeads.GetCell("Beneficiary1Relationship").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1Relationship"].ToString();
                                 wsLeads.GetCell("Beneficiary1Percentage").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1Percentage"].ToString();
+                                wsLeads.GetCell("NOKDetails").Value = dtLeadPrintData.Rows[lead[0] - 1]["NOKDetails"].ToString();
 
                                 if (uri.ToString() == "/Templates/PrintTemplateUpgrade4.xlsx")
                                 {
@@ -1099,7 +1100,8 @@ namespace UDM.Insurance.Interface.Screens
                                 wsLeads.GetCell("Beneficiary1DateOfBirth").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1DateOfBirth"].ToString();
                                 wsLeads.GetCell("Beneficiary1Relationship").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1Relationship"].ToString();
                                 wsLeads.GetCell("Beneficiary1Percentage").Value = dtLeadPrintData.Rows[lead[0] - 1]["Beneficiary1Percentage"].ToString();
-
+                               wsLeads.GetCell("NOKDetails").Value = dtLeadPrintData.Rows[lead[0] - 1]["NOKDetails"].ToString();
+                             
                                 if (uri.ToString() == "/Templates/PrintTemplateUpgrade3.xlsx" ||
                                     uri.ToString() == "/Templates/PrintTemplateUpgrade3Transfer.xlsx" ||
                                     uri.ToString() == "/Templates/PrintTemplateUpgrade5.xlsx" ||
@@ -2262,7 +2264,6 @@ namespace UDM.Insurance.Interface.Screens
             DateTime nextMonday = Methods.NextWeekDay(DateTime.Now, DayOfWeek.Monday);
 
             #endregion Variable Definitions
-
             #region Assuming we're only printing for 1 campaign at a time, use row 1 column 1 of dtSelectedItemsToPrint to get the configs
 
             fkINCampaign = Convert.ToInt64(dtSelectedItemsToPrint.Rows[0]["CampaignID"]);
