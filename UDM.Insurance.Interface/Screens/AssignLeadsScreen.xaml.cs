@@ -549,7 +549,51 @@ namespace UDM.Insurance.Interface.Screens
                     var CampaignGroupID = Methods.GetTableData("SELECT TOP 1 FKINCampaignGroupID FROM INCampaign AS HRS WHERE ID = " + inBatch.FKINCampaignID)?.AsEnumerable().Select(x => x["FKINCampaignGroupID"]).FirstOrDefault();
                     INImportCollection collectiontoassign = INImportMapper.Search(null, null, _batchID, null);
 
-                    if (int.Parse(CampaignGroupID.ToString()) == 38
+                    if(assign < 0)
+                    {
+                        INImportCollection inImportCollection = INImportMapper.Search(userID, _batchID, false, null);
+
+                        if (inImportCollection.Count > 0)
+                        {
+                            Database.BeginTransaction(null, IsolationLevel.Snapshot);
+                            int[] i = { 0 };
+                            foreach (INImport inImport in inImportCollection)
+                            {
+                                i[0]--;
+                                inImport.FKUserID = null;
+                                inImport.AllocationDate = null;
+                                inImport.IsFutureAllocation = null;
+                                inImport.Save(_validationResult);
+
+                                record.Cells["Assign"].Value = Convert.ToInt64(record.Cells["Assign"].Value.ToString()) + 1;
+                                record.Cells["LeadsAllocated"].Value = Convert.ToInt64(record.Cells["LeadsAllocated"].Value.ToString()) - 1;
+                                tbTotalAssigned.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                                {
+                                    tbTotalAssigned.Text = (Convert.ToInt64(tbTotalAssigned.Text) - 1).ToString();
+                                }));
+                                tbTotalUnassigned.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                                {
+                                    tbTotalUnassigned.Text = (Convert.ToInt64(tbTotalUnassigned.Text) + 1).ToString();
+                                }));
+                                tbUnMarketedLeads.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                                {
+                                    tbUnMarketedLeads.Text = (Convert.ToInt64(tbUnMarketedLeads.Text) - 1).ToString();
+                                }));
+
+                                if (i[0] == assign || Math.Abs(i[0]) == inImportCollection.Count)
+                                {
+                                    record.Cells["Assign"].Value = 0;
+                                    break;
+                                }
+                            }
+                            CommitTransaction(null);
+                        }
+                        else
+                        {
+                            record.Cells["Assign"].Value = 0;
+                        }
+                    }
+                    else if (int.Parse(CampaignGroupID.ToString()) == 38
                         || int.Parse(CampaignGroupID.ToString()) == 44) // This is for the 14th upgrade update
                     {
                         INImportCollection inImportCollection = new INImportCollection();

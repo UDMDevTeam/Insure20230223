@@ -947,6 +947,7 @@ namespace UDM.Insurance.Interface.Screens
                                                     desObject.FKINImportID = desImport.ID;
                                                     desObject.FKINBatchID = desImport.FKINBatchID;
                                                     desObject.RefNo = desImport.RefNo;
+                                                    desObject.OriginalCampaign = srcObject.OriginalCampaign;
 
                                                     desObject.Save(_validationResult);
                                                 }
