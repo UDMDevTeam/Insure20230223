@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Windows;
@@ -67,8 +68,30 @@ namespace UDM.Insurance.Interface.Screens
 
                 DataRelation relLeadBookMiner = new DataRelation("LeadBookMiner", ds.Tables[3].Columns["LeadBookID"], ds.Tables[4].Columns["LeadBookID"]);
                 ds.Relations.Add(relLeadBookMiner);
+                DataView parentView = new DataView(ds.Tables[0]);
 
+               
+                List<DataRow> rowsToRemove = new List<DataRow>();
+
+               
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    DataRow[] childRows = row.GetChildRows("CampaignBatch");
+                    if (childRows.Length == 0)
+                    {
+                        rowsToRemove.Add(row);
+                    }
+                }
+
+                // Remove the rows that have no children
+                foreach (DataRow row in rowsToRemove)
+                {
+                    ds.Tables[0].Rows.Remove(row);
+                }
+
+             
                 xdgAssignLeads.DataSource = ds.Tables[0].DefaultView;
+
             }
 
             catch (Exception ex)
@@ -81,7 +104,7 @@ namespace UDM.Insurance.Interface.Screens
                 SetCursor(Cursors.Arrow);
             }
         }
-
+       
         private void GridLastView(XamDataGrid grid, int? indexCampaign, int? indexBatch, int? indexAgent, int? indexLeadBook)
         {
             try
