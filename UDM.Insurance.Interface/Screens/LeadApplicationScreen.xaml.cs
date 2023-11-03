@@ -11095,7 +11095,6 @@ namespace UDM.Insurance.Interface.Screens
                         //see if this can be selected
                         if (IsValidDataForwardToDC())
                         {
-                            ForwardToDCSaveStep2();
                             try
                             {
                                 StringBuilder strQueryFKINLeadStatus = new StringBuilder();
