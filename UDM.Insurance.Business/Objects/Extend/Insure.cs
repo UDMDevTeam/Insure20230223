@@ -156,7 +156,7 @@ namespace UDM.Insurance.Business
 
         #endregion
 
-        #region Get upgrade 14 assign leads
+        #region 2023 experimental allocations
         public static DataSet INGetUpgrade14AssignLeads(long batchID, long AssignAmount)
         {
             object param1 = Database.GetParameter("@BatchID", batchID);
@@ -165,6 +165,17 @@ namespace UDM.Insurance.Business
             object[] paramArray = new[] { param1, param2 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINgetUpgrade14OriginalCampaignAssignLeads", paramArray, 600);
+        }
+
+        public static DataSet INGetAutoAssignAllocations(long batchID, long AssignAmount, long? fkuserid)
+        {
+            object param1 = Database.GetParameter("@BatchID", batchID);
+            object param2 = Database.GetParameter("@AllocationAmount", AssignAmount);
+            object param3 = Database.GetParameter("@FKUserID", fkuserid);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportAutoAssignAllocations", paramArray, 600);
         }
 
         public static DataSet INGetNoContactLeads(long batchID, long AssignAmount)
