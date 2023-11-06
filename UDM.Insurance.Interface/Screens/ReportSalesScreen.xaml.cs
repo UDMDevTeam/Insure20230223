@@ -140,6 +140,15 @@ namespace UDM.Insurance.Interface.Screens
             _reportTimer.Interval = new TimeSpan(0, 0, 1);
 
             //PropertyChanged += ReportSalesScreen_PropertyChanged;
+
+            if((lkpUserType?)((Business.User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.SalesAgent)
+            {
+                DebiCheckCB.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                DebiCheckCB.Visibility = Visibility.Visible;
+            }
         }
 
         #endregion

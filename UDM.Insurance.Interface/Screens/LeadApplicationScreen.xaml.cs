@@ -3837,11 +3837,11 @@ namespace UDM.Insurance.Interface.Screens
                     referralDataDict.Clear();
                     RemovereferralDataDict.Clear();
                     ClearFields();
-                    Page3.Visibility = Visibility.Collapsed;
-                    Page2.Visibility = Visibility.Collapsed;
-                    Page4.Visibility = Visibility.Collapsed;
-                    Page5.Visibility = Visibility.Collapsed;
-                    Page1.Visibility = Visibility.Visible;
+                    //Page3.Visibility = Visibility.Collapsed;
+                    //Page2.Visibility = Visibility.Collapsed;
+                    //Page4.Visibility = Visibility.Collapsed;
+                    //Page5.Visibility = Visibility.Collapsed;
+                    //Page1.Visibility = Visibility.Visible;
                 }
 
                 #endregion
@@ -8949,7 +8949,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region PLCBSpouse Campaign Auto CancerOption Update
 
-                if (LaData.AppData.CampaignID == 344 || LaData.AppData.CampaignID == 423 || LaData.AppData.CampaignID == 424 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
+                if (LaData.AppData.CampaignID == 344 || LaData.AppData.CampaignID == 423 || LaData.AppData.CampaignID == 429 || LaData.AppData.CampaignID == 424 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade5 || LaData.AppData.CampaignType == lkpINCampaignType.BlackMaccMillion && LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade6)
                 {
                     decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
                     int age = DateTime.Now.Year - date.Year;
