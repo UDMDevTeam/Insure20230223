@@ -506,7 +506,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 foreach (Record rec in xdgAssignLeads.Records)
                 {
-                    var record = (DataRecord) rec;
+                    var record = (DataRecord)rec;
 
                     long userID = long.Parse(record.Cells["UserID"].Value.ToString());
                     long assign = long.Parse(record.Cells["Assign"].Value.ToString());
@@ -514,10 +514,93 @@ namespace UDM.Insurance.Interface.Screens
                     INBatch inBatch = new INBatch(_batchID);
                     INCampaign inCampaign = new INCampaign(Convert.ToInt32(inBatch.FKINCampaignID));
 
-                    if (assign > 0)
+                    string BatchCode = (string)(Methods.GetTableData("SELECT TOP 1 Code FROM INBatch AS HRS WHERE ID = " + _batchID)?.AsEnumerable().Select(x => x["Code"]).FirstOrDefault());
+                    var CampaignGroupID = Methods.GetTableData("SELECT TOP 1 FKINCampaignGroupID FROM INCampaign AS HRS WHERE ID = " + inBatch.FKINCampaignID)?.AsEnumerable().Select(x => x["FKINCampaignGroupID"]).FirstOrDefault();
+                    INImportCollection collectiontoassign = INImportMapper.Search(null, null, _batchID, null);
+
+                    if (assign < 0)
                     {
-                        //INImportCollection inImportCollection = INImportMapper.Search(null, _batchID, null);
-                        INImportCollection inImportCollection = INImportMapper.Search(null, null, _batchID, null);
+                        INImportCollection inImportCollection = INImportMapper.Search(userID, _batchID, false, null);
+
+                        if (inImportCollection.Count > 0)
+                        {
+                            Database.BeginTransaction(null, IsolationLevel.Snapshot);
+                            int[] i = { 0 };
+                            foreach (INImport inImport in inImportCollection)
+                            {
+                                i[0]--;
+                                inImport.FKUserID = null;
+                                inImport.AllocationDate = null;
+                                inImport.IsFutureAllocation = null;
+                                inImport.Save(_validationResult);
+
+                                record.Cells["Assign"].Value = Convert.ToInt64(record.Cells["Assign"].Value.ToString()) + 1;
+                                record.Cells["LeadsAllocated"].Value = Convert.ToInt64(record.Cells["LeadsAllocated"].Value.ToString()) - 1;
+                                tbTotalAssigned.Dispatcher.Invoke(DispatcherPriority.Background, new System.Action(delegate
+                                {
+                                    tbTotalAssigned.Text = (Convert.ToInt64(tbTotalAssigned.Text) - 1).ToString();
+                                }));
+                                tbTotalUnassigned.Dispatcher.Invoke(DispatcherPriority.Background, new System.Action(delegate
+                                {
+                                    tbTotalUnassigned.Text = (Convert.ToInt64(tbTotalUnassigned.Text) + 1).ToString();
+                                }));
+                                tbUnMarketedLeads.Dispatcher.Invoke(DispatcherPriority.Background, new System.Action(delegate
+                                {
+                                    tbUnMarketedLeads.Text = (Convert.ToInt64(tbUnMarketedLeads.Text) - 1).ToString();
+                                }));
+
+                                if (i[0] == assign || Math.Abs(i[0]) == inImportCollection.Count)
+                                {
+                                    record.Cells["Assign"].Value = 0;
+                                    break;
+                                }
+                            }
+                            CommitTransaction(null);
+                        }
+                        else
+                        {
+                            record.Cells["Assign"].Value = 0;
+                        }
+                    }
+                    else 
+                    {
+                        INImportCollection inImportCollection = new INImportCollection();
+
+                        if (assign == 0)
+                        {
+
+                        }
+                        else
+                        {
+                            DataSet dsGetLeads = Business.Insure.INGetAutoAssignAllocations(_batchID, assign, userID);
+                            System.Data.DataTable ImportIDQuery = dsGetLeads.Tables[3];
+                            List<long> longList = new List<long>();
+
+                            foreach (DataRow row in ImportIDQuery.Rows)
+                            {
+                                long value = (long)row["LeadID"];
+                                longList.Add(value);
+                            }
+
+
+                            foreach (INImport row in collectiontoassign)
+                            {
+                                if (longList.Contains(row.ID))
+                                {
+                                    inImportCollection.Add(row);
+
+                                }
+                                else
+                                {
+                                }
+
+                            }
+                        }
+
+                        //INImportCollection inImportCollection = (INImportCollection)(Methods.GetTableData("SELECT  FKINCampaignGroupID FROM INCampaign AS HRS WHERE ID = " + inBatch.FKINCampaignID)?.AsEnumerable().Select(x => x["FKINCampaignGroupID"]).FirstOrDefault());
+
+
+
 
                         if (assign > inImportCollection.Count)
                         {
@@ -533,369 +616,18 @@ namespace UDM.Insurance.Interface.Screens
                         if (inImportCollection.Count > 0)
                         {
 
-                            #if !TRAININGBUILD
-
-                            RandomizeLeads(inImportCollection);
-
-                            #endif
-
-                            #region allocation for specific campaigns or Occupation
-                            #if !TRAININGBUILD
-
-                            { 
-
-                                #region ACCDIS
-                                //if (inCampaign.Code == "ACCDIS")
-                                //{
-                                //    INImportCollection collCampaign = new INImportCollection();
-                                    
-                                //    int countMacc = Methods.GetTableData(string.Format("SELECT RefNo From INImport WHERE FKINBatchID = '{0}' AND FKUserID IS NULL AND RefNo Like 'gdna%'", _batchID)).Rows.Count;
-                                //    int countMaccMillion = Methods.GetTableData(string.Format("SELECT RefNo From INImport WHERE FKINBatchID = '{0}' AND FKUserID IS NULL AND RefNo Like 'gdnm%'", _batchID)).Rows.Count;
-                                //    int count = countMacc + countMaccMillion;
-
-                                //    decimal maccPerc = Math.Round((decimal)countMacc / count * 100);
-
-                                //    int noOfMacc = (int)Math.Round(assign * maccPerc / 100);
-                                //    if (maccPerc > 0.000m)
-                                //    {
-                                //        if (noOfMacc == 0) noOfMacc = 1;
-                                //    }
-                                //    int noOfMaccMillion = (int)(assign - noOfMacc);
-
-                                //    foreach (INImport inImport in inImportCollection)
-                                //    {
-                                //        if (noOfMacc > 0 && inImport.RefNo.Substring(0, 4) == "gdna")
-                                //        {
-                                //            collCampaign.Add(inImport);
-                                //            noOfMacc--;
-                                //        }
-                                //        if (noOfMaccMillion > 0 && inImport.RefNo.Substring(0, 4) == "gdnm")
-                                //        {
-                                //            collCampaign.Add(inImport);
-                                //            noOfMaccMillion--;
-                                //        }
-
-                                //        if (noOfMacc == 0 && noOfMaccMillion == 0) break;
-                                //    }
-
-                                //    inImportCollection = collCampaign;
-                                //}
-                                #endregion
-
-                                #region PLMMBE
-                                //else if (inCampaign.Code == "PLMMBE")
-                                //{
-                                //    INImportCollection collCampaign = new INImportCollection();
-
-                                //    int countMaccMillion =
-                                //        Methods.GetTableData($"SELECT RefNo From INImport WHERE FKINBatchID = '{_batchID}' AND FKUserID IS NULL AND RefNo Like 'gdnm%'")
-                                //            .Rows.Count;
-                                //    int countBlackMaccMillion =
-                                //        Methods.GetTableData($"SELECT RefNo From INImport WHERE FKINBatchID = '{_batchID}' AND FKUserID IS NULL AND RefNo Like 'gdbm%'")
-                                //            .Rows.Count;
-                                //    int countTotal = countMaccMillion + countBlackMaccMillion;
-
-                                //    decimal percMaccMillion = Math.Round((decimal) countMaccMillion/countTotal*100);
-
-                                //    int noOfMaccMillion = (int) Math.Round(assign*percMaccMillion/100);
-                                //    if (percMaccMillion > 0.000m)
-                                //    {
-                                //        if (noOfMaccMillion == 0) noOfMaccMillion = 1;
-                                //    }
-                                //    int noOfBlackMaccMillion = (int) (assign - noOfMaccMillion);
-
-                                //    foreach (INImport inImport in inImportCollection)
-                                //    {
-                                //        if (noOfMaccMillion > 0 && inImport.RefNo.Substring(0, 4) == "gdnm")
-                                //        {
-                                //            collCampaign.Add(inImport);
-                                //            noOfMaccMillion--;
-                                //        }
-                                //        if (noOfBlackMaccMillion > 0 && inImport.RefNo.Substring(0, 4) == "gdbm")
-                                //        {
-                                //            collCampaign.Add(inImport);
-                                //            noOfBlackMaccMillion--;
-                                //        }
-
-                                //        if (noOfMaccMillion == 0 && noOfBlackMaccMillion == 0) break;
-                                //    }
-
-                                //    inImportCollection = collCampaign;
-                                //}
-                                #endregion
-
-                                #region New Allocation Groupings
-
-                                //else
-                                {
-                                    INImportCollection leadsToAssign = new INImportCollection();
-                                    INImportCollection leadsAvailable = new INImportCollection();
-                                    INImportCollection leadsRePrime = new INImportCollection();
-                                    INImportCollection leadsHouseWives = new INImportCollection();
-                                    INImportCollection leadsPensioners = new INImportCollection();
-                                    INImportCollection leadsIndianSurames = new INImportCollection();
-                                    INImportCollection leadsAfricanSurames = new INImportCollection();
-                                    INImportCollection leadsReMarketed = new INImportCollection();
-                                    INImportCollection leadsLowerPremiumUpgrade = new INImportCollection();
-
-                                    int noOfOther;
-                                    int noOfRePrimeLeads = 0;
-                                    int noOfHousewifeLeads = 0;
-                                    int noOfPensionerLeads = 0;
-                                    int noOfIndianSurnameLeads = 0;
-                                    int noOfAfricanSurnameLeads = 0;
-                                    int noOfReMarketedLeads = 0;
-                                    int noOfLowerPremiumUpgradeLeads = 0;
-
-                                    //Initialize
-                                    {
-                                        foreach (INImport lead in inImportCollection)
-                                        {
-                                            leadsAvailable.Add(lead);
-                                        }
-                                    }
-
-                                    //Allocate Re-Marketed first
-                                    //noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
-
-                                    //Specific allocations
-                                    if (inCampaign.Name.Contains("Cancer") && inCampaign.Name.Contains("Base"))
-                                    {
-                                        noOfRePrimeLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Prime", out leadsRePrime, out leadsAvailable);
-
-                                        noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
-
-                                        noOfHousewifeLeads = ProcessLeads(leadsAvailable, (int)assign, "Housewife", out leadsHouseWives, out leadsAvailable);
-
-                                        noOfPensionerLeads = ProcessLeads(leadsAvailable, (int)assign, "Pensioner", out leadsPensioners, out leadsAvailable);
-                                    }
-                                    //Macc NG Campaigns
-                                    else if ((inCampaign.ID == 2 || inCampaign.ID == 17) && inBatch.Code.Contains("NG"))
-                                    {
-                                        noOfAfricanSurnameLeads = ProcessLeads(leadsAvailable, (int)assign, "AfricanSurnames", out leadsAfricanSurames, out leadsAvailable);
-
-                                        noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
-
-                                        noOfHousewifeLeads = ProcessLeads(leadsAvailable, (int)assign, "Housewife", out leadsHouseWives, out leadsAvailable);
-
-                                        noOfPensionerLeads = ProcessLeads(leadsAvailable, (int)assign, "Pensioner", out leadsPensioners, out leadsAvailable);
-                                    }
-                                    //All Cancer not Base
-                                    else if (inCampaign.Name.Contains("Cancer"))
-                                    {
-                                        if (
-                                                inCampaign.Name.Contains("Upgrade") &&
-                                                (
-                                                    inCampaign.Name.Contains("Upgrade 4") ||
-                                                    inCampaign.Name.Contains("Upgrade 5") ||
-                                                    inCampaign.Name.Contains("Upgrade 6") ||
-                                                    inCampaign.Name.Contains("Upgrade 7") ||
-                                                    inCampaign.Name.Contains("Upgrade 8") ||
-                                                    inCampaign.Name.Contains("Upgrade 9") ||
-                                                    inCampaign.Name.Contains("Upgrade 10") ||
-                                                    inCampaign.Name.Contains("Upgrade 11")
-                                                )
-                                           )
-                                        {
-                                            noOfLowerPremiumUpgradeLeads = ProcessLeads(leadsAvailable, (int)assign, "LowerPremiumUpgrade", out leadsLowerPremiumUpgrade, out leadsAvailable);
-                                        }
-
-                                        noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
-
-                                        noOfHousewifeLeads = ProcessLeads(leadsAvailable, (int)assign, "Housewife", out leadsHouseWives, out leadsAvailable);
-
-                                        noOfPensionerLeads = ProcessLeads(leadsAvailable, (int)assign, "Pensioner", out leadsPensioners, out leadsAvailable);
-                                    }
-
-                                    //Common allocations not the ones Specified Below in the if clause
-                                    if(
-                                        !((inCampaign.ID == 2 || inCampaign.ID == 17) && inBatch.Code.Contains("NG")) 
-                                        && !(inCampaign.Name.Contains("Cancer"))
-                                      )
-                                    {
-                                        if (
-                                                inCampaign.Name.Contains("Upgrade") &&
-                                                (
-                                                    inCampaign.Name.Contains("Upgrade 4") ||
-                                                    inCampaign.Name.Contains("Upgrade 5") ||
-                                                    inCampaign.Name.Contains("Upgrade 6") ||
-                                                    inCampaign.Name.Contains("Upgrade 7") ||
-                                                    inCampaign.Name.Contains("Upgrade 8") ||
-                                                    inCampaign.Name.Contains("Upgrade 9") ||
-                                                    inCampaign.Name.Contains("Upgrade 10") ||
-                                                    inCampaign.Name.Contains("Upgrade 11")
-                                                )
-                                           )
-                                        {
-                                            noOfLowerPremiumUpgradeLeads = ProcessLeads(leadsAvailable, (int)assign, "LowerPremiumUpgrade", out leadsLowerPremiumUpgrade, out leadsAvailable);
-                                        }
-
-                                        noOfIndianSurnameLeads = ProcessLeads(leadsAvailable, (int)assign, "IndianSurnames", out leadsIndianSurames, out leadsAvailable);
-
-                                        noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
-
-                                        noOfHousewifeLeads = ProcessLeads(leadsAvailable, (int)assign, "Housewife", out leadsHouseWives, out leadsAvailable);
-
-                                        noOfPensionerLeads = ProcessLeads(leadsAvailable, (int)assign, "Pensioner", out leadsPensioners, out leadsAvailable);
-                                    }
-
-                                    //Allocate leads from different collections
-                                    {
-                                        noOfOther = Convert.ToInt32(assign - noOfRePrimeLeads - noOfHousewifeLeads - noOfPensionerLeads - noOfIndianSurnameLeads - noOfAfricanSurnameLeads - noOfReMarketedLeads - noOfLowerPremiumUpgradeLeads);
-                                        if (noOfOther < 0) noOfOther = 0;
-                                        if (noOfOther > leadsAvailable.Count)
-                                        {//this happens because of rounding issues
-                                            int diff = noOfOther - leadsAvailable.Count;
-                                            noOfOther = leadsAvailable.Count;
-
-                                            while (true)
-                                            {
-                                                if (leadsRePrime.Count > noOfRePrimeLeads)
-                                                {
-                                                    noOfRePrimeLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-
-                                                if (leadsHouseWives.Count > noOfHousewifeLeads)
-                                                {
-                                                    noOfHousewifeLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-
-                                                if (leadsPensioners.Count > noOfPensionerLeads)
-                                                {
-                                                    noOfPensionerLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-
-                                                if (leadsIndianSurames.Count > noOfIndianSurnameLeads)
-                                                {
-                                                    noOfIndianSurnameLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-
-                                                if (leadsAfricanSurames.Count > noOfAfricanSurnameLeads)
-                                                {
-                                                    noOfAfricanSurnameLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-
-                                                if (leadsReMarketed.Count > noOfReMarketedLeads)
-                                                {
-                                                    noOfReMarketedLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-
-                                                if (leadsLowerPremiumUpgrade.Count > noOfLowerPremiumUpgradeLeads)
-                                                {
-                                                    noOfLowerPremiumUpgradeLeads++;
-                                                    diff--;
-                                                    if (diff == 0) break;
-                                                }
-                                            }
-                                            
-                                        }
-
-                                        long count = 0;
-                                        while (count < assign)
-                                        {
-
-                                            if (noOfRePrimeLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsRePrime[noOfRePrimeLeads - 1]);
-                                                leadsRePrime.RemoveAt(noOfRePrimeLeads - 1);
-                                                noOfRePrimeLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfHousewifeLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsHouseWives[noOfHousewifeLeads - 1]);
-                                                leadsHouseWives.RemoveAt(noOfHousewifeLeads - 1);
-                                                noOfHousewifeLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfPensionerLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsPensioners[noOfPensionerLeads - 1]);
-                                                leadsPensioners.RemoveAt(noOfPensionerLeads - 1);
-                                                noOfPensionerLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfIndianSurnameLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsIndianSurames[noOfIndianSurnameLeads - 1]);
-                                                leadsIndianSurames.RemoveAt(noOfIndianSurnameLeads - 1);
-                                                noOfIndianSurnameLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfAfricanSurnameLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsAfricanSurames[noOfAfricanSurnameLeads - 1]);
-                                                leadsAfricanSurames.RemoveAt(noOfAfricanSurnameLeads - 1);
-                                                noOfAfricanSurnameLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfReMarketedLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsReMarketed[noOfReMarketedLeads - 1]);
-                                                leadsReMarketed.RemoveAt(noOfReMarketedLeads - 1);
-                                                noOfReMarketedLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfLowerPremiumUpgradeLeads > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsLowerPremiumUpgrade[noOfLowerPremiumUpgradeLeads - 1]);
-                                                leadsLowerPremiumUpgrade.RemoveAt(noOfLowerPremiumUpgradeLeads - 1);
-                                                noOfLowerPremiumUpgradeLeads--;
-                                                count++;
-                                            }
-
-                                            if (noOfOther > 0 && count < assign)
-                                            {
-                                                leadsToAssign.Add(leadsAvailable[noOfOther - 1]);
-                                                leadsAvailable.RemoveAt(noOfOther - 1);
-                                                noOfOther--;
-                                                count++;
-                                            }
-                                        }
-
-                                        inImportCollection = leadsToAssign;
-                                    }
-
-                                }
-
-                                #endregion
-
-                            }
-
-                            #endif
-                            #endregion allocation for specific campaigns or Occupation
 
                             Database.BeginTransaction(null, IsolationLevel.Snapshot);
 
                             int[] i = { 0 };
 
-                            #if !TRAININGBUILD
 
                             RandomizeLeads(inImportCollection);
 
-                            #endif
 
                             foreach (INImport inImport in inImportCollection)
                             {
-                                i[0]++; 
+                                i[0]++;
 
                                 inImport.FKUserID = userID;
                                 //inImport.AllocationDate = DateTime.Now;
@@ -941,51 +673,9 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             record.Cells["Assign"].Value = 0;
                         }
+
                     }
-                    else if (assign < 0)
-                    {
-                        INImportCollection inImportCollection = INImportMapper.Search(userID, _batchID, false, null);
 
-                        if (inImportCollection.Count > 0)
-                        {
-                            Database.BeginTransaction(null, IsolationLevel.Snapshot);
-                            int[] i = {0};
-                            foreach (INImport inImport in inImportCollection)
-                            {
-                                i[0]--;
-                                inImport.FKUserID = null;
-                                inImport.AllocationDate = null;
-                                inImport.IsFutureAllocation = null;
-                                inImport.Save(_validationResult);
-
-                                record.Cells["Assign"].Value = Convert.ToInt64(record.Cells["Assign"].Value.ToString()) + 1;
-                                record.Cells["LeadsAllocated"].Value = Convert.ToInt64(record.Cells["LeadsAllocated"].Value.ToString()) - 1;
-                                tbTotalAssigned.Dispatcher.Invoke(DispatcherPriority.Background, new System.Action(delegate
-                                {
-                                    tbTotalAssigned.Text = (Convert.ToInt64(tbTotalAssigned.Text) - 1).ToString();
-                                }));
-                                tbTotalUnassigned.Dispatcher.Invoke(DispatcherPriority.Background, new System.Action(delegate
-                                {
-                                    tbTotalUnassigned.Text = (Convert.ToInt64(tbTotalUnassigned.Text) + 1).ToString();
-                                }));
-                                tbUnMarketedLeads.Dispatcher.Invoke(DispatcherPriority.Background, new System.Action(delegate
-                                {
-                                    tbUnMarketedLeads.Text = (Convert.ToInt64(tbUnMarketedLeads.Text) - 1).ToString();
-                                }));
-
-                                if (i[0] == assign || Math.Abs(i[0]) == inImportCollection.Count)
-                                {
-                                    record.Cells["Assign"].Value = 0;
-                                    break;
-                                }
-                            }
-                            CommitTransaction(null);
-                        }
-                        else
-                        {
-                            record.Cells["Assign"].Value = 0;
-                        }
-                    }
                 }
             }
 
@@ -1549,24 +1239,35 @@ namespace UDM.Insurance.Interface.Screens
 
         private void btnAssign_Click(object sender, RoutedEventArgs e)
         {
-            btnAssign.IsEnabled = false;
-            btnClose.IsEnabled = false;
-            btnAgents.IsEnabled = false;
-            xdgAssignLeads.IsEnabled = false;
-            xdgAssignLeads.ActiveRecord = null;
+
+
 
             if (CanLeadsBeAllocated())
             {
 
-
-                    btnReport_Click();
-                
+                if (chkPreMarketedLeads.IsChecked == true)
+                {
+                    AssignLeadsUnMarketedLeads();
+                }
+                else
+                {
+                    AssignLeads();
+                }
             }
 
-            btnAssign.IsEnabled = true;
-            btnClose.IsEnabled = true;
-            btnAgents.IsEnabled = true;
-            xdgAssignLeads.IsEnabled = true;
+            //btnAssign.IsEnabled = false;
+            //btnClose.IsEnabled = false;
+            //btnAgents.IsEnabled = false;
+            //xdgAssignLeads.IsEnabled = false;
+            //xdgAssignLeads.ActiveRecord = null;
+            //if (CanLeadsBeAllocated())
+            //{
+            //        btnReport_Click();                
+            //}
+            //btnAssign.IsEnabled = true;
+            //btnClose.IsEnabled = true;
+            //btnAgents.IsEnabled = true;
+            //xdgAssignLeads.IsEnabled = true;
         }
 
         private void Report(object sender, DoWorkEventArgs e)
