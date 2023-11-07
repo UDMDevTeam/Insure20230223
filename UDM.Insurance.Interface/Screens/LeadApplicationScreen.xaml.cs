@@ -977,7 +977,7 @@ namespace UDM.Insurance.Interface.Screens
                     if (dtLeadHst.Rows.Count > 0) LaData.LeadHistoryData.Email = dtLeadHst.Rows[0]["EMail"] as string;
                     try
                     {
-                        if (LaData.AppData.CampaignID == 423 || LaData.AppData.CampaignID == 424)
+                        if (LaData.AppData.CampaignID == 423 || LaData.AppData.CampaignID == 424 || LaData.AppData.CampaignID == 429)
                         {
                             btnSendvoucherSMS.Visibility = Visibility.Visible;
                         }
@@ -10516,7 +10516,29 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         parameters[4] = new SqlParameter("@HigherOptionMode", -1);
                     }
-                    DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
+                    DataSet dsLookups;
+                    //this is added for the new R149, can only be sold on new leads
+                    if (LaData.AppData.CampaignCode == "PLCBR129"
+                        || LaData.AppData.CampaignCode == "PLCBPER129"
+                        || LaData.AppData.CampaignCode == "PLCBR129R"
+                        || LaData.AppData.CampaignCode == "PLCBREF")
+                    {
+                        if(LaData.AppData.CampaignCode == "PLCBREF")
+                        {
+                            dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCoversReferrals149", parameters);                            
+                        }
+                        else
+                        {
+                            dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCoversReferrals149Excluded", parameters);
+                        }
+                        
+                    }
+                    else
+                    {
+                        dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
+                    }
+
+                    
                     dtCover = dsLookups.Tables[0];
                     foreach (DataRow row in dtCover.Rows)
                     {
@@ -11782,6 +11804,10 @@ namespace UDM.Insurance.Interface.Screens
                     else if (date.Year == 2022 && date.Month == 11 && (date.Day >= 20 && date.Day <= 30))
                     {
                         LaData.PolicyData.CommenceDate = new DateTime(2023, 02, 01);
+                    }
+                    else if (date.Year == 2023 && date.Month == 11 && (date.Day >= 20 && date.Day <= 30))
+                    {
+                        LaData.PolicyData.CommenceDate = new DateTime(2024, 02, 01);
                     }
                     else
                     {
