@@ -554,10 +554,10 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
                             {
-                                headingSelectDeclineReason.Text = "Oops, Agent just went offline.";
+                                headingSelectDeclineReason.Text = "Transferred to DC Agent";
 
                                 btnFinish.Visibility = Visibility.Visible;
-                                btnFinish.Content = "Please retry";
+                                btnFinish.Content = "Transferred";
                             });
                         }
                         catch

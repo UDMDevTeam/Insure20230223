@@ -1992,13 +1992,16 @@ namespace UDM.Insurance.Interface.Screens
         {
             lblNewAllocationDate.Visibility = Visibility.Visible;
             dteNewAllocationDate.Visibility = Visibility.Visible;
+            lblUnMarketedLeads.Visibility = Visibility.Collapsed;
+            chkPreMarketedLeads.Visibility = Visibility.Collapsed;
         }
 
         private void chkUseDifferentAllocationDate_Unchecked(object sender, RoutedEventArgs e)
         {
             lblNewAllocationDate.Visibility = Visibility.Hidden;
             dteNewAllocationDate.Visibility = Visibility.Hidden;
-
+            lblUnMarketedLeads.Visibility = Visibility.Visible;
+            chkPreMarketedLeads.Visibility = Visibility.Visible;
             dteNewAllocationDate.Value = null;
             _newAllocationDate = DateTime.Now;
         }

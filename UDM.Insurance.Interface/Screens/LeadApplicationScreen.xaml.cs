@@ -10327,6 +10327,22 @@ namespace UDM.Insurance.Interface.Screens
 
                 }
             }
+
+            if(LaData.AppData.CampaignID == 423
+                || LaData.AppData.CampaignID == 429)
+            {
+                if((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted)
+                {
+                    if (cmbTitle.Text == "")
+                    {
+                        INMessageBoxWindow1 mbw = new INMessageBoxWindow1();
+                        string message = "Title not selected.";
+                        ShowMessageBox(mbw, message, "Lead not Saved", ShowMessageType.Error);
+                        return;
+                    }
+                }
+            }
+
             if (IsValidData())
             {
                 if ((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.DoNotContactClient)
