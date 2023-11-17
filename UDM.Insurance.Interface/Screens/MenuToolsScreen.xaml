@@ -307,6 +307,20 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
 
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnPrime" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnPrime" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnPrime" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnCampaignTargets" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
@@ -1413,6 +1427,36 @@
                                             </Canvas>
                                         </Button>
                                         <Button
+                                            x:Name="btnPrime"
+                                            Margin="{StaticResource IconMargin}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnPrime_Click"
+                                            Visibility="Visible"
+Style="{DynamicResource INMenuButton}"
+TabIndex="1">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                <Grid Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                    <Image
+            x:Name="imagePrime"
+            Source="pack://application:,,,/Resources/imgLeads.png"
+            Style="{DynamicResource INMenuButtonImageStyle1}" />
+                                                    <TextBlock
+            x:Name="labelPriming"
+            Style="{DynamicResource INSquareButtonText1}"
+            Text="Prime Lead" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+                                        <Button
                                             x:Name="btnCampaignTargets"
                                             Margin="{StaticResource IconMargin}"
                                             HorizontalAlignment="Right"
@@ -1700,6 +1744,7 @@
                                                 </Grid>
                                             </Canvas>
                                         </Button>
+                                     
                                         <Button
                                             x:Name="btnDebiCheckBulkSend"
                                             Margin="{StaticResource IconMargin}"

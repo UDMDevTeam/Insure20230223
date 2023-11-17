@@ -11,5 +11,6 @@ namespace UDM.Insurance.Interface.Data
         
         public LeadApplicationScreen LeadApplicationScreen { get; set; }
 
+        public PrimeLeadScreen PrimeLeadScreen { get; set; }
     }
 }

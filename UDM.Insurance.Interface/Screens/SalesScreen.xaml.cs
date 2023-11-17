@@ -2362,7 +2362,7 @@ namespace UDM.Insurance.Interface.Screens
 
                         if(IsFocused == "1")
                         {
-                            ShowMessageBox(new Windows.INSalesToCallMonitoringWindowYellow(), CMToSReferenceNumber + " - " + TSRName + " ( " + Extension + " " + Extension2 + ")", "Incoming Sale to complete!", Embriant.Framework.ShowMessageType.Information);
+                            ShowMessageBox(new Windows.INSalesToCallMonitoringWindowYellow(), CMToSReferenceNumber + " - " + TSRName + " ( " + Extension + " " + Extension2 + ")", "C", Embriant.Framework.ShowMessageType.Information);
                             LeadApplicationScreen las = new LeadApplicationScreen(FKImportID, _ssGlobalData);
                             ShowDialog(las, new INDialogWindow(las));
                         }

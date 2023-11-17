@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using UDM.Insurance.Business;
+using UDM.Insurance.Interface.Data;
 using UDM.Insurance.Interface.PrismViews;
 using UDM.Insurance.Interface.Windows;
 using UDM.WPF.Library;
@@ -24,6 +25,7 @@ namespace UDM.Insurance.Interface.Screens
 {
     public partial class MenuToolsScreen
     {
+        private readonly SalesScreenGlobalData _ssGlobalData = new SalesScreenGlobalData();
 
         #region Constructor
 
@@ -73,6 +75,18 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SalesScreen salesScreen = new SalesScreen();
                 OnClose(salesScreen);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+        private void btnPrime_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PrimeLeadScreen PrimeScreen = new PrimeLeadScreen(null, _ssGlobalData,false);
+                OnClose(PrimeScreen);
             }
             catch (Exception ex)
             {

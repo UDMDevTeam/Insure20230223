@@ -385,7 +385,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 lkpINCampaignGroup.Base, lkpINCampaignGroup.Starter, lkpINCampaignGroup.Defrosted,
                                 lkpINCampaignGroup.Rejuvenation, lkpINCampaignGroup.Reactivation, lkpINCampaignGroup.Extension, lkpINCampaignGroup.ReDefrost,
-                                lkpINCampaignGroup.Resurrection,  lkpINCampaignGroup.Tier2, lkpINCampaignGroup.Tier1
+                                lkpINCampaignGroup.Resurrection,  lkpINCampaignGroup.Tier2, lkpINCampaignGroup.Tier1, lkpINCampaignGroup.PrimeLeads
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
@@ -407,7 +407,7 @@ namespace UDM.Insurance.Interface.Screens
                             {
                                 lkpINCampaignGroup.Base, lkpINCampaignGroup.Starter, lkpINCampaignGroup.Defrosted,
                                 lkpINCampaignGroup.Rejuvenation, lkpINCampaignGroup.Reactivation, lkpINCampaignGroup.Extension, lkpINCampaignGroup.ReDefrost,
-                                lkpINCampaignGroup.Resurrection, lkpINCampaignGroup.Tier2, lkpINCampaignGroup.Tier1
+                                lkpINCampaignGroup.Resurrection, lkpINCampaignGroup.Tier2, lkpINCampaignGroup.Tier1,lkpINCampaignGroup.PrimeLeads
                             };
                             if (campaignTypes.Contains(campaignType) && campaignGroups.Contains(campaignGroup))
                             {
