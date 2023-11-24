@@ -3298,18 +3298,18 @@
                   TabIndex="16520"
                   Value="{Binding ImportedPolicyData.LapseDate}" />
                             <Button
-x:Name="btnSendvoucherSMS"
-Width="161"
-Height="Auto"
+                                x:Name="btnSendvoucherSMS"
+                                Width="161"
+                                Height="Auto"
                                 Background="Pink"
                                  Grid.Row="1"
                                  Grid.ColumnSpan="5"
                                  Grid.Column="16"
-Margin="43,18,0,18"
-HorizontalAlignment="Left"
-Click="btnSendVoucherSMS_Click"
-ToolTip="{Binding SMSVoucherData.SMSToolTip}"
-ToolTipService.ShowOnDisabled="True" Grid.RowSpan="2">
+                                Margin="43,18,0,18"
+                                HorizontalAlignment="Left"
+                                Click="btnSendVoucherSMS_Click"
+                                ToolTip="{Binding SMSVoucherData.SMSToolTip}"
+                                ToolTipService.ShowOnDisabled="True" Grid.RowSpan="2">
                                 <Button.Style>
                                     <Style BasedOn="{StaticResource INSendVoucherButton}" TargetType="{x:Type Button}">
                                         <Style.Triggers>

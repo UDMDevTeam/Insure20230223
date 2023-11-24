@@ -54,7 +54,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                SetCursor(Cursors.Wait);
+                //SetCursor(Cursors.Wait);
                 DataTable dt = Methods.GetTableData("select ID,Description from INLeadStatus order by ID");
                 ComboBoxItem unallocated = new ComboBoxItem();
                 unallocated.Content = "Un-Allocated";
@@ -67,17 +67,50 @@ namespace UDM.Insurance.Interface.Screens
                     item.Tag = rw["ID"].ToString();
                     cmbLeadStatus.Items.Add(item);
                 }
-                cmbLeadStatus.SelectedIndex = 0;
+                //cmbLeadStatus.SelectedIndex = 0;
 
             }
             catch (Exception ex)
             {
-                HandleException(ex);
+                //HandleException(ex);
             }
 
             finally
             {
-                SetCursor(Cursors.Arrow);
+                //SetCursor(Cursors.Arrow);
+            }
+        }
+
+        private void LoadStatusesPrimeCampaign()
+        {
+            try
+            {
+                //SetCursor(Cursors.Wait);
+                DataTable dt = Methods.GetTableData("select ID,Description from lkpPrimeLeadStatus order by ID");
+                //ComboBoxItem unallocated = new ComboBoxItem();
+                //unallocated.Content = "Un-Allocated";
+                //unallocated.Tag = -1;
+                //cmbLeadStatus.Items.Add(unallocated);
+                try { cmbLeadStatus.Items.Clear(); } catch { }
+                foreach (DataRow rw in dt.Rows)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = rw["Description"].ToString();
+                    item.Tag = rw["ID"].ToString();
+                    cmbLeadStatus.Items.Add(item);
+                }
+                //cmbLeadStatus.SelectedIndex = 0;
+
+            }
+            catch (Exception ex)
+            {
+                //HandleException(ex);
+            }
+
+            finally
+            {
+                //try { SetCursor(Cursors.Arrow); } catch { }
+                
             }
         }
 
@@ -127,8 +160,20 @@ namespace UDM.Insurance.Interface.Screens
             {
                 txtNumberSelected.Text = string.Empty;
                 EnableDisableStartButton();
-             long? campaignID =   long.Parse(cmbCampaigns.SelectedValue.ToString());
-             LoadBatches(campaignID);
+                long? campaignID =   long.Parse(cmbCampaigns.SelectedValue.ToString());
+
+                if(cmbCampaigns.SelectedValue.ToString() == "430") // Cancer Referral Priming campaign
+                {
+                    LoadStatusesPrimeCampaign();
+                }
+                else
+                {
+                    try { cmbLeadStatus.Items.Clear(); } catch { }
+                    LoadStatuses();
+                }
+
+                LoadBatches(campaignID);
+
             }
             catch (Exception ex)
             {
@@ -177,12 +222,27 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 SetCursor(Cursors.Wait);
+
+                if(_leadStatusID == null)
+                {
+                    _leadStatusID = -1;
+                }
                
                 SqlParameter[] parameters = new SqlParameter[3];
                 parameters[0] = new SqlParameter("@CampaignID", campaignID);
                 parameters[1] = new SqlParameter("@BatchID", batchId);
                 parameters[2] = new SqlParameter("@FKINLeadStatusID", _leadStatusID);
-                DataTable dt = Methods.ExecuteStoredProcedure("spLeadMoveReferences", parameters).Tables[0];
+
+                DataTable dt = new DataTable();
+                if(cmbCampaigns.SelectedValue.ToString() == "430") //Prime campaign
+                {
+                    dt = Methods.ExecuteStoredProcedure("spLeadMoveReferencesPrime", parameters).Tables[0];
+                }
+                else
+                {
+                    dt = Methods.ExecuteStoredProcedure("spLeadMoveReferences", parameters).Tables[0];
+                }
+                
 
                 if (dt.Rows.Count > 0)
                 {

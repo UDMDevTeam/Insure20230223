@@ -105,7 +105,9 @@
         DoubleUpgrade16 = 51,
         Upgrade16 = 52,
         Tier2 = 54,
-        Tier1 = 53
+        Tier1 = 53,
+        R149 = 55,
+        PrimeLeads = 56
     }
 
     public enum lkpINCampaignType
