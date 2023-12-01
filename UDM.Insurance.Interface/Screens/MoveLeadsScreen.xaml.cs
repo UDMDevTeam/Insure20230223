@@ -162,7 +162,7 @@ namespace UDM.Insurance.Interface.Screens
                 EnableDisableStartButton();
                 long? campaignID =   long.Parse(cmbCampaigns.SelectedValue.ToString());
 
-                if(cmbCampaigns.SelectedValue.ToString() == "430") // Cancer Referral Priming campaign
+                if(cmbCampaigns.SelectedValue.ToString() == "431") // Cancer Referral Priming campaign
                 {
                     LoadStatusesPrimeCampaign();
                 }
@@ -234,7 +234,7 @@ namespace UDM.Insurance.Interface.Screens
                 parameters[2] = new SqlParameter("@FKINLeadStatusID", _leadStatusID);
 
                 DataTable dt = new DataTable();
-                if(cmbCampaigns.SelectedValue.ToString() == "430") //Prime campaign
+                if(cmbCampaigns.SelectedValue.ToString() == "431") //Prime campaign
                 {
                     dt = Methods.ExecuteStoredProcedure("spLeadMoveReferencesPrime", parameters).Tables[0];
                 }

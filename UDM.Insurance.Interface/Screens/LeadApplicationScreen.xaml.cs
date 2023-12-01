@@ -2211,7 +2211,20 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 catch { }
                 #region Get Mandate Information
-                try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+
+                int DebiCheckConfigBool1;
+
+                StringBuilder strQueryDebiCheckConfig1 = new StringBuilder();
+                strQueryDebiCheckConfig1.Append("SELECT TOP 1 DebiCheckPower [Response] ");
+                strQueryDebiCheckConfig1.Append("FROM DebiCheckConfiguration ");
+                DataTable dtDebiCheckConfig1 = Methods.GetTableData(strQueryDebiCheckConfig1.ToString());
+
+                DebiCheckConfigBool1 = int.Parse(dtDebiCheckConfig1.Rows[0]["Response"].ToString());
+
+                if(DebiCheckConfigBool1 == 1)
+                {
+                    try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
+                }
                 if (LaData.AppData.IsLeadUpgrade)
                 {
                     //this is incase the lead is already a sale, then it wont become a non applicable
@@ -17904,272 +17917,290 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void GetBankingDetailLookup()
         {
-            try
+
+            int DebiCheckConfigBool;
+
+            StringBuilder strQueryDebiCheckConfig = new StringBuilder();
+            strQueryDebiCheckConfig.Append("SELECT TOP 1 DebiCheckPower [Response] ");
+            strQueryDebiCheckConfig.Append("FROM DebiCheckConfiguration ");
+            DataTable dtDebiCheckConfig = Methods.GetTableData(strQueryDebiCheckConfig.ToString());
+
+            DebiCheckConfigBool = int.Parse(dtDebiCheckConfig.Rows[0]["Response"].ToString());
+
+            if(DebiCheckConfigBool == 1)
             {
-                #region Reset PL Lookup Variables
-                PolicyNumberPLLKP = "";
-                ReferenceNumberPLLKP = "";
-                ResponseDetailPLLKP = "";
-                BankPLLKP = "";
-                AccountNumberPLLKP = "";
-                AccountHolderPLLKP = "";
-                BranchCodePLLKP = "";
-                AccountTypePLLKP = "";
-                DebitDayPLLKP = "";
-                IDNumberPLLKP = "";
-                IDNumberPO = "";
-                #endregion
-
-                #region AuthToken
-
-                string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
-                string Username = "udm@platinumlife.co.za";
-                string Password = "P@ssword1";
-                string token = "";
-
-                using (var wb = new WebClient())
+                try
                 {
-                    var data = new NameValueCollection();
-                    data["username"] = Username;
-                    data["password"] = Password;
-                    data["grant_type"] = "password";
+                    #region Reset PL Lookup Variables
+                    PolicyNumberPLLKP = "";
+                    ReferenceNumberPLLKP = "";
+                    ResponseDetailPLLKP = "";
+                    BankPLLKP = "";
+                    AccountNumberPLLKP = "";
+                    AccountHolderPLLKP = "";
+                    BranchCodePLLKP = "";
+                    AccountTypePLLKP = "";
+                    DebitDayPLLKP = "";
+                    IDNumberPLLKP = "";
+                    IDNumberPO = "";
+                    #endregion
 
-                    var response = wb.UploadValues(auth_url, "POST", data);
-                    string responseInString = Encoding.UTF8.GetString(response);
-                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
-                    token = (string)customObject["access_token"];
-                }
-                #endregion
+                    #region AuthToken
 
-                #region SumbitClientDetailRequest
-                string submitRequest_urlID = "https://plhqweb.platinumlife.co.za:998/api/CD/PL_Request";
-                using (var wb = new WebClient())
-                {
-                    var data = new NameValueCollection();
-                    data["Organization"] = "PL"; //THG //TBF //IG //IPS
-                    data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
-                    data["ReferenceNumber"] = LaData.AppData.RefNo;
-                    data["PassportNumber"] = LaData.LeadData.PassportNumber;
-                    data["FirstName"] = LaData.LeadData.Name;
-                    data["LastName"] = LaData.LeadData.Surname;
-                    data["MobileNumber"] = LaData.LeadData.TelCell;
-                    data["HomeNumber"] = LaData.LeadData.TelHome;
-                    data["WorkNumber"] = LaData.LeadData.TelWork;
-                    data["EmailAddress"] = LaData.LeadData.Email;
+                    string auth_url = "https://plhqweb.platinumlife.co.za:998/Token";
+                    string Username = "udm@platinumlife.co.za";
+                    string Password = "P@ssword1";
+                    string token = "";
 
-                    wb.Headers.Add("Authorization", "Bearer " + token);
-
-                    var response = wb.UploadValues(submitRequest_urlID, "POST", data);
-                    string responseInString = Encoding.UTF8.GetString(response);
-                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
-
-
-                    string ReferenceNumber = (string)customObject["ReferenceNumber"];
-                    string ResponseDetail = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
-                    string IDNumber = (string)customObject["IDNumber"];
-                    string PassportNumber = (string)customObject["PassportNumber"];
-                    IDNumberPLLKP = IDNumber;
-                    PassportNumberPLLKP = PassportNumber;
-
-                }
-                #endregion
-
-                #region SumbitBankingDetailRequest
-                string submitRequest_url = "https://plhqweb.platinumlife.co.za:998/api/BD/PL_Request";
-                using (var wb = new WebClient())
-                {
-                    var data = new NameValueCollection();
-                    data["Organization"] = "PL"; //THG //TBF //IG //IPS
-                    data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
-                    data["IDNumber"] = LaData.LeadData.IDNumber;
-                    data["ReferenceNumber"] = LaData.AppData.RefNo;
-                    data["PassportNumber"] = "";
-                    data["FirstName"] = LaData.LeadData.Name;
-                    data["LastName"] = LaData.LeadData.Surname;
-                    data["MobileNumber"] = LaData.LeadData.TelCell;
-                    data["HomeNumber"] = LaData.LeadData.TelHome;
-                    data["WorkNumber"] = LaData.LeadData.TelWork;
-                    data["EmailAddress"] = LaData.LeadData.Email;
-
-                    wb.Headers.Add("Authorization", "Bearer " + token);
-
-                    var response = wb.UploadValues(submitRequest_url, "POST", data);
-                    string responseInString = Encoding.UTF8.GetString(response);
-                    var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
-
-                    PolicyNumberPLLKP = (string)customObject["PolicyNumber"];
-                    ReferenceNumberPLLKP = (string)customObject["ReferenceNumber"];
-                    ResponseDetailPLLKP = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
-                    BankPLLKP = (string)customObject["Bank"];
-                    AccountNumberPLLKP = (string)customObject["AccountNumber"];
-                    AccountHolderPLLKP = (string)customObject["AccountHolder"];
-                    BranchCodePLLKP = (string)customObject["BranchCode"];
-                    AccountTypePLLKP = (string)customObject["AccountType"];
-                    DebitDayPLLKP = (string)customObject["DebitDay"];
-                    string policyHolderBool = (string)customObject["PolicyOwner"];
-                    IDNumberPO = (string)customObject["IDNumber"];
-                    //string policyHolderBool = "0";
-
-                    // Policy Holder Workings
-                    if (policyHolderBool == "1")
+                    using (var wb = new WebClient())
                     {
+                        var data = new NameValueCollection();
+                        data["username"] = Username;
+                        data["password"] = Password;
+                        data["grant_type"] = "password";
 
-                        PolicyHolderBoolDC = true;
-                        SelectIDBtn.Visibility = Visibility.Hidden;
+                        var response = wb.UploadValues(auth_url, "POST", data);
+                        string responseInString = Encoding.UTF8.GetString(response);
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+                        token = (string)customObject["access_token"];
+                    }
+                    #endregion
+
+                    #region SumbitClientDetailRequest
+                    string submitRequest_urlID = "https://plhqweb.platinumlife.co.za:998/api/CD/PL_Request";
+                    using (var wb = new WebClient())
+                    {
+                        var data = new NameValueCollection();
+                        data["Organization"] = "PL"; //THG //TBF //IG //IPS
+                        data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
+                        data["ReferenceNumber"] = LaData.AppData.RefNo;
+                        data["PassportNumber"] = LaData.LeadData.PassportNumber;
+                        data["FirstName"] = LaData.LeadData.Name;
+                        data["LastName"] = LaData.LeadData.Surname;
+                        data["MobileNumber"] = LaData.LeadData.TelCell;
+                        data["HomeNumber"] = LaData.LeadData.TelHome;
+                        data["WorkNumber"] = LaData.LeadData.TelWork;
+                        data["EmailAddress"] = LaData.LeadData.Email;
+
+                        wb.Headers.Add("Authorization", "Bearer " + token);
+
+                        var response = wb.UploadValues(submitRequest_urlID, "POST", data);
+                        string responseInString = Encoding.UTF8.GetString(response);
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+
+                        string ReferenceNumber = (string)customObject["ReferenceNumber"];
+                        string ResponseDetail = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
+                        string IDNumber = (string)customObject["IDNumber"];
+                        string PassportNumber = (string)customObject["PassportNumber"];
+                        IDNumberPLLKP = IDNumber;
+                        PassportNumberPLLKP = PassportNumber;
 
                     }
-                    else if (policyHolderBool == "0")
+                    #endregion
+
+                    #region SumbitBankingDetailRequest
+                    string submitRequest_url = "https://plhqweb.platinumlife.co.za:998/api/BD/PL_Request";
+                    using (var wb = new WebClient())
                     {
-                        if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
+                        var data = new NameValueCollection();
+                        data["Organization"] = "PL"; //THG //TBF //IG //IPS
+                        data["PolicyNumber"] = LaData.PolicyData.PolicyNumber;
+                        data["IDNumber"] = LaData.LeadData.IDNumber;
+                        data["ReferenceNumber"] = LaData.AppData.RefNo;
+                        data["PassportNumber"] = "";
+                        data["FirstName"] = LaData.LeadData.Name;
+                        data["LastName"] = LaData.LeadData.Surname;
+                        data["MobileNumber"] = LaData.LeadData.TelCell;
+                        data["HomeNumber"] = LaData.LeadData.TelHome;
+                        data["WorkNumber"] = LaData.LeadData.TelWork;
+                        data["EmailAddress"] = LaData.LeadData.Email;
+
+                        wb.Headers.Add("Authorization", "Bearer " + token);
+
+                        var response = wb.UploadValues(submitRequest_url, "POST", data);
+                        string responseInString = Encoding.UTF8.GetString(response);
+                        var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                        PolicyNumberPLLKP = (string)customObject["PolicyNumber"];
+                        ReferenceNumberPLLKP = (string)customObject["ReferenceNumber"];
+                        ResponseDetailPLLKP = (string)customObject["ResponseDetail"]; // WILL RETURN "OK" OR "No Data Found"
+                        BankPLLKP = (string)customObject["Bank"];
+                        AccountNumberPLLKP = (string)customObject["AccountNumber"];
+                        AccountHolderPLLKP = (string)customObject["AccountHolder"];
+                        BranchCodePLLKP = (string)customObject["BranchCode"];
+                        AccountTypePLLKP = (string)customObject["AccountType"];
+                        DebitDayPLLKP = (string)customObject["DebitDay"];
+                        string policyHolderBool = (string)customObject["PolicyOwner"];
+                        IDNumberPO = (string)customObject["IDNumber"];
+                        //string policyHolderBool = "0";
+
+                        // Policy Holder Workings
+                        if (policyHolderBool == "1")
                         {
-                            if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+
+                            PolicyHolderBoolDC = true;
+                            SelectIDBtn.Visibility = Visibility.Hidden;
+
+                        }
+                        else if (policyHolderBool == "0")
+                        {
+                            if ((lkpUserType?)((User)GlobalSettings.ApplicationUser).FKUserType == lkpUserType.DebiCheckAgent)
                             {
-                                PolicyHolderBoolDC = true;
-                                SelectIDBtn.Visibility = Visibility.Visible;
+                                if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+                                {
+                                    PolicyHolderBoolDC = true;
+                                    SelectIDBtn.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    SelectIDBtn.Visibility = Visibility.Hidden;
+                                    PolicyHolderBoolDC = false;
+                                }
+
                             }
                             else
                             {
-                                SelectIDBtn.Visibility = Visibility.Hidden;
-                                PolicyHolderBoolDC = false;
+                                if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2
+                                    || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
+                                {
+                                    SelectIDBtn.Visibility = Visibility.Hidden;
+                                    PolicyHolderBoolDC = true;
+                                }
+                                else
+                                {
+                                    SelectIDBtn.Visibility = Visibility.Hidden;
+                                    PolicyHolderBoolDC = false;
+                                }
                             }
-
                         }
                         else
                         {
-                            if (LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade1
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade2
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.Upgrade3
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade1
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade2
-                                || LaData.AppData.CampaignGroup == lkpINCampaignGroup.DoubleUpgrade3)
-                            {
-                                SelectIDBtn.Visibility = Visibility.Hidden;
-                                PolicyHolderBoolDC = true;
-                            }
-                            else
-                            {
-                                SelectIDBtn.Visibility = Visibility.Hidden;
-                                PolicyHolderBoolDC = false;
-                            }
+                            PolicyHolderBoolDC = true;
                         }
                     }
-                    else
+                    #endregion
+
+                    #region LeadValidity
+                    try
                     {
-                        PolicyHolderBoolDC = true;
-                    }
-                }
-                #endregion
-
-                #region LeadValidity
-                try
-                {
-                    if (LaData.AppData.IsLeadUpgrade)
-                    {
-                        string ValidityStatus = "";
-                        string submitRequest_urlLeadValidity = "https://plhqweb.platinumlife.co.za:998/api/UG/LeadValidity";
-                        using (var wb = new WebClient())
+                        if (LaData.AppData.IsLeadUpgrade)
                         {
-                            var data = new NameValueCollection();
-                            data["ReferenceNumber"] = LaData.AppData.RefNo.ToString();
-                            wb.Headers.Add("Authorization", "Bearer " + token);
-
-                            var response = wb.UploadValues(submitRequest_urlLeadValidity, "POST", data);
-                            string responseInString = Encoding.UTF8.GetString(response);
-                            var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
-
-                            ValidityStatus = (string)customObject["ValidityStatus"];
-                            //if (LaData.AppData.RefNo == "gdna91003681533")
-                            //{
-                            //    ValidityStatus = "inValid";
-                            //}
-
-                        }
-
-                        if (ValidityStatus != "Valid")
-                        {
-                            ConservedLeadBool = true;
-
-                            if (GlobalSettings.ApplicationUser.ID == 69
-                                || GlobalSettings.ApplicationUser.ID == 174
-                                || GlobalSettings.ApplicationUser.ID == 198
-                                || GlobalSettings.ApplicationUser.ID == 199)
+                            string ValidityStatus = "";
+                            string submitRequest_urlLeadValidity = "https://plhqweb.platinumlife.co.za:998/api/UG/LeadValidity";
+                            using (var wb = new WebClient())
                             {
+                                var data = new NameValueCollection();
+                                data["ReferenceNumber"] = LaData.AppData.RefNo.ToString();
+                                wb.Headers.Add("Authorization", "Bearer " + token);
+
+                                var response = wb.UploadValues(submitRequest_urlLeadValidity, "POST", data);
+                                string responseInString = Encoding.UTF8.GetString(response);
+                                var customObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseInString);
+
+                                ValidityStatus = (string)customObject["ValidityStatus"];
+                                //if (LaData.AppData.RefNo == "gdna91003681533")
+                                //{
+                                //    ValidityStatus = "inValid";
+                                //}
 
                             }
 
-                            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                            ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
-
-                            decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
-                            long? selectedUpgradeCover = LaData.PolicyData.OptionID;
-
-                            DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
-                            cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
-
-                            //LaData.PolicyData.OptionID = GetOptionID();
-
-                            SqlParameter[] parameters = new SqlParameter[5];//5
-                            parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
-                            parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
-                            parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
-                            parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
-
-                            if (LaData.PolicyData.OptionID == null)
+                            if (ValidityStatus != "Valid")
                             {
-                                parameters[3].Value = DBNull.Value;
-                            }
+                                ConservedLeadBool = true;
 
-                            if ((LaData.AppData.IsLeadUpgrade ||
-                                LaData.AppData.CampaignCode == "PLFDB" ||
-                                LaData.AppData.CampaignCode == "PLFDMIN" ||
-                                LaData.AppData.CampaignCode == "PLFDBPE" ||
-                                LaData.AppData.CampaignCode == "PLULFDB" ||
-                                LaData.AppData.CampaignCode == "PLULFDMIN" ||
-                                LaData.AppData.CampaignCode == "PLULFDBPE") &&
-                                LaData.AppData.LeadStatus == null &&
-                                !Convert.ToBoolean(chkShowAllOptions.IsChecked))
-                            {
-                                parameters[4] = new SqlParameter("@HigherOptionMode", 1);
-                                chkShowAllOptions.IsChecked = false;
-                            }
-                            else
-                            {
-                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-                                chkShowAllOptions.Tag = 1;
-                                chkShowAllOptions.IsChecked = true;
-                            }
-
-
-                            parameters[4] = new SqlParameter("@HigherOptionMode", -1);
-
-
-                            DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
-                            dtCover = dsLookups.Tables[0];
-
-                            foreach (DataRow row in dtCover.Rows)
-                            {
-                                if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
+                                if (GlobalSettings.ApplicationUser.ID == 69
+                                    || GlobalSettings.ApplicationUser.ID == 174
+                                    || GlobalSettings.ApplicationUser.ID == 198
+                                    || GlobalSettings.ApplicationUser.ID == 199)
                                 {
-                                    string str = row["Description"].ToString();
-                                    row["Description"] = DisplayCurrencyFormat(str);
+
                                 }
-                            }
 
-                            for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                                ShowMessageBox(messageWindow, "Only R99 options will be available", "Platinum Conserved Lead.", ShowMessageType.Exclamation);
+
+                                decimal? selectedLA1Cover = LaData.PolicyData.LA1Cover;
+                                long? selectedUpgradeCover = LaData.PolicyData.OptionID;
+
+                                DataTable dtOptionCode = Methods.GetTableData("SELECT DISTINCT ID, OptionCode FROM INOption WHERE FKINPlanID = '" + LaData.PolicyData.PlanID + "' AND IsActive = '1'");
+                                cmbOptionCode.Populate(dtOptionCode, "OptionCode", IDField);
+
+                                //LaData.PolicyData.OptionID = GetOptionID();
+
+                                SqlParameter[] parameters = new SqlParameter[5];//5
+                                parameters[0] = new SqlParameter("@CampaignID", LaData.AppData.CampaignID);
+                                parameters[1] = new SqlParameter("@PlanID", LaData.PolicyData.PlanID);
+                                parameters[2] = new SqlParameter("@UserID", LaData.UserData.UserID);
+                                parameters[3] = new SqlParameter("@OptionID", LaData.PolicyData.OptionID);
+
+                                if (LaData.PolicyData.OptionID == null)
+                                {
+                                    parameters[3].Value = DBNull.Value;
+                                }
+
+                                if ((LaData.AppData.IsLeadUpgrade ||
+                                    LaData.AppData.CampaignCode == "PLFDB" ||
+                                    LaData.AppData.CampaignCode == "PLFDMIN" ||
+                                    LaData.AppData.CampaignCode == "PLFDBPE" ||
+                                    LaData.AppData.CampaignCode == "PLULFDB" ||
+                                    LaData.AppData.CampaignCode == "PLULFDMIN" ||
+                                    LaData.AppData.CampaignCode == "PLULFDBPE") &&
+                                    LaData.AppData.LeadStatus == null &&
+                                    !Convert.ToBoolean(chkShowAllOptions.IsChecked))
+                                {
+                                    parameters[4] = new SqlParameter("@HigherOptionMode", 1);
+                                    chkShowAllOptions.IsChecked = false;
+                                }
+                                else
+                                {
+                                    parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+                                    chkShowAllOptions.Tag = 1;
+                                    chkShowAllOptions.IsChecked = true;
+                                }
+
+
+                                parameters[4] = new SqlParameter("@HigherOptionMode", -1);
+
+
+                                DataSet dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
+                                dtCover = dsLookups.Tables[0];
+
+                                foreach (DataRow row in dtCover.Rows)
+                                {
+                                    if (row != null && row["Description"] != null && row["Description"] != DBNull.Value)
+                                    {
+                                        string str = row["Description"].ToString();
+                                        row["Description"] = DisplayCurrencyFormat(str);
+                                    }
+                                }
+
+                                for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
+                                {
+                                    DataRow dr = dtCover.Rows[i];
+                                    if (dr["TotalPremium1"].ToString() != "99.00")
+                                        dr.Delete();
+                                }
+                                dtCover.AcceptChanges();
+
+                                cmbUpgradeCover.Populate(dtCover, "Description", "Value");
+                                LaData.PolicyData.OptionID = selectedUpgradeCover;
+                            }
+                            else
                             {
-                                DataRow dr = dtCover.Rows[i];
-                                if (dr["TotalPremium1"].ToString() != "99.00")
-                                    dr.Delete();
+                                ConservedLeadBool = false;
                             }
-                            dtCover.AcceptChanges();
 
-                            cmbUpgradeCover.Populate(dtCover, "Description", "Value");
-                            LaData.PolicyData.OptionID = selectedUpgradeCover;
                         }
                         else
                         {
@@ -18177,37 +18208,33 @@ namespace UDM.Insurance.Interface.Screens
                         }
 
                     }
-                    else
+                    catch (Exception h)
                     {
-                        ConservedLeadBool = false;
+
                     }
 
+                    #endregion
+
+                    #region Additional Rules
+                    if (BankPLLKP == null || BankPLLKP == "")
+                    {
+                        GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
+                        GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Red;
+                        GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
+                    }
+                    else
+                    {
+                        GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
+                        GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Green;
+                        GotBankingDetailsPLLBL2.Text = " ";
+                    }
+                    #endregion
+
                 }
-                catch (Exception h)
+                catch (Exception r)
                 {
-
                 }
 
-                #endregion
-
-                #region Additional Rules
-                if (BankPLLKP == null || BankPLLKP == "")
-                {
-                    GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Red;
-                    GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Red;
-                    GotBankingDetailsPLLBL2.Text = "Adjust contact details and try again";
-                }
-                else
-                {
-                    GotBankingDetailsPL.Background = System.Windows.Media.Brushes.Green;
-                    GotBankingDetailsPL2.Background = System.Windows.Media.Brushes.Green;
-                    GotBankingDetailsPLLBL2.Text = " ";
-                }
-                #endregion
-
-            }
-            catch (Exception r)
-            {
             }
         }
 

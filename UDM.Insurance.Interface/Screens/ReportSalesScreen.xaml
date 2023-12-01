@@ -427,7 +427,18 @@
                                 Grid.Row="0"
                             Grid.ColumnSpan="3"
                             ></RadioButton>
-
+                        <RadioButton
+                                x:Name="PrimeCB"
+                                Width="Auto"
+                                Style="{StaticResource INRadioButton}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="Primed Leads"
+                                FontSize="16"
+                                Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            Grid.Column="3"
+                            ></RadioButton>
                         <CheckBox x:Name="chkFoundation"
                               Grid.Row="1"
                               Grid.Column="0"

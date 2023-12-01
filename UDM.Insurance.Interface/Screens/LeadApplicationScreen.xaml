@@ -1148,67 +1148,6 @@
                     <Setter Property="data:TriggerManager.FlagC" Value="True" />
                 </MultiDataTrigger>
 
-                <!--
-                    <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag1), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag2), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag3), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag4), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag5), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag6), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag7), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag8), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.Flag9), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.FlagA), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.FlagB), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Binding="{Binding Path=(data:TriggerManager.FlagC), RelativeSource={RelativeSource Self}}"
-                    Value="False" />
-                    <Condition
-                    Value="{x:Static business:lkpINLeadStatus.Accepted}">
-                    <Condition.Binding>
-                    <Binding
-                    Converter="{StaticResource IntToEnumConverter}"
-                    ElementName="cmbStatus"
-                    Path="SelectedValue">
-                    <Binding.ConverterParameter>
-                    <sys:String>lkpINLeadStatus</sys:String>
-                    </Binding.ConverterParameter>
-                    </Binding>
-                    </Condition.Binding>
-                    </Condition>
-                    <Condition
-                    Binding="{Binding SelectedValue, ElementName=cmbSaleCallRef}"
-                    Value="{x:Null}" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="IsEnabled" Value="False" />
-                    <Setter Property="ToolTip" Value="Sale Call Reference Not Selected" />
-                    <Setter Property="data:TriggerManager.FlagD" Value="True" />
-                    </MultiDataTrigger>
-                -->
 
                 <!--  Flag E: Lead Status 'Sale'&#10;LA2 Selected&#10;LA2 Name  -->
                 <MultiDataTrigger>
@@ -1323,36 +1262,6 @@
 
                         <Condition Binding="{Binding Path=(data:TriggerManager.FlagY), RelativeSource={RelativeSource Self}}" Value="False" />
                         <Condition Binding="{Binding Path=(data:TriggerManager.FlagZ), RelativeSource={RelativeSource Self}}" Value="False" />
-
-                        <!--
-                            <Condition
-                            Binding="{Binding UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='==,2'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,2'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,3'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,4'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,5'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,6'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,7'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,8'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,9'}"
-                            Value="True" />
-                        -->
                         <Condition Binding="{Binding SelectedValue, ElementName=cmbLA2Title}" Value="{x:Null}" />
                         <Condition Binding="{Binding IsChecked, ElementName=chkLA2}" Value="True" />
                     </MultiDataTrigger.Conditions>
@@ -1385,35 +1294,6 @@
                         <Condition Binding="{Binding Path=(data:TriggerManager.FlagY), RelativeSource={RelativeSource Self}}" Value="False" />
                         <Condition Binding="{Binding Path=(data:TriggerManager.FlagZ), RelativeSource={RelativeSource Self}}" Value="False" />
 
-                        <!--
-                            <Condition
-                            Binding="{Binding UserTypeID, Converter={StaticResource IntCompareConverter}, ConverterParameter='==,2'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,2'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,3'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,4'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,5'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,6'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,7'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,8'}"
-                            Value="True" />
-                            <Condition
-                            Binding="{Binding LoadedLeadStatus, Converter={StaticResource IntCompareConverter}, ConverterParameter='!=,9'}"
-                            Value="True" />
-                        -->
                         <Condition Binding="{Binding SelectedValue, ElementName=cmbLA2Gender}" Value="{x:Null}" />
                         <Condition Binding="{Binding IsChecked, ElementName=chkLA2}" Value="True" />
                     </MultiDataTrigger.Conditions>
@@ -7790,29 +7670,29 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                                     <!--  SelectionChanged="cmbDOBankBranchCode_SelectionChanged"  -->
 
                                     <TextBlock
-                      x:Name="lblDOAccountNumber"
-                      Grid.Row="4"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="4"
-                      Margin="0,0,0,5"
-                      VerticalAlignment="Bottom"
-                      Style="{StaticResource INLabelText2}"
-                      Text="Account Number" />
+                                        x:Name="lblDOAccountNumber"
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0,0,0,5"
+                                        VerticalAlignment="Bottom"
+                                        Style="{StaticResource INLabelText2}"
+                                        Text="Account Number" />
                                     <igWPF:XamMaskedEditor
-                      x:Name="medDOAccountNumber"
-                      Grid.Row="4"
-                      Grid.Column="4"
-                      Grid.ColumnSpan="5"
-                      Margin="0"
-                      HorizontalAlignment="Stretch"
-                      EditModeValidationError="MedDOAccountNumber_OnEditModeValidationError"
-                      GotFocus="xamEditor_GotFocus"
-                      IsEnabled="True"
-                      Mask="{}{char:12:0-9}"
-                      PromptChar=""
-                      TabIndex="34300"
-                      Text="{Binding BankDetailsData.AccountNumber}"
-                      TextChanged="medDOAccountNumber_TextChanged">
+                                        x:Name="medDOAccountNumber"
+                                        Grid.Row="4"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="5"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        EditModeValidationError="MedDOAccountNumber_OnEditModeValidationError"
+                                        GotFocus="xamEditor_GotFocus"
+                                        IsEnabled="True"
+                                        Mask="{}{char:12:0-9}"
+                                        PromptChar=""
+                                        TabIndex="34300"
+                                        Text="{Binding BankDetailsData.AccountNumber}"
+                                        TextChanged="medDOAccountNumber_TextChanged">
                                         <igWPF:XamMaskedEditor.ValueConstraint>
                                             <igWPF:ValueConstraint Nullable="False" RegexPattern="" />
                                         </igWPF:XamMaskedEditor.ValueConstraint>
