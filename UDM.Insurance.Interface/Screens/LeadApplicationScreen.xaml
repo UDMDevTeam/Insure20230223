@@ -7325,7 +7325,7 @@ Text="Referral No." Margin="1,18,0,0" Width="111" VerticalAlignment="Top" Grid.R
                                     <src:EmbriantComboBox
 x:Name="cmbReferral"
 Grid.Row="9" Grid.Column="4" Margin="0,10,42,0" VerticalAlignment="Top"
-Style="{StaticResource cmbINLA}" TabIndex="44200" Grid.ColumnSpan="2" Grid.RowSpan="2" SelectedIndex="0" SelectionChanged="cmbReferral_SelectionChanged" >
+Style="{StaticResource cmbINLA}" TabIndex="33949" Grid.ColumnSpan="2" Grid.RowSpan="2" SelectedIndex="0" SelectionChanged="cmbReferral_SelectionChanged" >
                                         <ComboBoxItem>1</ComboBoxItem>
                                         <ComboBoxItem>2</ComboBoxItem>
                                         <ComboBoxItem>3</ComboBoxItem>
@@ -7362,13 +7362,13 @@ Style="{StaticResource cmbINLA}" TabIndex="44200" Grid.ColumnSpan="2" Grid.RowSp
                                                 </Grid.RowDefinitions>
                                                 <TextBlock  x:Name="lblRefName" Grid.Column="0" Style="{StaticResource INLabelText2}" Text="Name" />
                                                 <igWPF:XamMaskedEditor x:Name="medRefName" Grid.Row="0" Grid.Column="1" Height="NaN" Margin="0,-2,11,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         Mask="" PromptChar="" Style="{StaticResource medINLA}" TabIndex="33910" Text="{Binding NextOfKinData[0].Name}" Grid.ColumnSpan="2" />
+                         Mask="" PromptChar="" Style="{StaticResource medINLA}" TabIndex="33950" Text="{Binding NextOfKinData[0].Name}" Grid.ColumnSpan="2" />
 
                                                 <!--  StyleXMEValueChanged  -->
                                                 <TextBlock x:Name="lblRefCellNumber" Grid.Column="0" Style="{StaticResource INLabelText2}"  Text="Contact Number" Grid.Row="2" />
                                                 <igWPF:XamMaskedEditor
                          x:Name="medRefCellNumber" Height="28"  Margin="0,26,11,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         Style="{StaticResource StyleXMETelNumber}" TabIndex="33940" Text="{Binding NextOfKinData[0].TelContact}" Grid.ColumnSpan="2" Grid.RowSpan="4" Grid.Column="1"/>
+                         Style="{StaticResource StyleXMETelNumber}" TabIndex="33951" Text="{Binding NextOfKinData[0].TelContact}" Grid.ColumnSpan="2" Grid.RowSpan="4" Grid.Column="1"/>
 
                                                 <TextBlock
                          x:Name="lblRefRelationship"
@@ -7378,7 +7378,7 @@ Style="{StaticResource cmbINLA}" TabIndex="44200" Grid.ColumnSpan="2" Grid.RowSp
                          x:Name="cmbRefRelationship"
                          Grid.Row="3" Grid.Column="1"
                          Height="28" Margin="0,3,11,4"
-Style="{StaticResource cmbINLA}"  TabIndex="33930" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+Style="{StaticResource cmbINLA}"  TabIndex="33952" Grid.ColumnSpan="2" Grid.RowSpan="3" />
 
                                                 <TextBlock
                          x:Name="lblRefGender"
@@ -7388,7 +7388,7 @@ Style="{StaticResource cmbINLA}"  TabIndex="33930" Grid.ColumnSpan="2" Grid.RowS
                                                     x:Name="cmbRefGender"
                                                     Grid.Row="5"
                                                     Height="28" Margin="0,2,12,-3"
-                                                Style="{StaticResource cmbINLA}"  TabIndex="33930" Grid.RowSpan="2" Grid.Column="1" Width="135" />
+                                                Style="{StaticResource cmbINLA}"  TabIndex="33953" Grid.RowSpan="2" Grid.Column="1" Width="135" />
                                                 <TextBlock
 x:Name="tbNOKRef"
 HorizontalAlignment="Stretch"
@@ -7402,7 +7402,7 @@ Height="16"
 HorizontalAlignment="Left"
 VerticalAlignment="Top"
 Checked="chkNOKRef_Checked"
-TabIndex="98300"
+TabIndex="33954"
 Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
 
                                                     <Style BasedOn="{StaticResource INCheckboxStyle}" TargetType="{x:Type CheckBox}">
