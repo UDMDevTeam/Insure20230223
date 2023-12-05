@@ -379,7 +379,7 @@
                             FontSize="16"
                             Style="{DynamicResource INXamMonthCalendarStyle2}"
                             TabIndex="0"
-                            Visibility="Visible" />
+                            Visibility="Visible" SelectedDatesChanged="calToDate_SelectedDatesChanged" />
                     </Viewbox>
 
                     <TextBlock
