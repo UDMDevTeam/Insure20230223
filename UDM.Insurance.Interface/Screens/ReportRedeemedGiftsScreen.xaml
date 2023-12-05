@@ -237,6 +237,27 @@
                             Visibility="Visible" />
                     </Viewbox>
 
+                    <Viewbox
+                        Grid.Row="3"
+                        Grid.RowSpan="6"
+                        Grid.Column="19"
+                        Grid.ColumnSpan="6"
+                        Width="250"
+                        Height="250"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Stretch="Fill">
+                        <igWPF:XamMonthCalendar
+                            x:Name="Cal2"
+                            Margin="0"
+                            FontSize="16"
+                            Style="{DynamicResource INXamMonthCalendarStyle2}"
+                            TabIndex="0"
+                            SelectedDatesChanged="Cal1_SelectedDatesChanged"
+                            Visibility="Visible" />
+                    </Viewbox>
+
                     <!--<TextBlock
                         x:Name="tbPlatinumBatchCode"
                         Grid.Row="10"

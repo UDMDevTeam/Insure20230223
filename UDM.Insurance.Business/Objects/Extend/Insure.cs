@@ -2122,12 +2122,13 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetRedeemedGiftsExportLookups", null).Tables[0];
         }
 
-        public static DataSet INGetRedeemedGiftsExportData(string fkINCampaignIDs, DateTime date)
+        public static DataSet INGetRedeemedGiftsExportData(string fkINCampaignIDs, DateTime date, DateTime enddate)
         {
             object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
             object param2 = Database.GetParameter("@Date", date);
+            object param3 = Database.GetParameter("@ToDate", enddate);
 
-            object[] paramArray = new[] { param1, param2 };
+            object[] paramArray = new[] { param1, param2, param3 };
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportRedeemedGiftsExport", paramArray, 600);
         }

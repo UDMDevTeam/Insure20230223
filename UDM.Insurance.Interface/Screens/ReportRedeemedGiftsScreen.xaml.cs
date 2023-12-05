@@ -29,6 +29,8 @@ namespace UDM.Insurance.Interface.Screens
 
         private CheckBox _xdgHeaderPrefixAreaCheckbox;
         private DateTime _date = DateTime.Now;
+        private DateTime _todate = DateTime.Now;
+
         private List<Record> _lstSelectedFKINCampaignIDs;
         private readonly DispatcherTimer dispatcherTimer1 = new DispatcherTimer();
         private int _timer1;
@@ -177,6 +179,16 @@ namespace UDM.Insurance.Interface.Screens
                 _date = Cal1.SelectedDate.Value;
             }
 
+            if (Cal2.SelectedDate == null)
+            {
+                ShowMessageBox(new INMessageBoxWindow1(), "Please specify a to date.", "No date selected", ShowMessageType.Error);
+                return false;
+            }
+            else
+            {
+                _todate = Cal2.SelectedDate.Value;
+            }
+
             #endregion Checking the selected date
 
             #region Validating the Platinum Batch Code field
@@ -238,7 +250,11 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the data
 
-                DataSet dsRedeemedGiftsExportData = Business.Insure.INGetRedeemedGiftsExportData(_campaignIDs, _date);
+                TimeSpan ts = new TimeSpan(23, 00, 0);
+                DateTime _endDate2 = DateTime.Now;
+                _endDate2 = _todate + ts;
+
+                DataSet dsRedeemedGiftsExportData = Business.Insure.INGetRedeemedGiftsExportData(_campaignIDs, _date, _endDate2);
 
                 #endregion Get the data
 
