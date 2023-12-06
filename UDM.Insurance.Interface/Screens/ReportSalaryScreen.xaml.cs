@@ -2222,5 +2222,41 @@ namespace UDM.Insurance.Interface.Screens
         {
 
         }
+
+        private bool isHandlingDateChange = false;
+
+        private void calToDate_SelectedDatesChanged(object sender, SelectedDatesChangedEventArgs e)
+        {
+            ComboBoxItem selectedItem = (ComboBoxItem)cmbSalaryReportMode.SelectedItem;
+            _reportMode = byte.Parse(selectedItem.Tag.ToString());
+            if (_reportMode == 2)
+            {
+                if (isHandlingDateChange) return;
+
+                isHandlingDateChange = true;
+
+                // Check if 'from date' is selected
+                if (calFromDate.SelectedDate == null)
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), "Please select a from date before selecting a to date", "Select a from date.", ShowMessageType.Information);
+                    calToDate.SelectedDate = null;
+                }
+                else if (calToDate.SelectedDate != null)
+                {
+                    DateTime fromDate = calFromDate.SelectedDate.Value;
+                    DateTime toDate = calToDate.SelectedDate.Value;
+
+                    TimeSpan dateDifference = toDate - fromDate;
+                    if (dateDifference.Days > 31)
+                    {
+                        ShowMessageBox(new INMessageBoxWindow1(), "The date range has been capped to one month.", "Range Exceeded", ShowMessageType.Exclamation);
+                        calToDate.SelectedDate = null;
+                    }
+                }
+
+                isHandlingDateChange = false;
+            }
+        }
+
     }
 }
