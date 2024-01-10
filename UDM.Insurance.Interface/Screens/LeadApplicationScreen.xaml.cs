@@ -2172,7 +2172,8 @@ namespace UDM.Insurance.Interface.Screens
                         string batchCodestring1 = LaData.AppData.UDMBatchCode;
                         string FirstSixCharacters1 = batchCodestring1.Substring(0, 4);
                         int SubstringMonth1 = int.Parse(FirstSixCharacters1);
-                        if (SubstringMonth1 == 2022)
+                        if (SubstringMonth1 == 2022
+                            || SubstringMonth1 == 2023)
                         {
                             chk99Options.Visibility = Visibility.Visible;
                             tbShow99Options.Visibility = Visibility.Visible;
@@ -10591,7 +10592,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else
                         {
-                            if (NinetyNineOptions == true)
+                            if (NinetyNineOptions == true )
                             {
                                 string batchCodestring = LaData.AppData.UDMBatchCode;
                                 string FirstSixCharacters = batchCodestring.Substring(0, 6);
@@ -10611,7 +10612,8 @@ namespace UDM.Insurance.Interface.Screens
                                 string batchCodestring1 = LaData.AppData.UDMBatchCode;
                                 string FirstFourCharacters1 = batchCodestring1.Substring(0, 4);
                                 int SubstringMonth1 = int.Parse(FirstFourCharacters1);
-                                if (SubstringMonth1 == 2022)
+                                if (SubstringMonth1 == 2022
+                                    || SubstringMonth1 == 2023)
                                 {
                                     for (int i = dtCover.Rows.Count - 1; i >= 0; i--)
                                     {
