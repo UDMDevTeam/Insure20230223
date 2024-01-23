@@ -2611,6 +2611,11 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetCallMonitoringSortSummaryData", null);
         }
 
+        public static DataSet INGetCallMonitoringSortSummaryDataTemp()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetCallMonitoringSortSummaryDataTemp", null);
+        }
+
         public static DataSet INGetDateOfSaleAssignedSalesData(DateTime dateOfSale, long campaignGroupType, long activity, long workStatusEmployed)
         {
             object param1 = Database.GetParameter("@DateOfSale", dateOfSale);

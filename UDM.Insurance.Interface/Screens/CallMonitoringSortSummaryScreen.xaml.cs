@@ -24,7 +24,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
 
-            LoadSummaryData();
 
             #if TESTBUILD
                 TestControl.Visibility = Visibility.Visible;
@@ -43,8 +42,16 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 SetCursor(Cursors.Wait);
-
-                DataSet ds = Insure.INGetCallMonitoringSortSummaryData();
+                DataSet ds;
+                if (TempCB.IsChecked == true)
+                {
+                    ds = Insure.INGetCallMonitoringSortSummaryDataTemp();
+                }
+                else
+                {
+                    ds = Insure.INGetCallMonitoringSortSummaryData();
+                }
+                 
 
                 DataRelation relCampaignBatch = new DataRelation("Batch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
                 ds.Relations.Add(relCampaignBatch);
@@ -230,5 +237,18 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Event Handlers
 
+        private void PermCB_Checked(object sender, RoutedEventArgs e)
+        {
+            TempCB.IsChecked = false;
+            LoadSummaryData();
+            
+        }
+
+        private void TempCB_Checked(object sender, RoutedEventArgs e)
+        {
+            PermCB.IsChecked = false;
+            LoadSummaryData();
+
+        }
     }
 }
