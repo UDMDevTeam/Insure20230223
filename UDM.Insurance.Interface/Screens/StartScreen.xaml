@@ -14,7 +14,7 @@
                  mc:Ignorable="d">
     <UserControl.Background>
         <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
-        <ImageBrush ImageSource="../Resources/InsureBackground.jpg"  />
+        <ImageBrush ImageSource="../Resources/InsureLoginBackground.png"  />
         <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
     </UserControl.Background>
 
@@ -77,11 +77,11 @@
                 </Grid.ColumnDefinitions>
                 <Border BorderBrush="AliceBlue"
                     BorderThickness="3"
-                    Grid.Row="4"
-                    Grid.Column="6"
-                    Grid.ColumnSpan="3"
-                    Grid.RowSpan="6"
-                    CornerRadius="15">
+                    Grid.Row="6"
+                    Grid.Column="10"
+                    Grid.ColumnSpan="4"
+                    Grid.RowSpan="4"
+                    CornerRadius="15" Margin="45,0,45,15">
 
                 </Border>
 
@@ -90,35 +90,16 @@
 
 
 
-                <Label x:Name="InsureLbl"
-                       FontFamily="AR BERKLEY"
-                       Content="nsure"
-                       Grid.Row="4"
-                       Grid.RowSpan="2"
-                       Grid.Column="6"
-                       Grid.ColumnSpan="3"
-                       FontSize="45"
-                       VerticalAlignment="Center"
-                       Foreground="White"
-                       HorizontalAlignment="Center"></Label>
 
-                <Label x:Name="InsureLbl2"
-                       FontFamily="AR BERKLEY"
-                       Content="I"
-                       Grid.Row="4"
-                       Grid.RowSpan="2"
-                       Grid.Column="6"
-                       FontSize="45"
-                       VerticalAlignment="Center"
-                       Foreground="#429DCC"
-                       HorizontalAlignment="Left" Margin="64,0,0,0"/>
+
+
 
                 <igEditors:XamMaskedEditor x:Name="txtUsername"
-                                           Grid.Row="7"
-                                           Grid.ColumnSpan="3"
-                                           Grid.Column="6"
+                                           Grid.Row="6"
+                                           Grid.ColumnSpan="4"
+                                           Grid.Column="10"
                                            Height="20"
-                                           Width="270"
+                                           Width="240"
                                            Focusable="True"
                                            FontSize="10"
                                            Mask="{}{char:24:-0-9a-zA-Z}"
@@ -126,23 +107,23 @@
                                            PromptChar=""
                                            Style="{DynamicResource medIN}"
                                            TabIndex="0"
-                                           Margin="15"
+                                           Margin="0,37,0,0"
                                            BorderBrush="AliceBlue"
-                                           BorderThickness="1"
+                                           BorderThickness="1" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.RowSpan="2"
                                            />
 
                 <PasswordBox x:Name="txtPassword"
-                                           Grid.Row="8"
-                                           Grid.ColumnSpan="3"
-                                           Grid.Column="6"
+                                           Grid.Row="7"
+                                           Grid.ColumnSpan="4"
+                                           Grid.Column="10"
                                            Height="20"
-                                         Margin="15"
+                                         Margin="60,41,60,39"
                                          BorderBrush="{x:Null}"
                                          Focusable="True"
                                          FontFamily="Arial"
                                          FontSize="10"
                                          Opacity="0.5"
-                                         TabIndex="0">
+                                         TabIndex="0" Grid.RowSpan="2">
                     <PasswordBox.Resources>
                         <Style TargetType="{x:Type PasswordBox}">
                             <Setter Property="PasswordChar" Value="●" />
@@ -178,37 +159,36 @@
                 </PasswordBox>
 
                 <TextBlock x:Name="LabelUsername"
-                                       Grid.Row="7"
-                                       Grid.Column="7"
+                                       Grid.Row="6"
+                                       Grid.Column="11"
+                                       Grid.ColumnSpan="2"
                                        Style="{StaticResource INLabelText3}"
-                                       Text="Username" 
-                                       VerticalAlignment="Top"
+                                       Text="Username"
                                        HorizontalAlignment="Center"
                                        FontSize="10"
-                                       FontFamily="Lucida Blackletter" />
+                                       FontFamily="Lucida Blackletter" Margin="0,11,0,0" VerticalAlignment="Top" />
                 <TextBlock x:Name="LabelPassword"
-                                       Grid.Row="8"
-                                       Grid.Column="7"
+                                       Grid.Row="7"
+                                       Grid.Column="11"
                                        HorizontalAlignment="Center"
-                                       VerticalAlignment="Top"
                                        FontSize="10"
                                        Style="{StaticResource INLabelText3}"
-                                       Text="Password" Margin="0,0,78,0" 
-                           FontFamily="Lucida Blackletter" Grid.ColumnSpan="2"/>
+                                       Text="Password" 
+                           FontFamily="Lucida Blackletter" Grid.ColumnSpan="2" Margin="0,15,0,0" VerticalAlignment="Top"/>
 
                 <Button x:Name="buttonLogin"
-                                    Grid.Row="9"
-                                    Grid.ColumnSpan="3"
-                                    Grid.Column="6"
+                                    Grid.Row="8"
+                                    Grid.ColumnSpan="4"
+                                    Grid.Column="10"
                                     Height="Auto"
                                     Width="Auto"
                                     Click="buttonLogin_Click"
                                     Content="Login"
                                     IsDefault="True"
-                                    TabIndex="0" Margin="15" 
+                                    TabIndex="0" Margin="60,43,60,37" 
                         FontFamily="Lucida Blackletter"
                         FontSize="10"
-                        Style="{StaticResource INFlatButton2}"/>
+                        Style="{StaticResource INFlatButton2}" Grid.RowSpan="2"/>
 
             </Grid>
         </Viewbox>

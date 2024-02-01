@@ -501,7 +501,7 @@
                 <ControlTemplate TargetType="{x:Type igEditors:XamDateTimeEditor}">
                     <Border x:Name="MainBorder"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="Gray"
+                            BorderBrush="Teal"
                             BorderThickness="{StaticResource INBorderThickness1}"
                             CornerRadius="4">
                         <Grid>
@@ -571,7 +571,7 @@
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Height" Value="33" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="Teal" />
         <Setter Property="AlwaysValidate" Value="True" />
         <Setter Property="Mask" Value="yyyy/mm/dd" />
         <Setter Property="PromptChar" Value="" />
@@ -593,7 +593,7 @@
                 <ControlTemplate TargetType="{x:Type igEditors:XamDateTimeEditor}">
                     <Border x:Name="MainBorder"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="Gray"
+                            BorderBrush="Teal"
                             BorderThickness="{StaticResource INBorderThickness1}"
                             CornerRadius="4">
                         <Grid>
@@ -658,7 +658,7 @@
                 <ControlTemplate TargetType="{x:Type igEditors:XamDateTimeEditor}">
                     <Border x:Name="MainBorder"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="Gray"
+                            BorderBrush="Teal"
                             BorderThickness="{StaticResource INBorderThickness1}"
                             CornerRadius="4">
                         <Grid>

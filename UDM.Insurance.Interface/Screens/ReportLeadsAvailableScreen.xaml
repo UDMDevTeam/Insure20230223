@@ -7,7 +7,7 @@
     Loaded="BaseControl_Loaded">
     <UserControl.Background>
         <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
-        <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+        <ImageBrush ImageSource="../Resources/ReportBackground.png" />
         <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
     </UserControl.Background>
 

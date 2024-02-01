@@ -6,7 +6,7 @@
     <!--  ================================================================================================  -->
 
     <Style x:Key="INDataRecordCellAreaStyle1" TargetType="{x:Type igWPF:DataRecordCellArea}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="False" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -1139,6 +1139,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AutoFit" Value="True" />
 
+
         <Setter Property="FieldSettings">
             <Setter.Value>
                 <igWPF:FieldSettings
@@ -1167,21 +1168,37 @@
                 </igWPF:FieldLayoutSettings>
             </Setter.Value>
         </Setter>
-
+        <!--<Setter Property="FieldLayoutSettings">
+            <Setter.Value>
+                <igWPF:FieldLayoutSettings
+                    AllowDelete="False"
+                    AutoGenerateFields="True"
+                    HighlightAlternateRecords="False"
+                    SelectionTypeCell="None"
+                    SelectionTypeRecord="Single">
+                    <igWPF:FieldLayoutSettings.DataRecordPresenterStyle>
+                        <Style TargetType="{x:Type igWPF:DataRecordPresenter}">
+                            <Setter Property="HeaderAreaBackground" Value="#F0F0F0" />
+                            <Setter Property="Margin" Value="1" />
+                        </Style>
+                    </igWPF:FieldLayoutSettings.DataRecordPresenterStyle>
+                </igWPF:FieldLayoutSettings>
+            </Setter.Value>
+        </Setter>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type igWPF:XamDataGrid}">
                     <Border
                         x:Name="mainBorder"
                         Background="White"
-                        BorderBrush="DarkGray"
-                        BorderThickness="2"
-                        CornerRadius="6">
+                        BorderBrush="#8AB4CD"
+                        BorderThickness="15"
+                        CornerRadius="15">
                         <Grid x:Name="PART_ContentSiteGrid" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="mainBorder" Property="BorderBrush" Value="{DynamicResource BrandedBrushIN}" />
+                            <Setter TargetName="mainBorder" Property="BorderBrush" Value="#8AB4CD" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

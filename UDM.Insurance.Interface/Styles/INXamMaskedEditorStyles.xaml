@@ -136,7 +136,7 @@
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Height" Value="33" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrandedBrushIN_DisabledBorder}" />
+        <Setter Property="BorderBrush" Value="Teal" />
         <Setter Property="BorderThickness" Value="{StaticResource INBorderThickness1}" />
         <Setter Property="DataMode" Value="Raw" />
         <Setter Property="IsEnabled" Value="False" />
@@ -178,7 +178,7 @@
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Height" Value="33" />
-        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderBrush" Value="Teal" />
         <Setter Property="BorderThickness" Value="{StaticResource INBorderThickness1}" />
         <Setter Property="AlwaysValidate" Value="True" />
         <Setter Property="IsAlwaysInEditMode" Value="True" />
@@ -201,7 +201,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="4"
+                            CornerRadius="7"
                             Padding="2">
                         <DockPanel>
                             <igWindows:SimpleTextBlock x:Name="TextBlock"

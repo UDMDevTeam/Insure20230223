@@ -29,7 +29,7 @@
                 CornerRadius="12">
 
                 <Border.Background>
-                <ImageBrush ImageSource="../Resources/ReportBackground.jpg" />
+                <ImageBrush ImageSource="../Resources/ReportBackground.png" />
             </Border.Background>
             <Border.Style>
                 <Style>

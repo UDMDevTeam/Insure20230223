@@ -24,12 +24,13 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
 
+            LoadSummaryData();
 
-            #if TESTBUILD
+#if TESTBUILD
                 TestControl.Visibility = Visibility.Visible;
-            #elif DEBUG
+#elif DEBUG
                 DebugControl.Visibility = Visibility.Visible;
-            #endif
+#endif
         }
 
         #endregion Constructors
@@ -42,16 +43,8 @@ namespace UDM.Insurance.Interface.Screens
             try
             {
                 SetCursor(Cursors.Wait);
-                DataSet ds;
-                if (TempCB.IsChecked == true)
-                {
-                    ds = Insure.INGetCallMonitoringSortSummaryDataTemp();
-                }
-                else
-                {
-                    ds = Insure.INGetCallMonitoringSortSummaryData();
-                }
-                 
+
+                DataSet ds = Insure.INGetCallMonitoringSortSummaryData();
 
                 DataRelation relCampaignBatch = new DataRelation("Batch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
                 ds.Relations.Add(relCampaignBatch);
@@ -85,7 +78,7 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     if (indexBatch != null)
                     {
-                        grid.Records[(int) indexCampaign].IsExpanded = true;
+                        grid.Records[(int)indexCampaign].IsExpanded = true;
                         DataRecord drBatch = (DataRecord)(((DataRecord)grid.Records[(int)indexCampaign]).ChildRecords[0].ViewableChildRecords[(int)indexBatch]);
 
                         if (indexAgent != null)
@@ -167,8 +160,8 @@ namespace UDM.Insurance.Interface.Screens
                                     //}
                                     //else
                                     //{
-                                        AssignSalesScreen assignSalesScreen = new AssignSalesScreen(campaignGroupType, DateTime.Parse(drCurrentRecord.ItemArray[0].ToString())/*Convert.ToInt64(drCurrentRecord.ItemArray[0].ToString())*/);
-                                        ShowDialog(assignSalesScreen, new INDialogWindow(assignSalesScreen));
+                                    AssignSalesScreen assignSalesScreen = new AssignSalesScreen(campaignGroupType, DateTime.Parse(drCurrentRecord.ItemArray[0].ToString())/*Convert.ToInt64(drCurrentRecord.ItemArray[0].ToString())*/);
+                                    ShowDialog(assignSalesScreen, new INDialogWindow(assignSalesScreen));
                                     //}
 
                                     LoadSummaryData();
@@ -197,7 +190,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 HandleException(ex);
             }
-            
+
         }
 
         private void xdgAssignLeads_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -237,18 +230,5 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Event Handlers
 
-        private void PermCB_Checked(object sender, RoutedEventArgs e)
-        {
-            TempCB.IsChecked = false;
-            LoadSummaryData();
-            
-        }
-
-        private void TempCB_Checked(object sender, RoutedEventArgs e)
-        {
-            PermCB.IsChecked = false;
-            LoadSummaryData();
-
-        }
     }
 }

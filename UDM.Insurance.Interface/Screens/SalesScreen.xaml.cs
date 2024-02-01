@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Collections.Specialized;
 using System.Text;
+using System.Globalization;
+using System.Windows.Controls.Primitives;
 
 //using Infragistics.Controls.Editors;
 
@@ -236,19 +238,7 @@ namespace UDM.Insurance.Interface.Screens
                     ds.Relations.Add(relBatchAgent);
 
                     xdgSales.DataSource = ds.Tables[0].DefaultView;
-                    //foreach (Field field in xdgSales.FieldLayouts[2].Fields)
-                    //{
-                    //    string fieldName = field.Name;
-                    //    if (fieldName == "CallBackDate")
-                    //    {
 
-                    //        xdgSales.FieldLayouts[2].Fields[fieldName].Settings.AllowEdit = true;
-                    //    }
-                    //    else
-                    //    {
-                    //        continue;
-                    //    }
-                    //}
                 }
                 else if (UserType == lkpUserType.DebiCheckAgent)
                 {
@@ -325,67 +315,6 @@ namespace UDM.Insurance.Interface.Screens
                 LoadSalesGrid();
                 xdgSales.DataSource = null;
 
-                //if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
-                //{
-                //    DataSet ds = Insure.INGetSalesAssignedToCMAgent(_agentID);
-
-                //    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
-                //    ds.Relations.Add(relCampaignBatch);
-
-                //    DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroupType"] };
-                //    DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroupType"] };
-
-                //    DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
-                //    ds.Relations.Add(relBatchAgent);
-
-                //    xdgSales.DataSource = ds.Tables[0].DefaultView;
-
-                //}
-                //else if (UserType == lkpUserType.ConfirmationAgent)
-                //{
-                //    DataSet ds = Insure.INGetPossibleBumpUpsAssignedToBUAgent(_agentID);
-
-                //    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroup"], ds.Tables[1].Columns["CampaignGroup"]);
-                //    ds.Relations.Add(relCampaignBatch);
-
-                //    DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroup"] };
-                //    DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroup"] };
-
-                //    DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
-                //    ds.Relations.Add(relBatchAgent);
-
-                //    xdgSales.DataSource = ds.Tables[0].DefaultView;
-                //    //foreach (Field field in xdgSales.FieldLayouts[2].Fields)
-                //    //{
-                //    //    string fieldName = field.Name;
-                //    //    if (fieldName == "CallBackDate")
-                //    //    {
-
-                //    //        xdgSales.FieldLayouts[2].Fields[fieldName].Settings.AllowEdit = true;
-                //    //    }
-                //    //    else
-                //    //    {
-                //    //        continue;
-                //    //    }
-                //    //}
-                //}
-                //else if (UserType == lkpUserType.DebiCheckAgent)
-                //{
-
-                //    DataSet ds = Insure.INGetSalesAssignedToDCAgent(_agentID);
-
-                //    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
-                //    ds.Relations.Add(relCampaignBatch);
-
-                //    DataColumn[] parentColumns = new DataColumn[] { ds.Tables[1].Columns["DateOfSale"], ds.Tables[1].Columns["CampaignGroupType"] };
-                //    DataColumn[] childColumns = new DataColumn[] { ds.Tables[2].Columns["DateOfSale"], ds.Tables[2].Columns["CampaignGroupType"] };
-
-                //    DataRelation relBatchAgent = new DataRelation("BatchLead", parentColumns, childColumns);
-                //    ds.Relations.Add(relBatchAgent);
-
-                //    xdgSales.DataSource = ds.Tables[0].DefaultView;
-
-                //}
                 if (UserType == lkpUserType.SalesAgent)
                 {
 #if TRAININGBUILD
@@ -653,6 +582,11 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+
+
+
+
+
         private void LoadSalesGrid()
         {
             try
@@ -664,12 +598,9 @@ namespace UDM.Insurance.Interface.Screens
                     FieldLayout flCampaign = new FieldLayout();
                     flCampaign.Key = "Campaign";
 
-                    //Field fieldCampaignID = new Field("CampaignID");
-                    //fieldCampaignID.Visibility = Visibility.Collapsed;
-
                     Field fieldCampaignName = new Field("CampaignName");
                     fieldCampaignName.Visibility = Visibility.Visible;
-                    fieldCampaignName.Width = new FieldLength(300);
+                    fieldCampaignName.Width = new FieldLength(360);
                     fieldCampaignName.Label = "Campaign";
 
                     Field fieldCampaignCode = new Field("CampaignCode");
@@ -678,18 +609,11 @@ namespace UDM.Insurance.Interface.Screens
                     Field fieldCampaignGroupType = new Field("CampaignGroupType");
                     fieldCampaignGroupType.Visibility = Visibility.Collapsed;
 
-                    //Field fieldCampaignGroup = new Field("CampaignGroup");
-                    //fieldCampaignGroup.Visibility = Visibility.Collapsed;
-
-                    //flCampaign.Fields.Add(fieldCampaignID);
-
                     flCampaign.Fields.Add(fieldCampaignName);
 
                     flCampaign.Fields.Add(fieldCampaignCode);
 
                     flCampaign.Fields.Add(fieldCampaignGroupType);
-
-                    //flCampaign.Fields.Add(fieldCampaignGroup);
 
                     xdgSales.FieldLayouts.Add(flCampaign);
 
@@ -702,54 +626,12 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldBatchDateOfSale = new Field("DateOfSale");
                     fieldBatchDateOfSale.Visibility = Visibility.Visible;
-                    fieldBatchDateOfSale.Width = new FieldLength(110);
+                    fieldBatchDateOfSale.Width = new FieldLength(170);
                     fieldBatchDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldBatchDateOfSale.Label = "Date Of Sale";
 
                     Field fieldBatchCampaignGroupType = new Field("CampaignGroupType");
                     fieldBatchCampaignGroupType.Visibility = Visibility.Collapsed;
-
-
-                    //Field fieldBatchID = new Field("BatchID");
-                    //fieldBatchID.Visibility = Visibility.Collapsed;
-
-                    //Field fieldBatchCampaignID = new Field("CampaignID");
-                    //fieldBatchCampaignID.Visibility = Visibility.Collapsed;
-
-                    //Field fieldCampaignGroupID = new Field("CampaignGroupID");
-                    //fieldCampaignGroupID.Visibility = Visibility.Collapsed;
-
-                    //Field fieldLeadBookID = new Field("LeadBookID");
-                    //fieldLeadBookID.Visibility = Visibility.Collapsed;
-
-                    //Field fieldBatchCode = new Field("BatchCode");
-                    //fieldBatchCode.Visibility = Visibility.Visible;
-                    //fieldBatchCode.Width = new FieldLength(160);
-                    //fieldBatchCode.Label = "Batch";
-
-                    //Field fieldAllocationDate = new Field("AllocationDate");
-                    //fieldAllocationDate.Visibility = Visibility.Visible;
-                    //fieldAllocationDate.Width = new FieldLength(150);
-                    //fieldAllocationDate.Label = "Allocation Date";
-
-                    //Field fieldExpireDate = new Field("ExpireDate");
-                    //fieldExpireDate.Visibility = Visibility.Visible;
-                    //fieldExpireDate.Width = new FieldLength(150);
-                    //fieldExpireDate.Label = "Expire Date";
-
-                    //flBatch.Fields.Add(fieldBatchID);
-
-                    //flBatch.Fields.Add(fieldBatchCampaignID);
-
-                    //flBatch.Fields.Add(fieldCampaignGroupID);
-
-                    //flBatch.Fields.Add(fieldLeadBookID);
-
-                    //flBatch.Fields.Add(fieldBatchCode);
-
-                    //flBatch.Fields.Add(fieldAllocationDate);
-
-                    //flBatch.Fields.Add(fieldExpireDate);
 
                     flBatch.Fields.Add(fieldBatchDateOfSale);
 
@@ -765,62 +647,59 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldLeadDateOfSale = new Field("DateOfSale");
                     fieldLeadDateOfSale.Visibility = Visibility.Visible;
-                    fieldLeadDateOfSale.Width = new FieldLength(110);
+                    fieldLeadDateOfSale.Width = new FieldLength(170);
                     fieldLeadDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldLeadDateOfSale.Label = "Date Of Sale";
 
                     Field fieldActualDateOfSale = new Field("ActualDateOfSale");
                     fieldActualDateOfSale.Visibility = Visibility.Visible;
-                    fieldActualDateOfSale.Width = new FieldLength(110);
+                    fieldActualDateOfSale.Width = new FieldLength(170);
                     fieldActualDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldActualDateOfSale.Label = "Actual Date Of Sale";
 
                     Field fieldAllocationDateTime = new Field("AllocationDateTime");
-                    //fieldAllocationDateTime.Settings.EditorType = typeof(XamDateTimeEditor);
-                    //fieldAllocationDateTime.Settings.EditAsType = typeof(DateTime);
-                    //fieldAllocationDateTime.Settings.EditorStyle = styleAllocation;
                     fieldAllocationDateTime.Visibility = Visibility.Visible;
-                    fieldAllocationDateTime.Width = new FieldLength(180);
+                    fieldAllocationDateTime.Width = new FieldLength(240);
                     fieldAllocationDateTime.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldAllocationDateTime.Label = "Date and Time of Allocation";
 
                     Field fieldExpiryDate = new Field("ExpiryDate");
                     fieldExpiryDate.Visibility = Visibility.Visible;
-                    fieldExpiryDate.Width = new FieldLength(110);
+                    fieldExpiryDate.Width = new FieldLength(170);
                     fieldExpiryDate.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldExpiryDate.Label = "Expiry Date";
 
                     Field fieldIsTSRBUSavedCarriedForward = new Field("IsTSRBUSavedCarriedForward");
                     fieldIsTSRBUSavedCarriedForward.Visibility = Visibility.Visible;
-                    fieldIsTSRBUSavedCarriedForward.Width = new FieldLength(80);
+                    fieldIsTSRBUSavedCarriedForward.Width = new FieldLength(140);
                     fieldIsTSRBUSavedCarriedForward.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldIsTSRBUSavedCarriedForward.Label = "TSR/BU Saved Carried Forward";
 
                     Field fieldRefNo = new Field("RefNo");
                     fieldRefNo.Visibility = Visibility.Visible;
-                    fieldRefNo.Width = new FieldLength(165);
+                    fieldRefNo.Width = new FieldLength(225);
                     fieldRefNo.Label = "Reference Number";
 
                     Field fieldTSR = new Field("TSR");
                     fieldTSR.Visibility = Visibility.Visible;
-                    fieldTSR.Width = new FieldLength(250);
+                    fieldTSR.Width = new FieldLength(310);
                     fieldTSR.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldTSR.Label = "TSR Name";
 
                     Field fieldLeadStatus = new Field("LeadStatus");
                     fieldLeadStatus.Visibility = Visibility.Visible;
-                    fieldLeadStatus.Width = new FieldLength(275);
+                    fieldLeadStatus.Width = new FieldLength(335);
                     fieldLeadStatus.Label = "Lead Status";
 
                     Field fieldCallMonitoringStatus = new Field("CallMonitoringStatus");
                     fieldCallMonitoringStatus.Visibility = Visibility.Visible;
-                    fieldCallMonitoringStatus.Width = new FieldLength(104);
+                    fieldCallMonitoringStatus.Width = new FieldLength(164);
                     fieldCallMonitoringStatus.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldCallMonitoringStatus.Label = "Call Monitoring Status";
 
                     Field fieldIsBumpedUp = new Field("IsBumpedUp");
                     fieldIsBumpedUp.Visibility = Visibility.Visible;
-                    fieldIsBumpedUp.Width = new FieldLength(84);
+                    fieldIsBumpedUp.Width = new FieldLength(144);
                     fieldIsBumpedUp.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldIsBumpedUp.Label = "Bumped Up";
 
@@ -829,9 +708,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldIsOverAssessment = new Field("IsOverAssessment");
                     fieldIsOverAssessment.Visibility = Visibility.Collapsed;
-                    //fieldIsOverAssessment.Width = new FieldLength(110);
-                    //fieldIsOverAssessment.Settings.LabelTextWrapping = TextWrapping.Wrap;
-                    //fieldIsOverAssessment.Label = "Is Over Assessment";
+
 
                     Field fieldImportID = new Field("ImportID");
                     fieldImportID.Visibility = Visibility.Collapsed;
@@ -879,7 +756,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldCampaignName = new Field("CampaignGroup");
                     fieldCampaignName.Visibility = Visibility.Visible;
-                    fieldCampaignName.Width = new FieldLength(300);
+                    fieldCampaignName.Width = new FieldLength(360);
                     fieldCampaignName.Label = "CampaignGroup";
 
                     flCampaign.Fields.Add(fieldCampaignName);
@@ -895,7 +772,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldBatchDateOfSale = new Field("DateOfSale");
                     fieldBatchDateOfSale.Visibility = Visibility.Visible;
-                    fieldBatchDateOfSale.Width = new FieldLength(300);
+                    fieldBatchDateOfSale.Width = new FieldLength(360);
                     fieldBatchDateOfSale.Label = "Date Of Sale";
 
                     Field fieldBatchCampaignGroupType = new Field("CampaignGroup");
@@ -915,33 +792,33 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldLeadDateOfSale = new Field("DateOfSale");
                     fieldLeadDateOfSale.Visibility = Visibility.Visible;
-                    fieldLeadDateOfSale.Width = new FieldLength(200);
+                    fieldLeadDateOfSale.Width = new FieldLength(260);
                     fieldLeadDateOfSale.Label = "Date Of Sale";
 
                     Field fieldAllocationDateTime = new Field("AllocationDateTime");
 
                     fieldAllocationDateTime.Visibility = Visibility.Visible;
-                    fieldAllocationDateTime.Width = new FieldLength(235);
+                    fieldAllocationDateTime.Width = new FieldLength(295);
                     fieldAllocationDateTime.Label = "Date and Time of Allocation";
 
                     Field fieldExpiryDate = new Field("ExpiryDate");
                     fieldExpiryDate.Visibility = Visibility.Visible;
-                    fieldExpiryDate.Width = new FieldLength(107);
+                    fieldExpiryDate.Width = new FieldLength(167);
                     fieldExpiryDate.Label = "Expiry Date";
 
                     Field fieldRefNo = new Field("RefNo");
                     fieldRefNo.Visibility = Visibility.Visible;
-                    fieldRefNo.Width = new FieldLength(195);
+                    fieldRefNo.Width = new FieldLength(255);
                     fieldRefNo.Label = "Reference Number";
 
                     Field fieldTSR = new Field("TSR");
                     fieldTSR.Visibility = Visibility.Visible;
-                    fieldTSR.Width = new FieldLength(350);
+                    fieldTSR.Width = new FieldLength(410);
                     fieldTSR.Label = "TSR Name";
 
                     Field fieldLeadStatus = new Field("LeadStatus");
                     fieldLeadStatus.Visibility = Visibility.Visible;
-                    fieldLeadStatus.Width = new FieldLength(300);
+                    fieldLeadStatus.Width = new FieldLength(360);
                     fieldLeadStatus.Label = "Lead Status";
 
                     Field fieldLeadStatusID = new Field("LeadStatusID");
@@ -950,23 +827,23 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldCallMonitoringStatus = new Field("BumpUpStatus");
                     fieldCallMonitoringStatus.Visibility = Visibility.Visible;
-                    fieldCallMonitoringStatus.Width = new FieldLength(300);
+                    fieldCallMonitoringStatus.Width = new FieldLength(360);
                     fieldCallMonitoringStatus.Label = "Bump-Up Status";
 
                     Field fieldPremium = new Field("Premium");
                     fieldPremium.Visibility = Visibility.Visible;
-                    fieldPremium.Width = new FieldLength(300);
+                    fieldPremium.Width = new FieldLength(360);
                     fieldPremium.Label = "Premium";
 
                     Field fieldBumpUpOffered = new Field("BumpUpOffered");
                     fieldBumpUpOffered.Visibility = Visibility.Visible;
-                    fieldBumpUpOffered.Width = new FieldLength(200);
+                    fieldBumpUpOffered.Width = new FieldLength(260);
                     fieldBumpUpOffered.Label = "Bump-Up Offered";
 
 
                     Field fieldCallBackDate = new Field("CallBackDate");
                     fieldCallBackDate.Visibility = Visibility.Visible;
-                    fieldCallBackDate.Width = new FieldLength(300);
+                    fieldCallBackDate.Width = new FieldLength(360);
                     fieldCallBackDate.Label = "Diary Date";
                     fieldCallBackDate.Settings.AllowEdit = true;
 
@@ -1088,7 +965,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldCampaignName = new Field("CampaignName");
                     fieldCampaignName.Visibility = Visibility.Visible;
-                    fieldCampaignName.Width = new FieldLength(300);
+                    fieldCampaignName.Width = new FieldLength(360);
                     fieldCampaignName.Label = "Campaign";
 
                     Field fieldCampaignCode = new Field("CampaignCode");
@@ -1121,7 +998,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldBatchDateOfSale = new Field("DateOfSale");
                     fieldBatchDateOfSale.Visibility = Visibility.Visible;
-                    fieldBatchDateOfSale.Width = new FieldLength(200);
+                    fieldBatchDateOfSale.Width = new FieldLength(260);
                     fieldBatchDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldBatchDateOfSale.Label = "Date Of Allocation";
 
@@ -1184,13 +1061,13 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldLeadDateOfSale = new Field("DateOfSale");
                     fieldLeadDateOfSale.Visibility = Visibility.Visible;
-                    fieldLeadDateOfSale.Width = new FieldLength(110);
+                    fieldLeadDateOfSale.Width = new FieldLength(170);
                     fieldLeadDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldLeadDateOfSale.Label = "Date Of Allocation";
 
                     Field fieldActualDateOfSale = new Field("ActualDateOfSale");
                     fieldActualDateOfSale.Visibility = Visibility.Visible;
-                    fieldActualDateOfSale.Width = new FieldLength(110);
+                    fieldActualDateOfSale.Width = new FieldLength(170);
                     fieldActualDateOfSale.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldActualDateOfSale.Label = "Actual Date Of Sale";
 
@@ -1199,47 +1076,47 @@ namespace UDM.Insurance.Interface.Screens
                     //fieldAllocationDateTime.Settings.EditAsType = typeof(DateTime);
                     //fieldAllocationDateTime.Settings.EditorStyle = styleAllocation;
                     fieldAllocationDateTime.Visibility = Visibility.Collapsed;
-                    fieldAllocationDateTime.Width = new FieldLength(180);
+                    fieldAllocationDateTime.Width = new FieldLength(220);
                     fieldAllocationDateTime.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldAllocationDateTime.Label = "Date and Time of Allocation";
 
                     Field fieldExpiryDate = new Field("ExpiryDate");
                     fieldExpiryDate.Visibility = Visibility.Visible;
-                    fieldExpiryDate.Width = new FieldLength(110);
+                    fieldExpiryDate.Width = new FieldLength(150);
                     fieldExpiryDate.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldExpiryDate.Label = "Expiry Date";
 
                     Field fieldIsTSRBUSavedCarriedForward = new Field("IsTSRBUSavedCarriedForward");
                     fieldIsTSRBUSavedCarriedForward.Visibility = Visibility.Visible;
-                    fieldIsTSRBUSavedCarriedForward.Width = new FieldLength(80);
+                    fieldIsTSRBUSavedCarriedForward.Width = new FieldLength(140);
                     fieldIsTSRBUSavedCarriedForward.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldIsTSRBUSavedCarriedForward.Label = "TSR/BU Saved Carried Forward";
 
                     Field fieldRefNo = new Field("RefNo");
                     fieldRefNo.Visibility = Visibility.Visible;
-                    fieldRefNo.Width = new FieldLength(165);
+                    fieldRefNo.Width = new FieldLength(225);
                     fieldRefNo.Label = "Reference Number";
 
                     Field fieldTSR = new Field("TSR");
                     fieldTSR.Visibility = Visibility.Visible;
-                    fieldTSR.Width = new FieldLength(250);
+                    fieldTSR.Width = new FieldLength(310);
                     fieldTSR.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldTSR.Label = "TSR Name";
 
                     Field fieldLeadStatus = new Field("LeadStatus");
                     fieldLeadStatus.Visibility = Visibility.Visible;
-                    fieldLeadStatus.Width = new FieldLength(275);
+                    fieldLeadStatus.Width = new FieldLength(335);
                     fieldLeadStatus.Label = "Lead Status";
 
                     Field fieldCallMonitoringStatus = new Field("CallMonitoringStatus");
                     fieldCallMonitoringStatus.Visibility = Visibility.Visible;
-                    fieldCallMonitoringStatus.Width = new FieldLength(104);
+                    fieldCallMonitoringStatus.Width = new FieldLength(164);
                     fieldCallMonitoringStatus.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldCallMonitoringStatus.Label = "Call Monitoring Status";
 
                     Field fieldIsBumpedUp = new Field("IsBumpedUp");
                     fieldIsBumpedUp.Visibility = Visibility.Visible;
-                    fieldIsBumpedUp.Width = new FieldLength(84);
+                    fieldIsBumpedUp.Width = new FieldLength(144);
                     fieldIsBumpedUp.Settings.LabelTextWrapping = TextWrapping.Wrap;
                     fieldIsBumpedUp.Label = "Bumped Up";
 
@@ -1302,7 +1179,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldCampaignName = new Field("CampaignName");
                     fieldCampaignName.Visibility = Visibility.Visible;
-                    fieldCampaignName.Width = new FieldLength(300);
+                    fieldCampaignName.Width = new FieldLength(360);
                     fieldCampaignName.Label = "Campaign";
 
                     Field fieldCampaignCode = new Field("CampaignCode");
@@ -1347,18 +1224,40 @@ namespace UDM.Insurance.Interface.Screens
 
                     Field fieldBatchCode = new Field("BatchCode");
                     fieldBatchCode.Visibility = Visibility.Visible;
-                    fieldBatchCode.Width = new FieldLength(160);
+                    fieldBatchCode.Width = new FieldLength(200);
                     fieldBatchCode.Label = "Batch";
 
                     Field fieldAllocationDate = new Field("AllocationDate");
                     fieldAllocationDate.Visibility = Visibility.Visible;
-                    fieldAllocationDate.Width = new FieldLength(150);
+                    fieldAllocationDate.Width = new FieldLength(210);
                     fieldAllocationDate.Label = "Allocation Date";
 
                     Field fieldExpireDate = new Field("ExpireDate");
                     fieldExpireDate.Visibility = Visibility.Visible;
-                    fieldExpireDate.Width = new FieldLength(150);
+                    fieldExpireDate.Width = new FieldLength(210);
                     fieldExpireDate.Label = "Expire Date";
+
+                    Field fieldContactPercentage = new Field("ContactPercentage");
+                    fieldContactPercentage.Visibility = Visibility.Visible;
+                    fieldContactPercentage.Width = new FieldLength(210);
+                    fieldContactPercentage.Label = "Contact %";
+
+
+                    Field fieldAvailableContacts = new Field("AvailableContacts");
+                    fieldAvailableContacts.Visibility = Visibility.Visible;
+                    fieldAvailableContacts.Width = new FieldLength(230);
+                    fieldAvailableContacts.Label = "Available Contacts";
+
+                    Field fieldSTLPercentage = new Field("STLPercentage");
+                    fieldSTLPercentage.Visibility = Visibility.Visible;
+                    fieldSTLPercentage.Width = new FieldLength(210);
+                    fieldSTLPercentage.Label = "STL %";
+
+
+                    Field fieldSalestoGo = new Field("SalesToGo");
+                    fieldSalestoGo.Visibility = Visibility.Visible;
+                    fieldSalestoGo.Width = new FieldLength(210);
+                    fieldSalestoGo.Label = "Sales to Go";
 
                     flBatch.Fields.Add(fieldBatchID);
 
@@ -1373,6 +1272,15 @@ namespace UDM.Insurance.Interface.Screens
                     flBatch.Fields.Add(fieldAllocationDate);
 
                     flBatch.Fields.Add(fieldExpireDate);
+
+                    flBatch.Fields.Add(fieldContactPercentage);
+
+                    flBatch.Fields.Add(fieldAvailableContacts);
+
+                    flBatch.Fields.Add(fieldSTLPercentage);
+
+                    flBatch.Fields.Add(fieldSalestoGo);
+
 
                     xdgSales.FieldLayouts.Add(flBatch);
                     #endregion Batch
@@ -1396,63 +1304,59 @@ namespace UDM.Insurance.Interface.Screens
                     fieldLead.Settings.FilterOperatorDefaultValue = ComparisonOperator.StartsWith;
                     fieldLead.Settings.FilterOperatorDropDownItems = ComparisonOperatorFlags.None;
                     fieldLead.Visibility = Visibility.Visible;
-                    fieldLead.Width = new FieldLength(260);
+                    fieldLead.Width = new FieldLength(320);
                     fieldLead.Label = "Lead";
 
                     Field fieldRefNo = new Field("RefNo");
                     fieldRefNo.Visibility = Visibility.Visible;
-                    fieldRefNo.Width = new FieldLength(180);
+                    fieldRefNo.Width = new FieldLength(240);
                     fieldRefNo.Label = "Reference Number";
 
                     Field fieldReferrer = new Field("Referrer");
                     fieldReferrer.Visibility = Visibility.Visible;
-                    fieldReferrer.Width = new FieldLength(160);
+                    fieldReferrer.Width = new FieldLength(220);
                     fieldReferrer.Label = "Referrer";
 
                     Field fieldStatus = new Field("Status");
                     fieldStatus.Visibility = Visibility.Visible;
-                    fieldStatus.Width = new FieldLength(160);
+                    fieldStatus.Width = new FieldLength(220);
                     fieldStatus.Label = "Status";
 
                     Field fieldDiaryReason = new Field("DiaryReason");
                     fieldDiaryReason.Visibility = Visibility.Visible;
-                    fieldDiaryReason.Width = new FieldLength(160);
+                    fieldDiaryReason.Width = new FieldLength(220);
                     fieldDiaryReason.Label = "Diary Reason";
-
-                    //XamCheckEditor cmb = new XamCheckEditor();
-                    //cmb.IsChecked = false;
-                    //cmb.Visibility = Visibility.Visible;
-                    //cmb.MouseDown += Cmb_MouseDown;
 
                     Field fieldCallBack = new Field("CallBack");
                     fieldCallBack.Visibility = Visibility.Visible;
-                    fieldCallBack.Width = new FieldLength(160);
+                    fieldCallBack.Width = new FieldLength(220);
                     fieldCallBack.Label = "Call Back?";
                     fieldCallBack.Settings.EditorType = typeof(XamCheckEditor);
 
-                    //XamCheckEditor cmb = new XamCheckEditor();
-                    //cmb.IsChecked = false;
-                    //cmb.Visibility = Visibility.Visible;
-                    //cmb.MouseDown += Cmb_MouseDown;
-
-                    //List<string> Statuses = new List<string>();
-                    //Statuses.Add("Call Back");
+                    Field fieldCellNumber = new Field("C");
+                    fieldCellNumber.Visibility = Visibility.Visible;
+                    fieldCellNumber.Width = new FieldLength(50);
+                    fieldCellNumber.Label = "(C)";
+                    fieldCellNumber.Settings = new FieldSettings { CellValuePresenterStyle = FindResource("ColumnCStyle") as Style };
 
 
 
-                    //cmb.IsChecked = false;
-                    //cmb.IsReadOnly = false;
-                    //cmb.MouseDown += Cmb_MouseDown;
-
-                    //Field fieldLeadBookRank = new Field("LeadBookRank");
-                    //fieldLeadBookRank.Visibility = Visibility.Collapsed;
-                    //fieldLeadBookRank.Width = new FieldLength(160);
-                    //fieldLeadBookRank.Label = "LeadBookRank";
+                    Field fieldWorkNumber = new Field("W");
+                    fieldWorkNumber.Visibility = Visibility.Visible;
+                    fieldWorkNumber.Width = new FieldLength(50);
+                    fieldWorkNumber.Label = "(W)";
+                    fieldWorkNumber.Settings = new FieldSettings { CellValuePresenterStyle = FindResource("ColumnWStyle") as Style };
 
 
+                    Field fieldHomeNumber = new Field("H");
+                    fieldHomeNumber.Visibility = Visibility.Visible;
+                    fieldHomeNumber.Width = new FieldLength(50);
+                    fieldHomeNumber.Label = "(H)";
+                    fieldHomeNumber.Settings = new FieldSettings { CellValuePresenterStyle = FindResource("ColumnHStyle") as Style };
 
 
-                    //fieldCallBack.Settings.EditorType = typeof(XamCheckEditor);
+
+
 
                     flLead.Fields.Add(fieldLeadBatchID);
 
@@ -1470,9 +1374,13 @@ namespace UDM.Insurance.Interface.Screens
 
                     flLead.Fields.Add(fieldDiaryReason);
 
-                    //flLead.Fields.Add(fieldLeadBookRank);
-
                     flLead.Fields.Add(fieldCallBack);
+
+                    flLead.Fields.Add(fieldCellNumber);
+
+                    flLead.Fields.Add(fieldWorkNumber);
+
+                    flLead.Fields.Add(fieldHomeNumber);
 
                     xdgSales.FieldLayouts.Add(flLead);
                     #endregion Lead
@@ -2176,6 +2084,9 @@ namespace UDM.Insurance.Interface.Screens
                 btnConfirmationStats.Visibility = Visibility.Collapsed;
                 btnCallMonitoringTrackingReport.Visibility = Visibility.Visible;
                 btnBumpUpStatsReport.Visibility = Visibility.Visible;
+                btnApplication.Visibility = Visibility.Visible;
+                btnCaptureHours.Visibility = Visibility.Collapsed;
+                btnBumpUpStatsReport.Visibility= Visibility.Collapsed;
             }
             else if (UserType.Value == lkpUserType.DebiCheckAgent)
             {
@@ -2502,24 +2413,21 @@ namespace UDM.Insurance.Interface.Screens
 
         private void xdgSales_FieldLayoutInitialized(object sender, FieldLayoutInitializedEventArgs e)
         {
-            //if (UserType == lkpUserType.ConfirmationAgent)
-            //{
-            //    foreach (Field field in xdgSales.FieldLayouts[2].Fields)
-            //    {
-            //        string fieldName = field.Name;
-            //        if (fieldName == "CallBackDate")
-            //        {
+            ApplyConditionalStyling();
+        }
 
-            //            xdgSales.FieldLayouts[2].Fields[fieldName].Settings.AllowEdit = true;
-            //        }
-            //        else
-            //        {
-            //            continue;
-            //        }
+        private void ApplyConditionalStyling()
+        {
+            //var dataItem = record.DataItem as string; // Replace YourDataType with the actual type of your data
+            //if (dataItem != null)
+            //{
+            //    var fieldValue = dataItem.IsChecked; // Replace IsChecked with the actual property name
+            //    if (fieldValue != null && fieldValue.ToString() == "Yes")
+            //    {
+            //        // Apply styling to the cell
+            //        // Example: record.FieldLayout.Fields[field].Settings.CellAppearanceSettings.Background = Brushes.Green;
             //    }
             //}
-
-
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
@@ -2550,6 +2458,8 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
             }
+
+
         }
 
         private void xdgSales_RecordDeactivating(object sender, RecordDeactivatingEventArgs e)
@@ -2794,6 +2704,8 @@ namespace UDM.Insurance.Interface.Screens
 
         }
 
+
+
         private void btnDCSpecialistDiaries_Click(object sender, RoutedEventArgs e)
         {
 
@@ -2812,9 +2724,6 @@ namespace UDM.Insurance.Interface.Screens
                 FieldLayout flCampaign = new FieldLayout();
                 flCampaign.Key = "Campaign";
 
-                //Field fieldCampaignID = new Field("CampaignID");
-                //fieldCampaignID.Visibility = Visibility.Collapsed;
-
                 Field fieldCampaignName = new Field("CampaignName");
                 fieldCampaignName.Visibility = Visibility.Visible;
                 fieldCampaignName.Width = new FieldLength(300);
@@ -2826,18 +2735,11 @@ namespace UDM.Insurance.Interface.Screens
                 Field fieldCampaignGroupType = new Field("CampaignGroupType");
                 fieldCampaignGroupType.Visibility = Visibility.Collapsed;
 
-                //Field fieldCampaignGroup = new Field("CampaignGroup");
-                //fieldCampaignGroup.Visibility = Visibility.Collapsed;
-
-                //flCampaign.Fields.Add(fieldCampaignID);
-
                 flCampaign.Fields.Add(fieldCampaignName);
 
                 flCampaign.Fields.Add(fieldCampaignCode);
 
                 flCampaign.Fields.Add(fieldCampaignGroupType);
-
-                //flCampaign.Fields.Add(fieldCampaignGroup);
 
                 xdgSalesDCDiary.FieldLayouts.Add(flCampaign);
 
@@ -2856,48 +2758,6 @@ namespace UDM.Insurance.Interface.Screens
 
                 Field fieldBatchCampaignGroupType = new Field("CampaignGroupType");
                 fieldBatchCampaignGroupType.Visibility = Visibility.Collapsed;
-
-
-                //Field fieldBatchID = new Field("BatchID");
-                //fieldBatchID.Visibility = Visibility.Collapsed;
-
-                //Field fieldBatchCampaignID = new Field("CampaignID");
-                //fieldBatchCampaignID.Visibility = Visibility.Collapsed;
-
-                //Field fieldCampaignGroupID = new Field("CampaignGroupID");
-                //fieldCampaignGroupID.Visibility = Visibility.Collapsed;
-
-                //Field fieldLeadBookID = new Field("LeadBookID");
-                //fieldLeadBookID.Visibility = Visibility.Collapsed;
-
-                //Field fieldBatchCode = new Field("BatchCode");
-                //fieldBatchCode.Visibility = Visibility.Visible;
-                //fieldBatchCode.Width = new FieldLength(160);
-                //fieldBatchCode.Label = "Batch";
-
-                //Field fieldAllocationDate = new Field("AllocationDate");
-                //fieldAllocationDate.Visibility = Visibility.Visible;
-                //fieldAllocationDate.Width = new FieldLength(150);
-                //fieldAllocationDate.Label = "Allocation Date";
-
-                //Field fieldExpireDate = new Field("ExpireDate");
-                //fieldExpireDate.Visibility = Visibility.Visible;
-                //fieldExpireDate.Width = new FieldLength(150);
-                //fieldExpireDate.Label = "Expire Date";
-
-                //flBatch.Fields.Add(fieldBatchID);
-
-                //flBatch.Fields.Add(fieldBatchCampaignID);
-
-                //flBatch.Fields.Add(fieldCampaignGroupID);
-
-                //flBatch.Fields.Add(fieldLeadBookID);
-
-                //flBatch.Fields.Add(fieldBatchCode);
-
-                //flBatch.Fields.Add(fieldAllocationDate);
-
-                //flBatch.Fields.Add(fieldExpireDate);
 
                 flBatch.Fields.Add(fieldBatchDateOfSale);
 
@@ -2924,9 +2784,6 @@ namespace UDM.Insurance.Interface.Screens
                 fieldActualDateOfSale.Label = "Call Back Date";
 
                 Field fieldAllocationDateTime = new Field("AllocationDateTime");
-                //fieldAllocationDateTime.Settings.EditorType = typeof(XamDateTimeEditor);
-                //fieldAllocationDateTime.Settings.EditAsType = typeof(DateTime);
-                //fieldAllocationDateTime.Settings.EditorStyle = styleAllocation;
                 fieldAllocationDateTime.Visibility = Visibility.Collapsed;
                 fieldAllocationDateTime.Width = new FieldLength(180);
                 fieldAllocationDateTime.Settings.LabelTextWrapping = TextWrapping.Wrap;
@@ -2977,9 +2834,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 Field fieldIsOverAssessment = new Field("IsOverAssessment");
                 fieldIsOverAssessment.Visibility = Visibility.Collapsed;
-                //fieldIsOverAssessment.Width = new FieldLength(110);
-                //fieldIsOverAssessment.Settings.LabelTextWrapping = TextWrapping.Wrap;
-                //fieldIsOverAssessment.Label = "Is Over Assessment";
+
 
                 Field fieldImportID = new Field("ImportID");
                 fieldImportID.Visibility = Visibility.Collapsed;
@@ -3015,6 +2870,8 @@ namespace UDM.Insurance.Interface.Screens
 
 
                 #endregion Lead
+
+
             }
             catch
             {
@@ -3041,6 +2898,14 @@ namespace UDM.Insurance.Interface.Screens
 
             }
         }
+
+        private void xdgSales_InitializeRecord(object sender, InitializeRecordEventArgs e)
+        {
+
+        }
+
+
     }
+
 
 }

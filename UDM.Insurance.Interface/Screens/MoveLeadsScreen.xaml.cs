@@ -447,6 +447,12 @@ namespace UDM.Insurance.Interface.Screens
                                 Currentimport.FKINParentBatchID = parentBatchID;
                                 Currentimport.FKINCampaignID = _destinationCampaignID;
                                 Currentimport.FKINBatchID = destinationBatchID;
+                                if(_destinationCampaignID == 431 || _destinationCampaignID == 429)
+                                {
+                                        Currentimport.FKUserID = null;
+                                        Currentimport.IsPrinted = null;
+                                        Currentimport.AllocationDate = null;
+                                }
                                 
                                 Currentimport.Save(_validationResult);
                                

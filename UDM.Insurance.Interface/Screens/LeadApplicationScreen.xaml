@@ -29,7 +29,11 @@
     Loaded="CtrlLeadApplicationScreen_Loaded"
     MouseDown="CtrlLeadApplicationScreen_MouseDown"
     mc:Ignorable="d">
-
+    <UserControl.Background>
+        <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
+        <ImageBrush ImageSource="../Resources/InsureLeadApplicationBackground.png"  />
+        <!--<ImageBrush ImageSource="{Binding Converter={StaticResource GetImageConverter}, Source=Football/Soccer.png}"/>-->
+    </UserControl.Background>
     <src:BaseControl.Resources>
         <library:IntToEnumConverter x:Key="IntToEnumConverter" />
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -2082,7 +2086,7 @@
                         <Border
                 x:Name="MainBorder"
                 Background="White"
-                BorderBrush="Gray"
+                BorderBrush="Teal"
                 BorderThickness="{StaticResource INBorderThickness1}"
                 CornerRadius="4">
                             <Grid>
@@ -2512,7 +2516,7 @@
             </Border.Style>
             <Border
           x:Name="MainBorder"
-          Background="Black"
+          Background="Transparent"
           BorderBrush="{StaticResource BrandedBrushIN}"
           BorderThickness="2"
           CornerRadius="12"
@@ -14613,7 +14617,7 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
               Grid.Column="2"
               Grid.ColumnSpan="24"
               Margin="0,0,0,33"
-              Background="Black"
+              Background="Transparent"
               CornerRadius="25"
               Visibility="Collapsed">
 
@@ -16007,7 +16011,7 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
               Grid.Column="22"
               Grid.ColumnSpan="4"
               Margin="0,0,-12,-12"
-              Background="Black" />
+              Background="Transparent" />
 
                     <Button
               x:Name="btnOverrideBumpUp"
@@ -16387,7 +16391,7 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Margin="8,16,16,8"
-              Background="Black">
+              Background="Transparent">
                         <TextBlock
                 x:Name="tbCallDuration"
                 Grid.Row="0"
