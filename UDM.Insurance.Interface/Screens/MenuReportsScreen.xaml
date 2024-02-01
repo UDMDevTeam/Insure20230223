@@ -1359,7 +1359,7 @@
                         <Grid
                             x:Name="grid"
                             Width="1267"
-                            Height="624"
+                            Height="724"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top">
                             <Grid.RowDefinitions>
