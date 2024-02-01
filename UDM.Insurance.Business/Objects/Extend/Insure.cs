@@ -315,7 +315,11 @@ namespace UDM.Insurance.Business
         }
         public static DataSet INForwardToDCAgentRefsReport(DateTime fromDate, DateTime toDate)
         {
-            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportFowardToDCAgentReferences", null);
+            object param1 = Database.GetParameter("@DateFrom", fromDate);
+            object param2 = Database.GetParameter("@DateTo", toDate);
+
+            object[] paramArray = new[] { param1, param2 };
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spReportFowardToDCAgentReferences", paramArray, 600);
         }
         #endregion
 

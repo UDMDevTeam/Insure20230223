@@ -415,9 +415,9 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
-            
-            
-            
+
+
+
             <!--  Line 3  -->
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnResalesAcquiredUpdateReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL3X5}" />
@@ -708,19 +708,7 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
 
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL3X4}" />
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingReport" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
-                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
-            </DoubleAnimationUsingKeyFrames>
+
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingTSRReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL3X4}" />
@@ -1201,7 +1189,7 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
-            
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTSRDebiCHeckCallTransferReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL4X2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
@@ -1230,7 +1218,7 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
 
-            
+
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTSRDebiCheckStatisticsReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL4X2}" />
@@ -1269,6 +1257,19 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckErrorReport" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL4X3}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingReport" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckTrackingReport" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
@@ -2792,34 +2793,6 @@
                                             </Canvas>
                                         </Button>
 
-                                        <Button
-                                            x:Name="btnDebiCheckTrackingReport"
-                                            Margin="{StaticResource IconMargin}"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            Click="btnDebiCheckTrackingReport_Click"
-                                            IsEnabled="True"
-                                            Style="{StaticResource INMenuButton}"
-                                            TabIndex="0"
-                                            ToolTip="{Binding ToolTipData[46].Tip}"
-                                            Visibility="Visible">
-                                            <Button.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform />
-                                                    <SkewTransform />
-                                                    <RotateTransform />
-                                                    <TranslateTransform />
-                                                </TransformGroup>
-                                            </Button.RenderTransform>
-                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
-                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
-                                                    <TextBlock
-                                                        x:Name="lbDebiCheckTrackingReport"
-                                                        Style="{StaticResource INSquareButtonReportText}"
-                                                        Text="Debi-Check&#x0a;Tracking&#x0a;Report" />
-                                                </Grid>
-                                            </Canvas>
-                                        </Button>
 
                                         <Button
                                             x:Name="btnDebiCheckTrackingTSRReport"
@@ -3831,6 +3804,34 @@
                                                         VerticalAlignment="Top"
                                                         Style="{StaticResource INSquareButtonReportText}"
                                                         Text="Debi-Check Error Report" Width="70" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
+                                        <Button
+       x:Name="btnDebiCheckTrackingReport"
+       Margin="{StaticResource IconMargin}"
+       HorizontalAlignment="Right"
+       VerticalAlignment="Bottom"
+       Click="btnDebiCheckTrackingReport_Click"
+       IsEnabled="True"
+       Style="{StaticResource INMenuButton}"
+       TabIndex="0"
+       ToolTip="{Binding ToolTipData[46].Tip}"
+       Visibility="Visible">
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                <Grid Width="{StaticResource INMenuButtonWidth}" Height="{StaticResource INMenuButtonHeight}">
+                                                    <TextBlock
+                   x:Name="lbDebiCheckTrackingReport"
+                   Style="{StaticResource INSquareButtonReportText}"
+                   Text="Debi-Check&#x0a;Tracking&#x0a;Report" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>
