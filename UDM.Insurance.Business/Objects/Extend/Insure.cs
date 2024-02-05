@@ -2433,11 +2433,11 @@ namespace UDM.Insurance.Business
         #endregion Invalid Accounts Report - Specific Functionalities
 
         #region Top Ten Report - Specific Functionalities
-        public static DataSet INReportTopTen(DateTime reportDate)
+        public static DataSet INReportTopTen(DateTime reportDate, bool isSales)
         {
             object param1 = Database.GetParameter("@ReportDate", reportDate);
-
-            object[] paramArray = new[] { param1 };
+            object param2 = Database.GetParameter("@IsSales", isSales);
+            object[] paramArray = new[] { param1 , param2};
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportTopTen", paramArray, 600);
         }

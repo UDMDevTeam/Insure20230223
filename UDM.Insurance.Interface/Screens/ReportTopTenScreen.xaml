@@ -129,103 +129,6 @@
                         HorizontalAlignment="Left"
                         Style="{DynamicResource INUnderlineText1}" />
 
-                    <!--
-                        <src:EmbriantComboBox
-                        x:Name="cmbCampaign"
-                        Grid.Row="3"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="8"
-                        Margin="0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Top"
-                        SelectionChanged="cmbCampaign_SelectionChanged"
-                        Style="{DynamicResource cmbINHighlightBorder}"
-                        TabIndex="0">
-                        </src:EmbriantComboBox>
-                    -->
-                    <!--  IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type src:BaseControl}}, Path=IsReportRunning, Converter={StaticResource InverseBooleanConverter}}"  -->
-
-                    <!--
-                        <TextBlock
-                        x:Name="tbAgents"
-                        Grid.Row="4"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="4"
-                        Margin="0,0,0,6"
-                        VerticalAlignment="Bottom"
-                        Style="{DynamicResource INLabelText2}"
-                        Text="Select Agent(s)"
-                        TextWrapping="NoWrap"
-                        Visibility="Visible" />
-                    -->
-
-                    <!--
-                        <igWPF:XamDataGrid
-                        x:Name="xdgCampaigns"
-                        Grid.Row="5"
-                        Grid.RowSpan="11"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="9"
-                        Margin="0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        AutoFit="False"
-                        GroupByAreaLocation="None"
-                        Style="{DynamicResource INXamDataGridStyle1}"
-                        TabIndex="0">
-                        <igWPF:XamDataGrid.Resources>
-                        <Style
-                        TargetType="{x:Type igWPF:HeaderPrefixArea}">
-                        <Setter Property="Visibility" Value="Visible" />
-                        <Setter Property="Template">
-                        <Setter.Value>
-                        <ControlTemplate
-                        TargetType="{x:Type igWPF:HeaderPrefixArea}">
-                        <CheckBox
-                        x:Name="HeaderPrefixAreaCheckbox"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Checked="HeaderPrefixAreaCheckbox_Checked"
-                        IsChecked="False"
-                        Loaded="HeaderPrefixAreaCheckbox_Loaded"
-                        Style="{DynamicResource INCheckboxStyle}"
-                        Unchecked="HeaderPrefixAreaCheckbox_Unchecked" />
-                        </ControlTemplate>
-                        </Setter.Value>
-                        </Setter>
-                        </Style>
-                        <Style
-                        TargetType="{x:Type igWPF:RecordSelector}">
-                        <Setter Property="Template">
-                        <Setter.Value>
-                        <ControlTemplate
-                        TargetType="{x:Type igWPF:RecordSelector}">
-                        <CheckBox
-                        x:Name="RecordSelectorCheckbox"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Click="RecordSelectorCheckbox_Click"
-                        Focusable="False"
-                        IsChecked="{Binding DataItem.Select, Mode=TwoWay}"
-                        Style="{DynamicResource INCheckboxStyle}" />
-                        </ControlTemplate>
-                        </Setter.Value>
-                        </Setter>
-                        </Style>
-                        </igWPF:XamDataGrid.Resources>
-                        <igWPF:XamDataGrid.FieldLayouts>
-                        <igWPF:FieldLayout>
-                        
-                        <igWPF:Field Name="FKUserID" Label="ID" Visibility="Collapsed" />
-                        <igWPF:Field Name="CampaignID" Label="CampaignID" Visibility="Collapsed" />
-                        <igWPF:Field Name="CampaignName" Width="200" Label="Campaign Name" />
-                        <igWPF:Field Name="CampaignCode" Width="160" Label="Campaign Code" Visibility="Visible" />
-                        <igWPF:Field Name="Select" Label="Select" Visibility="Collapsed" />
-                        </igWPF:FieldLayout>
-                        </igWPF:XamDataGrid.FieldLayouts>
-                        </igWPF:XamDataGrid>
-                    -->
-
                     <TextBlock
                         x:Name="tbFromDate"
                         Grid.Row="2"
@@ -269,7 +172,20 @@
                             TabIndex="0"
                             Visibility="Visible" Loaded="calReportDate_Loaded" />
                     </Viewbox>
-
+                    <CheckBox
+    Name="chkTopTenBySales"
+    Grid.Row="9"
+                       Grid.Column="2"
+    Grid.ColumnSpan="7"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top"
+    FontFamily="Arial"
+    FontSize="14"
+                        Style="{DynamicResource INCheckboxStyle}"
+    Foreground="{DynamicResource BrandedBrushIN}"
+    IsChecked="False" Width="250" Margin="0,38,39,0" Grid.RowSpan="2">
+                        <TextBlock>Top 10 Report By Sales</TextBlock>
+                    </CheckBox>
                     <!--<TextBlock
                         x:Name="lblBeneficiaryPercentage1"
                         Grid.Row="10"

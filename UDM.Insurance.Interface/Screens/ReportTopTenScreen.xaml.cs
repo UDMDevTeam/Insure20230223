@@ -92,21 +92,43 @@ namespace UDM.Insurance.Interface.Screens
             {
                 
                 SetCursor(Cursors.Wait);
-
-                #region Setup excel documents
-
-                string filePathAndName = String.Format("{0}Top Ten Report, {1} ~ {2}.xlsx",
-                    GlobalSettings.UserFolder,
-                    _reportDate.ToString("yyyy-MM-dd HHmmdd"),
-                    DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                bool isChecked = false;
+                Dispatcher.Invoke(() =>
+                {
+                    isChecked = chkTopTenBySales.IsChecked.Value;
+                });
+                    #region Setup excel documents
+                    string filePathAndName;
+                if ( isChecked == true)
+                {
+                    filePathAndName = String.Format("{0}Top Ten Sales Report, {1} ~ {2}.xlsx",
+                     GlobalSettings.UserFolder,
+                     _reportDate.ToString("yyyy-MM-dd HHmmdd"),
+                     DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                }
+                else
+                {
+                     filePathAndName = String.Format("{0}Top Ten Sales By Premium Report, {1} ~ {2}.xlsx",
+                        GlobalSettings.UserFolder,
+                        _reportDate.ToString("yyyy-MM-dd HHmmdd"),
+                        DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
+                }
                 Workbook wbTopTenReportTemplate = Methods.DefineTemplateWorkbook("/Templates/ReportTemplateTopTen.xlsx");
                 Workbook wbTopTenReport = new Workbook(WorkbookFormat.Excel2007);
 
                 #endregion Setup excel documents
 
-                #region Get the data                
-
-                DataSet dsTopTenReportData = Business.Insure.INReportTopTen(_reportDate);
+                #region Get the data 
+                DataSet dsTopTenReportData = new DataSet();
+                if (isChecked == true)
+                {
+                    dsTopTenReportData = Business.Insure.INReportTopTen(_reportDate,true);
+                }
+                else
+                {
+                    dsTopTenReportData = Business.Insure.INReportTopTen(_reportDate,false);
+                }
+               
 
                 if (dsTopTenReportData.Tables[0].Rows.Count == 0 && dsTopTenReportData.Tables[1].Rows.Count == 0)
                 {
