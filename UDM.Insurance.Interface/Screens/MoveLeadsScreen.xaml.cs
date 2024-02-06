@@ -87,11 +87,12 @@ namespace UDM.Insurance.Interface.Screens
             {
                 //SetCursor(Cursors.Wait);
                 DataTable dt = Methods.GetTableData("select ID,Description from lkpPrimeLeadStatus order by ID");
-                //ComboBoxItem unallocated = new ComboBoxItem();
-                //unallocated.Content = "Un-Allocated";
-                //unallocated.Tag = -1;
-                //cmbLeadStatus.Items.Add(unallocated);
                 try { cmbLeadStatus.Items.Clear(); } catch { }
+                ComboBoxItem unallocated = new ComboBoxItem();
+                unallocated.Content = "Blank LeadStatus";
+                unallocated.Tag = -1;
+                cmbLeadStatus.Items.Add(unallocated);
+                cmbLeadStatus.SelectedIndex = -1;
                 foreach (DataRow rw in dt.Rows)
                 {
                     ComboBoxItem item = new ComboBoxItem();
@@ -164,6 +165,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 if(cmbCampaigns.SelectedValue.ToString() == "431") // Cancer Referral Priming campaign
                 {
+                    try { cmbLeadStatus.Items.Clear(); } catch { }
                     LoadStatusesPrimeCampaign();
                 }
                 else
