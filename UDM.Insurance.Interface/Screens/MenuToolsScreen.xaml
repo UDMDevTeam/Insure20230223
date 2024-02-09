@@ -89,7 +89,21 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTopDC" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTopDC" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="90" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnTopDC" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnCallMonitoringSort" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
@@ -680,7 +694,19 @@
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
             </DoubleAnimationUsingKeyFrames>
-
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckStatusLoader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X5}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndX}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckStatusLoader" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartY}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource EndY}" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnDebiCheckStatusLoader" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource Opacity1}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time2}" Value="{StaticResource Opacity2}" />
+                <EasingDoubleKeyFrame KeyTime="{StaticResource Time3}" Value="{StaticResource Opacity3}" />
+            </DoubleAnimationUsingKeyFrames>
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="btnBumpUpSort" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                 <EasingDoubleKeyFrame KeyTime="{StaticResource Time1}" Value="{StaticResource StartL1X6}" />
@@ -1780,7 +1806,32 @@ TabIndex="1">
                                                 </Grid>
                                             </Canvas>
                                         </Button>
-
+                                        <Button
+   x:Name="btnTopDC"
+   Margin="{StaticResource IconMargin}"
+   HorizontalAlignment="Right"
+   VerticalAlignment="Bottom"
+   Style="{DynamicResource INMenuButton}"
+   TabIndex="0"
+                                            Click="btnTopDC_Click"
+>
+                                            <Button.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Button.RenderTransform>
+                                            <Canvas Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                <Grid Width="{DynamicResource INMenuButtonWidth}" Height="{DynamicResource INMenuButtonHeight}">
+                                                    <TextBlock
+               x:Name="lblTopDC"
+               Style="{DynamicResource INSquareButtonReportText}"
+               Text="Add Top DC's Accepted Rates" />
+                                                </Grid>
+                                            </Canvas>
+                                        </Button>
                                         <Button
                                             x:Name="btnConfirmationSort"
                                             Margin="{StaticResource IconMargin}"
@@ -1806,7 +1857,7 @@ TabIndex="1">
                                                 </Grid>
                                             </Canvas>
                                         </Button>
-
+                                     
                                     </WrapPanel>
                                 </igWPF:TabItemEx>
                             </igWPF:XamTabControl>

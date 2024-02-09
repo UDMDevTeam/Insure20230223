@@ -426,6 +426,20 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnTopDC_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                TopDCAgentInputScore myDCScreen = new TopDCAgentInputScore();
+                ShowDialog(myDCScreen, new INDialogWindow(myDCScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 
 }
