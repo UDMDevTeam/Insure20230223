@@ -1087,7 +1087,7 @@ namespace UDM.Insurance.Interface.Screens
                 switch (_reportTypeID)
                 {
                     case 1:
-                        columnsToBeHidden = "0,4,8,16,18,19,25";
+                        columnsToBeHidden = "0,4,8,19,25, 5, 9, 10, 20, 22, 23,24,21";
                         dataTableCount = 6;
                         break;
 
@@ -1098,7 +1098,7 @@ namespace UDM.Insurance.Interface.Screens
                     case 8:
                     case 9:
                         //columnsToBeHidden = "0,4,8,15,17,18,24";
-                        columnsToBeHidden = "0,4,8,16,18,19,25";
+                        columnsToBeHidden = "0,4,8,19,25, 5, 9, 10, 20, 22, 23,24,21";
                         dataTableCount = 6;
                         break;
 
