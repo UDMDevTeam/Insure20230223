@@ -60,6 +60,10 @@ namespace UDM.Insurance.Interface.Screens
                 unallocated.Content = "Un-Allocated";
                 unallocated.Tag = -1;
                 cmbLeadStatus.Items.Add(unallocated);
+                ComboBoxItem NoStatus = new ComboBoxItem();
+                unallocated.Content = "No Status";
+                unallocated.Tag = -2;
+                cmbLeadStatus.Items.Add(NoStatus);
                 foreach (DataRow rw in dt.Rows)
                 {
                     ComboBoxItem item = new ComboBoxItem();
@@ -446,6 +450,7 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     parentBatchID = null;
                                 }
+
                                 Currentimport.FKINParentBatchID = parentBatchID;
                                 Currentimport.FKINCampaignID = _destinationCampaignID;
                                 Currentimport.FKINBatchID = destinationBatchID;
@@ -455,8 +460,14 @@ namespace UDM.Insurance.Interface.Screens
                                         Currentimport.IsPrinted = null;
                                         Currentimport.AllocationDate = null;
                                 }
-                                
-                                Currentimport.Save(_validationResult);
+                                if (FocusBatchCB.IsChecked == true)
+                                {
+                                        Currentimport.FKUserID = null;
+                                        Currentimport.IsPrinted = null;
+                                        Currentimport.AllocationDate = null;
+                                        Currentimport.FKINLeadStatusID = null;
+                                }
+                                    Currentimport.Save(_validationResult);
                                
                                 copyCount++;
                                 CheckBox chkAdded = new CheckBox();

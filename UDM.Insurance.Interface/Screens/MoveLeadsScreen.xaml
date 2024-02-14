@@ -317,7 +317,23 @@
                     	Text="Number Of Leads To Move" Grid.Column="9" Width="196" />
                     <TextBox IsEnabled="False"  x:Name="txtNumberSelected" Grid.ColumnSpan="3" Grid.Column="9" HorizontalAlignment="Left" Margin="19,0,0,10" Grid.Row="7" TextWrapping="Wrap" Width="100" FontSize="16" FontWeight="Bold" TextChanged="txtNumberSelected_TextChanged"/>
 
+                    <TextBlock
+                    	x:Name="lblFocusBatch"
+                    	Grid.Row="10"
+                    	Grid.ColumnSpan="5"
+                    	Margin="19,0,0,10"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Bottom"
+                    	Style="{StaticResource INLabelText2}"
+                    	Text="Focus batch" Grid.Column="11" Width="196" />
 
+                    <CheckBox x:Name="FocusBatchCB"
+                              Grid.Row="10"
+                              Grid.Column="10"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                        
+                    </CheckBox>
 
 
                 </Grid>
