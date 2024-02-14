@@ -259,21 +259,25 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else
                 {
+                    try
+                    {
 #if TRAININGBUILD
                         DataSet ds = Insure.INGetLeadsAssignedToUserTraining(_agentID);
 #else
-                    DataSet ds = Insure.INGetLeadsAssignedToUser(_agentID);
+                        DataSet ds = Insure.INGetLeadsAssignedToUser(_agentID);
 #endif
 
-                    DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignID"], ds.Tables[1].Columns["CampaignID"]);
-                    ds.Relations.Add(relCampaignBatch);
+                        DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignID"], ds.Tables[1].Columns["CampaignID"]);
+                        ds.Relations.Add(relCampaignBatch);
 
-                    DataRelation relBatchAgent = new DataRelation("BatchLead", ds.Tables[1].Columns["LeadBookID"], ds.Tables[2].Columns["LeadBookID"]);
-                    ds.Relations.Add(relBatchAgent);
+                        DataRelation relBatchAgent = new DataRelation("BatchLead", ds.Tables[1].Columns["LeadBookID"], ds.Tables[2].Columns["LeadBookID"]);
+                        ds.Relations.Add(relBatchAgent);
 
-                    //ds.Tables[2].Columns.Add("CallBack", Type.GetType("System.Boolean"));
+                        //ds.Tables[2].Columns.Add("CallBack", Type.GetType("System.Boolean"));
 
-                    xdgSales.DataSource = ds.Tables[0].DefaultView;
+                        xdgSales.DataSource = ds.Tables[0].DefaultView;
+                    } catch { }
+
 
 
 
@@ -2115,7 +2119,11 @@ namespace UDM.Insurance.Interface.Screens
             {
                 //ShowMessageBox(new InSureWelcomeMessage(), message, "Hi " + UserFirstName, ShowMessageType.Other);
                 //Methods.ExecuteStoredProcedure("sp_UpdateLastLoggin", parameters);
-                Methods.ExecuteSQLNonQuery("UPDATE [User] SET LastLoggedIn = GETDATE() Where ID = '" + userId + "'");
+                try
+                {
+                    Methods.ExecuteSQLNonQuery("UPDATE [User] SET LastLoggedIn = GETDATE() Where ID = '" + userId + "'");
+                }
+                catch { }
             }
 
             {
