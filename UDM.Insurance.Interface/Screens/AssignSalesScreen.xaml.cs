@@ -41,17 +41,18 @@ namespace UDM.Insurance.Interface.Screens
         DataSet dsAssignedSalesData;
 
         #endregion Private Members
+        bool TempPermBool;
 
         #region Constructors
 
-        public AssignSalesScreen(long campaignGroupType, DateTime dateOfSale/*long batchID*/)
+        public AssignSalesScreen(long campaignGroupType, DateTime dateOfSale, bool TempPerm)
         {
             InitializeComponent();
 
             //_batchID = batchID;
             _dateOfSale = dateOfSale;
             _campaignGroupType = campaignGroupType;
-
+            TempPermBool = TempPerm;
             LoadLookupData();
         }
 
@@ -65,7 +66,17 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Wait);
 
-                dsAssignedSalesData = Insure.INGetDateOfSaleAssignedSalesData(_dateOfSale, _campaignGroupType, 1, 1);
+
+                if(TempPermBool)
+                {
+                    dsAssignedSalesData = Insure.INGetDateOfSaleAssignedSalesDataTemp(_dateOfSale, _campaignGroupType, 1, 1);
+
+                }
+                else
+                {
+                    dsAssignedSalesData = Insure.INGetDateOfSaleAssignedSalesData(_dateOfSale, _campaignGroupType, 1, 1);
+
+                }
                 _dtBatch = dsAssignedSalesData.Tables[0];
                 _dtAgents = dsAssignedSalesData.Tables[1];
 
@@ -719,7 +730,16 @@ namespace UDM.Insurance.Interface.Screens
                     if (assign > 0)
                     {
                         //get the unassigned sales for the specific date of sale and campaign group type (e.g. base or upgrades)
-                        dtUnassignedSales = Insure.INGetUnassignedCallMonitoringAllocationsByDateOfSale(_dateOfSale, _campaignGroupType);
+                        if(TempPermBool)
+                        {
+                            dtUnassignedSales = Insure.INGetUnassignedCallMonitoringAllocationsByDateOfSaleTemp(_dateOfSale, _campaignGroupType);
+
+                        }
+                        else
+                        {
+                            dtUnassignedSales = Insure.INGetUnassignedCallMonitoringAllocationsByDateOfSale(_dateOfSale, _campaignGroupType);
+
+                        }
 
                         //if the assign amount is more than how many sales are available end the process.
                         if (assign > dtUnassignedSales.Rows.Count)
