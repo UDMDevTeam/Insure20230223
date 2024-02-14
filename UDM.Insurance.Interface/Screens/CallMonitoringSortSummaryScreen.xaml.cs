@@ -24,7 +24,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             InitializeComponent();
 
-            LoadSummaryData();
 
 #if TESTBUILD
                 TestControl.Visibility = Visibility.Visible;
@@ -44,7 +43,19 @@ namespace UDM.Insurance.Interface.Screens
             {
                 SetCursor(Cursors.Wait);
 
-                DataSet ds = Insure.INGetCallMonitoringSortSummaryData();
+                DataSet ds;
+
+                try { xdgAssignLeads.DataSource = null; } catch { }
+
+                if(TempCB.IsChecked == true)
+                {
+                    ds = Insure.INGetCallMonitoringSortSummaryDataTemp();
+                }
+                else
+                {
+                    ds = Insure.INGetCallMonitoringSortSummaryData();
+                }
+                
 
                 DataRelation relCampaignBatch = new DataRelation("Batch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
                 ds.Relations.Add(relCampaignBatch);
@@ -160,7 +171,17 @@ namespace UDM.Insurance.Interface.Screens
                                     //}
                                     //else
                                     //{
-                                    AssignSalesScreen assignSalesScreen = new AssignSalesScreen(campaignGroupType, DateTime.Parse(drCurrentRecord.ItemArray[0].ToString())/*Convert.ToInt64(drCurrentRecord.ItemArray[0].ToString())*/);
+                                    bool TempPermBool;
+                                    if(TempCB.IsChecked == true)
+                                    {
+                                        TempPermBool = true;
+                                    }
+                                    else
+                                    {
+                                        TempPermBool = false;
+                                    }
+
+                                    AssignSalesScreen assignSalesScreen = new AssignSalesScreen(campaignGroupType, DateTime.Parse(drCurrentRecord.ItemArray[0].ToString()), TempPermBool);
                                     ShowDialog(assignSalesScreen, new INDialogWindow(assignSalesScreen));
                                     //}
 
@@ -230,5 +251,18 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion Event Handlers
 
+        private void PermCB_Checked(object sender, RoutedEventArgs e)
+        {
+            TempCB.IsChecked = false;
+            LoadSummaryData();
+
+        }
+
+        private void TempCB_Checked(object sender, RoutedEventArgs e)
+        {
+            PermCB.IsChecked = false;
+            LoadSummaryData();
+
+        }
     }
 }

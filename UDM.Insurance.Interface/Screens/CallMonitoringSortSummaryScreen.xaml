@@ -584,8 +584,41 @@
                                         </igWPF:FieldLayout>
                                     </igWPF:XamDataGrid.FieldLayouts>
                                 </igWPF:XamDataGrid>
+
                             </Grid>
                         </Viewbox>
+                        
+                        <TextBlock
+                            Grid.Row="5"
+                            Grid.Column="34"
+                            Grid.ColumnSpan="6"
+                            VerticalAlignment="Center"
+                            Style="{DynamicResource INLabelText1}"
+                            Text="Temp Agents" />
+                        <CheckBox x:Name="TempCB"
+                                  Grid.Row="5"
+                                  Grid.Column="33"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Checked="TempCB_Checked">
+                        </CheckBox>
+
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="34"
+                            Grid.ColumnSpan="6"
+                            VerticalAlignment="Center"
+                            Style="{DynamicResource INLabelText1}"
+                            Text="Perm Agents" />
+                        <CheckBox x:Name="PermCB"
+                                  Grid.Row="6"
+                                  Grid.Column="33"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Checked="PermCB_Checked">
+
+                        </CheckBox>
+
                         <TextBlock
                             x:Name="lblInstruction1"
                             Grid.Row="21"
