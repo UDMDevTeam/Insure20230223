@@ -434,6 +434,53 @@ namespace UDM.Insurance.Interface.Screens
 
                 sb.Begin();
 
+                //try 
+                //{
+
+                //    if (double.Parse(dsMessages.Tables[1].Rows[0]["ContactPercentage"].ToString()) >= 0.98
+                //        || dsMessages.Tables[1].Rows[0]["IsOverTarget"].ToString() == "True")
+                //    {
+                //        try
+                //        {
+                //            DataTable dtHRStaffID = Methods.GetTableData("SELECT HRS.ID FROM [Blush].[dbo].[HRStaff] as HRS where HRS.FKUserID = " + GlobalSettings.ApplicationUser.ID);
+                //            DataTable dtHRStaffSupervisorID = Methods.GetTableData("SELECT HRS.FKHRSupervisorID FROM [Blush].[dbo].[HRStaffSupervisor] as HRS where HRS.FKHRStaffID = " + dtHRStaffID.Rows[0]["ID"] + " and GETDATE() between HRS.FromDate and HRS.ToDate");
+
+                //            if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 40045)//Carmen
+                //            {
+                //                StartCarmenAnimation();
+                //            }
+                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 7089)//Larissa
+                //            {
+                //                StartLarissaAnimation();
+                //            }
+                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 41152)//Nicole
+                //            {
+                //                StartNicoleAnimation();
+                //            }
+                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 2872)//Crezandra
+                //            {
+                //                StartCrezandraAnimation();
+                //            }
+                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 8459)//Margie
+                //            {
+                //                StartMargieAnimation();
+                //            }
+                //            else
+                //            {
+                //                StartNicoleAnimation();
+                //            }
+                //        } catch { StartNicoleAnimation(); }
+
+                //    }
+
+
+
+
+                //} catch { }
+
+
+
+
                 #endregion Animations For Contact Percentage
                 //lblSalesRemaining.Inlines.Add(runContact);
             }
@@ -441,6 +488,152 @@ namespace UDM.Insurance.Interface.Screens
             {
                 spMessage.Visibility = Visibility.Hidden;
                 lblSalesRemaining.Text = string.Empty;
+            }
+        }
+
+        //private void StartNicoleAnimation()
+        //{
+        //    TranslateTransform translateTransform = NicoleRevensonGifB.RenderTransform as TranslateTransform;
+        //    if (translateTransform == null)
+        //    {
+        //        translateTransform = new TranslateTransform();
+        //        NicoleRevensonGifB.RenderTransform = translateTransform;
+        //    }
+
+        //    NicoleRevensonGifB.Visibility = Visibility.Visible;
+
+        //    DoubleAnimation animation = new DoubleAnimation();
+        //    animation.Duration = TimeSpan.FromSeconds(10); 
+        //    animation.From = 0; 
+        //    animation.To = 1000; 
+        //    animation.Completed += AnimationCompleted; 
+
+        //    void AnimationCompleted(object sender, EventArgs e)
+        //    {
+        //        translateTransform.X = 0;
+        //        translateTransform.Y = 0;
+        //        //GifImage.Visibility = Visibility.Visible;
+        //        NicoleRevensonGifB.Visibility = Visibility.Collapsed;
+        //    }
+        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+        //}
+
+        //private void StartCrezandraAnimation()
+        //{
+        //    TranslateTransform translateTransform = CrezandraGifB.RenderTransform as TranslateTransform;
+        //    if (translateTransform == null)
+        //    {
+        //        translateTransform = new TranslateTransform();
+        //        CrezandraGifB.RenderTransform = translateTransform;
+        //    }
+
+        //    CrezandraGifB.Visibility = Visibility.Visible;
+
+        //    DoubleAnimation animation = new DoubleAnimation();
+        //    animation.Duration = TimeSpan.FromSeconds(10);
+        //    animation.From = 0;
+        //    animation.To = 1000;
+        //    animation.Completed += AnimationCompleted;
+
+        //    void AnimationCompleted(object sender, EventArgs e)
+        //    {
+        //        translateTransform.X = 0;
+        //        translateTransform.Y = 0;
+        //        //GifImage.Visibility = Visibility.Visible;
+        //        CrezandraGifB.Visibility = Visibility.Collapsed;
+        //    }
+        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+        //}
+
+        //private void StartLarissaAnimation()
+        //{
+        //    TranslateTransform translateTransform = LarissaGifB.RenderTransform as TranslateTransform;
+        //    if (translateTransform == null)
+        //    {
+        //        translateTransform = new TranslateTransform();
+        //        LarissaGifB.RenderTransform = translateTransform;
+        //    }
+
+        //    LarissaGifB.Visibility = Visibility.Visible;
+
+        //    DoubleAnimation animation = new DoubleAnimation();
+        //    animation.Duration = TimeSpan.FromSeconds(10);
+        //    animation.From = 0;
+        //    animation.To = 1000;
+        //    animation.Completed += AnimationCompleted;
+
+        //    void AnimationCompleted(object sender, EventArgs e)
+        //    {
+        //        translateTransform.X = 0;
+        //        translateTransform.Y = 0;
+        //        //GifImage.Visibility = Visibility.Visible;
+        //        LarissaGifB.Visibility = Visibility.Collapsed;
+        //    }
+        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+        //}
+
+        //private void StartMargieAnimation()
+        //{
+        //    TranslateTransform translateTransform = MargieGifB.RenderTransform as TranslateTransform;
+        //    if (translateTransform == null)
+        //    {
+        //        translateTransform = new TranslateTransform();
+        //        MargieGifB.RenderTransform = translateTransform;
+        //    }
+
+        //    MargieGifB.Visibility = Visibility.Visible;
+
+        //    DoubleAnimation animation = new DoubleAnimation();
+        //    animation.Duration = TimeSpan.FromSeconds(10);
+        //    animation.From = 0;
+        //    animation.To = 1000;
+        //    animation.Completed += AnimationCompleted;
+
+        //    void AnimationCompleted(object sender, EventArgs e)
+        //    {
+        //        translateTransform.X = 0;
+        //        translateTransform.Y = 0;
+        //        //GifImage.Visibility = Visibility.Visible;
+        //        MargieGifB.Visibility = Visibility.Collapsed;
+        //    }
+        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+        //}
+
+        //private void StartCarmenAnimation()
+        //{
+        //    TranslateTransform translateTransform = CarmenGifB.RenderTransform as TranslateTransform;
+        //    if (translateTransform == null)
+        //    {
+        //        translateTransform = new TranslateTransform();
+        //        CarmenGifB.RenderTransform = translateTransform;
+        //    }
+
+        //    CarmenGifB.Visibility = Visibility.Visible;
+
+        //    DoubleAnimation animation = new DoubleAnimation();
+        //    animation.Duration = TimeSpan.FromSeconds(10);
+        //    animation.From = 0;
+        //    animation.To = 1000;
+        //    animation.Completed += AnimationCompleted;
+
+        //    void AnimationCompleted(object sender, EventArgs e)
+        //    {
+        //        translateTransform.X = 0;
+        //        translateTransform.Y = 0;
+        //        //GifImage.Visibility = Visibility.Visible;
+        //        CarmenGifB.Visibility = Visibility.Collapsed;
+        //    }
+        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+        //}
+
+        private ImageSource LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                return BitmapFrame.Create(mem, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
             }
         }
         #endregion
@@ -2229,29 +2422,29 @@ namespace UDM.Insurance.Interface.Screens
                 if (LaData.AppData.IsLeadUpgrade)
                 {
                     //this is incase the lead is already a sale, then it wont become a non applicable
-                    try
-                    {
-                        DataSet dsDiaryReportData;
-                        var transactionOptions = new TransactionOptions
-                        {
-                            IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-                        };
-                        using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
-                        {
-                            dsDiaryReportData = Business.Insure.INGetMandateInfo(LaData.AppData.RefNo);
-                        }
-                        DataTable dt = dsDiaryReportData.Tables[0];
-                        string responses = dt.Rows[0]["Response"].ToString();
-                        if (responses == "Client Accepted")
-                        {
-                            //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
-                            //ShowMessageBox(messageWindow, "Please note that this sale has been finalized.", "Sale Finalized!", ShowMessageType.Exclamation);
-                            MandateRequired = "True";
-                        }
-                    }
-                    catch
-                    {
-                    }
+                    //try
+                    //{
+                    //    DataSet dsDiaryReportData;
+                    //    var transactionOptions = new TransactionOptions
+                    //    {
+                    //        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    //    };
+                    //    using (var tran = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
+                    //    {
+                    //        dsDiaryReportData = Business.Insure.INGetMandateInfo(LaData.AppData.RefNo);
+                    //    }
+                    //    DataTable dt = dsDiaryReportData.Tables[0];
+                    //    string responses = dt.Rows[0]["Response"].ToString();
+                    //    if (responses == "Client Accepted")
+                    //    {
+                    //        //INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    //        //ShowMessageBox(messageWindow, "Please note that this sale has been finalized.", "Sale Finalized!", ShowMessageType.Exclamation);
+                    //        MandateRequired = "True";
+                    //    }
+                    //}
+                    //catch
+                    //{
+                    //}
                 }
                 #endregion
 

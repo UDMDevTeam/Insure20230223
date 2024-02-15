@@ -1691,6 +1691,24 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportDiary", paramArray, 600);
         }
 
+        public static DataSet INGetDiaryReportDataCalldata(string fkINCampaignIDs, DateTime fromDate, DateTime toDate)
+        {
+            //SqlParameter[] parameters = new SqlParameter[3];
+            //parameters[0] = new SqlParameter("@CampaignID", campaignID);
+            //parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
+            //parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
+
+            //DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
+
+            object param1 = Database.GetParameter("@FKINCampaignIDs", fkINCampaignIDs);
+            object param2 = Database.GetParameter("@FromDate", fromDate);
+            object param3 = Database.GetParameter("@ToDate", toDate);
+
+            object[] paramArray = new[] { param1, param2, param3 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINReportDiaryCallData", paramArray, 600);
+        }
+
         #endregion Diary Report - Specific Functionalities
 
         #region Permission Lead Report - Specific Function
@@ -2632,6 +2650,18 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetDateOfSaleAssignedSalesData", paramArray);
         }
 
+        public static DataSet INGetDateOfSaleAssignedSalesDataTemp(DateTime dateOfSale, long campaignGroupType, long activity, long workStatusEmployed)
+        {
+            object param1 = Database.GetParameter("@DateOfSale", dateOfSale);
+            object param2 = Database.GetParameter("@CampaignGroupType", campaignGroupType);
+            object param3 = Database.GetParameter("@Activity", activity);
+            object param4 = Database.GetParameter("@WorkStatusEmployed", workStatusEmployed);
+
+            object[] paramArray = new[] { param1, param2, param3, param4 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetDateOfSaleAssignedSalesDataTemp", paramArray);
+        }
+
         public static DataTable INGetUnassignedCallMonitoringAllocationsByDateOfSale(DateTime dateOfSale, long campaignGroupType)
         {
             object param1 = Database.GetParameter("@DateOfSale", dateOfSale);
@@ -2641,6 +2671,18 @@ namespace UDM.Insurance.Business
 
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetUnassignedCallMonitoringAllocationsByDateOfSale", paramArray).Tables[0];
+
+        }
+
+        public static DataTable INGetUnassignedCallMonitoringAllocationsByDateOfSaleTemp(DateTime dateOfSale, long campaignGroupType)
+        {
+            object param1 = Database.GetParameter("@DateOfSale", dateOfSale);
+            object param2 = Database.GetParameter("@CampaignGroupType", campaignGroupType);
+
+            object[] paramArray = new[] { param1, param2 };
+
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetUnassignedCallMonitoringAllocationsByDateOfSaleTemp", paramArray).Tables[0];
 
         }
 

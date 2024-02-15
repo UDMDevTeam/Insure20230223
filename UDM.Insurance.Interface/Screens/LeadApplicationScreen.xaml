@@ -28,6 +28,7 @@
     KeyUp="CtrlLeadApplicationScreen_KeyUp"
     Loaded="CtrlLeadApplicationScreen_Loaded"
     MouseDown="CtrlLeadApplicationScreen_MouseDown"
+    xmlns:wpfanimated="http://wpfanimatedgif.codeplex.com"
     mc:Ignorable="d">
     <UserControl.Background>
         <!--<ImageBrush ImageSource="../Images/Christmas-Background-Wallpaper-14.jpg"/>-->
@@ -2495,6 +2496,7 @@
 
     <Viewbox Stretch="Uniform">
 
+
         <Border
         x:Name="DimBorder"
         Width="1200"
@@ -2514,6 +2516,7 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
+
             <Border
           x:Name="MainBorder"
           Background="Transparent"
@@ -2531,6 +2534,8 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
+
+
 
                 <Grid x:Name="LayoutRoot">
                     <Grid.RowDefinitions>
@@ -2805,6 +2810,8 @@
               VerticalAlignment="Top"
               Style="{StaticResource INPageHeadingText1}"
               Text="{Binding ElementName=lblPage, Path=Text}" />
+
+
 
 
 
@@ -16343,6 +16350,7 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
               Margin="0"
               Orientation="Horizontal"
               Visibility="Hidden">
+
                         <TextBlock
                 x:Name="lblSalesRemaining"
                 Style="{StaticResource INLabelText3}"
@@ -16377,7 +16385,126 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
+                    
+                    <!--<Border x:Name="NicoleRevensonGifB"
+                        CornerRadius="10" 
+                        Grid.Row="15"
+                        Grid.Column="0"
+                        ClipToBounds="True" 
+                        Grid.ColumnSpan="4" 
+                        Visibility="Collapsed"
+                        Margin="0,1,21,21" 
+                        Grid.RowSpan="4"
+                        BorderBrush="Turquoise"
+                        BorderThickness="10"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Border.RenderTransform>
+                        <Image 
+                            wpfanimated:ImageBehavior.AnimatedSource="../Resources/Gifs/NicoleRevenson.gif"
+                            wpfanimated:ImageBehavior.RepeatBehavior="2000"
+                            wpfanimated:ImageBehavior.AnimateInDesignMode="True"
+                            wpfanimated:ImageBehavior.AutoStart="True"
+                            Stretch="Uniform"
+                            Visibility="Visible" />
+                    </Border>
 
+                    <Border x:Name="CarmenGifB"
+                        CornerRadius="10" 
+                        Grid.Row="15"
+                        Grid.Column="0"
+                        ClipToBounds="True" 
+                        Grid.ColumnSpan="4" 
+                        Visibility="Collapsed"
+                        Margin="0,1,21,21" 
+                        Grid.RowSpan="4"
+                        BorderBrush="Turquoise"
+                        BorderThickness="10"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Border.RenderTransform>
+                        <Image 
+                            wpfanimated:ImageBehavior.AnimatedSource="../Resources/Gifs/Carmen.gif"
+                            wpfanimated:ImageBehavior.RepeatBehavior="2000"
+                            wpfanimated:ImageBehavior.AnimateInDesignMode="True"
+                            wpfanimated:ImageBehavior.AutoStart="True"
+                            Stretch="Uniform"
+                            Visibility="Visible" />
+                    </Border>
+
+                    <Border x:Name="CrezandraGifB"
+                        CornerRadius="10" 
+                        Grid.Row="15"
+                        Grid.Column="0"
+                        ClipToBounds="True" 
+                        Grid.ColumnSpan="4" 
+                        Visibility="Collapsed"
+                        Margin="0,1,21,21" 
+                        Grid.RowSpan="4"
+                        BorderBrush="Turquoise"
+                        BorderThickness="10"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Border.RenderTransform>
+                        <Image 
+                            wpfanimated:ImageBehavior.AnimatedSource="../Resources/Gifs/Crezandra.gif"
+                            wpfanimated:ImageBehavior.RepeatBehavior="2000"
+                            wpfanimated:ImageBehavior.AnimateInDesignMode="True"
+                            wpfanimated:ImageBehavior.AutoStart="True"
+                            Stretch="Uniform"
+                            Visibility="Visible" />
+                    </Border>
+
+                    <Border x:Name="LarissaGifB"
+                        CornerRadius="10" 
+                        Grid.Row="15"
+                        Grid.Column="0"
+                        ClipToBounds="True" 
+                        Grid.ColumnSpan="4" 
+                        Visibility="Collapsed"
+                        Margin="0,1,21,21" 
+                        Grid.RowSpan="4"
+                        BorderBrush="Turquoise"
+                        BorderThickness="10"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Border.RenderTransform>
+                        <Image 
+                            wpfanimated:ImageBehavior.AnimatedSource="../Resources/Gifs/Larissa.gif"
+                            wpfanimated:ImageBehavior.RepeatBehavior="2000"
+                            wpfanimated:ImageBehavior.AnimateInDesignMode="True"
+                            wpfanimated:ImageBehavior.AutoStart="True"
+                            Stretch="Uniform"
+                            Visibility="Visible" />
+                    </Border>
+
+                    <Border x:Name="MargieGifB"
+                        CornerRadius="10" 
+                        Grid.Row="15"
+                        Grid.Column="0"
+                        ClipToBounds="True" 
+                        Grid.ColumnSpan="4" 
+                        Visibility="Collapsed"
+                        Margin="0,1,21,21" 
+                        Grid.RowSpan="4"
+                        BorderBrush="Turquoise"
+                        BorderThickness="10"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Border.RenderTransform>
+                        <Image 
+                            wpfanimated:ImageBehavior.AnimatedSource="../Resources/Gifs/Margie.gif"
+                            wpfanimated:ImageBehavior.RepeatBehavior="2000"
+                            wpfanimated:ImageBehavior.AnimateInDesignMode="True"
+                            wpfanimated:ImageBehavior.AutoStart="True"
+                            Stretch="Uniform"
+                            Visibility="Visible" />
+                    </Border>-->
 
                     <Grid
               Name="grdCTPhone"
@@ -17134,6 +17261,8 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                                 </ig:ContextMenuManager.ContextMenu>
                             </ig:ContextMenuManager>
                         </ig:ContextMenuService.Manager>
+                        
+                        
                     </Grid>
 
                 </Grid>
