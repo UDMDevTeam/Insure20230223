@@ -202,6 +202,24 @@
 							</igWPF:FieldLayout>
 						</igWPF:XamDataGrid.FieldLayouts>
 					</igWPF:XamDataGrid>
+                    
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.Column="13"
+                        Grid.ColumnSpan="6"
+                        Margin="11,0,0,6"
+                        VerticalAlignment="Center"
+                        Style="{DynamicResource INLabelText2}"
+                        Text="Include Call data"
+                        TextWrapping="NoWrap"
+                        Visibility="Visible" Width="247" />
+                    <CheckBox x:Name="CallDataCB"
+                              Grid.Row="10"
+                              Grid.Column="12"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                        
+                    </CheckBox>
 
 					<TextBlock
                         x:Name="lblCal1"

@@ -239,8 +239,16 @@ namespace UDM.Insurance.Interface.Screens
                 #endregion Setup excel workbook
 
                 #region Get the report data
+                DataSet dsDiaryReportData;
+                if (CallDataCB.IsChecked == true)
+                {
+                    dsDiaryReportData = Business.Insure.INGetDiaryReportDataCalldata(_campaignIDList, _startDate, _endDate);
+                }
+                else
+                {
+                    dsDiaryReportData = Business.Insure.INGetDiaryReportData(_campaignIDList, _startDate, _endDate);
+                }
 
-                DataSet dsDiaryReportData = Business.Insure.INGetDiaryReportData(_campaignIDList, _startDate, _endDate);
                 DataTable dtMainReportData = dsDiaryReportData.Tables[0];
                 DataTable dtCampaigns = dsDiaryReportData.Tables[1];
                 DataTable dtTSRDiaries = dsDiaryReportData.Tables[2];
@@ -257,7 +265,7 @@ namespace UDM.Insurance.Interface.Screens
                 string currentTSR = String.Empty;
                 string currentTSRFilterString = String.Empty;
 
-                byte templateColumnSpan = 7;
+                byte templateColumnSpan = 11;
                 byte templateRowSpan = 6;
                 byte templateDataRowIndex = 7;
 
