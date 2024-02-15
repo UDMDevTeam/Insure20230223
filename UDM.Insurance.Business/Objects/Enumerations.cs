@@ -27,7 +27,8 @@
         SeniorAdministrator = 7,
         CallMonitoringAgent = 8,
         Preserver = 10,
-        DebiCheckAgent = 12
+        DebiCheckAgent = 12,
+        PrimingAgent = 13,
     }
 
     public enum lkpCompany

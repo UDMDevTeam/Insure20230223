@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UDM.WPF.Library;
+using UDM.Insurance.Interface.Data;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -24,6 +25,7 @@ namespace UDM.Insurance.Interface.Screens
         #region Private Variables
 
         private User _user;
+        private readonly SalesScreenGlobalData _ssGlobalData = new SalesScreenGlobalData();
 
         #endregion
 
@@ -291,11 +293,14 @@ namespace UDM.Insurance.Interface.Screens
                                         break;
                                     case (int)lkpUserType.SalesAgent:
                                     case (int)lkpUserType.DataCapturer:
-
+                                    
                                         //CheckUserVersion(Username);
 
                                         nextControl = new SalesScreen();
                                         //ShowMessage = false;
+                                        break;
+                                    case (int)lkpUserType.PrimingAgent:
+                                        nextControl = new PrimeLeadScreen(null, _ssGlobalData, false);
                                         break;
                                     case (int)lkpUserType.ConfirmationAgent:
                                     case (int)lkpUserType.StatusLoader:

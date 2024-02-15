@@ -38,6 +38,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net;
+using UDM.WPF.Data;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -3129,8 +3130,18 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            var menuToolsScreen = new MenuToolsScreen(ScreenDirection.Reverse);
-            OnClose(menuToolsScreen);
+            switch (((Business.User)GlobalSettings.ApplicationUser).FKUserType)
+            {
+                case (int)lkpUserType.PrimingAgent:
+                  var  nextControl = new StartScreen();
+                    OnClose(nextControl);
+                break;
+                default:
+                    var menuToolsScreen = new MenuToolsScreen(ScreenDirection.Reverse);
+                    OnClose(menuToolsScreen);
+                    break;
+            }
+          
         }
 
         private void xamEditor_Loaded(object sender, RoutedEventArgs e)
