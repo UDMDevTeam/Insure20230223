@@ -170,7 +170,7 @@ namespace UDM.Insurance.Interface.Screens
 
 
 #if TESTBUILD
-            TestControl.Visibility = Visibility.Visible;
+          
 #elif DEBUG
             DebugControl.Visibility = Visibility.Visible;
 #elif TRAININGBUILD
