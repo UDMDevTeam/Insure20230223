@@ -23,7 +23,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [zHstINDebiCheckQueries] ([ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID; ";
+                query = "INSERT INTO [zHstINDebiCheckQueries] ([ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID], [Notes]) SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID; ";
                 query += "DELETE FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -58,7 +58,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "INSERT INTO [INDebiCheckQueries] ([ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID AND [zHstINDebiCheckQueries].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INDebiCheckQueries] WHERE [ID] = @ID) = 0; ";
+                query = "INSERT INTO [INDebiCheckQueries] ([ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID],[Notes]) SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID],[Notes] FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID AND [zHstINDebiCheckQueries].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID) AND (SELECT COUNT(ID) FROM [INDebiCheckQueries] WHERE [ID] = @ID) = 0; ";
                 query += "DELETE FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID AND [zHstINDebiCheckQueries].[StampDate] = (SELECT MAX([StampDate]) FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID) AND (SELECT COUNT([ID]) FROM [INDebiCheckQueries] WHERE [ID] = @ID) = 0; ";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
@@ -78,7 +78,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID";
+                query = "SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] , [Notes] FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID";
                 parameters = new object[1];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
             }
@@ -95,7 +95,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [INDebiCheckQueries].[ID], [INDebiCheckQueries].[FKImportID], [INDebiCheckQueries].[DebiCheckQueryID], [INDebiCheckQueries].[Department], [INDebiCheckQueries].[StampDate], [INDebiCheckQueries].[StampUserID]");
+            query.Append("SELECT [INDebiCheckQueries].[ID], [INDebiCheckQueries].[FKImportID], [INDebiCheckQueries].[DebiCheckQueryID], [INDebiCheckQueries].[Department], [INDebiCheckQueries].[StampDate], [INDebiCheckQueries].[StampUserID],  [INDebiCheckQueries].[Notes]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INDebiCheckQueries].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INDebiCheckQueries] ");
                 query.Append(" WHERE [INDebiCheckQueries].[ID] = @ID");
@@ -117,7 +117,7 @@ namespace UDM.Insurance.Business.Queries
             string query = string.Empty;
             if (calldata != null)
             {
-                query = "SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID AND [zHstINDebiCheckQueries].[StampUserID] = @StampUserID AND [zHstINDebiCheckQueries].[StampDate] = @StampDate";
+                query = "SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID], [Notes] FROM [zHstINDebiCheckQueries] WHERE [zHstINDebiCheckQueries].[ID] = @ID AND [zHstINDebiCheckQueries].[StampUserID] = @StampUserID AND [zHstINDebiCheckQueries].[StampDate] = @StampDate";
                 parameters = new object[3];
                 parameters[0] = Database.GetParameter("@ID", calldata.ID);
                 parameters[1] = Database.GetParameter("@StampUserID", stampUserID);
@@ -135,7 +135,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string List()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [INDebiCheckQueries].[ID], [INDebiCheckQueries].[FKImportID], [INDebiCheckQueries].[DebiCheckQueryID], [INDebiCheckQueries].[Department], [INDebiCheckQueries].[StampDate], [INDebiCheckQueries].[StampUserID]");
+            query.Append("SELECT [INDebiCheckQueries].[ID], [INDebiCheckQueries].[FKImportID], [INDebiCheckQueries].[DebiCheckQueryID], [INDebiCheckQueries].[Department], [INDebiCheckQueries].[StampDate], [INDebiCheckQueries].[StampUserID], [INDebiCheckQueries].[Notes]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INDebiCheckQueries].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INDebiCheckQueries] ");
             return query.ToString();
@@ -148,7 +148,7 @@ namespace UDM.Insurance.Business.Queries
         internal static string ListDeleted()
         {
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT [zHstINDebiCheckQueries].[ID], [zHstINDebiCheckQueries].[FKImportID], [zHstINDebiCheckQueries].[DebiCheckQueryID], [zHstINDebiCheckQueries].[Department], [zHstINDebiCheckQueries].[StampDate], [zHstINDebiCheckQueries].[StampUserID]");
+            query.Append("SELECT [zHstINDebiCheckQueries].[ID], [zHstINDebiCheckQueries].[FKImportID], [zHstINDebiCheckQueries].[DebiCheckQueryID], [zHstINDebiCheckQueries].[Department], [zHstINDebiCheckQueries].[StampDate], [zHstINDebiCheckQueries].[StampUserID], [INDebiCheckQueries].[Notes]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINDebiCheckQueries].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINDebiCheckQueries] ");
             query.Append("INNER JOIN (SELECT [zHstINDebiCheckQueries].[ID], MAX([zHstINDebiCheckQueries].[StampDate]) AS 'StampDate' ");
@@ -170,7 +170,7 @@ namespace UDM.Insurance.Business.Queries
             StringBuilder query = new StringBuilder();
             if (calldata != null)
             {
-            query.Append("SELECT [zHstINDebiCheckQueries].[ID], [zHstINDebiCheckQueries].[FKImportID], [zHstINDebiCheckQueries].[DebiCheckQueryID], [zHstINDebiCheckQueries].[Department], [zHstINDebiCheckQueries].[StampDate], [zHstINDebiCheckQueries].[StampUserID]");
+            query.Append("SELECT [zHstINDebiCheckQueries].[ID], [zHstINDebiCheckQueries].[FKImportID], [zHstINDebiCheckQueries].[DebiCheckQueryID], [zHstINDebiCheckQueries].[Department], [zHstINDebiCheckQueries].[StampDate], [zHstINDebiCheckQueries].[StampUserID], [INDebiCheckQueries].[Notes]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [zHstINDebiCheckQueries].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [zHstINDebiCheckQueries] ");
                 query.Append(" WHERE [zHstINDebiCheckQueries].[ID] = @ID");
@@ -195,9 +195,9 @@ namespace UDM.Insurance.Business.Queries
             {
                 if (calldata.IsLoaded)
                 {
-                    query.Append("INSERT INTO [zHstINDebiCheckQueries] ([ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID]) SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID] FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID; ");
+                    query.Append("INSERT INTO [zHstINDebiCheckQueries] ([ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID],[Notes]) SELECT [ID], [FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID], [Notes] FROM [INDebiCheckQueries] WHERE [INDebiCheckQueries].[ID] = @ID; ");
                     query.Append("UPDATE [INDebiCheckQueries]");
-                    parameters = new object[4];
+                    parameters = new object[5];
                     query.Append(" SET [FKImportID] = @FKImportID");
                     parameters[0] = Database.GetParameter("@FKImportID", calldata.FKImportID.HasValue ? (object)calldata.FKImportID.Value : DBNull.Value);
                     query.Append(", [DebiCheckQueryID] = @DebiCheckQueryID");
@@ -205,16 +205,19 @@ namespace UDM.Insurance.Business.Queries
                     query.Append(", [Department] = @Department");
                     parameters[2] = Database.GetParameter("@Department", string.IsNullOrEmpty(calldata.Department) ? DBNull.Value : (object)calldata.Department);
                     query.Append(", [StampDate] = " + Database.CurrentDateTime + ", [StampUserID] = " + GlobalSettings.ApplicationUser.ID);
+                    query.Append(", [Notes] = @Notes");
+                    parameters[4] = Database.GetParameter("@Notes", string.IsNullOrEmpty(calldata.Notes) ? DBNull.Value : (object)calldata.Notes);
                     query.Append(" WHERE [INDebiCheckQueries].[ID] = @ID"); 
                     parameters[3] = Database.GetParameter("@ID", calldata.ID);
                 }
                 else
                 {
-                    query.Append("INSERT INTO [INDebiCheckQueries] ([FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID]) VALUES(@FKImportID, @DebiCheckQueryID, @Department, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ");");
-                    parameters = new object[3];
+                    query.Append("INSERT INTO [INDebiCheckQueries] ([FKImportID], [DebiCheckQueryID], [Department], [StampDate], [StampUserID], [Notes]) VALUES(@FKImportID, @DebiCheckQueryID, @Department, " + Database.CurrentDateTime + ", " + GlobalSettings.ApplicationUser.ID + ",@Notes);");
+                    parameters = new object[4];
                     parameters[0] = Database.GetParameter("@FKImportID", calldata.FKImportID.HasValue ? (object)calldata.FKImportID.Value : DBNull.Value);
                     parameters[1] = Database.GetParameter("@DebiCheckQueryID", calldata.DebiCheckQueryID.HasValue ? (object)calldata.DebiCheckQueryID.Value : DBNull.Value);
                     parameters[2] = Database.GetParameter("@Department", string.IsNullOrEmpty(calldata.Department) ? DBNull.Value : (object)calldata.Department);
+                    parameters[3] = Database.GetParameter("@Notes", string.IsNullOrEmpty(calldata.Notes) ? DBNull.Value : (object)calldata.Notes);
                     query.Append("SELECT " + Database.LastInsertedRowID + " AS 'NewID'; ");
                 }
             }
@@ -231,7 +234,7 @@ namespace UDM.Insurance.Business.Queries
         /// <param name="extension">The extension search criteria.</param>
         /// <param name="recref">The recref search criteria.</param>
         /// <returns>A query that can be used to search for calldatas based on the search criteria.</returns>
-        internal static string Search(long? fkimportid, long? debicheckqueryID, string department)
+        internal static string Search(long? fkimportid, long? debicheckqueryID, string department, string notes)
         {
             StringBuilder whereQuery = new StringBuilder();
             StringBuilder query = new StringBuilder();
@@ -251,8 +254,13 @@ namespace UDM.Insurance.Business.Queries
                 whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
                 whereQuery.Append("[INDebiCheckQueries].[Department] LIKE '" + department.Replace("'", "''").Replace("*", "%") + "'");
             }
+            if (notes != null)
+            {
+                whereQuery.Append(whereQuery.Length > 0 ? " AND " : " WHERE ");
+                whereQuery.Append("[INDebiCheckQueries].[Notes] LIKE '" + notes.Replace("'", "''").Replace("*", "%") + "'");
+            }
 
-            query.Append("SELECT [INDebiCheckQueries].[ID], [INDebiCheckQueries].[FKImportID], [INDebiCheckQueries].[DebiCheckQueryID], [INDebiCheckQueries].[Department], [INDebiCheckQueries].[StampDate], [INDebiCheckQueries].[StampUserID]");
+            query.Append("SELECT [INDebiCheckQueries].[ID], [INDebiCheckQueries].[FKImportID], [INDebiCheckQueries].[DebiCheckQueryID], [INDebiCheckQueries].[Department], [INDebiCheckQueries].[StampDate], [INDebiCheckQueries].[StampUserID],[INDebiCheckQueries].[Notes]");
             query.Append(", (SELECT [Ref].[LoginName] FROM [User] AS [Ref] WHERE [Ref].[ID] = [INDebiCheckQueries].[StampUserID]) AS 'StampUser'");
             query.Append(" FROM [INDebiCheckQueries] ");
             return query.ToString() + whereQuery.ToString();

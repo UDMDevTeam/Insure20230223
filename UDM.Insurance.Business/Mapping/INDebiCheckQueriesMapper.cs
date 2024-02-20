@@ -102,6 +102,7 @@ namespace UDM.Insurance.Business.Mapping
                     calldata.DebiCheckQueryID = reader["DebiCheckQueryID"] != DBNull.Value ? (long)reader["DebiCheckQueryID"] : (long?)null;
                     calldata.Department = reader["Department"] != DBNull.Value ? (string)reader["Department"] : (string)null;
                     calldata.StampDate = (DateTime)reader["StampDate"];
+                    calldata.Notes = reader["Notes"] != DBNull.Value ? (string)reader["Notes"] : (string)null;
                     calldata.HasChanged = false;
                 }
                 else
@@ -312,12 +313,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="recref">The recref search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INDebiCheckQueriesCollection Search(long? fkimportid, long? debicheckqueryid, string department, string connectionName)
+        public static INDebiCheckQueriesCollection Search(long? fkimportid, long? debicheckqueryid, string department,string notes, string connectionName)
         {
             INDebiCheckQueriesCollection collection = new INDebiCheckQueriesCollection();
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INDebiCheckQueriesQueries.Search(fkimportid, debicheckqueryid, department), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INDebiCheckQueriesQueries.Search(fkimportid, debicheckqueryid, department,notes), null);
                 while (reader.Read())
                 {
                     INDebiCheckQueries calldata = new INDebiCheckQueries((long)reader["ID"]);
@@ -346,11 +347,11 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="recref">The recref search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A data set containing the results of the search.</returns>
-        public static DataSet SearchData(long? fkimportid, long? debicheckquerid, string department, string connectionName)
+        public static DataSet SearchData(long? fkimportid, long? debicheckquerid, string department,string notes, string connectionName)
         {
             try
             {
-                return Database.ExecuteDataSet(connectionName, INDebiCheckQueriesQueries.Search(fkimportid, debicheckquerid, department), null);
+                return Database.ExecuteDataSet(connectionName, INDebiCheckQueriesQueries.Search(fkimportid, debicheckquerid, department,notes), null);
             }
             catch (Exception ex)
             {
@@ -367,12 +368,12 @@ namespace UDM.Insurance.Business.Mapping
         /// <param name="recref">The recref search criteria.</param>
         /// <param name="connectionName">Database connection name to use for the search.</param>
         /// <returns>A datareader containing the results of the search.</returns>
-        public static INDebiCheckQueries SearchOne(long? fkimportid, long? debicheckqueryid, string department, string connectionName)
+        public static INDebiCheckQueries SearchOne(long? fkimportid, long? debicheckqueryid, string department,string notes, string connectionName)
         {
             INDebiCheckQueries calldata = null;
             try
             {
-                IDataReader reader = Database.ExecuteReader(connectionName, INDebiCheckQueriesQueries.Search(fkimportid, debicheckqueryid, department), null);
+                IDataReader reader = Database.ExecuteReader(connectionName, INDebiCheckQueriesQueries.Search(fkimportid, debicheckqueryid, department,notes), null);
                 if (reader.Read())
                 {
                     calldata = new INDebiCheckQueries((long)reader["ID"]);

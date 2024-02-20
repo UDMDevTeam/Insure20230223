@@ -294,11 +294,15 @@ namespace UDM.Insurance.Interface.Screens
                 cmbDebiCheckQueries.Visibility = Visibility.Visible;
                 lblDebiCheckQueries.Visibility = Visibility.Visible;
                 btnPermissionLead.Visibility = Visibility.Collapsed;
+                TBQueryNotes.Visibility = Visibility.Visible;
+                lblDebiQueryNotes.Visibility = Visibility.Visible;
             }
             else
             {
                 cmbDebiCheckQueries.Visibility = Visibility.Collapsed;
                 lblDebiCheckQueries.Visibility = Visibility.Collapsed;
+                TBQueryNotes.Visibility = Visibility.Collapsed;
+                lblDebiQueryNotes.Visibility = Visibility.Collapsed;
             }
             #endregion
 
@@ -2332,15 +2336,17 @@ namespace UDM.Insurance.Interface.Screens
                 try
                 {
                     StringBuilder strQueryDCQueryID = new StringBuilder();
-                    strQueryDCQueryID.Append("SELECT DebiCheckQueryID [Response] ");
+                    strQueryDCQueryID.Append("SELECT DebiCheckQueryID [Response],Notes ");
                     strQueryDCQueryID.Append("FROM [INDebiCheckQueries] WHERE FKImportID = " + LaData.AppData.ImportID.ToString());
                     DataTable dtDCQueryID = Methods.GetTableData(strQueryDCQueryID.ToString());
                     long DCQueryID = long.Parse(dtDCQueryID.Rows[0]["Response"].ToString());
                     cmbDebiCheckQueries.SelectedValue = int.Parse(DCQueryID.ToString());
+                    TBQueryNotes.Text = dtDCQueryID.Rows[0]["Notes"].ToString();
                 }
                 catch
                 {
                     cmbDebiCheckQueries.SelectedIndex = -1;
+                    TBQueryNotes.Text = "";
                 }
                 #endregion
                 #region R99 Options
@@ -4102,6 +4108,7 @@ namespace UDM.Insurance.Interface.Screens
                             dcqueries.FKImportID = LaData.AppData.ImportID;
                             dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
                             dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
+                            dcqueries.Notes = TBQueryNotes.Text;
                             dcqueries.Save(_validationResult);
                         }
                         else
@@ -4112,6 +4119,7 @@ namespace UDM.Insurance.Interface.Screens
                             dcqueries.FKImportID = LaData.AppData.ImportID;
                             dcqueries.DebiCheckQueryID = long.Parse(cmbDebiCheckQueries.SelectedValue.ToString());
                             dcqueries.Department = cmbDebiCheckQueries.SelectedIndex.ToString();
+                            dcqueries.Notes = TBQueryNotes.Text;
                             dcqueries.Save(_validationResult);
                         }
                     }

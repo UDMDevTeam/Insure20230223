@@ -17,6 +17,8 @@ namespace UDM.Insurance.Business
         private long? _fkimportid = null;
         private long? _debicheckqueryid = null;
         private string _department = null;
+        private string _notes = null;
+        
         #endregion
 
         #region Constructor
@@ -91,6 +93,23 @@ namespace UDM.Insurance.Business
                 }
             }
         }
+        public string Notes
+        {
+            get
+            {
+                Fill();
+                return _notes;
+            }
+            set
+            {
+                Fill();
+                if (value != _notes)
+                {
+                    _notes = value;
+                    _hasChanged = true;
+                }
+            }
+        }
         #endregion
 
         #region Override Methods
@@ -159,6 +178,7 @@ namespace UDM.Insurance.Business
             xml.Append("<fkimportid>" + FKImportID.ToString() + "</fkimportid>");
             xml.Append("<debicheckqueryid>" + DebiCheckQueryID.ToString() + "</debicheckqueryid>");
             xml.Append("<department>" + Department.ToString() + "</department>");
+            xml.Append("<notes>" + Notes.ToString() + "</notes>");
             xml.Append("</INDebiCheckQueries>");
             return xml.ToString();
         }
@@ -173,7 +193,7 @@ namespace UDM.Insurance.Business
         /// <param name="extension"></param>
         /// <param name="recref"></param>
         /// <returns>A Validation Result object with the result of the fill opertation.</returns>
-        public ValidationResult Fill(long? fkimportid, long? debicheckqueryid, string department)
+        public ValidationResult Fill(long? fkimportid, long? debicheckqueryid, string department, string notes)
         {
             ValidationResult result = new ValidationResult();
 
@@ -182,6 +202,7 @@ namespace UDM.Insurance.Business
                 this.FKImportID = fkimportid;
                 this.DebiCheckQueryID = debicheckqueryid;
                 this.Department = department;
+                this.Notes = notes;
             }
             catch (Exception ex)
             {

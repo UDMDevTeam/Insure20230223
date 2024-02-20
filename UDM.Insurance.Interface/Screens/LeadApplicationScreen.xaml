@@ -224,6 +224,12 @@
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="StyleQueryNotes"
+               BasedOn="{StaticResource medINLA}"
+               TargetType="{x:Type igWPF:XamMaskedEditor}">
+            
+            
+        </Style>
         <Style
         x:Key="StyleXMEEmailAddressValueChanged"
         BasedOn="{StaticResource StyleXMEEmailAddress}"
@@ -16080,9 +16086,9 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
               x:Name="btnSave"
               Grid.Row="17"
               Grid.Column="22"
-              Grid.ColumnSpan="4"
+              Grid.ColumnSpan="5"
               Height="Auto"
-              Margin="0,8,0,0"
+              Margin="0,8,23,0"
               HorizontalAlignment="Right"
               Click="btnSave_Click"
               Command="commands:CustomCommands.Save"
@@ -16126,9 +16132,9 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                     <src:EmbriantComboBox
                               x:Name="cmbDebiCheckQueries"
                               Grid.Row="17"
-                              Grid.Column="4"
+                              Grid.Column="3"
                               Grid.ColumnSpan="5"
-                              Margin="5,8,5,0"
+                              Margin="5,8,6,0"
                               PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                               Style="{StaticResource StyleCMBStatus}"
                               TabIndex="33900"
@@ -16136,19 +16142,34 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                     <TextBlock
                               x:Name="lblDebiCheckQueries"
                               Grid.Row="17"
-                              Grid.Column="2"
                               Grid.ColumnSpan="3"
-                              Margin="0,8,0,0"
+                              Margin="40,0,0,0"
                               VerticalAlignment="Bottom"
                               Style="{StaticResource INLabelText2}"
                               Text="DC Queries"
-                              Visibility="hidden"/>
+                              Visibility="Hidden"/>
+                    <igWPF:XamMaskedEditor 
+           x:Name="TBQueryNotes"
+           Grid.Row="17"
+           Grid.Column="10"
+           Grid.ColumnSpan="4"
+           Margin="13,8,10,0"
+        
+           Style="{StaticResource medINLA}"
+           TabIndex="33900"
+           Visibility="Hidden"/>
+                    <TextBlock
+           x:Name="lblDebiQueryNotes"
+           Grid.Row="17"
+           Grid.Column="8"
+           Style="{StaticResource INLabelText2}"
+           Visibility="Hidden" Width="112" Height="25" Text="Query Notes" Margin="3,20,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
                     <src:EmbriantComboBox
                               x:Name="cmbSalesNotTransferredReasons"
                               Grid.Row="17"
-                              Grid.Column="15"
+                              Grid.Column="16"
                               Grid.ColumnSpan="7"
-                              Margin="0,8,0,0"
+                              Margin="39,8,25,0"
                               PreviewKeyDown="EmbriantComboBox_PreviewKeyDown"
                               SelectionChanged="SalesNotTransferredCB_SelectionChanged"
                               Style="{StaticResource StyleCMBStatus}"
@@ -16157,13 +16178,12 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                     <TextBlock
                               x:Name="lblSalesNotTransferredReasons"
                               Grid.Row="17"
-                              Grid.Column="9"
-                              Grid.ColumnSpan="6"
-                              Margin="0,8,0,0"
-                              VerticalAlignment="Bottom"
+                              Grid.Column="13"
+                              Grid.ColumnSpan="4"
+                              Margin="42,6,0,0"
+                              VerticalAlignment="Top"
                               Style="{StaticResource INLabelText2}"
-                              Text="Reasons for Call Not Transferred"
-                              Visibility="Visible"/>
+                              Visibility="Visible" Height="39" Grid.RowSpan="2"><Run Text="Reasons for Call "/><LineBreak/><Run Text="Not Transferred"/></TextBlock>
                     <TextBlock
                               x:Name="lblClientCellNumber"
                               Grid.Row="15"
@@ -16385,7 +16405,7 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                    
+
                     <!--<Border x:Name="NicoleRevensonGifB"
                         CornerRadius="10" 
                         Grid.Row="15"
@@ -16533,9 +16553,9 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                 x:Name="icoPhone"
                 Width="32"
                 Height="32"
-                Margin="0,0,0,12"
+                Margin="0,5,0,0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom">
+                VerticalAlignment="Top">
                             <UserControl.Resources>
                                 <Style TargetType="{x:Type content:icoPhone}">
                                     <Style.Triggers>
@@ -17261,8 +17281,8 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                                 </ig:ContextMenuManager.ContextMenu>
                             </ig:ContextMenuManager>
                         </ig:ContextMenuService.Manager>
-                        
-                        
+
+
                     </Grid>
 
                 </Grid>
