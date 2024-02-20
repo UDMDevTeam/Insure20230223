@@ -33,7 +33,7 @@ namespace UDM.Insurance.Interface.Screens
         //private const int _fontSize = 10;
         //private const int _pointsToTwipsFactor = 20;
         //private const int _fontHeight = _fontSize * _pointsToTwipsFactor;
-
+        bool CallData;
         #endregion Constants
 
         #region Private Members
@@ -240,7 +240,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
                 DataSet dsDiaryReportData;
-                if (CallDataCB.IsChecked == true)
+                if (CallData == true)
                 {
                     dsDiaryReportData = Business.Insure.INGetDiaryReportDataCalldata(_campaignIDList, _startDate, _endDate);
                 }
@@ -356,154 +356,6 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-
-      //  private void ReportOLD(object sender, DoWorkEventArgs e)
-      //  {
-
-      //      try
-      //      {
-      //          SetCursor(Cursors.Wait);
-
-      //          foreach (DataRecord record in _campaigns)
-      //          {
-      //              if ((bool)record.Cells["Select"].Value)
-      //              {
-      //                  long campaignID = Convert.ToInt32(record.Cells["CampaignID"].Value);
-      //                  string campaignName = record.Cells["CampaignName"].Value.ToString();
-
-      //                  #region Setup excel documents
-
-      //                  Workbook wbTemplate;
-      //                  Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
-      //                  string filePathAndName = String.Format("{0}{1} Diary Report ~ {2}.xlsx", GlobalSettings.UserFolder, campaignName, DateTime.Now.ToString("yyyy-MM-dd HHmmdd"));
-
-      //                  Uri uri = new Uri("/Templates/ReportTemplateDiary.xlsx", UriKind.Relative);
-      //                  StreamResourceInfo info = Application.GetResourceStream(uri);
-      //                  if (info != null)
-      //                  {
-      //                      wbTemplate = Workbook.Load(info.Stream, true);
-      //                  }
-      //                  else
-      //                  {
-      //                      return;
-      //                  }
-
-						//Worksheet wsTemplate = wbTemplate.Worksheets["Report"];
-      //                  Worksheet wsReport = wbReport.Worksheets.Add(campaignName);
-
-						//wsReport.PrintOptions.PaperSize = PaperSize.A4;
-						//wsReport.PrintOptions.Orientation = Orientation.Portrait;
-
-      //                  #endregion Setup excel documents
-
-      //                  #region Get report data from database
-
-      //                  DataTable dtReducedPremiumReport;
-
-						//SqlParameter[] parameters = new SqlParameter[3];
-      //                  parameters[0] = new SqlParameter("@CampaignID", campaignID);
-      //                  parameters[1] = new SqlParameter("@FromDate", _startDate.ToString("yyyy-MM-dd"));
-      //                  parameters[2] = new SqlParameter("@ToDate", _endDate.ToString("yyyy-MM-dd"));
-
-      //                  DataSet dsReducedPremiumReport = Methods.ExecuteStoredProcedure("spINReportDiary", parameters);
-      //                  if (dsReducedPremiumReport.Tables.Count > 0)
-						//{
-      //                      dtReducedPremiumReport = dsReducedPremiumReport.Tables[0];
-
-      //                      if (dtReducedPremiumReport.Rows.Count == 0)
-						//	{
-						//		Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-						//		{
-						//			ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
-						//		});
-
-						//		continue;
-						//	}
-						//}
-						//else
-						//{
-						//	Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
-						//	{
-						//		ShowMessageBox(new INMessageBoxWindow1(), "There is no data to export for the " + campaignName + " Campaign and specified Date range.", "No Data", ShowMessageType.Information);
-						//	});
-
-						//	continue;
-      //                  }
-
-      //                  #endregion Get report data from database
-
-      //                  #region Populating the report details
-
-      //                  Methods.CopyExcelRegion(wsTemplate, 0, 0, 6, 11, wsReport, 0, 0);
-
-      //                  wsReport.GetCell("A1").Value = String.Format("Diary Report - {0}", campaignName);
-      //                  //wsReport.GetCell("A3").Value = String.Format(@"Diaries created/updated between {0} and {1}", _startDate.ToString("dddd, dd MMMM yyyy"), _endDate.ToString("dddd, dd MMMM yyyy"));
-      //                  if (_startDate == _endDate)
-      //                  {
-      //                      wsReport.GetCell("A3").Value = String.Format(@"Diaries scheduled for {0}", _startDate.ToString("dddd, dd MMMM yyyy"));
-      //                  }
-      //                  else
-      //                  {
-      //                      wsReport.GetCell("A3").Value = String.Format(@"Diaries scheduled for the time between {0} and {1}", _startDate.ToString("dddd, dd MMMM yyyy"), _endDate.ToString("dddd, dd MMMM yyyy"));
-      //                  }
-
-      //                  wsReport.GetCell("A5").Value = String.Format("Date Generated: {0}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
-      //                  #endregion Populating the report details
-
-      //                  #region Report data
-
-      //                  {
-						//	int rowIndex = 8;
-						//	string previousValue = string.Empty;
-
-      //                      foreach (DataRow dr in dtReducedPremiumReport.Rows)
-						//	{
-						//		Methods.CopyExcelRegion(wsTemplate, 7, 0, 1, 11, wsReport, rowIndex-1, 0);
-
-      //                          wsReport.GetCell("A" + rowIndex.ToString()).Value = dr["Reference Number"];
-      //                          wsReport.GetCell("B" + rowIndex.ToString()).Value = dr["Allocated To"];
-      //                          wsReport.GetCell("C" + rowIndex.ToString()).Value = dr["UDM Batch Code"];
-      //                          wsReport.GetCell("D" + rowIndex.ToString()).Value = dr["Lead Status"];
-      //                          wsReport.GetCell("E" + rowIndex.ToString()).Value = dr["Diary Save Date"];
-      //                          wsReport.GetCell("F" + rowIndex.ToString()).Value = dr["Diary Scheduled For"];
-      //                          wsReport.GetCell("G" + rowIndex.ToString()).Value = dr["Diary Saved By"];
-      //                          //wsReport.GetCell("G" + rowIndex.ToString()).Value = dr["New Policy"];
-      //                          //wsReport.GetCell("H" + rowIndex.ToString()).Value = dr["Reduced Premium"];
-      //                          //wsReport.GetCell("I" + rowIndex.ToString()).Value = dr["Premium Difference"];
-      //                          //wsReport.GetCell("J" + rowIndex.ToString()).Value = dr["TSR"];
-      //                          //wsReport.GetCell("K" + rowIndex.ToString()).Value = dr["Code"];
-
-						//		rowIndex++;
-						//	}
-      //                  }
-
-      //                  #endregion Report data
-
-      //                  #region Save and open the resulting workbook
-
-      //                  //Save excel document
-      //                  wbReport.Save(filePathAndName);
-
-      //                  //Display excel document
-      //                  Process.Start(filePathAndName);
-
-      //                  #endregion Save and open the resulting workbook
-      //              }
-      //          }
-      //      }
-
-      //      catch (Exception ex)
-      //      {
-      //          HandleException(ex);
-      //      }
-
-      //      finally
-      //      {
-      //          SetCursor(Cursors.Arrow);
-      //      }
-      //  }
-
         private void Timer1(object sender, EventArgs e)
         {
             _timer1++;
@@ -524,10 +376,6 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                //_campaigns = xdgCampaigns.Records;
-
-                //var lstTemp = (from r in xdgCampaigns.Records where (bool)((DataRecord)r).Cells["Select"].Value select r).ToList();
-                //_campaigns = new System.Collections.Generic.List<Record>(lstTemp.OrderBy(r => ((DataRecord)r).Cells["CampaignName"].Value));
 
                 if (IsAllInputParametersSpecifiedAndValid())
                 {
@@ -639,5 +487,14 @@ namespace UDM.Insurance.Interface.Screens
 
         #endregion
 
+        private void CallDataCB_Checked(object sender, RoutedEventArgs e)
+        {
+            CallData = true;
+        }
+
+        private void CallDataCB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CallData = false;
+        }
     }
 }

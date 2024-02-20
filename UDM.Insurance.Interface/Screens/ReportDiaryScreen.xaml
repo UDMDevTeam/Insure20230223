@@ -217,7 +217,9 @@
                               Grid.Row="10"
                               Grid.Column="12"
                               VerticalAlignment="Center"
-                              HorizontalAlignment="Center">
+                              HorizontalAlignment="Center"
+                              Checked="CallDataCB_Checked"
+                              Unchecked="CallDataCB_Unchecked">
                         
                     </CheckBox>
 
