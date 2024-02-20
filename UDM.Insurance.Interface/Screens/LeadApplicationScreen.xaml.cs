@@ -52,6 +52,7 @@ using INImportExtra = UDM.Insurance.Business.INImportExtra;
 using Application = System.Windows.Application;
 using SMS = UDM.Insurance.Business.SMS;
 using SMSVoucher = UDM.Insurance.Business.Objects.SMSVoucher;
+using WpfAnimatedGif;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -434,53 +435,6 @@ namespace UDM.Insurance.Interface.Screens
 
                 sb.Begin();
 
-                //try 
-                //{
-
-                //    if (double.Parse(dsMessages.Tables[1].Rows[0]["ContactPercentage"].ToString()) >= 0.98
-                //        || dsMessages.Tables[1].Rows[0]["IsOverTarget"].ToString() == "True")
-                //    {
-                //        try
-                //        {
-                //            DataTable dtHRStaffID = Methods.GetTableData("SELECT HRS.ID FROM [Blush].[dbo].[HRStaff] as HRS where HRS.FKUserID = " + GlobalSettings.ApplicationUser.ID);
-                //            DataTable dtHRStaffSupervisorID = Methods.GetTableData("SELECT HRS.FKHRSupervisorID FROM [Blush].[dbo].[HRStaffSupervisor] as HRS where HRS.FKHRStaffID = " + dtHRStaffID.Rows[0]["ID"] + " and GETDATE() between HRS.FromDate and HRS.ToDate");
-
-                //            if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 40045)//Carmen
-                //            {
-                //                StartCarmenAnimation();
-                //            }
-                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 7089)//Larissa
-                //            {
-                //                StartLarissaAnimation();
-                //            }
-                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 41152)//Nicole
-                //            {
-                //                StartNicoleAnimation();
-                //            }
-                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 2872)//Crezandra
-                //            {
-                //                StartCrezandraAnimation();
-                //            }
-                //            else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 8459)//Margie
-                //            {
-                //                StartMargieAnimation();
-                //            }
-                //            else
-                //            {
-                //                StartNicoleAnimation();
-                //            }
-                //        } catch { StartNicoleAnimation(); }
-
-                //    }
-
-
-
-
-                //} catch { }
-
-
-
-
                 #endregion Animations For Contact Percentage
                 //lblSalesRemaining.Inlines.Add(runContact);
             }
@@ -491,140 +445,216 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
-        //private void StartNicoleAnimation()
+        private void DisplayRemainingSalesCongratulations(long? importID)
+        {
+
+            try
+            {
+                DataTable dtBatchID = Methods.GetTableData("SELECT HRS.FKINBatchID FROM [INImport] as HRS where HRS.ID = " + LaData.AppData.ImportID);
+                DataTable dtCheckPopUp = Methods.GetTableData("SELECT HRS.ID FROM [INCongratulationsPopUp] as HRS where HRS.FKBatchID = " + dtBatchID.Rows[0][0] + " and HRS.FKUserID = " + GlobalSettings.ApplicationUser.ID);
+
+                if(dtCheckPopUp.Rows.Count == 0)
+                {
+                    bool show = importID.HasValue;
+                    string message = string.Empty; //Insure.INDetermineRemainingSales( 
+                    string contactMessage = string.Empty;
+                    decimal targetPercentage;
+                    decimal contactPercentage;
+                    DataSet dsMessages = new DataSet();
+                    if (show)
+                    {
+                        dsMessages = Insure.INDetermineRemainingSales(importID.Value);
+                        message = dsMessages.Tables[0].Rows[0][0].ToString();
+
+                        #region Animations For Contact Percentage
+
+                        try
+                        {
+
+                            if (double.Parse(dsMessages.Tables[1].Rows[0]["ContactPercentage"].ToString()) >= 0.98
+                                || dsMessages.Tables[1].Rows[0]["IsOverTarget"].ToString() == "True")
+                            //if (true)
+                            {
+                                try
+                                {
+                                    DataTable dtHRStaffID = Methods.GetTableData("SELECT HRS.ID FROM [Blush].[dbo].[HRStaff] as HRS where HRS.FKUserID = " + GlobalSettings.ApplicationUser.ID);
+                                    DataTable dtHRStaffSupervisorID = Methods.GetTableData("SELECT HRS.FKHRSupervisorID FROM [Blush].[dbo].[HRStaffSupervisor] as HRS where HRS.FKHRStaffID = " + dtHRStaffID.Rows[0]["ID"] + " and GETDATE() between HRS.FromDate and HRS.ToDate");
+
+                                    if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 40045)//Carmen
+                                    {
+                                        StartNicoleAnimation("../Resources/Gifs/Carmen.gif");
+                                    }
+                                    else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 7089)//Larissa
+                                    {
+                                        StartNicoleAnimation("../Resources/Gifs/Larissa.gif");
+                                    }
+                                    else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 41152)//Nicole
+                                    {
+                                        StartNicoleAnimation("../Resources/Gifs/NicoleRevenson.gif");
+                                    }
+                                    else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 2872)//Crezandra
+                                    {
+                                        StartNicoleAnimation("../Resources/Gifs/Crezandra.gif");
+                                    }
+                                    else if (int.Parse(dtHRStaffSupervisorID.Rows[0]["FKHRSupervisorID"].ToString()) == 8459)//Margie
+                                    {
+                                        StartNicoleAnimation("../Resources/Gifs/Margie.gif");
+                                    }
+                                    else
+                                    {
+                                        StartNicoleAnimation("../Resources/Gifs/NicoleRevenson.gif");
+                                    }
+                                }
+                                catch { StartNicoleAnimation("../Resources/Gifs/NicoleRevenson.gif"); }
+
+                                try
+                                {
+                                    #region Save if popped up
+
+
+                                    INCongratulationsPopUp log = new INCongratulationsPopUp();
+                                    log.FKBatchID = long.Parse(dtBatchID.Rows[0][0].ToString());
+                                    log.FKUserID = GlobalSettings.ApplicationUser.ID;
+                                    log.IsDisplayed = "1";
+                                    log.Save(_validationResult);
+                                    #endregion
+                                }
+                                catch { }
+
+                            }
+
+
+
+
+                        }
+                        catch { }
+
+
+
+
+                        #endregion Animations For Contact Percentage
+                    }
+                    else
+                    {
+                        spMessage.Visibility = Visibility.Hidden;
+                        lblSalesRemaining.Text = string.Empty;
+                    }
+                }
+
+
+            }
+            catch { }
+
+
+        }
+
+        private void FadeInOut()
+        {
+            // Create the storyboard
+            Storyboard storyboard = new Storyboard();
+
+            // Create fade in animation
+            DoubleAnimation fadeInAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = 1,
+                Duration = new Duration(TimeSpan.FromSeconds(5)),
+                FillBehavior = FillBehavior.HoldEnd
+            };
+
+            // Create fade out animation
+            DoubleAnimation fadeOutAnimation = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = new Duration(TimeSpan.FromSeconds(5)),
+                FillBehavior = FillBehavior.HoldEnd
+            };
+
+            // Set the target property
+            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath("Opacity"));
+            Storyboard.SetTarget(fadeInAnimation, OverlayBorder);
+
+            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath("Opacity"));
+            Storyboard.SetTarget(fadeOutAnimation, OverlayBorder);
+
+            // Add the animations to the storyboard
+            storyboard.Children.Add(fadeInAnimation);
+            storyboard.Children.Add(fadeOutAnimation);
+
+            // Start the storyboard when the window is loaded
+            Loaded += (sender, e) => storyboard.Begin();
+
+            // Change the visibility after the fade out animation is completed
+            fadeOutAnimation.Completed += (sender, e) =>
+            {
+                OverlayBorder.Visibility = Visibility.Collapsed;
+            };
+        }
+
+        //private void StartNicoleAnimation(string GIFURL)
         //{
-        //    TranslateTransform translateTransform = NicoleRevensonGifB.RenderTransform as TranslateTransform;
-        //    if (translateTransform == null)
+
+        //    Image gifImage = Gifimage;
+
+        //    // Load the GIF file
+        //    Uri uri = new Uri(GIFURL, UriKind.Relative);
+        //    ImageSource imageSource = new BitmapImage(uri);
+        //    ImageBehavior.SetAnimatedSource(gifImage, imageSource);
+
+        //    ScaleTransform scaleTransform = NicoleRevensonGifB.RenderTransform as ScaleTransform;
+        //    if (scaleTransform == null)
         //    {
-        //        translateTransform = new TranslateTransform();
-        //        NicoleRevensonGifB.RenderTransform = translateTransform;
+        //        scaleTransform = new ScaleTransform();
+        //        NicoleRevensonGifB.RenderTransform = scaleTransform;
         //    }
 
         //    NicoleRevensonGifB.Visibility = Visibility.Visible;
+        //    OverlayBorder.Visibility = Visibility.Visible;
 
-        //    DoubleAnimation animation = new DoubleAnimation();
-        //    animation.Duration = TimeSpan.FromSeconds(10); 
-        //    animation.From = 0; 
-        //    animation.To = 1000; 
-        //    animation.Completed += AnimationCompleted; 
-
-        //    void AnimationCompleted(object sender, EventArgs e)
-        //    {
-        //        translateTransform.X = 0;
-        //        translateTransform.Y = 0;
-        //        //GifImage.Visibility = Visibility.Visible;
-        //        NicoleRevensonGifB.Visibility = Visibility.Collapsed;
-        //    }
-        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+        //    DoubleAnimation growAnimation = new DoubleAnimation();
+        //    growAnimation.Duration = TimeSpan.FromSeconds(2);
+        //    growAnimation.From = 1;
+        //    growAnimation.To = 1.5;
+        //    growAnimation.AutoReverse = true;
+        //    growAnimation.RepeatBehavior = new RepeatBehavior(3); // Repeat 3 times
+        //    NicoleRevensonGifB.BeginAnimation(ScaleTransform.ScaleXProperty, growAnimation);
+        //    NicoleRevensonGifB.BeginAnimation(ScaleTransform.ScaleYProperty, growAnimation);
         //}
 
-        //private void StartCrezandraAnimation()
-        //{
-        //    TranslateTransform translateTransform = CrezandraGifB.RenderTransform as TranslateTransform;
-        //    if (translateTransform == null)
-        //    {
-        //        translateTransform = new TranslateTransform();
-        //        CrezandraGifB.RenderTransform = translateTransform;
-        //    }
+        private void StartNicoleAnimation(string GIFURL)
+        {
+            try
+            {
+                Image gifImage = Gifimage;
 
-        //    CrezandraGifB.Visibility = Visibility.Visible;
+                // Load the GIF file
+                Uri uri = new Uri(GIFURL, UriKind.Relative);
+                ImageSource imageSource = new BitmapImage(uri);
+                ImageBehavior.SetAnimatedSource(gifImage, imageSource);
 
-        //    DoubleAnimation animation = new DoubleAnimation();
-        //    animation.Duration = TimeSpan.FromSeconds(10);
-        //    animation.From = 0;
-        //    animation.To = 1000;
-        //    animation.Completed += AnimationCompleted;
 
-        //    void AnimationCompleted(object sender, EventArgs e)
-        //    {
-        //        translateTransform.X = 0;
-        //        translateTransform.Y = 0;
-        //        //GifImage.Visibility = Visibility.Visible;
-        //        CrezandraGifB.Visibility = Visibility.Collapsed;
-        //    }
-        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
-        //}
+                NicoleRevensonGifB.Visibility = Visibility.Visible;
+                OverlayBorder.Visibility = Visibility.Visible;
+                Gifimage.Visibility = Visibility.Visible;
 
-        //private void StartLarissaAnimation()
-        //{
-        //    TranslateTransform translateTransform = LarissaGifB.RenderTransform as TranslateTransform;
-        //    if (translateTransform == null)
-        //    {
-        //        translateTransform = new TranslateTransform();
-        //        LarissaGifB.RenderTransform = translateTransform;
-        //    }
 
-        //    LarissaGifB.Visibility = Visibility.Visible;
+                DispatcherTimer timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(10);
+                timer.Tick += (sender, e) =>
+                {
+                    NicoleRevensonGifB.Visibility = Visibility.Collapsed;
+                    OverlayBorder.Visibility = Visibility.Collapsed;
+                    Gifimage.Visibility = Visibility.Collapsed;
+                    timer.Stop();
+                };
+                timer.Start();
+            } catch { }
 
-        //    DoubleAnimation animation = new DoubleAnimation();
-        //    animation.Duration = TimeSpan.FromSeconds(10);
-        //    animation.From = 0;
-        //    animation.To = 1000;
-        //    animation.Completed += AnimationCompleted;
+        }
 
-        //    void AnimationCompleted(object sender, EventArgs e)
-        //    {
-        //        translateTransform.X = 0;
-        //        translateTransform.Y = 0;
-        //        //GifImage.Visibility = Visibility.Visible;
-        //        LarissaGifB.Visibility = Visibility.Collapsed;
-        //    }
-        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
-        //}
 
-        //private void StartMargieAnimation()
-        //{
-        //    TranslateTransform translateTransform = MargieGifB.RenderTransform as TranslateTransform;
-        //    if (translateTransform == null)
-        //    {
-        //        translateTransform = new TranslateTransform();
-        //        MargieGifB.RenderTransform = translateTransform;
-        //    }
 
-        //    MargieGifB.Visibility = Visibility.Visible;
-
-        //    DoubleAnimation animation = new DoubleAnimation();
-        //    animation.Duration = TimeSpan.FromSeconds(10);
-        //    animation.From = 0;
-        //    animation.To = 1000;
-        //    animation.Completed += AnimationCompleted;
-
-        //    void AnimationCompleted(object sender, EventArgs e)
-        //    {
-        //        translateTransform.X = 0;
-        //        translateTransform.Y = 0;
-        //        //GifImage.Visibility = Visibility.Visible;
-        //        MargieGifB.Visibility = Visibility.Collapsed;
-        //    }
-        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
-        //}
-
-        //private void StartCarmenAnimation()
-        //{
-        //    TranslateTransform translateTransform = CarmenGifB.RenderTransform as TranslateTransform;
-        //    if (translateTransform == null)
-        //    {
-        //        translateTransform = new TranslateTransform();
-        //        CarmenGifB.RenderTransform = translateTransform;
-        //    }
-
-        //    CarmenGifB.Visibility = Visibility.Visible;
-
-        //    DoubleAnimation animation = new DoubleAnimation();
-        //    animation.Duration = TimeSpan.FromSeconds(10);
-        //    animation.From = 0;
-        //    animation.To = 1000;
-        //    animation.Completed += AnimationCompleted;
-
-        //    void AnimationCompleted(object sender, EventArgs e)
-        //    {
-        //        translateTransform.X = 0;
-        //        translateTransform.Y = 0;
-        //        //GifImage.Visibility = Visibility.Visible;
-        //        CarmenGifB.Visibility = Visibility.Collapsed;
-        //    }
-        //    translateTransform.BeginAnimation(TranslateTransform.XProperty, animation);
-        //}
 
         private ImageSource LoadImage(byte[] imageData)
         {
@@ -961,11 +991,7 @@ namespace UDM.Insurance.Interface.Screens
                 LaData.AppData.CanManageQADetails = Convert.ToBoolean(dtLead.Rows[0]["CanManageQADetails"]);
                 LaData.AppData.CanChangeStatus = Convert.ToBoolean(dtLead.Rows[0]["CanChangeStatus"]);
 
-                #region Show the remaining sales for a particular agent and batch
 
-                DisplayRemainingSales(importID);
-
-                #endregion Show the remaining sales for a particular agent and batch
                 if (LaData.AppData.LeadStatus != null)
                 {
                     if ((lkpINLeadStatus)LaData.AppData.LeadStatus == lkpINLeadStatus.Declined)//brigette request 2015/07/08
@@ -1940,6 +1966,13 @@ namespace UDM.Insurance.Interface.Screens
                 inImportCallMonitoring = INImportCallMonitoringMapper.SearchOne(importID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
                 #endregion
+
+                #region Show the remaining sales for a particular agent and batch
+
+                DisplayRemainingSales(importID);
+                DisplayRemainingSalesCongratulations(importID);
+
+                #endregion Show the remaining sales for a particular agent and batch
 
                 LaData.AppData.ImportID = importID;
                 #region CardLayout Start Display

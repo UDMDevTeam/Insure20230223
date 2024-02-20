@@ -16385,32 +16385,39 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                    
-                    <!--<Border x:Name="NicoleRevensonGifB"
+
+                    <Border x:Name="OverlayBorder"
+                            Grid.ColumnSpan="28" 
+                            Grid.RowSpan="19"
+                            Opacity="1"
+                            Visibility="Collapsed"
+                            >
+                        <Border.Background>
+                            <ImageBrush ImageSource="../Resources/DanceBackground.png"  />
+                        </Border.Background>
+                    </Border>
+
+                    <Border x:Name="NicoleRevensonGifB"
                         CornerRadius="10" 
-                        Grid.Row="15"
-                        Grid.Column="0"
+                        Grid.Row="8"
                         ClipToBounds="True" 
-                        Grid.ColumnSpan="4" 
+                        Grid.ColumnSpan="6" 
                         Visibility="Collapsed"
-                        Margin="0,1,21,21" 
-                        Grid.RowSpan="4"
-                        BorderBrush="Turquoise"
-                        BorderThickness="10"
-                        RenderTransformOrigin="0.5,0.5">
+                        Margin="22,10,10,20" 
+                        Grid.RowSpan="6"
+                        RenderTransformOrigin="0.5,0.5" Grid.Column="11">
                         <Border.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Border.RenderTransform>
-                        <Image 
-                            wpfanimated:ImageBehavior.AnimatedSource="../Resources/Gifs/NicoleRevenson.gif"
+                        <Image x:Name="Gifimage"
                             wpfanimated:ImageBehavior.RepeatBehavior="2000"
                             wpfanimated:ImageBehavior.AnimateInDesignMode="True"
                             wpfanimated:ImageBehavior.AutoStart="True"
                             Stretch="Uniform"
-                            Visibility="Visible" />
+                            Visibility="Collapsed" />
                     </Border>
 
-                    <Border x:Name="CarmenGifB"
+                    <!--<Border x:Name="CarmenGifB"
                         CornerRadius="10" 
                         Grid.Row="15"
                         Grid.Column="0"
@@ -17261,8 +17268,8 @@ Visibility="Visible" Grid.Column="2" Margin="130,2,0,0" >
                                 </ig:ContextMenuManager.ContextMenu>
                             </ig:ContextMenuManager>
                         </ig:ContextMenuService.Manager>
-                        
-                        
+
+
                     </Grid>
 
                 </Grid>
