@@ -1075,10 +1075,9 @@ namespace UDM.Insurance.Interface.Screens
                                             {
                                                 noOfLowerPremiumUpgradeLeads = ProcessLeads(leadsAvailable, (int)assign, "LowerPremiumUpgrade", out leadsLowerPremiumUpgrade, out leadsAvailable);
                                             }
+                                            noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
 
                                             noOfIndianSurnameLeads = ProcessLeads(leadsAvailable, (int)assign, "IndianSurnames", out leadsIndianSurames, out leadsAvailable);
-
-                                            noOfReMarketedLeads = ProcessLeads(leadsAvailable, (int)assign, "Re-Marketed", out leadsReMarketed, out leadsAvailable);
 
                                             noOfHousewifeLeads = ProcessLeads(leadsAvailable, (int)assign, "Housewife", out leadsHouseWives, out leadsAvailable);
 
