@@ -1149,10 +1149,6 @@
             </Grid>
         </Viewbox>
 
-
-
-
-
         <Viewbox VerticalAlignment="Bottom" Stretch="Uniform">
             <Grid Width="1920">
                 <Grid VerticalAlignment="Bottom">

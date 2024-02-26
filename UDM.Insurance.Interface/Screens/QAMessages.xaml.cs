@@ -1,40 +1,111 @@
-﻿using Embriant.Framework;
-using Embriant.Framework.Configuration;
-using Embriant.WPF.Controls;
+﻿using Embriant.Framework.Configuration;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using UDM.Insurance.Business;
+using UDM.Insurance.Business.Mapping;
 using UDM.WPF.Library;
+using static System.Net.Mime.MediaTypeNames;
+using MessageBox = System.Windows.MessageBox;
 
 namespace UDM.Insurance.Interface.Screens
 {
-    /// <summary>
-    /// Interaction logic for QAMessages.xaml
-    /// </summary>
+
     public partial class QAMessages
     {
+        DataSet _dsLookups;
+        public WelcomMessage Welcome = new WelcomMessage();
         public QAMessages()
         {
             InitializeComponent();
+            #region OldPage
+            buttonMsg.Visibility = Visibility.Visible;
+            buttonPDF.Visibility = Visibility.Visible;
+            buttonOK.Visibility = Visibility.Visible;
+            hdrMessageAnswer.Visibility = Visibility.Visible;
+            hdrMessage.Visibility = Visibility.Visible;
+            hdrMessageTypeAnswer.Visibility = Visibility.Visible;
+            hdrMessageType.Visibility = Visibility.Visible;
+            hdrActive.Visibility = Visibility.Visible;
+            #endregion
+
+            #region CURRENTpAGE
+            hdrMessagelbl.Visibility = Visibility.Collapsed;
+            EDMessage.Text = string.Empty;
+            tbMessage.Visibility = Visibility.Collapsed;
+            EDMessage.Visibility = Visibility.Collapsed;
+            chkActive.IsChecked = false;
+            chkActive.Visibility = Visibility.Collapsed;
+            buttonSave.Visibility = Visibility.Collapsed;
+            #endregion
+
+
+            #region CurrentPage
+            xdgPDFs.Visibility = Visibility.Collapsed;
+            xdgMessages.Visibility = Visibility.Collapsed;
+            buttonSaveActive.Visibility = Visibility.Collapsed;
+            hdrWelcome.Visibility = Visibility.Collapsed;
+            hdrPDFs.Visibility = Visibility.Collapsed;
+            #endregion
+
+
+            DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_GetActiveWelcomeRecord", null);
+            DataTable dtMessages = dsMessages.Tables[0];
+
+            if (dtMessages.Rows.Count > 0)
+            {
+                var row = dtMessages.Rows[0];
+                hdrMessageTypeAnswer.Text = "Welcom Message";
+                hdrMessageAnswer.Text = row["ActiveMessage"].ToString();
+            }
         }
 
         private void buttonOK_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                _dsLookups = Methods.ExecuteStoredProcedure("sp_QAMessageLookups", null);
+                xdgMessages.ItemsSource = _dsLookups.Tables[0].DefaultView;
+                xdgPDFs.ItemsSource = _dsLookups.Tables[1].DefaultView;
+               
 
+                #region CURRENTpAGE
+                hdrMessagelbl.Visibility = Visibility.Collapsed;
+                EDMessage.Text = string.Empty;
+                tbMessage.Visibility = Visibility.Collapsed;
+                EDMessage.Visibility = Visibility.Collapsed;
+                chkActive.IsChecked = false;
+                chkActive.Visibility = Visibility.Collapsed;
+                buttonSave.Visibility = Visibility.Collapsed;
+                #endregion
+
+                #region OldPage
+                buttonMsg.Visibility = Visibility.Collapsed;
+                buttonPDF.Visibility = Visibility.Collapsed;
+                buttonOK.Visibility = Visibility.Collapsed;
+                hdrMessageAnswer.Visibility = Visibility.Collapsed;
+                hdrMessage.Visibility = Visibility.Collapsed;
+                hdrMessageTypeAnswer.Visibility = Visibility.Collapsed;
+                hdrMessageType.Visibility = Visibility.Collapsed;
+                hdrActive.Visibility = Visibility.Collapsed;
+                #endregion
+                #region CurrentPage
+                xdgPDFs.Visibility = Visibility.Visible;
+                xdgMessages.Visibility = Visibility.Visible;
+                buttonSaveActive.Visibility = Visibility.Visible;
+                hdrWelcome.Visibility = Visibility.Visible;
+                hdrPDFs.Visibility = Visibility.Visible;
+                #endregion
+            }
+            catch 
+            {
+                MessageBox.Show($"An error occurred: Messages could not be loaded at this time!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async void buttonPDF_Click(object sender, RoutedEventArgs e)
@@ -52,39 +123,37 @@ namespace UDM.Insurance.Interface.Screens
                 {
                     uploadProgressBar.Visibility = Visibility.Visible;
                     uploadProgressBar.Value = 0;
-
-
+                    int AddedID = 0;
+                    string Text = "";
                     long User = ((User)GlobalSettings.ApplicationUser).ID;
 
-                    #region Get Message
+                 
 
                     byte[] fileBytes = await Task.Run(() => File.ReadAllBytes(openFileDialog.FileName));
-
+                    //string hexString = "0x" + BitConverter.ToString(fileBytes).Replace("-", string.Empty);
+                    string base64String = Convert.ToBase64String(fileBytes);
                     SqlParameter[] parameters =
-                    {
-                     new SqlParameter("@PDFDocument", fileBytes),
+                       {
+                     new SqlParameter("@TextMessage", base64String),
                      new SqlParameter("@StampDate", DateTime.Now),
                      new SqlParameter("@StampUserID", User),
-                     new SqlParameter("@IsActive", false)
+                     new SqlParameter("@IsActive", false),
+                     new SqlParameter ("@PDFName", openFileDialog.SafeFileName)
                     };
-                    DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_AddPDFTestimonial", parameters);
+                    DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_AddWelcomeMessage", parameters);
                     DataTable dtMessages = dsMessages.Tables[0];
 
                     if (dtMessages.Rows.Count > 0)
                     {
                         foreach (DataRow row in dtMessages.Rows)
                         {
-                            message = Convert.ToBoolean(row["Success"].ToString()); 
-                           
+                            message = Convert.ToBoolean(row["Success"].ToString());
+                            AddedID = Convert.ToInt32(row["ID"].ToString());
+                            Text = row["PDFName"].ToString();
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show($"An error occurred: PDf could not be saved!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        uploadProgressBar.Visibility = Visibility.Hidden;
-                    }
-
-                    for (int i = 0; i <= 100; i++)
+              
+                            for (int i = 0; i <= 100; i++)
                     {
                         uploadProgressBar.Value = i;
                         // Simulate some processing time
@@ -98,26 +167,20 @@ namespace UDM.Insurance.Interface.Screens
 
                         if (result == MessageBoxResult.Yes)
                         {
-                            
-                            DataSet dsMessage = Methods.ExecuteStoredProcedure("sp_GetLastPDFTestimonialID", null);
-                            DataTable dtMessage = dsMessages.Tables[0];
-                            if (dtMessage.Rows.Count > 0)
-                            {
-                                DataRow row = dtMessage.Rows[0];
-                                int lastId = Convert.ToInt32(row["LastID"]); 
-                                string pdfName = row["PDFName"].ToString();
+
+                          
                                 try
                                 {
                                     SqlParameter[] parameter =
-                                    {
-                                      new SqlParameter("@PDFTestimonialID", lastId),
-                                    };
+                                 {
+                                  new SqlParameter("@WelcomeMessageID", AddedID),
+                                };
+
                                     try
                                     {
                                         Methods.ExecuteStoredProcedure("sp_SetInactiveAndActivateSpecific", parameter);
                                         hdrMessageTypeAnswer.Text = "PDF Testimonial";
-                                        hdrMessageAnswer.Text = pdfName;
-
+                                        hdrMessageAnswer.Text = Text;
                                         MessageBox.Show("PDF Testimonial now active.");
                                     }
                                     catch
@@ -130,7 +193,6 @@ namespace UDM.Insurance.Interface.Screens
 
                                 }
                             }
-                        }
                     }
                     else
                     {
@@ -145,5 +207,178 @@ namespace UDM.Insurance.Interface.Screens
                 uploadProgressBar.Visibility = Visibility.Hidden;
             }
         }
+
+        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(EDMessage.Text))
+                {
+                    bool message = false;
+                    int AddedID = 0;
+                    string Text = "";
+                    var IsActive = chkActive.IsChecked;
+                    var Message = EDMessage.Text;
+                    long User = ((User)GlobalSettings.ApplicationUser).ID;
+
+                  
+                    Welcome.TextMessage = EDMessage.Text;
+                    Welcome.IsActive = false;
+                    Welcome.StampDate = DateTime.Now;
+                    Welcome.PDFName = "Not Pdf";
+                    Welcome.StampUserID = User;
+                    SqlParameter[] parameters =
+                      {
+                     new SqlParameter("@TextMessage", Message),
+                     new SqlParameter("@StampDate", DateTime.Now),
+                     new SqlParameter("@StampUserID", User),
+                     new SqlParameter("@IsActive", IsActive),
+                     new SqlParameter("@PDFName", "NO")
+                    };
+                    bool saveResult = WelcomeMessageMapper.Save(Welcome);
+                    if (saveResult)
+                    {                  
+                                    hdrMessageTypeAnswer.Text = "Welcome Message";
+                                    hdrMessageAnswer.Text = Text;
+                                    MessageBox.Show("Welcome message, Has been saved.");
+                                    #region CURRENTpAGE
+                                    hdrMessagelbl.Visibility = Visibility.Collapsed;
+                                    EDMessage.Text = string.Empty;
+                                    tbMessage.Visibility = Visibility.Collapsed;
+                                    EDMessage.Visibility = Visibility.Collapsed;
+                                    chkActive.IsChecked = false;
+                                    chkActive.Visibility = Visibility.Collapsed;
+                                    buttonSave.Visibility = Visibility.Collapsed;
+                                    #endregion
+
+                                    #region OldPage
+                                    buttonMsg.Visibility = Visibility.Visible;
+                                    buttonPDF.Visibility = Visibility.Visible;
+                                    buttonOK.Visibility = Visibility.Visible;
+                                    hdrMessageAnswer.Visibility = Visibility.Visible;
+                                    hdrMessage.Visibility = Visibility.Visible;
+                                    hdrMessageTypeAnswer.Visibility = Visibility.Visible;
+                                    hdrMessageType.Visibility = Visibility.Visible;
+                                    hdrActive.Visibility = Visibility.Visible;
+                                    #endregion
+                               
+                       
+                    }
+                    else
+                    {
+                        MessageBox.Show("Save Failed, Message could not be saved.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Missing Data, Please make sure required fields are filled out message is missing.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void buttonSaveActive_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (xdgMessages.SelectedIndex == -1)
+                {
+                    MessageBox.Show($"Please select a message to make active", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                   if(xdgMessages.SelectedIndex != -1)
+                    {
+                        DataRowView selectedRow = (DataRowView)xdgMessages.SelectedItem;
+                        int selectedId = Convert.ToInt32(selectedRow["ID"]);
+                        WelcomeMessageMapper.UpdateIsActive(selectedRow, selectedId, true);
+                         MessageBox.Show($"Welcome message has been made active.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        string message = selectedRow["TextMessage"].ToString();
+                        hdrMessageTypeAnswer.Text = "Welcome Message";
+                        hdrMessageAnswer.Text = message;
+                        #region CurrentPage
+                        xdgPDFs.Visibility = Visibility.Collapsed;
+                        xdgMessages.Visibility = Visibility.Collapsed;
+                        buttonSaveActive.Visibility = Visibility.Collapsed;
+                        hdrWelcome.Visibility = Visibility.Collapsed;
+                        hdrPDFs.Visibility = Visibility.Collapsed;
+                        #endregion
+
+                        #region OldPage
+                        buttonMsg.Visibility = Visibility.Visible;
+                        buttonPDF.Visibility = Visibility.Visible;
+                        buttonOK.Visibility = Visibility.Visible;
+                        hdrMessageAnswer.Visibility = Visibility.Visible;
+                        hdrMessage.Visibility = Visibility.Visible;
+                        hdrMessageTypeAnswer.Visibility = Visibility.Visible;
+                        hdrMessageType.Visibility = Visibility.Visible;
+                        hdrActive.Visibility = Visibility.Visible;
+                        #endregion
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+            private void btnClose_Click(object sender, RoutedEventArgs e)
+            {
+        
+                StartScreen startScreen = new StartScreen();
+                OnClose(startScreen);
+        
+            }
+
+        private void xdgPDFs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (xdgPDFs.SelectedItem != null)
+            {
+                xdgMessages.UnselectAll();
+            }
+        }
+
+        private void xdgMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (xdgMessages.SelectedItem != null)
+            {
+                xdgPDFs.UnselectAll();
+            }
+        }
+
+        private void buttonMsg_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                #region CURRENTpAGE
+                hdrMessagelbl.Visibility = Visibility.Visible;
+                EDMessage.Text = string.Empty;
+                tbMessage.Visibility = Visibility.Visible;
+                EDMessage.Visibility = Visibility.Visible;
+                chkActive.IsChecked = false;
+                chkActive.Visibility = Visibility.Visible;
+                buttonSave.Visibility = Visibility.Visible;
+                #endregion
+
+                #region OldPage
+                buttonMsg.Visibility = Visibility.Collapsed;
+                buttonPDF.Visibility = Visibility.Collapsed;
+                buttonOK.Visibility = Visibility.Collapsed;
+                hdrMessageAnswer.Visibility = Visibility.Collapsed;
+                hdrMessage.Visibility = Visibility.Collapsed;
+                hdrMessageTypeAnswer.Visibility = Visibility.Collapsed;
+                hdrMessageType.Visibility = Visibility.Collapsed;
+                hdrActive.Visibility = Visibility.Collapsed;
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }
+
