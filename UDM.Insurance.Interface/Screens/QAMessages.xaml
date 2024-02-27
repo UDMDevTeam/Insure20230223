@@ -9,73 +9,90 @@
     <UserControl.Background>
         <ImageBrush ImageSource="../Resources/ReportBackground.png" />
     </UserControl.Background>
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Border
+x:Name="MainBorder"
+Background="Transparent"
+BorderBrush="{StaticResource BrandedBrushIN}"
+BorderThickness="2"
+CornerRadius="12"
+>
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Opacity" Value="1" />
+                <Style.Triggers>
+                    <Trigger Property="Border.IsEnabled" Value="False">
+                        <Setter Property="Border.Opacity" Value="0.7" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-        <Button  x:Name="btnClose"
+            <Button  x:Name="btnClose"
                  Grid.Column="26"
                  IsTabStop="True"
                  Click="btnClose_Click"
-                 Style="{DynamicResource INCloseButton}" Grid.ColumnSpan="2" Margin="26,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBlock
+                 Style="{DynamicResource INCloseButton}" Grid.ColumnSpan="2" Margin="17,11,0,0" HorizontalAlignment="Left" Grid.RowSpan="2" />
+            <TextBlock
                  x:Name="hdrQAMessages"
                  Grid.Row="1"
                  Grid.Column="2"
-                 Grid.ColumnSpan="7"
+                 Grid.ColumnSpan="12"
                  Margin="0"
                  VerticalAlignment="Top"
                  Style="{DynamicResource INPageHeadingText1}"
-                 Text="QA Messages" />
-        <TextBlock
+                 Text="QA Welcome Messages" />
+            <TextBlock
                  x:Name="hdrActive"
                  Grid.Row="3"
                  Visibility="Collapsed"
@@ -86,30 +103,31 @@
                  VerticalAlignment="Top"
                  Style="{DynamicResource INPageHeadingText1}"
                  Text="Currently Active: " />
-      <!--#region Selections Controls -->
+            <!--#region Selections Controls -->
             <TextBlock
          x:Name="hdrWelcome"
-         Grid.Row="2"
+         Grid.Row="3"
          FontSize="16"
          Grid.Column="1"
          Grid.ColumnSpan="7"
          Margin="28,0,0,0"
          Style="{DynamicResource INPageHeadingText1}"
          Text="Welcome Messages: " Visibility="Collapsed" />
-        <DataGrid x:Name="xdgMessages"
-                       Visibility="Visible"    
+            <DataGrid x:Name="xdgMessages"
+                       Visibility="Collapsed"    
                      Grid.Row="3"
-                     Grid.RowSpan="24"
+                 BorderBrush="{StaticResource BrandedBrushIN}"
+BorderThickness="{StaticResource INBorderThickness1}"
+                      Grid.RowSpan="13"
                      Grid.Column="1"
                      Grid.ColumnSpan="26"
-                     Margin="28,3,28,22"
+                     Margin="28,24,28,10"
                      HorizontalContentAlignment="Stretch"
                      VerticalContentAlignment="Stretch"
                      SelectionMode="Single"
-                     SelectionChanged="xdgMessages_SelectionChanged"
                      TabIndex="0" />
-       
-        <Button
+
+            <Button
                 x:Name="buttonSaveActive" Height="30"
                  Grid.Row="16"
              Visibility="Collapsed"    
@@ -121,62 +139,78 @@
                  Content="Save"
                  FontSize="14"
                  Style="{DynamicResource INFlatButton}" Click="buttonSaveActive_Click" Grid.RowSpan="2" Width="107" />
-      <!--#endregion --> 
-            
+            <Button
+     x:Name="buttonCancel" Height="30"
+      Grid.Row="16"
+  Visibility="Collapsed"    
+     Grid.ColumnSpan="5"
+     Grid.Column="18"
+     Margin="0,0,12,6"
+     HorizontalAlignment="Right"
+     VerticalAlignment="Bottom"
+      Content="Cancel"
+      FontSize="14"
+      Style="{DynamicResource INFlatButton}" Click="buttonCancel_Click" Grid.RowSpan="2" Width="107" />
+
+            <!--#endregion -->
+
             <!--#region Startpage-->
             <TextBlock
                  x:Name="hdrMessageType"
                  Grid.Row="5"
                  Visibility="Visible"
-                 FontSize="14"
+                 FontSize="16"
                  Grid.Column="2"
                  Grid.ColumnSpan="7"
                  Margin="0"
                  VerticalAlignment="Top"
                  Style="{DynamicResource INPageHeadingText1}"
                  Text="Message Type: " />
-        <TextBlock
+            <TextBlock
                   x:Name="hdrMessageTypeAnswer"
-                  Grid.Row="6"
+                  Grid.Row="7"
+                 Grid.RowSpan="4"
                   Visibility="Visible"
-                  FontSize="14"
+                  FontSize="16"
                   Grid.Column="1"
                   Grid.ColumnSpan="6"
                   Margin="28,0,24,0"
                   VerticalAlignment="Top"
                   Style="{DynamicResource INPageHeadingText1}"
                   Text="Welcome message" Foreground="#6cdae7" HorizontalAlignment="Stretch" />
-        <TextBlock
+            <TextBlock
                   x:Name="hdrMessage"
                   Grid.Row="5"
+               
                  Visibility="Visible"
-                  FontSize="14"
+                  FontSize="16"
                   Grid.Column="7"
                   Grid.ColumnSpan="7"
                   Margin="0"
                   VerticalAlignment="Top"
                   Style="{DynamicResource INPageHeadingText1}"
                   Text="Message: " />
-        <TextBlock
+            <TextBlock
                   x:Name="hdrMessageAnswer"
-                  Grid.Row="6"
+                  Grid.Row="7"
                   Visibility="Visible"
                   Grid.RowSpan="2"
-                  FontSize="14"
+                  FontSize="16"
                   Grid.Column="7"
                   Grid.ColumnSpan="16"
                   Margin="0"
                   VerticalAlignment="Top"
                    Style="{DynamicResource INPageHeadingText1}"
                    Text="Do not let what you cannot do interfere with what you can do. -  JOHN WOODEN" Foreground="#6cdae7" />
-        <ProgressBar  x:Name="uploadProgressBar" Grid.Row="11" Grid.ColumnSpan="28" Height="20" Margin="10" Visibility="Hidden"/>
+            <ProgressBar  x:Name="uploadProgressBar" Grid.Row="11" Grid.ColumnSpan="28" Height="20" Margin="10" Visibility="Hidden"/>
 
-        <Button
+            <Button
  	           x:Name="buttonOK"
                Height="30"
- 	           Grid.Row="10"
+ 	           Grid.Row="11"
+                Grid.RowSpan="3"
                Visibility="Visible"
-               Grid.ColumnSpan="4"
+               Grid.ColumnSpan="6"
                Grid.Column="2"
  	           HorizontalAlignment="Center"
  	           VerticalAlignment="Bottom"
@@ -184,8 +218,8 @@
                FontSize="14"
  	           IsCancel="False"
  	           IsDefault="True"
- 	           Style="{DynamicResource INFlatButton}" Click="buttonSaveActive_Click" />
-        <!--<Button
+ 	           Style="{DynamicResource INFlatButton}" Click="buttonOK_Click" />
+            <!--<Button
 	           x:Name="buttonPDF"
                Height="30"
                Visibility="Visible"
@@ -200,11 +234,12 @@
 	           IsCancel="False"
 	           IsDefault="True"
 	           Style="{DynamicResource INFlatButton}"  />-->
-        <Button
+            <Button
              x:Name="buttonMsg"
              Visibility="Visible"
               Height="30"
-             Grid.Row="10"
+             Grid.Row="11"
+                Grid.RowSpan="3"
  Grid.ColumnSpan="6"
  Grid.Column="8"
              HorizontalAlignment="Center"
@@ -215,9 +250,9 @@
              IsDefault="True"
              Style="{DynamicResource INFlatButton}" Click="buttonMsg_Click" />
             <!--#endregion-->
-            
-            <!--#region Add Message--> 
-        <TextBlock
+
+            <!--#region Add Message-->
+            <TextBlock
              x:Name="hdrMessagelbl"
              Grid.Row="5"
              VerticalAlignment="Center"       
@@ -227,8 +262,21 @@
              Margin="0"
              Style="{DynamicResource INPageHeadingText1}"
              Text="Message: " Visibility="Collapsed" />
-        <igWPF:XamMaskedEditor Visibility="Collapsed"  Grid.Column="5" Grid.ColumnSpan="11" Grid.Row="5" Grid.RowSpan="4"  Style="{DynamicResource medIN}" x:Name="EDMessage" VerticalAlignment="Top" Height="88" Margin="0,7,0,0" Width="300"/>
-        <TextBlock
+            <TextBox Visibility="Collapsed"
+                 FontFamily="Arial" 
+                 FontSize="16"
+                 FontStyle="Normal"
+                 FontWeight="Normal" 
+                 Foreground="Black"
+                 Background="White"
+            SnapsToDevicePixels="False" 
+            VerticalContentAlignment="Center" 
+           HorizontalContentAlignment="Left"
+           HorizontalAlignment="Left"
+            BorderBrush="Gray"
+           BorderThickness="{StaticResource INBorderThickness1}" 
+            Grid.Column="5" Grid.ColumnSpan="11" Grid.Row="5" Grid.RowSpan="4"  x:Name="EDMessage" VerticalAlignment="Top" Height="88" Margin="0,7,0,0" Width="300"/>
+            <TextBlock
             Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="5"
             x:Name="tbMessage"
             Margin="28,10,0,0"
@@ -236,7 +284,7 @@
             Visibility="Collapsed"
             Style="{StaticResource INLabelText1}"
             Text="Is Active: " Grid.RowSpan="2" VerticalAlignment="Top" Width="86" />
-        <CheckBox
+            <CheckBox
              Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="3"
              x:Name="chkActive"
              Width="16"
@@ -245,18 +293,21 @@
              HorizontalAlignment="Left"
              VerticalAlignment="Center"
              Visibility="Collapsed"/>
-        <Button
+            <Button
               x:Name="buttonSave" Height="30"
               Grid.Row="16"
-              Grid.ColumnSpan="6"
-              Grid.Column="20"
-              Margin="0,0,10,20"
+              
+                Grid.RowSpan="2"
+              Grid.ColumnSpan="5"
+              Grid.Column="23"
+              Margin="0,0,10,7"
               HorizontalAlignment="Right"
               VerticalAlignment="Bottom"
               Content="Save"
               FontSize="14"
             Visibility="Collapsed"
-              Style="{DynamicResource INFlatButton}" Click="buttonSave_Click" Grid.RowSpan="2" />
-   <!--#endregion-->
+              Style="{DynamicResource INFlatButton}" Click="buttonSave_Click"  Width="111" />
+            <!--#endregion-->
         </Grid>
+    </Border>
 </src:BaseControl>

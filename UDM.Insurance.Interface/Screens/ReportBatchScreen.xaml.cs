@@ -1324,6 +1324,25 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (wbReport.Worksheets.Count > 0)
                 {
+                    foreach (var worksheet in wbReport.Worksheets)
+                    {
+                        if (worksheet.Name.Contains("Cancer Base Facebook Tier"))
+                        {
+
+                            worksheet.Columns[0].Hidden = true;
+                            worksheet.Columns[4].Hidden = true;
+                            worksheet.Columns[5].Hidden = true;
+                            worksheet.Columns[9].Hidden = true;
+                            worksheet.Columns[11].Hidden = true;
+                            worksheet.Columns[19].Hidden = true;
+                            worksheet.Columns[20].Hidden = true;
+                            worksheet.Columns[21].Hidden = true;
+                            worksheet.Columns[22].Hidden = true;
+                            worksheet.Columns[23].Hidden = true;
+                            worksheet.Columns[24].Hidden = true;
+                            worksheet.Columns[25].Hidden = true;
+                        }
+                    }
                     wbReport.Save(fileName);
 
                     //Display excel document                           

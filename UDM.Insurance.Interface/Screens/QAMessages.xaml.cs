@@ -1,4 +1,5 @@
-﻿using Embriant.Framework.Configuration;
+﻿using Embriant.Framework;
+using Embriant.Framework.Configuration;
 using System;
 using System.Collections;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using UDM.Insurance.Business;
 using UDM.Insurance.Business.Mapping;
+using UDM.Insurance.Interface.Windows;
 using UDM.WPF.Library;
 using static System.Net.Mime.MediaTypeNames;
 using MessageBox = System.Windows.MessageBox;
@@ -25,7 +27,6 @@ namespace UDM.Insurance.Interface.Screens
             InitializeComponent();
             #region OldPage
             buttonMsg.Visibility = Visibility.Visible;
-            buttonPDF.Visibility = Visibility.Visible;
             buttonOK.Visibility = Visibility.Visible;
             hdrMessageAnswer.Visibility = Visibility.Visible;
             hdrMessage.Visibility = Visibility.Visible;
@@ -46,11 +47,11 @@ namespace UDM.Insurance.Interface.Screens
 
 
             #region CurrentPage
-            xdgPDFs.Visibility = Visibility.Collapsed;
+          
             xdgMessages.Visibility = Visibility.Collapsed;
             buttonSaveActive.Visibility = Visibility.Collapsed;
             hdrWelcome.Visibility = Visibility.Collapsed;
-            hdrPDFs.Visibility = Visibility.Collapsed;
+           
             #endregion
 
 
@@ -60,7 +61,7 @@ namespace UDM.Insurance.Interface.Screens
             if (dtMessages.Rows.Count > 0)
             {
                 var row = dtMessages.Rows[0];
-                hdrMessageTypeAnswer.Text = "Welcom Message";
+                hdrMessageTypeAnswer.Text = "Welcome Message";
                 hdrMessageAnswer.Text = row["ActiveMessage"].ToString();
             }
         }
@@ -71,7 +72,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 _dsLookups = Methods.ExecuteStoredProcedure("sp_QAMessageLookups", null);
                 xdgMessages.ItemsSource = _dsLookups.Tables[0].DefaultView;
-                xdgPDFs.ItemsSource = _dsLookups.Tables[1].DefaultView;
+
                
 
                 #region CURRENTpAGE
@@ -86,7 +87,6 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region OldPage
                 buttonMsg.Visibility = Visibility.Collapsed;
-                buttonPDF.Visibility = Visibility.Collapsed;
                 buttonOK.Visibility = Visibility.Collapsed;
                 hdrMessageAnswer.Visibility = Visibility.Collapsed;
                 hdrMessage.Visibility = Visibility.Collapsed;
@@ -95,118 +95,118 @@ namespace UDM.Insurance.Interface.Screens
                 hdrActive.Visibility = Visibility.Collapsed;
                 #endregion
                 #region CurrentPage
-                xdgPDFs.Visibility = Visibility.Visible;
+              
                 xdgMessages.Visibility = Visibility.Visible;
                 buttonSaveActive.Visibility = Visibility.Visible;
                 hdrWelcome.Visibility = Visibility.Visible;
-                hdrPDFs.Visibility = Visibility.Visible;
+              buttonCancel.Visibility = Visibility.Visible;
                 #endregion
             }
             catch 
             {
-                MessageBox.Show($"An error occurred: Messages could not be loaded at this time!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowMessageBox(new INMessageBoxWindow1(), "An error occurred: Messages could not be loaded at this time!\n", "Error", ShowMessageType.Error);
             }
         }
 
-        private async void buttonPDF_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                bool message = false;
-                var openFileDialog = new Microsoft.Win32.OpenFileDialog
-                {
-                    Filter = "PDF Files (*.pdf)|*.pdf",
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                };
+        //private async void buttonPDF_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        bool message = false;
+        //        var openFileDialog = new Microsoft.Win32.OpenFileDialog
+        //        {
+        //            Filter = "PDF Files (*.pdf)|*.pdf",
+        //            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        //        };
 
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    uploadProgressBar.Visibility = Visibility.Visible;
-                    uploadProgressBar.Value = 0;
-                    int AddedID = 0;
-                    string Text = "";
-                    long User = ((User)GlobalSettings.ApplicationUser).ID;
+        //        if (openFileDialog.ShowDialog() == true)
+        //        {
+        //            uploadProgressBar.Visibility = Visibility.Visible;
+        //            uploadProgressBar.Value = 0;
+        //            int AddedID = 0;
+        //            string Text = "";
+        //            long User = ((User)GlobalSettings.ApplicationUser).ID;
 
                  
 
-                    byte[] fileBytes = await Task.Run(() => File.ReadAllBytes(openFileDialog.FileName));
-                    //string hexString = "0x" + BitConverter.ToString(fileBytes).Replace("-", string.Empty);
-                    string base64String = Convert.ToBase64String(fileBytes);
-                    SqlParameter[] parameters =
-                       {
-                     new SqlParameter("@TextMessage", base64String),
-                     new SqlParameter("@StampDate", DateTime.Now),
-                     new SqlParameter("@StampUserID", User),
-                     new SqlParameter("@IsActive", false),
-                     new SqlParameter ("@PDFName", openFileDialog.SafeFileName)
-                    };
-                    DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_AddWelcomeMessage", parameters);
-                    DataTable dtMessages = dsMessages.Tables[0];
+        //            byte[] fileBytes = await Task.Run(() => File.ReadAllBytes(openFileDialog.FileName));
+        //            //string hexString = "0x" + BitConverter.ToString(fileBytes).Replace("-", string.Empty);
+        //            string base64String = Convert.ToBase64String(fileBytes);
+        //            SqlParameter[] parameters =
+        //               {
+        //             new SqlParameter("@TextMessage", base64String),
+        //             new SqlParameter("@StampDate", DateTime.Now),
+        //             new SqlParameter("@StampUserID", User),
+        //             new SqlParameter("@IsActive", false),
+        //             new SqlParameter ("@PDFName", openFileDialog.SafeFileName)
+        //            };
+        //            DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_AddWelcomeMessage", parameters);
+        //            DataTable dtMessages = dsMessages.Tables[0];
 
-                    if (dtMessages.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dtMessages.Rows)
-                        {
-                            message = Convert.ToBoolean(row["Success"].ToString());
-                            AddedID = Convert.ToInt32(row["ID"].ToString());
-                            Text = row["PDFName"].ToString();
-                        }
-                    }
+        //            if (dtMessages.Rows.Count > 0)
+        //            {
+        //                foreach (DataRow row in dtMessages.Rows)
+        //                {
+        //                    message = Convert.ToBoolean(row["Success"].ToString());
+        //                    AddedID = Convert.ToInt32(row["ID"].ToString());
+        //                    Text = row["PDFName"].ToString();
+        //                }
+        //            }
               
-                            for (int i = 0; i <= 100; i++)
-                    {
-                        uploadProgressBar.Value = i;
-                        // Simulate some processing time
-                        await Task.Delay(50);
-                    }
+        //                    for (int i = 0; i <= 100; i++)
+        //            {
+        //                uploadProgressBar.Value = i;
+        //                // Simulate some processing time
+        //                await Task.Delay(50);
+        //            }
 
-                    uploadProgressBar.Visibility = Visibility.Hidden;
-                    if (message)
-                    {
-                        MessageBoxResult result = MessageBox.Show("Upload complete! Do you want to proceed with making this the active message?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        //            uploadProgressBar.Visibility = Visibility.Hidden;
+        //            if (message)
+        //            {
+        //                MessageBoxResult result = MessageBox.Show("Upload complete! Do you want to proceed with making this the active message?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                        if (result == MessageBoxResult.Yes)
-                        {
+        //                if (result == MessageBoxResult.Yes)
+        //                {
 
                           
-                                try
-                                {
-                                    SqlParameter[] parameter =
-                                 {
-                                  new SqlParameter("@WelcomeMessageID", AddedID),
-                                };
+        //                        try
+        //                        {
+        //                            SqlParameter[] parameter =
+        //                         {
+        //                          new SqlParameter("@WelcomeMessageID", AddedID),
+        //                        };
 
-                                    try
-                                    {
-                                        Methods.ExecuteStoredProcedure("sp_SetInactiveAndActivateSpecific", parameter);
-                                        hdrMessageTypeAnswer.Text = "PDF Testimonial";
-                                        hdrMessageAnswer.Text = Text;
-                                        MessageBox.Show("PDF Testimonial now active.");
-                                    }
-                                    catch
-                                    {
-                                        MessageBox.Show("PDF Testimonial could not be made active.");
-                                    }
-                                }
-                                catch
-                                {
+        //                            try
+        //                            {
+        //                                Methods.ExecuteStoredProcedure("sp_SetInactiveAndActivateSpecific", parameter);
+        //                                hdrMessageTypeAnswer.Text = "PDF Testimonial";
+        //                                hdrMessageAnswer.Text = Text;
+        //                                MessageBox.Show("PDF Testimonial now active.");
+        //                            }
+        //                            catch
+        //                            {
+        //                                MessageBox.Show("PDF Testimonial could not be made active.");
+        //                            }
+        //                        }
+        //                        catch
+        //                        {
 
-                                }
-                            }
-                    }
-                    else
-                    {
-                        MessageBox.Show($"An error occurred: PDf could not be uploaded!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
+        //                        }
+        //                    }
+        //            }
+        //            else
+        //            {
+        //                MessageBox.Show($"An error occurred: PDf could not be uploaded!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                uploadProgressBar.Visibility = Visibility.Hidden;
-            }
-        }
+        //        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        uploadProgressBar.Visibility = Visibility.Hidden;
+        //    }
+        //}
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
@@ -225,7 +225,7 @@ namespace UDM.Insurance.Interface.Screens
                     Welcome.TextMessage = EDMessage.Text;
                     Welcome.IsActive = false;
                     Welcome.StampDate = DateTime.Now;
-                    Welcome.PDFName = "Not Pdf";
+                    Welcome.PDFName = "Not a Pdf";
                     Welcome.StampUserID = User;
                     SqlParameter[] parameters =
                       {
@@ -240,9 +240,11 @@ namespace UDM.Insurance.Interface.Screens
                     {                  
                                     hdrMessageTypeAnswer.Text = "Welcome Message";
                                     hdrMessageAnswer.Text = Text;
-                                    MessageBox.Show("Welcome message, Has been saved.");
-                                    #region CURRENTpAGE
-                                    hdrMessagelbl.Visibility = Visibility.Collapsed;
+                                  
+                        ShowMessageBox(new INMessageBoxWindow1(), "Welcome message, Has been saved.\n", "Success", ShowMessageType.Information);
+
+                        #region CURRENTpAGE
+                        hdrMessagelbl.Visibility = Visibility.Collapsed;
                                     EDMessage.Text = string.Empty;
                                     tbMessage.Visibility = Visibility.Collapsed;
                                     EDMessage.Visibility = Visibility.Collapsed;
@@ -253,7 +255,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                     #region OldPage
                                     buttonMsg.Visibility = Visibility.Visible;
-                                    buttonPDF.Visibility = Visibility.Visible;
+                                 //   buttonPDF.Visibility = Visibility.Visible;
                                     buttonOK.Visibility = Visibility.Visible;
                                     hdrMessageAnswer.Visibility = Visibility.Visible;
                                     hdrMessage.Visibility = Visibility.Visible;
@@ -266,17 +268,17 @@ namespace UDM.Insurance.Interface.Screens
                     }
                     else
                     {
-                        MessageBox.Show("Save Failed, Message could not be saved.");
+                        ShowMessageBox(new INMessageBoxWindow1(), "Save Failed, Message could not be saved.\n", "Validation", ShowMessageType.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Missing Data, Please make sure required fields are filled out message is missing.");
+                    ShowMessageBox(new INMessageBoxWindow1(), "Missing Data, Please make sure required fields are filled out message is missing.\n", "Validation", ShowMessageType.Information);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowMessageBox(new INMessageBoxWindow1(), "Something went wrong.\n", "Error", ShowMessageType.Error);
             }
         }
 
@@ -286,7 +288,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if (xdgMessages.SelectedIndex == -1)
                 {
-                    MessageBox.Show($"Please select a message to make active", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowMessageBox(new INMessageBoxWindow1(), "Please select a message to make active.\n", "Error", ShowMessageType.Error);
                 }
                 else
                 {
@@ -294,29 +296,40 @@ namespace UDM.Insurance.Interface.Screens
                     {
                         DataRowView selectedRow = (DataRowView)xdgMessages.SelectedItem;
                         int selectedId = Convert.ToInt32(selectedRow["ID"]);
-                        WelcomeMessageMapper.UpdateIsActive(selectedRow, selectedId, true);
-                         MessageBox.Show($"Welcome message has been made active.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                        string message = selectedRow["TextMessage"].ToString();
-                        hdrMessageTypeAnswer.Text = "Welcome Message";
-                        hdrMessageAnswer.Text = message;
-                        #region CurrentPage
-                        xdgPDFs.Visibility = Visibility.Collapsed;
-                        xdgMessages.Visibility = Visibility.Collapsed;
-                        buttonSaveActive.Visibility = Visibility.Collapsed;
-                        hdrWelcome.Visibility = Visibility.Collapsed;
-                        hdrPDFs.Visibility = Visibility.Collapsed;
-                        #endregion
+                        try
+                        {
+                            Welcome = new WelcomMessage(selectedId);
+                            Welcome.TextMessage = selectedRow["Name"].ToString();
+                            Welcome.ID = selectedId;
+                            Welcome.IsActive = true;
+                            Welcome.PDFName = "Not a Pdf";
+                            WelcomeMessageMapper.UpdateIsActive(Welcome, selectedId, true);
+                            MessageBox.Show($"Welcome message has been made active.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                            string message = selectedRow["Name"].ToString();
+                            hdrMessageTypeAnswer.Text = "Welcome Message";
+                            hdrMessageAnswer.Text = message;
+                            #region CurrentPage
+                           
+                            xdgMessages.Visibility = Visibility.Collapsed;
+                            buttonSaveActive.Visibility = Visibility.Collapsed;
+                            hdrWelcome.Visibility = Visibility.Collapsed;
+                           
+                            #endregion
 
-                        #region OldPage
-                        buttonMsg.Visibility = Visibility.Visible;
-                        buttonPDF.Visibility = Visibility.Visible;
-                        buttonOK.Visibility = Visibility.Visible;
-                        hdrMessageAnswer.Visibility = Visibility.Visible;
-                        hdrMessage.Visibility = Visibility.Visible;
-                        hdrMessageTypeAnswer.Visibility = Visibility.Visible;
-                        hdrMessageType.Visibility = Visibility.Visible;
-                        hdrActive.Visibility = Visibility.Visible;
-                        #endregion
+                            #region OldPage
+                            buttonMsg.Visibility = Visibility.Visible;
+                           
+                            buttonOK.Visibility = Visibility.Visible;
+                            hdrMessageAnswer.Visibility = Visibility.Visible;
+                            hdrMessage.Visibility = Visibility.Visible;
+                            hdrMessageTypeAnswer.Visibility = Visibility.Visible;
+                            hdrMessageType.Visibility = Visibility.Visible;
+                            hdrActive.Visibility = Visibility.Visible;
+                            #endregion
+                        }catch (Exception ex)
+                        {
+
+                        }
                     }
                 }
             }
@@ -332,23 +345,6 @@ namespace UDM.Insurance.Interface.Screens
                 OnClose(startScreen);
         
             }
-
-        private void xdgPDFs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (xdgPDFs.SelectedItem != null)
-            {
-                xdgMessages.UnselectAll();
-            }
-        }
-
-        private void xdgMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (xdgMessages.SelectedItem != null)
-            {
-                xdgPDFs.UnselectAll();
-            }
-        }
-
         private void buttonMsg_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -361,11 +357,12 @@ namespace UDM.Insurance.Interface.Screens
                 chkActive.IsChecked = false;
                 chkActive.Visibility = Visibility.Visible;
                 buttonSave.Visibility = Visibility.Visible;
+                buttonCancel.Visibility = Visibility.Visible;   
                 #endregion
 
                 #region OldPage
                 buttonMsg.Visibility = Visibility.Collapsed;
-                buttonPDF.Visibility = Visibility.Collapsed;
+              
                 buttonOK.Visibility = Visibility.Collapsed;
                 hdrMessageAnswer.Visibility = Visibility.Collapsed;
                 hdrMessage.Visibility = Visibility.Collapsed;
@@ -378,6 +375,38 @@ namespace UDM.Insurance.Interface.Screens
             {
 
             }
+        }
+
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            #region OldPage
+            buttonMsg.Visibility = Visibility.Visible;
+            buttonOK.Visibility = Visibility.Visible;
+            hdrMessageAnswer.Visibility = Visibility.Visible;
+            hdrMessage.Visibility = Visibility.Visible;
+            hdrMessageTypeAnswer.Visibility = Visibility.Visible;
+            hdrMessageType.Visibility = Visibility.Visible;
+            hdrActive.Visibility = Visibility.Visible;
+            #endregion
+
+            #region CURRENTpAGE
+            hdrMessagelbl.Visibility = Visibility.Collapsed;
+            EDMessage.Text = string.Empty;
+            tbMessage.Visibility = Visibility.Collapsed;
+            EDMessage.Visibility = Visibility.Collapsed;
+            chkActive.IsChecked = false;
+            chkActive.Visibility = Visibility.Collapsed;
+            buttonSave.Visibility = Visibility.Collapsed;
+            #endregion
+            buttonCancel.Visibility = Visibility.Collapsed;
+
+            #region CurrentPage
+
+            xdgMessages.Visibility = Visibility.Collapsed;
+            buttonSaveActive.Visibility = Visibility.Collapsed;
+            hdrWelcome.Visibility = Visibility.Collapsed;
+
+            #endregion
         }
     }
 }

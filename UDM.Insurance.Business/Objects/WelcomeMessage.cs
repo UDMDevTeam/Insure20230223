@@ -32,7 +32,7 @@ namespace UDM.Insurance.Business
         }
 
         /// <summary>
-        /// Creates a new instance of the INNextOfKin class.
+        /// Creates a new instance of the WelcomeMessage class.
         /// </summary>
         public WelcomMessage(long id)
         {
