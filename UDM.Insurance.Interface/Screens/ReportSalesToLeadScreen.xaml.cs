@@ -19,6 +19,7 @@ using UDM.Insurance.Interface.Data;
 using UDM.Insurance.Interface.Windows;
 using UDM.WPF.Library;
 
+
 namespace UDM.Insurance.Interface.Screens
 {
     /// <summary>
@@ -2055,14 +2056,14 @@ namespace UDM.Insurance.Interface.Screens
                 DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
             }
 
-            Workbook wbTemplate = Methods.DefineTemplateWorkbook("/Templates/ReportTemplateSTLAndBCP.xlsx");
+            Infragistics.Documents.Excel.Workbook wbTemplate = Methods.DefineTemplateWorkbook("/Templates/ReportTemplateSTLAndBCP.xlsx");
             Workbook wbReport = new Workbook(WorkbookFormat.Excel2007);
 
             #endregion Setup Excel document
 
             #region Insert the conversion cover sheet
 
-            Worksheet wsConversionSummaryTemplate;
+            Infragistics.Documents.Excel.Worksheet wsConversionSummaryTemplate;
             Worksheet wsConversionSummary;
             InsertConversionCoverSheet(wbTemplate, wbReport, out wsConversionSummaryTemplate, out wsConversionSummary, drCampaign);
 
@@ -2110,6 +2111,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (wbReport.Worksheets.Count > 0)
                 {
+                   
                     wbReport.Save(filePathAndName);
 
                     //Display excel document

@@ -108,6 +108,7 @@ namespace UDM.Insurance.Interface.Screens
             }
         }
 
+
         private bool IsAuthenticUser()
         {
             try
@@ -228,14 +229,30 @@ namespace UDM.Insurance.Interface.Screens
                 string Username = ((User)GlobalSettings.ApplicationUser).LoginName;
 
                 #region Get Message
-                DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_GetWellComeMessages", null);
+                //DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_GetWellComeMessages", null);
+                //DataTable dtMessages = dsMessages.Tables[0];
+                //Random rnd = new Random();
+                //int messageId = rnd.Next(0, dsMessages.Tables[0].Rows.Count);
+                //string message = string.Empty;
+                //if (dtMessages.Rows[messageId]["TextMessage"] != null && dtMessages.Rows[messageId]["TextMessage"].ToString() != string.Empty && dtMessages.Rows.Count > 0)
+                //{
+                //    message = dtMessages.Rows[messageId]["TextMessage"].ToString();
+                //}
+                DataSet dsMessages = Methods.ExecuteStoredProcedure("sp_GetActiveWelcomeRecord", null);
                 DataTable dtMessages = dsMessages.Tables[0];
                 Random rnd = new Random();
-                int messageId = rnd.Next(0, dsMessages.Tables[0].Rows.Count);
                 string message = string.Empty;
-                if (dtMessages.Rows[messageId]["TextMessage"] != null && dtMessages.Rows[messageId]["TextMessage"].ToString() != string.Empty && dtMessages.Rows.Count > 0)
+
+                if (dtMessages.Rows.Count > 0)
                 {
-                    message = dtMessages.Rows[messageId]["TextMessage"].ToString();
+                  
+                    int messageId = dtMessages.Rows.Count > 1 ? rnd.Next(0, dtMessages.Rows.Count) : 0;
+
+                   
+                    if (dtMessages.Rows[messageId]["ActiveMessage"] != DBNull.Value && !string.IsNullOrWhiteSpace(dtMessages.Rows[messageId]["ActiveMessage"].ToString()))
+                    {
+                        message = dtMessages.Rows[messageId]["ActiveMessage"].ToString();
+                    }
                 }
                 #endregion
 
@@ -289,7 +306,7 @@ namespace UDM.Insurance.Interface.Screens
 
                                         //CheckUserVersion(Username);
 
-                                        nextControl = new MenuManagementScreen(ScreenDirection.Forward);
+                                        nextControl = new  MenuManagementScreen(ScreenDirection.Forward);
                                         break;
                                     case (int)lkpUserType.SalesAgent:
                                     case (int)lkpUserType.DataCapturer:

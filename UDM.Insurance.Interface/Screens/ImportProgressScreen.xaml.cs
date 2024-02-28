@@ -2244,7 +2244,7 @@ namespace UDM.Insurance.Interface.Screens
                                 inImportOther.FKINImportID = inImport.ID;
                                 inImportOther.FKINBatchID = inImport.FKINBatchID;
                                 inImportOther.RefNo = inImport.RefNo;
-                                if (_inCampaign.ID == 424 || _inCampaign.ID == 423)
+                                if (_inCampaign.ID == 424 || _inCampaign.ID == 423 || _inCampaign.ID == 431)
                                 {
                                     inImportOther.VoucherCode = GetStringValue(row.Cells[idxFields["Future11"].Index]);
                                     inImportOther.VoucherExpiryDate = GetDateValue(row.Cells[idxFields["Future12"].Index]);
