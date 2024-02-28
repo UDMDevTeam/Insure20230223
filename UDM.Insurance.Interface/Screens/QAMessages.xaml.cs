@@ -313,7 +313,7 @@ namespace UDM.Insurance.Interface.Screens
                             xdgMessages.Visibility = Visibility.Collapsed;
                             buttonSaveActive.Visibility = Visibility.Collapsed;
                             hdrWelcome.Visibility = Visibility.Collapsed;
-                           
+                           buttonCancel.Visibility = Visibility.Collapsed;
                             #endregion
 
                             #region OldPage
