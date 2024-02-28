@@ -2,24 +2,14 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static UDM.Insurance.Interface.Data.LeadApplicationData;
 using UDM.WPF.Library;
 using Embriant.Framework.Configuration;
 using UDM.Insurance.Business.Mapping;
 using UDM.Insurance.Business.Objects;
 using UDM.Insurance.Business;
+using Embriant.Framework;
+using UDM.Insurance.Interface.Windows;
 
 namespace UDM.Insurance.Interface.Screens
 {
@@ -58,6 +48,8 @@ namespace UDM.Insurance.Interface.Screens
         {
            long StampUser =  GlobalSettings.ApplicationUser.ID;
            DateTime stampDate = DateTime.Now.Date.AddDays(-1);
+            bool saveResult = false;
+            bool saveResultUpgrades = false;
             #region Base
             List<INTopDCAgents> TopBaseAgents = new List<INTopDCAgents>
             {
@@ -78,7 +70,7 @@ namespace UDM.Insurance.Interface.Screens
             // Save Base Agents
             foreach (var agent in TopBaseAgents)
             {
-                bool saveResult = INTopDCAgentsMapper.Save(agent);
+                 saveResult = INTopDCAgentsMapper.Save(agent);
                 if (!saveResult)
                 {
                     Console.WriteLine($"Failed to save Base Agent Score.");
@@ -88,11 +80,19 @@ namespace UDM.Insurance.Interface.Screens
             // Save Upgrade Agents
             foreach (var agent in TopUpgradeAgents)
             {
-                bool saveResult = INTopDCAgentsMapper.Save(agent);
+                saveResultUpgrades = INTopDCAgentsMapper.Save(agent);
                 if (!saveResult)
                 {
                     Console.WriteLine($"Failed to save Upgrade Agent Score.");
                 }
+            }
+            if(saveResult && saveResultUpgrades)
+            {
+                ShowMessageBox(new INMessageBoxWindow1(), "Top DC stats, Has been saved.\n", "Success", ShowMessageType.Information);
+            }
+            else
+            {
+                ShowMessageBox(new INMessageBoxWindow1(), "Save Failed, Stats could not be saved.\n", "Validation", ShowMessageType.Error);
             }
         }
         private class TOPDCAgents
@@ -115,7 +115,21 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                SaveMethod();
+                if (cmbAgent.SelectedIndex != -1 && cmbAgentUpgrades.SelectedIndex != -1)
+                {
+                    if (edRate1.Text != string.Empty || edRate1.Text != "" && edRate1Upgrade.Text != string.Empty || edRate1Upgrade.Text != "")
+                    {
+                        SaveMethod();
+                    }
+                    else
+                    {
+                        ShowMessageBox(new INMessageBoxWindow1(), "Please add Accepted rates for atleast one Agent for Base and Upgrades.\n", "Validation", ShowMessageType.Error);
+                    }
+                }
+                else
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), "Please select atleast one Agent for Base and Upgrades.\n", "Validation", ShowMessageType.Error);
+                }
             }
             catch { 
             

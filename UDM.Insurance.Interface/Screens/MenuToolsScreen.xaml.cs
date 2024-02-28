@@ -440,6 +440,19 @@ namespace UDM.Insurance.Interface.Screens
                 HandleException(ex);
             }
         }
+
+        private void btnQAMsg_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                QAMessages myQAScreen = new QAMessages();
+                ShowDialog(myQAScreen, new INDialogWindow(myQAScreen));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
     }
 
 }
