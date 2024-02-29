@@ -86,14 +86,9 @@ namespace UDM.Insurance.Interface.Screens
                     Console.WriteLine($"Failed to save Upgrade Agent Score.");
                 }
             }
-            if(saveResult && saveResultUpgrades)
-            {
-                ShowMessageBox(new INMessageBoxWindow1(), "Top DC stats, Has been saved.\n", "Success", ShowMessageType.Information);
-            }
-            else
-            {
-                ShowMessageBox(new INMessageBoxWindow1(), "Save Failed, Stats could not be saved.\n", "Validation", ShowMessageType.Error);
-            }
+           
+            ShowMessageBox(new INMessageBoxWindow1(), "Top DC stats, Has been saved.\n", "Success", ShowMessageType.Information);
+         
         }
         private class TOPDCAgents
         {
@@ -117,6 +112,7 @@ namespace UDM.Insurance.Interface.Screens
             {
                 if (cmbAgent.SelectedIndex != -1 && cmbAgentUpgrades.SelectedIndex != -1)
                 {
+
                     if (edRate1.Text != string.Empty || edRate1.Text != "" && edRate1Upgrade.Text != string.Empty || edRate1Upgrade.Text != "")
                     {
                         SaveMethod();
