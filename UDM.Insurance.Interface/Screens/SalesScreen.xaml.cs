@@ -210,6 +210,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 if (UserType == lkpUserType.CallMonitoringAgent || UserType == lkpUserType.Preserver)
                 {
+                    btnDiaryReport.Visibility = Visibility.Collapsed;
                     DataSet ds = Insure.INGetSalesAssignedToCMAgent(_agentID);
 
                     DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
@@ -226,6 +227,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else if (UserType == lkpUserType.ConfirmationAgent)
                 {
+                    btnDiaryReport.Visibility = Visibility.Collapsed;
                     DataSet ds = Insure.INGetPossibleBumpUpsAssignedToBUAgent(_agentID);
 
                     DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroup"], ds.Tables[1].Columns["CampaignGroup"]);
@@ -242,7 +244,7 @@ namespace UDM.Insurance.Interface.Screens
                 }
                 else if (UserType == lkpUserType.DebiCheckAgent)
                 {
-
+                    btnDiaryReport.Visibility = Visibility.Collapsed;
                     DataSet ds = Insure.INGetSalesAssignedToDCAgent(_agentID);
 
                     DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignGroupType"], ds.Tables[1].Columns["CampaignGroupType"]);
@@ -266,7 +268,7 @@ namespace UDM.Insurance.Interface.Screens
 #else
                         DataSet ds = Insure.INGetLeadsAssignedToUser(_agentID);
 #endif
-
+                        btnDiaryReport.Visibility = Visibility.Visible;
                         DataRelation relCampaignBatch = new DataRelation("CampaignBatch", ds.Tables[0].Columns["CampaignID"], ds.Tables[1].Columns["CampaignID"]);
                         ds.Relations.Add(relCampaignBatch);
 
@@ -2913,6 +2915,19 @@ namespace UDM.Insurance.Interface.Screens
         }
 
 
+        private void btnDiaryReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ReportDiaryScreen reportDiaryScreen = new ReportDiaryScreen();
+                ShowDialog(reportDiaryScreen, new INDialogWindow(reportDiaryScreen));
+            }
+
+            catch (Exception ex)
+            {
+                //HandleException(ex);
+            }
+        }
     }
 
 

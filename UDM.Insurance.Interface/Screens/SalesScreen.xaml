@@ -1143,6 +1143,35 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
+                            <Grid Height="10" />
+                            <Button
+      x:Name="btnDiaryReport"
+      Height="56"
+      HorizontalAlignment="Right"
+      VerticalAlignment="Top"
+      Click="btnDiaryReport_Click"
+      IsDefault="True"
+      IsEnabled="True"
+      IsTabStop="True"
+      Foreground="Black"
+      Style="{StaticResource INFlatButton}"
+      FontSize="20"
+      Background="Gray"
+      BorderBrush="Teal"
+      BorderThickness="2"  
+      Width="156"
+      TabIndex="0"
+      Visibility="Visible">
+                                <TextBlock
+          Text="Diary Report"
+          TextAlignment="Center"
+          TextWrapping="Wrap" />
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="7"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </Border>

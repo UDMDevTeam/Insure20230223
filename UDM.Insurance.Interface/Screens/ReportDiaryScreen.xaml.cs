@@ -240,9 +240,22 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Get the report data
                 DataSet dsDiaryReportData;
-                if (CallData == true)
+                long UsersID = ((UDM.Insurance.Business.User)GlobalSettings.ApplicationUser).ID;
+                long UserType = ((UDM.Insurance.Business.User)GlobalSettings.ApplicationUser).FKUserType.Value;
+                if (CallData == true && UserType != 2)
                 {
                     dsDiaryReportData = Business.Insure.INGetDiaryReportDataCalldata(_campaignIDList, _startDate, _endDate);
+                }
+                else if (UserType == 2)
+                {
+                    if (CallData == true)
+                    {
+                        dsDiaryReportData = Business.Insure.INGetDiaryReportDataCalldataSalesAgent(_campaignIDList, _startDate, _endDate, UsersID);
+                    }
+                    else
+                    {
+                        dsDiaryReportData = Business.Insure.INGetDiaryReportDataSalesAgent(_campaignIDList, _startDate, _endDate, UsersID);
+                    }
                 }
                 else
                 {
