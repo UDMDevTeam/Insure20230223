@@ -338,7 +338,7 @@ namespace UDM.Insurance.Interface.Screens
                             wsReport = wbReport.Worksheets.Add(batchDescription);
                             worksheetCount++;
 
-                            Methods.CopyExcelRegion(wsTemplate, 0, 0, 6, 28, wsReport, 0, 0);
+                            Methods.CopyExcelRegion(wsTemplate, 0, 0, 6, 29, wsReport, 0, 0);
 
                             #region Adding the details 
 
@@ -381,7 +381,7 @@ namespace UDM.Insurance.Interface.Screens
 
                             foreach (DataRow dr in dtLeadStatusData.Rows)
                             {
-                                Methods.CopyExcelRegion(wsTemplate, 6, 0, 1, 28, wsReport, rowIndex - 1, 0);
+                                Methods.CopyExcelRegion(wsTemplate, 6, 0, 1, 29, wsReport, rowIndex - 1, 0);
 
                                 wsReport.GetCell("A" + rowIndex).Value = dr["Batch Number"].ToString();
                                 wsReport.GetCell("B" + rowIndex).Value = dr["PL Reference Number"].ToString();
@@ -411,6 +411,7 @@ namespace UDM.Insurance.Interface.Screens
                                 wsReport.GetCell("AA" + rowIndex).Value = dr["Number of Referrals Generated"].ToString();
                                 wsReport.GetCell("AB" + rowIndex).Value = dr["Prime Lead Status"].ToString();
                                 wsReport.GetCell("AC" + rowIndex).Value = dr["Date of Prime Leadstatus"].ToString();
+                                wsReport.GetCell("AD" + rowIndex).Value = dr["Batch Type"].ToString();
 
 
                                 rowIndex++;

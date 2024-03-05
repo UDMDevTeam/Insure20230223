@@ -130,7 +130,8 @@
         IGFemaleDisability = 14,
         MaccCancer = 15,
         MaccMillionCancer = 16,
-        FemaleDisCancer = 17
+        FemaleDisCancer = 17,
+        AccDeath = 21
     }
 
     public enum lkpINPolicyType

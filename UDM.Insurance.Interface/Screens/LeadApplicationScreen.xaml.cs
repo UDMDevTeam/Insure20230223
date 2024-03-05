@@ -153,8 +153,8 @@ namespace UDM.Insurance.Interface.Screens
         };
         //lkpINCampaignType.BlackMaccMillion
         readonly IEnumerable<lkpINCampaignType?> campaignTypesCancer = new lkpINCampaignType?[] { lkpINCampaignType.Cancer, lkpINCampaignType.CancerFuneral, lkpINCampaignType.IGCancer, lkpINCampaignType.TermCancer, };
-        readonly IEnumerable<lkpINCampaignType?> campaignTypesMacc = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.AccDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.BlackMaccMillion };
-        readonly IEnumerable<lkpINCampaignType?> campaignTypesMaccNotAccDis = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability };
+        readonly IEnumerable<lkpINCampaignType?> campaignTypesMacc = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.AccDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.AccDeath };
+        readonly IEnumerable<lkpINCampaignType?> campaignTypesMaccNotAccDis = new lkpINCampaignType?[] { lkpINCampaignType.Macc, lkpINCampaignType.MaccFuneral, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMacc, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.AccDeath };
 
         #endregion
 
@@ -457,7 +457,7 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtBatchID = Methods.GetTableData("SELECT HRS.FKINBatchID FROM [INImport] as HRS where HRS.ID = " + LaData.AppData.ImportID);
                 DataTable dtCheckPopUp = Methods.GetTableData("SELECT HRS.ID FROM [INCongratulationsPopUp] as HRS where HRS.FKBatchID = " + dtBatchID.Rows[0][0] + " and HRS.FKUserID = " + GlobalSettings.ApplicationUser.ID);
 
-                if(dtCheckPopUp.Rows.Count == 0)
+                if (dtCheckPopUp.Rows.Count == 0)
                 {
                     bool show = importID.HasValue;
                     string message = string.Empty; //Insure.INDetermineRemainingSales( 
@@ -653,7 +653,8 @@ namespace UDM.Insurance.Interface.Screens
                     timer.Stop();
                 };
                 timer.Start();
-            } catch { }
+            }
+            catch { }
 
         }
 
@@ -852,7 +853,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 #region Refresh agent list to include agents used for this import id
                 DataTable dtSMSVoucher = new DataTable();
-              SqlParameter[] parameters = new SqlParameter[1];
+                SqlParameter[] parameters = new SqlParameter[1];
                 parameters[0] = new SqlParameter("@ImportID", importID);
                 DataSet dsAgentLookups = Methods.ExecuteStoredProcedure("spINGetLeadApplicationScreenAgents", parameters);
                 DataTable dtSalesAgents = dsAgentLookups.Tables[0];
@@ -876,7 +877,7 @@ namespace UDM.Insurance.Interface.Screens
                 DataTable dtSMS = ds.Tables[9];
                 try
                 {
-                     dtSMSVoucher = ds.Tables[10];
+                    dtSMSVoucher = ds.Tables[10];
                 }
                 catch
                 {
@@ -1955,7 +1956,7 @@ namespace UDM.Insurance.Interface.Screens
 
                     CheckSMSSent();
                 }
-                if(dtSMSVoucher.Rows.Count > 0)
+                if (dtSMSVoucher.Rows.Count > 0)
                 {
                     LaData.SMSVoucherData.SMSStatusTypeID = (WPF.Enumerations.Insure.lkpSMSStatusType?)(dtSMSVoucher.Rows[0]["SMSStatusTypeID"] as long?);
                     LaData.SMSVoucherData.SMSStatusSubtypeID = (WPF.Enumerations.Insure.lkpSMSStatusSubtype?)(dtSMSVoucher.Rows[0]["SMSStatusSubtypeID"] as long?);
@@ -2454,7 +2455,7 @@ namespace UDM.Insurance.Interface.Screens
 
                 DebiCheckConfigBool1 = int.Parse(dtDebiCheckConfig1.Rows[0]["Response"].ToString());
 
-                if(DebiCheckConfigBool1 == 1)
+                if (DebiCheckConfigBool1 == 1)
                 {
                     try { GetMandateInfo(); } catch (Exception y) { GetMandateInfo(); }
                 }
@@ -3015,7 +3016,7 @@ namespace UDM.Insurance.Interface.Screens
         }
         private void SetPolicyDefaults()
         {
-            if (LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis || LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability)
+            if (LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis || LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability || LaData.AppData.CampaignType == lkpINCampaignType.AccDeath)
             {
                 chkFuneral.IsEnabled = false;
             }
@@ -3059,7 +3060,7 @@ namespace UDM.Insurance.Interface.Screens
                     }
                 }
             }
-            if (LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis || LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability)
+            if (LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis || LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability || LaData.AppData.CampaignType == lkpINCampaignType.AccDeath)
             {
                 chkFuneral.IsEnabled = false;
                 SqlParameter[] parameters = new SqlParameter[3];
@@ -3868,7 +3869,7 @@ namespace UDM.Insurance.Interface.Screens
                             }
                         }
                     }
-                   
+
                 }
 
                 #endregion
@@ -3946,7 +3947,7 @@ namespace UDM.Insurance.Interface.Screens
                                     {
                                         selectedRelationshipRow = cmbNOKRelationship.SelectedItem as DataRowView;
                                     }
-                                    
+
                                     StringBuilder strUpdateNOK = new StringBuilder();
                                     strUpdateNOK.Append("UPDATE [INNextOfKin] ");
                                     strUpdateNOK.Append("SET ");
@@ -4060,17 +4061,17 @@ namespace UDM.Insurance.Interface.Screens
                                             LastName = "";
                                         }
                                     }
-                                        StringBuilder strUpdateNOK = new StringBuilder();
-                                        strUpdateNOK.Append("UPDATE [INNextOfKin] ");
-                                        strUpdateNOK.Append("SET ");
-                                        strUpdateNOK.AppendFormat("[FKINRelationshipID] = '{0}', ", (selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : -1));
-                                        strUpdateNOK.AppendFormat("[FirstName] = '{0}', ", Name);
-                                        strUpdateNOK.AppendFormat("[Surname] = '{0}', ", LastName);
-                                        strUpdateNOK.AppendFormat("[TelContact] = '{0}', ", medRefCellNumber.Text);
-                                        strUpdateNOK.AppendFormat("[StampUserID] = '{0}' ", LaData.AppData.AgentID);
-                                        strUpdateNOK.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
-                                        Methods.ExecuteSQLNonQuery(strUpdateNOK.ToString());
-                                    
+                                    StringBuilder strUpdateNOK = new StringBuilder();
+                                    strUpdateNOK.Append("UPDATE [INNextOfKin] ");
+                                    strUpdateNOK.Append("SET ");
+                                    strUpdateNOK.AppendFormat("[FKINRelationshipID] = '{0}', ", (selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : -1));
+                                    strUpdateNOK.AppendFormat("[FirstName] = '{0}', ", Name);
+                                    strUpdateNOK.AppendFormat("[Surname] = '{0}', ", LastName);
+                                    strUpdateNOK.AppendFormat("[TelContact] = '{0}', ", medRefCellNumber.Text);
+                                    strUpdateNOK.AppendFormat("[StampUserID] = '{0}' ", LaData.AppData.AgentID);
+                                    strUpdateNOK.AppendFormat("WHERE [FKINImportID] = '{0}'", LaData.AppData.ImportID);
+                                    Methods.ExecuteSQLNonQuery(strUpdateNOK.ToString());
+
                                 }
                             }
                             catch
@@ -5164,7 +5165,8 @@ namespace UDM.Insurance.Interface.Screens
                 }
 
                 #region NextOfKin
-                try {
+                try
+                {
                     #region Referrals
                     var Campaign = LaData.AppData.CampaignID;
 
@@ -5471,10 +5473,11 @@ namespace UDM.Insurance.Interface.Screens
                                 }
                             }
                         }
-                      
-                       
+
+
                     }
-                } catch { }
+                }
+                catch { }
 
 
                 #endregion
@@ -6449,6 +6452,13 @@ namespace UDM.Insurance.Interface.Screens
                             lblLA2CostCoverOther.Text = "Life Assured 2 (Cancer)";
                             LaData.PolicyData.TotalPremium = LaData.PolicyData.TotalPremium + LA1CostOther + LA2CostOther;
                             LA1LA2TotalCover = LA1LA2TotalCover + LA1CoverOther + LA2CoverOther; // + FuneralCoverLA1 + FuneralCoverLA2
+                        }
+                        else if (LaData.AppData.CampaignType == lkpINCampaignType.AccDeath)
+                        {
+                            lblLA1CostCover.Text = "Life Assured 1 (Acc Death)";
+                            lblLA2CostCover.Text = "Life Assured 2";
+                            lblLA1CostCoverOther.Text = "Life Assured 1 (Acc Death)";
+                            lblLA2CostCoverOther.Text = "Life Assured 2";
                         }
                         else
                         {
@@ -7576,6 +7586,7 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.AppData.CampaignType == lkpINCampaignType.Cancer ||
                             LaData.AppData.CampaignType == lkpINCampaignType.CancerFuneral ||
                             LaData.AppData.CampaignType == lkpINCampaignType.AccDis ||
+                            LaData.AppData.CampaignType == lkpINCampaignType.AccDeath ||
                             LaData.AppData.CampaignType == lkpINCampaignType.IGCancer ||
                             LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis ||
                             LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability ||
@@ -10576,10 +10587,10 @@ namespace UDM.Insurance.Interface.Screens
                 }
             }
 
-            if(LaData.AppData.CampaignID == 423
+            if (LaData.AppData.CampaignID == 423
                 || LaData.AppData.CampaignID == 429)
             {
-                if((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted)
+                if ((lkpINLeadStatus?)LaData.AppData.LeadStatus == lkpINLeadStatus.Accepted)
                 {
                     if (cmbTitle.Text == "")
                     {
@@ -10787,22 +10798,22 @@ namespace UDM.Insurance.Interface.Screens
                         || LaData.AppData.CampaignCode == "PLCBR129R"
                         || LaData.AppData.CampaignCode == "PLCBREF")
                     {
-                        if(LaData.AppData.CampaignCode == "PLCBREF")
+                        if (LaData.AppData.CampaignCode == "PLCBREF")
                         {
-                            dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCoversReferrals149", parameters);                            
+                            dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCoversReferrals149", parameters);
                         }
                         else
                         {
                             dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCoversReferrals149Excluded", parameters);
                         }
-                        
+
                     }
                     else
                     {
                         dsLookups = Methods.ExecuteStoredProcedure("_spGetPolicyPlanCovers", parameters);
                     }
 
-                    
+
                     dtCover = dsLookups.Tables[0];
                     foreach (DataRow row in dtCover.Rows)
                     {
@@ -10826,7 +10837,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else
                         {
-                            if (NinetyNineOptions == true )
+                            if (NinetyNineOptions == true)
                             {
                                 string batchCodestring = LaData.AppData.UDMBatchCode;
                                 string FirstSixCharacters = batchCodestring.Substring(0, 6);
@@ -12619,7 +12630,10 @@ namespace UDM.Insurance.Interface.Screens
                                 {
                                     string batchCodeModifier = LaData.AppData.PlatinumBatchCode.Substring(LaData.AppData.PlatinumBatchCode.IndexOf("_", StringComparison.Ordinal)).ToUpper();
 
-                                    if (GlobalConstants.BatchCodes.RedeemGift.Contains(batchCodeModifier))
+                                    string OriginalType;
+                                    try { OriginalType = Convert.ToString(Methods.GetTableData("SELECT OriginalCampaign FROM INImportOther WHERE FKINImportID =" + "'" + LaData.AppData.ImportID).Rows[0][0]); } catch { OriginalType = ""; }
+
+                                    if (GlobalConstants.BatchCodes.RedeemGift.Contains(batchCodeModifier) || OriginalType.Contains("0") || OriginalType.Contains("1"))
                                     {
                                         foreach (Window window in Application.Current.Windows)
                                         {
@@ -14474,20 +14488,20 @@ namespace UDM.Insurance.Interface.Screens
                     parameters[0] = new SqlParameter("@UserID", GlobalSettings.ApplicationUser.ID); //added this in case the person is working on a mining campaign
                     string agentName = Methods.ExecuteFunction("fnGetUserName", parameters).ToString();
                     LaData.SMSVoucherSendData.to = LaData.LeadData.TelCell.Trim();
-                     LaData.SMSVoucherSendData.to = "+27" + LaData.SMSVoucherSendData.to.Substring(1);
-                   // LaData.SMSVoucherSendData.to = "+27" + "0828233657".Substring(1);
+                    LaData.SMSVoucherSendData.to = "+27" + LaData.SMSVoucherSendData.to.Substring(1);
+                    // LaData.SMSVoucherSendData.to = "+27" + "0828233657".Substring(1);
                     string strQuery;
                     strQuery = "SELECT VoucherCode,VoucherExpiryDate FROM INImportOther WHERE FKINImportID = " + LaData.AppData.ImportID;
                     DataTable dtVouchers = Methods.GetTableData(strQuery);
-                    string voucherCode= string.Empty;
+                    string voucherCode = string.Empty;
                     DateTime voucherExpiryDate = DateTime.Now;
                     if (dtVouchers.Rows.Count > 0)
                     {
                         DataRow row = dtVouchers.Rows[0];
-                         voucherCode = row["VoucherCode"].ToString();
-                         voucherExpiryDate = Convert.ToDateTime(row["VoucherExpiryDate"]);
+                        voucherCode = row["VoucherCode"].ToString();
+                        voucherExpiryDate = Convert.ToDateTime(row["VoucherExpiryDate"]);
                     }
-                    string defaultMessage = $"Hi {LaData.LeadData.Title?.Trim()} {LaData.LeadData.Name?.Trim()} {LaData.LeadData.Surname}, as promised, herewith your R600 Isabella Garcia voucher. Redeem your voucher with: {voucherCode} at https://isabellagarcia.co.za/gifting."+Environment.NewLine+$"Expires:{voucherExpiryDate}."+Environment.NewLine+" Delivery is on us. Regards, Platinum Life" ;
+                    string defaultMessage = $"Hi {LaData.LeadData.Title?.Trim()} {LaData.LeadData.Name?.Trim()} {LaData.LeadData.Surname}, as promised, herewith your R600 Isabella Garcia voucher. Redeem your voucher with: {voucherCode} at https://isabellagarcia.co.za/gifting." + Environment.NewLine + $"Expires:{voucherExpiryDate}." + Environment.NewLine + " Delivery is on us. Regards, Platinum Life";
                     LaData.SMSVoucherSendData.body = defaultMessage;
                     string sms = JsonConvert.SerializeObject(LaData.SMSVoucherSendData);
                     //string sms = "{to: \"+27765389999\", body:\"Testing2\"}";
@@ -18163,7 +18177,7 @@ namespace UDM.Insurance.Interface.Screens
 
             DebiCheckConfigBool = int.Parse(dtDebiCheckConfig.Rows[0]["Response"].ToString());
 
-            if(DebiCheckConfigBool == 1)
+            if (DebiCheckConfigBool == 1)
             {
                 try
                 {
@@ -20206,8 +20220,8 @@ namespace UDM.Insurance.Interface.Screens
                 ReferralNumber = ((ComboBoxItem)cmbReferral.SelectedItem).Content.ToString(),
                 Name = medRefName.Text,
                 CellNumber = medRefCellNumber.Text,
-            
-            Relationship = selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : -1,
+
+                Relationship = selectedRelationshipRow != null ? (long)selectedRelationshipRow[0] : -1,
                 Gender = selectedGenderRow != null ? (long)selectedGenderRow[0] : 0
             };
         }

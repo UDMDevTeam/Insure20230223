@@ -379,7 +379,7 @@ namespace UDM.Insurance.Interface.Screens
                             campaignTypes = new[]
                             {
                                 lkpINCampaignType.Macc, lkpINCampaignType.MaccMillion, lkpINCampaignType.BlackMaccMillion, lkpINCampaignType.AccDis, lkpINCampaignType.MaccFuneral,
-                                lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.FemaleDisCancer
+                                lkpINCampaignType.BlackMacc, lkpINCampaignType.FemaleDis, lkpINCampaignType.IGFemaleDisability, lkpINCampaignType.FemaleDisCancer, lkpINCampaignType.AccDeath
                             };
                             campaignGroups = new[]
                             {
@@ -2209,7 +2209,14 @@ namespace UDM.Insurance.Interface.Screens
                                     inImportOther.TimesRemarketed = 0;
                                 }
                                 //inImportOther.LastDateRemarketed = GetDateValue(row.Cells[idxFields["Future15"].Index]);
-                                try { inImportOther.OriginalCampaign = GetStringValue(row.Cells[idxFields["Future18"].Index]); } catch { }
+                                if (_inCampaign.ID == 105) /*Macc Million Elite*/
+                                {
+                                    try { inImportOther.OriginalCampaign = GetStringValue(row.Cells[idxFields["Future4"].Index]); } catch { }
+                                }
+                                else
+                                {
+                                    try { inImportOther.OriginalCampaign = GetStringValue(row.Cells[idxFields["Future18"].Index]); } catch { }
+                                }
 
                                 if (idxFields.ContainsKey("CollectedDate")) inImportOther.CollectedDate = GetDateValue(row.Cells[idxFields["CollectedDate"].Index]);
                                 if (idxFields.ContainsKey("CommencementDate")) inImportOther.CommencementDate = GetDateValue(row.Cells[idxFields["CommencementDate"].Index]);

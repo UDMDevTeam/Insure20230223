@@ -387,6 +387,15 @@ namespace UDM.Insurance.Business
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetLeadbookConfigurationForSheMaccBase", paramArray).Tables[0];
         }
 
+        public static DataSet INGetMacMillionAssignLeads(long batchID, long AssignAmount)
+        {
+            object param1 = Database.GetParameter("@BatchID", batchID);
+            object param2 = Database.GetParameter("@AssignAmount", AssignAmount);
+
+            object[] paramArray = new[] { param1, param2 };
+
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINgetMaccMillionCombinedAssignLeads", paramArray, 600);
+        }
 
 
         /// <summary>
