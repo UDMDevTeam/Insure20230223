@@ -24,6 +24,7 @@ namespace UDM.Insurance.Interface.Screens
         List<string> declineReasonsWanted = new List<string>();
         private long? _destinationCampaignID = -1;
         private long? _leadStatusID;
+        private long? _declineReasonID;
         private int _calculatedCount;
         private bool eventViaTextBox =false;
         private bool eventViaCheckBox = false;
@@ -31,7 +32,8 @@ namespace UDM.Insurance.Interface.Screens
 
         public MoveLeadsScreen()
         {
-            InitializeComponent(); 
+            InitializeComponent();
+            LoadDeclineStatuses();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -82,6 +84,25 @@ namespace UDM.Insurance.Interface.Screens
             finally
             {
                 //SetCursor(Cursors.Arrow);
+            }
+        }
+
+        private void LoadDeclineStatuses()
+        {
+            try 
+            {
+                DataTable dt = Methods.GetTableData("select ID,Description from INDeclineReason order by ID");
+                foreach (DataRow rw in dt.Rows)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = rw["Description"].ToString();
+                    item.Tag = rw["ID"].ToString();
+                    cmbDeclineReasons.Items.Add(item);
+                }
+            }
+            catch
+            {
+            
             }
         }
 
@@ -267,6 +288,60 @@ namespace UDM.Insurance.Interface.Screens
                                 lstReferenceNumbers.Items.Add(checkbox);
                     }
                     lblLeadsToCopy.Text = "Number of Leads IN Batch: " + (lstReferenceNumbers.Items.Count -1);
+                    txtNumberSelected.IsEnabled = true;
+                }
+                else
+                {
+                    if (lstReferenceNumbers.Items.Count > 0)
+                    {
+                        lstReferenceNumbers.Items.Clear();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+            finally
+            {
+                SetCursor(Cursors.Arrow);
+            }
+        }
+
+        private void LoadDeclineReferences(long? batchId, long? campaignID)
+        {
+            try
+            {
+                SetCursor(Cursors.Wait);
+
+                if (_declineReasonID == null)
+                {
+                    _declineReasonID = -1;
+                }
+
+                SqlParameter[] parameters = new SqlParameter[3];
+                parameters[0] = new SqlParameter("@CampaignID", campaignID);
+                parameters[1] = new SqlParameter("@BatchID", batchId);
+                parameters[2] = new SqlParameter("@FKINLeadStatusID", _declineReasonID);
+
+                DataTable dt = new DataTable();
+                dt = Methods.ExecuteStoredProcedure("spLeadMoveReferencesDecline", parameters).Tables[0];
+                
+
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    lstReferenceNumbers.Items.Clear();
+                    foreach (DataRow rw in dt.Rows)
+                    {
+                        CheckBox checkbox = new CheckBox();
+                        checkbox.Content = rw["RefNo"].ToString();
+                        checkbox.Checked += checkbox_Checked;
+                        checkbox.Tag = rw["ID"];
+                        lstReferenceNumbers.Items.Add(checkbox);
+                    }
+                    lblLeadsToCopy.Text = "Number of Leads IN Batch: " + (lstReferenceNumbers.Items.Count - 1);
                     txtNumberSelected.IsEnabled = true;
                 }
                 else
@@ -557,6 +632,18 @@ namespace UDM.Insurance.Interface.Screens
                 txtNumberSelected.Text = string.Empty;
                 ComboBoxItem selItem = (ComboBoxItem)cmbLeadStatus.SelectedItem;
                 _leadStatusID = long.Parse(selItem.Tag.ToString());
+
+                if(cmbLeadStatus.SelectedIndex.ToString() == "3")
+                {
+                    lblDeclineReasons.Visibility = Visibility.Visible;
+                    cmbDeclineReasons.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    lblDeclineReasons.Visibility = Visibility.Collapsed;
+                    cmbDeclineReasons.Visibility = Visibility.Collapsed;
+                }
+
                 if (cmbBatch.SelectedValue != null)
                 {
                     long batchID = long.Parse(cmbBatch.SelectedValue.ToString());
@@ -631,6 +718,24 @@ namespace UDM.Insurance.Interface.Screens
 
             }
 
+        }
+
+        private void cmbDeclineReasons_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cmbDeclineReasons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try 
+            {
+                ComboBoxItem selItem = (ComboBoxItem)cmbDeclineReasons.SelectedItem;
+                _declineReasonID = long.Parse(selItem.Tag.ToString());
+
+                long batchID = long.Parse(cmbBatch.SelectedValue.ToString());
+                long? campaignID = long.Parse(cmbCampaigns.SelectedValue.ToString());
+                LoadDeclineReferences(batchID, campaignID);
+            } catch { }
         }
     }
 }

@@ -305,13 +305,39 @@
                     	HorizontalAlignment="Stretch"
                     	VerticalAlignment="Bottom"
                     	Style="{DynamicResource cmbINHighlightBorder}"
-                    	TabIndex="0" Loaded="cmbLeadStatus_Loaded"  SelectionChanged="cmbLeadStatus_SelectionChanged"/>
+                    	TabIndex="0" Loaded="cmbLeadStatus_Loaded" 
+                        SelectionChanged="cmbLeadStatus_SelectionChanged"/>
+
+                    <TextBlock
+                    	x:Name="lblDeclineReasons"
+                    	Grid.Row="8"
+                    	Grid.ColumnSpan="4"
+                    	Margin="21,10,0,0"
+                    	VerticalAlignment="Top"
+                    	Style="{StaticResource INLabelText2}"
+                    	Text="Decline Reasons" 
+                        Grid.Column="9"
+                        Width="143" 
+                        Visibility="Collapsed"/>
+                    <src:EmbriantComboBox
+                    	x:Name="cmbDeclineReasons"
+                    	Visibility="Collapsed"
+                        Grid.Row="8"
+                    	Grid.Column="9"
+                    	Grid.ColumnSpan="7"
+                    	Margin="19,0,28,17"
+                    	VerticalAlignment="Bottom"
+                    	Style="{DynamicResource cmbINHighlightBorder}"
+                    	TabIndex="0" 
+                        Loaded="cmbDeclineReasons_Loaded" 
+                        SelectionChanged="cmbDeclineReasons_SelectionChanged"
+                        Grid.RowSpan="2"/>
+
                     <TextBlock
                     	x:Name="lblLeadsToMoveCount"
                     	Grid.Row="6"
-                    	Grid.ColumnSpan="5"
-                    	Margin="19,0,0,10"
-                    	HorizontalAlignment="Left"
+                    	Grid.ColumnSpan="6"
+                    	Margin="19,0,0,5"
                     	VerticalAlignment="Bottom"
                     	Style="{StaticResource INLabelText2}"
                     	Text="Number Of Leads To Move" Grid.Column="9" Width="196" />
@@ -320,19 +346,17 @@
                     <TextBlock
                     	x:Name="lblFocusBatch"
                     	Grid.Row="10"
-                    	Grid.ColumnSpan="5"
-                    	Margin="19,0,0,10"
-                    	HorizontalAlignment="Left"
-                    	VerticalAlignment="Bottom"
+                    	Grid.ColumnSpan="6"
+                    	Margin="18,0,0,0"
                     	Style="{StaticResource INLabelText2}"
-                    	Text="Focus batch" Grid.Column="11" Width="196" />
+                    	Text="Focus batch" Grid.Column="10" Width="196" />
 
                     <CheckBox x:Name="FocusBatchCB"
                               Grid.Row="10"
-                              Grid.Column="10"
+                              Grid.Column="9"
                               VerticalAlignment="Center"
-                              HorizontalAlignment="Center">
-                        
+                              HorizontalAlignment="Left" Margin="21,0,0,0">
+
                     </CheckBox>
 
 
