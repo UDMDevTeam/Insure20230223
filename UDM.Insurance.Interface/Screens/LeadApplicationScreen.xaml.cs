@@ -2654,7 +2654,7 @@ namespace UDM.Insurance.Interface.Screens
                         //string obtainedReferrals = obtainedReferralsValue.ToString();
                     }
                 }
-                if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368)
+                if (Campaign == 2 || Campaign == 102 || Campaign == 103 || Campaign == 105 || Campaign == 368 || Campaign == 433)
                 {
                     StringBuilder strQueryObtainedReferrals2 = new StringBuilder();
                     strQueryObtainedReferrals2.Append("SELECT [ObtainedReferrals] ");
