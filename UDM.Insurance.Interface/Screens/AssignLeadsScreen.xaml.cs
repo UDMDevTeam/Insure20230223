@@ -707,6 +707,118 @@ namespace UDM.Insurance.Interface.Screens
                             }
                         
                     }
+                    //else if(inBatch.FKINCampaignID == 105)
+                    //{
+                    //    INImportCollection inImportCollection = new INImportCollection();
+
+                    //    if (assign == 0)
+                    //    {
+
+                    //    }
+                    //    else
+                    //    {
+                    //        DataSet dsGetLeads = Business.Insure.INGetMacMillionAssignLeads(_batchID, assign);
+                    //        System.Data.DataTable ImportIDQuery = dsGetLeads.Tables[0];
+                    //        List<long> longList = new List<long>();
+
+                    //        foreach (DataRow row in ImportIDQuery.Rows)
+                    //        {
+                    //            long value = (long)row["ID"];
+                    //            longList.Add(value);
+                    //        }
+
+
+                    //        foreach (INImport row in collectiontoassign)
+                    //        {
+                    //            if (longList.Contains(row.ID))
+                    //            {
+                    //                inImportCollection.Add(row);
+
+                    //            }
+                    //            else
+                    //            {
+                    //            }
+
+                    //        }
+                    //    }
+
+                    //    //INImportCollection inImportCollection = (INImportCollection)(Methods.GetTableData("SELECT  FKINCampaignGroupID FROM INCampaign AS HRS WHERE ID = " + inBatch.FKINCampaignID)?.AsEnumerable().Select(x => x["FKINCampaignGroupID"]).FirstOrDefault());
+
+
+
+
+                    //    if (assign > inImportCollection.Count)
+                    //    {
+                    //        Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                    //        {
+                    //            INMessageBoxWindow1 messageWindow = new INMessageBoxWindow1();
+                    //            ShowMessageBox(messageWindow, inImportCollection.Count + " leads available.", "Not Enough Leads Available", ShowMessageType.Error);
+                    //        }));
+
+                    //        return;
+                    //    }
+
+                    //    if (inImportCollection.Count > 0)
+                    //    {
+
+
+                    //        Database.BeginTransaction(null, IsolationLevel.Snapshot);
+
+                    //        int[] i = { 0 };
+
+
+                    //        RandomizeLeads(inImportCollection);
+
+
+                    //        foreach (INImport inImport in inImportCollection)
+                    //        {
+                    //            i[0]++;
+
+                    //            inImport.FKUserID = userID;
+                    //            //inImport.AllocationDate = DateTime.Now;
+                    //            inImport.AllocationDate = DetermineAllocationDate(_useDifferentAllocationDate, _newAllocationDate);
+                    //            inImport.IsFutureAllocation = _useDifferentAllocationDate;
+                    //            inImport.BonusLead = chkBonusLeads.IsChecked;
+                    //            inImport.Save(_validationResult);
+
+                    //            INImportExtra iNImportExtra = INImportExtraMapper.SearchOne(inImport.ID, null);
+                    //            if (iNImportExtra == null)
+                    //            {
+                    //                iNImportExtra = new INImportExtra();
+                    //            }
+                    //            iNImportExtra.FKINImportID = inImport.ID;
+                    //            iNImportExtra.IsGoldenLead = IsGoldenLeads ? true : false;
+                    //            iNImportExtra.Save(_validationResult);
+
+                    //            record.Cells["Assign"].Value = Convert.ToInt64(record.Cells["Assign"].Value.ToString()) - 1;
+                    //            record.Cells["LeadsAllocated"].Value = Convert.ToInt64(record.Cells["LeadsAllocated"].Value.ToString()) + 1;
+                    //            tbTotalAssigned.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                    //            {
+                    //                tbTotalAssigned.Text = (Convert.ToInt64(tbTotalAssigned.Text) + 1).ToString();
+                    //            }));
+                    //            tbTotalUnassigned.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                    //            {
+                    //                tbTotalUnassigned.Text = (Convert.ToInt64(tbTotalUnassigned.Text) - 1).ToString();
+                    //            }));
+                    //            tbUnMarketedLeads.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate
+                    //            {
+                    //                tbUnMarketedLeads.Text = (Convert.ToInt64(tbUnMarketedLeads.Text) - 1).ToString();
+                    //            }));
+
+                    //            if (i[0] == assign || Math.Abs(i[0]) == inImportCollection.Count)
+                    //            {
+                    //                record.Cells["Assign"].Value = 0;
+                    //                break;
+                    //            }
+                    //        }
+
+                    //        CommitTransaction(null);
+                    //    }
+                    //    else
+                    //    {
+                    //        record.Cells["Assign"].Value = 0;
+                    //    }
+                    //}
                     else if(chkUnSuccessful.IsChecked == true 
                         || chkSuccessful.IsChecked == true)
                     {

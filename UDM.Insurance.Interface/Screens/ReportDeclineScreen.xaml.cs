@@ -348,7 +348,7 @@ namespace UDM.Insurance.Interface.Screens
                 //int formulaStartRow = reportRow;
 
                 byte templateDataSheetRowSpan = 5;
-                byte templateColumnSpan = 10;
+                byte templateColumnSpan = 11;
                 byte templateRowIndex = 6;
                 //byte totalsTemplateRowIndex = 14;
 
