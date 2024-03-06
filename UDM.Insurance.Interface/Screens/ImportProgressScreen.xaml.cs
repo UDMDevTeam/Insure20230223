@@ -1773,6 +1773,15 @@ namespace UDM.Insurance.Interface.Screens
                                 inImport.Gift = GetStringValue(row.Cells[idxFields["LeadGift"].Index]);
                                 inImport.PlatinumContactDate = GetDateValue(row.Cells[idxFields["PlatinumContactDate"].Index]);
                                 inImport.PlatinumContactTime = GetTimeValue(row.Cells[idxFields["PlatinumContactTime"].Index]);
+                                if(_inCampaign.ID == 433) // sets AccDeath to cancer option one as there is only the 1 option
+                                {
+                                    inImport.CancerOption = "1";
+
+                                }
+                                else
+                                {
+                                    inImport.CancerOption = GetStringValue(row.Cells[idxFields["Option"].Index]);
+                                }
                                 inImport.CancerOption = GetStringValue(row.Cells[idxFields["Option"].Index]);
                                 inImport.PlatinumAge = GetShortValue(row.Cells[idxFields["PlatinumAge"].Index]);
                                 inImport.EmailStatus = GetStringValue(row.Cells[idxFields["Future3"].Index]);
