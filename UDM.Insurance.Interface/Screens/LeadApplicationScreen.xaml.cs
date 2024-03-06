@@ -12163,6 +12163,7 @@ namespace UDM.Insurance.Interface.Screens
                                                   LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis ||
                                                   LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability ||
                                                   LaData.AppData.CampaignType == lkpINCampaignType.BlackMacc ||
+                                                  LaData.AppData.CampaignType == lkpINCampaignType.AccDeath ||
                                                   LaData.UserData.UserType != lkpUserType.SalesAgent))
             {
                 grdBeneficiaries.Visibility = Visibility.Visible;
