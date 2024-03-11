@@ -1619,7 +1619,7 @@ TabIndex="1">
                                                     <TextBlock
                                                         x:Name="lblNoContactSMS"
                                                         Style="{DynamicResource INSquareButtonReportText}"
-                                                        Text="Bulk SMS No Contact" />
+                                                        Text="DC Upgrade Config" />
                                                 </Grid>
                                             </Canvas>
                                         </Button>

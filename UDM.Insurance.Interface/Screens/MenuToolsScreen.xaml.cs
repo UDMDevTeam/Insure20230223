@@ -418,7 +418,7 @@ namespace UDM.Insurance.Interface.Screens
         {
             try
             {
-                NoContactSMS mySuccessEditScreen = new NoContactSMS();
+                DebiCheckUpgradeConfig mySuccessEditScreen = new DebiCheckUpgradeConfig();
                 ShowDialog(mySuccessEditScreen, new INDialogWindow(mySuccessEditScreen));
             }
             catch (Exception ex)

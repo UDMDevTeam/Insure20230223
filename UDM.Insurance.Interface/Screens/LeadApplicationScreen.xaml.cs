@@ -53,6 +53,7 @@ using Application = System.Windows.Application;
 using SMS = UDM.Insurance.Business.SMS;
 using SMSVoucher = UDM.Insurance.Business.Objects.SMSVoucher;
 using WpfAnimatedGif;
+using static Infragistics.Shared.DynamicResourceString;
 //using static UDM.WPF.Enumerations.Insure;
 
 namespace UDM.Insurance.Interface.Screens
@@ -1888,6 +1889,7 @@ namespace UDM.Insurance.Interface.Screens
                          || LaData.AppData.CampaignType == lkpINCampaignType.FemaleDis
                          || LaData.AppData.CampaignType == lkpINCampaignType.BlackMacc
                          || LaData.AppData.CampaignType == lkpINCampaignType.IGFemaleDisability
+                         || LaData.AppData.CampaignType == lkpINCampaignType.AccDeath
                          || LaData.UserData.UserType != lkpUserType.SalesAgent)
                          && (!LaData.AppData.IsLeadUpgrade))
                     {
@@ -11395,48 +11397,112 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             try
                             {
-                                StringBuilder strQueryFKINLeadStatus = new StringBuilder();
-                                strQueryFKINLeadStatus.Append("SELECT TOP 1 FKINLeadStatusID [Response], DateOfSale, StampDate, FKINLeadStatusID ");
-                                strQueryFKINLeadStatus.Append("FROM INImport AS I ");
-                                strQueryFKINLeadStatus.Append("WHERE I.ID = " + LaData.AppData.ImportID.ToString());
-                                DataTable dtOnline = Methods.GetTableData(strQueryFKINLeadStatus.ToString());
-                                string FKINLeadStatus = dtOnline.Rows[0]["Response"].ToString();
-                                DateTime DateOfSale;
-                                try { DateOfSale = DateTime.Parse(dtOnline.Rows[0]["DateOfSale"].ToString()); } catch { DateOfSale = DateTime.Now.AddDays(-1); }
-
-                                if (DateOfSale < DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd")) && FKINLeadStatus == "1")
+                                if (!LaData.AppData.IsLeadUpgrade) // This is the split for Base and Upgrades
                                 {
-                                    if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+                                    StringBuilder strQueryFKINLeadStatus = new StringBuilder();
+                                    strQueryFKINLeadStatus.Append("SELECT TOP 1 FKINLeadStatusID [Response], DateOfSale, StampDate, FKINLeadStatusID ");
+                                    strQueryFKINLeadStatus.Append("FROM INImport AS I ");
+                                    strQueryFKINLeadStatus.Append("WHERE I.ID = " + LaData.AppData.ImportID.ToString());
+                                    DataTable dtOnline = Methods.GetTableData(strQueryFKINLeadStatus.ToString());
+                                    string FKINLeadStatus = dtOnline.Rows[0]["Response"].ToString();
+                                    DateTime DateOfSale;
+                                    try { DateOfSale = DateTime.Parse(dtOnline.Rows[0]["DateOfSale"].ToString()); } catch { DateOfSale = DateTime.Now.AddDays(-1); }
+
+                                    if (DateOfSale < DateTime.Parse(DateTime.Now.ToString("yyyy/MM/dd")) && FKINLeadStatus == "1")
                                     {
-                                        cmbStatus.SelectedIndex = 5;
+                                        if (LaData.UserData.UserType == lkpUserType.SalesAgent)
+                                        {
+                                            cmbStatus.SelectedIndex = 5;
+                                        }
+                                        break;
                                     }
-                                    break;
+                                    else
+                                    {
+
+                                        LaData.AppData.DeclineReasonID = null;
+                                        SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                                        selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                                        ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+                                        StringBuilder strQueryFKINLeadStamp = new StringBuilder();
+                                        strQueryFKINLeadStamp.Append("SELECT TOP 1 StampDate, FKINLeadStatusID ");
+                                        strQueryFKINLeadStamp.Append("FROM INImport AS I ");
+                                        strQueryFKINLeadStamp.Append("WHERE I.ID = " + LaData.AppData.ImportID.ToString());
+
+                                        DataTable dtRecheck = Methods.GetTableData(strQueryFKINLeadStatus.ToString());
+                                        LaData.LeadData.StampDate = dtRecheck.Rows[0]["StampDate"] as DateTime?;
+                                        //CheckTSANonEdit();
+                                        long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+                                        if (AgentFKUserID == null)
+                                        {
+                                            cmbStatus.SelectedIndex = -1;
+                                        }
+                                        // LaData.AppData.LeadStatus = dtOnline.Rows[0]["FKINLeadStatusID"] as int?
+                                        Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+                                        btnForwardToDCAgent.Visibility = Visibility.Visible;
+                                        break;
+                                    }
                                 }
                                 else
                                 {
+                                    long? ImportIDUpgradeAgent = LaData.AppData.ImportID;
+                                    ForwardToDCSave();
 
-                                    LaData.AppData.DeclineReasonID = null;
-                                    SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-                                    selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-                                    ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
-                                    StringBuilder strQueryFKINLeadStamp = new StringBuilder();
-                                    strQueryFKINLeadStamp.Append("SELECT TOP 1 StampDate, FKINLeadStatusID ");
-                                    strQueryFKINLeadStamp.Append("FROM INImport AS I ");
-                                    strQueryFKINLeadStamp.Append("WHERE I.ID = " + LaData.AppData.ImportID.ToString());
+                                    DataTable dtAvailableAgent = Insure.INGetUpgradeOnlineDCAgents().Tables[0];
 
-                                    DataTable dtRecheck = Methods.GetTableData(strQueryFKINLeadStatus.ToString());
-                                    LaData.LeadData.StampDate = dtRecheck.Rows[0]["StampDate"] as DateTime?;
-                                    //CheckTSANonEdit();
-                                    long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
-                                    if (AgentFKUserID == null)
+                                    if (dtAvailableAgent.Rows.Count == 0)
                                     {
-                                        cmbStatus.SelectedIndex = -1;
+                                        ShowMessageBox(new INMessageBoxWindow1(), "This lead hasnt been transferred\n Please click the 'Forward to DC Agent' at the bottom right of the screen \n or add a transfer reason.", "DC Specialist Not available", ShowMessageType.Exclamation);
+                                        btnForwardToDCAgent.Visibility = Visibility.Visible;
+
                                     }
-                                    // LaData.AppData.LeadStatus = dtOnline.Rows[0]["FKINLeadStatusID"] as int?
-                                    Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
-                                    btnForwardToDCAgent.Visibility = Visibility.Visible;
+                                    else
+                                    {
+                                        string ID;
+                                        try
+                                        {
+                                            StringBuilder strSaletoCMID = new StringBuilder();
+                                            strSaletoCMID.Append("SELECT TOP 1 ID [Response] ");
+                                            strSaletoCMID.Append("FROM INSalesToCallMonitoring ");
+                                            strSaletoCMID.Append("WHERE FKImportID = " + ImportIDUpgradeAgent.ToString());
+                                            DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
+
+                                            ID = dtSAlestoCMID.Rows[0]["Response"].ToString();
+                                        }
+                                        catch
+                                        {
+                                            ID = null;
+                                        }
+
+                                        if (ID == null || ID == "")
+                                        {
+                                            SalesToCallMonitoring scm = new SalesToCallMonitoring();
+                                            scm.FKImportID = ImportIDUpgradeAgent;
+                                            scm.FKUserID = long.Parse(dtAvailableAgent.Rows[0]["FKuserID"].ToString());
+                                            scm.IsDisplayed = "0";
+
+
+                                            scm.Save(_validationResult);
+                                        }
+                                        else
+                                        {
+                                            SalesToCallMonitoring scm = new SalesToCallMonitoring(long.Parse(ID));
+                                            scm.FKUserID = long.Parse(dtAvailableAgent.Rows[0]["FKuserID"].ToString());
+                                            scm.IsDisplayed = "0";
+
+
+                                            scm.Save(_validationResult);
+                                            btnForwardToDCAgent.Visibility = Visibility.Visible;
+
+                                        }
+
+                                        ShowMessageBox(new INMessageBoxWindow1(), "This lead has been transferred\n Lead has been transferred to " + dtAvailableAgent.Rows[0]["Description"], "Lead Transferred", ShowMessageType.Information);
+
+                                    }
+
+
                                     break;
                                 }
+
                             }
                             catch { break; }
                         }
@@ -12627,12 +12693,17 @@ namespace UDM.Insurance.Interface.Screens
                         case "Web Gift Status":
                             if (LaData.AppData.PlatinumBatchCode != null)
                             {
-                                if (LaData.AppData.PlatinumBatchCode.Contains("_"))
+                                if (LaData.AppData.PlatinumBatchCode.Contains("_") || LaData.AppData.CampaignID == 105)
                                 {
-                                    string batchCodeModifier = LaData.AppData.PlatinumBatchCode.Substring(LaData.AppData.PlatinumBatchCode.IndexOf("_", StringComparison.Ordinal)).ToUpper();
+                                    string batchCodeModifier;
+                                    try
+                                    {
+                                        batchCodeModifier = LaData.AppData.PlatinumBatchCode.Substring(LaData.AppData.PlatinumBatchCode.IndexOf("_", StringComparison.Ordinal)).ToUpper();
+                                    }
+                                    catch { batchCodeModifier = ""; }
 
                                     string OriginalType;
-                                    try { OriginalType = Convert.ToString(Methods.GetTableData("SELECT OriginalCampaign FROM INImportOther WHERE FKINImportID =" + "'" + LaData.AppData.ImportID).Rows[0][0]); } catch { OriginalType = ""; }
+                                    try { OriginalType = Convert.ToString(Methods.GetTableData("SELECT OriginalCampaign FROM INImportOther WHERE FKINImportID =" + LaData.AppData.ImportID).Rows[0][0]); } catch { OriginalType = ""; }
 
                                     if (GlobalConstants.BatchCodes.RedeemGift.Contains(batchCodeModifier) || OriginalType.Contains("0") || OriginalType.Contains("1"))
                                     {
@@ -19644,7 +19715,7 @@ namespace UDM.Insurance.Interface.Screens
                         {
                             if (DateTime.Now.DayOfWeek.ToString() == "Saturday")
                             {
-                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+                                AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] LEFT JOIN [DCUpgradeAgents] AS [DCA] ON [U].[ID] = [DCA].[FkUserID] WHERE Online = 1 AND IsUpgrade = 1");
                             }
                             else
                             {
@@ -19655,7 +19726,7 @@ namespace UDM.Insurance.Interface.Screens
                                 }
                                 else
                                 {
-                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+                                    AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] LEFT JOIN [DCUpgradeAgents] AS [DCA] ON [U].[ID] = [DCA].[FkUserID] WHERE Online = 1 AND IsUpgrade = 1");
                                 }
                             }
 
@@ -19663,7 +19734,7 @@ namespace UDM.Insurance.Interface.Screens
                         }
                         else
                         {
-                            AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] WHERE Online = 1");
+                            AgentsAvailable = Methods.GetTableData("SELECT [CM].FKUserID, [U].[FirstName] FROM INCMAgentsOnline as [CM] LEFT JOIN [Insure].[dbo].[User] as [U] on [CM].[FKUserID] = [U].[ID] LEFT JOIN [DCUpgradeAgents] AS [DCA] ON [U].[ID] = [DCA].[FkUserID] WHERE Online = 1 AND IsUpgrade = 1");
 
                         }
 
@@ -19811,24 +19882,87 @@ namespace UDM.Insurance.Interface.Screens
         #region Forward To DC Agent extra button
         private void btnForwardToDCAgent_Click(object sender, RoutedEventArgs e)
         {
-            LaData.AppData.DeclineReasonID = null;
-            SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
-            selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
-            ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
-
-            long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
-
-            if (AgentFKUserID == null)
+            if (!LaData.AppData.IsLeadUpgrade)
             {
-                cmbStatus.SelectedIndex = -1;
+
+
+
+                LaData.AppData.DeclineReasonID = null;
+                SelectCallMonitoringAgentScreen selectCallMonitoringAgentScreen = new SelectCallMonitoringAgentScreen(this);
+                selectCallMonitoringAgentScreen.SelectedDeclineReasonID = null;
+                ShowDialog(selectCallMonitoringAgentScreen, new INDialogWindow(selectCallMonitoringAgentScreen));
+
+                long? AgentFKUserID = selectCallMonitoringAgentScreen.SelectedDeclineReasonID;
+
+                if (AgentFKUserID == null)
+                {
+                    cmbStatus.SelectedIndex = -1;
+                }
+
+                //cmbStatus.SelectedValue = 24;
+
+                Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+
+
             }
+            else
+            {
+                long? ImportIDUpgradeAgent = LaData.AppData.ImportID;
+                ForwardToDCSave();
 
-            //cmbStatus.SelectedValue = 24;
+                DataTable dtAvailableAgent = Insure.INGetUpgradeOnlineDCAgents().Tables[0];
 
-            Methods.FindChild<TextBox>(medReference, "PART_InputTextBox").Focus();
+                if (dtAvailableAgent.Rows.Count == 0)
+                {
+                    ShowMessageBox(new INMessageBoxWindow1(), "This lead hasnt been transferred\n Please click the 'Forward to DC Agent' at the bottom right of the screen \n or add a transfer reason.", "DC Specialist Not available", ShowMessageType.Exclamation);
+                    btnForwardToDCAgent.Visibility = Visibility.Visible;
+
+                }
+                else
+                {
+                    string ID;
+                    try
+                    {
+                        StringBuilder strSaletoCMID = new StringBuilder();
+                        strSaletoCMID.Append("SELECT TOP 1 ID [Response] ");
+                        strSaletoCMID.Append("FROM INSalesToCallMonitoring ");
+                        strSaletoCMID.Append("WHERE FKImportID = " + ImportIDUpgradeAgent.ToString());
+                        DataTable dtSAlestoCMID = Methods.GetTableData(strSaletoCMID.ToString());
+
+                        ID = dtSAlestoCMID.Rows[0]["Response"].ToString();
+                    }
+                    catch
+                    {
+                        ID = null;
+                    }
+
+                    if (ID == null || ID == "")
+                    {
+                        SalesToCallMonitoring scm = new SalesToCallMonitoring();
+                        scm.FKImportID = ImportIDUpgradeAgent;
+                        scm.FKUserID = long.Parse(dtAvailableAgent.Rows[0]["FKuserID"].ToString());
+                        scm.IsDisplayed = "0";
 
 
-        }
+                        scm.Save(_validationResult);
+                    }
+                    else
+                    {
+                        SalesToCallMonitoring scm = new SalesToCallMonitoring(long.Parse(ID));
+                        scm.FKUserID = long.Parse(dtAvailableAgent.Rows[0]["FKuserID"].ToString());
+                        scm.IsDisplayed = "0";
+
+
+                        scm.Save(_validationResult);
+                        btnForwardToDCAgent.Visibility = Visibility.Visible;
+
+                    }
+
+                    ShowMessageBox(new INMessageBoxWindow1(), "This lead has been transferred\n Lead has been transferred to " + dtAvailableAgent.Rows[0]["Description"], "Lead Transferred", ShowMessageType.Information);
+
+                }
+            }
+            }
         #endregion
         private void UpgradeIDUpdateCB_Checked(object sender, RoutedEventArgs e)
         {
