@@ -1434,13 +1434,23 @@ namespace UDM.Insurance.Interface.Screens
                     #region Load Pricing Groups
 
                     {
-                        LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
-                        strQuery = "SELECT DISTINCT ID, Description FROM INPlanGroup WHERE ";
-                        strQuery += "FKINCampaignTypeID = '" + LaData.PolicyData.CampaignTypeID;
-                        strQuery += "' AND FKINCampaignGroupID = '" + LaData.PolicyData.CampaignGroupID;
-                        strQuery += "' AND IsActive = '1' ";
-                        strQuery += " OR INPlanGroup.ID = '" + LaData.PolicyData.PlanGroupID;
-                        strQuery += "' ORDER BY ID DESC";
+                        if(LaData.AppData.CampaignID == 190
+                            || LaData.AppData.CampaignID == 422) // This is for the split on Macc campaigns that share options
+                        {
+                            LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
+                            strQuery = "SELECT DISTINCT ID, Description FROM INPlanGroup WHERE ID = 2012";
+                        }
+                        else
+                        {
+                            LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
+                            strQuery = "SELECT DISTINCT ID, Description FROM INPlanGroup WHERE ";
+                            strQuery += "FKINCampaignTypeID = '" + LaData.PolicyData.CampaignTypeID;
+                            strQuery += "' AND FKINCampaignGroupID = '" + LaData.PolicyData.CampaignGroupID;
+                            strQuery += "' AND IsActive = '1' ";
+                            strQuery += " OR INPlanGroup.ID = '" + LaData.PolicyData.PlanGroupID;
+                            strQuery += "' ORDER BY ID DESC";
+                        }
+
 
                         DataTable dtPolicyPlanGroup = Methods.GetTableData(strQuery);
                         cmbPolicyPlanGroup.Populate(dtPolicyPlanGroup, DescriptionField, IDField);
@@ -14429,9 +14439,17 @@ namespace UDM.Insurance.Interface.Screens
                            )
 
                         {
-                            if (LaData.AppData.CampaignType == lkpINCampaignType.Macc || LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion)
+                            if (LaData.AppData.CampaignType == lkpINCampaignType.Macc || LaData.AppData.CampaignType == lkpINCampaignType.MaccMillion || LaData.AppData.CampaignType == lkpINCampaignType.MaccFuneral)
                             {
-                                LaData.SMSSendData.body = $"Hi {LaData.LeadData.Title?.Trim()} {LaData.LeadData.Surname?.Trim()}, Thanks for speaking to our Sales Executive, {agentName}.\nWe have activated your R50000 free cover.\nYour ref no is: {LaData.AppData.RefNo?.Trim()}.\nThe Platinum Life Team.\n(This is a no reply message)";
+                                if(LaData.AppData.CampaignGroup == lkpINCampaignGroup.R99
+                                    || LaData.AppData.CampaignType == lkpINCampaignType.MaccFuneral)
+                                {
+                                    LaData.SMSSendData.body = $"Hi {LaData.LeadData.Title?.Trim()} {LaData.LeadData.Surname?.Trim()}, Thanks for speaking to our Sales Executive, {agentName}.\nWe have activated your free cover.\nYour ref no is: {LaData.AppData.RefNo?.Trim()}.\nThe Platinum Life Team.\n(This is a no reply message)";
+                                }
+                                else
+                                {
+                                    LaData.SMSSendData.body = $"Hi {LaData.LeadData.Title?.Trim()} {LaData.LeadData.Surname?.Trim()}, Thanks for speaking to our Sales Executive, {agentName}.\nWe have activated your R50000 free cover.\nYour ref no is: {LaData.AppData.RefNo?.Trim()}.\nThe Platinum Life Team.\n(This is a no reply message)";
+                                }
                             }
                             else if (LaData.AppData.CampaignType == lkpINCampaignType.Cancer)
                             {
