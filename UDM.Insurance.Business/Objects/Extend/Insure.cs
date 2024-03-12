@@ -46,6 +46,12 @@ namespace UDM.Insurance.Business
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetImportSummary", null);
         }
+
+        public static DataSet INGetUpgradeOnlineDCAgents()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetUpgardeOnlineAgent", null);
+        }
+
         public static DataTable INGetBatchAnalysisReportTypes()
         {
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetBatchAnalysisReportTypes", null).Tables[0];
