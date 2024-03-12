@@ -24,6 +24,7 @@ using Orientation = Infragistics.Documents.Excel.Orientation;
 using UDM.Insurance.Interface.Data;
 using System.Transactions;
 
+
 namespace UDM.Insurance.Interface.Screens
 {
     public partial class ReportSalaryScreen
@@ -713,8 +714,8 @@ namespace UDM.Insurance.Interface.Screens
 
             #region Adding a new sheet for the current campaign / campaign cluster
 
-            Worksheet wsSalaryReportTemplate = wbTemplate.Worksheets[reportTemplateSheetName];
-            Worksheet wsSalaryReport = wbReport.Worksheets.Add(worksheetTabName);
+            Infragistics.Documents.Excel.Worksheet wsSalaryReportTemplate = wbTemplate.Worksheets[reportTemplateSheetName];
+            Infragistics.Documents.Excel.Worksheet wsSalaryReport = wbReport.Worksheets.Add(worksheetTabName);
 
             #endregion Adding a new sheet for the current campaign / campaign cluster
 
@@ -752,7 +753,38 @@ namespace UDM.Insurance.Interface.Screens
             reportRow = Methods.MapTemplatizedExcelFormulas(wsSalaryReportTemplate, dtTotalsMappings, reportTemplateTotalsRowIndex, 0, 0, reportTemplateColumnSpan, wsSalaryReport, reportRow, 0, formulaStartRow, reportRow - 1);
 
             #endregion Step 4: Add the totals / averages
+            if (worksheetTabName.Contains("Summary"))
+            {
+                // Add a new worksheet for "Referrals Data"
+                Worksheet wsReferralsData = wbReport.Worksheets.Add("Referrals Data");
 
+                // Fetching the data
+                System.Data.DataTable dtReferralsData = new System.Data.DataTable();
+                DataSet dsRefFinal = Business.Insure.INGetReferralReportData(105, _toDate, _fromDate);
+                dtReferralsData = dsRefFinal.Tables[0];
+
+                // Set column headings and apply formatting
+                for (int i = 0; i < dtReferralsData.Columns.Count; i++)
+                {
+                    // Set column headings
+                    wsReferralsData.Rows[0].Cells[i].Value = dtReferralsData.Columns[i].ColumnName;
+
+                    // Formatting: Bold, Column Width, and Horizontal Alignment
+                    wsReferralsData.Rows[0].Cells[i].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+                    wsReferralsData.Columns[i].Width = 50 * 256; // Width is now correctly set in units of 1/256th of a column width
+                    wsReferralsData.Rows[0].Cells[i].CellFormat.Alignment = HorizontalCellAlignment.Center;
+                }
+
+                // Populate rows with data from the DataSet
+                for (int i = 1; i <= dtReferralsData.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dtReferralsData.Columns.Count; j++)
+                    {
+                        // Directly assign data values
+                        wsReferralsData.Rows[i].Cells[j].Value = dtReferralsData.Rows[i - 1][j];
+                    }
+                }
+            }
         }
 
         private void Report(object sender, DoWorkEventArgs e)
@@ -764,7 +796,7 @@ namespace UDM.Insurance.Interface.Screens
                 #region Get the report data - and exit the method if there is no data available
 
                 DataSet dsSalaryReportData;
-
+                DataSet dsReferralsData;
 
                 var transactionOptions = new TransactionOptions
                 {
@@ -776,7 +808,7 @@ namespace UDM.Insurance.Interface.Screens
                      dsSalaryReportData = Insure.INReportSalaryGeneric(_includeSystemUnitsColumn, _fkINCampaignFKINCampaignClusterIDs, _reportType, _fromDate, _toDate, _bonusSales, _useCampaignClusters);
                 }
 
-
+                
                 if (dsSalaryReportData.Tables[3].Rows.Count == 0)
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate
