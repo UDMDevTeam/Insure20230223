@@ -1440,6 +1440,18 @@ namespace UDM.Insurance.Interface.Screens
                             LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
                             strQuery = "SELECT DISTINCT ID, Description FROM INPlanGroup WHERE ID = 2012";
                         }
+                        else if (LaData.AppData.CampaignID == 191) // This is for the split on Cancer campaigns that share options
+                        {
+                            LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
+                            strQuery = "SELECT DISTINCT ID, Description FROM INPlanGroup WHERE ID = 2019";
+                        }
+                        else if (LaData.AppData.CampaignID == 345
+                            || LaData.AppData.CampaignID == 374
+                            || LaData.AppData.CampaignID == 423) // This is for the split on Cancer R129 campaigns that share options
+                        {
+                            LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
+                            strQuery = "SELECT DISTINCT ID, Description FROM INPlanGroup WHERE ID = 5028";
+                        }
                         else
                         {
                             LaData.PolicyData.PlanGroupID = dtPolicy.Rows[0]["PolicyPlanGroupID"] as long?;
