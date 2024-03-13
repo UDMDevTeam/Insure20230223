@@ -63,6 +63,7 @@ namespace UDM.Insurance.Interface.Screens
             if (UserType == 2)
             {
                 xdgCampaigns.Visibility = Visibility.Collapsed;
+                lblCampaigns.Visibility= Visibility.Collapsed;
             }
                 dispatcherTimer1.Tick += Timer1;
             dispatcherTimer1.Interval = new TimeSpan(0, 0, 1);
