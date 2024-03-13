@@ -541,6 +541,15 @@ namespace UDM.Insurance.Interface.Screens
                                         Currentimport.IsPrinted = null;
                                         Currentimport.AllocationDate = null;
                                         Currentimport.FKINLeadStatusID = null;
+
+                                        try // This removes the current leadbook allocation
+                                        {
+                                            DataTable dt = Methods.GetTableData("select ID from INLeadBookImport where FKINImportID = " + _importID);
+                                            INLeadBookImport iNLeadBookImport = new INLeadBookImport(long.Parse(dt.Rows[0]["ID"].ToString()));
+                                            iNLeadBookImport.Delete(_validationResult);
+                                        } catch { }
+
+
                                 }
                                     Currentimport.Save(_validationResult);
                                

@@ -285,7 +285,19 @@
 						VerticalAlignment="Bottom"
 						Style="{StaticResource INLabelText2}"
 						Text="Leads Movied: 0" Grid.Column="19" Width="324" />
-                    <Button Style="{DynamicResource INFlatButton}" TabIndex="2" Content="Start Moving" x:Name="buttonStart" IsEnabled="False" Height="Auto" DataContext="{Binding}" Grid.Column="23" Margin="4,12,11,33" Grid.Row="16" Grid.ColumnSpan="4"  Grid.RowSpan="2" Click="buttonStart_Click" />
+                    <Button Style="{DynamicResource INFlatButton}" 
+                            TabIndex="2" 
+                            Content="Start Moving" 
+                            x:Name="buttonStart" 
+                            IsEnabled="False" 
+                            Height="Auto" 
+                            DataContext="{Binding}" 
+                            Grid.Column="23" 
+                            Margin="4,12,11,33" 
+                            Grid.Row="16" 
+                            Grid.ColumnSpan="4"  
+                            Grid.RowSpan="2" 
+                            Click="buttonStart_Click" />
                     <TextBox  x:Name="txtDestinationBatch" Grid.ColumnSpan="7" Grid.Column="19" HorizontalAlignment="Left" Height="32" Margin="25,10,0,0" Grid.Row="2" Grid.RowSpan="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="254" FontSize="16" FontWeight="Bold"/>
                     <TextBlock
                     	x:Name="lblStatusesToCopy"
