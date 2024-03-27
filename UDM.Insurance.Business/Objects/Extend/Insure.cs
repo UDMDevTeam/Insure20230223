@@ -1619,7 +1619,10 @@ namespace UDM.Insurance.Business
 
             return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "spINGetBatchReportCampaignsOrCampaignTypesByReportType", paramArray).Tables[0];
         }
-
+        public static DataSet QAAssessmentQuestionsLookups()
+        {
+            return Database.ExecuteDataSet(null, CommandType.StoredProcedure, "QAAssessmentQuestionsLookups", null, 120000);
+        }
         //public static DataSet INGetBatchReportData(string fkINCampaignIDs, DateTime fromDate, DateTime toDate, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches)
         public static DataSet INGetBatchReportData(string fkINCampaignIDs, int year, int month, byte reportTypeID, bool includeLeadsCopiedToExtension, bool includeCompletedBatches, bool onlyBatchesReceived91DaysAgoAndAfter, bool combineUL)
         {
